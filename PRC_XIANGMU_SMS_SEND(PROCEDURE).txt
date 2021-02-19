@@ -1,0 +1,798 @@
+PRC_XIANGMU_SMS_SEND	PROCEDURE	1	"procedure prc_xiangmu_sms_send(in_jiaoyilx in varchar2, --交易类型
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	2	"                                                 in_caozuogh in varchar2, --操作工号                                            
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	3	"                                                 in_jylsh    in varchar2, --其它参数
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	4	"                                                 out_code    out INTEGER, -- 返回结果 0为执行成功
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	5	"                                                 out_msg     out varchar2) is
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	6	"
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	7	"  v_icd10          varchar2(30);
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	8	"  v_icd10_from     varchar2(30);
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	9	"  v_data           varchar2(300);
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	10	"  v_data_temp      varchar2(200);
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	11	"  v_sfzh           varchar2(50);
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	12	"  v_str1           varchar2(20);
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	13	"  v_str2           varchar2(20);
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	14	"  v_str3           varchar2(20);
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	15	"  v_str4           varchar2(20);
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	16	"  v_str5           varchar2(20);
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	17	"  v_str6           varchar2(20);
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	18	"  v_str7           varchar2(20);
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	19	"  v_str8           varchar2(20);
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	20	"  v_str9           varchar2(20);
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	21	"  v_temp           varchar2(50);
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	22	"  v_flag1          varchar2(10);
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	23	"  v_flag2          varchar2(10);
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	24	"  v_ysgh           varchar2(20);
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	25	"  v_lxdh           varchar2(20);
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	26	"  v_lxdh2          varchar2(20);
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	27	"  v_ksdm           varchar2(30);
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	28	"  v_procedure_name varchar2(50);
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	29	"  --临时的统计的数量
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	30	"  v_count    number;
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	31	"  v_count2   number;
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	32	"  v_order_no number;
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	33	"  v_dqz      number;
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	34	"  v_sampleno varchar2(50);
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	35	"
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	36	"  --计费
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	37	"
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	38	"  --定义游标
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	39	"  CURSOR cursor1 IS
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	40	"  
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	41	"    select '检验' || to_char(a.laborder) sampleno,
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	42	"           (select nvl(lxdh, '0') from gy_brjbxxk where jzkh = a.patientid) lxdh,
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	43	"           (select xm from gy_brjbxxk where jzkh = a.patientid) ||
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	44	"           '您好!您还有 ' || a.examitem || ' 化验项目未做。' || '请核实！若项目已做或短信误发敬请忽略！'
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	45	"      From l_laborder a, mz_mzsfk1 b
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	46	"     where a.laborderorg = b.sfsb
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	47	"       and b.sfrq < sysdate - 1
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	48	"       and a.tmprinttime is null
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	49	"       and a.receiveflag >= 0
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	50	"       and a.sendtime is null
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	51	"       and a.ksjssj is null
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	52	"       and a.printtime is null
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	53	"          
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	54	"       and laborderorg > 0
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	55	"       and a.stayhospitalmode = 1
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	56	"       and a.requestetime > sysdate - 7
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	57	"       and '检验' || to_char(a.laborder) not in
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	58	"           (select sampleno from sms_l_patientinfo);
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	59	"
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	60	"  CURSOR cursor2 IS
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	61	"    select a.sampleno,
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	62	"           (select nvl(lxdh, '0') from gy_brjbxxk where jzkh = a.patientid) lxdh,
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	63	"           (select xm from gy_brjbxxk where jzkh = a.patientid) || '您好!您的 ' ||
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	64	"           a.examinaim || ' 化验单报告已完成。请核实！若报告已取或短信误发敬请忽略！'
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	65	"      from l_patientinfo a
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	66	"     where a.stayhospitalmode = '1'
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	67	"       and a.feestatus = 6
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	68	"       and a.resultstatus >= 4
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	69	"       and a.printtime is null
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	70	"       and a.checktime > a.executetime
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	71	"       and a.checktime > sysdate - 0.1
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	72	"       and a.checktime < sysdate - 0.001
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	73	"       and sampleno not in (select sampleno from sms_l_patientinfo);
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	74	"
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	75	"  CURSOR cursor3 IS
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	76	"    select '药品' || to_char(a.cfsb) sampleno,
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	77	"           (select nvl(lxdh, '0') from gy_brjbxxk where jzkh = a.jzkh) lxdh,
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	78	"           a.brxm || '您好!您是否还有' ||
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	79	"           decode(a.cflx, 1, '西药', 2, '中成药', '') || '未取,请核实！' ||
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	80	"           '门诊药房营业时间：早上八点至晚上六点,若已取或短信误发敬请忽略'
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	81	"      From mz_cfk1 a, mz_mzsfk1 b
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	82	"     where a.sfsb = b.sfsb
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	83	"       and a.cflx in (1, 2)
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	84	"       and b.sfrq < sysdate - 0.12
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	85	"       and a.fypb = 0
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	86	"       and a.cfrq > sysdate - 4
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	87	"       and '药品' || to_char(a.cfsb) not in
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	88	"           (select sampleno from sms_l_patientinfo);
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	89	"
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	90	"  CURSOR cursor4 IS
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	91	"    select sampleno,
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	92	"           lxdh,
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	93	"           brxm || '您好!您还有 ' || xmmc || ' 未做。' || '请核实！若项目已做或短信误发敬请忽略！'
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	94	"      from (select distinct (xmmc) xmmc, lxdh, brxm, min(sampleno) sampleno
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	95	"              from (select distinct ('检查' || to_char(b.yjsb) || '_' ||
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	96	"                                    to_char(b.tcylxh)) sampleno,
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	97	"                                    (select ylmc
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	98	"                                       from gy_ylsf
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	99	"                                      where ylxh = b.tcylxh) xmmc,
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	100	"                                    (select nvl(lxdh, '0')
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	101	"                                       from gy_brjbxxk
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	102	"                                      where jzkh = a.jzkh) lxdh,
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	103	"                                    a.brxm brxm
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	104	"                      From yj_YJk1 a, yj_Yjk2 b, mz_mzsfk1 c
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	105	"                     where a.sfsb = c.sfsb
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	106	"                       and a.yjsb = b.yjsb
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	107	"                       and c.ysfsb is null
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	108	"                       and c.sfsb not in (select ysfsb
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	109	"                                            from mz_mzsfk1
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	110	"                                           where sfrq > sysdate - 6
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	111	"                                             and ysfsb > 0)
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	112	"                       and '检查' || to_char(b.yjsb) || '_' ||
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	113	"                           to_char(b.tcylxh) not in
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	114	"                           (select sampleno from sms_l_patientinfo)
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	115	"                       and c.sfrq < sysdate - 2
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	116	"                       and b.fhsj is null
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	117	"                       and b.tcylxh > 0
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	118	"                       and b.zxksdm in
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	119	"                           ('3050000', '3040003', '3040007', '3040002',
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	120	"                            '3040000', '3040001', '3040005', '3040006')
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	121	"                          
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	122	"                       and a.kdsj > sysdate - 4)
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	123	"             group by xmmc, lxdh, brxm);
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	124	"
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	125	"  CURSOR cursor5 IS
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	126	"  
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	127	"    select jzkh,
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	128	"           lxdh,
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	129	"           xm || ' 您好!您还有卡号: ' || jzkh || ' 的医后付的费用未结算, 请核实！'
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	130	"      from gy_brjbxxk
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	131	"     where jzkh in (select jzkh
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	132	"                      From yj_Yjk1
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	133	"                     where brxh = 999999999
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	134	"                       and kdsj >= trunc(sysdate - 1)
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	135	"                       and kdsj < trunc(sysdate)
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	136	"                       and yjsb > 0
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	137	"                       and sfsb is null
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	138	"                    union
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	139	"                    
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	140	"                    select jzkh
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	141	"                      From mz_cfk1
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	142	"                     where brxh = 999999999
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	143	"                       and cfrq >= trunc(sysdate - 1)
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	144	"                       and cfrq < trunc(sysdate)
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	145	"                       and cfsb > 0
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	146	"                       and sfsb is null);
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	147	"
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	148	"begin
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	149	"  v_procedure_name := 'prc_xiangmu_sms_send';
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	150	"  out_code         := 1;
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	151	"  out_msg          := '';
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	152	"
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	153	"  insert into zy_jiaoyi_v1
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	154	"    (jiaoyilx, caozuogh, jylsh, bz)
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	155	"  values
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	156	"    (in_jiaoyilx, in_caozuogh, in_jylsh, v_procedure_name);
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	157	"  commit;
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	158	"
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	159	"  --if is_time_now >'15:50:01' and is_time_now <'16:50:01' then 
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	160	"  if 1 = 1 and in_jiaoyilx = '化验项目未做提醒' then
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	161	"    v_count2 := 0;
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	162	"    if 1 = 1 then
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	163	"    
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	164	"      --循环开始
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	165	"      LOOP
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	166	"      
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	167	"        IF NOT cursor1%ISOPEN THEN
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	168	"          --打开游标
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	169	"          OPEN cursor1;
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	170	"        END IF;
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	171	"      
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	172	"        FETCH cursor1
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	173	"          INTO v_sampleno, v_lxdh, v_data;
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	174	"        --退出循环的条件
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	175	"        EXIT WHEN cursor1%NOTFOUND OR cursor1%NOTFOUND IS NULL;
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	176	"      
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	177	"        if sqlcode <> 0 then
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	178	"          rollback;
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	179	"          --关闭游标
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	180	"          close cursor1;
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	181	"        
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	182	"        end if;
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	183	"      
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	184	"        if length(v_lxdh) = 11 and length(v_data) > 1 then
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	185	"          --  v_lxdh := '13777929515';
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	186	"          prc_sms_send('ts', v_lxdh, v_data, v_data_temp);
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	187	"        
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	188	"        end if;
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	189	"      
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	190	"        INSERT Into sms_l_patientinfo (sampleno) Values (v_sampleno);
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	191	"        commit;
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	192	"        v_count2 := v_count2 + 1;
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	193	"      END LOOP;
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	194	"      if 1 = 0 and v_count2 > 0 then
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	195	"        select in_jiaoyilx || ':' || to_char(v_count2)
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	196	"          into v_data
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	197	"          from dual;
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	198	"        prc_sms_send('ts', '13777929515', v_data, v_data_temp);
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	199	"      end if;
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	200	"      out_code := 0;
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	201	"      out_msg  := '退出循环的条件';
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	202	"    
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	203	"    end if;
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	204	"  end if;
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	205	"
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	206	"  --is_time_now >'15:50:01' and is_time_now <'16:50:01'
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	207	"  if 1 = 1 and in_jiaoyilx = '化验结果提醒' then
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	208	"    v_count2 := 0;
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	209	"    if 1 = 1 then
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	210	"    
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	211	"      --循环开始
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	212	"      LOOP
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	213	"      
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	214	"        IF NOT cursor2%ISOPEN THEN
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	215	"          --打开游标
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	216	"          OPEN cursor2;
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	217	"        END IF;
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	218	"      
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	219	"        FETCH cursor2
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	220	"          INTO v_sampleno, v_lxdh, v_data;
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	221	"        --退出循环的条件
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	222	"        EXIT WHEN cursor2%NOTFOUND OR cursor2%NOTFOUND IS NULL;
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	223	"      
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	224	"        if sqlcode <> 0 then
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	225	"          rollback;
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	226	"          --关闭游标
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	227	"          close cursor2;
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	228	"        
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	229	"        end if;
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	230	"      
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	231	"        if length(v_lxdh) = 11 and length(v_data) > 1 then
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	232	"          --  v_lxdh := '13777929515';
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	233	"          prc_sms_send('ts', v_lxdh, v_data, v_data_temp);
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	234	"        
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	235	"        end if;
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	236	"      
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	237	"        INSERT Into sms_l_patientinfo (sampleno) Values (v_sampleno);
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	238	"        commit;
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	239	"        v_count2 := v_count2 + 1;
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	240	"      END LOOP;
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	241	"      /*   if v_count2 > 0 then
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	242	"        select in_jiaoyilx || ':' || to_char(v_count2)
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	243	"          into v_data
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	244	"          from dual;
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	245	"        prc_sms_send('ts', '13777929515', v_data, v_data_temp);
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	246	"      end if;*/
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	247	"      out_code := 0;
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	248	"      out_msg  := '退出循环的条件';
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	249	"    
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	250	"    end if;
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	251	"  end if;
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	252	"
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	253	"  --if is_time_now >'07:50:01' and is_time_now <'16:50:01' then 
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	254	"  if 1 = 1 and in_jiaoyilx = '药品未取提醒' then
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	255	"    v_count2 := 0;
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	256	"    if 1 = 1 then
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	257	"    
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	258	"      --循环开始
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	259	"      LOOP
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	260	"      
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	261	"        IF NOT cursor3%ISOPEN THEN
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	262	"          --打开游标
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	263	"          OPEN cursor3;
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	264	"        END IF;
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	265	"      
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	266	"        FETCH cursor3
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	267	"          INTO v_sampleno, v_lxdh, v_data;
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	268	"        --退出循环的条件
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	269	"        EXIT WHEN cursor3%NOTFOUND OR cursor3%NOTFOUND IS NULL;
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	270	"      
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	271	"        if sqlcode <> 0 then
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	272	"          rollback;
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	273	"          --关闭游标
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	274	"          close cursor3;
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	275	"        
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	276	"        end if;
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	277	"      
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	278	"        if length(v_lxdh) = 11 and length(v_data) > 1 then
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	279	"          --  v_lxdh := '13777929515';
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	280	"          prc_sms_send('ts', v_lxdh, v_data, v_data_temp);
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	281	"        
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	282	"        end if;
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	283	"      
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	284	"        INSERT Into sms_l_patientinfo (sampleno) Values (v_sampleno);
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	285	"        commit;
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	286	"        v_count2 := v_count2 + 1;
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	287	"      END LOOP;
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	288	"    
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	289	"      if 1 = 0 and v_count2 > 0 then
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	290	"        select in_jiaoyilx || ':' || to_char(v_count2)
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	291	"          into v_data
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	292	"          from dual;
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	293	"        prc_sms_send('ts', '13777929515', v_data, v_data_temp);
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	294	"      end if;
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	295	"      out_code := 0;
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	296	"      out_msg  := '退出循环的条件';
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	297	"    
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	298	"    end if;
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	299	"  end if;
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	300	"
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	301	"  --if is_time_now >'07:50:01' and is_time_now <'16:50:01' then 
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	302	"  if 1 = 1 and in_jiaoyilx = '检查项目未做提醒' then
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	303	"    v_count2 := 0;
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	304	"    if 1 = 1 then
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	305	"    
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	306	"      --循环开始
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	307	"      LOOP
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	308	"      
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	309	"        IF NOT cursor4%ISOPEN THEN
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	310	"          --打开游标
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	311	"          OPEN cursor4;
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	312	"        END IF;
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	313	"      
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	314	"        FETCH cursor4
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	315	"          INTO v_sampleno, v_lxdh, v_data;
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	316	"        --退出循环的条件
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	317	"        EXIT WHEN cursor4%NOTFOUND OR cursor4%NOTFOUND IS NULL;
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	318	"      
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	319	"        if sqlcode <> 0 then
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	320	"          rollback;
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	321	"          --关闭游标
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	322	"          close cursor4;
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	323	"        
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	324	"        end if;
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	325	"      
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	326	"        if length(v_lxdh) = 11 and length(v_data) > 1 then
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	327	"          --  v_lxdh := '13777929515';
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	328	"          prc_sms_send('ts', v_lxdh, v_data, v_data_temp);
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	329	"        
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	330	"        end if;
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	331	"      
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	332	"        INSERT Into sms_l_patientinfo (sampleno) Values (v_sampleno);
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	333	"        commit;
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	334	"        v_count2 := v_count2 + 1;
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	335	"      END LOOP;
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	336	"    
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	337	"      if 1 = 0 and v_count2 > 0 then
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	338	"        select in_jiaoyilx || ':' || to_char(v_count2)
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	339	"          into v_data
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	340	"          from dual;
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	341	"        prc_sms_send('ts', '13777929515', v_data, v_data_temp);
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	342	"      end if;
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	343	"      out_code := 0;
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	344	"      out_msg  := '退出循环的条件';
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	345	"    
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	346	"    end if;
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	347	"  end if;
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	348	"
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	349	"  if 1 = 1 and in_jiaoyilx = '医后付未结算提醒' then
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	350	"    v_count2 := 0;
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	351	"    if 1 = 1 then
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	352	"    
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	353	"      --循环开始
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	354	"      LOOP
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	355	"      
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	356	"        IF NOT cursor5%ISOPEN THEN
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	357	"          --打开游标
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	358	"          OPEN cursor5;
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	359	"        END IF;
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	360	"      
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	361	"        FETCH cursor5
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	362	"          INTO v_sampleno, v_lxdh, v_data;
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	363	"        --退出循环的条件
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	364	"        EXIT WHEN cursor5%NOTFOUND OR cursor4%NOTFOUND IS NULL;
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	365	"      
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	366	"        if sqlcode <> 0 then
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	367	"          rollback;
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	368	"          --关闭游标
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	369	"          close cursor5;
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	370	"        
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	371	"        end if;
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	372	"      
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	373	"        if length(v_lxdh) = 11 and length(v_data) > 1 then
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	374	"          --  v_lxdh := '13777929515';
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	375	"          prc_sms_send('ts', v_lxdh, v_data, v_data_temp);
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	376	"        
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	377	"        end if;
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	378	"      
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	379	"        v_count2 := v_count2 + 1;
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	380	"      END LOOP;
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	381	"    
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	382	"      if 1 = 0 and v_count2 > 0 then
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	383	"        select in_jiaoyilx || ':' || to_char(v_count2)
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	384	"          into v_data
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	385	"          from dual;
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	386	"        prc_sms_send('ts', '13777929515', v_data, v_data_temp);
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	387	"      end if;
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	388	"      out_code := 0;
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	389	"      out_msg  := '退出循环的条件';
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	390	"    
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	391	"    end if;
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	392	"  end if;
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	393	"
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	394	"  -----
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	395	"  out_code := 1;
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	396	"  out_msg  := '';
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	397	"  return;
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	398	"
+"
+PRC_XIANGMU_SMS_SEND	PROCEDURE	399	"end;
+"

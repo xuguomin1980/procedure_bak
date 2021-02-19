@@ -1,0 +1,1280 @@
+PRC_XIANGMU_JIAOYI	PROCEDURE	1	"procedure prc_xiangmu_jiaoyi(in_jiaoyilx in varchar2, --交易类型
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	2	"                                               in_danjuhao in varchar2, --单据号
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	3	"                                               in_caozuogh in varchar2, --操作工号
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	4	"                                               in_ksdm     in varchar2, --科室代码
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	5	"                                               in_jylsh    in varchar2, --其它参数
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	6	"                                               out_code    out INTEGER, -- 返回结果 0为执行成功
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	7	"                                               out_msg     out varchar2) Is
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	8	"
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	9	"  v_count    number;
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	10	"  v_count2   number;
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	11	"  v_pos      number;
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	12	"  v_length1  number;
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	13	"  v_flag_len number;
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	14	"  v_rowid    number;
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	15	"  v_temp     varchar2(200);
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	16	"  v_jylsh    varchar2(2000);
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	17	"  v_data     varchar2(800);
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	18	"  v_flag     varchar2(100);
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	19	"  v_ksdm2    varchar2(300);
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	20	"  v_ksdm1    varchar2(300);
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	21	"  v_ksmc2    varchar2(300);
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	22	"
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	23	"  v_jiaoyilx  varchar2(200);
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	24	"  v_bianhao   varchar2(300);
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	25	"  v_danjuhao  varchar2(300);
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	26	"  v_bz        varchar2(300);
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	27	"  v_jzkh      varchar2(200);
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	28	"  v_brxm      varchar2(200);
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	29	"  v_sfzh      varchar2(200);
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	30	"  v_ewm       varchar2(200);
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	31	"  v_czgh2     varchar2(300);
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	32	"  v_do_fs     varchar2(30);
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	33	"  v_caozuogh2 varchar2(30);
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	34	"  --2020-11-21 
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	35	"begin
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	36	"
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	37	"  --病区药箱： 病区药房送药
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	38	"
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	39	"  out_code := 1;
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	40	"  out_msg  := '';
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	41	"
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	42	"  --记录日志 
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	43	"  if 1 = 1 then
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	44	"  
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	45	"    select in_jiaoyilx || '|' || in_caozuogh || '|' || in_jylsh || '|' ||
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	46	"           in_danjuhao || '|' || in_ksdm
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	47	"      into v_jylsh
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	48	"      from dual;
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	49	"    insert into zy_jiaoyi_v1
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	50	"      (jiaoyilx, caozuogh, jylsh, bz)
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	51	"    values
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	52	"      (in_jiaoyilx, in_caozuogh, v_jylsh, 'prc_xiangmu_jiaoyi');
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	53	"  
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	54	"    if sqlcode = 0 then
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	55	"      commit;
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	56	"    else
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	57	"      rollback;
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	58	"    end if;
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	59	"  end if;
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	60	"
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	61	"  -- 自助机特殊退款,支付流水号查询  his记录
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	62	"  if 1 = 1 and in_jiaoyilx = '支付流水号查询' then
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	63	"    -- 交易类型: 固定传入 支付流水号查询   
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	64	"    --交易流水号:
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	65	"    --交易日期：格式为 2020-11-01
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	66	"    if length(in_danjuhao) > 10 then
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	67	"    
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	68	"      null;
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	69	"    else
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	70	"      out_code := -1;
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	71	"      out_msg  := '请输入支付流水号';
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	72	"      return;
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	73	"    end if;
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	74	"  
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	75	"    if length(in_caozuogh) = 10 then
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	76	"    
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	77	"      null;
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	78	"    else
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	79	"      out_code := -1;
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	80	"      out_msg  := '请输入正确的日期,yyyy-mm-dd';
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	81	"      return;
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	82	"    end if;
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	83	"  
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	84	"    select count(*)
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	85	"      into v_count
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	86	"      From v_mz_mzsfk1_zfbddh
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	87	"     where zfb_ddh = in_danjuhao
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	88	"       and sfrq >= to_date(in_caozuogh, 'yyyy-mm-dd') - 3
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	89	"       and sfrq <= to_date(in_caozuogh, 'yyyy-mm-dd') + 3;
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	90	"    if v_count = 0 then
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	91	"      out_code := 0;
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	92	"      out_msg  := '未找到给支付流水号的his记录[prc_xiangmu_jiaoyi]';
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	93	"      return;
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	94	"    else
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	95	"      out_code := -1;
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	96	"    
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	97	"      select max(ZFB_DDH || '_' || to_char(sfrq, 'yyyy-mm-dd hh24:mi:ss') || '_' || czgh || '_' ||
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	98	"                 qtsffs || '_' || sfsb)
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	99	"        into out_msg
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	100	"        From v_mz_mzsfk1_zfbddh
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	101	"       where zfb_ddh = in_danjuhao
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	102	"         and sfrq >= to_date(in_caozuogh, 'yyyy-mm-dd') - 3
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	103	"         and sfrq <= to_date(in_caozuogh, 'yyyy-mm-dd') + 3;
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	104	"      return;
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	105	"    
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	106	"    end if;
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	107	"  
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	108	"    /*       select  sfrq,czgh,qtsffs, sfsb,  NVL(NVL(ZFB_DDH,BZ),JRJYLSH) ZFB_DDH 
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	109	"     From mz_mzsfk1 c where sfrq>sysdate  - 2   AND QTSFJE<>0  and ysfsb is null
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	110	"     union all
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	111	"    select sfrq  ,czgh,qtsffs, sfsb, (  select NVL(NVL(ZFB_DDH,BZ),JRJYLSH) from mz_mzsfk1 where sfsb=c.ysfsb)
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	112	"     From mz_mzsfk1 c where sfrq>sysdate  - 2   AND QTSFJE<>0   and ysfsb is not null 
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	113	"     union all    
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	114	"     select jysj,czgh, 0,jlxh,zxlsh From gy_jrjymx where  jysj>sysdate  - 2 */
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	115	"  
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	116	"    out_code := -1;
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	117	"    out_msg  := '查询失败';
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	118	"    return;
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	119	"  
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	120	"  end if;
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	121	"  --  end 自助机特殊退款,支付宝订单号查询his记录
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	122	"
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	123	"  v_danjuhao := trim(in_danjuhao);
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	124	"  --bingquyaoxiang|bianhao|ksdm
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	125	"  if 0 = 0 and (in_jiaoyilx = 'accept' or in_jiaoyilx = 'send') then
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	126	"    v_flag     := '|';
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	127	"    v_flag_len := 1;
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	128	"    select in_danjuhao || '|' into out_msg from dual;
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	129	"  
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	130	"    --v_jiaoyilx:=in_danjuhao;
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	131	"    --1 v_jiaoyilx bingquyaoxiang  病区药箱
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	132	"    v_pos      := to_number(instr(out_msg, v_flag));
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	133	"    v_data     := ltrim(rtrim(substr(out_msg, 1, v_pos - 1)));
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	134	"    out_msg    := substr(out_msg, v_pos + v_flag_len);
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	135	"    v_jiaoyilx := trim(v_data);
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	136	"  
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	137	"    --2  v_bianhao bianhao 编号
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	138	"    v_pos     := to_number(instr(out_msg, v_flag));
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	139	"    v_data    := ltrim(rtrim(substr(out_msg, 1, v_pos - 1)));
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	140	"    out_msg   := substr(out_msg, v_pos + v_flag_len);
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	141	"    v_bianhao := v_data;
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	142	"  
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	143	"    if length(v_bianhao) = 0 then
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	144	"      out_code := -1;
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	145	"      out_msg  := '二维码错误,没有编号[prc_xiangmu_jiaoyi]';
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	146	"      return;
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	147	"    end if;
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	148	"  
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	149	"    --3  v_ksdm 科室代码
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	150	"    v_pos   := to_number(instr(out_msg, v_flag));
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	151	"    v_data  := ltrim(rtrim(substr(out_msg, 1, v_pos - 1)));
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	152	"    out_msg := substr(out_msg, v_pos + v_flag_len);
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	153	"    v_ksdm2 := v_data;
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	154	"  
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	155	"  end if;
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	156	"
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	157	"  if length(in_caozuogh) = 0 then
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	158	"    out_code := -1;
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	159	"    out_msg  := '请输入操作工号[prc_xiangmu_jiaoyi]';
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	160	"    return;
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	161	"  end if;
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	162	"
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	163	"  if in_jiaoyilx = '病区药箱扫码送药' then
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	164	"    null;
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	165	"  
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	166	"    if length(in_caozuogh) = 0 then
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	167	"      out_code := -1;
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	168	"      out_msg  := '请输入操作工号[prc_xiangmu_jiaoyi]';
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	169	"      return;
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	170	"    end if;
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	171	"  
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	172	"    if length(in_danjuhao) = 0 then
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	173	"      out_code := -1;
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	174	"      out_msg  := '请输入药箱编号[prc_xiangmu_jiaoyi]';
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	175	"      return;
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	176	"    end if;
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	177	"  
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	178	"    if length(in_ksdm) = 0 then
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	179	"      out_code := -1;
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	180	"      out_msg  := '请输入科室代码[prc_xiangmu_jiaoyi]';
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	181	"      return;
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	182	"    end if;
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	183	"  
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	184	"    if in_ksdm = '病区药房' then
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	185	"      select count(*)
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	186	"        into v_count
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	187	"        from t_temp_jiaoyi
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	188	"       where trunc(jyrq) = trunc(sysdate)
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	189	"         and dangjuhao = in_danjuhao
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	190	"         and jiaoyilx = in_jiaoyilx;
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	191	"      if v_count > 0 then
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	192	"        update t_temp_jiaoyi
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	193	"           set czgh1 = in_caozuogh, czrq1 = sysdate
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	194	"         where trunc(jyrq) = trunc(sysdate)
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	195	"           and dangjuhao = in_danjuhao
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	196	"           and jiaoyilx = '病区药箱'
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	197	"           and rownum = 1;
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	198	"      else
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	199	"        insert into t_temp_jiaoyi
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	200	"          (jiaoyilx, czgh1, czrq1)
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	201	"        values
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	202	"          ('病区药箱', in_caozuogh, sysdate);
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	203	"      
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	204	"      end if;
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	205	"      if sqlcode = 0 then
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	206	"        commit;
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	207	"      else
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	208	"        rollback;
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	209	"        out_code := -1;
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	210	"        out_msg  := '更新数据失败a[prc_xiangmu_jiaoyi]';
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	211	"        return;
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	212	"      end if;
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	213	"    
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	214	"    end if;
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	215	"  end if;
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	216	"
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	217	"  --'病区药箱扫码'2
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	218	"  -- bingquyaoxiang|yaoxing1234|80001
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	219	"  if v_jiaoyilx = 'bingquyaoxiang' then
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	220	"    null;
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	221	"  
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	222	"    select count(*) into v_count from gy_bqdm where bqdm = v_ksdm2;
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	223	"    if v_count = 0 then
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	224	"      select v_ksdm2 || ',二维码错误,没有病区代码[prc_xiangmu_jiaoyi]'
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	225	"        into out_msg
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	226	"        from dual;
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	227	"      out_code := -1;
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	228	"      return;
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	229	"    end if;
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	230	"    select bqmc into v_ksmc2 from gy_bqdm where bqdm = v_ksdm2;
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	231	"  
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	232	"    if length(v_ksmc2) = 0 then
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	233	"      out_code := -1;
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	234	"      out_msg  := '二维码错误,没有病区代码[prc_xiangmu_jiaoyi]';
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	235	"      return;
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	236	"    end if;
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	237	"  
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	238	"    if in_jiaoyilx = 'send' then
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	239	"      select count(*)
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	240	"        into v_count
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	241	"        from t_temp_jiaoyi
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	242	"       where trunc(jyrq) = trunc(sysdate)
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	243	"         and dangjuhao = v_danjuhao;
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	244	"      if v_count > 0 then
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	245	"        update t_temp_jiaoyi
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	246	"           set czgh1 = in_caozuogh, czrq1 = sysdate
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	247	"         where trunc(jyrq) = trunc(sysdate)
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	248	"           and dangjuhao = v_danjuhao;
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	249	"      else
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	250	"        select bqmc into v_ksmc2 from gy_bqdm where bqdm = v_ksdm2;
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	251	"        select v_ksmc2 || ',编号:' || v_bianhao into v_bz from dual;
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	252	"        insert into t_temp_jiaoyi
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	253	"          (jiaoyilx, dangjuhao, czgh1, czrq1, bz)
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	254	"        values
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	255	"          ('病区药箱', v_danjuhao, in_caozuogh, sysdate, v_bz);
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	256	"      
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	257	"      end if;
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	258	"      if sqlcode = 0 then
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	259	"        commit;
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	260	"        out_code := 0;
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	261	"      
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	262	"        select '发送 ' || v_ksmc2 || '药箱,处理成功'
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	263	"          into out_msg
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	264	"          from dual;
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	265	"        return;
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	266	"      else
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	267	"        rollback;
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	268	"        out_code := -1;
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	269	"        out_msg  := '更新数据失败b[prc_xiangmu_jiaoyi]';
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	270	"        return;
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	271	"      end if;
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	272	"    
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	273	"    end if;
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	274	"    if in_jiaoyilx = 'accept' then
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	275	"      select count(*)
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	276	"        into v_count
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	277	"        from t_temp_jiaoyi
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	278	"       where trunc(jyrq) = trunc(sysdate)
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	279	"         and dangjuhao = v_danjuhao;
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	280	"      if v_count > 0 then
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	281	"        update t_temp_jiaoyi
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	282	"           set czgh2 = in_caozuogh, czrq2 = sysdate
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	283	"         where trunc(jyrq) = trunc(sysdate)
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	284	"           and dangjuhao = v_danjuhao;
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	285	"      else
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	286	"        out_code := -1;
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	287	"        out_msg  := '未找到该药箱发送记录，请核实b[prc_xiangmu_jiaoyi]';
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	288	"        return;
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	289	"      
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	290	"      end if;
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	291	"      if sqlcode = 0 then
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	292	"        commit;
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	293	"        out_code := 0;
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	294	"        select '接收 ' || v_ksmc2 || '药箱 成功' into out_msg from dual;
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	295	"        return;
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	296	"      else
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	297	"        rollback;
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	298	"        out_code := -1;
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	299	"        out_msg  := '更新数据失败b[prc_xiangmu_jiaoyi]';
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	300	"        return;
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	301	"      end if;
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	302	"    
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	303	"    end if;
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	304	"  
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	305	"  end if;
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	306	"
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	307	"  --'病区药单接收'2
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	308	"  --bingquyaofanfayao|单据号
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	309	"  if v_jiaoyilx = 'bingqufayao' then
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	310	"    null;
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	311	"  
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	312	"    if in_jiaoyilx = 'send' then
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	313	"      select count(*)
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	314	"        into v_count
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	315	"        from t_temp_jiaoyi
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	316	"       where trunc(jyrq) = trunc(sysdate)
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	317	"         and dangjuhao = v_danjuhao;
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	318	"      if v_count > 0 then
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	319	"        update t_temp_jiaoyi
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	320	"           set czgh1 = in_caozuogh, czrq1 = sysdate
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	321	"         where trunc(jyrq) = trunc(sysdate)
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	322	"           and dangjuhao = v_danjuhao;
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	323	"      else
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	324	"        select ksmc into v_ksmc2 from gy_ksdm where bqdm = v_ksdm2;
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	325	"        select v_ksmc2 || ',发药单:' || v_bianhao into v_bz from dual;
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	326	"      
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	327	"        insert into t_temp_jiaoyi
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	328	"          (jiaoyilx, dangjuhao, czgh1, czrq1, bz)
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	329	"        values
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	330	"          ('病区药房发药单', v_danjuhao, in_caozuogh, sysdate, v_bz);
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	331	"      
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	332	"      end if;
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	333	"      if sqlcode = 0 then
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	334	"        commit;
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	335	"        out_code := 1;
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	336	"        out_msg  := '发药完成,病区药房发药单';
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	337	"        return;
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	338	"      else
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	339	"        rollback;
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	340	"        out_code := -1;
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	341	"        out_msg  := '更新数据失败b[prc_xiangmu_jiaoyi]';
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	342	"        return;
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	343	"      end if;
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	344	"    
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	345	"    end if;
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	346	"    if in_jiaoyilx = 'accept' then
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	347	"      select count(*)
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	348	"        into v_count
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	349	"        from t_temp_jiaoyi
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	350	"       where trunc(jyrq) = trunc(sysdate)
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	351	"         and dangjuhao = v_danjuhao;
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	352	"      if v_count > 0 then
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	353	"        update t_temp_jiaoyi
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	354	"           set czgh2 = in_caozuogh, czrq2 = sysdate
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	355	"         where trunc(jyrq) = trunc(sysdate)
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	356	"           and dangjuhao = v_danjuhao;
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	357	"      else
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	358	"        out_code := -1;
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	359	"        out_msg  := '未找到该二维码的发药单，请核实b[prc_xiangmu_jiaoyi]';
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	360	"        return;
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	361	"      
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	362	"      end if;
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	363	"      if sqlcode = 0 then
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	364	"        commit;
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	365	"        out_code := 0;
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	366	"        out_msg  := '接收病区药房发药单,处理成功';
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	367	"        return;
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	368	"      else
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	369	"        rollback;
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	370	"        out_code := -1;
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	371	"        out_msg  := '更新数据失败b[prc_xiangmu_jiaoyi]';
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	372	"        return;
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	373	"      end if;
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	374	"    
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	375	"    end if;
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	376	"  
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	377	"  end if;
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	378	"
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	379	"  if 1 = 1 and v_jiaoyilx = 'get_dzjkk' then
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	380	"    v_jzkh     := '';
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	381	"    v_flag     := '|';
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	382	"    v_flag_len := 1;
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	383	"    select in_danjuhao || '|' into out_msg from dual;
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	384	"  
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	385	"    v_pos   := to_number(instr(out_msg, v_flag));
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	386	"    v_data  := ltrim(rtrim(substr(out_msg, 1, v_pos - 1)));
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	387	"    out_msg := substr(out_msg, v_pos + v_flag_len);
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	388	"    v_ewm   := trim(v_data);
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	389	"  
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	390	"    if length(v_ewm) = 0 then
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	391	"      out_code := -1;
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	392	"      out_msg  := '二维码错误,长度为0[prc_xiangmu_jiaoyi]';
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	393	"      return;
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	394	"    end if;
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	395	"    --2  v_bianhao bianhao 编号
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	396	"    v_pos   := to_number(instr(out_msg, v_flag));
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	397	"    v_data  := ltrim(rtrim(substr(out_msg, 1, v_pos - 1)));
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	398	"    out_msg := substr(out_msg, v_pos + v_flag_len);
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	399	"    v_sfzh  := v_data;
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	400	"    if length(v_sfzh) = 0 then
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	401	"      out_code := -1;
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	402	"      out_msg  := '身份证号码错误,长度为0[prc_xiangmu_jiaoyi]';
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	403	"      return;
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	404	"    end if;
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	405	"  
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	406	"    v_pos   := to_number(instr(out_msg, v_flag));
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	407	"    v_data  := ltrim(rtrim(substr(out_msg, 1, v_pos - 1)));
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	408	"    out_msg := substr(out_msg, v_pos + v_flag_len);
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	409	"    v_brxm  := v_data;
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	410	"  
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	411	"    if length(v_brxm) = 0 then
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	412	"      out_code := -1;
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	413	"      out_msg  := '病人姓名不能为空[prc_xiangmu_jiaoyi]';
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	414	"      return;
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	415	"    end if;
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	416	"  
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	417	"    select nvl(max(jzkh), '0')
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	418	"      into v_jzkh
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	419	"      from gy_brjbxxk_dzjkk
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	420	"     where sfzh = v_sfzh
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	421	"       and xm = v_brxm;
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	422	"    if length(v_brxm) > 0 then
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	423	"      out_code := 1;
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	424	"      out_msg  := v_jzkh;
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	425	"      return;
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	426	"    else
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	427	"    
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	428	"      select SEQ_gy_brjbxxk_dzjkk.Nextval into v_count from dual;
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	429	"      select 'DZJKK' || v_count into v_jzkh from dual;
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	430	"      insert into gy_brjbxxk
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	431	"        (jzkh, xm, sfzh)
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	432	"      values
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	433	"        (v_jzkh, v_brxm, v_sfzh);
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	434	"      insert into gy_brjbxxk_dzjkk
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	435	"        (dzjkk, sfzh, xm, jzkh)
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	436	"      values
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	437	"        (v_ewm, v_sfzh, v_brxm, v_jzkh);
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	438	"      commit;
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	439	"      out_code := 1;
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	440	"      out_msg  := v_jzkh;
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	441	"      return;
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	442	"    
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	443	"    end if;
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	444	"  
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	445	"    out_code := 0;
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	446	"    out_msg  := '0';
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	447	"    return;
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	448	"  
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	449	"  end if;
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	450	"
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	451	"  --begin 病区发药单接收发药，单据号 ，操作工号
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	452	"  if 1 = 1 and in_jiaoyilx = '病区发药单接收发药' then
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	453	"    --病区发药单接收发药|622010||990818L003|
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	454	"    null;
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	455	"    out_msg := '';
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	456	"    select nvl(max((select loginname || name
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	457	"                      From oa_zgxx
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	458	"                     where loginname = czgh1) || ',已经发药处理' ||
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	459	"                   to_char(jyrq, 'yyyy-mm-dd hh24:mi:ss')),
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	460	"               '0')
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	461	"      into out_msg
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	462	"      from t_temp_jiaoyi
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	463	"     where dangjuhao = in_danjuhao
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	464	"       and jiaoyilx = in_jiaoyilx
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	465	"       and jyrq > sysdate - 7;
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	466	"    out_code := 1;
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	467	"  
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	468	"    if length(out_msg) > 2 then
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	469	"      out_code := -1;
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	470	"      return;
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	471	"    end if;
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	472	"  
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	473	"    select instr(in_danjuhao, 'L') into v_count from dual;
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	474	"    if v_count > 0 then
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	475	"      v_bz    := '';
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	476	"      v_ksdm1 := '';
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	477	"      select substr(in_danjuhao, 1, v_count - 1),
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	478	"             substr(in_danjuhao, v_count)
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	479	"        into v_bz, v_ksdm1
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	480	"        from dual;
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	481	"      -- fyxh, by_qld.yhsx 页号属性
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	482	"      /*   if 2=2 then
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	483	"       \* yhsx
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	484	"      大输液 1 ,31，39 
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	485	"      针剂  9 
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	486	"      口服药 2 ，3
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	487	"       出院带药  7 
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	488	"      成药 11，12，13，17，19，
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	489	"       草药 21， 23，29
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	490	"      */
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	491	"    
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	492	"      if v_ksdm1 = 'L001' then
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	493	"        v_ksdm2 := '1,31,39 ';
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	494	"        v_czgh2 := '大输液';
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	495	"      end if;
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	496	"    
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	497	"      if v_ksdm1 = 'L003' then
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	498	"        v_ksdm2 := '1,11,8,18,9,19,29';
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	499	"        v_czgh2 := '针剂药品发放汇总表 ';
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	500	"      end if;
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	501	"      if v_ksdm1 = 'L73' then
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	502	"      
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	503	"        v_czgh2 := '非针剂用药明细(临时口服,出院带药) ';
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	504	"      end if;
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	505	"    
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	506	"      if v_ksdm1 = 'L2' then
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	507	"      
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	508	"        v_czgh2 := '非针剂用药明细(长期口服) ';
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	509	"      end if;
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	510	"    
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	511	"      if v_ksdm1 = 'Lbyj' then
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	512	"      
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	513	"        v_czgh2 := '非包药机发放汇总';
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	514	"      end if;
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	515	"    
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	516	"      /*   if v_ksdm1 = 'L002' then
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	517	"        v_ksdm2 := '7,17,27,37,47,57,67,77,87,97,3,13,23,33,43,53,63,73,83,93'; --mod(yhsx,10)=7 or   mod(yhsx,10)=3  
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	518	"        v_czgh2 := '出院带药和临时口服';
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	519	"      end if;*/
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	520	"    
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	521	"    end if;
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	522	"  
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	523	"    v_do_fs := '单人方式';
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	524	"    select instr(in_caozuogh, '#') into v_caozuogh2 from dual;
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	525	"    if length(v_caozuogh2) > 0 then
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	526	"      v_do_fs := '组合方式';
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	527	"    end if;
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	528	"  
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	529	"    if v_do_fs = '单人方式' then
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	530	"      insert into t_temp_jiaoyi
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	531	"        (jiaoyilx, czgh1, dangjuhao, bz, ksdm1, ksdm2, czgh2)
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	532	"      values
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	533	"        (in_jiaoyilx,
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	534	"         in_caozuogh,
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	535	"         in_danjuhao,
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	536	"         v_bz,
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	537	"         v_ksdm1,
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	538	"         v_ksdm2,
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	539	"         v_czgh2);
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	540	"    end if;
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	541	"  
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	542	"    if v_do_fs = '组合方式' then
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	543	"      insert into t_temp_jiaoyi
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	544	"        (jiaoyilx, czgh1, dangjuhao, bz, ksdm1, ksdm2, czgh2, czgh3, czrq2)
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	545	"      
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	546	"        select in_jiaoyilx,
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	547	"               substr(in_caozuogh, 1, instr(in_caozuogh, '#') - 1),
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	548	"               in_danjuhao,
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	549	"               v_bz,
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	550	"               v_ksdm1,
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	551	"               v_ksdm2,
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	552	"               v_czgh2,
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	553	"               substr(in_caozuogh, instr(in_caozuogh, '#') + 1),
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	554	"               sysdate
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	555	"          from dual;
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	556	"    end if;
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	557	"  
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	558	"    commit;
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	559	"    out_code := 0;
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	560	"  
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	561	"    select nvl(max(v_czgh2 || '_' || bqmc), '')
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	562	"      into out_msg
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	563	"      from gy_bqdm
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	564	"     where bqdm in (select bqdm from by_qld where fyxh = v_bz);
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	565	"  
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	566	"    return;
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	567	"  
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	568	"  end if;
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	569	"  ----end 病区发药单接收发药，单据号 ，操作工号
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	570	"
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	571	"  --begin 病区发药单接收发药，单据号 ，操作工号
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	572	"  if 1 = 1 and in_jiaoyilx = '病区发药单核对' then
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	573	"    --病区发药单接收发药|622010||990818L003|
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	574	"    null;
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	575	"    out_msg := '';
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	576	"    select count(*)
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	577	"      into v_count
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	578	"      from t_temp_jiaoyi
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	579	"     where dangjuhao = in_danjuhao
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	580	"       and jiaoyilx = '病区发药单接收发药'
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	581	"       and jyrq > sysdate - 7;
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	582	"  
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	583	"    if v_count > 0 then
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	584	"    
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	585	"      null;
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	586	"    else
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	587	"      out_msg  := '该发药单未发药处理';
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	588	"      out_code := -1;
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	589	"      return;
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	590	"    end if;
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	591	"  
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	592	"    select count(*)
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	593	"      into v_count
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	594	"      from t_temp_jiaoyi
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	595	"     where dangjuhao = in_danjuhao
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	596	"       and jiaoyilx = '病区发药单接收发药'
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	597	"       and jyrq > sysdate - 7
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	598	"       and czrq2 is not null;
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	599	"  
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	600	"    if v_count > 0 then
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	601	"    
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	602	"      select nvl(max(czgh3 || ' ' ||
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	603	"                     to_char(czrq2, 'yyyy-mm-dd hh24:mi:ss')) ||
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	604	"                 ',该发药单已经核对处理',
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	605	"                 '')
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	606	"        into out_msg
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	607	"        from t_temp_jiaoyi
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	608	"       where dangjuhao = in_danjuhao
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	609	"         and jiaoyilx = '病区发药单接收发药'
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	610	"         and jyrq > sysdate - 7
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	611	"         and czrq2 is not null;
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	612	"    
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	613	"      out_code := -1;
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	614	"      return;
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	615	"    end if;
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	616	"  
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	617	"    update t_temp_jiaoyi
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	618	"       set czgh3 = in_caozuogh, czrq2 = sysdate
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	619	"     where dangjuhao = in_danjuhao
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	620	"       and jiaoyilx = '病区发药单接收发药'
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	621	"       and jyrq > sysdate - 7;
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	622	"    if sqlcode = 0 then
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	623	"      commit;
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	624	"    else
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	625	"      rollback;
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	626	"      out_msg  := '更新数据失败';
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	627	"      out_code := -1;
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	628	"      return;
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	629	"    end if;
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	630	"  
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	631	"    out_msg  := '核对操作成功';
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	632	"    out_code := 1;
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	633	"    return;
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	634	"  
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	635	"  end if;
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	636	"  ----end 病区发药单接收发药，单据号 ，操作工号
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	637	"
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	638	"  out_code := -1;
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	639	"  out_msg  := '没有找到对应业务';
+"
+PRC_XIANGMU_JIAOYI	PROCEDURE	640	"End;
+"

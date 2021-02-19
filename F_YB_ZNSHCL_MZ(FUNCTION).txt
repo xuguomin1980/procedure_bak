@@ -1,0 +1,152 @@
+F_YB_ZNSHCL_MZ	FUNCTION	1	"FUNCTION ""F_YB_ZNSHCL_MZ""(arg_jzkh   Varchar2,
+"
+F_YB_ZNSHCL_MZ	FUNCTION	2	"                                            arg_syzldm Varchar2)
+"
+F_YB_ZNSHCL_MZ	FUNCTION	3	"  return Number Is
+"
+F_YB_ZNSHCL_MZ	FUNCTION	4	"  ll_count  number;
+"
+F_YB_ZNSHCL_MZ	FUNCTION	5	"  ll_pos    number;
+"
+F_YB_ZNSHCL_MZ	FUNCTION	6	"  ls_syzldm varchar2(200);
+"
+F_YB_ZNSHCL_MZ	FUNCTION	7	"  ls_ybdm   varchar2(50);
+"
+F_YB_ZNSHCL_MZ	FUNCTION	8	"Begin
+"
+F_YB_ZNSHCL_MZ	FUNCTION	9	"  ls_syzldm := arg_syzldm;
+"
+F_YB_ZNSHCL_MZ	FUNCTION	10	"  Loop
+"
+F_YB_ZNSHCL_MZ	FUNCTION	11	"    ll_pos := instr(ls_syzldm, '^');
+"
+F_YB_ZNSHCL_MZ	FUNCTION	12	"    if ll_pos > 0 then
+"
+F_YB_ZNSHCL_MZ	FUNCTION	13	"      ls_ybdm   := substr(ls_syzldm, 1, ll_pos - 1);
+"
+F_YB_ZNSHCL_MZ	FUNCTION	14	"      ls_syzldm := substr(ls_syzldm, ll_pos + 1);
+"
+F_YB_ZNSHCL_MZ	FUNCTION	15	"    else
+"
+F_YB_ZNSHCL_MZ	FUNCTION	16	"      ls_ybdm   := ls_syzldm;
+"
+F_YB_ZNSHCL_MZ	FUNCTION	17	"      ls_syzldm := null;
+"
+F_YB_ZNSHCL_MZ	FUNCTION	18	"    end if;
+"
+F_YB_ZNSHCL_MZ	FUNCTION	19	"  
+"
+F_YB_ZNSHCL_MZ	FUNCTION	20	"    if instr(ls_ybdm, 'f') = 0 then
+"
+F_YB_ZNSHCL_MZ	FUNCTION	21	"      ls_ybdm := 'f' || ls_ybdm;
+"
+F_YB_ZNSHCL_MZ	FUNCTION	22	"    end if;
+"
+F_YB_ZNSHCL_MZ	FUNCTION	23	"  
+"
+F_YB_ZNSHCL_MZ	FUNCTION	24	"    Select Sum(b.sl)
+"
+F_YB_ZNSHCL_MZ	FUNCTION	25	"      Into ll_count
+"
+F_YB_ZNSHCL_MZ	FUNCTION	26	"      From yj_yjk1 a, yj_yjk2 b, yb_duizhaoml c
+"
+F_YB_ZNSHCL_MZ	FUNCTION	27	"     Where a.yjsb = b.yjsb
+"
+F_YB_ZNSHCL_MZ	FUNCTION	28	"       And b.ylxh = c.xiangmuxh
+"
+F_YB_ZNSHCL_MZ	FUNCTION	29	"       and c.yibaolx = '9997'
+"
+F_YB_ZNSHCL_MZ	FUNCTION	30	"       and nvl(c.tingyongrq, sysdate + 1) > sysdate
+"
+F_YB_ZNSHCL_MZ	FUNCTION	31	"       And c.yaopinpb = 0
+"
+F_YB_ZNSHCL_MZ	FUNCTION	32	"       and a.kdsj > trunc(sysdate)
+"
+F_YB_ZNSHCL_MZ	FUNCTION	33	"       And a.jzkh = arg_jzkh
+"
+F_YB_ZNSHCL_MZ	FUNCTION	34	"          --And instr(c.yibaodm,'f'||ls_ybdm)=1
+"
+F_YB_ZNSHCL_MZ	FUNCTION	35	"       And instr(c.yibaodm, ls_ybdm) = 1;
+"
+F_YB_ZNSHCL_MZ	FUNCTION	36	"    if ll_count > 0 then
+"
+F_YB_ZNSHCL_MZ	FUNCTION	37	"      return 1;
+"
+F_YB_ZNSHCL_MZ	FUNCTION	38	"    end if;
+"
+F_YB_ZNSHCL_MZ	FUNCTION	39	"    Exit When ls_syzldm Is Null;
+"
+F_YB_ZNSHCL_MZ	FUNCTION	40	"  End Loop;
+"
+F_YB_ZNSHCL_MZ	FUNCTION	41	"
+"
+F_YB_ZNSHCL_MZ	FUNCTION	42	"  if length(ls_syzldm) > 3 then
+"
+F_YB_ZNSHCL_MZ	FUNCTION	43	"    Loop
+"
+F_YB_ZNSHCL_MZ	FUNCTION	44	"      ll_pos := instr(ls_syzldm, '¡¢');
+"
+F_YB_ZNSHCL_MZ	FUNCTION	45	"      if ll_pos > 0 then
+"
+F_YB_ZNSHCL_MZ	FUNCTION	46	"        ls_ybdm   := substr(ls_syzldm, 1, ll_pos - 1);
+"
+F_YB_ZNSHCL_MZ	FUNCTION	47	"        ls_syzldm := substr(ls_syzldm, ll_pos + 1);
+"
+F_YB_ZNSHCL_MZ	FUNCTION	48	"      else
+"
+F_YB_ZNSHCL_MZ	FUNCTION	49	"        ls_ybdm   := ls_syzldm;
+"
+F_YB_ZNSHCL_MZ	FUNCTION	50	"        ls_syzldm := null;
+"
+F_YB_ZNSHCL_MZ	FUNCTION	51	"      end if;
+"
+F_YB_ZNSHCL_MZ	FUNCTION	52	"    
+"
+F_YB_ZNSHCL_MZ	FUNCTION	53	"      if instr(ls_ybdm, 'f') = 0 then
+"
+F_YB_ZNSHCL_MZ	FUNCTION	54	"        ls_ybdm := 'f' || ls_ybdm;
+"
+F_YB_ZNSHCL_MZ	FUNCTION	55	"      end if;
+"
+F_YB_ZNSHCL_MZ	FUNCTION	56	"    
+"
+F_YB_ZNSHCL_MZ	FUNCTION	57	"      Select Sum(b.sl)
+"
+F_YB_ZNSHCL_MZ	FUNCTION	58	"        Into ll_count
+"
+F_YB_ZNSHCL_MZ	FUNCTION	59	"        From yj_yjk1 a, yj_yjk2 b, yb_duizhaoml c
+"
+F_YB_ZNSHCL_MZ	FUNCTION	60	"       Where a.yjsb = b.yjsb
+"
+F_YB_ZNSHCL_MZ	FUNCTION	61	"         And b.ylxh = c.xiangmuxh
+"
+F_YB_ZNSHCL_MZ	FUNCTION	62	"         and c.yibaolx = '9997'
+"
+F_YB_ZNSHCL_MZ	FUNCTION	63	"         and nvl(c.tingyongrq, sysdate + 1) > sysdate
+"
+F_YB_ZNSHCL_MZ	FUNCTION	64	"         And c.yaopinpb = 0
+"
+F_YB_ZNSHCL_MZ	FUNCTION	65	"         and a.kdsj > trunc(sysdate)
+"
+F_YB_ZNSHCL_MZ	FUNCTION	66	"         And a.jzkh = arg_jzkh
+"
+F_YB_ZNSHCL_MZ	FUNCTION	67	"            --And instr(c.yibaodm,'f'||ls_ybdm)=1
+"
+F_YB_ZNSHCL_MZ	FUNCTION	68	"         And instr(c.yibaodm, ls_ybdm) = 1;
+"
+F_YB_ZNSHCL_MZ	FUNCTION	69	"      if ll_count > 0 then
+"
+F_YB_ZNSHCL_MZ	FUNCTION	70	"        return 1;
+"
+F_YB_ZNSHCL_MZ	FUNCTION	71	"      end if;
+"
+F_YB_ZNSHCL_MZ	FUNCTION	72	"      Exit When ls_syzldm Is Null;
+"
+F_YB_ZNSHCL_MZ	FUNCTION	73	"    End Loop;
+"
+F_YB_ZNSHCL_MZ	FUNCTION	74	"  end if;
+"
+F_YB_ZNSHCL_MZ	FUNCTION	75	"  Return 0;
+"
+F_YB_ZNSHCL_MZ	FUNCTION	76	"End;
+"

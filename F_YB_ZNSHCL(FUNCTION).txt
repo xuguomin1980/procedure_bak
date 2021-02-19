@@ -1,0 +1,80 @@
+F_YB_ZNSHCL	FUNCTION	1	"FUNCTION ""F_YB_ZNSHCL"" (arg_patient_no Number,arg_syzldm Varchar2)
+"
+F_YB_ZNSHCL	FUNCTION	2	"  return Number
+"
+F_YB_ZNSHCL	FUNCTION	3	"Is
+"
+F_YB_ZNSHCL	FUNCTION	4	"  ll_count       number;
+"
+F_YB_ZNSHCL	FUNCTION	5	"  ll_pos         number;
+"
+F_YB_ZNSHCL	FUNCTION	6	"  ls_syzldm      varchar2(200);
+"
+F_YB_ZNSHCL	FUNCTION	7	"  ls_ybdm        varchar2(50);
+"
+F_YB_ZNSHCL	FUNCTION	8	"Begin
+"
+F_YB_ZNSHCL	FUNCTION	9	"  ls_syzldm:=arg_syzldm;
+"
+F_YB_ZNSHCL	FUNCTION	10	"  Loop
+"
+F_YB_ZNSHCL	FUNCTION	11	"    ll_pos:=instr(ls_syzldm,'^');
+"
+F_YB_ZNSHCL	FUNCTION	12	"    if ll_pos>0 then
+"
+F_YB_ZNSHCL	FUNCTION	13	"      ls_ybdm:=substr(ls_syzldm,1,ll_pos-1);
+"
+F_YB_ZNSHCL	FUNCTION	14	"      ls_syzldm:=substr(ls_syzldm,ll_pos+1);
+"
+F_YB_ZNSHCL	FUNCTION	15	"    else
+"
+F_YB_ZNSHCL	FUNCTION	16	"      ls_ybdm:=ls_syzldm;
+"
+F_YB_ZNSHCL	FUNCTION	17	"      ls_syzldm:=null;
+"
+F_YB_ZNSHCL	FUNCTION	18	"    end if;
+"
+F_YB_ZNSHCL	FUNCTION	19	"    
+"
+F_YB_ZNSHCL	FUNCTION	20	"     if instr(ls_ybdm,'f')= 0 then   
+"
+F_YB_ZNSHCL	FUNCTION	21	"      ls_ybdm:='f'||ls_ybdm;
+"
+F_YB_ZNSHCL	FUNCTION	22	"    end if;
+"
+F_YB_ZNSHCL	FUNCTION	23	"    
+"
+F_YB_ZNSHCL	FUNCTION	24	"    Select Sum(a.sl)
+"
+F_YB_ZNSHCL	FUNCTION	25	"      Into ll_count
+"
+F_YB_ZNSHCL	FUNCTION	26	"      From zy_detail_charge a,
+"
+F_YB_ZNSHCL	FUNCTION	27	"           yb_duizhaoml b
+"
+F_YB_ZNSHCL	FUNCTION	28	"     Where a.charge_code=b.xiangmuxh
+"
+F_YB_ZNSHCL	FUNCTION	29	"       And a.patient_no=arg_patient_no
+"
+F_YB_ZNSHCL	FUNCTION	30	"       And b.yaopinpb=0
+"
+F_YB_ZNSHCL	FUNCTION	31	"       And instr(b.yibaodm,ls_ybdm)=1;
+"
+F_YB_ZNSHCL	FUNCTION	32	"    if ll_count>0 then
+"
+F_YB_ZNSHCL	FUNCTION	33	"      return 1;
+"
+F_YB_ZNSHCL	FUNCTION	34	"    end if;
+"
+F_YB_ZNSHCL	FUNCTION	35	"    Exit When ls_syzldm Is Null;
+"
+F_YB_ZNSHCL	FUNCTION	36	"  End Loop;
+"
+F_YB_ZNSHCL	FUNCTION	37	"  Return 0;
+"
+F_YB_ZNSHCL	FUNCTION	38	"End;
+"
+F_YB_ZNSHCL	FUNCTION	39	"
+"
+F_YB_ZNSHCL	FUNCTION	40	" 
+"

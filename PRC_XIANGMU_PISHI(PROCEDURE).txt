@@ -1,0 +1,1834 @@
+PRC_XIANGMU_PISHI	PROCEDURE	1	"procedure prc_xiangmu_pishi(in_jiaoyilx in varchar2, --交易类型
+"
+PRC_XIANGMU_PISHI	PROCEDURE	2	"                                              in_caozuogh in varchar2, --操作工号                                            
+"
+PRC_XIANGMU_PISHI	PROCEDURE	3	"                                              in_jylsh    in varchar2, --其它参数
+"
+PRC_XIANGMU_PISHI	PROCEDURE	4	"                                              out_code    out INTEGER, -- 返回结果 0为执行成功
+"
+PRC_XIANGMU_PISHI	PROCEDURE	5	"                                              out_msg     out varchar2) is
+"
+PRC_XIANGMU_PISHI	PROCEDURE	6	"  --在interface 用户下面     
+"
+PRC_XIANGMU_PISHI	PROCEDURE	7	"  -- in_jiaoyilx varchar2业务节点名称
+"
+PRC_XIANGMU_PISHI	PROCEDURE	8	"  --in_caozuogh  varchar2操作人员工号，
+"
+PRC_XIANGMU_PISHI	PROCEDURE	9	"  --in_other  varchar2其它参数，
+"
+PRC_XIANGMU_PISHI	PROCEDURE	10	"  --out_code out INTEGER返回值interger值，>=1 说明通过
+"
+PRC_XIANGMU_PISHI	PROCEDURE	11	"  --out_msg  out varchar2  返回  内容)
+"
+PRC_XIANGMU_PISHI	PROCEDURE	12	"
+"
+PRC_XIANGMU_PISHI	PROCEDURE	13	"  --prc_xiangmu_pishi入参说明：
+"
+PRC_XIANGMU_PISHI	PROCEDURE	14	"  -- (皮试结果更新, 操作工号,处方识别=13564074|处方序号cfxh＝1|药品序号＝5666|药品产地代码＝2108|皮试状态=阴性|执行结果=通过|)
+"
+PRC_XIANGMU_PISHI	PROCEDURE	15	"
+"
+PRC_XIANGMU_PISHI	PROCEDURE	16	"  v_icd10      varchar2(30);
+"
+PRC_XIANGMU_PISHI	PROCEDURE	17	"  v_icd10_from varchar2(30);
+"
+PRC_XIANGMU_PISHI	PROCEDURE	18	"  v_data       varchar2(300);
+"
+PRC_XIANGMU_PISHI	PROCEDURE	19	"  v_data_temp  varchar2(200);
+"
+PRC_XIANGMU_PISHI	PROCEDURE	20	"  v_sfzh       varchar2(50);
+"
+PRC_XIANGMU_PISHI	PROCEDURE	21	"  v_str1       varchar2(200);
+"
+PRC_XIANGMU_PISHI	PROCEDURE	22	"  v_str2       varchar2(200);
+"
+PRC_XIANGMU_PISHI	PROCEDURE	23	"  v_str3       varchar2(200);
+"
+PRC_XIANGMU_PISHI	PROCEDURE	24	"  v_str4       varchar2(200);
+"
+PRC_XIANGMU_PISHI	PROCEDURE	25	"  v_str5       varchar2(200);
+"
+PRC_XIANGMU_PISHI	PROCEDURE	26	"  v_str6       varchar2(200);
+"
+PRC_XIANGMU_PISHI	PROCEDURE	27	"  v_str7       varchar2(200);
+"
+PRC_XIANGMU_PISHI	PROCEDURE	28	"  v_str8       varchar2(200);
+"
+PRC_XIANGMU_PISHI	PROCEDURE	29	"  v_str9       varchar2(200);
+"
+PRC_XIANGMU_PISHI	PROCEDURE	30	"  v_temp       varchar2(200);
+"
+PRC_XIANGMU_PISHI	PROCEDURE	31	"  v_flag1      varchar2(100);
+"
+PRC_XIANGMU_PISHI	PROCEDURE	32	"  v_flag2      varchar2(100);
+"
+PRC_XIANGMU_PISHI	PROCEDURE	33	"
+"
+PRC_XIANGMU_PISHI	PROCEDURE	34	"  --临时的统计的数量
+"
+PRC_XIANGMU_PISHI	PROCEDURE	35	"  v_count      number;
+"
+PRC_XIANGMU_PISHI	PROCEDURE	36	"  v_count2     number;
+"
+PRC_XIANGMU_PISHI	PROCEDURE	37	"  v_count_temp number;
+"
+PRC_XIANGMU_PISHI	PROCEDURE	38	"  v_sl_csrq    number;
+"
+PRC_XIANGMU_PISHI	PROCEDURE	39	"  v_length1    number;
+"
+PRC_XIANGMU_PISHI	PROCEDURE	40	"  v_length2    number;
+"
+PRC_XIANGMU_PISHI	PROCEDURE	41	"
+"
+PRC_XIANGMU_PISHI	PROCEDURE	42	"  --计费
+"
+PRC_XIANGMU_PISHI	PROCEDURE	43	"
+"
+PRC_XIANGMU_PISHI	PROCEDURE	44	"  v_jzkh   varchar2(50);
+"
+PRC_XIANGMU_PISHI	PROCEDURE	45	"  v_brxm   varchar2(50);
+"
+PRC_XIANGMU_PISHI	PROCEDURE	46	"  v_czgh   varchar2(50);
+"
+PRC_XIANGMU_PISHI	PROCEDURE	47	"  v_sjysgh varchar2(50);
+"
+PRC_XIANGMU_PISHI	PROCEDURE	48	"  v_sjksdm varchar2(50);
+"
+PRC_XIANGMU_PISHI	PROCEDURE	49	"  v_zxksdm varchar2(50);
+"
+PRC_XIANGMU_PISHI	PROCEDURE	50	"  v_sl     number;
+"
+PRC_XIANGMU_PISHI	PROCEDURE	51	"  v_dj     number;
+"
+PRC_XIANGMU_PISHI	PROCEDURE	52	"  v_ylxh   number;
+"
+PRC_XIANGMU_PISHI	PROCEDURE	53	"  v_fygl   number;
+"
+PRC_XIANGMU_PISHI	PROCEDURE	54	"  v_yjsb   number;
+"
+PRC_XIANGMU_PISHI	PROCEDURE	55	"  v_xgbz   number;
+"
+PRC_XIANGMU_PISHI	PROCEDURE	56	"begin
+"
+PRC_XIANGMU_PISHI	PROCEDURE	57	"
+"
+PRC_XIANGMU_PISHI	PROCEDURE	58	"  insert into zy_jiaoyi_v1
+"
+PRC_XIANGMU_PISHI	PROCEDURE	59	"    (jiaoyilx, caozuogh, jylsh, bz)
+"
+PRC_XIANGMU_PISHI	PROCEDURE	60	"  values
+"
+PRC_XIANGMU_PISHI	PROCEDURE	61	"    (in_jiaoyilx, in_caozuogh, in_jylsh, 'prc_xiangmu_pishi');
+"
+PRC_XIANGMU_PISHI	PROCEDURE	62	"  commit;
+"
+PRC_XIANGMU_PISHI	PROCEDURE	63	"
+"
+PRC_XIANGMU_PISHI	PROCEDURE	64	"  if in_jiaoyilx = '锁定' then
+"
+PRC_XIANGMU_PISHI	PROCEDURE	65	"  
+"
+PRC_XIANGMU_PISHI	PROCEDURE	66	"    v_str1 := F_GET_VALUE_SPLI(in_jylsh, '处方识别=', '|');
+"
+PRC_XIANGMU_PISHI	PROCEDURE	67	"  
+"
+PRC_XIANGMU_PISHI	PROCEDURE	68	"    SELECT length(REGEXP_SUBSTR(v_str1, '[0-9.]+')), length(v_str1)
+"
+PRC_XIANGMU_PISHI	PROCEDURE	69	"      into v_length1, v_length2
+"
+PRC_XIANGMU_PISHI	PROCEDURE	70	"      FROM dual;
+"
+PRC_XIANGMU_PISHI	PROCEDURE	71	"    if v_length1 = v_length2 then
+"
+PRC_XIANGMU_PISHI	PROCEDURE	72	"      null;
+"
+PRC_XIANGMU_PISHI	PROCEDURE	73	"    else
+"
+PRC_XIANGMU_PISHI	PROCEDURE	74	"      v_str1 := '';
+"
+PRC_XIANGMU_PISHI	PROCEDURE	75	"    end if;
+"
+PRC_XIANGMU_PISHI	PROCEDURE	76	"  
+"
+PRC_XIANGMU_PISHI	PROCEDURE	77	"    if v_str1 > '0' then
+"
+PRC_XIANGMU_PISHI	PROCEDURE	78	"      null;
+"
+PRC_XIANGMU_PISHI	PROCEDURE	79	"    
+"
+PRC_XIANGMU_PISHI	PROCEDURE	80	"    else
+"
+PRC_XIANGMU_PISHI	PROCEDURE	81	"      out_code := -1;
+"
+PRC_XIANGMU_PISHI	PROCEDURE	82	"      out_msg  := '处方识别不对prc_xiangmu_pishi';
+"
+PRC_XIANGMU_PISHI	PROCEDURE	83	"      return;
+"
+PRC_XIANGMU_PISHI	PROCEDURE	84	"    end if;
+"
+PRC_XIANGMU_PISHI	PROCEDURE	85	"  
+"
+PRC_XIANGMU_PISHI	PROCEDURE	86	"    if 1 = 1 then
+"
+PRC_XIANGMU_PISHI	PROCEDURE	87	"      --14381 5.20  4.00
+"
+PRC_XIANGMU_PISHI	PROCEDURE	88	"      select jzkh, brxm, ysgh, ksdm
+"
+PRC_XIANGMU_PISHI	PROCEDURE	89	"        into v_jzkh, v_brxm, v_sjysgh, v_sjksdm
+"
+PRC_XIANGMU_PISHI	PROCEDURE	90	"        From mz_cfk1
+"
+PRC_XIANGMU_PISHI	PROCEDURE	91	"       where cfsb = v_str1;
+"
+PRC_XIANGMU_PISHI	PROCEDURE	92	"    
+"
+PRC_XIANGMU_PISHI	PROCEDURE	93	"      if v_jzkh > '0' then
+"
+PRC_XIANGMU_PISHI	PROCEDURE	94	"        null;
+"
+PRC_XIANGMU_PISHI	PROCEDURE	95	"      else
+"
+PRC_XIANGMU_PISHI	PROCEDURE	96	"        out_code := -1;
+"
+PRC_XIANGMU_PISHI	PROCEDURE	97	"        out_msg  := ' 未查询到该处方记录的就诊卡号 prc_xiangmu_pishi';
+"
+PRC_XIANGMU_PISHI	PROCEDURE	98	"        return;
+"
+PRC_XIANGMU_PISHI	PROCEDURE	99	"      end if;
+"
+PRC_XIANGMU_PISHI	PROCEDURE	100	"      select nvl(xgbz, 0) into v_xgbz from mz_cfk1 where cfsb = v_str1;
+"
+PRC_XIANGMU_PISHI	PROCEDURE	101	"    
+"
+PRC_XIANGMU_PISHI	PROCEDURE	102	"      if v_xgbz = 0 then
+"
+PRC_XIANGMU_PISHI	PROCEDURE	103	"        null;
+"
+PRC_XIANGMU_PISHI	PROCEDURE	104	"      else
+"
+PRC_XIANGMU_PISHI	PROCEDURE	105	"        select '修改状态=' || v_xgbz || ' , 该处方已经被锁定，无法继续处理 prc_xiangmu_pishi'
+"
+PRC_XIANGMU_PISHI	PROCEDURE	106	"          into out_msg
+"
+PRC_XIANGMU_PISHI	PROCEDURE	107	"          from dual;
+"
+PRC_XIANGMU_PISHI	PROCEDURE	108	"        out_code := -1;
+"
+PRC_XIANGMU_PISHI	PROCEDURE	109	"      
+"
+PRC_XIANGMU_PISHI	PROCEDURE	110	"        return;
+"
+PRC_XIANGMU_PISHI	PROCEDURE	111	"      end if;
+"
+PRC_XIANGMU_PISHI	PROCEDURE	112	"    
+"
+PRC_XIANGMU_PISHI	PROCEDURE	113	"      --更新皮试状态
+"
+PRC_XIANGMU_PISHI	PROCEDURE	114	"      update mz_cfk1 set xgbz = 4 where cfsb = v_str1;
+"
+PRC_XIANGMU_PISHI	PROCEDURE	115	"    
+"
+PRC_XIANGMU_PISHI	PROCEDURE	116	"      if sqlcode = 0 then
+"
+PRC_XIANGMU_PISHI	PROCEDURE	117	"        commit;
+"
+PRC_XIANGMU_PISHI	PROCEDURE	118	"      
+"
+PRC_XIANGMU_PISHI	PROCEDURE	119	"        out_code := 1;
+"
+PRC_XIANGMU_PISHI	PROCEDURE	120	"        out_msg  := '处方锁定成功prc_xiangmu_pishi';
+"
+PRC_XIANGMU_PISHI	PROCEDURE	121	"        return;
+"
+PRC_XIANGMU_PISHI	PROCEDURE	122	"      else
+"
+PRC_XIANGMU_PISHI	PROCEDURE	123	"        rollback;
+"
+PRC_XIANGMU_PISHI	PROCEDURE	124	"        out_code := -1;
+"
+PRC_XIANGMU_PISHI	PROCEDURE	125	"        select '处方锁定|处理失败|prc_xiangmu_pishi' || in_jylsh
+"
+PRC_XIANGMU_PISHI	PROCEDURE	126	"          into out_msg
+"
+PRC_XIANGMU_PISHI	PROCEDURE	127	"          from dual;
+"
+PRC_XIANGMU_PISHI	PROCEDURE	128	"        return;
+"
+PRC_XIANGMU_PISHI	PROCEDURE	129	"      end if;
+"
+PRC_XIANGMU_PISHI	PROCEDURE	130	"    
+"
+PRC_XIANGMU_PISHI	PROCEDURE	131	"    end if;
+"
+PRC_XIANGMU_PISHI	PROCEDURE	132	"  
+"
+PRC_XIANGMU_PISHI	PROCEDURE	133	"    out_code := -1;
+"
+PRC_XIANGMU_PISHI	PROCEDURE	134	"    out_msg  := '处方锁定出错prc_xiangmu_pishi';
+"
+PRC_XIANGMU_PISHI	PROCEDURE	135	"    return;
+"
+PRC_XIANGMU_PISHI	PROCEDURE	136	"  
+"
+PRC_XIANGMU_PISHI	PROCEDURE	137	"  end if;
+"
+PRC_XIANGMU_PISHI	PROCEDURE	138	"
+"
+PRC_XIANGMU_PISHI	PROCEDURE	139	"  --end  lock
+"
+PRC_XIANGMU_PISHI	PROCEDURE	140	"
+"
+PRC_XIANGMU_PISHI	PROCEDURE	141	"  if in_jiaoyilx = '解锁' then
+"
+PRC_XIANGMU_PISHI	PROCEDURE	142	"  
+"
+PRC_XIANGMU_PISHI	PROCEDURE	143	"    v_str1 := F_GET_VALUE_SPLI(in_jylsh, '处方识别=', '|');
+"
+PRC_XIANGMU_PISHI	PROCEDURE	144	"  
+"
+PRC_XIANGMU_PISHI	PROCEDURE	145	"    SELECT length(REGEXP_SUBSTR(v_str1, '[0-9.]+')), length(v_str1)
+"
+PRC_XIANGMU_PISHI	PROCEDURE	146	"      into v_length1, v_length2
+"
+PRC_XIANGMU_PISHI	PROCEDURE	147	"      FROM dual;
+"
+PRC_XIANGMU_PISHI	PROCEDURE	148	"    if v_length1 = v_length2 then
+"
+PRC_XIANGMU_PISHI	PROCEDURE	149	"      null;
+"
+PRC_XIANGMU_PISHI	PROCEDURE	150	"    else
+"
+PRC_XIANGMU_PISHI	PROCEDURE	151	"      v_str1 := '';
+"
+PRC_XIANGMU_PISHI	PROCEDURE	152	"    end if;
+"
+PRC_XIANGMU_PISHI	PROCEDURE	153	"  
+"
+PRC_XIANGMU_PISHI	PROCEDURE	154	"    if v_str1 > '0' then
+"
+PRC_XIANGMU_PISHI	PROCEDURE	155	"      null;
+"
+PRC_XIANGMU_PISHI	PROCEDURE	156	"    
+"
+PRC_XIANGMU_PISHI	PROCEDURE	157	"    else
+"
+PRC_XIANGMU_PISHI	PROCEDURE	158	"      out_code := -1;
+"
+PRC_XIANGMU_PISHI	PROCEDURE	159	"      out_msg  := '处方识别不对prc_xiangmu_pishi';
+"
+PRC_XIANGMU_PISHI	PROCEDURE	160	"      return;
+"
+PRC_XIANGMU_PISHI	PROCEDURE	161	"    end if;
+"
+PRC_XIANGMU_PISHI	PROCEDURE	162	"  
+"
+PRC_XIANGMU_PISHI	PROCEDURE	163	"    /*   update mz_cfk1 set xgbz = 0 where cfsb = v_str1;
+"
+PRC_XIANGMU_PISHI	PROCEDURE	164	"    
+"
+PRC_XIANGMU_PISHI	PROCEDURE	165	"    commit;*/
+"
+PRC_XIANGMU_PISHI	PROCEDURE	166	"  
+"
+PRC_XIANGMU_PISHI	PROCEDURE	167	"    /*   out_code := 1;
+"
+PRC_XIANGMU_PISHI	PROCEDURE	168	"    out_msg  := '处方解锁成功prc_xiangmu_pishi';
+"
+PRC_XIANGMU_PISHI	PROCEDURE	169	"    
+"
+PRC_XIANGMU_PISHI	PROCEDURE	170	"    return;*/
+"
+PRC_XIANGMU_PISHI	PROCEDURE	171	"  
+"
+PRC_XIANGMU_PISHI	PROCEDURE	172	"    if 1 = 1 then
+"
+PRC_XIANGMU_PISHI	PROCEDURE	173	"    
+"
+PRC_XIANGMU_PISHI	PROCEDURE	174	"      --14381 5.20  4.00
+"
+PRC_XIANGMU_PISHI	PROCEDURE	175	"      select jzkh, brxm, ysgh, ksdm
+"
+PRC_XIANGMU_PISHI	PROCEDURE	176	"        into v_jzkh, v_brxm, v_sjysgh, v_sjksdm
+"
+PRC_XIANGMU_PISHI	PROCEDURE	177	"        From mz_cfk1
+"
+PRC_XIANGMU_PISHI	PROCEDURE	178	"       where cfsb = v_str1;
+"
+PRC_XIANGMU_PISHI	PROCEDURE	179	"    
+"
+PRC_XIANGMU_PISHI	PROCEDURE	180	"      if v_jzkh > '0' then
+"
+PRC_XIANGMU_PISHI	PROCEDURE	181	"        null;
+"
+PRC_XIANGMU_PISHI	PROCEDURE	182	"      else
+"
+PRC_XIANGMU_PISHI	PROCEDURE	183	"        out_code := -1;
+"
+PRC_XIANGMU_PISHI	PROCEDURE	184	"        out_msg  := ' 未查询到该处方记录的就诊卡号 prc_xiangmu_pishi';
+"
+PRC_XIANGMU_PISHI	PROCEDURE	185	"        return;
+"
+PRC_XIANGMU_PISHI	PROCEDURE	186	"      end if;
+"
+PRC_XIANGMU_PISHI	PROCEDURE	187	"      select nvl(xgbz, 0) into v_xgbz from mz_cfk1 where cfsb = v_str1;
+"
+PRC_XIANGMU_PISHI	PROCEDURE	188	"    
+"
+PRC_XIANGMU_PISHI	PROCEDURE	189	"      if v_xgbz = 4 then
+"
+PRC_XIANGMU_PISHI	PROCEDURE	190	"        null;
+"
+PRC_XIANGMU_PISHI	PROCEDURE	191	"      else
+"
+PRC_XIANGMU_PISHI	PROCEDURE	192	"        select '修改状态=' || v_xgbz || ' , 该处方未被锁定，无法继续解锁处理 prc_xiangmu_pishi'
+"
+PRC_XIANGMU_PISHI	PROCEDURE	193	"          into out_msg
+"
+PRC_XIANGMU_PISHI	PROCEDURE	194	"          from dual;
+"
+PRC_XIANGMU_PISHI	PROCEDURE	195	"        out_code := 1;
+"
+PRC_XIANGMU_PISHI	PROCEDURE	196	"      
+"
+PRC_XIANGMU_PISHI	PROCEDURE	197	"        return;
+"
+PRC_XIANGMU_PISHI	PROCEDURE	198	"      end if;
+"
+PRC_XIANGMU_PISHI	PROCEDURE	199	"    
+"
+PRC_XIANGMU_PISHI	PROCEDURE	200	"      --更新皮试状态
+"
+PRC_XIANGMU_PISHI	PROCEDURE	201	"      update mz_cfk1 set xgbz = 0 where cfsb = v_str1;
+"
+PRC_XIANGMU_PISHI	PROCEDURE	202	"    
+"
+PRC_XIANGMU_PISHI	PROCEDURE	203	"      if sqlcode = 0 then
+"
+PRC_XIANGMU_PISHI	PROCEDURE	204	"        commit;
+"
+PRC_XIANGMU_PISHI	PROCEDURE	205	"      
+"
+PRC_XIANGMU_PISHI	PROCEDURE	206	"        out_code := 1;
+"
+PRC_XIANGMU_PISHI	PROCEDURE	207	"        out_msg  := '处方解锁成功prc_xiangmu_pishi';
+"
+PRC_XIANGMU_PISHI	PROCEDURE	208	"        return;
+"
+PRC_XIANGMU_PISHI	PROCEDURE	209	"      else
+"
+PRC_XIANGMU_PISHI	PROCEDURE	210	"        rollback;
+"
+PRC_XIANGMU_PISHI	PROCEDURE	211	"        out_code := -1;
+"
+PRC_XIANGMU_PISHI	PROCEDURE	212	"        select '处方解锁|处理失败|prc_xiangmu_pishi' || in_jylsh
+"
+PRC_XIANGMU_PISHI	PROCEDURE	213	"          into out_msg
+"
+PRC_XIANGMU_PISHI	PROCEDURE	214	"          from dual;
+"
+PRC_XIANGMU_PISHI	PROCEDURE	215	"        return;
+"
+PRC_XIANGMU_PISHI	PROCEDURE	216	"      end if;
+"
+PRC_XIANGMU_PISHI	PROCEDURE	217	"    
+"
+PRC_XIANGMU_PISHI	PROCEDURE	218	"    end if;
+"
+PRC_XIANGMU_PISHI	PROCEDURE	219	"  
+"
+PRC_XIANGMU_PISHI	PROCEDURE	220	"    out_code := -1;
+"
+PRC_XIANGMU_PISHI	PROCEDURE	221	"    out_msg  := '处方解锁出错prc_xiangmu_pishi';
+"
+PRC_XIANGMU_PISHI	PROCEDURE	222	"    return;
+"
+PRC_XIANGMU_PISHI	PROCEDURE	223	"  
+"
+PRC_XIANGMU_PISHI	PROCEDURE	224	"  end if;
+"
+PRC_XIANGMU_PISHI	PROCEDURE	225	"
+"
+PRC_XIANGMU_PISHI	PROCEDURE	226	"  --end  unlock
+"
+PRC_XIANGMU_PISHI	PROCEDURE	227	"
+"
+PRC_XIANGMU_PISHI	PROCEDURE	228	"  if in_jiaoyilx = '皮试结果更新' then
+"
+PRC_XIANGMU_PISHI	PROCEDURE	229	"  
+"
+PRC_XIANGMU_PISHI	PROCEDURE	230	"    /*  mz_cfk2处方明细表 (主键cfsb,cfxh,ypxh,ypcddm)
+"
+PRC_XIANGMU_PISHI	PROCEDURE	231	"    皮试字段  bz:
+"
+PRC_XIANGMU_PISHI	PROCEDURE	232	"    第1位表示组号
+"
+PRC_XIANGMU_PISHI	PROCEDURE	233	"    第2位表示 皮试状态(0 免试 1需要皮试 2续用 3 阴性，4阳性，5强阳性 )
+"
+PRC_XIANGMU_PISHI	PROCEDURE	234	"    第3位表示  执行结果(0通过，1不通过)*/
+"
+PRC_XIANGMU_PISHI	PROCEDURE	235	"  
+"
+PRC_XIANGMU_PISHI	PROCEDURE	236	"    --select  cfsb||'|'||cfxh||'|'||ypxh||'|'||ypcddm  From   mz_cfk2  where  cfsb=13564074  
+"
+PRC_XIANGMU_PISHI	PROCEDURE	237	"    --处方识别=13564074|处方序号cfxh＝1|药品序号＝5666|药品产地代码＝2108|皮试状态=阴性|执行结果=通过|护士工号|
+"
+PRC_XIANGMU_PISHI	PROCEDURE	238	"  
+"
+PRC_XIANGMU_PISHI	PROCEDURE	239	"    --begin get数据
+"
+PRC_XIANGMU_PISHI	PROCEDURE	240	"    if 0 = 0 then
+"
+PRC_XIANGMU_PISHI	PROCEDURE	241	"      v_str1 := F_GET_VALUE_SPLI(in_jylsh, '处方识别=', '|');
+"
+PRC_XIANGMU_PISHI	PROCEDURE	242	"    
+"
+PRC_XIANGMU_PISHI	PROCEDURE	243	"      SELECT length(REGEXP_SUBSTR(v_str1, '[0-9.]+')), length(v_str1)
+"
+PRC_XIANGMU_PISHI	PROCEDURE	244	"        into v_length1, v_length2
+"
+PRC_XIANGMU_PISHI	PROCEDURE	245	"        FROM dual;
+"
+PRC_XIANGMU_PISHI	PROCEDURE	246	"      if v_length1 = v_length2 then
+"
+PRC_XIANGMU_PISHI	PROCEDURE	247	"        null;
+"
+PRC_XIANGMU_PISHI	PROCEDURE	248	"      else
+"
+PRC_XIANGMU_PISHI	PROCEDURE	249	"        v_str1 := '';
+"
+PRC_XIANGMU_PISHI	PROCEDURE	250	"      end if;
+"
+PRC_XIANGMU_PISHI	PROCEDURE	251	"    
+"
+PRC_XIANGMU_PISHI	PROCEDURE	252	"      if v_str1 > '0' then
+"
+PRC_XIANGMU_PISHI	PROCEDURE	253	"        null;
+"
+PRC_XIANGMU_PISHI	PROCEDURE	254	"      
+"
+PRC_XIANGMU_PISHI	PROCEDURE	255	"      else
+"
+PRC_XIANGMU_PISHI	PROCEDURE	256	"        out_code := -1;
+"
+PRC_XIANGMU_PISHI	PROCEDURE	257	"        out_msg  := '处方识别不对prc_xiangmu_pishi';
+"
+PRC_XIANGMU_PISHI	PROCEDURE	258	"        return;
+"
+PRC_XIANGMU_PISHI	PROCEDURE	259	"      end if;
+"
+PRC_XIANGMU_PISHI	PROCEDURE	260	"    
+"
+PRC_XIANGMU_PISHI	PROCEDURE	261	"      v_str2 := F_GET_VALUE_SPLI(in_jylsh, '处方序号=', '|');
+"
+PRC_XIANGMU_PISHI	PROCEDURE	262	"      SELECT length(REGEXP_SUBSTR(v_str2, '[0-9.]+')), length(v_str2)
+"
+PRC_XIANGMU_PISHI	PROCEDURE	263	"        into v_length1, v_length2
+"
+PRC_XIANGMU_PISHI	PROCEDURE	264	"        FROM dual;
+"
+PRC_XIANGMU_PISHI	PROCEDURE	265	"      if v_length1 = v_length2 then
+"
+PRC_XIANGMU_PISHI	PROCEDURE	266	"        null;
+"
+PRC_XIANGMU_PISHI	PROCEDURE	267	"      else
+"
+PRC_XIANGMU_PISHI	PROCEDURE	268	"        v_str2 := '';
+"
+PRC_XIANGMU_PISHI	PROCEDURE	269	"      end if;
+"
+PRC_XIANGMU_PISHI	PROCEDURE	270	"      if v_str2 >= '0' then
+"
+PRC_XIANGMU_PISHI	PROCEDURE	271	"        null;
+"
+PRC_XIANGMU_PISHI	PROCEDURE	272	"      else
+"
+PRC_XIANGMU_PISHI	PROCEDURE	273	"        out_code := -1;
+"
+PRC_XIANGMU_PISHI	PROCEDURE	274	"        out_msg  := '处方序号不对prc_xiangmu_pishi';
+"
+PRC_XIANGMU_PISHI	PROCEDURE	275	"        return;
+"
+PRC_XIANGMU_PISHI	PROCEDURE	276	"      end if;
+"
+PRC_XIANGMU_PISHI	PROCEDURE	277	"    
+"
+PRC_XIANGMU_PISHI	PROCEDURE	278	"      v_str3 := F_GET_VALUE_SPLI(in_jylsh, '药品序号=', '|');
+"
+PRC_XIANGMU_PISHI	PROCEDURE	279	"      SELECT length(REGEXP_SUBSTR(v_str3, '[0-9.]+')), length(v_str3)
+"
+PRC_XIANGMU_PISHI	PROCEDURE	280	"        into v_length1, v_length2
+"
+PRC_XIANGMU_PISHI	PROCEDURE	281	"        FROM dual;
+"
+PRC_XIANGMU_PISHI	PROCEDURE	282	"      if v_length1 = v_length2 then
+"
+PRC_XIANGMU_PISHI	PROCEDURE	283	"        null;
+"
+PRC_XIANGMU_PISHI	PROCEDURE	284	"      else
+"
+PRC_XIANGMU_PISHI	PROCEDURE	285	"        v_str3 := '';
+"
+PRC_XIANGMU_PISHI	PROCEDURE	286	"      end if;
+"
+PRC_XIANGMU_PISHI	PROCEDURE	287	"      if v_str3 >= '0' then
+"
+PRC_XIANGMU_PISHI	PROCEDURE	288	"        null;
+"
+PRC_XIANGMU_PISHI	PROCEDURE	289	"      else
+"
+PRC_XIANGMU_PISHI	PROCEDURE	290	"        out_code := -1;
+"
+PRC_XIANGMU_PISHI	PROCEDURE	291	"        out_msg  := '药品序号不对prc_xiangmu_pishi';
+"
+PRC_XIANGMU_PISHI	PROCEDURE	292	"        return;
+"
+PRC_XIANGMU_PISHI	PROCEDURE	293	"      end if;
+"
+PRC_XIANGMU_PISHI	PROCEDURE	294	"    
+"
+PRC_XIANGMU_PISHI	PROCEDURE	295	"      v_str4 := F_GET_VALUE_SPLI(in_jylsh, '药品产地代码=', '|');
+"
+PRC_XIANGMU_PISHI	PROCEDURE	296	"      SELECT length(REGEXP_SUBSTR(v_str4, '[0-9.]+')), length(v_str4)
+"
+PRC_XIANGMU_PISHI	PROCEDURE	297	"        into v_length1, v_length2
+"
+PRC_XIANGMU_PISHI	PROCEDURE	298	"        FROM dual;
+"
+PRC_XIANGMU_PISHI	PROCEDURE	299	"      if v_length1 = v_length2 then
+"
+PRC_XIANGMU_PISHI	PROCEDURE	300	"        null;
+"
+PRC_XIANGMU_PISHI	PROCEDURE	301	"      else
+"
+PRC_XIANGMU_PISHI	PROCEDURE	302	"        v_str4 := '';
+"
+PRC_XIANGMU_PISHI	PROCEDURE	303	"      end if;
+"
+PRC_XIANGMU_PISHI	PROCEDURE	304	"      if v_str4 >= '0' then
+"
+PRC_XIANGMU_PISHI	PROCEDURE	305	"        null;
+"
+PRC_XIANGMU_PISHI	PROCEDURE	306	"      else
+"
+PRC_XIANGMU_PISHI	PROCEDURE	307	"        out_code := -1;
+"
+PRC_XIANGMU_PISHI	PROCEDURE	308	"        out_msg  := '药品产地代码不对prc_xiangmu_pishi';
+"
+PRC_XIANGMU_PISHI	PROCEDURE	309	"        return;
+"
+PRC_XIANGMU_PISHI	PROCEDURE	310	"      end if;
+"
+PRC_XIANGMU_PISHI	PROCEDURE	311	"      --  皮试状态(0 免试 1需要皮试 2续用 3 阴性，4阳性，5强阳性 )
+"
+PRC_XIANGMU_PISHI	PROCEDURE	312	"      v_flag1 := '';
+"
+PRC_XIANGMU_PISHI	PROCEDURE	313	"      v_flag1 := F_GET_VALUE_SPLI(in_jylsh, '皮试状态=', '|');
+"
+PRC_XIANGMU_PISHI	PROCEDURE	314	"    
+"
+PRC_XIANGMU_PISHI	PROCEDURE	315	"      if 1 = 1 then
+"
+PRC_XIANGMU_PISHI	PROCEDURE	316	"        if v_flag1 = '免试' then
+"
+PRC_XIANGMU_PISHI	PROCEDURE	317	"          v_str5 := '0';
+"
+PRC_XIANGMU_PISHI	PROCEDURE	318	"        end if;
+"
+PRC_XIANGMU_PISHI	PROCEDURE	319	"      
+"
+PRC_XIANGMU_PISHI	PROCEDURE	320	"        if v_flag1 = '需要皮试' then
+"
+PRC_XIANGMU_PISHI	PROCEDURE	321	"          v_str5 := '1';
+"
+PRC_XIANGMU_PISHI	PROCEDURE	322	"        end if;
+"
+PRC_XIANGMU_PISHI	PROCEDURE	323	"      
+"
+PRC_XIANGMU_PISHI	PROCEDURE	324	"        if v_flag1 = '续用' then
+"
+PRC_XIANGMU_PISHI	PROCEDURE	325	"          v_str5 := '2';
+"
+PRC_XIANGMU_PISHI	PROCEDURE	326	"        end if;
+"
+PRC_XIANGMU_PISHI	PROCEDURE	327	"      
+"
+PRC_XIANGMU_PISHI	PROCEDURE	328	"        if v_flag1 = '阴性' then
+"
+PRC_XIANGMU_PISHI	PROCEDURE	329	"          v_str5 := '3';
+"
+PRC_XIANGMU_PISHI	PROCEDURE	330	"        end if;
+"
+PRC_XIANGMU_PISHI	PROCEDURE	331	"      
+"
+PRC_XIANGMU_PISHI	PROCEDURE	332	"        if v_flag1 = '阳性' then
+"
+PRC_XIANGMU_PISHI	PROCEDURE	333	"          v_str5 := '4';
+"
+PRC_XIANGMU_PISHI	PROCEDURE	334	"        end if;
+"
+PRC_XIANGMU_PISHI	PROCEDURE	335	"      
+"
+PRC_XIANGMU_PISHI	PROCEDURE	336	"        if v_flag1 = '强阳性' then
+"
+PRC_XIANGMU_PISHI	PROCEDURE	337	"          v_str5 := '5';
+"
+PRC_XIANGMU_PISHI	PROCEDURE	338	"        end if;
+"
+PRC_XIANGMU_PISHI	PROCEDURE	339	"      
+"
+PRC_XIANGMU_PISHI	PROCEDURE	340	"        if v_str5 >= '0' then
+"
+PRC_XIANGMU_PISHI	PROCEDURE	341	"          null;
+"
+PRC_XIANGMU_PISHI	PROCEDURE	342	"        else
+"
+PRC_XIANGMU_PISHI	PROCEDURE	343	"          out_code := -1;
+"
+PRC_XIANGMU_PISHI	PROCEDURE	344	"          out_msg  := ' 皮试状态不对prc_xiangmu_pishi(0 免试 1需要皮试 2续用 3 阴性，4阳性，5强阳性 )';
+"
+PRC_XIANGMU_PISHI	PROCEDURE	345	"          return;
+"
+PRC_XIANGMU_PISHI	PROCEDURE	346	"        end if;
+"
+PRC_XIANGMU_PISHI	PROCEDURE	347	"      
+"
+PRC_XIANGMU_PISHI	PROCEDURE	348	"      end if;
+"
+PRC_XIANGMU_PISHI	PROCEDURE	349	"    
+"
+PRC_XIANGMU_PISHI	PROCEDURE	350	"      -- 执行结果(0通过，1不通过)*/
+"
+PRC_XIANGMU_PISHI	PROCEDURE	351	"      v_flag1 := F_GET_VALUE_SPLI(in_jylsh, '执行结果=', '|');
+"
+PRC_XIANGMU_PISHI	PROCEDURE	352	"      if 1 = 1 then
+"
+PRC_XIANGMU_PISHI	PROCEDURE	353	"        if v_flag1 = '通过' then
+"
+PRC_XIANGMU_PISHI	PROCEDURE	354	"          v_str6 := '0';
+"
+PRC_XIANGMU_PISHI	PROCEDURE	355	"        end if;
+"
+PRC_XIANGMU_PISHI	PROCEDURE	356	"      
+"
+PRC_XIANGMU_PISHI	PROCEDURE	357	"        if v_flag1 = '不通过' then
+"
+PRC_XIANGMU_PISHI	PROCEDURE	358	"          v_str6 := '1';
+"
+PRC_XIANGMU_PISHI	PROCEDURE	359	"        end if;
+"
+PRC_XIANGMU_PISHI	PROCEDURE	360	"      
+"
+PRC_XIANGMU_PISHI	PROCEDURE	361	"        if v_str6 >= '0' then
+"
+PRC_XIANGMU_PISHI	PROCEDURE	362	"          null;
+"
+PRC_XIANGMU_PISHI	PROCEDURE	363	"        else
+"
+PRC_XIANGMU_PISHI	PROCEDURE	364	"          out_code := -1;
+"
+PRC_XIANGMU_PISHI	PROCEDURE	365	"          out_msg  := ' 执行结果不对(0通过，1不通过)prc_xiangmu_pishi';
+"
+PRC_XIANGMU_PISHI	PROCEDURE	366	"          return;
+"
+PRC_XIANGMU_PISHI	PROCEDURE	367	"        end if;
+"
+PRC_XIANGMU_PISHI	PROCEDURE	368	"      
+"
+PRC_XIANGMU_PISHI	PROCEDURE	369	"      end if;
+"
+PRC_XIANGMU_PISHI	PROCEDURE	370	"    
+"
+PRC_XIANGMU_PISHI	PROCEDURE	371	"      v_flag1 := '';
+"
+PRC_XIANGMU_PISHI	PROCEDURE	372	"      select substr(nvl(bz, '000'), 1, 1)
+"
+PRC_XIANGMU_PISHI	PROCEDURE	373	"        into v_flag1
+"
+PRC_XIANGMU_PISHI	PROCEDURE	374	"        From mz_cfk2
+"
+PRC_XIANGMU_PISHI	PROCEDURE	375	"       where cfsb = v_str1
+"
+PRC_XIANGMU_PISHI	PROCEDURE	376	"         and cfxh = v_str2
+"
+PRC_XIANGMU_PISHI	PROCEDURE	377	"         and ypxh = v_str3
+"
+PRC_XIANGMU_PISHI	PROCEDURE	378	"         and ypcddm = v_str4;
+"
+PRC_XIANGMU_PISHI	PROCEDURE	379	"    
+"
+PRC_XIANGMU_PISHI	PROCEDURE	380	"      if v_flag1 >= '0' then
+"
+PRC_XIANGMU_PISHI	PROCEDURE	381	"        null;
+"
+PRC_XIANGMU_PISHI	PROCEDURE	382	"      else
+"
+PRC_XIANGMU_PISHI	PROCEDURE	383	"        out_code := -1;
+"
+PRC_XIANGMU_PISHI	PROCEDURE	384	"        out_msg  := ' 未查询到该处方记录prc_xiangmu_pishi';
+"
+PRC_XIANGMU_PISHI	PROCEDURE	385	"        return;
+"
+PRC_XIANGMU_PISHI	PROCEDURE	386	"      end if;
+"
+PRC_XIANGMU_PISHI	PROCEDURE	387	"    
+"
+PRC_XIANGMU_PISHI	PROCEDURE	388	"      select v_flag1 || v_str5 || v_str6 into v_flag1 from dual;
+"
+PRC_XIANGMU_PISHI	PROCEDURE	389	"      if v_flag1 >= '0' then
+"
+PRC_XIANGMU_PISHI	PROCEDURE	390	"        null;
+"
+PRC_XIANGMU_PISHI	PROCEDURE	391	"      else
+"
+PRC_XIANGMU_PISHI	PROCEDURE	392	"        out_code := -1;
+"
+PRC_XIANGMU_PISHI	PROCEDURE	393	"        out_msg  := '获取皮试信息出错prc_xiangmu_pishi';
+"
+PRC_XIANGMU_PISHI	PROCEDURE	394	"        return;
+"
+PRC_XIANGMU_PISHI	PROCEDURE	395	"      end if;
+"
+PRC_XIANGMU_PISHI	PROCEDURE	396	"    
+"
+PRC_XIANGMU_PISHI	PROCEDURE	397	"    end if;
+"
+PRC_XIANGMU_PISHI	PROCEDURE	398	"    --end get数据
+"
+PRC_XIANGMU_PISHI	PROCEDURE	399	"  
+"
+PRC_XIANGMU_PISHI	PROCEDURE	400	"    --皮试费用
+"
+PRC_XIANGMU_PISHI	PROCEDURE	401	"    if 1 = 1 then
+"
+PRC_XIANGMU_PISHI	PROCEDURE	402	"      --14381 5.20  4.00
+"
+PRC_XIANGMU_PISHI	PROCEDURE	403	"      select jzkh, brxm, ysgh, ksdm
+"
+PRC_XIANGMU_PISHI	PROCEDURE	404	"        into v_jzkh, v_brxm, v_sjysgh, v_sjksdm
+"
+PRC_XIANGMU_PISHI	PROCEDURE	405	"        From mz_cfk1
+"
+PRC_XIANGMU_PISHI	PROCEDURE	406	"       where cfsb = v_str1;
+"
+PRC_XIANGMU_PISHI	PROCEDURE	407	"    
+"
+PRC_XIANGMU_PISHI	PROCEDURE	408	"      if v_jzkh > '0' then
+"
+PRC_XIANGMU_PISHI	PROCEDURE	409	"        null;
+"
+PRC_XIANGMU_PISHI	PROCEDURE	410	"      else
+"
+PRC_XIANGMU_PISHI	PROCEDURE	411	"        out_code := -1;
+"
+PRC_XIANGMU_PISHI	PROCEDURE	412	"        out_msg  := ' 未查询到该处方记录的就诊卡号 prc_xiangmu_pishi';
+"
+PRC_XIANGMU_PISHI	PROCEDURE	413	"        return;
+"
+PRC_XIANGMU_PISHI	PROCEDURE	414	"      end if;
+"
+PRC_XIANGMU_PISHI	PROCEDURE	415	"    
+"
+PRC_XIANGMU_PISHI	PROCEDURE	416	"      select round((sysdate - csrq), 0)
+"
+PRC_XIANGMU_PISHI	PROCEDURE	417	"        into v_sl_csrq
+"
+PRC_XIANGMU_PISHI	PROCEDURE	418	"        From gy_brjbxxk
+"
+PRC_XIANGMU_PISHI	PROCEDURE	419	"       where jzkh = v_jzkh;
+"
+PRC_XIANGMU_PISHI	PROCEDURE	420	"    
+"
+PRC_XIANGMU_PISHI	PROCEDURE	421	"      --更新皮试状态
+"
+PRC_XIANGMU_PISHI	PROCEDURE	422	"      update mz_cfk2
+"
+PRC_XIANGMU_PISHI	PROCEDURE	423	"         set bz = v_flag1
+"
+PRC_XIANGMU_PISHI	PROCEDURE	424	"       where cfsb = v_str1
+"
+PRC_XIANGMU_PISHI	PROCEDURE	425	"         and cfxh = v_str2
+"
+PRC_XIANGMU_PISHI	PROCEDURE	426	"         and ypxh = v_str3
+"
+PRC_XIANGMU_PISHI	PROCEDURE	427	"         and ypcddm = v_str4;
+"
+PRC_XIANGMU_PISHI	PROCEDURE	428	"    
+"
+PRC_XIANGMU_PISHI	PROCEDURE	429	"      if sqlcode = 0 then
+"
+PRC_XIANGMU_PISHI	PROCEDURE	430	"      
+"
+PRC_XIANGMU_PISHI	PROCEDURE	431	"        null;
+"
+PRC_XIANGMU_PISHI	PROCEDURE	432	"      else
+"
+PRC_XIANGMU_PISHI	PROCEDURE	433	"        rollback;
+"
+PRC_XIANGMU_PISHI	PROCEDURE	434	"        out_code := -1;
+"
+PRC_XIANGMU_PISHI	PROCEDURE	435	"        select '皮试结果更新|处理失败|prc_xiangmu_pishi' || in_jylsh
+"
+PRC_XIANGMU_PISHI	PROCEDURE	436	"          into out_msg
+"
+PRC_XIANGMU_PISHI	PROCEDURE	437	"          from dual;
+"
+PRC_XIANGMU_PISHI	PROCEDURE	438	"        return;
+"
+PRC_XIANGMU_PISHI	PROCEDURE	439	"      end if;
+"
+PRC_XIANGMU_PISHI	PROCEDURE	440	"    
+"
+PRC_XIANGMU_PISHI	PROCEDURE	441	"    end if;
+"
+PRC_XIANGMU_PISHI	PROCEDURE	442	"  
+"
+PRC_XIANGMU_PISHI	PROCEDURE	443	"    If sqlcode = 0 Then
+"
+PRC_XIANGMU_PISHI	PROCEDURE	444	"      commit;
+"
+PRC_XIANGMU_PISHI	PROCEDURE	445	"    
+"
+PRC_XIANGMU_PISHI	PROCEDURE	446	"      INSERT INTO zj_brgms
+"
+PRC_XIANGMU_PISHI	PROCEDURE	447	"        (jzkh, ypxh, pssj, psjg, czgh, shgh)
+"
+PRC_XIANGMU_PISHI	PROCEDURE	448	"      Values
+"
+PRC_XIANGMU_PISHI	PROCEDURE	449	"        (v_jzkh,
+"
+PRC_XIANGMU_PISHI	PROCEDURE	450	"         v_str3,
+"
+PRC_XIANGMU_PISHI	PROCEDURE	451	"         sysdate,
+"
+PRC_XIANGMU_PISHI	PROCEDURE	452	"         to_number(v_str5),
+"
+PRC_XIANGMU_PISHI	PROCEDURE	453	"         in_caozuogh,
+"
+PRC_XIANGMU_PISHI	PROCEDURE	454	"         in_caozuogh);
+"
+PRC_XIANGMU_PISHI	PROCEDURE	455	"      if sqlcode = 0 then
+"
+PRC_XIANGMU_PISHI	PROCEDURE	456	"        commit;
+"
+PRC_XIANGMU_PISHI	PROCEDURE	457	"      else
+"
+PRC_XIANGMU_PISHI	PROCEDURE	458	"        rollback;
+"
+PRC_XIANGMU_PISHI	PROCEDURE	459	"      end if;
+"
+PRC_XIANGMU_PISHI	PROCEDURE	460	"      out_code := 1;
+"
+PRC_XIANGMU_PISHI	PROCEDURE	461	"      select '皮试结果更新|处理成功|prc_xiangmu_pishi' || in_jylsh
+"
+PRC_XIANGMU_PISHI	PROCEDURE	462	"        into out_msg
+"
+PRC_XIANGMU_PISHI	PROCEDURE	463	"        from dual;
+"
+PRC_XIANGMU_PISHI	PROCEDURE	464	"      return;
+"
+PRC_XIANGMU_PISHI	PROCEDURE	465	"    end if;
+"
+PRC_XIANGMU_PISHI	PROCEDURE	466	"    --默认 -1 
+"
+PRC_XIANGMU_PISHI	PROCEDURE	467	"    out_code := -1;
+"
+PRC_XIANGMU_PISHI	PROCEDURE	468	"    out_msg  := '更新皮试信息出错prc_xiangmu_pishi';
+"
+PRC_XIANGMU_PISHI	PROCEDURE	469	"    return;
+"
+PRC_XIANGMU_PISHI	PROCEDURE	470	"  
+"
+PRC_XIANGMU_PISHI	PROCEDURE	471	"  end if;
+"
+PRC_XIANGMU_PISHI	PROCEDURE	472	"
+"
+PRC_XIANGMU_PISHI	PROCEDURE	473	"  -- in_jiaoyilx = '脱敏执行' then
+"
+PRC_XIANGMU_PISHI	PROCEDURE	474	"
+"
+PRC_XIANGMU_PISHI	PROCEDURE	475	"  -- --处方识别=13564074|处方序号cfxh＝1|药品序号＝5666|药品产地代码＝2108|皮试状态=阴性|执行结果=通过|护士工号|
+"
+PRC_XIANGMU_PISHI	PROCEDURE	476	"  --'计费'
+"
+PRC_XIANGMU_PISHI	PROCEDURE	477	"  if in_jiaoyilx = '计费' then
+"
+PRC_XIANGMU_PISHI	PROCEDURE	478	"  
+"
+PRC_XIANGMU_PISHI	PROCEDURE	479	"    /*  mz_cfk2处方明细表 (主键cfsb,cfxh,ypxh,ypcddm)
+"
+PRC_XIANGMU_PISHI	PROCEDURE	480	"    皮试字段  bz:
+"
+PRC_XIANGMU_PISHI	PROCEDURE	481	"    第1位表示组号
+"
+PRC_XIANGMU_PISHI	PROCEDURE	482	"    第2位表示 皮试状态(0 免试 1需要皮试 2续用 3 阴性，4阳性，5强阳性 )
+"
+PRC_XIANGMU_PISHI	PROCEDURE	483	"    第3位表示  执行结果(0通过，1不通过)*/
+"
+PRC_XIANGMU_PISHI	PROCEDURE	484	"  
+"
+PRC_XIANGMU_PISHI	PROCEDURE	485	"    --select  cfsb||'|'||cfxh||'|'||ypxh||'|'||ypcddm  From   mz_cfk2  where  cfsb=13564074  
+"
+PRC_XIANGMU_PISHI	PROCEDURE	486	"    --处方识别=13564074|处方序号cfxh＝1|药品序号＝5666|药品产地代码＝2108|皮试状态=阴性|执行结果=通过|护士工号|
+"
+PRC_XIANGMU_PISHI	PROCEDURE	487	"  
+"
+PRC_XIANGMU_PISHI	PROCEDURE	488	"    --begin get数据
+"
+PRC_XIANGMU_PISHI	PROCEDURE	489	"    if 0 = 0 then
+"
+PRC_XIANGMU_PISHI	PROCEDURE	490	"      v_str1 := F_GET_VALUE_SPLI(in_jylsh, '处方识别=', '|');
+"
+PRC_XIANGMU_PISHI	PROCEDURE	491	"    
+"
+PRC_XIANGMU_PISHI	PROCEDURE	492	"      SELECT length(REGEXP_SUBSTR(v_str1, '[0-9.]+')), length(v_str1)
+"
+PRC_XIANGMU_PISHI	PROCEDURE	493	"        into v_length1, v_length2
+"
+PRC_XIANGMU_PISHI	PROCEDURE	494	"        FROM dual;
+"
+PRC_XIANGMU_PISHI	PROCEDURE	495	"      if v_length1 = v_length2 then
+"
+PRC_XIANGMU_PISHI	PROCEDURE	496	"        null;
+"
+PRC_XIANGMU_PISHI	PROCEDURE	497	"      else
+"
+PRC_XIANGMU_PISHI	PROCEDURE	498	"        v_str1 := '';
+"
+PRC_XIANGMU_PISHI	PROCEDURE	499	"      end if;
+"
+PRC_XIANGMU_PISHI	PROCEDURE	500	"    
+"
+PRC_XIANGMU_PISHI	PROCEDURE	501	"      if v_str1 > '0' then
+"
+PRC_XIANGMU_PISHI	PROCEDURE	502	"        null;
+"
+PRC_XIANGMU_PISHI	PROCEDURE	503	"      
+"
+PRC_XIANGMU_PISHI	PROCEDURE	504	"      else
+"
+PRC_XIANGMU_PISHI	PROCEDURE	505	"        out_code := -1;
+"
+PRC_XIANGMU_PISHI	PROCEDURE	506	"        out_msg  := '处方识别不对prc_xiangmu_pishi';
+"
+PRC_XIANGMU_PISHI	PROCEDURE	507	"        return;
+"
+PRC_XIANGMU_PISHI	PROCEDURE	508	"      end if;
+"
+PRC_XIANGMU_PISHI	PROCEDURE	509	"    
+"
+PRC_XIANGMU_PISHI	PROCEDURE	510	"      v_str2 := F_GET_VALUE_SPLI(in_jylsh, '处方序号=', '|');
+"
+PRC_XIANGMU_PISHI	PROCEDURE	511	"      SELECT length(REGEXP_SUBSTR(v_str2, '[0-9.]+')), length(v_str2)
+"
+PRC_XIANGMU_PISHI	PROCEDURE	512	"        into v_length1, v_length2
+"
+PRC_XIANGMU_PISHI	PROCEDURE	513	"        FROM dual;
+"
+PRC_XIANGMU_PISHI	PROCEDURE	514	"      if v_length1 = v_length2 then
+"
+PRC_XIANGMU_PISHI	PROCEDURE	515	"        null;
+"
+PRC_XIANGMU_PISHI	PROCEDURE	516	"      else
+"
+PRC_XIANGMU_PISHI	PROCEDURE	517	"        v_str2 := '';
+"
+PRC_XIANGMU_PISHI	PROCEDURE	518	"      end if;
+"
+PRC_XIANGMU_PISHI	PROCEDURE	519	"      if v_str2 >= '0' then
+"
+PRC_XIANGMU_PISHI	PROCEDURE	520	"        null;
+"
+PRC_XIANGMU_PISHI	PROCEDURE	521	"      else
+"
+PRC_XIANGMU_PISHI	PROCEDURE	522	"        out_code := -1;
+"
+PRC_XIANGMU_PISHI	PROCEDURE	523	"        out_msg  := '处方序号不对prc_xiangmu_pishi';
+"
+PRC_XIANGMU_PISHI	PROCEDURE	524	"        return;
+"
+PRC_XIANGMU_PISHI	PROCEDURE	525	"      end if;
+"
+PRC_XIANGMU_PISHI	PROCEDURE	526	"    
+"
+PRC_XIANGMU_PISHI	PROCEDURE	527	"      v_str3 := F_GET_VALUE_SPLI(in_jylsh, '药品序号=', '|');
+"
+PRC_XIANGMU_PISHI	PROCEDURE	528	"      SELECT length(REGEXP_SUBSTR(v_str3, '[0-9.]+')), length(v_str3)
+"
+PRC_XIANGMU_PISHI	PROCEDURE	529	"        into v_length1, v_length2
+"
+PRC_XIANGMU_PISHI	PROCEDURE	530	"        FROM dual;
+"
+PRC_XIANGMU_PISHI	PROCEDURE	531	"      if v_length1 = v_length2 then
+"
+PRC_XIANGMU_PISHI	PROCEDURE	532	"        null;
+"
+PRC_XIANGMU_PISHI	PROCEDURE	533	"      else
+"
+PRC_XIANGMU_PISHI	PROCEDURE	534	"        v_str3 := '';
+"
+PRC_XIANGMU_PISHI	PROCEDURE	535	"      end if;
+"
+PRC_XIANGMU_PISHI	PROCEDURE	536	"      if v_str3 >= '0' then
+"
+PRC_XIANGMU_PISHI	PROCEDURE	537	"        null;
+"
+PRC_XIANGMU_PISHI	PROCEDURE	538	"      else
+"
+PRC_XIANGMU_PISHI	PROCEDURE	539	"        out_code := -1;
+"
+PRC_XIANGMU_PISHI	PROCEDURE	540	"        out_msg  := '药品序号不对prc_xiangmu_pishi';
+"
+PRC_XIANGMU_PISHI	PROCEDURE	541	"        return;
+"
+PRC_XIANGMU_PISHI	PROCEDURE	542	"      end if;
+"
+PRC_XIANGMU_PISHI	PROCEDURE	543	"    
+"
+PRC_XIANGMU_PISHI	PROCEDURE	544	"      v_str4 := F_GET_VALUE_SPLI(in_jylsh, '药品产地代码=', '|');
+"
+PRC_XIANGMU_PISHI	PROCEDURE	545	"      SELECT length(REGEXP_SUBSTR(v_str4, '[0-9.]+')), length(v_str4)
+"
+PRC_XIANGMU_PISHI	PROCEDURE	546	"        into v_length1, v_length2
+"
+PRC_XIANGMU_PISHI	PROCEDURE	547	"        FROM dual;
+"
+PRC_XIANGMU_PISHI	PROCEDURE	548	"      if v_length1 = v_length2 then
+"
+PRC_XIANGMU_PISHI	PROCEDURE	549	"        null;
+"
+PRC_XIANGMU_PISHI	PROCEDURE	550	"      else
+"
+PRC_XIANGMU_PISHI	PROCEDURE	551	"        v_str4 := '';
+"
+PRC_XIANGMU_PISHI	PROCEDURE	552	"      end if;
+"
+PRC_XIANGMU_PISHI	PROCEDURE	553	"      if v_str4 >= '0' then
+"
+PRC_XIANGMU_PISHI	PROCEDURE	554	"        null;
+"
+PRC_XIANGMU_PISHI	PROCEDURE	555	"      else
+"
+PRC_XIANGMU_PISHI	PROCEDURE	556	"        out_code := -1;
+"
+PRC_XIANGMU_PISHI	PROCEDURE	557	"        out_msg  := '药品产地代码不对prc_xiangmu_pishi';
+"
+PRC_XIANGMU_PISHI	PROCEDURE	558	"        return;
+"
+PRC_XIANGMU_PISHI	PROCEDURE	559	"      end if;
+"
+PRC_XIANGMU_PISHI	PROCEDURE	560	"    
+"
+PRC_XIANGMU_PISHI	PROCEDURE	561	"      v_flag1 := '';
+"
+PRC_XIANGMU_PISHI	PROCEDURE	562	"      select substr(nvl(bz, '000'), 1, 1)
+"
+PRC_XIANGMU_PISHI	PROCEDURE	563	"        into v_flag1
+"
+PRC_XIANGMU_PISHI	PROCEDURE	564	"        From mz_cfk2
+"
+PRC_XIANGMU_PISHI	PROCEDURE	565	"       where cfsb = v_str1
+"
+PRC_XIANGMU_PISHI	PROCEDURE	566	"         and cfxh = v_str2
+"
+PRC_XIANGMU_PISHI	PROCEDURE	567	"         and ypxh = v_str3
+"
+PRC_XIANGMU_PISHI	PROCEDURE	568	"         and ypcddm = v_str4;
+"
+PRC_XIANGMU_PISHI	PROCEDURE	569	"    
+"
+PRC_XIANGMU_PISHI	PROCEDURE	570	"      if v_flag1 >= '0' then
+"
+PRC_XIANGMU_PISHI	PROCEDURE	571	"        null;
+"
+PRC_XIANGMU_PISHI	PROCEDURE	572	"      else
+"
+PRC_XIANGMU_PISHI	PROCEDURE	573	"        out_code := -1;
+"
+PRC_XIANGMU_PISHI	PROCEDURE	574	"        out_msg  := ' 未查询到该处方记录prc_xiangmu_pishi';
+"
+PRC_XIANGMU_PISHI	PROCEDURE	575	"        return;
+"
+PRC_XIANGMU_PISHI	PROCEDURE	576	"      end if;
+"
+PRC_XIANGMU_PISHI	PROCEDURE	577	"    
+"
+PRC_XIANGMU_PISHI	PROCEDURE	578	"    end if;
+"
+PRC_XIANGMU_PISHI	PROCEDURE	579	"    --end get数据
+"
+PRC_XIANGMU_PISHI	PROCEDURE	580	"  
+"
+PRC_XIANGMU_PISHI	PROCEDURE	581	"    --皮试费用
+"
+PRC_XIANGMU_PISHI	PROCEDURE	582	"    if 1 = 1 then
+"
+PRC_XIANGMU_PISHI	PROCEDURE	583	"      --14381 5.20  4.00
+"
+PRC_XIANGMU_PISHI	PROCEDURE	584	"      select jzkh, brxm, ysgh, ksdm
+"
+PRC_XIANGMU_PISHI	PROCEDURE	585	"        into v_jzkh, v_brxm, v_sjysgh, v_sjksdm
+"
+PRC_XIANGMU_PISHI	PROCEDURE	586	"        From mz_cfk1
+"
+PRC_XIANGMU_PISHI	PROCEDURE	587	"       where cfsb = v_str1;
+"
+PRC_XIANGMU_PISHI	PROCEDURE	588	"    
+"
+PRC_XIANGMU_PISHI	PROCEDURE	589	"      if v_jzkh > '0' then
+"
+PRC_XIANGMU_PISHI	PROCEDURE	590	"        null;
+"
+PRC_XIANGMU_PISHI	PROCEDURE	591	"      else
+"
+PRC_XIANGMU_PISHI	PROCEDURE	592	"        out_code := -1;
+"
+PRC_XIANGMU_PISHI	PROCEDURE	593	"        out_msg  := ' 未查询到该处方记录的就诊卡号 prc_xiangmu_pishi';
+"
+PRC_XIANGMU_PISHI	PROCEDURE	594	"        return;
+"
+PRC_XIANGMU_PISHI	PROCEDURE	595	"      end if;
+"
+PRC_XIANGMU_PISHI	PROCEDURE	596	"    
+"
+PRC_XIANGMU_PISHI	PROCEDURE	597	"      select round((sysdate - csrq), 0)
+"
+PRC_XIANGMU_PISHI	PROCEDURE	598	"        into v_sl_csrq
+"
+PRC_XIANGMU_PISHI	PROCEDURE	599	"        From gy_brjbxxk
+"
+PRC_XIANGMU_PISHI	PROCEDURE	600	"       where jzkh = v_jzkh;
+"
+PRC_XIANGMU_PISHI	PROCEDURE	601	"    
+"
+PRC_XIANGMU_PISHI	PROCEDURE	602	"      if 1 = 1 then
+"
+PRC_XIANGMU_PISHI	PROCEDURE	603	"        --'限6周岁   
+"
+PRC_XIANGMU_PISHI	PROCEDURE	604	"        if v_sl_csrq > 2190 then
+"
+PRC_XIANGMU_PISHI	PROCEDURE	605	"          v_dj := 4.00;
+"
+PRC_XIANGMU_PISHI	PROCEDURE	606	"        else
+"
+PRC_XIANGMU_PISHI	PROCEDURE	607	"          v_dj := 5.20;
+"
+PRC_XIANGMU_PISHI	PROCEDURE	608	"        end if;
+"
+PRC_XIANGMU_PISHI	PROCEDURE	609	"      
+"
+PRC_XIANGMU_PISHI	PROCEDURE	610	"        v_ylxh := 14381;
+"
+PRC_XIANGMU_PISHI	PROCEDURE	611	"        --Select sfxm Into v_fygl From gy_ylsf Where ylxh = v_yjsb;
+"
+PRC_XIANGMU_PISHI	PROCEDURE	612	"        v_fygl := 34;
+"
+PRC_XIANGMU_PISHI	PROCEDURE	613	"      
+"
+PRC_XIANGMU_PISHI	PROCEDURE	614	"        UPDATE GY_xhb SET dqz = dqz + zz WHERE bm = 'YJ_YJK1';
+"
+PRC_XIANGMU_PISHI	PROCEDURE	615	"        if sqlcode = 0 then
+"
+PRC_XIANGMU_PISHI	PROCEDURE	616	"          commit;
+"
+PRC_XIANGMU_PISHI	PROCEDURE	617	"        else
+"
+PRC_XIANGMU_PISHI	PROCEDURE	618	"          rollback;
+"
+PRC_XIANGMU_PISHI	PROCEDURE	619	"          out_code := -1;
+"
+PRC_XIANGMU_PISHI	PROCEDURE	620	"          out_msg  := '获取序号失败,yj_Yjk1';
+"
+PRC_XIANGMU_PISHI	PROCEDURE	621	"          return;
+"
+PRC_XIANGMU_PISHI	PROCEDURE	622	"        end if;
+"
+PRC_XIANGMU_PISHI	PROCEDURE	623	"      
+"
+PRC_XIANGMU_PISHI	PROCEDURE	624	"        SELECT dqz INTO v_yjsb FROM GY_xhb WHERE bm = 'YJ_YJK1';
+"
+PRC_XIANGMU_PISHI	PROCEDURE	625	"        if v_yjsb > 0 then
+"
+PRC_XIANGMU_PISHI	PROCEDURE	626	"          null;
+"
+PRC_XIANGMU_PISHI	PROCEDURE	627	"        else
+"
+PRC_XIANGMU_PISHI	PROCEDURE	628	"          out_code := -1;
+"
+PRC_XIANGMU_PISHI	PROCEDURE	629	"          out_msg  := '获取序号失败,yj_Yjk1';
+"
+PRC_XIANGMU_PISHI	PROCEDURE	630	"          return;
+"
+PRC_XIANGMU_PISHI	PROCEDURE	631	"        end if;
+"
+PRC_XIANGMU_PISHI	PROCEDURE	632	"      
+"
+PRC_XIANGMU_PISHI	PROCEDURE	633	"        insert into yj_yjk1
+"
+PRC_XIANGMU_PISHI	PROCEDURE	634	"          (yjsb, jzkh, brxm, sjysgh, sjksdm, kdsj, czgh)
+"
+PRC_XIANGMU_PISHI	PROCEDURE	635	"        values
+"
+PRC_XIANGMU_PISHI	PROCEDURE	636	"          (v_yjsb,
+"
+PRC_XIANGMU_PISHI	PROCEDURE	637	"           v_jzkh,
+"
+PRC_XIANGMU_PISHI	PROCEDURE	638	"           v_brxm,
+"
+PRC_XIANGMU_PISHI	PROCEDURE	639	"           v_sjysgh,
+"
+PRC_XIANGMU_PISHI	PROCEDURE	640	"           v_sjksdm,
+"
+PRC_XIANGMU_PISHI	PROCEDURE	641	"           sysdate,
+"
+PRC_XIANGMU_PISHI	PROCEDURE	642	"           in_caozuogh);
+"
+PRC_XIANGMU_PISHI	PROCEDURE	643	"        If sqlcode = 0 Then
+"
+PRC_XIANGMU_PISHI	PROCEDURE	644	"          null;
+"
+PRC_XIANGMU_PISHI	PROCEDURE	645	"        Else
+"
+PRC_XIANGMU_PISHI	PROCEDURE	646	"          rollback;
+"
+PRC_XIANGMU_PISHI	PROCEDURE	647	"          out_code := -1;
+"
+PRC_XIANGMU_PISHI	PROCEDURE	648	"          out_msg  := ' insert error yj_Yjk1 , prc_xiangmu_pishi';
+"
+PRC_XIANGMU_PISHI	PROCEDURE	649	"          return;
+"
+PRC_XIANGMU_PISHI	PROCEDURE	650	"        End If;
+"
+PRC_XIANGMU_PISHI	PROCEDURE	651	"        insert into yj_yjk2
+"
+PRC_XIANGMU_PISHI	PROCEDURE	652	"          (yjsb, ylxh, dj, sl, fygb, zfbl, zxksdm)
+"
+PRC_XIANGMU_PISHI	PROCEDURE	653	"        values
+"
+PRC_XIANGMU_PISHI	PROCEDURE	654	"          (v_yjsb, v_ylxh, v_dj, 1, v_fygl, 1, '2040000');
+"
+PRC_XIANGMU_PISHI	PROCEDURE	655	"        If sqlcode = 0 Then
+"
+PRC_XIANGMU_PISHI	PROCEDURE	656	"          null;
+"
+PRC_XIANGMU_PISHI	PROCEDURE	657	"        
+"
+PRC_XIANGMU_PISHI	PROCEDURE	658	"        Else
+"
+PRC_XIANGMU_PISHI	PROCEDURE	659	"          rollback;
+"
+PRC_XIANGMU_PISHI	PROCEDURE	660	"          out_code := -1;
+"
+PRC_XIANGMU_PISHI	PROCEDURE	661	"          out_msg  := ' insert error yj_yjk2 , prc_xiangmu_pishi';
+"
+PRC_XIANGMU_PISHI	PROCEDURE	662	"          return;
+"
+PRC_XIANGMU_PISHI	PROCEDURE	663	"        End If;
+"
+PRC_XIANGMU_PISHI	PROCEDURE	664	"      end if;
+"
+PRC_XIANGMU_PISHI	PROCEDURE	665	"    
+"
+PRC_XIANGMU_PISHI	PROCEDURE	666	"    end if;
+"
+PRC_XIANGMU_PISHI	PROCEDURE	667	"  
+"
+PRC_XIANGMU_PISHI	PROCEDURE	668	"    If sqlcode = 0 Then
+"
+PRC_XIANGMU_PISHI	PROCEDURE	669	"      commit;
+"
+PRC_XIANGMU_PISHI	PROCEDURE	670	"      out_code := 1;
+"
+PRC_XIANGMU_PISHI	PROCEDURE	671	"      select '计费|处理成功|prc_xiangmu_pishi' || in_jylsh
+"
+PRC_XIANGMU_PISHI	PROCEDURE	672	"        into out_msg
+"
+PRC_XIANGMU_PISHI	PROCEDURE	673	"        from dual;
+"
+PRC_XIANGMU_PISHI	PROCEDURE	674	"      return;
+"
+PRC_XIANGMU_PISHI	PROCEDURE	675	"    else
+"
+PRC_XIANGMU_PISHI	PROCEDURE	676	"      rollback;
+"
+PRC_XIANGMU_PISHI	PROCEDURE	677	"    end if;
+"
+PRC_XIANGMU_PISHI	PROCEDURE	678	"    --默认 -1 
+"
+PRC_XIANGMU_PISHI	PROCEDURE	679	"    out_code := -1;
+"
+PRC_XIANGMU_PISHI	PROCEDURE	680	"    out_msg  := '计费 出错prc_xiangmu_pishi';
+"
+PRC_XIANGMU_PISHI	PROCEDURE	681	"    return;
+"
+PRC_XIANGMU_PISHI	PROCEDURE	682	"  
+"
+PRC_XIANGMU_PISHI	PROCEDURE	683	"  end if;
+"
+PRC_XIANGMU_PISHI	PROCEDURE	684	"
+"
+PRC_XIANGMU_PISHI	PROCEDURE	685	"  if in_jiaoyilx = '确费' then
+"
+PRC_XIANGMU_PISHI	PROCEDURE	686	"  
+"
+PRC_XIANGMU_PISHI	PROCEDURE	687	"    --医技识别=13564074|收费代码＝1|操作工号=DBA|
+"
+PRC_XIANGMU_PISHI	PROCEDURE	688	"  
+"
+PRC_XIANGMU_PISHI	PROCEDURE	689	"    --begin get数据
+"
+PRC_XIANGMU_PISHI	PROCEDURE	690	"    if 0 = 0 then
+"
+PRC_XIANGMU_PISHI	PROCEDURE	691	"      v_str1 := F_GET_VALUE_SPLI(in_jylsh, '医技识别=', '|');
+"
+PRC_XIANGMU_PISHI	PROCEDURE	692	"    
+"
+PRC_XIANGMU_PISHI	PROCEDURE	693	"      SELECT length(REGEXP_SUBSTR(v_str1, '[0-9.]+')), length(v_str1)
+"
+PRC_XIANGMU_PISHI	PROCEDURE	694	"        into v_length1, v_length2
+"
+PRC_XIANGMU_PISHI	PROCEDURE	695	"        FROM dual;
+"
+PRC_XIANGMU_PISHI	PROCEDURE	696	"      if v_length1 = v_length2 then
+"
+PRC_XIANGMU_PISHI	PROCEDURE	697	"        null;
+"
+PRC_XIANGMU_PISHI	PROCEDURE	698	"      else
+"
+PRC_XIANGMU_PISHI	PROCEDURE	699	"        v_str1 := '';
+"
+PRC_XIANGMU_PISHI	PROCEDURE	700	"      end if;
+"
+PRC_XIANGMU_PISHI	PROCEDURE	701	"    
+"
+PRC_XIANGMU_PISHI	PROCEDURE	702	"      if v_str1 > '0' then
+"
+PRC_XIANGMU_PISHI	PROCEDURE	703	"        null;
+"
+PRC_XIANGMU_PISHI	PROCEDURE	704	"      
+"
+PRC_XIANGMU_PISHI	PROCEDURE	705	"      else
+"
+PRC_XIANGMU_PISHI	PROCEDURE	706	"        out_code := -1;
+"
+PRC_XIANGMU_PISHI	PROCEDURE	707	"        out_msg  := '医技识别不对prc_xiangmu_pishi';
+"
+PRC_XIANGMU_PISHI	PROCEDURE	708	"        return;
+"
+PRC_XIANGMU_PISHI	PROCEDURE	709	"      end if;
+"
+PRC_XIANGMU_PISHI	PROCEDURE	710	"    
+"
+PRC_XIANGMU_PISHI	PROCEDURE	711	"      v_str2 := F_GET_VALUE_SPLI(in_jylsh, '收费代码=', '|');
+"
+PRC_XIANGMU_PISHI	PROCEDURE	712	"      SELECT length(REGEXP_SUBSTR(v_str2, '[0-9.]+')), length(v_str2)
+"
+PRC_XIANGMU_PISHI	PROCEDURE	713	"        into v_length1, v_length2
+"
+PRC_XIANGMU_PISHI	PROCEDURE	714	"        FROM dual;
+"
+PRC_XIANGMU_PISHI	PROCEDURE	715	"      if v_length1 = v_length2 then
+"
+PRC_XIANGMU_PISHI	PROCEDURE	716	"        null;
+"
+PRC_XIANGMU_PISHI	PROCEDURE	717	"      else
+"
+PRC_XIANGMU_PISHI	PROCEDURE	718	"        v_str2 := '';
+"
+PRC_XIANGMU_PISHI	PROCEDURE	719	"      end if;
+"
+PRC_XIANGMU_PISHI	PROCEDURE	720	"      if v_str2 >= '0' then
+"
+PRC_XIANGMU_PISHI	PROCEDURE	721	"        null;
+"
+PRC_XIANGMU_PISHI	PROCEDURE	722	"      else
+"
+PRC_XIANGMU_PISHI	PROCEDURE	723	"        out_code := -1;
+"
+PRC_XIANGMU_PISHI	PROCEDURE	724	"        out_msg  := '收费代码不对prc_xiangmu_pishi';
+"
+PRC_XIANGMU_PISHI	PROCEDURE	725	"        return;
+"
+PRC_XIANGMU_PISHI	PROCEDURE	726	"      end if;
+"
+PRC_XIANGMU_PISHI	PROCEDURE	727	"    
+"
+PRC_XIANGMU_PISHI	PROCEDURE	728	"      v_str3 := F_GET_VALUE_SPLI(in_jylsh, '操作工号=', '|');
+"
+PRC_XIANGMU_PISHI	PROCEDURE	729	"     /* SELECT length(REGEXP_SUBSTR(v_str3, '[0-9.]+')), length(v_str3)
+"
+PRC_XIANGMU_PISHI	PROCEDURE	730	"        into v_length1, v_length2
+"
+PRC_XIANGMU_PISHI	PROCEDURE	731	"        FROM dual;*/
+"
+PRC_XIANGMU_PISHI	PROCEDURE	732	"     /* if v_length1 = v_length2 then
+"
+PRC_XIANGMU_PISHI	PROCEDURE	733	"        null;
+"
+PRC_XIANGMU_PISHI	PROCEDURE	734	"      else
+"
+PRC_XIANGMU_PISHI	PROCEDURE	735	"        v_str3 := '';
+"
+PRC_XIANGMU_PISHI	PROCEDURE	736	"      end if;*/
+"
+PRC_XIANGMU_PISHI	PROCEDURE	737	"      if v_str3 >= '0' then
+"
+PRC_XIANGMU_PISHI	PROCEDURE	738	"        null;
+"
+PRC_XIANGMU_PISHI	PROCEDURE	739	"      else
+"
+PRC_XIANGMU_PISHI	PROCEDURE	740	"        out_code := -1;
+"
+PRC_XIANGMU_PISHI	PROCEDURE	741	"        out_msg  := '操作工号不对prc_xiangmu_pishi';
+"
+PRC_XIANGMU_PISHI	PROCEDURE	742	"        return;
+"
+PRC_XIANGMU_PISHI	PROCEDURE	743	"      end if;
+"
+PRC_XIANGMU_PISHI	PROCEDURE	744	"    
+"
+PRC_XIANGMU_PISHI	PROCEDURE	745	"      v_temp  := '';
+"
+PRC_XIANGMU_PISHI	PROCEDURE	746	"      v_flag1 := '';
+"
+PRC_XIANGMU_PISHI	PROCEDURE	747	"      select fhr, yjsb
+"
+PRC_XIANGMU_PISHI	PROCEDURE	748	"        into v_flag1, v_temp
+"
+PRC_XIANGMU_PISHI	PROCEDURE	749	"        From yj_yjk2
+"
+PRC_XIANGMU_PISHI	PROCEDURE	750	"       where yjsb = v_str1
+"
+PRC_XIANGMU_PISHI	PROCEDURE	751	"         and ylxh = v_str2;
+"
+PRC_XIANGMU_PISHI	PROCEDURE	752	"    
+"
+PRC_XIANGMU_PISHI	PROCEDURE	753	"      if length(v_temp) > 0 then
+"
+PRC_XIANGMU_PISHI	PROCEDURE	754	"        null;
+"
+PRC_XIANGMU_PISHI	PROCEDURE	755	"      else
+"
+PRC_XIANGMU_PISHI	PROCEDURE	756	"      
+"
+PRC_XIANGMU_PISHI	PROCEDURE	757	"        select '未找到对应的收费记录' into v_flag1 from dual;
+"
+PRC_XIANGMU_PISHI	PROCEDURE	758	"        out_code := -1;
+"
+PRC_XIANGMU_PISHI	PROCEDURE	759	"        out_msg  := v_flag1;
+"
+PRC_XIANGMU_PISHI	PROCEDURE	760	"        return;
+"
+PRC_XIANGMU_PISHI	PROCEDURE	761	"      end if;
+"
+PRC_XIANGMU_PISHI	PROCEDURE	762	"    
+"
+PRC_XIANGMU_PISHI	PROCEDURE	763	"      select ylmc into v_str5 from gy_ylsf where ylxh = v_str2;
+"
+PRC_XIANGMU_PISHI	PROCEDURE	764	"    
+"
+PRC_XIANGMU_PISHI	PROCEDURE	765	"      if length(v_flag1) > 0 then
+"
+PRC_XIANGMU_PISHI	PROCEDURE	766	"        select '该项目已经复核,复核人员为' || v_flag1 || ' , ' || v_str5
+"
+PRC_XIANGMU_PISHI	PROCEDURE	767	"          into v_flag1
+"
+PRC_XIANGMU_PISHI	PROCEDURE	768	"          from dual;
+"
+PRC_XIANGMU_PISHI	PROCEDURE	769	"        out_code := -1;
+"
+PRC_XIANGMU_PISHI	PROCEDURE	770	"        out_msg  := v_flag1;
+"
+PRC_XIANGMU_PISHI	PROCEDURE	771	"        return;
+"
+PRC_XIANGMU_PISHI	PROCEDURE	772	"      end if;
+"
+PRC_XIANGMU_PISHI	PROCEDURE	773	"    
+"
+PRC_XIANGMU_PISHI	PROCEDURE	774	"    end if;
+"
+PRC_XIANGMU_PISHI	PROCEDURE	775	"    --end get数据
+"
+PRC_XIANGMU_PISHI	PROCEDURE	776	"    update yj_yjk2
+"
+PRC_XIANGMU_PISHI	PROCEDURE	777	"       set fhr = v_str3, fhsj = sysdate,ZJPB=9,REQUESTMODE=1
+"
+PRC_XIANGMU_PISHI	PROCEDURE	778	"     where yjsb = v_str1
+"
+PRC_XIANGMU_PISHI	PROCEDURE	779	"       and ylxh = v_str2;
+"
+PRC_XIANGMU_PISHI	PROCEDURE	780	"  
+"
+PRC_XIANGMU_PISHI	PROCEDURE	781	"    If sqlcode = 0 Then
+"
+PRC_XIANGMU_PISHI	PROCEDURE	782	"      commit;
+"
+PRC_XIANGMU_PISHI	PROCEDURE	783	"      out_code := 1;
+"
+PRC_XIANGMU_PISHI	PROCEDURE	784	"      select '确费|处理成功|prc_xiangmu_pishi' || in_jylsh
+"
+PRC_XIANGMU_PISHI	PROCEDURE	785	"        into out_msg
+"
+PRC_XIANGMU_PISHI	PROCEDURE	786	"        from dual;
+"
+PRC_XIANGMU_PISHI	PROCEDURE	787	"      return;
+"
+PRC_XIANGMU_PISHI	PROCEDURE	788	"    else
+"
+PRC_XIANGMU_PISHI	PROCEDURE	789	"      rollback;
+"
+PRC_XIANGMU_PISHI	PROCEDURE	790	"    end if;
+"
+PRC_XIANGMU_PISHI	PROCEDURE	791	"    --默认 -1 
+"
+PRC_XIANGMU_PISHI	PROCEDURE	792	"    out_code := -1;
+"
+PRC_XIANGMU_PISHI	PROCEDURE	793	"    out_msg  := '确费 出错prc_xiangmu_pishi';
+"
+PRC_XIANGMU_PISHI	PROCEDURE	794	"    return;
+"
+PRC_XIANGMU_PISHI	PROCEDURE	795	"  
+"
+PRC_XIANGMU_PISHI	PROCEDURE	796	"  end if;
+"
+PRC_XIANGMU_PISHI	PROCEDURE	797	"  if in_jiaoyilx = '取消确费' then
+"
+PRC_XIANGMU_PISHI	PROCEDURE	798	"  
+"
+PRC_XIANGMU_PISHI	PROCEDURE	799	"    --医技识别=13564074|收费代码＝1|操作工号=DBA|
+"
+PRC_XIANGMU_PISHI	PROCEDURE	800	"  
+"
+PRC_XIANGMU_PISHI	PROCEDURE	801	"    --begin get数据
+"
+PRC_XIANGMU_PISHI	PROCEDURE	802	"    if 0 = 0 then
+"
+PRC_XIANGMU_PISHI	PROCEDURE	803	"      v_str1 := F_GET_VALUE_SPLI(in_jylsh, '医技识别=', '|');
+"
+PRC_XIANGMU_PISHI	PROCEDURE	804	"    
+"
+PRC_XIANGMU_PISHI	PROCEDURE	805	"      SELECT length(REGEXP_SUBSTR(v_str1, '[0-9.]+')), length(v_str1)
+"
+PRC_XIANGMU_PISHI	PROCEDURE	806	"        into v_length1, v_length2
+"
+PRC_XIANGMU_PISHI	PROCEDURE	807	"        FROM dual;
+"
+PRC_XIANGMU_PISHI	PROCEDURE	808	"      if v_length1 = v_length2 then
+"
+PRC_XIANGMU_PISHI	PROCEDURE	809	"        null;
+"
+PRC_XIANGMU_PISHI	PROCEDURE	810	"      else
+"
+PRC_XIANGMU_PISHI	PROCEDURE	811	"        v_str1 := '';
+"
+PRC_XIANGMU_PISHI	PROCEDURE	812	"      end if;
+"
+PRC_XIANGMU_PISHI	PROCEDURE	813	"    
+"
+PRC_XIANGMU_PISHI	PROCEDURE	814	"      if v_str1 > '0' then
+"
+PRC_XIANGMU_PISHI	PROCEDURE	815	"        null;
+"
+PRC_XIANGMU_PISHI	PROCEDURE	816	"      
+"
+PRC_XIANGMU_PISHI	PROCEDURE	817	"      else
+"
+PRC_XIANGMU_PISHI	PROCEDURE	818	"        out_code := -1;
+"
+PRC_XIANGMU_PISHI	PROCEDURE	819	"        out_msg  := '医技识别不对prc_xiangmu_pishi';
+"
+PRC_XIANGMU_PISHI	PROCEDURE	820	"        return;
+"
+PRC_XIANGMU_PISHI	PROCEDURE	821	"      end if;
+"
+PRC_XIANGMU_PISHI	PROCEDURE	822	"    
+"
+PRC_XIANGMU_PISHI	PROCEDURE	823	"      v_str2 := F_GET_VALUE_SPLI(in_jylsh, '收费代码=', '|');
+"
+PRC_XIANGMU_PISHI	PROCEDURE	824	"      SELECT length(REGEXP_SUBSTR(v_str2, '[0-9.]+')), length(v_str2)
+"
+PRC_XIANGMU_PISHI	PROCEDURE	825	"        into v_length1, v_length2
+"
+PRC_XIANGMU_PISHI	PROCEDURE	826	"        FROM dual;
+"
+PRC_XIANGMU_PISHI	PROCEDURE	827	"      if v_length1 = v_length2 then
+"
+PRC_XIANGMU_PISHI	PROCEDURE	828	"        null;
+"
+PRC_XIANGMU_PISHI	PROCEDURE	829	"      else
+"
+PRC_XIANGMU_PISHI	PROCEDURE	830	"        v_str2 := '';
+"
+PRC_XIANGMU_PISHI	PROCEDURE	831	"      end if;
+"
+PRC_XIANGMU_PISHI	PROCEDURE	832	"      if v_str2 >= '0' then
+"
+PRC_XIANGMU_PISHI	PROCEDURE	833	"        null;
+"
+PRC_XIANGMU_PISHI	PROCEDURE	834	"      else
+"
+PRC_XIANGMU_PISHI	PROCEDURE	835	"        out_code := -1;
+"
+PRC_XIANGMU_PISHI	PROCEDURE	836	"        out_msg  := '收费代码不对prc_xiangmu_pishi';
+"
+PRC_XIANGMU_PISHI	PROCEDURE	837	"        return;
+"
+PRC_XIANGMU_PISHI	PROCEDURE	838	"      end if;
+"
+PRC_XIANGMU_PISHI	PROCEDURE	839	"    
+"
+PRC_XIANGMU_PISHI	PROCEDURE	840	"      v_str3 := F_GET_VALUE_SPLI(in_jylsh, '操作工号=', '|');
+"
+PRC_XIANGMU_PISHI	PROCEDURE	841	"      SELECT length(REGEXP_SUBSTR(v_str3, '[0-9.]+')), length(v_str3)
+"
+PRC_XIANGMU_PISHI	PROCEDURE	842	"        into v_length1, v_length2
+"
+PRC_XIANGMU_PISHI	PROCEDURE	843	"        FROM dual;
+"
+PRC_XIANGMU_PISHI	PROCEDURE	844	"      if v_length1 = v_length2 then
+"
+PRC_XIANGMU_PISHI	PROCEDURE	845	"        null;
+"
+PRC_XIANGMU_PISHI	PROCEDURE	846	"      else
+"
+PRC_XIANGMU_PISHI	PROCEDURE	847	"        v_str3 := '';
+"
+PRC_XIANGMU_PISHI	PROCEDURE	848	"      end if;
+"
+PRC_XIANGMU_PISHI	PROCEDURE	849	"      if v_str3 >= '0' then
+"
+PRC_XIANGMU_PISHI	PROCEDURE	850	"        null;
+"
+PRC_XIANGMU_PISHI	PROCEDURE	851	"      else
+"
+PRC_XIANGMU_PISHI	PROCEDURE	852	"        out_code := -1;
+"
+PRC_XIANGMU_PISHI	PROCEDURE	853	"        out_msg  := '操作工号不对prc_xiangmu_pishi';
+"
+PRC_XIANGMU_PISHI	PROCEDURE	854	"        return;
+"
+PRC_XIANGMU_PISHI	PROCEDURE	855	"      end if;
+"
+PRC_XIANGMU_PISHI	PROCEDURE	856	"    
+"
+PRC_XIANGMU_PISHI	PROCEDURE	857	"      v_temp  := '';
+"
+PRC_XIANGMU_PISHI	PROCEDURE	858	"      v_flag1 := '';
+"
+PRC_XIANGMU_PISHI	PROCEDURE	859	"      select fhr, yjsb
+"
+PRC_XIANGMU_PISHI	PROCEDURE	860	"        into v_flag1, v_temp
+"
+PRC_XIANGMU_PISHI	PROCEDURE	861	"        From yj_yjk2
+"
+PRC_XIANGMU_PISHI	PROCEDURE	862	"       where yjsb = v_str1
+"
+PRC_XIANGMU_PISHI	PROCEDURE	863	"         and ylxh = v_str2;
+"
+PRC_XIANGMU_PISHI	PROCEDURE	864	"    
+"
+PRC_XIANGMU_PISHI	PROCEDURE	865	"      if length(v_temp) > 0 then
+"
+PRC_XIANGMU_PISHI	PROCEDURE	866	"        null;
+"
+PRC_XIANGMU_PISHI	PROCEDURE	867	"      else
+"
+PRC_XIANGMU_PISHI	PROCEDURE	868	"      
+"
+PRC_XIANGMU_PISHI	PROCEDURE	869	"        select '未找到对应的收费记录' into v_flag1 from dual;
+"
+PRC_XIANGMU_PISHI	PROCEDURE	870	"        out_code := -1;
+"
+PRC_XIANGMU_PISHI	PROCEDURE	871	"        out_msg  := v_flag1;
+"
+PRC_XIANGMU_PISHI	PROCEDURE	872	"        return;
+"
+PRC_XIANGMU_PISHI	PROCEDURE	873	"      end if;
+"
+PRC_XIANGMU_PISHI	PROCEDURE	874	"    
+"
+PRC_XIANGMU_PISHI	PROCEDURE	875	"      select ylmc into v_str5 from gy_ylsf where ylxh = v_str2;
+"
+PRC_XIANGMU_PISHI	PROCEDURE	876	"    
+"
+PRC_XIANGMU_PISHI	PROCEDURE	877	"      if length(v_flag1) >= 0 then
+"
+PRC_XIANGMU_PISHI	PROCEDURE	878	"        null;
+"
+PRC_XIANGMU_PISHI	PROCEDURE	879	"      else
+"
+PRC_XIANGMU_PISHI	PROCEDURE	880	"      
+"
+PRC_XIANGMU_PISHI	PROCEDURE	881	"        select '该项目未复核,无法取消复核' || v_flag1 || ' , ' || v_str5
+"
+PRC_XIANGMU_PISHI	PROCEDURE	882	"          into v_flag1
+"
+PRC_XIANGMU_PISHI	PROCEDURE	883	"          from dual;
+"
+PRC_XIANGMU_PISHI	PROCEDURE	884	"        out_code := -1;
+"
+PRC_XIANGMU_PISHI	PROCEDURE	885	"        out_msg  := v_flag1;
+"
+PRC_XIANGMU_PISHI	PROCEDURE	886	"        return;
+"
+PRC_XIANGMU_PISHI	PROCEDURE	887	"      end if;
+"
+PRC_XIANGMU_PISHI	PROCEDURE	888	"    
+"
+PRC_XIANGMU_PISHI	PROCEDURE	889	"    end if;
+"
+PRC_XIANGMU_PISHI	PROCEDURE	890	"    --end get数据
+"
+PRC_XIANGMU_PISHI	PROCEDURE	891	"    update yj_yjk2
+"
+PRC_XIANGMU_PISHI	PROCEDURE	892	"       set fhr = null, fhsj = null ,REQUESTMODE = 0,ZJPB =0
+"
+PRC_XIANGMU_PISHI	PROCEDURE	893	"     where yjsb = v_str1
+"
+PRC_XIANGMU_PISHI	PROCEDURE	894	"       and ylxh = v_str2;
+"
+PRC_XIANGMU_PISHI	PROCEDURE	895	"  
+"
+PRC_XIANGMU_PISHI	PROCEDURE	896	"    If sqlcode = 0 Then
+"
+PRC_XIANGMU_PISHI	PROCEDURE	897	"      commit;
+"
+PRC_XIANGMU_PISHI	PROCEDURE	898	"      out_code := 1;
+"
+PRC_XIANGMU_PISHI	PROCEDURE	899	"      select '取消确费|处理成功|prc_xiangmu_pishi' || in_jylsh
+"
+PRC_XIANGMU_PISHI	PROCEDURE	900	"        into out_msg
+"
+PRC_XIANGMU_PISHI	PROCEDURE	901	"        from dual;
+"
+PRC_XIANGMU_PISHI	PROCEDURE	902	"      return;
+"
+PRC_XIANGMU_PISHI	PROCEDURE	903	"    else
+"
+PRC_XIANGMU_PISHI	PROCEDURE	904	"      rollback;
+"
+PRC_XIANGMU_PISHI	PROCEDURE	905	"    end if;
+"
+PRC_XIANGMU_PISHI	PROCEDURE	906	"    --默认 -1 
+"
+PRC_XIANGMU_PISHI	PROCEDURE	907	"    out_code := -1;
+"
+PRC_XIANGMU_PISHI	PROCEDURE	908	"    out_msg  := '取消确费 出错prc_xiangmu_pishi';
+"
+PRC_XIANGMU_PISHI	PROCEDURE	909	"    return;
+"
+PRC_XIANGMU_PISHI	PROCEDURE	910	"  
+"
+PRC_XIANGMU_PISHI	PROCEDURE	911	"  end if;
+"
+PRC_XIANGMU_PISHI	PROCEDURE	912	"
+"
+PRC_XIANGMU_PISHI	PROCEDURE	913	"  out_code := -1;
+"
+PRC_XIANGMU_PISHI	PROCEDURE	914	"  out_msg  := 'error';
+"
+PRC_XIANGMU_PISHI	PROCEDURE	915	"  return;
+"
+PRC_XIANGMU_PISHI	PROCEDURE	916	"
+"
+PRC_XIANGMU_PISHI	PROCEDURE	917	"end;
+"

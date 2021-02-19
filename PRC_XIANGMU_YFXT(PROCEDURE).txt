@@ -1,0 +1,180 @@
+PRC_XIANGMU_YFXT	PROCEDURE	1	"procedure prc_xiangmu_yfxt(in_jiaoyilx in varchar2, --交易类型
+"
+PRC_XIANGMU_YFXT	PROCEDURE	2	"                                             in_cfsb     in number,
+"
+PRC_XIANGMU_YFXT	PROCEDURE	3	"                                             in_caozuogh in varchar2, --操作工号
+"
+PRC_XIANGMU_YFXT	PROCEDURE	4	"                                             in_jylsh    in varchar2, --其它参数
+"
+PRC_XIANGMU_YFXT	PROCEDURE	5	"                                             out_code    out INTEGER, -- 返回结果 0为执行成功
+"
+PRC_XIANGMU_YFXT	PROCEDURE	6	"                                             out_msg     out varchar2) Is
+"
+PRC_XIANGMU_YFXT	PROCEDURE	7	"
+"
+PRC_XIANGMU_YFXT	PROCEDURE	8	"  ll_count  number;
+"
+PRC_XIANGMU_YFXT	PROCEDURE	9	"  ll_count2 number;
+"
+PRC_XIANGMU_YFXT	PROCEDURE	10	"  ll_brlb   number;
+"
+PRC_XIANGMU_YFXT	PROCEDURE	11	"  ls_show   varchar2(500);
+"
+PRC_XIANGMU_YFXT	PROCEDURE	12	"  ls_time   varchar2(20);
+"
+PRC_XIANGMU_YFXT	PROCEDURE	13	"  ls_jbdm   varchar2(100);
+"
+PRC_XIANGMU_YFXT	PROCEDURE	14	"  v_length1 number;
+"
+PRC_XIANGMU_YFXT	PROCEDURE	15	"  v_length2 number;
+"
+PRC_XIANGMU_YFXT	PROCEDURE	16	"  v_temp    varchar2(200);
+"
+PRC_XIANGMU_YFXT	PROCEDURE	17	"begin
+"
+PRC_XIANGMU_YFXT	PROCEDURE	18	"
+"
+PRC_XIANGMU_YFXT	PROCEDURE	19	"  out_code := -1;
+"
+PRC_XIANGMU_YFXT	PROCEDURE	20	"  out_msg  := '';
+"
+PRC_XIANGMU_YFXT	PROCEDURE	21	"  if 1 = 1 then
+"
+PRC_XIANGMU_YFXT	PROCEDURE	22	"    insert into zy_jiaoyi_v1
+"
+PRC_XIANGMU_YFXT	PROCEDURE	23	"      (jiaoyilx, caozuogh, jylsh, bz, patient_no)
+"
+PRC_XIANGMU_YFXT	PROCEDURE	24	"    values
+"
+PRC_XIANGMU_YFXT	PROCEDURE	25	"      (in_jiaoyilx, in_caozuogh, in_jylsh, 'prc_xiangmu_yfxt', in_cfsb);
+"
+PRC_XIANGMU_YFXT	PROCEDURE	26	"  
+"
+PRC_XIANGMU_YFXT	PROCEDURE	27	"    if sqlcode = 0 then
+"
+PRC_XIANGMU_YFXT	PROCEDURE	28	"      commit;
+"
+PRC_XIANGMU_YFXT	PROCEDURE	29	"    else
+"
+PRC_XIANGMU_YFXT	PROCEDURE	30	"      rollback;
+"
+PRC_XIANGMU_YFXT	PROCEDURE	31	"    end if;
+"
+PRC_XIANGMU_YFXT	PROCEDURE	32	"  end if;
+"
+PRC_XIANGMU_YFXT	PROCEDURE	33	"
+"
+PRC_XIANGMU_YFXT	PROCEDURE	34	"  if in_jiaoyilx = '发药处理' then
+"
+PRC_XIANGMU_YFXT	PROCEDURE	35	"    null;
+"
+PRC_XIANGMU_YFXT	PROCEDURE	36	"  
+"
+PRC_XIANGMU_YFXT	PROCEDURE	37	"    --(0 免试 1需要皮试 2续用 3 阴性，4阳性，5强阳性 )
+"
+PRC_XIANGMU_YFXT	PROCEDURE	38	"    select to_char(nvl(wm_concat((select ypmc
+"
+PRC_XIANGMU_YFXT	PROCEDURE	39	"                                    from gy_ypmcggzd
+"
+PRC_XIANGMU_YFXT	PROCEDURE	40	"                                   where ypxh = t.ypxh) ||
+"
+PRC_XIANGMU_YFXT	PROCEDURE	41	"                                 decode(nvl(substr(bz, 2, 1), '0'),
+"
+PRC_XIANGMU_YFXT	PROCEDURE	42	"                                        '0',
+"
+PRC_XIANGMU_YFXT	PROCEDURE	43	"                                        '免试',
+"
+PRC_XIANGMU_YFXT	PROCEDURE	44	"                                        '1',
+"
+PRC_XIANGMU_YFXT	PROCEDURE	45	"                                        '需要皮试',
+"
+PRC_XIANGMU_YFXT	PROCEDURE	46	"                                        '2',
+"
+PRC_XIANGMU_YFXT	PROCEDURE	47	"                                        '续用',
+"
+PRC_XIANGMU_YFXT	PROCEDURE	48	"                                        '3',
+"
+PRC_XIANGMU_YFXT	PROCEDURE	49	"                                        '阴性',
+"
+PRC_XIANGMU_YFXT	PROCEDURE	50	"                                        '4',
+"
+PRC_XIANGMU_YFXT	PROCEDURE	51	"                                        '阳性',
+"
+PRC_XIANGMU_YFXT	PROCEDURE	52	"                                        '5',
+"
+PRC_XIANGMU_YFXT	PROCEDURE	53	"                                        '强阳性',
+"
+PRC_XIANGMU_YFXT	PROCEDURE	54	"                                        '')),
+"
+PRC_XIANGMU_YFXT	PROCEDURE	55	"                       ' '))
+"
+PRC_XIANGMU_YFXT	PROCEDURE	56	"      into v_temp
+"
+PRC_XIANGMU_YFXT	PROCEDURE	57	"      from mz_cfk2 t
+"
+PRC_XIANGMU_YFXT	PROCEDURE	58	"     where nvl(substr(bz, 2, 1), '0') not in ('0','2', '3')
+"
+PRC_XIANGMU_YFXT	PROCEDURE	59	"       and cfsb = in_cfsb;
+"
+PRC_XIANGMU_YFXT	PROCEDURE	60	"  
+"
+PRC_XIANGMU_YFXT	PROCEDURE	61	"    if v_temp > ' ' then
+"
+PRC_XIANGMU_YFXT	PROCEDURE	62	"    
+"
+PRC_XIANGMU_YFXT	PROCEDURE	63	"      select v_temp || '[prc_xiangmu_yfxt]' into out_msg from dual;
+"
+PRC_XIANGMU_YFXT	PROCEDURE	64	"      out_code := 1;
+"
+PRC_XIANGMU_YFXT	PROCEDURE	65	"      return;
+"
+PRC_XIANGMU_YFXT	PROCEDURE	66	"    end if;
+"
+PRC_XIANGMU_YFXT	PROCEDURE	67	"  
+"
+PRC_XIANGMU_YFXT	PROCEDURE	68	"    select to_char(nvl(wm_concat((select ypmc
+"
+PRC_XIANGMU_YFXT	PROCEDURE	69	"                                    from gy_ypmcggzd
+"
+PRC_XIANGMU_YFXT	PROCEDURE	70	"                                   where ypxh = t.ypxh) ||
+"
+PRC_XIANGMU_YFXT	PROCEDURE	71	"                                 decode(nvl(substr(bz, 3, 1), '0'),
+"
+PRC_XIANGMU_YFXT	PROCEDURE	72	"                                        '1',
+"
+PRC_XIANGMU_YFXT	PROCEDURE	73	"                                        '皮试不通过',
+"
+PRC_XIANGMU_YFXT	PROCEDURE	74	"                                        '')),
+"
+PRC_XIANGMU_YFXT	PROCEDURE	75	"                       ' '))
+"
+PRC_XIANGMU_YFXT	PROCEDURE	76	"      into v_temp
+"
+PRC_XIANGMU_YFXT	PROCEDURE	77	"      from mz_cfk2 t
+"
+PRC_XIANGMU_YFXT	PROCEDURE	78	"     where nvl(substr(bz, 3, 1), '0') not in ('0')
+"
+PRC_XIANGMU_YFXT	PROCEDURE	79	"       and cfsb = in_cfsb;
+"
+PRC_XIANGMU_YFXT	PROCEDURE	80	"  
+"
+PRC_XIANGMU_YFXT	PROCEDURE	81	"    if v_temp > ' ' then
+"
+PRC_XIANGMU_YFXT	PROCEDURE	82	"      select v_temp || '[prc_xiangmu_yfxt]' into out_msg from dual;
+"
+PRC_XIANGMU_YFXT	PROCEDURE	83	"      out_code := 1;
+"
+PRC_XIANGMU_YFXT	PROCEDURE	84	"      return;
+"
+PRC_XIANGMU_YFXT	PROCEDURE	85	"    end if;
+"
+PRC_XIANGMU_YFXT	PROCEDURE	86	"  
+"
+PRC_XIANGMU_YFXT	PROCEDURE	87	"  end if;
+"
+PRC_XIANGMU_YFXT	PROCEDURE	88	"  out_code := 1;
+"
+PRC_XIANGMU_YFXT	PROCEDURE	89	"  out_msg  := '';
+"
+PRC_XIANGMU_YFXT	PROCEDURE	90	"End;
+"

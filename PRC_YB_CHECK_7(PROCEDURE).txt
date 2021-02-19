@@ -1,0 +1,456 @@
+PRC_YB_CHECK_7	PROCEDURE	1	"procedure ""PRC_YB_CHECK_7""(in_ksdm       in varchar2,
+"
+PRC_YB_CHECK_7	PROCEDURE	2	"                                             in_patient_no in number,
+"
+PRC_YB_CHECK_7	PROCEDURE	3	"                                             out_msg       out varchar2) is
+"
+PRC_YB_CHECK_7	PROCEDURE	4	"
+"
+PRC_YB_CHECK_7	PROCEDURE	5	"  v_data       varchar2(600);
+"
+PRC_YB_CHECK_7	PROCEDURE	6	"  v_patient_no number;
+"
+PRC_YB_CHECK_7	PROCEDURE	7	"  v_count      number;
+"
+PRC_YB_CHECK_7	PROCEDURE	8	"  v_rq         varchar2(50);
+"
+PRC_YB_CHECK_7	PROCEDURE	9	"  v_xmmc       varchar2(50);
+"
+PRC_YB_CHECK_7	PROCEDURE	10	"  v_xmbh       varchar2(50);
+"
+PRC_YB_CHECK_7	PROCEDURE	11	"  v_sl_sum     number(10, 4);
+"
+PRC_YB_CHECK_7	PROCEDURE	12	"  v_kzsl_zy    number(10, 4);
+"
+PRC_YB_CHECK_7	PROCEDURE	13	"  v_add1       varchar2(50);
+"
+PRC_YB_CHECK_7	PROCEDURE	14	"  v_add2       varchar2(50);
+"
+PRC_YB_CHECK_7	PROCEDURE	15	"  v_add3       varchar2(50);
+"
+PRC_YB_CHECK_7	PROCEDURE	16	"  v_add4       varchar2(50);
+"
+PRC_YB_CHECK_7	PROCEDURE	17	"  v_ksdm       varchar2(50);
+"
+PRC_YB_CHECK_7	PROCEDURE	18	"  --定义游标
+"
+PRC_YB_CHECK_7	PROCEDURE	19	"  --   rq || "","" || xmmc || ""["" ||xmbh ||""],使用数量"" || sl_sum || "",超过限定数量"" || kzsl_zy || "";""
+"
+PRC_YB_CHECK_7	PROCEDURE	20	"  --select patient_no, rq, xmmc, xmbh, sl_sum, kzsl_zy
+"
+PRC_YB_CHECK_7	PROCEDURE	21	"
+"
+PRC_YB_CHECK_7	PROCEDURE	22	"  CURSOR yb_check7_cursor IS
+"
+PRC_YB_CHECK_7	PROCEDURE	23	"  
+"
+PRC_YB_CHECK_7	PROCEDURE	24	"    select patient_no,
+"
+PRC_YB_CHECK_7	PROCEDURE	25	"           rq || ':' || xmmc || '[' || xmbh || '],使用数量' || to_char(sl_sum) ||
+"
+PRC_YB_CHECK_7	PROCEDURE	26	"           ',超过限定数量' || to_char(kzsl_zy) || ';'
+"
+PRC_YB_CHECK_7	PROCEDURE	27	"      from (select patient_no,
+"
+PRC_YB_CHECK_7	PROCEDURE	28	"                   y.xmmc,
+"
+PRC_YB_CHECK_7	PROCEDURE	29	"                   y.xmbh,
+"
+PRC_YB_CHECK_7	PROCEDURE	30	"                   y.kzsl_zy,
+"
+PRC_YB_CHECK_7	PROCEDURE	31	"                   to_char(charge_date, 'yyyy-mm-dd') rq,
+"
+PRC_YB_CHECK_7	PROCEDURE	32	"                   sum(sl) sl_sum
+"
+PRC_YB_CHECK_7	PROCEDURE	33	"              From zy_detail_charge x, yb_znshgz y, yb_duizhaoml z
+"
+PRC_YB_CHECK_7	PROCEDURE	34	"             where y.xmbh = z.yibaodm
+"
+PRC_YB_CHECK_7	PROCEDURE	35	"               and z.xiangmuxh = x.charge_code
+"
+PRC_YB_CHECK_7	PROCEDURE	36	"               and z.xiangmucd = 0
+"
+PRC_YB_CHECK_7	PROCEDURE	37	"               and x.fygl > 3
+"
+PRC_YB_CHECK_7	PROCEDURE	38	"               and z.yibaolx = '9997'
+"
+PRC_YB_CHECK_7	PROCEDURE	39	"               and y.gzbh = 7
+"
+PRC_YB_CHECK_7	PROCEDURE	40	"               and y.kzsl_zy > 0
+"
+PRC_YB_CHECK_7	PROCEDURE	41	"               and nvl(twice_detail_code, '0') <> 'ZY'
+"
+PRC_YB_CHECK_7	PROCEDURE	42	"               and nvl(x.fhr, '0') <> 'SERVE'
+"
+PRC_YB_CHECK_7	PROCEDURE	43	"               and x.patient_no in (select patient_no
+"
+PRC_YB_CHECK_7	PROCEDURE	44	"                                      from zy_patient_information
+"
+PRC_YB_CHECK_7	PROCEDURE	45	"                                     where out_date is null
+"
+PRC_YB_CHECK_7	PROCEDURE	46	"                                       and preout_date is null
+"
+PRC_YB_CHECK_7	PROCEDURE	47	"                                       and cwfp_date is not null
+"
+PRC_YB_CHECK_7	PROCEDURE	48	"                                    --and admiss_date > sysdate - 20
+"
+PRC_YB_CHECK_7	PROCEDURE	49	"                                    )
+"
+PRC_YB_CHECK_7	PROCEDURE	50	"             group by patient_no,
+"
+PRC_YB_CHECK_7	PROCEDURE	51	"                      y.xmmc,
+"
+PRC_YB_CHECK_7	PROCEDURE	52	"                      y.xmbh,
+"
+PRC_YB_CHECK_7	PROCEDURE	53	"                      y.kzsl_zy,
+"
+PRC_YB_CHECK_7	PROCEDURE	54	"                      to_char(charge_date, 'yyyy-mm-dd')
+"
+PRC_YB_CHECK_7	PROCEDURE	55	"            having y.kzsl_zy < sum(sl));
+"
+PRC_YB_CHECK_7	PROCEDURE	56	"
+"
+PRC_YB_CHECK_7	PROCEDURE	57	"begin
+"
+PRC_YB_CHECK_7	PROCEDURE	58	"
+"
+PRC_YB_CHECK_7	PROCEDURE	59	"  --限定频次
+"
+PRC_YB_CHECK_7	PROCEDURE	60	"
+"
+PRC_YB_CHECK_7	PROCEDURE	61	"  --1  限工伤保险   16 单病种费用控制 2限生育, 4 限儿童,5 材料与项目不符, 6限性别,7 限定频次,8重复收费,82 重复用药
+"
+PRC_YB_CHECK_7	PROCEDURE	62	"
+"
+PRC_YB_CHECK_7	PROCEDURE	63	"  --住院病人超频次检查
+"
+PRC_YB_CHECK_7	PROCEDURE	64	"  insert into zy_jiaoyi_v1
+"
+PRC_YB_CHECK_7	PROCEDURE	65	"    (jiaoyilx, jylsh, patient_no)
+"
+PRC_YB_CHECK_7	PROCEDURE	66	"  values
+"
+PRC_YB_CHECK_7	PROCEDURE	67	"    ('PRC_YB_CHECK_7', in_ksdm, in_patient_no);
+"
+PRC_YB_CHECK_7	PROCEDURE	68	"  commit;
+"
+PRC_YB_CHECK_7	PROCEDURE	69	"
+"
+PRC_YB_CHECK_7	PROCEDURE	70	"  out_msg := '没有处理的内容';
+"
+PRC_YB_CHECK_7	PROCEDURE	71	"  if in_patient_no > 0 then
+"
+PRC_YB_CHECK_7	PROCEDURE	72	"    v_patient_no := in_patient_no;
+"
+PRC_YB_CHECK_7	PROCEDURE	73	"  else
+"
+PRC_YB_CHECK_7	PROCEDURE	74	"    v_patient_no := 0;
+"
+PRC_YB_CHECK_7	PROCEDURE	75	"  end if;
+"
+PRC_YB_CHECK_7	PROCEDURE	76	"
+"
+PRC_YB_CHECK_7	PROCEDURE	77	"  if in_ksdm > '0' then
+"
+PRC_YB_CHECK_7	PROCEDURE	78	"    v_ksdm := in_ksdm;
+"
+PRC_YB_CHECK_7	PROCEDURE	79	"  else
+"
+PRC_YB_CHECK_7	PROCEDURE	80	"    v_ksdm := '0';
+"
+PRC_YB_CHECK_7	PROCEDURE	81	"  end if;
+"
+PRC_YB_CHECK_7	PROCEDURE	82	"
+"
+PRC_YB_CHECK_7	PROCEDURE	83	"  -- 全院 v_patient_no = 0   v_ksdm = '0'
+"
+PRC_YB_CHECK_7	PROCEDURE	84	"  if 1 = 1 and v_patient_no = 0 then
+"
+PRC_YB_CHECK_7	PROCEDURE	85	"  
+"
+PRC_YB_CHECK_7	PROCEDURE	86	"    LOOP
+"
+PRC_YB_CHECK_7	PROCEDURE	87	"    
+"
+PRC_YB_CHECK_7	PROCEDURE	88	"      IF NOT yb_check7_cursor%ISOPEN THEN
+"
+PRC_YB_CHECK_7	PROCEDURE	89	"        --打开游标
+"
+PRC_YB_CHECK_7	PROCEDURE	90	"        OPEN yb_check7_cursor;
+"
+PRC_YB_CHECK_7	PROCEDURE	91	"      END IF;
+"
+PRC_YB_CHECK_7	PROCEDURE	92	"    
+"
+PRC_YB_CHECK_7	PROCEDURE	93	"      FETCH yb_check7_cursor
+"
+PRC_YB_CHECK_7	PROCEDURE	94	"        INTO v_patient_no, v_data;
+"
+PRC_YB_CHECK_7	PROCEDURE	95	"      --退出循环的条件
+"
+PRC_YB_CHECK_7	PROCEDURE	96	"      EXIT WHEN yb_check7_cursor%NOTFOUND OR yb_check7_cursor%NOTFOUND IS NULL;
+"
+PRC_YB_CHECK_7	PROCEDURE	97	"    
+"
+PRC_YB_CHECK_7	PROCEDURE	98	"      /*  select v_rq || ':' || v_xmmc || '[' || v_xmbh || '],使用数量' || v_sl_sum ||
+"
+PRC_YB_CHECK_7	PROCEDURE	99	"           ',超过限定数量' || v_kzsl_zy
+"
+PRC_YB_CHECK_7	PROCEDURE	100	"      into v_data
+"
+PRC_YB_CHECK_7	PROCEDURE	101	"      from dual;*/
+"
+PRC_YB_CHECK_7	PROCEDURE	102	"      if v_patient_no > 0 then
+"
+PRC_YB_CHECK_7	PROCEDURE	103	"        select count(*)
+"
+PRC_YB_CHECK_7	PROCEDURE	104	"          into v_count
+"
+PRC_YB_CHECK_7	PROCEDURE	105	"          From yb_znshgz_zybr
+"
+PRC_YB_CHECK_7	PROCEDURE	106	"         where patient_no = v_patient_no;
+"
+PRC_YB_CHECK_7	PROCEDURE	107	"        if v_count > 0 then
+"
+PRC_YB_CHECK_7	PROCEDURE	108	"          update yb_znshgz_zybr
+"
+PRC_YB_CHECK_7	PROCEDURE	109	"             set rq = sysdate, bz = nvl(bz, ' ') || v_data
+"
+PRC_YB_CHECK_7	PROCEDURE	110	"           where patient_no = v_patient_no;
+"
+PRC_YB_CHECK_7	PROCEDURE	111	"        end if;
+"
+PRC_YB_CHECK_7	PROCEDURE	112	"        if v_count = 0 then
+"
+PRC_YB_CHECK_7	PROCEDURE	113	"          insert into yb_znshgz_zybr
+"
+PRC_YB_CHECK_7	PROCEDURE	114	"            (patient_no, bz)
+"
+PRC_YB_CHECK_7	PROCEDURE	115	"          values
+"
+PRC_YB_CHECK_7	PROCEDURE	116	"            (v_patient_no, v_data);
+"
+PRC_YB_CHECK_7	PROCEDURE	117	"        end if;
+"
+PRC_YB_CHECK_7	PROCEDURE	118	"        if sqlcode = 0 then
+"
+PRC_YB_CHECK_7	PROCEDURE	119	"          commit;
+"
+PRC_YB_CHECK_7	PROCEDURE	120	"        else
+"
+PRC_YB_CHECK_7	PROCEDURE	121	"          rollback;
+"
+PRC_YB_CHECK_7	PROCEDURE	122	"        end if;
+"
+PRC_YB_CHECK_7	PROCEDURE	123	"      end if;
+"
+PRC_YB_CHECK_7	PROCEDURE	124	"    
+"
+PRC_YB_CHECK_7	PROCEDURE	125	"      if sqlcode <> 0 then
+"
+PRC_YB_CHECK_7	PROCEDURE	126	"        rollback;
+"
+PRC_YB_CHECK_7	PROCEDURE	127	"        --关闭游标
+"
+PRC_YB_CHECK_7	PROCEDURE	128	"        close yb_check7_cursor;
+"
+PRC_YB_CHECK_7	PROCEDURE	129	"      
+"
+PRC_YB_CHECK_7	PROCEDURE	130	"      end if;
+"
+PRC_YB_CHECK_7	PROCEDURE	131	"    
+"
+PRC_YB_CHECK_7	PROCEDURE	132	"      --dbms_output.put_line('员工编号为' || v_yhdm|| '的' || v_xm|| '系统序号为:' ||v_xtxh); 
+"
+PRC_YB_CHECK_7	PROCEDURE	133	"    
+"
+PRC_YB_CHECK_7	PROCEDURE	134	"    END LOOP;
+"
+PRC_YB_CHECK_7	PROCEDURE	135	"  
+"
+PRC_YB_CHECK_7	PROCEDURE	136	"  end if;
+"
+PRC_YB_CHECK_7	PROCEDURE	137	"
+"
+PRC_YB_CHECK_7	PROCEDURE	138	"  -- 个人 v_patient_no > 0   
+"
+PRC_YB_CHECK_7	PROCEDURE	139	"  if 3 = 3 and in_patient_no > 0 then
+"
+PRC_YB_CHECK_7	PROCEDURE	140	"    v_patient_no := in_patient_no;
+"
+PRC_YB_CHECK_7	PROCEDURE	141	"    /*
+"
+PRC_YB_CHECK_7	PROCEDURE	142	"    select patient_no,
+"
+PRC_YB_CHECK_7	PROCEDURE	143	"           rq || ':' || xmmc || '[' || xmbh || '],使用数量' || sl_sum ||
+"
+PRC_YB_CHECK_7	PROCEDURE	144	"           ',超过限定数量' || kzsl_zy
+"
+PRC_YB_CHECK_7	PROCEDURE	145	"      INTO v_patient_no, v_data
+"
+PRC_YB_CHECK_7	PROCEDURE	146	"      from (select patient_no,
+"
+PRC_YB_CHECK_7	PROCEDURE	147	"                   y.xmmc,
+"
+PRC_YB_CHECK_7	PROCEDURE	148	"                   y.xmbh,
+"
+PRC_YB_CHECK_7	PROCEDURE	149	"                   y.kzsl_zy,
+"
+PRC_YB_CHECK_7	PROCEDURE	150	"                   to_char(charge_date, 'yyyy-mm-dd') rq,
+"
+PRC_YB_CHECK_7	PROCEDURE	151	"                   sum(sl) sl_sum
+"
+PRC_YB_CHECK_7	PROCEDURE	152	"              From zy_detail_charge x, yb_znshgz y
+"
+PRC_YB_CHECK_7	PROCEDURE	153	"             where x.ybdm = y.xmbh
+"
+PRC_YB_CHECK_7	PROCEDURE	154	"               and y.gzbh = 7
+"
+PRC_YB_CHECK_7	PROCEDURE	155	"               and y.kzsl_zy > 0
+"
+PRC_YB_CHECK_7	PROCEDURE	156	"               and nvl(x.fhr, '0') <> 'SERVE'
+"
+PRC_YB_CHECK_7	PROCEDURE	157	"               and x.patient_no = v_patient_no
+"
+PRC_YB_CHECK_7	PROCEDURE	158	"             group by patient_no,
+"
+PRC_YB_CHECK_7	PROCEDURE	159	"                      y.xmmc,
+"
+PRC_YB_CHECK_7	PROCEDURE	160	"                      y.xmbh,
+"
+PRC_YB_CHECK_7	PROCEDURE	161	"                      y.kzsl_zy,
+"
+PRC_YB_CHECK_7	PROCEDURE	162	"                      to_char(charge_date, 'yyyy-mm-dd')
+"
+PRC_YB_CHECK_7	PROCEDURE	163	"            having y.kzsl_zy < sum(sl));
+"
+PRC_YB_CHECK_7	PROCEDURE	164	"     
+"
+PRC_YB_CHECK_7	PROCEDURE	165	"           */
+"
+PRC_YB_CHECK_7	PROCEDURE	166	"    if v_ksdm = '9999' then
+"
+PRC_YB_CHECK_7	PROCEDURE	167	"    
+"
+PRC_YB_CHECK_7	PROCEDURE	168	"      null;
+"
+PRC_YB_CHECK_7	PROCEDURE	169	"    else
+"
+PRC_YB_CHECK_7	PROCEDURE	170	"    
+"
+PRC_YB_CHECK_7	PROCEDURE	171	"      select patient_no,
+"
+PRC_YB_CHECK_7	PROCEDURE	172	"             rq || ':' || xmmc || '[' || xmbh || '],使用数量' || sl_sum ||
+"
+PRC_YB_CHECK_7	PROCEDURE	173	"             ',超过限定数量' || kzsl_zy
+"
+PRC_YB_CHECK_7	PROCEDURE	174	"        INTO v_patient_no, v_data
+"
+PRC_YB_CHECK_7	PROCEDURE	175	"        from (select patient_no,
+"
+PRC_YB_CHECK_7	PROCEDURE	176	"                     y.xmmc,
+"
+PRC_YB_CHECK_7	PROCEDURE	177	"                     y.xmbh,
+"
+PRC_YB_CHECK_7	PROCEDURE	178	"                     y.kzsl_zy,
+"
+PRC_YB_CHECK_7	PROCEDURE	179	"                     to_char(charge_date, 'yyyy-mm-dd') rq,
+"
+PRC_YB_CHECK_7	PROCEDURE	180	"                     sum(sl) sl_sum
+"
+PRC_YB_CHECK_7	PROCEDURE	181	"                From zy_detail_charge x, yb_znshgz y, yb_duizhaoml z
+"
+PRC_YB_CHECK_7	PROCEDURE	182	"               where y.xmbh = z.yibaodm
+"
+PRC_YB_CHECK_7	PROCEDURE	183	"                 and z.xiangmuxh = x.charge_code
+"
+PRC_YB_CHECK_7	PROCEDURE	184	"                 and z.xiangmucd = 0
+"
+PRC_YB_CHECK_7	PROCEDURE	185	"                 and z.yibaolx = '9997'
+"
+PRC_YB_CHECK_7	PROCEDURE	186	"                 and y.gzbh = 7
+"
+PRC_YB_CHECK_7	PROCEDURE	187	"                 and y.kzsl_zy > 0
+"
+PRC_YB_CHECK_7	PROCEDURE	188	"                 and x.fygl > 3
+"
+PRC_YB_CHECK_7	PROCEDURE	189	"                 and nvl(x.twice_detail_code, '0') <> 'ZY'
+"
+PRC_YB_CHECK_7	PROCEDURE	190	"                 and x.patient_no = v_patient_no
+"
+PRC_YB_CHECK_7	PROCEDURE	191	"               group by patient_no,
+"
+PRC_YB_CHECK_7	PROCEDURE	192	"                        y.xmmc,
+"
+PRC_YB_CHECK_7	PROCEDURE	193	"                        y.xmbh,
+"
+PRC_YB_CHECK_7	PROCEDURE	194	"                        y.kzsl_zy,
+"
+PRC_YB_CHECK_7	PROCEDURE	195	"                        to_char(charge_date, 'yyyy-mm-dd')
+"
+PRC_YB_CHECK_7	PROCEDURE	196	"              having y.kzsl_zy < sum(sl));
+"
+PRC_YB_CHECK_7	PROCEDURE	197	"    
+"
+PRC_YB_CHECK_7	PROCEDURE	198	"      if v_patient_no > 0 then
+"
+PRC_YB_CHECK_7	PROCEDURE	199	"        select count(*)
+"
+PRC_YB_CHECK_7	PROCEDURE	200	"          into v_count
+"
+PRC_YB_CHECK_7	PROCEDURE	201	"          From yb_znshgz_zybr
+"
+PRC_YB_CHECK_7	PROCEDURE	202	"         where patient_no = v_patient_no;
+"
+PRC_YB_CHECK_7	PROCEDURE	203	"        if v_count > 0 then
+"
+PRC_YB_CHECK_7	PROCEDURE	204	"          update yb_znshgz_zybr
+"
+PRC_YB_CHECK_7	PROCEDURE	205	"             set rq = sysdate, bz = nvl(bz, ' ') || v_data
+"
+PRC_YB_CHECK_7	PROCEDURE	206	"           where patient_no = v_patient_no;
+"
+PRC_YB_CHECK_7	PROCEDURE	207	"        end if;
+"
+PRC_YB_CHECK_7	PROCEDURE	208	"        if v_count = 0 then
+"
+PRC_YB_CHECK_7	PROCEDURE	209	"          insert into yb_znshgz_zybr
+"
+PRC_YB_CHECK_7	PROCEDURE	210	"            (patient_no, bz)
+"
+PRC_YB_CHECK_7	PROCEDURE	211	"          values
+"
+PRC_YB_CHECK_7	PROCEDURE	212	"            (v_patient_no, v_data);
+"
+PRC_YB_CHECK_7	PROCEDURE	213	"        end if;
+"
+PRC_YB_CHECK_7	PROCEDURE	214	"        if sqlcode = 0 then
+"
+PRC_YB_CHECK_7	PROCEDURE	215	"          commit;
+"
+PRC_YB_CHECK_7	PROCEDURE	216	"        else
+"
+PRC_YB_CHECK_7	PROCEDURE	217	"          rollback;
+"
+PRC_YB_CHECK_7	PROCEDURE	218	"        end if;
+"
+PRC_YB_CHECK_7	PROCEDURE	219	"      end if;
+"
+PRC_YB_CHECK_7	PROCEDURE	220	"    end if;
+"
+PRC_YB_CHECK_7	PROCEDURE	221	"  end if;
+"
+PRC_YB_CHECK_7	PROCEDURE	222	"
+"
+PRC_YB_CHECK_7	PROCEDURE	223	"EXCEPTION
+"
+PRC_YB_CHECK_7	PROCEDURE	224	"  WHEN OTHERS Then
+"
+PRC_YB_CHECK_7	PROCEDURE	225	"    Rollback;
+"
+PRC_YB_CHECK_7	PROCEDURE	226	"    out_msg := '处理失败,PRC_YB_CHECK_7';
+"
+PRC_YB_CHECK_7	PROCEDURE	227	"    return;
+"
+PRC_YB_CHECK_7	PROCEDURE	228	"end PRC_YB_CHECK_7;
+"

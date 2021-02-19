@@ -1,0 +1,248 @@
+PRC_XIANGMU_HIS_SP2	PROCEDURE	1	"procedure prc_xiangmu_his_sp2(in_jiaoyilx  in varchar2, --交易类型
+"
+PRC_XIANGMU_HIS_SP2	PROCEDURE	2	"                                                in_spbh      in varchar2, --审批编号  
+"
+PRC_XIANGMU_HIS_SP2	PROCEDURE	3	"                                                in_caozuogh  in varchar2, --操作工号                                     
+"
+PRC_XIANGMU_HIS_SP2	PROCEDURE	4	"                                                in_shengpiyj in varchar2) is
+"
+PRC_XIANGMU_HIS_SP2	PROCEDURE	5	"
+"
+PRC_XIANGMU_HIS_SP2	PROCEDURE	6	"  -- in_jiaoyilx varchar2业务节点名称
+"
+PRC_XIANGMU_HIS_SP2	PROCEDURE	7	"  --in_spbh --审批编号  
+"
+PRC_XIANGMU_HIS_SP2	PROCEDURE	8	"  --in_caozuogh  varchar2操作人员工号，
+"
+PRC_XIANGMU_HIS_SP2	PROCEDURE	9	"  --in_other  varchar2其它参数，
+"
+PRC_XIANGMU_HIS_SP2	PROCEDURE	10	"  --out_code out INTEGER返回值interger值，>=1 说明通过
+"
+PRC_XIANGMU_HIS_SP2	PROCEDURE	11	"  --out_msg  out varchar2  返回  内容)
+"
+PRC_XIANGMU_HIS_SP2	PROCEDURE	12	"
+"
+PRC_XIANGMU_HIS_SP2	PROCEDURE	13	"  --入参说明：
+"
+PRC_XIANGMU_HIS_SP2	PROCEDURE	14	"  --  皮试结果更新, 操作工号,处方识别=13564074|处方序号cfxh＝1|药品序号＝5666|药品产地代码＝2108|皮试状态=阴性|执行结果=通过|
+"
+PRC_XIANGMU_HIS_SP2	PROCEDURE	15	"
+"
+PRC_XIANGMU_HIS_SP2	PROCEDURE	16	"  v_icd10      varchar2(30);
+"
+PRC_XIANGMU_HIS_SP2	PROCEDURE	17	"  v_icd10_from varchar2(30);
+"
+PRC_XIANGMU_HIS_SP2	PROCEDURE	18	"  v_data       varchar2(300);
+"
+PRC_XIANGMU_HIS_SP2	PROCEDURE	19	"  v_data_temp  varchar2(200);
+"
+PRC_XIANGMU_HIS_SP2	PROCEDURE	20	"  v_sfzh       varchar2(50);
+"
+PRC_XIANGMU_HIS_SP2	PROCEDURE	21	"  v_str1       varchar2(20);
+"
+PRC_XIANGMU_HIS_SP2	PROCEDURE	22	"  v_str2       varchar2(20);
+"
+PRC_XIANGMU_HIS_SP2	PROCEDURE	23	"  v_str3       varchar2(20);
+"
+PRC_XIANGMU_HIS_SP2	PROCEDURE	24	"  v_str4       varchar2(20);
+"
+PRC_XIANGMU_HIS_SP2	PROCEDURE	25	"  v_str5       varchar2(20);
+"
+PRC_XIANGMU_HIS_SP2	PROCEDURE	26	"  v_str6       varchar2(20);
+"
+PRC_XIANGMU_HIS_SP2	PROCEDURE	27	"  v_str7       varchar2(20);
+"
+PRC_XIANGMU_HIS_SP2	PROCEDURE	28	"  v_str8       varchar2(20);
+"
+PRC_XIANGMU_HIS_SP2	PROCEDURE	29	"  v_str9       varchar2(20);
+"
+PRC_XIANGMU_HIS_SP2	PROCEDURE	30	"  v_temp       varchar2(50);
+"
+PRC_XIANGMU_HIS_SP2	PROCEDURE	31	"  v_flag1      varchar2(10);
+"
+PRC_XIANGMU_HIS_SP2	PROCEDURE	32	"  v_flag2      varchar2(10);
+"
+PRC_XIANGMU_HIS_SP2	PROCEDURE	33	"
+"
+PRC_XIANGMU_HIS_SP2	PROCEDURE	34	"  --临时的统计的数量
+"
+PRC_XIANGMU_HIS_SP2	PROCEDURE	35	"  v_count      number;
+"
+PRC_XIANGMU_HIS_SP2	PROCEDURE	36	"  v_count2     number;
+"
+PRC_XIANGMU_HIS_SP2	PROCEDURE	37	"  v_count_temp number;
+"
+PRC_XIANGMU_HIS_SP2	PROCEDURE	38	"  --操作工号
+"
+PRC_XIANGMU_HIS_SP2	PROCEDURE	39	"  --v_caozuogh varchar2(20);
+"
+PRC_XIANGMU_HIS_SP2	PROCEDURE	40	"  --prc_xiangmu_pishi
+"
+PRC_XIANGMU_HIS_SP2	PROCEDURE	41	"begin
+"
+PRC_XIANGMU_HIS_SP2	PROCEDURE	42	"
+"
+PRC_XIANGMU_HIS_SP2	PROCEDURE	43	"  insert into zy_jiaoyi_v1
+"
+PRC_XIANGMU_HIS_SP2	PROCEDURE	44	"    (jiaoyilx, caozuogh, bz, jylsh)
+"
+PRC_XIANGMU_HIS_SP2	PROCEDURE	45	"  values
+"
+PRC_XIANGMU_HIS_SP2	PROCEDURE	46	"    (in_jiaoyilx, in_caozuogh, 'prc_xiangmu_his_sp2', in_spbh);
+"
+PRC_XIANGMU_HIS_SP2	PROCEDURE	47	"  commit;
+"
+PRC_XIANGMU_HIS_SP2	PROCEDURE	48	"
+"
+PRC_XIANGMU_HIS_SP2	PROCEDURE	49	"  insert into zy_jiaoyi_v1
+"
+PRC_XIANGMU_HIS_SP2	PROCEDURE	50	"    (jiaoyilx, caozuogh, bz, jylsh)
+"
+PRC_XIANGMU_HIS_SP2	PROCEDURE	51	"  values
+"
+PRC_XIANGMU_HIS_SP2	PROCEDURE	52	"    (in_jiaoyilx, in_caozuogh, 'prc_xiangmu_his_sp2b', in_shengpiyj);
+"
+PRC_XIANGMU_HIS_SP2	PROCEDURE	53	"  commit;
+"
+PRC_XIANGMU_HIS_SP2	PROCEDURE	54	"
+"
+PRC_XIANGMU_HIS_SP2	PROCEDURE	55	"  if in_jiaoyilx = '特殊使用级抗菌药物使用申请' then
+"
+PRC_XIANGMU_HIS_SP2	PROCEDURE	56	"    --v_his_sqxx   gy_xmspxx_kss
+"
+PRC_XIANGMU_HIS_SP2	PROCEDURE	57	"    /*   update gy_xmspxx_kss
+"
+PRC_XIANGMU_HIS_SP2	PROCEDURE	58	"       set grbh = '临时开放ok',
+"
+PRC_XIANGMU_HIS_SP2	PROCEDURE	59	"           spsl = spsl_sq,
+"
+PRC_XIANGMU_HIS_SP2	PROCEDURE	60	"           spbz = 1,
+"
+PRC_XIANGMU_HIS_SP2	PROCEDURE	61	"           spr  = 'OA',
+"
+PRC_XIANGMU_HIS_SP2	PROCEDURE	62	"           sprq = sysdate
+"
+PRC_XIANGMU_HIS_SP2	PROCEDURE	63	"     where spbh = in_spbh;
+"
+PRC_XIANGMU_HIS_SP2	PROCEDURE	64	"    if sqlcode = 0 then
+"
+PRC_XIANGMU_HIS_SP2	PROCEDURE	65	"      commit;    
+"
+PRC_XIANGMU_HIS_SP2	PROCEDURE	66	"      --out_msg  := '更新成功 prc_xiangmu_his_sp';
+"
+PRC_XIANGMU_HIS_SP2	PROCEDURE	67	"    else
+"
+PRC_XIANGMU_HIS_SP2	PROCEDURE	68	"      rollback;    
+"
+PRC_XIANGMU_HIS_SP2	PROCEDURE	69	"      -- out_msg  := '更新失败 prc_xiangmu_his_sp';
+"
+PRC_XIANGMU_HIS_SP2	PROCEDURE	70	"    end if;*/
+"
+PRC_XIANGMU_HIS_SP2	PROCEDURE	71	"  
+"
+PRC_XIANGMU_HIS_SP2	PROCEDURE	72	"    select max(zgid) into v_temp from gy_zgxx where ynzggh = in_caozuogh;
+"
+PRC_XIANGMU_HIS_SP2	PROCEDURE	73	"  
+"
+PRC_XIANGMU_HIS_SP2	PROCEDURE	74	"    update gy_xmspxx_kss
+"
+PRC_XIANGMU_HIS_SP2	PROCEDURE	75	"       set grbh = '临时开放ok',
+"
+PRC_XIANGMU_HIS_SP2	PROCEDURE	76	"           spsl = spsl_sq,
+"
+PRC_XIANGMU_HIS_SP2	PROCEDURE	77	"           spbz = 1,
+"
+PRC_XIANGMU_HIS_SP2	PROCEDURE	78	"           spr  = v_temp,
+"
+PRC_XIANGMU_HIS_SP2	PROCEDURE	79	"           sprq = sysdate
+"
+PRC_XIANGMU_HIS_SP2	PROCEDURE	80	"    
+"
+PRC_XIANGMU_HIS_SP2	PROCEDURE	81	"     where grbh = '临时开放'
+"
+PRC_XIANGMU_HIS_SP2	PROCEDURE	82	"       and spbh = in_spbh
+"
+PRC_XIANGMU_HIS_SP2	PROCEDURE	83	"       and nvl(sqrq, sysdate) > sysdate - 30;
+"
+PRC_XIANGMU_HIS_SP2	PROCEDURE	84	"    if sqlcode = 0 then
+"
+PRC_XIANGMU_HIS_SP2	PROCEDURE	85	"      commit;
+"
+PRC_XIANGMU_HIS_SP2	PROCEDURE	86	"    
+"
+PRC_XIANGMU_HIS_SP2	PROCEDURE	87	"      --out_msg  := '更新成功 prc_xiangmu_his_sp';
+"
+PRC_XIANGMU_HIS_SP2	PROCEDURE	88	"    else
+"
+PRC_XIANGMU_HIS_SP2	PROCEDURE	89	"      rollback;
+"
+PRC_XIANGMU_HIS_SP2	PROCEDURE	90	"    
+"
+PRC_XIANGMU_HIS_SP2	PROCEDURE	91	"      -- out_msg  := '更新失败 prc_xiangmu_his_sp';
+"
+PRC_XIANGMU_HIS_SP2	PROCEDURE	92	"    end if;
+"
+PRC_XIANGMU_HIS_SP2	PROCEDURE	93	"    null;
+"
+PRC_XIANGMU_HIS_SP2	PROCEDURE	94	"    return;
+"
+PRC_XIANGMU_HIS_SP2	PROCEDURE	95	"  
+"
+PRC_XIANGMU_HIS_SP2	PROCEDURE	96	"  end if;
+"
+PRC_XIANGMU_HIS_SP2	PROCEDURE	97	"
+"
+PRC_XIANGMU_HIS_SP2	PROCEDURE	98	"  if in_jiaoyilx = '特殊使用级抗菌药物使用审批' then
+"
+PRC_XIANGMU_HIS_SP2	PROCEDURE	99	"  
+"
+PRC_XIANGMU_HIS_SP2	PROCEDURE	100	"    select max(zgid) into v_temp from gy_zgxx where ynzggh = in_caozuogh;
+"
+PRC_XIANGMU_HIS_SP2	PROCEDURE	101	"  
+"
+PRC_XIANGMU_HIS_SP2	PROCEDURE	102	"    update gy_xmspxx_kss
+"
+PRC_XIANGMU_HIS_SP2	PROCEDURE	103	"       set spsl = spsl_sq, spbz = 1, spr = v_temp, sprq = sysdate
+"
+PRC_XIANGMU_HIS_SP2	PROCEDURE	104	"    
+"
+PRC_XIANGMU_HIS_SP2	PROCEDURE	105	"     where spbh = in_spbh
+"
+PRC_XIANGMU_HIS_SP2	PROCEDURE	106	"       and nvl(sqrq, sysdate) > sysdate - 30;
+"
+PRC_XIANGMU_HIS_SP2	PROCEDURE	107	"    if sqlcode = 0 then
+"
+PRC_XIANGMU_HIS_SP2	PROCEDURE	108	"      commit;
+"
+PRC_XIANGMU_HIS_SP2	PROCEDURE	109	"    
+"
+PRC_XIANGMU_HIS_SP2	PROCEDURE	110	"      --out_msg  := '更新成功 prc_xiangmu_his_sp';
+"
+PRC_XIANGMU_HIS_SP2	PROCEDURE	111	"    else
+"
+PRC_XIANGMU_HIS_SP2	PROCEDURE	112	"      rollback;
+"
+PRC_XIANGMU_HIS_SP2	PROCEDURE	113	"    
+"
+PRC_XIANGMU_HIS_SP2	PROCEDURE	114	"      -- out_msg  := '更新失败 prc_xiangmu_his_sp';
+"
+PRC_XIANGMU_HIS_SP2	PROCEDURE	115	"    end if;
+"
+PRC_XIANGMU_HIS_SP2	PROCEDURE	116	"    null;
+"
+PRC_XIANGMU_HIS_SP2	PROCEDURE	117	"    return;
+"
+PRC_XIANGMU_HIS_SP2	PROCEDURE	118	"  
+"
+PRC_XIANGMU_HIS_SP2	PROCEDURE	119	"  end if;
+"
+PRC_XIANGMU_HIS_SP2	PROCEDURE	120	"
+"
+PRC_XIANGMU_HIS_SP2	PROCEDURE	121	"  -- out_msg  := '交易类型 不对';
+"
+PRC_XIANGMU_HIS_SP2	PROCEDURE	122	"  return;
+"
+PRC_XIANGMU_HIS_SP2	PROCEDURE	123	"
+"
+PRC_XIANGMU_HIS_SP2	PROCEDURE	124	"end;
+"

@@ -1,0 +1,166 @@
+PRO_JYK2018_SEND	PROCEDURE	1	"procedure pro_jyk2018_send is
+"
+PRO_JYK2018_SEND	PROCEDURE	2	"  nr          varchar2(200);
+"
+PRO_JYK2018_SEND	PROCEDURE	3	"  ysdh        varchar2(40);
+"
+PRO_JYK2018_SEND	PROCEDURE	4	"  ls_show     varchar2(80);
+"
+PRO_JYK2018_SEND	PROCEDURE	5	"  sj          number;
+"
+PRO_JYK2018_SEND	PROCEDURE	6	"  sl          number;
+"
+PRO_JYK2018_SEND	PROCEDURE	7	"  ll_laborder number;
+"
+PRO_JYK2018_SEND	PROCEDURE	8	"  ll_xh       number;
+"
+PRO_JYK2018_SEND	PROCEDURE	9	"
+"
+PRO_JYK2018_SEND	PROCEDURE	10	"  --定义游标
+"
+PRO_JYK2018_SEND	PROCEDURE	11	"  CURSOR v_jianyanweijizhi_cursor is
+"
+PRO_JYK2018_SEND	PROCEDURE	12	"  
+"
+PRO_JYK2018_SEND	PROCEDURE	13	"    select sj, nr, ysdh, laborder From v_jianyanweijizhi where sj < 10;
+"
+PRO_JYK2018_SEND	PROCEDURE	14	"
+"
+PRO_JYK2018_SEND	PROCEDURE	15	"begin
+"
+PRO_JYK2018_SEND	PROCEDURE	16	"
+"
+PRO_JYK2018_SEND	PROCEDURE	17	"  LOOP
+"
+PRO_JYK2018_SEND	PROCEDURE	18	"  
+"
+PRO_JYK2018_SEND	PROCEDURE	19	"    IF NOT v_jianyanweijizhi_cursor%ISOPEN THEN
+"
+PRO_JYK2018_SEND	PROCEDURE	20	"      --打开游标
+"
+PRO_JYK2018_SEND	PROCEDURE	21	"      OPEN v_jianyanweijizhi_cursor;
+"
+PRO_JYK2018_SEND	PROCEDURE	22	"    END IF;
+"
+PRO_JYK2018_SEND	PROCEDURE	23	"  
+"
+PRO_JYK2018_SEND	PROCEDURE	24	"    FETCH v_jianyanweijizhi_cursor
+"
+PRO_JYK2018_SEND	PROCEDURE	25	"      INTO sj, nr, ysdh, ll_laborder;
+"
+PRO_JYK2018_SEND	PROCEDURE	26	"    --退出循环的条件
+"
+PRO_JYK2018_SEND	PROCEDURE	27	"    EXIT WHEN v_jianyanweijizhi_cursor%NOTFOUND OR v_jianyanweijizhi_cursor%NOTFOUND IS NULL;
+"
+PRO_JYK2018_SEND	PROCEDURE	28	"    sl := 0;
+"
+PRO_JYK2018_SEND	PROCEDURE	29	"    select count(xh)
+"
+PRO_JYK2018_SEND	PROCEDURE	30	"      into sl
+"
+PRO_JYK2018_SEND	PROCEDURE	31	"      from auto_task_ywzx_send
+"
+PRO_JYK2018_SEND	PROCEDURE	32	"     where date_send > sysdate - 0.01
+"
+PRO_JYK2018_SEND	PROCEDURE	33	"       and laborder = ll_laborder;
+"
+PRO_JYK2018_SEND	PROCEDURE	34	"    if sl > 0 then
+"
+PRO_JYK2018_SEND	PROCEDURE	35	"      exit;
+"
+PRO_JYK2018_SEND	PROCEDURE	36	"    end if;
+"
+PRO_JYK2018_SEND	PROCEDURE	37	"  
+"
+PRO_JYK2018_SEND	PROCEDURE	38	"    if ysdh > '0' then
+"
+PRO_JYK2018_SEND	PROCEDURE	39	"      sl := 0;
+"
+PRO_JYK2018_SEND	PROCEDURE	40	"    else
+"
+PRO_JYK2018_SEND	PROCEDURE	41	"      ysdh := '13958443561'; --吴灵芝电话
+"
+PRO_JYK2018_SEND	PROCEDURE	42	"    end if;
+"
+PRO_JYK2018_SEND	PROCEDURE	43	"  
+"
+PRO_JYK2018_SEND	PROCEDURE	44	"    select max(xh) into ll_xh from auto_task_ywzx_send;
+"
+PRO_JYK2018_SEND	PROCEDURE	45	"    ll_xh := ll_xh + 1;
+"
+PRO_JYK2018_SEND	PROCEDURE	46	"    insert into auto_task_ywzx_send
+"
+PRO_JYK2018_SEND	PROCEDURE	47	"      (xh, lxdh, bz, date_add, lx, laborder)
+"
+PRO_JYK2018_SEND	PROCEDURE	48	"    values
+"
+PRO_JYK2018_SEND	PROCEDURE	49	"      (ll_xh, ysdh, nr, sysdate, 'wj', ll_laborder);
+"
+PRO_JYK2018_SEND	PROCEDURE	50	"  
+"
+PRO_JYK2018_SEND	PROCEDURE	51	"    if sqlcode <> 0 then
+"
+PRO_JYK2018_SEND	PROCEDURE	52	"      rollback;
+"
+PRO_JYK2018_SEND	PROCEDURE	53	"      select max(xh) into ll_xh from auto_task_ywzx_send;
+"
+PRO_JYK2018_SEND	PROCEDURE	54	"      ll_xh := ll_xh + 1;
+"
+PRO_JYK2018_SEND	PROCEDURE	55	"      insert into auto_task_ywzx_send
+"
+PRO_JYK2018_SEND	PROCEDURE	56	"        (xh, lxdh, bz, date_add, lx, laborder)
+"
+PRO_JYK2018_SEND	PROCEDURE	57	"      values
+"
+PRO_JYK2018_SEND	PROCEDURE	58	"        (ll_xh, ysdh, nr, sysdate, 'wj', ll_laborder);
+"
+PRO_JYK2018_SEND	PROCEDURE	59	"    
+"
+PRO_JYK2018_SEND	PROCEDURE	60	"      if sqlcode <> 0 then
+"
+PRO_JYK2018_SEND	PROCEDURE	61	"        rollback;
+"
+PRO_JYK2018_SEND	PROCEDURE	62	"        select max(xh) into ll_xh from auto_task_ywzx_send;
+"
+PRO_JYK2018_SEND	PROCEDURE	63	"        ll_xh := ll_xh + 1;
+"
+PRO_JYK2018_SEND	PROCEDURE	64	"        insert into auto_task_ywzx_send
+"
+PRO_JYK2018_SEND	PROCEDURE	65	"          (xh, lxdh, bz, date_add, lx, laborder)
+"
+PRO_JYK2018_SEND	PROCEDURE	66	"        values
+"
+PRO_JYK2018_SEND	PROCEDURE	67	"          (ll_xh, ysdh, nr, sysdate, 'wj', ll_laborder);
+"
+PRO_JYK2018_SEND	PROCEDURE	68	"      
+"
+PRO_JYK2018_SEND	PROCEDURE	69	"        if sqlcode <> 0 then
+"
+PRO_JYK2018_SEND	PROCEDURE	70	"          rollback;
+"
+PRO_JYK2018_SEND	PROCEDURE	71	"          exit;
+"
+PRO_JYK2018_SEND	PROCEDURE	72	"        end if;
+"
+PRO_JYK2018_SEND	PROCEDURE	73	"      
+"
+PRO_JYK2018_SEND	PROCEDURE	74	"      end if;
+"
+PRO_JYK2018_SEND	PROCEDURE	75	"    
+"
+PRO_JYK2018_SEND	PROCEDURE	76	"    end if;
+"
+PRO_JYK2018_SEND	PROCEDURE	77	"    commit;
+"
+PRO_JYK2018_SEND	PROCEDURE	78	"  
+"
+PRO_JYK2018_SEND	PROCEDURE	79	"  END LOOP;
+"
+PRO_JYK2018_SEND	PROCEDURE	80	"
+"
+PRO_JYK2018_SEND	PROCEDURE	81	"  close v_jianyanweijizhi_cursor;
+"
+PRO_JYK2018_SEND	PROCEDURE	82	"
+"
+PRO_JYK2018_SEND	PROCEDURE	83	"end pro_jyk2018_send;
+"

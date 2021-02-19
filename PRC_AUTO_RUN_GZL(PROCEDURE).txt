@@ -1,0 +1,2286 @@
+PRC_AUTO_RUN_GZL	PROCEDURE	1	"PROCEDURE ""PRC_AUTO_RUN_GZL""
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	2	"
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	3	"  --(in_d1 in date, --交易类型
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	4	"  --                                             in_d2 in date)
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	5	"
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	6	" Is
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	7	"
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	8	"  /*=============================================================================
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	9	"  || 过程名称 ： PRC_AUTO_RUN_QUERY1 后台自动运行
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	10	"  ||-----------------------------------------------------------------------------
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	11	"  || 功能说明 ：  JOB 定时10分钟 执行 后台任务
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	12	"  ||-----------------------------------------------------------------------------
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	13	"  || 参数描述 ： 无
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	14	"  ------------------------------------------------------------
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	15	"  ||-----------------------------------------------------------------------------
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	16	"  || 注意事项 ：
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	17	"  ||-----------------------------------------------------------------------------
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	18	"  || 作    者 ：       完成日期 ：
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	19	"  ||-----------------------------------------------------------------------------
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	20	"  || 修改记录 ：
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	21	"  =============================================================================*/
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	22	"  v_Procedure_Name Varchar2(50);
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	23	"  v_task           Varchar2(30);
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	24	"  i                number;
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	25	"  v_query_id       number;
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	26	"  flag_do          number;
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	27	"  total_row        Number;
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	28	"  i                Number;
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	29	"  flag_week        number;
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	30	"  flag_month       number;
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	31	"  v_mess           Varchar2(400);
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	32	"  v_mess_all       Varchar2(1000);
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	33	"  v_mess_send      Varchar2(4000);
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	34	"  v_mess_2         Varchar2(1000);
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	35	"  v_mess_3         Varchar2(1000);
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	36	"  v_mess_4         Varchar2(1000);
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	37	"  v_mess_5         Varchar2(1000);
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	38	"  v_mess_6         Varchar2(1000);
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	39	"  v_mess_7         Varchar2(1000);
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	40	"  v_mess_8         Varchar2(1000);
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	41	"  v_mess_9         Varchar2(1000);
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	42	"
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	43	"  v_count number;
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	44	"  ls_now  Varchar2(20);
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	45	"  lxdh    Varchar2(200);
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	46	"  nr      Varchar2(200);
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	47	"  v_bz    Varchar2(200);
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	48	"
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	49	"  v_d1 Varchar2(200);
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	50	"  v_d2 Varchar2(200);
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	51	"
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	52	"  v_week_1 Varchar2(20);
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	53	"  v_today  Varchar2(20);
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	54	"
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	55	"  v_date_yesterday1 Varchar2(200);
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	56	"  v_date_yesterday2 Varchar2(200);
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	57	"
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	58	"  v_date_week1 date;
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	59	"  v_date_week2 date;
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	60	"
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	61	"  v_date_month1 date;
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	62	"  v_date_month2 date;
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	63	"
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	64	"  v_date_add_begin Varchar2(200);
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	65	"  v_date_add_end   Varchar2(200);
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	66	"  v_select         Varchar2(4000);
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	67	"  v_select_qeury1  Varchar2(400);
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	68	"  v_rq             Varchar2(200);
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	69	"  v_rq_month       Varchar2(200);
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	70	"  v_rq_month2      Varchar2(200);
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	71	"  v_rq_week        Varchar2(200);
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	72	"  v_rq_day         Varchar2(200);
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	73	"  d1               date;
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	74	"  d2               date;
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	75	"  d1_month         date;
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	76	"  d2_month         date;
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	77	"  v_mzrc           Varchar2(50);
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	78	"  v_jzrc           Varchar2(50);
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	79	"  v_zyrc           Varchar2(50);
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	80	"  v_ywsr           Varchar2(50);
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	81	"  v_kc             Varchar2(50);
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	82	"  v_ssl            Varchar2(50);
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	83	"
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	84	"  --    Into  v_yzb_qy,   v_hzb_qy_new,v_clb_qy_new
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	85	"  --   全院药占比     百元耗材     全院材料比
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	86	"  v_yzb_qy     Varchar2(50); --   全院药占比
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	87	"  v_hzb_qy_new Varchar2(50); --  百元耗材
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	88	"  v_clb_qy_new Varchar2(50); --  全院材料比
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	89	"
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	90	"  v_mz_fy_new  Varchar2(50); -- 门急诊均次费用
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	91	"  v_mz_yzb_new Varchar2(50); -- 门急诊药占比
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	92	"
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	93	"  v_yzb_qy_month     Varchar2(50); --本月药占比
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	94	"  v_hzb_qy_new_month Varchar2(50); --本月百元耗材
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	95	"
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	96	"  v_jcfx_mz_yp     number(16, 2);
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	97	"  v_jcfx_mz_qt     number(16, 2);
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	98	"  v_jcfx_zy_yp     number(16, 2);
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	99	"  v_jcfx_zy_qt     number(16, 2);
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	100	"  v_jcfx_gh_qt     number(16, 2);
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	101	"  v_jcfx_all       number(16, 2);
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	102	"  v_yzb_qy_week2   Varchar2(50); --上周药占比
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	103	"  v_hzb_qy_week2   Varchar2(50); --上周百元耗材
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	104	"  v_mz_yzb_week    Varchar2(50); --上周门急诊药占比
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	105	"  v_mz_fy_new_week Varchar2(50); -- '上周门急诊均次费用'
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	106	"
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	107	"Begin
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	108	"  v_Procedure_Name := 'PRC_AUTO_RUN_GZL';
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	109	"  v_task           := ' ';
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	110	"  lxdh             := '13777929515';
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	111	"
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	112	"  /*insert into zy_jiaoyi_v1
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	113	"    (jiaoyilx, jylsh, flag)
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	114	"  values
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	115	"    (v_Procedure_Name, '开始', 0);
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	116	"  commit;*/
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	117	"  -- to_date(2019-11-04 00:00:00,""yyyy-mm-dd hh24:mi:ss"")
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	118	"  v_date_add_begin := ' to_date(''';
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	119	"  v_date_add_end   := ''',''yyyy-mm-dd hh24:mi:ss'') ';
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	120	"
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	121	"  flag_do := 0;
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	122	"
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	123	"  --获取 日期范围 日 周 月 begin
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	124	"  if 0 = 0 then
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	125	"    if 1 = 1 then
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	126	"      -- 获取时间 每天执行
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	127	"      if 1 = 1 then
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	128	"        select v_date_add_begin ||
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	129	"               to_char(trunc(sysdate - 1), 'yyyy-mm-dd') || ' 00:00:00' ||
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	130	"               v_date_add_end,
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	131	"               v_date_add_begin ||
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	132	"               to_char(TRUNC(SYSDATE - 1), 'yyyy-mm-dd') || ' 23:59:59' ||
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	133	"               v_date_add_end,
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	134	"               to_char(trunc(sysdate - 1), 'yyyy.mm.dd') || '情况:' ||
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	135	"               chr(13) || chr(10)
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	136	"          into v_date_yesterday1, v_date_yesterday2, v_rq_day
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	137	"          from dual;
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	138	"      
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	139	"        --昨日
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	140	"        select trunc(sysdate - 1), TRUNC(SYSDATE) - 1 / 86400
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	141	"          into d1, d2
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	142	"          from dual;
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	143	"      
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	144	"      end if;
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	145	"    
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	146	"      -- 获取时间 每周执行
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	147	"      if 1 = 1 then
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	148	"        select trunc(sysdate + (2 - to_char(sysdate, 'd'))) - 7,
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	149	"               trunc(sysdate + (2 - to_char(sysdate, 'd'))) - 1 / 86400,
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	150	"               '上周: ' || to_char(sysdate + (2 - to_char(sysdate, 'd')) - 7,
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	151	"                                 'yyyy-mm-dd') || ' - ' ||
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	152	"               to_char(sysdate + (2 - to_char(sysdate, 'd')) - 1,
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	153	"                       'yyyy-mm-dd') || chr(13) || chr(10),
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	154	"               to_char(trunc(sysdate, 'd') + 1, 'yyyy-mm-dd'),
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	155	"               to_char(sysdate, 'yyyy-mm-dd')
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	156	"          into v_date_week1, v_date_week2, v_rq_week, v_week_1, v_today
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	157	"          from dual;
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	158	"        if v_week_1 = v_today then
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	159	"          flag_week := 1;
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	160	"        else
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	161	"          flag_week := 0;
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	162	"        end if;
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	163	"      
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	164	"      end if;
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	165	"    
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	166	"      -- 获取时间 每月执行
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	167	"      if 1 = 1 then
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	168	"        select trunc(add_months(sysdate, -1), 'mm'),
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	169	"               trunc(last_day(add_months(sysdate, -1))) + 1 - 1 / 86400,
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	170	"               '上个月: ' ||
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	171	"               to_char(trunc(add_months(sysdate, -1), 'mm'), 'yyyy-mm-dd') ||
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	172	"               ' - ' ||
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	173	"               to_char(last_day(add_months(sysdate, -1)), 'yyyy-mm-dd') ||
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	174	"               chr(13) || chr(10),
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	175	"               to_char(sysdate, 'dd')
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	176	"          into v_date_month1, v_date_month2, v_rq_month, v_today
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	177	"          from dual;
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	178	"      
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	179	"        if v_today = '01' then
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	180	"          flag_month := 1;
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	181	"        else
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	182	"          flag_month := 0;
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	183	"        end if;
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	184	"      
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	185	"      end if;
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	186	"    end if;
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	187	"  end if;
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	188	"  --获取 日期范围 日 周 月 end
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	189	"  --      select to_char(trunc(add_months(sysdate,-1),'mm'),'yyyy-mm-dd') ||' 00:00:00' first_day,to_char(last_day(add_months(sysdate,-1)),'yyyy-mm-dd') ||' 23:59:59' last_day from dual;
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	190	"
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	191	"  --昨日工作量
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	192	"  --   '门    诊:'||v_mzrc ||' 人次'||chr(13)||chr(10)||'急    诊:'||v_jzrc||' 人次'||chr(13)||chr(10)||'住院病人:'||v_zyrc  ||' 人次'||chr(13)||chr(10)||'空    床:'||v_kc ||' 张'||chr(13)||chr(10)||'业 务 量:'||v_ywsr ||'  '||chr(13)||chr(10)||'手 术 量:'||v_ssl)
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	193	"
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	194	"  if 2 = 2 then
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	195	"  
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	196	"    --   '门    诊:'||v_mzrc ||' 人次'||chr(13)||chr(10)||'急    诊:'||v_jzrc||' 人次'||chr(13)||chr(10)||'住院病人:'||v_zyrc  ||' 人次'||chr(13)||chr(10)||'空    床:'||v_kc ||' 张'||chr(13)||chr(10)||'业 务 量:'||v_ywsr ||'  '||chr(13)||chr(10)||'手 术 量:'||v_ssl)
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	197	"  
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	198	"    SELECT sum(mzrc) || '',
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	199	"           sum(jzrc) || '',
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	200	"           sum(zyrc) || '',
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	201	"           round(sum(ywsr) / 10000, 0) || '万元',
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	202	"           sum(nvl(kc, 0)) || '',
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	203	"           sum(nvl(ssl, 0)) || ''
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	204	"      into v_mzrc, v_jzrc, v_zyrc, v_ywsr, v_kc, v_ssl
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	205	"    
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	206	"      from (SELECT SUM(DECODE(A.THBZ,
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	207	"                              0,
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	208	"                              DECODE(A.ZFPB,
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	209	"                                     NULL,
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	210	"                                     DECODE(A.MZLBXH, 2, 0, 8, 0, 1),
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	211	"                                     0),
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	212	"                              0)) mzrc,
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	213	"                   SUM(DECODE(A.THBZ,
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	214	"                              0,
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	215	"                              DECODE(A.ZFPB,
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	216	"                                     NULL,
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	217	"                                     DECODE(A.MZLBXH, 2, 1, 8, 1, 0),
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	218	"                                     0),
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	219	"                              0)) jzrc,
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	220	"                   0 kc,
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	221	"                   0 ywsr,
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	222	"                   0 zyrc,
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	223	"                   0 ssl
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	224	"              FROM GH_GHK A, GY_KSDM B
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	225	"             WHERE A.KSDM = B.KSDM
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	226	"               AND A.GHRQ >= d1
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	227	"               AND A.GHRQ <= d2
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	228	"            
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	229	"            UNION all
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	230	"            SELECT 0 mzrc,
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	231	"                   0 jzrc,
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	232	"                   sum(b.cws - c.col0513) kc,
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	233	"                   0 ywsr,
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	234	"                   0 zyrc,
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	235	"                   0 ssl
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	236	"              FROM batj.BATJ_KSDM B, his_bajk05 c
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	237	"             WHERE c.key0501 >= d1
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	238	"               AND c.key0501 <= d2
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	239	"               AND b.ksdm = c.key0502
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	240	"               AND B.KSLB = 2
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	241	"               AND b.cws - c.col0513 > 0
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	242	"            
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	243	"            UNION all
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	244	"            SELECT 0 mzrc, 0 jzrc, 0 kc, sum(je) ywsr, 0 zyrc, 0 ssl
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	245	"              FROM (SELECT Sum(a.col6) je
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	246	"                      FROM JCFX_MZ_DATA_D1 a, JCFX_V_TJKJ_sr b
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	247	"                     WHERE a.col3 = b.glxh
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	248	"                       AND id >= to_char(d1, 'yyyymmdd')
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	249	"                       AND id <= to_char(d2, 'yyyymmdd')
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	250	"                    
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	251	"                     GROUP BY id, b.lx
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	252	"                    UNION all
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	253	"                    SELECT Sum(a.col6) je
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	254	"                      FROM JCFX_ZY_DATA_D1 a, JCFX_V_TJKJ_sr b
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	255	"                     WHERE a.col3 = b.glxh
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	256	"                       AND id >= to_char(d1, 'yyyymmdd')
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	257	"                       AND id <= to_char(d2, 'yyyymmdd')
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	258	"                     GROUP BY id, b.lx
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	259	"                    UNION all
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	260	"                    SELECT sum(ghf + zlf)
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	261	"                      FROM gh_ghk
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	262	"                     WHERE ghrq >= d1
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	263	"                       and ghrq <= d2
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	264	"                    
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	265	"                    )
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	266	"            union all
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	267	"            
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	268	"            SELECT 0 mzrc,
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	269	"                   0 jzrc,
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	270	"                   0 kc,
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	271	"                   0 ywsr,
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	272	"                   count(patient_no) zyrc,
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	273	"                   0 ssl
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	274	"              FROM (SELECT distinct (patient_no)
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	275	"                      FROM zy_detail_charge a
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	276	"                     WHERE charge_name LIKE '%监护病房床位费%'
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	277	"                       AND nvl(twice_detail_code, '0') <> 'AU'
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	278	"                       AND patient_no > 0
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	279	"                       AND sl > 0
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	280	"                       AND fygl = 18
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	281	"                       AND charge_date >= d1
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	282	"                       AND charge_date <= d2
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	283	"                    UNION ALL
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	284	"                    SELECT distinct (patient_no)
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	285	"                      FROM zy_detail_charge a
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	286	"                     WHERE nvl(twice_detail_code, '0') = 'AU'
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	287	"                       AND patient_no > 0
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	288	"                       AND sl > 0
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	289	"                       AND fygl = 18
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	290	"                       AND charge_date >= d1
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	291	"                       AND charge_date <= d2)
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	292	"            union all
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	293	"            
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	294	"            select 0 mzrc, 0 jzrc, 0 kc, 0 ywsr, 0 zyrc, sum(sl) ssl
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	295	"              from (
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	296	"                    /*          SELECT count(*) sl
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	297	"                                                                                                                          From ANESTHETICCHART@samis a
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	298	"                                                                                                                          left join operatenotice@samis t on (t.ac_id = a.id)
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	299	"                                                                                                                          left join ON_CUSTOM_FORM_RESULT@samis o on (o.Operatenotice_Id = t.id and
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	300	"                                                                                                                                                                     o.isprinted = 1 and
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	301	"                                                                                                                                                                     o.form_name =
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	302	"                                                                                                                                                                     '手术清点')
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	303	"                                                                                                                         WHERE a.ISDELETE = 0
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	304	"                                                                                                                           and o.isprinted = 1
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	305	"                                                                                                                           and t.isdelete = 0
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	306	"                                                                                                                           and (a.isemergency = 0 or a.isemergency is null or
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	307	"                                                                                                                               (a.isemergency = 1 and a.operationid = '0'))
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	308	"                                                                                                                           AND a.OPERATIONDATE >= d1
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	309	"                                                                                                                           and a.OPERATIONDATE <= d2
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	310	"                                                                                                                           union
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	311	"                                                                                                                  select count(*) sl from ONIS_OPERATOR_PATIENTINFO@mdwm where ssrq  >= d1
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	312	"                                                                                                                           and ssrq <= d2 and rsssj is not null*/
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	313	"                    
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	314	"                    select count(*) sl
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	315	"                      from onis.onis_patientinfo t
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	316	"                     WHERE T.Hlid in (select c.hlid
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	317	"                                        from wanmanms.onis_nms_hljl c
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	318	"                                       where c.recordno in
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	319	"                                             (select d.recordno
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	320	"                                                from wanmanms.nms_document_record d
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	321	"                                               where d.docid = '292'
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	322	"                                                 and flag = 1))
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	323	"                       and t.nssrq >= d1
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	324	"                       and t.nssrq <= d2
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	325	"                       and t.flag = 1
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	326	"                    
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	327	"                    ));
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	328	"  
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	329	"    select '门    诊:' || v_mzrc || ' 人次' || chr(13) || chr(10) || '急    诊:' ||
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	330	"           v_jzrc || ' 人次' || chr(13) || chr(10) || '住院病人:' || v_zyrc ||
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	331	"           ' 人次' || chr(13) || chr(10) || '空    床:' || v_kc || ' 张' ||
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	332	"           chr(13) || chr(10) || '业 务 量:' || v_ywsr || '  ' || chr(13) ||
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	333	"           chr(10) || '手 术 量:' || v_ssl || ' 人次' || chr(13) || chr(10)
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	334	"      into v_mess_2
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	335	"      from dual;
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	336	"  
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	337	"  end if;
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	338	"
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	339	"  --   '全院药占比:'||v_yzb_qy ||' '||chr(13)||chr(10)||'百元耗材:'||v_hzb_qy_new||'  '||chr(13)||chr(10)
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	340	"  if 3 = 3 then
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	341	"    --   '全院药占比:'||v_yzb_qy ||' '||chr(13)||chr(10)||'百元耗材:'||v_hzb_qy_new||'  '||chr(13)||chr(10)
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	342	"  
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	343	"    --           //全院药占比     百元耗材     全院材料比
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	344	"    --  round(sum( cl_0 +  zy_cl_0 ) * 100 /sum(  fy0 + zy_fy0  -  zy_yp_0 - zy_yp_cy),2)||'%',
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	345	"    Select round(sum(zy_yp_0) * 100 / sum(fy0 + zy_fy0), 2) || '%',
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	346	"           round(sum(sfxm_11_jyk + cl_0 + zy_cl_0) * 100 /
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	347	"                 sum(fy0 + zy_fy0 - zy_yp_0 - zy_yp_cy),
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	348	"                 2) || '',
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	349	"           round(sum(cl_0 + zy_cl_0) * 100 / sum(fy0 + zy_fy0), 2) || '%'
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	350	"      Into v_yzb_qy, v_hzb_qy_new, v_clb_qy_new
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	351	"    
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	352	"      From (Select 0 rc0,
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	353	"                    sum(fy_ghf) fy0,
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	354	"                    0 cl_0,
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	355	"                    0 zy_rc0,
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	356	"                    0 zy_fy0,
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	357	"                    0 zy_cl_0,
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	358	"                    0 zy_yp_0,
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	359	"                    0 zy_yp_cy,
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	360	"                    0 sfxm_11,
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	361	"                    0 sfxm_11_jyk
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	362	"               From (Select (b.ghf + b.zlf) fy_ghf
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	363	"                       From gh_ghk b
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	364	"                      Where (b.ghf + b.zlf) > 0
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	365	"                        And mzrq is Not Null
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	366	"                        And b.ghrq Between d1 And d2
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	367	"                     
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	368	"                     )
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	369	"             Union All
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	370	"             Select 0 rc0,
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	371	"                    sum(fyhj) fy0,
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	372	"                    sum(fyhj * decode(sfxm, 25, 1, 0)) cl_0,
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	373	"                    0 zy_rc0,
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	374	"                    0 zy_fy0,
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	375	"                    0 zy_cl_0,
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	376	"                    sum(fyhj * decode(sfxm, 1, 1, 2, 1, 0)) zy_yp_0,
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	377	"                    sum(fyhj * decode(sfxm, 3, 1, 0)) zy_yp_cy,
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	378	"                    sum(fyhj * decode(sfxm, 11, 1, 0)) sfxm_11,
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	379	"                    sum(fyhj * 0.4 * decode(sfxm, 9, 1, 0)) sfxm_11_jyk
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	380	"               From mz_mzsfk2
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	381	"              Where sfsb In
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	382	"                    (Select sfsb From mz_mzsfk1 Where sfrq Between d1 And d2)
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	383	"             
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	384	"             Union All
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	385	"             Select 0 rc0,
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	386	"                    0 fy0,
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	387	"                    0 cl_0,
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	388	"                    0 zy_rc0,
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	389	"                    sum(round(nvl(dj, 0) *
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	390	"                              (trunc(decode(sign(charge_date - d2),
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	391	"                                            1,
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	392	"                                            d2,
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	393	"                                            charge_date)) -
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	394	"                               trunc(decode(sign(d1 - start_date),
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	395	"                                            1,
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	396	"                                            d1,
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	397	"                                            start_date)) + 1),
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	398	"                              2)) zy_fy0,
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	399	"                    0 zy_cl_0,
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	400	"                    0 zy_yp_0,
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	401	"                    0 zy_yp_cy,
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	402	"                    0 sfxm_11,
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	403	"                    0 sfxm_11_jyk
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	404	"               From zy_detail_charge
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	405	"              Where
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	406	"             
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	407	"              twice_detail_code = 'AU'
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	408	"           And (d1 Between start_date And charge_date Or
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	409	"              d2 Between start_date And charge_date Or
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	410	"              d1 <= start_date And charge_date <= d2)
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	411	"           And nvl(charge_status, 0) <> 4
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	412	"           And nvl(charge_status, 0) <> 5
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	413	"             Union All
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	414	"             Select 0 rc0,
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	415	"                    0 fy0,
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	416	"                    0 cl_0,
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	417	"                    0 zy_rc0,
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	418	"                    sum(round(nvl(dj, 0) * nvl(sl, 0), 2)) zy_fy0,
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	419	"                    sum(round(nvl(dj, 0) * nvl(sl, 0) *
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	420	"                              decode(fygl, 25, 1, 0),
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	421	"                              2)) zy_cl_0,
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	422	"                    sum(round(nvl(dj, 0) * nvl(sl, 0) *
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	423	"                              decode(fygl, 1, 1, 2, 1, 0),
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	424	"                              2)) zy_yp_0,
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	425	"                    sum(round(nvl(dj, 0) * nvl(sl, 0) * decode(fygl, 3, 1, 0),
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	426	"                              2)) zy_yp_cy,
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	427	"                    sum(round(nvl(dj, 0) * nvl(sl, 0) *
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	428	"                              decode(fygl, 11, 1, 0),
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	429	"                              2)) sfxm_11,
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	430	"                    sum(round(nvl(dj, 0) * nvl(sl, 0) * 0.4 *
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	431	"                              decode(fygl, 9, 1, 0),
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	432	"                              2)) sfxm_11_jyk
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	433	"               From zy_detail_charge
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	434	"              Where upper(twice_detail_code) <> 'AU'
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	435	"                And jcfx_date Between d1 And d2
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	436	"                And nvl(charge_status, 0) <> 4
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	437	"                And nvl(charge_status, 0) <> 5);
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	438	"  
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	439	"    select '药占比:' || v_yzb_qy || ' ' || chr(13) || chr(10) || '百元耗材:' ||
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	440	"           v_hzb_qy_new || '元  ' || chr(13) || chr(10)
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	441	"      into v_mess_3
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	442	"      from dual;
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	443	"  end if;
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	444	"
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	445	"  --门急诊均次费用  门急诊药占比
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	446	"  --   '门急诊均次费用:'||v_mz_fy_new ||' '||chr(13)||chr(10)||'门急诊药占比:'||v_mz_yzb_new||'  '||chr(13)||chr(10)
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	447	"  if 4 = 4 then
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	448	"    Select Round(sum(fy_0 + fy_tj - fy_tj2) / sum(rc0), 2) || '',
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	449	"           Round(sum(yp_0) * 100 / sum(fy_0 + fy_tj - fy_tj2), 2) || '%'
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	450	"      Into v_mz_fy_new, v_mz_yzb_new
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	451	"      From (Select sum(ghf + zlf) fy_0,
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	452	"                   0 yp_0,
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	453	"                   count(*) + 190 rc0,
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	454	"                   0 rc2,
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	455	"                   0 fy_tj,
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	456	"                   0 fy_tj2
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	457	"              From gh_ghk b
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	458	"             Where ksdm Not In
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	459	"                   ('2010038', '3080000', '3080002', '2010086', '4010014')
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	460	"               And nvl(b.zfpb, 0) = 0
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	461	"               And nvl(b.thbz, 0) = 0
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	462	"               And b.ghrq Between d1 And d2
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	463	"            Union All
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	464	"            
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	465	"            Select sum(b.fyhj) fy_0,
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	466	"                   sum(b.fyhj * decode(b.sfxm, 1, 1, 2, 1, 0)) yp_0,
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	467	"                   0 rc0,
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	468	"                   0 rc2,
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	469	"                   0 fy_tj,
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	470	"                   0 fy_tj2
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	471	"              From mz_mzsfk1 a, mz_mzsfk2 b
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	472	"             Where a.sfsb = b.sfsb
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	473	"               And a.sfrq Between d1 And d2
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	474	"            Union All
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	475	"            
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	476	"            Select 0 fy_0,
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	477	"                   0 yp_0,
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	478	"                   0 rc0,
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	479	"                   0 rc2,
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	480	"                   sum(zuhexmjg) fy_tj,
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	481	"                   0 fy_tj2
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	482	"              From vi_tj_data_203_dfyy
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	483	"             Where tijianrq Between d1 And d2
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	484	"            
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	485	"            Union All
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	486	"            
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	487	"            Select 0 fy_0, 0 yp_0, 0 rc0, 0 rc2, 0 fy_tj, sum(je) fy_tj2
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	488	"              From (Select To_char(c.sxh) xmdm,
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	489	"                           b.lx,
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	490	"                           Nvl(Sum(col4), 0) cfsl,
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	491	"                           Nvl(Sum(col5), 0) rc,
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	492	"                           Nvl(Sum(col6), 0) je
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	493	"                      From jcfx_mz_data_d2 a, jcfx_v_tjkj_sr b, jcfx_v_xmgl c
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	494	"                     Where a.id >= to_char(d1, 'yyyymmdd')
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	495	"                       and a.id <= to_char(d2, 'yyyymmdd')
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	496	"                       And a.col3 = b.glxh
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	497	"                       And a.col1 = c.gldm
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	498	"                       And c.bs = 'MZKDKS'
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	499	"                       And c.gldm = '10900001'
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	500	"                     Group By c.sxh, b.lx
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	501	"                    Union
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	502	"                    Select To_char(c.sxh) xmdm,
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	503	"                           b.lx,
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	504	"                           Decode(b.lx, 2, 0, Nvl(Sum(col4), 0)) cfsl,
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	505	"                           Nvl(Sum(col5), 0) rc,
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	506	"                           Nvl(Sum(col6), 0) je
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	507	"                      From jcfx_mz_data_d3 a, jcfx_v_tjkj_sr b, jcfx_v_xmgl c
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	508	"                     Where a.id >= to_char(d1, 'yyyymmdd')
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	509	"                       and a.id <= to_char(d2, 'yyyymmdd')
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	510	"                       And a.col3 = b.glxh
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	511	"                       And a.col1 = c.gldm
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	512	"                       And c.bs = 'MZKDKS'
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	513	"                       And c.gldm = '10900001'
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	514	"                     Group By c.sxh, b.lx)
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	515	"            
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	516	"            );
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	517	"  
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	518	"    select '门急诊均次费用:' || v_mz_fy_new || '元 ' || chr(13) || chr(10) ||
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	519	"           '门急诊药占比:' || v_mz_yzb_new || '  ' || chr(13) || chr(10)
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	520	"      into v_mess_4
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	521	"      from dual;
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	522	"  end if;
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	523	"
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	524	"  --本月药占比
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	525	"  --   '本月药占比:'||v_yzb_qy_month ||' '||chr(13)||chr(10)||'本月百元耗材:'||v_mz_yzb_new_month||'  '||chr(13)||chr(10)
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	526	"  if 5 = 5 then
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	527	"    if flag_month <> 1 then
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	528	"      select trunc(sysdate, 'mm'), trunc(sysdate) - 1 / 86400
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	529	"        into d1_month, d2_month
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	530	"        from dual;
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	531	"    else
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	532	"      select trunc(sysdate - 1, 'mm'), trunc(sysdate) - 1 / 86400
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	533	"        into d1_month, d2_month
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	534	"        from dual;
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	535	"    end if;
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	536	"  
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	537	"    Select round(sum(zy_yp_0) * 100 / sum(fy0 + zy_fy0), 2) || '%',
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	538	"           round(sum(sfxm_11_jyk + cl_0 + zy_cl_0) * 100 /
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	539	"                 sum(fy0 + zy_fy0 - zy_yp_0 - zy_yp_cy),
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	540	"                 2) || ''
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	541	"      Into v_yzb_qy_month, v_hzb_qy_new_month
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	542	"      From (Select 0 rc0,
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	543	"                    sum(fy_ghf) fy0,
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	544	"                    0 cl_0,
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	545	"                    0 zy_rc0,
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	546	"                    0 zy_fy0,
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	547	"                    0 zy_cl_0,
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	548	"                    0 zy_yp_0,
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	549	"                    0 zy_yp_cy,
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	550	"                    0 sfxm_11,
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	551	"                    0 sfxm_11_jyk
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	552	"               From (Select (b.ghf + b.zlf) fy_ghf
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	553	"                       From gh_ghk b
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	554	"                      Where (b.ghf + b.zlf) > 0
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	555	"                        And mzrq is Not Null
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	556	"                        And b.ghrq Between d1_month And d2_month
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	557	"                     
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	558	"                     )
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	559	"             Union All
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	560	"             Select 0 rc0,
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	561	"                    sum(fyhj) fy0,
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	562	"                    sum(fyhj * decode(sfxm, 25, 1, 0)) cl_0,
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	563	"                    0 zy_rc0,
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	564	"                    0 zy_fy0,
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	565	"                    0 zy_cl_0,
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	566	"                    sum(fyhj * decode(sfxm, 1, 1, 2, 1, 0)) zy_yp_0,
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	567	"                    sum(fyhj * decode(sfxm, 3, 1, 0)) zy_yp_cy,
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	568	"                    sum(fyhj * decode(sfxm, 11, 1, 0)) sfxm_11,
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	569	"                    sum(fyhj * 0.4 * decode(sfxm, 9, 1, 0)) sfxm_11_jyk
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	570	"               From mz_mzsfk2
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	571	"              Where sfsb In
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	572	"                    (Select sfsb
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	573	"                       From mz_mzsfk1
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	574	"                      Where sfrq Between d1_month And d2_month)
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	575	"             
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	576	"             Union All
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	577	"             Select 0 rc0,
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	578	"                    0 fy0,
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	579	"                    0 cl_0,
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	580	"                    0 zy_rc0,
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	581	"                    sum(round(nvl(dj, 0) *
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	582	"                              (trunc(decode(sign(charge_date - d2_month),
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	583	"                                            1,
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	584	"                                            d2_month,
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	585	"                                            charge_date)) -
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	586	"                               trunc(decode(sign(d1_month - start_date),
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	587	"                                            1,
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	588	"                                            d1_month,
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	589	"                                            start_date)) + 1),
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	590	"                              2)) zy_fy0,
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	591	"                    0 zy_cl_0,
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	592	"                    0 zy_yp_0,
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	593	"                    0 zy_yp_cy,
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	594	"                    0 sfxm_11,
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	595	"                    0 sfxm_11_jyk
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	596	"               From zy_detail_charge
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	597	"              Where
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	598	"             
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	599	"              twice_detail_code = 'AU'
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	600	"           And (d1_month Between start_date And charge_date Or
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	601	"              d2_month Between start_date And charge_date Or
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	602	"              d1_month <= start_date And charge_date <= d2_month)
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	603	"           And nvl(charge_status, 0) <> 4
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	604	"           And nvl(charge_status, 0) <> 5
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	605	"             Union All
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	606	"             Select 0 rc0,
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	607	"                    0 fy0,
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	608	"                    0 cl_0,
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	609	"                    0 zy_rc0,
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	610	"                    sum(round(nvl(dj, 0) * nvl(sl, 0), 2)) zy_fy0,
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	611	"                    sum(round(nvl(dj, 0) * nvl(sl, 0) *
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	612	"                              decode(fygl, 25, 1, 0),
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	613	"                              2)) zy_cl_0,
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	614	"                    sum(round(nvl(dj, 0) * nvl(sl, 0) *
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	615	"                              decode(fygl, 1, 1, 2, 1, 0),
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	616	"                              2)) zy_yp_0,
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	617	"                    sum(round(nvl(dj, 0) * nvl(sl, 0) * decode(fygl, 3, 1, 0),
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	618	"                              2)) zy_yp_cy,
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	619	"                    sum(round(nvl(dj, 0) * nvl(sl, 0) *
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	620	"                              decode(fygl, 11, 1, 0),
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	621	"                              2)) sfxm_11,
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	622	"                    sum(round(nvl(dj, 0) * nvl(sl, 0) * 0.4 *
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	623	"                              decode(fygl, 9, 1, 0),
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	624	"                              2)) sfxm_11_jyk
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	625	"               From zy_detail_charge
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	626	"              Where upper(twice_detail_code) <> 'AU'
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	627	"                And jcfx_date Between d1_month And d2_month
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	628	"                And nvl(charge_status, 0) <> 4
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	629	"                And nvl(charge_status, 0) <> 5);
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	630	"  
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	631	"    select to_char(d1_month, 'yyyymmdd') || '-' ||
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	632	"           to_char(d2_month, 'yyyymmdd')
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	633	"      into v_rq_month2
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	634	"      from dual;
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	635	"  
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	636	"    if flag_month <> 1 then
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	637	"      select v_rq_month2 || ' ' || chr(13) || chr(10) || '本月药占比:' ||
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	638	"             v_yzb_qy_month || ' ' || chr(13) || chr(10) || '本月百元耗材:' ||
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	639	"             v_hzb_qy_new_month || '元  ' || chr(13) || chr(10)
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	640	"        into v_mess_5
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	641	"        from dual;
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	642	"    else
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	643	"      select v_rq_month2 || ' ' || chr(13) || chr(10) || '上个月药占比:' ||
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	644	"             v_yzb_qy_month || ' ' || chr(13) || chr(10) || '上个月百元耗材:' ||
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	645	"             v_hzb_qy_new_month || '元  ' || chr(13) || chr(10)
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	646	"        into v_mess_5
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	647	"        from dual;
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	648	"    end if;
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	649	"  
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	650	"  end if;
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	651	"
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	652	"  --发送短信 昨天
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	653	"  if 91 = 91 then
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	654	"  
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	655	"    select v_rq_day || v_mess_2 || v_mess_3 || v_mess_4 || v_mess_5
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	656	"      into v_mess_all
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	657	"      from dual;
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	658	"    lxdh := '13777929515';
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	659	"    if lxdh > '0' then
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	660	"      prc_sms_send('au', lxdh, v_mess_all, v_bz);
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	661	"    end if;
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	662	"    prc_sms_send('au', '13516995998', v_mess_all, v_bz);
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	663	"    lxdh := '13588158455';
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	664	"    if lxdh > '0' then
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	665	"      prc_sms_send('au', lxdh, v_mess_all, v_bz);
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	666	"    end if;
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	667	"    lxdh := '13738908760';
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	668	"    if lxdh > '0' then
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	669	"      prc_sms_send('au', lxdh, v_mess_all, v_bz);
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	670	"    end if;
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	671	"  
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	672	"    lxdh := '13868050600';
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	673	"    if lxdh > '0' then
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	674	"      prc_sms_send('au', lxdh, v_mess_all, v_bz);
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	675	"    end if;
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	676	"  
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	677	"  end if;
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	678	"
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	679	"  --v_mess_6 上个月全院业务收入
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	680	"  if 6 = 6 and flag_month = 1 then
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	681	"  
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	682	"    SELECT round(Sum(a.col6), 2)
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	683	"      into v_jcfx_mz_yp
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	684	"      FROM JCFX_MZ_DATA_D1 a, JCFX_V_TJKJ_sr b
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	685	"     WHERE a.col3 = b.glxh
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	686	"       and b.lx = '1'
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	687	"       AND id >= to_char(v_date_month1, 'yyyymmdd')
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	688	"       and id <= to_char(v_date_month2, 'yyyymmdd');
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	689	"  
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	690	"    SELECT round(Sum(a.col6), 2)
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	691	"      into v_jcfx_mz_qt
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	692	"      FROM JCFX_MZ_DATA_D1 a, JCFX_V_TJKJ_sr b
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	693	"     WHERE a.col3 = b.glxh
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	694	"       and b.lx = '2'
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	695	"       AND id >= to_char(v_date_month1, 'yyyymmdd')
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	696	"       and id <= to_char(v_date_month2, 'yyyymmdd');
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	697	"  
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	698	"    SELECT round(Sum(a.col6), 2)
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	699	"      into v_jcfx_zy_yp
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	700	"      FROM JCFX_ZY_DATA_D1 a, JCFX_V_TJKJ_sr b
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	701	"     WHERE a.col3 = b.glxh
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	702	"       and b.lx = '1'
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	703	"       AND id >= to_char(v_date_month1, 'yyyymmdd')
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	704	"       and id <= to_char(v_date_month2, 'yyyymmdd');
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	705	"  
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	706	"    SELECT round(Sum(a.col6), 2)
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	707	"      into v_jcfx_zy_qt
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	708	"      FROM JCFX_ZY_DATA_D1 a, JCFX_V_TJKJ_sr b
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	709	"     WHERE a.col3 = b.glxh
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	710	"       and b.lx = '2'
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	711	"       AND id >= to_char(v_date_month1, 'yyyymmdd')
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	712	"       and id <= to_char(v_date_month2, 'yyyymmdd');
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	713	"  
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	714	"    SELECT round(Sum(a.col6 + a.col5), 2)
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	715	"      into v_jcfx_gh_qt
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	716	"      FROM JCFX_GH_DATA_D1 a
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	717	"     WHERE id >= to_char(v_date_month1, 'yyyymmdd')
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	718	"       and id <= to_char(v_date_month2, 'yyyymmdd');
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	719	"    select v_jcfx_gh_qt + v_jcfx_mz_yp + v_jcfx_mz_qt + v_jcfx_zy_yp +
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	720	"           v_jcfx_zy_qt
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	721	"      into v_jcfx_all
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	722	"      from dual;
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	723	"  
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	724	"    select '上个月全院业务收入:' || chr(13) || chr(10) || '挂号收入:' || v_jcfx_gh_qt ||
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	725	"           '元  ' || chr(13) || chr(10) || '门诊药品:' || v_jcfx_mz_yp || '元  ' ||
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	726	"           chr(13) || chr(10) || '门诊医疗:' || v_jcfx_mz_qt || '元  ' ||
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	727	"           chr(13) || chr(10) || '住院药品:' || v_jcfx_zy_yp || '元  ' ||
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	728	"           chr(13) || chr(10) || '住院医疗:' || v_jcfx_zy_qt || '元  ' ||
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	729	"           chr(13) || chr(10) || '合计收入:' || v_jcfx_all || '元  ' || chr(13) ||
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	730	"           chr(10)
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	731	"      into v_mess_6
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	732	"      from dual;
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	733	"  
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	734	"  end if;
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	735	"
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	736	"  --发送短信 上个月
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	737	"  if 92 = 92 and flag_month = 1 then
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	738	"  
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	739	"    select v_mess_6 into v_mess_all from dual;
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	740	"    lxdh := '13777929515';
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	741	"    if lxdh > '0' then
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	742	"      prc_sms_send('au', lxdh, v_mess_all, v_bz);
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	743	"    end if;
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	744	"    prc_sms_send('au', '13516995998', v_mess_all, v_bz);
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	745	"  
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	746	"    lxdh := '13588158455';
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	747	"    if lxdh > '0' then
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	748	"      prc_sms_send('au', lxdh, v_mess_all, v_bz);
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	749	"    end if;
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	750	"    lxdh := '13738908760';
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	751	"    if lxdh > '0' then
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	752	"      prc_sms_send('au', lxdh, v_mess_all, v_bz);
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	753	"    end if;
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	754	"  
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	755	"    lxdh := '13868050600';
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	756	"    if lxdh > '0' then
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	757	"      prc_sms_send('au', lxdh, v_mess_all, v_bz);
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	758	"    end if;
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	759	"  
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	760	"  end if;
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	761	"
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	762	"  --上周业务量
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	763	"  if 7 = 7 and flag_week = 1 then
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	764	"  
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	765	"    --v_mess_7上周药占比      上周百元耗材  4 v_yzb_qy_week2, :v_hzb_qy_week2
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	766	"    if 70 = 70 then
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	767	"      --上周药占比      上周百元耗材  4 v_yzb_qy_week2, :v_hzb_qy_week2
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	768	"    
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	769	"      Select round(sum(zy_yp_0) * 100 / sum(fy0 + zy_fy0), 2) || '%',
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	770	"             round(sum(sfxm_11_jyk + cl_0 + zy_cl_0) * 100 /
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	771	"                   sum(fy0 + zy_fy0 - zy_yp_0 - zy_yp_cy),
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	772	"                   2) || ''
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	773	"        Into v_yzb_qy_week2, v_hzb_qy_week2
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	774	"        From (Select 0 rc0,
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	775	"                      sum(fy_ghf) fy0,
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	776	"                      0 cl_0,
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	777	"                      0 zy_rc0,
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	778	"                      0 zy_fy0,
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	779	"                      0 zy_cl_0,
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	780	"                      0 zy_yp_0,
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	781	"                      0 zy_yp_cy,
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	782	"                      0 sfxm_11,
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	783	"                      0 sfxm_11_jyk
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	784	"                 From (Select (b.ghf + b.zlf) fy_ghf
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	785	"                         From gh_ghk b
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	786	"                        Where (b.ghf + b.zlf) > 0
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	787	"                          And mzrq is Not Null
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	788	"                          And b.ghrq Between v_date_week1 And v_date_week2
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	789	"                       
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	790	"                       )
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	791	"               Union All
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	792	"               Select 0 rc0,
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	793	"                      sum(fyhj) fy0,
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	794	"                      sum(fyhj * decode(sfxm, 25, 1, 0)) cl_0,
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	795	"                      0 zy_rc0,
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	796	"                      0 zy_fy0,
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	797	"                      0 zy_cl_0,
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	798	"                      sum(fyhj * decode(sfxm, 1, 1, 2, 1, 0)) zy_yp_0,
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	799	"                      sum(fyhj * decode(sfxm, 3, 1, 0)) zy_yp_cy,
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	800	"                      sum(fyhj * decode(sfxm, 11, 1, 0)) sfxm_11,
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	801	"                      sum(fyhj * 0.4 * decode(sfxm, 9, 1, 0)) sfxm_11_jyk
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	802	"                 From mz_mzsfk2
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	803	"                Where sfsb In
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	804	"                      (Select sfsb
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	805	"                         From mz_mzsfk1
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	806	"                        Where sfrq Between v_date_week1 And v_date_week2)
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	807	"               
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	808	"               Union All
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	809	"               Select 0 rc0,
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	810	"                      0 fy0,
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	811	"                      0 cl_0,
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	812	"                      0 zy_rc0,
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	813	"                      sum(round(nvl(dj, 0) *
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	814	"                                (trunc(decode(sign(charge_date - v_date_week2),
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	815	"                                              1,
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	816	"                                              v_date_week2,
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	817	"                                              charge_date)) -
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	818	"                                 trunc(decode(sign(v_date_week1 - start_date),
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	819	"                                              1,
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	820	"                                              v_date_week1,
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	821	"                                              start_date)) + 1),
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	822	"                                2)) zy_fy0,
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	823	"                      0 zy_cl_0,
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	824	"                      0 zy_yp_0,
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	825	"                      0 zy_yp_cy,
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	826	"                      0 sfxm_11,
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	827	"                      0 sfxm_11_jyk
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	828	"                 From zy_detail_charge
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	829	"                Where
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	830	"               
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	831	"                twice_detail_code = 'AU'
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	832	"             And (v_date_week1 Between start_date And charge_date Or
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	833	"                v_date_week2 Between start_date And charge_date Or
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	834	"                v_date_week1 <= start_date And charge_date <= v_date_week2)
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	835	"             And nvl(charge_status, 0) <> 4
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	836	"             And nvl(charge_status, 0) <> 5
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	837	"               Union All
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	838	"               Select 0 rc0,
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	839	"                      0 fy0,
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	840	"                      0 cl_0,
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	841	"                      0 zy_rc0,
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	842	"                      sum(round(nvl(dj, 0) * nvl(sl, 0), 2)) zy_fy0,
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	843	"                      sum(round(nvl(dj, 0) * nvl(sl, 0) *
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	844	"                                decode(fygl, 25, 1, 0),
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	845	"                                2)) zy_cl_0,
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	846	"                      sum(round(nvl(dj, 0) * nvl(sl, 0) *
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	847	"                                decode(fygl, 1, 1, 2, 1, 0),
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	848	"                                2)) zy_yp_0,
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	849	"                      sum(round(nvl(dj, 0) * nvl(sl, 0) *
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	850	"                                decode(fygl, 3, 1, 0),
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	851	"                                2)) zy_yp_cy,
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	852	"                      sum(round(nvl(dj, 0) * nvl(sl, 0) *
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	853	"                                decode(fygl, 11, 1, 0),
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	854	"                                2)) sfxm_11,
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	855	"                      sum(round(nvl(dj, 0) * nvl(sl, 0) * 0.4 *
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	856	"                                decode(fygl, 9, 1, 0),
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	857	"                                2)) sfxm_11_jyk
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	858	"                 From zy_detail_charge
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	859	"                Where upper(twice_detail_code) <> 'AU'
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	860	"                  And jcfx_date Between v_date_week1 And v_date_week2
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	861	"                  And nvl(charge_status, 0) <> 4
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	862	"                  And nvl(charge_status, 0) <> 5
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	863	"               
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	864	"               );
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	865	"    
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	866	"      select '上周药占比:' || v_yzb_qy_week2 || ' ' || chr(13) || chr(10) ||
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	867	"             '上周百元耗材:' || v_hzb_qy_week2 || '  ' || chr(13) || chr(10)
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	868	"        into v_mess_7
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	869	"        from dual;
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	870	"    end if;
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	871	"  
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	872	"    --v_mess_8上周门急诊药占比    v_mz_yzb_week
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	873	"    if 80 = 80 then
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	874	"    
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	875	"      --v_mess_8上周门急诊药占比    v_mz_yzb_week
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	876	"    
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	877	"      Select round(sum(yp_0 - yp_zy_0) * 100 / sum(fy_0 + yp_0), 2) || '%'
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	878	"        Into v_mz_yzb_week
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	879	"      
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	880	"        From (Select 0 fy_0,
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	881	"                     0 yp_0,
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	882	"                     0 fy_2,
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	883	"                     0 yp_2,
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	884	"                     0 yp_zy_2,
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	885	"                     0 yp_zy_0,
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	886	"                     0 rc0,
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	887	"                     sum(sl) rc2
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	888	"                From (Select b.ksdm ksdm1, count(*) sl
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	889	"                        From gh_ghk b
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	890	"                       Where (b.ghf + b.zlf) > 0
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	891	"                         And mzrq is Not Null
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	892	"                         And b.ghrq Between v_date_week1 And v_date_week2
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	893	"                       Group By b.ksdm
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	894	"                      
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	895	"                      Union All (Select b.ksdm ksdm1, count(b.jlxh) sl
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	896	"                                  From gh_ghk b, yj_Yjk1 c, yj_Yjk2 f
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	897	"                                 Where (b.ghf + b.zlf) = 0
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	898	"                                   And b.mzrq is Not Null
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	899	"                                   And b.jlxh = c.ghxh
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	900	"                                   And f.sl > 0
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	901	"                                   And f.dj > 1
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	902	"                                   And f.fygb = 13
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	903	"                                   And c.yjsb = f.yjsb
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	904	"                                   And c.sfsb is Not Null
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	905	"                                   And c.kdsj Between v_date_week1 And
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	906	"                                       v_date_week2
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	907	"                                 Group By b.ksdm)
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	908	"                      
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	909	"                      )
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	910	"               Where ksdm1 In (Select ksdm From v_ksdm_jz)
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	911	"              
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	912	"              Union All
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	913	"              
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	914	"              Select sum(ghf2) fy_0,
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	915	"                     0 yp_0,
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	916	"                     0 fy_2,
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	917	"                     0 yp_2,
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	918	"                     0 yp_zy_2,
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	919	"                     0 yp_zy_0,
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	920	"                     sum(sl) rc0,
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	921	"                     0 rc2
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	922	"                From (Select b.ksdm ksdm1, count(*) sl, sum(ghf + zlf) ghf2
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	923	"                        From gh_ghk b
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	924	"                       Where (b.ghf + b.zlf) > 0
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	925	"                         And mzrq is Not Null
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	926	"                         And b.ghrq Between v_date_week1 And v_date_week2
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	927	"                       Group By b.ksdm
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	928	"                      
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	929	"                      Union All (Select b.ksdm ksdm1, count(b.jlxh) sl, 0 ghf2
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	930	"                                  From gh_ghk b, yj_Yjk1 c, yj_Yjk2 f
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	931	"                                 Where (b.ghf + b.zlf) = 0
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	932	"                                   And b.mzrq is Not Null
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	933	"                                   And b.jlxh = c.ghxh
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	934	"                                   And f.sl > 0
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	935	"                                   And f.dj > 1
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	936	"                                   And f.fygb = 13
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	937	"                                   And c.yjsb = f.yjsb
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	938	"                                   And c.sfsb is Not Null
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	939	"                                   And c.kdsj Between v_date_week1 And
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	940	"                                       v_date_week2
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	941	"                                 Group By b.ksdm)
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	942	"                      
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	943	"                      )
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	944	"              Union All
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	945	"              Select 0 fy_0,
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	946	"                     0 yp_0,
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	947	"                     sum(b.dj * b.sl) fy_2,
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	948	"                     0 yp_2,
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	949	"                     0 yp_zy_2,
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	950	"                     0 yp_zy_0,
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	951	"                     0 rc0,
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	952	"                     0 rc2
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	953	"                From yj_Yjk1 a, yj_Yjk2 b
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	954	"               Where a.yjsb = b.yjsb
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	955	"                 And a.sjksdm In (Select ksdm From v_ksdm_jz)
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	956	"                 And a.sfsb In
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	957	"                     (Select sfsb
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	958	"                        From mz_mzsfk1
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	959	"                       Where sfrq Between v_date_week1 And v_date_week2)
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	960	"              Union All
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	961	"              
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	962	"              Select 0 fy_0,
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	963	"                     0 yp_0,
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	964	"                     0 fy_2,
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	965	"                     sum(b.dj * b.sl) yp_2,
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	966	"                     sum(b.dj * b.sl * decode(a.cflx, 4, 1, 0)) yp_zy_2,
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	967	"                     0 yp_zy_0,
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	968	"                     0 rc0,
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	969	"                     0 rc2
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	970	"                From mz_cfk1 a, mz_cfk2 b
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	971	"               Where a.cfsb = b.cfsb
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	972	"                 And a.ksdm In (Select ksdm From v_ksdm_jz)
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	973	"                 And a.sfsb In
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	974	"                     (Select sfsb
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	975	"                        From mz_mzsfk1
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	976	"                       Where sfrq Between v_date_week1 And v_date_week2)
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	977	"              Union All
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	978	"              
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	979	"              Select sum(b.dj * b.sl) fy_0,
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	980	"                     0 yp_0,
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	981	"                     0 fy_2,
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	982	"                     0 yp_2,
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	983	"                     0 yp_zy_2,
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	984	"                     0 yp_zy_0,
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	985	"                     0 rc0,
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	986	"                     0 rc2
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	987	"                From yj_Yjk1 a, yj_Yjk2 b
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	988	"               Where a.yjsb = b.yjsb
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	989	"                 And a.sfsb In
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	990	"                     (Select sfsb
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	991	"                        From mz_mzsfk1
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	992	"                       Where sfrq Between v_date_week1 And v_date_week2)
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	993	"              Union All
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	994	"              
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	995	"              Select 0 fy_0,
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	996	"                     sum(b.dj * b.sl) yp_0,
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	997	"                     0 fy_2,
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	998	"                     0 yp_2,
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	999	"                     0 yp_zy_2,
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	1000	"                     sum(b.dj * b.sl * decode(a.cflx, 4, 1, 0)) yp_zy_0,
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	1001	"                     0 rc0,
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	1002	"                     0 rc2
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	1003	"                From mz_cfk1 a, mz_cfk2 b
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	1004	"               Where a.cfsb = b.cfsb
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	1005	"                 And a.sfsb In
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	1006	"                     (Select sfsb
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	1007	"                        From mz_mzsfk1
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	1008	"                       Where sfrq Between v_date_week1 And v_date_week2));
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	1009	"      select '上周门急诊药占比:' || v_mz_yzb_week || ' ' || chr(13) || chr(10)
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	1010	"        into v_mess_8
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	1011	"        from dual;
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	1012	"    end if;
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	1013	"  
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	1014	"    --v_mess_9 v_mz_fy_new_week '上周门急诊均次费用:'
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	1015	"    if 90 = 90 then
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	1016	"      --v_mess_9 v_mz_fy_new_week '上周门急诊均次费用:'
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	1017	"      Select Round(sum(fy_0 + fy_tj - fy_tj2) / sum(rc0), 2) || ''
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	1018	"        Into v_mz_fy_new_week
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	1019	"        From (
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	1020	"              
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	1021	"              Select sum(ghf + zlf) fy_0,
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	1022	"                      0 yp_0,
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	1023	"                      count(*) + 190 * 7 rc0,
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	1024	"                      0 rc2,
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	1025	"                      0 fy_tj,
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	1026	"                      0 fy_tj2
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	1027	"                From gh_ghk b
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	1028	"               Where ksdm Not In
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	1029	"                     ('2010038', '3080000', '3080002', '2010086', '4010014')
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	1030	"                 And nvl(b.zfpb, 0) = 0
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	1031	"                 And nvl(b.thbz, 0) = 0
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	1032	"                 And b.ghrq Between v_date_week1 and v_date_week2
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	1033	"              
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	1034	"              Union All
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	1035	"              
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	1036	"              Select sum(b.fyhj) fy_0,
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	1037	"                     sum(b.fyhj * decode(b.sfxm, 1, 1, 2, 1, 0)) yp_0,
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	1038	"                     0 rc0,
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	1039	"                     0 rc2,
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	1040	"                     0 fy_tj,
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	1041	"                     0 fy_tj2
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	1042	"                From mz_mzsfk1 a, mz_mzsfk2 b
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	1043	"               Where a.sfsb = b.sfsb
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	1044	"                 And a.sfrq Between v_date_week1 and v_date_week2
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	1045	"              Union All
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	1046	"              
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	1047	"              Select 0 fy_0,
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	1048	"                     0 yp_0,
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	1049	"                     0 rc0,
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	1050	"                     0 rc2,
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	1051	"                     sum(zuhexmjg) fy_tj,
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	1052	"                     0 fy_tj2
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	1053	"                From vi_tj_data_203_dfyy
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	1054	"               Where tijianrq Between v_date_week1 and v_date_week2
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	1055	"              
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	1056	"              Union All
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	1057	"              
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	1058	"              Select 0 fy_0, 0 yp_0, 0 rc0, 0 rc2, 0 fy_tj, sum(je) fy_tj2
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	1059	"                From (Select To_char(c.sxh) xmdm,
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	1060	"                             b.lx,
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	1061	"                             Nvl(Sum(col4), 0) cfsl,
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	1062	"                             Nvl(Sum(col5), 0) rc,
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	1063	"                             Nvl(Sum(col6), 0) je
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	1064	"                        From jcfx_mz_data_d2 a,
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	1065	"                             jcfx_v_tjkj_sr  b,
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	1066	"                             jcfx_v_xmgl     c
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	1067	"                       Where a.id >= to_char(v_date_week1, 'yyyymmdd')
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	1068	"                         and a.id <= to_char(v_date_week2, 'yyyymmdd')
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	1069	"                         And a.col3 = b.glxh
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	1070	"                         And a.col1 = c.gldm
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	1071	"                         And c.bs = 'MZKDKS'
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	1072	"                         And c.gldm = '10900001'
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	1073	"                       Group By c.sxh, b.lx
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	1074	"                      Union
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	1075	"                      Select To_char(c.sxh) xmdm,
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	1076	"                             b.lx,
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	1077	"                             Decode(b.lx, 2, 0, Nvl(Sum(col4), 0)) cfsl,
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	1078	"                             Nvl(Sum(col5), 0) rc,
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	1079	"                             Nvl(Sum(col6), 0) je
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	1080	"                        From jcfx_mz_data_d3 a,
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	1081	"                             jcfx_v_tjkj_sr  b,
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	1082	"                             jcfx_v_xmgl     c
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	1083	"                       Where a. id >= to_char(v_date_week1, 'yyyymmdd')
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	1084	"                         and a.id <= to_char(v_date_week2, 'yyyymmdd')
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	1085	"                         And a.col3 = b.glxh
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	1086	"                         And a.col1 = c.gldm
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	1087	"                         And c.bs = 'MZKDKS'
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	1088	"                         And c.gldm = '10900001'
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	1089	"                       Group By c.sxh, b.lx)
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	1090	"              
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	1091	"              );
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	1092	"    
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	1093	"      select '上周门急诊均次费用:' || v_mz_fy_new_week || ' ' || chr(13) || chr(10)
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	1094	"        into v_mess_9
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	1095	"        from dual;
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	1096	"    end if;
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	1097	"  
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	1098	"  end if;
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	1099	"
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	1100	"  --发送短信 上周
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	1101	"  if 93 = 93 and flag_week = 1 then
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	1102	"  
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	1103	"    --昨日
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	1104	"    --   select v_rq_day||v_mess_2 || v_mess_3 || v_mess_4 || v_mess_5
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	1105	"    --  into v_mess_all
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	1106	"    --   from dual;
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	1107	"  
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	1108	"    --  prc_sms_send('au', lxdh, v_mess_all, v_bz);
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	1109	"  
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	1110	"    --上周
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	1111	"    select v_mess_9 || v_mess_8 || v_mess_7 into v_mess_all from dual;
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	1112	"    lxdh := '13777929515';
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	1113	"    if lxdh > '0' then
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	1114	"      prc_sms_send('au', lxdh, v_mess_all, v_bz);
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	1115	"    end if;
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	1116	"    prc_sms_send('au', '13516995998', v_mess_all, v_bz);
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	1117	"    lxdh := '13588158455';
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	1118	"    if lxdh > '0' then
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	1119	"      prc_sms_send('au', lxdh, v_mess_all, v_bz);
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	1120	"    end if;
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	1121	"    lxdh := '13738908760';
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	1122	"    if lxdh > '0' then
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	1123	"      prc_sms_send('au', lxdh, v_mess_all, v_bz);
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	1124	"    end if;
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	1125	"  
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	1126	"    lxdh := '13868050600';
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	1127	"    if lxdh > '0' then
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	1128	"      prc_sms_send('au', lxdh, v_mess_all, v_bz);
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	1129	"    end if;
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	1130	"  
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	1131	"    --上个月
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	1132	"    --  select v_mess_6 into v_mess_all from dual;
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	1133	"    -- prc_sms_send('au', lxdh, v_mess_all, v_bz);
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	1134	"  
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	1135	"  end if;
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	1136	"
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	1137	"  insert into zy_jiaoyi_v1
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	1138	"    (jiaoyilx, jylsh, flag)
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	1139	"  values
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	1140	"    (v_Procedure_Name, '开始', 1);
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	1141	"  commit;
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	1142	"
+"
+PRC_AUTO_RUN_GZL	PROCEDURE	1143	"End;
+"

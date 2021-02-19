@@ -1,0 +1,326 @@
+PRC_RJBF_ZJXM2YZ	PROCEDURE	1	"procedure prc_rjbf_zjxm2yz(al_patient_no in number,al_jzxh in number,as_jzkh in varchar2,al_brxh number,al_code out number,as_Msg out varchar2) as
+"
+PRC_RJBF_ZJXM2YZ	PROCEDURE	2	"begin
+"
+PRC_RJBF_ZJXM2YZ	PROCEDURE	3	"Declare
+"
+PRC_RJBF_ZJXM2YZ	PROCEDURE	4	"/*=============================================================================
+"
+PRC_RJBF_ZJXM2YZ	PROCEDURE	5	"||  过程名称 ：院前门诊医嘱转住院 医嘱 prc_rjbf_zjxm2yz
+"
+PRC_RJBF_ZJXM2YZ	PROCEDURE	6	"||-----------------------------------------------------------------------------
+"
+PRC_RJBF_ZJXM2YZ	PROCEDURE	7	"||  功能说明 ：根据医技库项目转医嘱项目；
+"
+PRC_RJBF_ZJXM2YZ	PROCEDURE	8	"||       大概思路：1、取到检验，检查项目，2、根据检验检查项目，找到医嘱项目对应表获取到医嘱order_code
+"
+PRC_RJBF_ZJXM2YZ	PROCEDURE	9	"||       3、根据order_code 插入到医嘱表中（yz_inpatient_order）
+"
+PRC_RJBF_ZJXM2YZ	PROCEDURE	10	"||       4、zj_zysqd 增加标志 yscyz 已生成医嘱信息标志 1，2 已计费
+"
+PRC_RJBF_ZJXM2YZ	PROCEDURE	11	"||-----------------------------------------------------------------------------
+"
+PRC_RJBF_ZJXM2YZ	PROCEDURE	12	"||  参数描述 ：参数标识       输入/输出  类型      名称
+"
+PRC_RJBF_ZJXM2YZ	PROCEDURE	13	"||            -----------------------------------------------------------------
+"
+PRC_RJBF_ZJXM2YZ	PROCEDURE	14	"||             al_patient_no  IN         NUMBER  住院号
+"
+PRC_RJBF_ZJXM2YZ	PROCEDURE	15	"||             al_jzxh        IN         NUMBER    就诊序号
+"
+PRC_RJBF_ZJXM2YZ	PROCEDURE	16	"||             as_jzkh        IN         varchar2    就诊卡号
+"
+PRC_RJBF_ZJXM2YZ	PROCEDURE	17	"||             al_brxh        IN         NUMBER    病人序号
+"
+PRC_RJBF_ZJXM2YZ	PROCEDURE	18	"||             al_code        OUT        NUMBER  返回信息编码
+"
+PRC_RJBF_ZJXM2YZ	PROCEDURE	19	"||             as_Msg         OUT        VARCHAR2  返回信息
+"
+PRC_RJBF_ZJXM2YZ	PROCEDURE	20	"||-----------------------------------------------------------------------------
+"
+PRC_RJBF_ZJXM2YZ	PROCEDURE	21	"||  作    者 ：赵月南     完成日期 ：2019-08-05
+"
+PRC_RJBF_ZJXM2YZ	PROCEDURE	22	"||-----------------------------------------------------------------------------
+"
+PRC_RJBF_ZJXM2YZ	PROCEDURE	23	"||  修改记录 ：
+"
+PRC_RJBF_ZJXM2YZ	PROCEDURE	24	"=============================================================================*/
+"
+PRC_RJBF_ZJXM2YZ	PROCEDURE	25	"  ai_lx number(1);
+"
+PRC_RJBF_ZJXM2YZ	PROCEDURE	26	"  ai_sqxh number(10);
+"
+PRC_RJBF_ZJXM2YZ	PROCEDURE	27	"  al_tcylxh number;
+"
+PRC_RJBF_ZJXM2YZ	PROCEDURE	28	"  as_xmmc varchar2(100);
+"
+PRC_RJBF_ZJXM2YZ	PROCEDURE	29	"  adt_kdsj date;
+"
+PRC_RJBF_ZJXM2YZ	PROCEDURE	30	"  al_order_code number;
+"
+PRC_RJBF_ZJXM2YZ	PROCEDURE	31	"  al_order_no number;
+"
+PRC_RJBF_ZJXM2YZ	PROCEDURE	32	"  AS_YSXM VARCHAR2(50);
+"
+PRC_RJBF_ZJXM2YZ	PROCEDURE	33	"  AS_YSGH VARCHAR2(50);
+"
+PRC_RJBF_ZJXM2YZ	PROCEDURE	34	"  AS_ZXR VARCHAR2(50);
+"
+PRC_RJBF_ZJXM2YZ	PROCEDURE	35	"  ldt_zxsj date;
+"
+PRC_RJBF_ZJXM2YZ	PROCEDURE	36	"  AL_SUPPLY_CODE number;
+"
+PRC_RJBF_ZJXM2YZ	PROCEDURE	37	"  AS_SUPPLY_NAME VARCHAR2(20);
+"
+PRC_RJBF_ZJXM2YZ	PROCEDURE	38	"  AS_YZLX VARCHAR2(50);
+"
+PRC_RJBF_ZJXM2YZ	PROCEDURE	39	"  AS_KSDM VARCHAR2(50);
+"
+PRC_RJBF_ZJXM2YZ	PROCEDURE	40	"  AL_RETURN NUMBER;
+"
+PRC_RJBF_ZJXM2YZ	PROCEDURE	41	"  al_sfsb number;
+"
+PRC_RJBF_ZJXM2YZ	PROCEDURE	42	"  ldt_zysj date;
+"
+PRC_RJBF_ZJXM2YZ	PROCEDURE	43	"  ls_jzkh varchar2(50);
+"
+PRC_RJBF_ZJXM2YZ	PROCEDURE	44	"  ldt_kssj date;
+"
+PRC_RJBF_ZJXM2YZ	PROCEDURE	45	"  cursor jykd is
+"
+PRC_RJBF_ZJXM2YZ	PROCEDURE	46	"  SELECT distinct (b.ylxh) ylxh, b.xmmc, 5 jclx,a.kdsj
+"
+PRC_RJBF_ZJXM2YZ	PROCEDURE	47	"  FROM yj_yjk1 a, yj_yjk2 b
+"
+PRC_RJBF_ZJXM2YZ	PROCEDURE	48	" WHERE a.yjsb = b.yjsb
+"
+PRC_RJBF_ZJXM2YZ	PROCEDURE	49	"   and nvl(b.zfpb, 0) = 0
+"
+PRC_RJBF_ZJXM2YZ	PROCEDURE	50	"   and (a.zjpb in (13) and b.zjpb = 9)
+"
+PRC_RJBF_ZJXM2YZ	PROCEDURE	51	"   and nvl(a.brxh, 0) = al_brxh and b.dj*b.sl<>0
+"
+PRC_RJBF_ZJXM2YZ	PROCEDURE	52	"   and a.jzkh = ls_jzkh
+"
+PRC_RJBF_ZJXM2YZ	PROCEDURE	53	"   and a.sfsb is null
+"
+PRC_RJBF_ZJXM2YZ	PROCEDURE	54	"   and trunc(kdsj) >= trunc(adt_kdsj)
+"
+PRC_RJBF_ZJXM2YZ	PROCEDURE	55	"union all
+"
+PRC_RJBF_ZJXM2YZ	PROCEDURE	56	"
+"
+PRC_RJBF_ZJXM2YZ	PROCEDURE	57	"select 0, examitem, 4 jclx,a.requestetime
+"
+PRC_RJBF_ZJXM2YZ	PROCEDURE	58	"  from l_laborder a
+"
+PRC_RJBF_ZJXM2YZ	PROCEDURE	59	" where patientid = ls_jzkh
+"
+PRC_RJBF_ZJXM2YZ	PROCEDURE	60	"   and nvl(printtime,tmprinttime) is not null
+"
+PRC_RJBF_ZJXM2YZ	PROCEDURE	61	"   and nvl(printtime,tmprinttime) > trunc(adt_kdsj)
+"
+PRC_RJBF_ZJXM2YZ	PROCEDURE	62	"   and laborderorg = al_brxh
+"
+PRC_RJBF_ZJXM2YZ	PROCEDURE	63	"union all
+"
+PRC_RJBF_ZJXM2YZ	PROCEDURE	64	"select b.ypxh, xmmc, 1 jclx,a.cfrq
+"
+PRC_RJBF_ZJXM2YZ	PROCEDURE	65	"  from mz_cfk1 a, mz_cfk2 b
+"
+PRC_RJBF_ZJXM2YZ	PROCEDURE	66	" where a.cfsb = b.cfsb
+"
+PRC_RJBF_ZJXM2YZ	PROCEDURE	67	"   and nvl(a.brxh, 0) =al_brxh
+"
+PRC_RJBF_ZJXM2YZ	PROCEDURE	68	"   and cfrq > trunc(adt_kdsj)
+"
+PRC_RJBF_ZJXM2YZ	PROCEDURE	69	"   and a.jzkh = ls_jzkh
+"
+PRC_RJBF_ZJXM2YZ	PROCEDURE	70	"   and a.sfsb is null
+"
+PRC_RJBF_ZJXM2YZ	PROCEDURE	71	"   and a.fypb = 9;
+"
+PRC_RJBF_ZJXM2YZ	PROCEDURE	72	"
+"
+PRC_RJBF_ZJXM2YZ	PROCEDURE	73	"     /* SELECT  distinct(b.ylxh) ylxh,b.xmmc, 4 jclx FROM yj_yjk1 a,yj_yjk2 b WHERE  a.yjsb = b.yjsb
+"
+PRC_RJBF_ZJXM2YZ	PROCEDURE	74	"               and nvl(b.zfpb,0) = 0
+"
+PRC_RJBF_ZJXM2YZ	PROCEDURE	75	"           and a.zjpb in(5,13)
+"
+PRC_RJBF_ZJXM2YZ	PROCEDURE	76	"           --and nvl(a.hbxh,0)<>1
+"
+PRC_RJBF_ZJXM2YZ	PROCEDURE	77	"           and nvl(a.brxh,0)=al_brxh
+"
+PRC_RJBF_ZJXM2YZ	PROCEDURE	78	"           and a.jzkh=as_jzkh
+"
+PRC_RJBF_ZJXM2YZ	PROCEDURE	79	"           and a.sfsb is null
+"
+PRC_RJBF_ZJXM2YZ	PROCEDURE	80	"           and trunc(kdsj)>=trunc(adt_kdsj)
+"
+PRC_RJBF_ZJXM2YZ	PROCEDURE	81	"            union all
+"
+PRC_RJBF_ZJXM2YZ	PROCEDURE	82	"            select to_number(b.jianchaxmbh) ylxh,
+"
+PRC_RJBF_ZJXM2YZ	PROCEDURE	83	"                 b.xinagmumc   xmmc,
+"
+PRC_RJBF_ZJXM2YZ	PROCEDURE	84	"                 5 jclx
+"
+PRC_RJBF_ZJXM2YZ	PROCEDURE	85	"            from jc_shenqingd a, jc_shenqingdmx b, zj_zysqd c
+"
+PRC_RJBF_ZJXM2YZ	PROCEDURE	86	"           where a.shenqingdh = b.shenqingdh
+"
+PRC_RJBF_ZJXM2YZ	PROCEDURE	87	"             and a.bingrenhm (+)= c.jzkh
+"
+PRC_RJBF_ZJXM2YZ	PROCEDURE	88	"             and nvl(c.sfrj, 0) in (1, 3)
+"
+PRC_RJBF_ZJXM2YZ	PROCEDURE	89	"             and nvl(b.yqjcyy,0)=1
+"
+PRC_RJBF_ZJXM2YZ	PROCEDURE	90	"             and trunc(a.kaidansj) >=trunc(adt_kdsj)
+"
+PRC_RJBF_ZJXM2YZ	PROCEDURE	91	"           and trunc(c.sqrq) >=adt_kdsj and c.jiuzhenxh=al_jzxh;*/
+"
+PRC_RJBF_ZJXM2YZ	PROCEDURE	92	"          
+"
+PRC_RJBF_ZJXM2YZ	PROCEDURE	93	"  begin
+"
+PRC_RJBF_ZJXM2YZ	PROCEDURE	94	"     /*al_patient_no:=0;
+"
+PRC_RJBF_ZJXM2YZ	PROCEDURE	95	"     al_jzxh:=0;
+"
+PRC_RJBF_ZJXM2YZ	PROCEDURE	96	"     as_jzkh:='';*/
+"
+PRC_RJBF_ZJXM2YZ	PROCEDURE	97	"     al_code:=1;
+"
+PRC_RJBF_ZJXM2YZ	PROCEDURE	98	"     as_Msg:='Ok!';
+"
+PRC_RJBF_ZJXM2YZ	PROCEDURE	99	"     /*select admiss_date into ldt_zysj from zy_patient_information where patient_No=al_patient_no;*/
+"
+PRC_RJBF_ZJXM2YZ	PROCEDURE	100	"   /*  select sqrq into ldt_zysj from zy_zysqd where patient_No=al_patient_no;*/
+"
+PRC_RJBF_ZJXM2YZ	PROCEDURE	101	"     --Select Nvl(Csz1, '') Into AS_YSGH From Gy_Xtcs Where Xtxh = 0 And Csmc = 'YQ_YZYSGH';
+"
+PRC_RJBF_ZJXM2YZ	PROCEDURE	102	"     begin
+"
+PRC_RJBF_ZJXM2YZ	PROCEDURE	103	"       select sqrq,sqksdm,sqysgh,sqxh,jzkh into adt_kdsj,AS_KSDM,AS_YSGH,ai_sqxh,ls_jzkh from zj_zysqd where  jiuzhenxh=al_jzxh and patient_no=al_patient_no
+"
+PRC_RJBF_ZJXM2YZ	PROCEDURE	104	"        and nvl(yscyz,0) = 0
+"
+PRC_RJBF_ZJXM2YZ	PROCEDURE	105	"        and nvl(zfpb,0)=0 and rownum=1;
+"
+PRC_RJBF_ZJXM2YZ	PROCEDURE	106	"        select djrq,djr into ldt_zxsj,as_zxr from yq_djxx where sqxh=ai_sqxh;
+"
+PRC_RJBF_ZJXM2YZ	PROCEDURE	107	"      exception
+"
+PRC_RJBF_ZJXM2YZ	PROCEDURE	108	"        WHEN NO_DATA_FOUND THEN
+"
+PRC_RJBF_ZJXM2YZ	PROCEDURE	109	"         al_code:=1;
+"
+PRC_RJBF_ZJXM2YZ	PROCEDURE	110	"         as_Msg:='住院申请单，未找到数据!!';
+"
+PRC_RJBF_ZJXM2YZ	PROCEDURE	111	"         END;
+"
+PRC_RJBF_ZJXM2YZ	PROCEDURE	112	"     open jykd ;
+"
+PRC_RJBF_ZJXM2YZ	PROCEDURE	113	"     loop
+"
+PRC_RJBF_ZJXM2YZ	PROCEDURE	114	"       fetch jykd into al_tcylxh,as_xmmc,ai_lx,ldt_kssj;
+"
+PRC_RJBF_ZJXM2YZ	PROCEDURE	115	"       exit when jykd%NOTFOUND ;
+"
+PRC_RJBF_ZJXM2YZ	PROCEDURE	116	"       
+"
+PRC_RJBF_ZJXM2YZ	PROCEDURE	117	"       --select order_code into al_order_code from yz_order_ylsf where ylxh=al_tcylxh and rownum=1;
+"
+PRC_RJBF_ZJXM2YZ	PROCEDURE	118	"        Select Nvl(Csz2, 0) Into AL_SUPPLY_CODE From Gy_Xtcs Where Xtxh = 0 And Csmc = 'YQ_JCSUPCODE';
+"
+PRC_RJBF_ZJXM2YZ	PROCEDURE	119	"       If ai_lx = 4 Then
+"
+PRC_RJBF_ZJXM2YZ	PROCEDURE	120	"         AS_YZLX:='检验医嘱';    
+"
+PRC_RJBF_ZJXM2YZ	PROCEDURE	121	"       END IF;
+"
+PRC_RJBF_ZJXM2YZ	PROCEDURE	122	"       IF AI_LX=5 THEN
+"
+PRC_RJBF_ZJXM2YZ	PROCEDURE	123	"         AS_YZLX:='检查医嘱';
+"
+PRC_RJBF_ZJXM2YZ	PROCEDURE	124	"       End If;
+"
+PRC_RJBF_ZJXM2YZ	PROCEDURE	125	"       if ai_lx=1 then
+"
+PRC_RJBF_ZJXM2YZ	PROCEDURE	126	"          AS_YZLX:='';
+"
+PRC_RJBF_ZJXM2YZ	PROCEDURE	127	"       end if;
+"
+PRC_RJBF_ZJXM2YZ	PROCEDURE	128	"
+"
+PRC_RJBF_ZJXM2YZ	PROCEDURE	129	"      /* SELECT SUPPLY_NAME INTO AS_SUPPLY_NAME FROM YZ_SUPPLY_TYPE WHERE SUPPLY_CODE=AL_SUPPLY_CODE;*/
+"
+PRC_RJBF_ZJXM2YZ	PROCEDURE	130	"       SELECT XM INTO AS_YSXM FROM GY_ZGXX WHERE ZGID=AS_YSGH;
+"
+PRC_RJBF_ZJXM2YZ	PROCEDURE	131	"       begin
+"
+PRC_RJBF_ZJXM2YZ	PROCEDURE	132	"         update yz_init set yz_act_xh=yz_act_xh+1;
+"
+PRC_RJBF_ZJXM2YZ	PROCEDURE	133	"         select yz_act_xh into al_order_no from yz_init;
+"
+PRC_RJBF_ZJXM2YZ	PROCEDURE	134	"         commit;
+"
+PRC_RJBF_ZJXM2YZ	PROCEDURE	135	"       Exception
+"
+PRC_RJBF_ZJXM2YZ	PROCEDURE	136	"       When Others Then
+"
+PRC_RJBF_ZJXM2YZ	PROCEDURE	137	"            --DBMS_OUTPUT.PUT_LINE('获取医嘱号失败!');
+"
+PRC_RJBF_ZJXM2YZ	PROCEDURE	138	"            al_code:=-1;
+"
+PRC_RJBF_ZJXM2YZ	PROCEDURE	139	"            as_Msg:='获取医嘱号失败!';
+"
+PRC_RJBF_ZJXM2YZ	PROCEDURE	140	"        end;
+"
+PRC_RJBF_ZJXM2YZ	PROCEDURE	141	"
+"
+PRC_RJBF_ZJXM2YZ	PROCEDURE	142	"         Insert Into yz_Inpatient_Order (DJXH,             ORDER_CODE,  ORDER_NAME,     FREQU_CODE,
+"
+PRC_RJBF_ZJXM2YZ	PROCEDURE	143	"                  ENTER_OPER_CODE,  INFANT_FLAG, ORDER_FLAG,     SUPPLY_CODE,
+"
+PRC_RJBF_ZJXM2YZ	PROCEDURE	144	"                  SUPPLY_TYPE,      SUPPLY_NAME, PHYSICIAN_CODE, PHYSICIAN_NAME,
+"
+PRC_RJBF_ZJXM2YZ	PROCEDURE	145	"                  CONFIRM_OPER_CODE,STATUS_FLAG, DYJL,           PERFORMANCE_OPER_CODE,
+"
+PRC_RJBF_ZJXM2YZ	PROCEDURE	146	"                  DRUG_QUAN,        INSTRUCTION, KSDM,           STATUS,print_flag,zxr1,zxsj,
+"
+PRC_RJBF_ZJXM2YZ	PROCEDURE	147	"                  GROUP_NO,        Order_No,                     yzlx,enter_time,order_time,start_time,end_time,stop_time)Values
+"
+PRC_RJBF_ZJXM2YZ	PROCEDURE	148	"                  (al_patient_no,al_tcylxh,substr('(院前)'||as_xmmc,1,160),'ONCE',
+"
+PRC_RJBF_ZJXM2YZ	PROCEDURE	149	"                  AS_YSGH,  0, 1,     AL_SUPPLY_CODE,
+"
+PRC_RJBF_ZJXM2YZ	PROCEDURE	150	"                  6,      AS_SUPPLY_NAME, AS_YSGH, AS_YSXM,
+"
+PRC_RJBF_ZJXM2YZ	PROCEDURE	151	"                  AS_YSGH,4, 1,           AS_YSGH,
+"
+PRC_RJBF_ZJXM2YZ	PROCEDURE	152	"                  1,        AS_YZLX, AS_KSDM,                     7,1,as_zxr,ldt_zxsj,
+"
+PRC_RJBF_ZJXM2YZ	PROCEDURE	153	"                  al_order_no  , al_order_no,                     ai_lx,ldt_kssj,sysdate,ldt_kssj,ldt_kssj,ldt_kssj);
+"
+PRC_RJBF_ZJXM2YZ	PROCEDURE	154	"
+"
+PRC_RJBF_ZJXM2YZ	PROCEDURE	155	"      AL_RETURN :=1;
+"
+PRC_RJBF_ZJXM2YZ	PROCEDURE	156	"       end loop;
+"
+PRC_RJBF_ZJXM2YZ	PROCEDURE	157	"       close jykd;
+"
+PRC_RJBF_ZJXM2YZ	PROCEDURE	158	"       IF AL_RETURN =1 or 1=1 THEN
+"
+PRC_RJBF_ZJXM2YZ	PROCEDURE	159	"         update zj_zysqd set djzt=3 WHERE PATIENT_NO =AL_PATIENT_NO AND jiuzhenxh=AL_JZXH ;
+"
+PRC_RJBF_ZJXM2YZ	PROCEDURE	160	"         commit;
+"
+PRC_RJBF_ZJXM2YZ	PROCEDURE	161	"       END IF; 
+"
+PRC_RJBF_ZJXM2YZ	PROCEDURE	162	"  end ;
+"
+PRC_RJBF_ZJXM2YZ	PROCEDURE	163	"end ;
+"

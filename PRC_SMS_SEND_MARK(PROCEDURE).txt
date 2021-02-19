@@ -1,0 +1,176 @@
+PRC_SMS_SEND_MARK	PROCEDURE	1	"PROCEDURE prc_sms_send_mark( --¶ÌÐÅ·¢ËÍ
+"
+PRC_SMS_SEND_MARK	PROCEDURE	2	"                                              in_lx   in VARCHAR,
+"
+PRC_SMS_SEND_MARK	PROCEDURE	3	"                                              in_lxdh in VARCHAR,
+"
+PRC_SMS_SEND_MARK	PROCEDURE	4	"                                              in_msg  in VARCHAR,
+"
+PRC_SMS_SEND_MARK	PROCEDURE	5	"                                              out_msg out VARCHAR) AS
+"
+PRC_SMS_SEND_MARK	PROCEDURE	6	"
+"
+PRC_SMS_SEND_MARK	PROCEDURE	7	"  nr               varchar2(1800);
+"
+PRC_SMS_SEND_MARK	PROCEDURE	8	"  lxdh             varchar2(90);
+"
+PRC_SMS_SEND_MARK	PROCEDURE	9	"  xm               varchar2(40);
+"
+PRC_SMS_SEND_MARK	PROCEDURE	10	"  sj               number;
+"
+PRC_SMS_SEND_MARK	PROCEDURE	11	"  sl               number;
+"
+PRC_SMS_SEND_MARK	PROCEDURE	12	"  ll_laborder      number;
+"
+PRC_SMS_SEND_MARK	PROCEDURE	13	"  ll_xh            number;
+"
+PRC_SMS_SEND_MARK	PROCEDURE	14	"  ll_xh_max        number;
+"
+PRC_SMS_SEND_MARK	PROCEDURE	15	"  date_now         date;
+"
+PRC_SMS_SEND_MARK	PROCEDURE	16	"  date_now_send    date;
+"
+PRC_SMS_SEND_MARK	PROCEDURE	17	"  date_send_check  date;
+"
+PRC_SMS_SEND_MARK	PROCEDURE	18	"  date_send_check2 date;
+"
+PRC_SMS_SEND_MARK	PROCEDURE	19	"begin
+"
+PRC_SMS_SEND_MARK	PROCEDURE	20	"  --  prc_sms_send_mark('au', v_query1.phone, v_mess, v_bz);
+"
+PRC_SMS_SEND_MARK	PROCEDURE	21	"  select sysdate, trunc(sysdate) + 0.3, trunc(sysdate + 1) - 0.12
+"
+PRC_SMS_SEND_MARK	PROCEDURE	22	"    into date_now, date_send_check, date_send_check2
+"
+PRC_SMS_SEND_MARK	PROCEDURE	23	"    from dual;
+"
+PRC_SMS_SEND_MARK	PROCEDURE	24	"  date_now_send := date_now;
+"
+PRC_SMS_SEND_MARK	PROCEDURE	25	"  if date_now > date_send_check and date_now < date_send_check2 then
+"
+PRC_SMS_SEND_MARK	PROCEDURE	26	"    date_now_send := null;
+"
+PRC_SMS_SEND_MARK	PROCEDURE	27	"  end if;
+"
+PRC_SMS_SEND_MARK	PROCEDURE	28	"
+"
+PRC_SMS_SEND_MARK	PROCEDURE	29	"  nr := in_msg;
+"
+PRC_SMS_SEND_MARK	PROCEDURE	30	"  SELECT SEQ_AUTO_TASK_YWZX_SEND_XH.NEXTVAL into ll_xh from dual;
+"
+PRC_SMS_SEND_MARK	PROCEDURE	31	"  select max(xh) into ll_xh_max from auto_task_ywzx_send;
+"
+PRC_SMS_SEND_MARK	PROCEDURE	32	"
+"
+PRC_SMS_SEND_MARK	PROCEDURE	33	"  WHILE ll_xh <= ll_xh_max LOOP
+"
+PRC_SMS_SEND_MARK	PROCEDURE	34	"    SELECT SEQ_AUTO_TASK_YWZX_SEND_XH.NEXTVAL into ll_xh from dual;
+"
+PRC_SMS_SEND_MARK	PROCEDURE	35	"    select max(xh) into ll_xh_max from auto_task_ywzx_send;
+"
+PRC_SMS_SEND_MARK	PROCEDURE	36	"  end loop;
+"
+PRC_SMS_SEND_MARK	PROCEDURE	37	"
+"
+PRC_SMS_SEND_MARK	PROCEDURE	38	"  insert into auto_task_ywzx_send
+"
+PRC_SMS_SEND_MARK	PROCEDURE	39	"    (xh, lxdh, bz, date_add, lx, date_send)
+"
+PRC_SMS_SEND_MARK	PROCEDURE	40	"  values
+"
+PRC_SMS_SEND_MARK	PROCEDURE	41	"    (ll_xh, in_lxdh, nr, date_now, in_lx, date_now_send);
+"
+PRC_SMS_SEND_MARK	PROCEDURE	42	"
+"
+PRC_SMS_SEND_MARK	PROCEDURE	43	"  if sqlcode <> 0 then
+"
+PRC_SMS_SEND_MARK	PROCEDURE	44	"    rollback;
+"
+PRC_SMS_SEND_MARK	PROCEDURE	45	"  
+"
+PRC_SMS_SEND_MARK	PROCEDURE	46	"    SELECT SEQ_AUTO_TASK_YWZX_SEND_XH.NEXTVAL into ll_xh from dual;
+"
+PRC_SMS_SEND_MARK	PROCEDURE	47	"    select max(xh) into ll_xh_max from auto_task_ywzx_send;
+"
+PRC_SMS_SEND_MARK	PROCEDURE	48	"  
+"
+PRC_SMS_SEND_MARK	PROCEDURE	49	"    WHILE ll_xh <= ll_xh_max LOOP
+"
+PRC_SMS_SEND_MARK	PROCEDURE	50	"      SELECT SEQ_AUTO_TASK_YWZX_SEND_XH.NEXTVAL into ll_xh from dual;
+"
+PRC_SMS_SEND_MARK	PROCEDURE	51	"      select max(xh) into ll_xh_max from auto_task_ywzx_send;
+"
+PRC_SMS_SEND_MARK	PROCEDURE	52	"    end loop;
+"
+PRC_SMS_SEND_MARK	PROCEDURE	53	"  
+"
+PRC_SMS_SEND_MARK	PROCEDURE	54	"    insert into auto_task_ywzx_send
+"
+PRC_SMS_SEND_MARK	PROCEDURE	55	"      (xh, lxdh, bz, date_add, lx)
+"
+PRC_SMS_SEND_MARK	PROCEDURE	56	"    values
+"
+PRC_SMS_SEND_MARK	PROCEDURE	57	"      (ll_xh, in_lxdh, nr, sysdate, in_lx);
+"
+PRC_SMS_SEND_MARK	PROCEDURE	58	"  
+"
+PRC_SMS_SEND_MARK	PROCEDURE	59	"    if sqlcode <> 0 then
+"
+PRC_SMS_SEND_MARK	PROCEDURE	60	"      rollback;
+"
+PRC_SMS_SEND_MARK	PROCEDURE	61	"    
+"
+PRC_SMS_SEND_MARK	PROCEDURE	62	"      SELECT SEQ_AUTO_TASK_YWZX_SEND_XH.NEXTVAL into ll_xh from dual;
+"
+PRC_SMS_SEND_MARK	PROCEDURE	63	"      select max(xh) into ll_xh_max from auto_task_ywzx_send;
+"
+PRC_SMS_SEND_MARK	PROCEDURE	64	"    
+"
+PRC_SMS_SEND_MARK	PROCEDURE	65	"      WHILE ll_xh <= ll_xh_max LOOP
+"
+PRC_SMS_SEND_MARK	PROCEDURE	66	"        SELECT SEQ_AUTO_TASK_YWZX_SEND_XH.NEXTVAL into ll_xh from dual;
+"
+PRC_SMS_SEND_MARK	PROCEDURE	67	"        select max(xh) into ll_xh_max from auto_task_ywzx_send;
+"
+PRC_SMS_SEND_MARK	PROCEDURE	68	"      end loop;
+"
+PRC_SMS_SEND_MARK	PROCEDURE	69	"    
+"
+PRC_SMS_SEND_MARK	PROCEDURE	70	"      insert into auto_task_ywzx_send
+"
+PRC_SMS_SEND_MARK	PROCEDURE	71	"        (xh, lxdh, bz, date_add, lx, date_send)
+"
+PRC_SMS_SEND_MARK	PROCEDURE	72	"      values
+"
+PRC_SMS_SEND_MARK	PROCEDURE	73	"        (ll_xh, in_lxdh, nr, date_now, in_lx, date_now_send);
+"
+PRC_SMS_SEND_MARK	PROCEDURE	74	"    
+"
+PRC_SMS_SEND_MARK	PROCEDURE	75	"      if sqlcode <> 0 then
+"
+PRC_SMS_SEND_MARK	PROCEDURE	76	"        rollback;
+"
+PRC_SMS_SEND_MARK	PROCEDURE	77	"        out_msg := 'error';
+"
+PRC_SMS_SEND_MARK	PROCEDURE	78	"        return;
+"
+PRC_SMS_SEND_MARK	PROCEDURE	79	"      end if;
+"
+PRC_SMS_SEND_MARK	PROCEDURE	80	"    end if;
+"
+PRC_SMS_SEND_MARK	PROCEDURE	81	"  end if;
+"
+PRC_SMS_SEND_MARK	PROCEDURE	82	"
+"
+PRC_SMS_SEND_MARK	PROCEDURE	83	"  commit;
+"
+PRC_SMS_SEND_MARK	PROCEDURE	84	"
+"
+PRC_SMS_SEND_MARK	PROCEDURE	85	"  out_msg := 'OK';
+"
+PRC_SMS_SEND_MARK	PROCEDURE	86	"  return;
+"
+PRC_SMS_SEND_MARK	PROCEDURE	87	"
+"
+PRC_SMS_SEND_MARK	PROCEDURE	88	"end;
+"

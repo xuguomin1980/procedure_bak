@@ -1,0 +1,684 @@
+APPOINT2020	PROCEDURE	1	"PROCEDURE ""APPOINT2020""(plan_id  IN VARCHAR,
+"
+APPOINT2020	PROCEDURE	2	"                                          card_no  in VARCHAR,
+"
+APPOINT2020	PROCEDURE	3	"                                          name     IN VARCHAR,
+"
+APPOINT2020	PROCEDURE	4	"                                          phone    IN VARCHAR,
+"
+APPOINT2020	PROCEDURE	5	"                                          idcard   IN VARCHAR,
+"
+APPOINT2020	PROCEDURE	6	"                                          yyxh     IN VARCHAR,
+"
+APPOINT2020	PROCEDURE	7	"                                          ret_code out INTEGER,
+"
+APPOINT2020	PROCEDURE	8	"                                          ret_info out VARCHAR,
+"
+APPOINT2020	PROCEDURE	9	"                                          reg_id   out VARCHAR) AS
+"
+APPOINT2020	PROCEDURE	10	"  v_count  number(5);
+"
+APPOINT2020	PROCEDURE	11	"  v_cs     number(5);
+"
+APPOINT2020	PROCEDURE	12	"  v_brxx   gy_brjbxxk%rowtype;
+"
+APPOINT2020	PROCEDURE	13	"  v_yyxx   gh_mzyyk%rowtype;
+"
+APPOINT2020	PROCEDURE	14	"  v_pbxx   gh_yzpbk%rowtype;
+"
+APPOINT2020	PROCEDURE	15	"  v_dtpb   gh_mzpbk%rowtype;
+"
+APPOINT2020	PROCEDURE	16	"  v_rq_str varchar(50);
+"
+APPOINT2020	PROCEDURE	17	"  v_bz     varchar(90);
+"
+APPOINT2020	PROCEDURE	18	"  v_jylsh  varchar(2000);
+"
+APPOINT2020	PROCEDURE	19	"BEGIN
+"
+APPOINT2020	PROCEDURE	20	"  v_yyxx.pbxh := to_number(substr(plan_id, 1, length(plan_id) - 1));
+"
+APPOINT2020	PROCEDURE	21	"  v_yyxx.yysj := to_number(substr(plan_id, length(plan_id), 1));
+"
+APPOINT2020	PROCEDURE	22	"
+"
+APPOINT2020	PROCEDURE	23	"  ret_code := -4;
+"
+APPOINT2020	PROCEDURE	24	"  /*  ret_info := '各位市民：因技术原因，本平台预约挂号功能暂时关闭，其他功能不受影响。目前预约挂号烦请使用健康义乌APP，浙江省统一预约平台（电话预约）：12580、85950277，或者医院自助机。给您带来的不便敬请谅解。感谢信任与理解！';
+"
+APPOINT2020	PROCEDURE	25	"  '该上级要求，暂时关闭此功能！';*/
+"
+APPOINT2020	PROCEDURE	26	"  /* ret_info := '各位市民：因疫情原因，本平台预约挂号功能暂时关闭！';
+"
+APPOINT2020	PROCEDURE	27	"  rollback;
+"
+APPOINT2020	PROCEDURE	28	"  return;*/
+"
+APPOINT2020	PROCEDURE	29	"
+"
+APPOINT2020	PROCEDURE	30	"  begin
+"
+APPOINT2020	PROCEDURE	31	"    insert into zy_jiaoyi_v1
+"
+APPOINT2020	PROCEDURE	32	"      (jiaoyilx, jylsh)
+"
+APPOINT2020	PROCEDURE	33	"    values
+"
+APPOINT2020	PROCEDURE	34	"      ('APPOINT2020', card_no);
+"
+APPOINT2020	PROCEDURE	35	"    if sqlcode = 0 then
+"
+APPOINT2020	PROCEDURE	36	"      commit;
+"
+APPOINT2020	PROCEDURE	37	"    else
+"
+APPOINT2020	PROCEDURE	38	"      rollback;
+"
+APPOINT2020	PROCEDURE	39	"      ret_code := -1;
+"
+APPOINT2020	PROCEDURE	40	"      ret_info := '保存日志出错[APPOINT2020]';
+"
+APPOINT2020	PROCEDURE	41	"      return;
+"
+APPOINT2020	PROCEDURE	42	"    end if;
+"
+APPOINT2020	PROCEDURE	43	"  
+"
+APPOINT2020	PROCEDURE	44	"    /* ret_code := -4;
+"
+APPOINT2020	PROCEDURE	45	"    ret_info := '该排班ID不存在[APPOINT2020]';
+"
+APPOINT2020	PROCEDURE	46	"    return;*/
+"
+APPOINT2020	PROCEDURE	47	"  
+"
+APPOINT2020	PROCEDURE	48	"    select plan_id || ',' || card_no || ',' || name || ',' || phone || ',' ||
+"
+APPOINT2020	PROCEDURE	49	"           idcard || ',' || yyxh
+"
+APPOINT2020	PROCEDURE	50	"      into v_jylsh
+"
+APPOINT2020	PROCEDURE	51	"      from dual;
+"
+APPOINT2020	PROCEDURE	52	"  
+"
+APPOINT2020	PROCEDURE	53	"    insert into zy_jiaoyi_v1
+"
+APPOINT2020	PROCEDURE	54	"      (jiaoyilx, jylsh)
+"
+APPOINT2020	PROCEDURE	55	"    values
+"
+APPOINT2020	PROCEDURE	56	"      ('APPOINT2020', v_jylsh);
+"
+APPOINT2020	PROCEDURE	57	"    if sqlcode = 0 then
+"
+APPOINT2020	PROCEDURE	58	"      commit;
+"
+APPOINT2020	PROCEDURE	59	"    else
+"
+APPOINT2020	PROCEDURE	60	"      rollback;
+"
+APPOINT2020	PROCEDURE	61	"    end if;
+"
+APPOINT2020	PROCEDURE	62	"  
+"
+APPOINT2020	PROCEDURE	63	"    --停诊
+"
+APPOINT2020	PROCEDURE	64	"    if 1 = 0 then
+"
+APPOINT2020	PROCEDURE	65	"      ret_code := -1;
+"
+APPOINT2020	PROCEDURE	66	"      ret_info := '排班停诊[APPOINT2020]';
+"
+APPOINT2020	PROCEDURE	67	"      return;
+"
+APPOINT2020	PROCEDURE	68	"    end if;
+"
+APPOINT2020	PROCEDURE	69	"  
+"
+APPOINT2020	PROCEDURE	70	"    select count(*) into v_count from gh_hmdgl where sfzh = idcard;
+"
+APPOINT2020	PROCEDURE	71	"    if v_count > 0 then
+"
+APPOINT2020	PROCEDURE	72	"      select cs into v_cs from gh_hmdgl where sfzh = idcard;
+"
+APPOINT2020	PROCEDURE	73	"      if v_cs > 3 then
+"
+APPOINT2020	PROCEDURE	74	"        ret_code := -1;
+"
+APPOINT2020	PROCEDURE	75	"        ret_info := '该病人已经爽约3次以上，已经列入黑名单，不能预约[APPOINT2020]';
+"
+APPOINT2020	PROCEDURE	76	"        rollback;
+"
+APPOINT2020	PROCEDURE	77	"      end if;
+"
+APPOINT2020	PROCEDURE	78	"    end if;
+"
+APPOINT2020	PROCEDURE	79	"    if card_no is not null then
+"
+APPOINT2020	PROCEDURE	80	"      select * into v_brxx from gy_brjbxxk where jzkh = card_no;
+"
+APPOINT2020	PROCEDURE	81	"      if length(card_no) = 8 then
+"
+APPOINT2020	PROCEDURE	82	"        ret_code := -1;
+"
+APPOINT2020	PROCEDURE	83	"        ret_info := '老的就诊卡已停用,请换用新卡[APPOINT2020]';
+"
+APPOINT2020	PROCEDURE	84	"        rollback;
+"
+APPOINT2020	PROCEDURE	85	"      end if;
+"
+APPOINT2020	PROCEDURE	86	"    
+"
+APPOINT2020	PROCEDURE	87	"      if v_brxx.xm <> name then
+"
+APPOINT2020	PROCEDURE	88	"        ret_code := -1;
+"
+APPOINT2020	PROCEDURE	89	"        ret_info := '卡号和信息不匹配[APPOINT2020]';
+"
+APPOINT2020	PROCEDURE	90	"        rollback;
+"
+APPOINT2020	PROCEDURE	91	"        return;
+"
+APPOINT2020	PROCEDURE	92	"      end if;
+"
+APPOINT2020	PROCEDURE	93	"    end if;
+"
+APPOINT2020	PROCEDURE	94	"    if card_no is null then
+"
+APPOINT2020	PROCEDURE	95	"      v_brxx.xm   := name;
+"
+APPOINT2020	PROCEDURE	96	"      v_brxx.lxdh := phone;
+"
+APPOINT2020	PROCEDURE	97	"      v_brxx.sfzh := idcard;
+"
+APPOINT2020	PROCEDURE	98	"    end if;
+"
+APPOINT2020	PROCEDURE	99	"  end;
+"
+APPOINT2020	PROCEDURE	100	"  /*select * into v_brxx from gy_brjbxxk where jzkh=card_no;
+"
+APPOINT2020	PROCEDURE	101	"  exception
+"
+APPOINT2020	PROCEDURE	102	"    when others then
+"
+APPOINT2020	PROCEDURE	103	"      ret_code:=-1;
+"
+APPOINT2020	PROCEDURE	104	"      ret_info:='该病人信息不存在'||sqlerrm;
+"
+APPOINT2020	PROCEDURE	105	"      rollback;
+"
+APPOINT2020	PROCEDURE	106	"      return;
+"
+APPOINT2020	PROCEDURE	107	"  end;
+"
+APPOINT2020	PROCEDURE	108	"  if v_brxx.xm<>name then
+"
+APPOINT2020	PROCEDURE	109	"    ret_code:=-1;
+"
+APPOINT2020	PROCEDURE	110	"    ret_info:='卡号和信息不匹配';
+"
+APPOINT2020	PROCEDURE	111	"    rollback;
+"
+APPOINT2020	PROCEDURE	112	"    return;
+"
+APPOINT2020	PROCEDURE	113	"  end if;*/
+"
+APPOINT2020	PROCEDURE	114	"  begin
+"
+APPOINT2020	PROCEDURE	115	"  
+"
+APPOINT2020	PROCEDURE	116	"    --2020.01.24 modify
+"
+APPOINT2020	PROCEDURE	117	"    select * into v_pbxx from gh_yzpbk where jlxh = v_yyxx.pbxh;
+"
+APPOINT2020	PROCEDURE	118	"  exception
+"
+APPOINT2020	PROCEDURE	119	"    when others then
+"
+APPOINT2020	PROCEDURE	120	"      ret_code := -4;
+"
+APPOINT2020	PROCEDURE	121	"      ret_info := '该排班ID不存在[APPOINT2020]' || sqlerrm;
+"
+APPOINT2020	PROCEDURE	122	"      rollback;
+"
+APPOINT2020	PROCEDURE	123	"      return;
+"
+APPOINT2020	PROCEDURE	124	"  end;
+"
+APPOINT2020	PROCEDURE	125	"
+"
+APPOINT2020	PROCEDURE	126	"  begin
+"
+APPOINT2020	PROCEDURE	127	"  
+"
+APPOINT2020	PROCEDURE	128	"    select yyghxh
+"
+APPOINT2020	PROCEDURE	129	"      into v_yyxx.ghxh
+"
+APPOINT2020	PROCEDURE	130	"      from gh_yypbmx
+"
+APPOINT2020	PROCEDURE	131	"     where pbjlxh = v_yyxx.pbxh
+"
+APPOINT2020	PROCEDURE	132	"       and yylxdm = 11
+"
+APPOINT2020	PROCEDURE	133	"       and ghsjlb = v_yyxx.yysj
+"
+APPOINT2020	PROCEDURE	134	"       and yyghxh = yyxh;
+"
+APPOINT2020	PROCEDURE	135	"  exception
+"
+APPOINT2020	PROCEDURE	136	"    when others then
+"
+APPOINT2020	PROCEDURE	137	"      ret_code := -4;
+"
+APPOINT2020	PROCEDURE	138	"      ret_info := '该挂号号码不存在[APPOINT2020]' || sqlerrm;
+"
+APPOINT2020	PROCEDURE	139	"      rollback;
+"
+APPOINT2020	PROCEDURE	140	"      return;
+"
+APPOINT2020	PROCEDURE	141	"  end;
+"
+APPOINT2020	PROCEDURE	142	"
+"
+APPOINT2020	PROCEDURE	143	"  select count(ksdm)
+"
+APPOINT2020	PROCEDURE	144	"    into v_count
+"
+APPOINT2020	PROCEDURE	145	"    from v_temp_20200110_ks
+"
+APPOINT2020	PROCEDURE	146	"   where ksdm = v_pbxx.ksdm;
+"
+APPOINT2020	PROCEDURE	147	"  if v_count >= 1 then
+"
+APPOINT2020	PROCEDURE	148	"    v_count := 1;
+"
+APPOINT2020	PROCEDURE	149	"  else
+"
+APPOINT2020	PROCEDURE	150	"    ret_code := -4;
+"
+APPOINT2020	PROCEDURE	151	"    ret_info := '该科室无排班信息 [APPOINT2020]';
+"
+APPOINT2020	PROCEDURE	152	"    rollback;
+"
+APPOINT2020	PROCEDURE	153	"    return;
+"
+APPOINT2020	PROCEDURE	154	"  end if;
+"
+APPOINT2020	PROCEDURE	155	"
+"
+APPOINT2020	PROCEDURE	156	"  select count(ksdm) into v_count from v_ksdm_ek where ksdm = v_pbxx.ksdm;
+"
+APPOINT2020	PROCEDURE	157	"
+"
+APPOINT2020	PROCEDURE	158	"  if v_count > 0 then
+"
+APPOINT2020	PROCEDURE	159	"    if card_no is not null then
+"
+APPOINT2020	PROCEDURE	160	"      select round((sysdate - csrq) / 365, 0)
+"
+APPOINT2020	PROCEDURE	161	"        into v_count
+"
+APPOINT2020	PROCEDURE	162	"        from gy_brjbxxk
+"
+APPOINT2020	PROCEDURE	163	"       where jzkh = card_no;
+"
+APPOINT2020	PROCEDURE	164	"    else
+"
+APPOINT2020	PROCEDURE	165	"      select round((sysdate - to_date(substr(idcard, 7, 8), 'yyyy-mm-dd')) / 365,
+"
+APPOINT2020	PROCEDURE	166	"                   0)
+"
+APPOINT2020	PROCEDURE	167	"        into v_count
+"
+APPOINT2020	PROCEDURE	168	"        from dual;
+"
+APPOINT2020	PROCEDURE	169	"    end if;
+"
+APPOINT2020	PROCEDURE	170	"    if v_count > 14 then
+"
+APPOINT2020	PROCEDURE	171	"      ret_code := -3;
+"
+APPOINT2020	PROCEDURE	172	"      ret_info := '14周岁以上不能挂儿科[APPOINT2020]';
+"
+APPOINT2020	PROCEDURE	173	"      rollback;
+"
+APPOINT2020	PROCEDURE	174	"      return;
+"
+APPOINT2020	PROCEDURE	175	"    end if;
+"
+APPOINT2020	PROCEDURE	176	"  end if;
+"
+APPOINT2020	PROCEDURE	177	"
+"
+APPOINT2020	PROCEDURE	178	"  --获取预约日期
+"
+APPOINT2020	PROCEDURE	179	"  v_yyxx.yyrq1 := trunc(sysdate) +
+"
+APPOINT2020	PROCEDURE	180	"                  mod(v_pbxx.xq + 5 - mod(to_char(sysdate, 'D') + 5, 7), 7) + 1;
+"
+APPOINT2020	PROCEDURE	181	"
+"
+APPOINT2020	PROCEDURE	182	"  select count(*)
+"
+APPOINT2020	PROCEDURE	183	"    into v_count
+"
+APPOINT2020	PROCEDURE	184	"    from gh_mzyyk
+"
+APPOINT2020	PROCEDURE	185	"   where mzlbxh = v_pbxx.mzlbxh
+"
+APPOINT2020	PROCEDURE	186	"     and ksdm = v_pbxx.ksdm
+"
+APPOINT2020	PROCEDURE	187	"     and ysgh = v_pbxx.ysgh
+"
+APPOINT2020	PROCEDURE	188	"     and yyrq1 >= trunc(v_yyxx.yyrq1)
+"
+APPOINT2020	PROCEDURE	189	"     and yyrq1 < trunc(v_yyxx.yyrq1) + 1
+"
+APPOINT2020	PROCEDURE	190	"     and ghxh = v_yyxx.ghxh
+"
+APPOINT2020	PROCEDURE	191	"     and yysj = v_yyxx.yysj
+"
+APPOINT2020	PROCEDURE	192	"     and nvl(zt, 0) >= 0;
+"
+APPOINT2020	PROCEDURE	193	"  if v_count > 0 then
+"
+APPOINT2020	PROCEDURE	194	"    ret_code := -3;
+"
+APPOINT2020	PROCEDURE	195	"    ret_info := '该号码已被预约[APPOINT2020]';
+"
+APPOINT2020	PROCEDURE	196	"    rollback;
+"
+APPOINT2020	PROCEDURE	197	"    return;
+"
+APPOINT2020	PROCEDURE	198	"  end if;
+"
+APPOINT2020	PROCEDURE	199	"  begin
+"
+APPOINT2020	PROCEDURE	200	"    select *
+"
+APPOINT2020	PROCEDURE	201	"      into v_dtpb
+"
+APPOINT2020	PROCEDURE	202	"      from gh_mzpbk
+"
+APPOINT2020	PROCEDURE	203	"     where rq >= trunc(v_yyxx.yyrq1)
+"
+APPOINT2020	PROCEDURE	204	"       and rq < trunc(v_yyxx.yyrq1) + 1
+"
+APPOINT2020	PROCEDURE	205	"       and mzlbxh = v_pbxx.mzlbxh
+"
+APPOINT2020	PROCEDURE	206	"       and ksdm = v_pbxx.ksdm
+"
+APPOINT2020	PROCEDURE	207	"       and ysgh = v_pbxx.ysgh
+"
+APPOINT2020	PROCEDURE	208	"       and rownum = 1;
+"
+APPOINT2020	PROCEDURE	209	"  exception
+"
+APPOINT2020	PROCEDURE	210	"    when others then
+"
+APPOINT2020	PROCEDURE	211	"      v_dtpb.jlxh := 0;
+"
+APPOINT2020	PROCEDURE	212	"  end;
+"
+APPOINT2020	PROCEDURE	213	"
+"
+APPOINT2020	PROCEDURE	214	"  /*
+"
+APPOINT2020	PROCEDURE	215	"  
+"
+APPOINT2020	PROCEDURE	216	"  if to_char(gh_mzpbk.rq,'dd')='03' || to_char(gh_mzpbk.rq,'dd')='04' ||to_char(gh_mzpbk.rq,'dd')='05' ||to_char(gh_mzpbk.rq,'dd')='06' ||to_char(gh_mzpbk.rq,'dd')='07' ||to_char(gh_mzpbk.rq,'dd')='08' ||to_char(gh_mzpbk.rq,'dd')='09' ||to_char(gh_mzpbk.rq,'dd')='10'  then */
+"
+APPOINT2020	PROCEDURE	217	"
+"
+APPOINT2020	PROCEDURE	218	"  select to_char(v_dtpb.rq, 'yyyymmdd') into v_rq_str from dual;
+"
+APPOINT2020	PROCEDURE	219	"  if v_rq_str = '20200124' or v_rq_str = '20200125' or
+"
+APPOINT2020	PROCEDURE	220	"     v_rq_str = '20200126' or v_rq_str = '20200127' or
+"
+APPOINT2020	PROCEDURE	221	"     v_rq_str = '20200128' or v_rq_str = '20200129' or
+"
+APPOINT2020	PROCEDURE	222	"     v_rq_str = '20200130' then
+"
+APPOINT2020	PROCEDURE	223	"    ret_code := -4;
+"
+APPOINT2020	PROCEDURE	224	"    ret_info := '该排班已停诊[APPOINT2020]';
+"
+APPOINT2020	PROCEDURE	225	"    rollback;
+"
+APPOINT2020	PROCEDURE	226	"    return;
+"
+APPOINT2020	PROCEDURE	227	"  end if;
+"
+APPOINT2020	PROCEDURE	228	"
+"
+APPOINT2020	PROCEDURE	229	"  if v_dtpb.jlxh > 0 then
+"
+APPOINT2020	PROCEDURE	230	"    if v_yyxx.yysj <> 1 then
+"
+APPOINT2020	PROCEDURE	231	"      v_dtpb.swjsh := v_dtpb.xwjsh;
+"
+APPOINT2020	PROCEDURE	232	"    end if;
+"
+APPOINT2020	PROCEDURE	233	"    if v_dtpb.swjsh < 0 then
+"
+APPOINT2020	PROCEDURE	234	"      ret_code := -4;
+"
+APPOINT2020	PROCEDURE	235	"      ret_info := '该排班已停诊[APPOINT2020]';
+"
+APPOINT2020	PROCEDURE	236	"      rollback;
+"
+APPOINT2020	PROCEDURE	237	"      return;
+"
+APPOINT2020	PROCEDURE	238	"    end if;
+"
+APPOINT2020	PROCEDURE	239	"  end if;
+"
+APPOINT2020	PROCEDURE	240	"
+"
+APPOINT2020	PROCEDURE	241	"  v_yyxx.xm     := v_brxx.xm;
+"
+APPOINT2020	PROCEDURE	242	"  v_yyxx.xb     := v_brxx.xb;
+"
+APPOINT2020	PROCEDURE	243	"  v_yyxx.csrq   := v_brxx.csrq;
+"
+APPOINT2020	PROCEDURE	244	"  v_yyxx.sfzh   := v_brxx.sfzh;
+"
+APPOINT2020	PROCEDURE	245	"  v_yyxx.lxdh   := v_brxx.lxdh;
+"
+APPOINT2020	PROCEDURE	246	"  v_yyxx.jtzz   := v_brxx.jtzz;
+"
+APPOINT2020	PROCEDURE	247	"  v_yyxx.ksdm   := v_pbxx.ksdm;
+"
+APPOINT2020	PROCEDURE	248	"  v_yyxx.ysgh   := v_pbxx.ysgh;
+"
+APPOINT2020	PROCEDURE	249	"  v_yyxx.djrq   := sysdate;
+"
+APPOINT2020	PROCEDURE	250	"  v_yyxx.zt     := 0;
+"
+APPOINT2020	PROCEDURE	251	"  v_yyxx.czgh   := 'ZSYY2';
+"
+APPOINT2020	PROCEDURE	252	"  v_yyxx.yylb   := 3;
+"
+APPOINT2020	PROCEDURE	253	"  v_yyxx.mzlbxh := v_pbxx.mzlbxh;
+"
+APPOINT2020	PROCEDURE	254	"  --v_yyxx.jzkh:=v_brxx.jzkh;
+"
+APPOINT2020	PROCEDURE	255	"
+"
+APPOINT2020	PROCEDURE	256	"  --判断重复预约挂号
+"
+APPOINT2020	PROCEDURE	257	"  begin
+"
+APPOINT2020	PROCEDURE	258	"  
+"
+APPOINT2020	PROCEDURE	259	"    select count(*)
+"
+APPOINT2020	PROCEDURE	260	"      into v_count
+"
+APPOINT2020	PROCEDURE	261	"      from gh_mzyyk
+"
+APPOINT2020	PROCEDURE	262	"     where mzlbxh = v_pbxx.mzlbxh
+"
+APPOINT2020	PROCEDURE	263	"       and ksdm = v_pbxx.ksdm
+"
+APPOINT2020	PROCEDURE	264	"       and ysgh = v_pbxx.ysgh
+"
+APPOINT2020	PROCEDURE	265	"       and yyrq1 >= trunc(v_yyxx.yyrq1)
+"
+APPOINT2020	PROCEDURE	266	"       and yyrq1 < trunc(v_yyxx.yyrq1) + 1
+"
+APPOINT2020	PROCEDURE	267	"       and yysj = v_yyxx.yysj
+"
+APPOINT2020	PROCEDURE	268	"       and nvl(zt, 0) >= 0
+"
+APPOINT2020	PROCEDURE	269	"       and sfzh = v_yyxx.sfzh
+"
+APPOINT2020	PROCEDURE	270	"       and xm = v_yyxx.xm;
+"
+APPOINT2020	PROCEDURE	271	"  
+"
+APPOINT2020	PROCEDURE	272	"    if v_count > 0 then
+"
+APPOINT2020	PROCEDURE	273	"      ret_code := -3;
+"
+APPOINT2020	PROCEDURE	274	"      ret_info := '该科室(医生)当天已经预约[APPOINT2020]';
+"
+APPOINT2020	PROCEDURE	275	"      rollback;
+"
+APPOINT2020	PROCEDURE	276	"      return;
+"
+APPOINT2020	PROCEDURE	277	"    end if;
+"
+APPOINT2020	PROCEDURE	278	"  
+"
+APPOINT2020	PROCEDURE	279	"  end;
+"
+APPOINT2020	PROCEDURE	280	"
+"
+APPOINT2020	PROCEDURE	281	"  --判断停诊通知
+"
+APPOINT2020	PROCEDURE	282	"  begin
+"
+APPOINT2020	PROCEDURE	283	"    v_count := 0;
+"
+APPOINT2020	PROCEDURE	284	"    if v_yyxx.yysj = 1 then
+"
+APPOINT2020	PROCEDURE	285	"      select count(*)
+"
+APPOINT2020	PROCEDURE	286	"        into v_count
+"
+APPOINT2020	PROCEDURE	287	"        From GH_MBZHGL
+"
+APPOINT2020	PROCEDURE	288	"       where swjsh = -2
+"
+APPOINT2020	PROCEDURE	289	"         and ysgh = v_yyxx.ysgh
+"
+APPOINT2020	PROCEDURE	290	"         and ksdm = v_yyxx.ksdm
+"
+APPOINT2020	PROCEDURE	291	"         and mzlbxh = v_yyxx.mzlbxh
+"
+APPOINT2020	PROCEDURE	292	"         and ksrq <= trunc(v_yyxx.yyrq1)
+"
+APPOINT2020	PROCEDURE	293	"         and jsrq >= trunc(v_yyxx.yyrq1);
+"
+APPOINT2020	PROCEDURE	294	"    
+"
+APPOINT2020	PROCEDURE	295	"    else
+"
+APPOINT2020	PROCEDURE	296	"      select count(*)
+"
+APPOINT2020	PROCEDURE	297	"        into v_count
+"
+APPOINT2020	PROCEDURE	298	"        From GH_MBZHGL
+"
+APPOINT2020	PROCEDURE	299	"       where xwjsh = -2
+"
+APPOINT2020	PROCEDURE	300	"         and ysgh = v_yyxx.ysgh
+"
+APPOINT2020	PROCEDURE	301	"         and ksdm = v_yyxx.ksdm
+"
+APPOINT2020	PROCEDURE	302	"         and mzlbxh = v_yyxx.mzlbxh
+"
+APPOINT2020	PROCEDURE	303	"         and ksrq <= trunc(v_yyxx.yyrq1)
+"
+APPOINT2020	PROCEDURE	304	"         and jsrq >= trunc(v_yyxx.yyrq1);
+"
+APPOINT2020	PROCEDURE	305	"    
+"
+APPOINT2020	PROCEDURE	306	"    end if;
+"
+APPOINT2020	PROCEDURE	307	"  
+"
+APPOINT2020	PROCEDURE	308	"    select v_yyxx.yysj || ',' || v_yyxx.ysgh || ',' || v_yyxx.ksdm || ',' ||
+"
+APPOINT2020	PROCEDURE	309	"           v_yyxx.mzlbxh || ',' || v_yyxx.yyrq1
+"
+APPOINT2020	PROCEDURE	310	"      into v_bz
+"
+APPOINT2020	PROCEDURE	311	"      from dual;
+"
+APPOINT2020	PROCEDURE	312	"  
+"
+APPOINT2020	PROCEDURE	313	"    if v_count > 0 then
+"
+APPOINT2020	PROCEDURE	314	"      ret_code := -4;
+"
+APPOINT2020	PROCEDURE	315	"      ret_info := '该排班当天停诊[APPOINT2020]';
+"
+APPOINT2020	PROCEDURE	316	"      rollback;
+"
+APPOINT2020	PROCEDURE	317	"      return;
+"
+APPOINT2020	PROCEDURE	318	"    end if;
+"
+APPOINT2020	PROCEDURE	319	"  
+"
+APPOINT2020	PROCEDURE	320	"  end;
+"
+APPOINT2020	PROCEDURE	321	"
+"
+APPOINT2020	PROCEDURE	322	"  update gy_xhb set dqz = dqz + zz where bm = 'GH_MZYYK';
+"
+APPOINT2020	PROCEDURE	323	"  select dqz into v_yyxx.yyxh from gy_xhb where bm = 'GH_MZYYK';
+"
+APPOINT2020	PROCEDURE	324	"
+"
+APPOINT2020	PROCEDURE	325	"  insert into gh_mzyyk values v_yyxx;
+"
+APPOINT2020	PROCEDURE	326	"  ret_code := 0;
+"
+APPOINT2020	PROCEDURE	327	"  ret_info := '预约成功';
+"
+APPOINT2020	PROCEDURE	328	"  reg_id   := v_yyxx.yyxh;
+"
+APPOINT2020	PROCEDURE	329	"  commit;
+"
+APPOINT2020	PROCEDURE	330	"
+"
+APPOINT2020	PROCEDURE	331	"  select v_yyxx.xm || ',   您好，预约取号码 为' || reg_id || '，请根据预约号合理安排就诊时间。'
+"
+APPOINT2020	PROCEDURE	332	"    into v_bz
+"
+APPOINT2020	PROCEDURE	333	"    from dual;
+"
+APPOINT2020	PROCEDURE	334	"  prc_sms_send('ts', v_brxx.lxdh, v_bz, v_rq_str);
+"
+APPOINT2020	PROCEDURE	335	"
+"
+APPOINT2020	PROCEDURE	336	"EXCEPTION
+"
+APPOINT2020	PROCEDURE	337	"  when others then
+"
+APPOINT2020	PROCEDURE	338	"    ret_code := -4;
+"
+APPOINT2020	PROCEDURE	339	"    ret_info := '预约失败[APPOINT2020]' || sqlerrm;
+"
+APPOINT2020	PROCEDURE	340	"    rollback;
+"
+APPOINT2020	PROCEDURE	341	"    return;
+"
+APPOINT2020	PROCEDURE	342	"END;
+"

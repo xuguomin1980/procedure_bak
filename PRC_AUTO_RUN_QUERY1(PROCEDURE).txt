@@ -1,0 +1,582 @@
+PRC_AUTO_RUN_QUERY1	PROCEDURE	1	"PROCEDURE ""PRC_AUTO_RUN_QUERY1"" Is
+"
+PRC_AUTO_RUN_QUERY1	PROCEDURE	2	"
+"
+PRC_AUTO_RUN_QUERY1	PROCEDURE	3	"  /*=============================================================================
+"
+PRC_AUTO_RUN_QUERY1	PROCEDURE	4	"  || 过程名称 ： PRC_AUTO_RUN_QUERY1 后台自动运行
+"
+PRC_AUTO_RUN_QUERY1	PROCEDURE	5	"  ||-----------------------------------------------------------------------------
+"
+PRC_AUTO_RUN_QUERY1	PROCEDURE	6	"  || 功能说明 ：  JOB 定时10分钟 执行 后台任务
+"
+PRC_AUTO_RUN_QUERY1	PROCEDURE	7	"  ||-----------------------------------------------------------------------------
+"
+PRC_AUTO_RUN_QUERY1	PROCEDURE	8	"  || 参数描述 ： 无
+"
+PRC_AUTO_RUN_QUERY1	PROCEDURE	9	"  ------------------------------------------------------------
+"
+PRC_AUTO_RUN_QUERY1	PROCEDURE	10	"  ||-----------------------------------------------------------------------------
+"
+PRC_AUTO_RUN_QUERY1	PROCEDURE	11	"  || 注意事项 ：
+"
+PRC_AUTO_RUN_QUERY1	PROCEDURE	12	"  ||-----------------------------------------------------------------------------
+"
+PRC_AUTO_RUN_QUERY1	PROCEDURE	13	"  || 作    者 ：       完成日期 ：
+"
+PRC_AUTO_RUN_QUERY1	PROCEDURE	14	"  ||-----------------------------------------------------------------------------
+"
+PRC_AUTO_RUN_QUERY1	PROCEDURE	15	"  || 修改记录 ：
+"
+PRC_AUTO_RUN_QUERY1	PROCEDURE	16	"  =============================================================================*/
+"
+PRC_AUTO_RUN_QUERY1	PROCEDURE	17	"  v_Procedure_Name Varchar2(50);
+"
+PRC_AUTO_RUN_QUERY1	PROCEDURE	18	"  v_task           Varchar2(30);
+"
+PRC_AUTO_RUN_QUERY1	PROCEDURE	19	"
+"
+PRC_AUTO_RUN_QUERY1	PROCEDURE	20	"  v_query_id  number;
+"
+PRC_AUTO_RUN_QUERY1	PROCEDURE	21	"  flag_do     number;
+"
+PRC_AUTO_RUN_QUERY1	PROCEDURE	22	"  total_row   Number;
+"
+PRC_AUTO_RUN_QUERY1	PROCEDURE	23	"  i           Number;
+"
+PRC_AUTO_RUN_QUERY1	PROCEDURE	24	"  flag_week   number;
+"
+PRC_AUTO_RUN_QUERY1	PROCEDURE	25	"  flag_month  number;
+"
+PRC_AUTO_RUN_QUERY1	PROCEDURE	26	"  v_mess      Varchar2(4000);
+"
+PRC_AUTO_RUN_QUERY1	PROCEDURE	27	"  v_mess_all  Varchar2(4000);
+"
+PRC_AUTO_RUN_QUERY1	PROCEDURE	28	"  v_mess_send Varchar2(4000);
+"
+PRC_AUTO_RUN_QUERY1	PROCEDURE	29	"  v_str_temp  Varchar2(1100);
+"
+PRC_AUTO_RUN_QUERY1	PROCEDURE	30	"  v_count     number;
+"
+PRC_AUTO_RUN_QUERY1	PROCEDURE	31	"  ls_now      Varchar2(20);
+"
+PRC_AUTO_RUN_QUERY1	PROCEDURE	32	"  lxdh        Varchar2(200);
+"
+PRC_AUTO_RUN_QUERY1	PROCEDURE	33	"  nr          Varchar2(200);
+"
+PRC_AUTO_RUN_QUERY1	PROCEDURE	34	"  v_bz        Varchar2(200);
+"
+PRC_AUTO_RUN_QUERY1	PROCEDURE	35	"
+"
+PRC_AUTO_RUN_QUERY1	PROCEDURE	36	"  v_d1 Varchar2(200);
+"
+PRC_AUTO_RUN_QUERY1	PROCEDURE	37	"  v_d2 Varchar2(200);
+"
+PRC_AUTO_RUN_QUERY1	PROCEDURE	38	"
+"
+PRC_AUTO_RUN_QUERY1	PROCEDURE	39	"  v_week_1 Varchar2(20);
+"
+PRC_AUTO_RUN_QUERY1	PROCEDURE	40	"  v_today  Varchar2(20);
+"
+PRC_AUTO_RUN_QUERY1	PROCEDURE	41	"
+"
+PRC_AUTO_RUN_QUERY1	PROCEDURE	42	"  v_date_yesterday1 Varchar2(200);
+"
+PRC_AUTO_RUN_QUERY1	PROCEDURE	43	"  v_date_yesterday2 Varchar2(200);
+"
+PRC_AUTO_RUN_QUERY1	PROCEDURE	44	"
+"
+PRC_AUTO_RUN_QUERY1	PROCEDURE	45	"  v_date_week1 Varchar2(200);
+"
+PRC_AUTO_RUN_QUERY1	PROCEDURE	46	"  v_date_week2 Varchar2(200);
+"
+PRC_AUTO_RUN_QUERY1	PROCEDURE	47	"
+"
+PRC_AUTO_RUN_QUERY1	PROCEDURE	48	"  v_date_month1 Varchar2(200);
+"
+PRC_AUTO_RUN_QUERY1	PROCEDURE	49	"  v_date_month2 Varchar2(200);
+"
+PRC_AUTO_RUN_QUERY1	PROCEDURE	50	"
+"
+PRC_AUTO_RUN_QUERY1	PROCEDURE	51	"  v_date_add_begin Varchar2(200);
+"
+PRC_AUTO_RUN_QUERY1	PROCEDURE	52	"  v_date_add_end   Varchar2(200);
+"
+PRC_AUTO_RUN_QUERY1	PROCEDURE	53	"  v_select         Varchar2(5000);
+"
+PRC_AUTO_RUN_QUERY1	PROCEDURE	54	"  v_select_qeury1  Varchar2(800);
+"
+PRC_AUTO_RUN_QUERY1	PROCEDURE	55	"  v_rq             Varchar2(200);
+"
+PRC_AUTO_RUN_QUERY1	PROCEDURE	56	"  v_rq_month       Varchar2(200);
+"
+PRC_AUTO_RUN_QUERY1	PROCEDURE	57	"  v_rq_week        Varchar2(200);
+"
+PRC_AUTO_RUN_QUERY1	PROCEDURE	58	"  v_rq_day         Varchar2(200);
+"
+PRC_AUTO_RUN_QUERY1	PROCEDURE	59	"  v_query1         query1%rowtype;
+"
+PRC_AUTO_RUN_QUERY1	PROCEDURE	60	"
+"
+PRC_AUTO_RUN_QUERY1	PROCEDURE	61	"  Type my_cursor is ref cursor; --声明动态游标类型
+"
+PRC_AUTO_RUN_QUERY1	PROCEDURE	62	"  v_cursor my_cursor; --定义动态游标变量
+"
+PRC_AUTO_RUN_QUERY1	PROCEDURE	63	"
+"
+PRC_AUTO_RUN_QUERY1	PROCEDURE	64	"  Type my_cursor_query1 is ref cursor; --声明动态游标类型
+"
+PRC_AUTO_RUN_QUERY1	PROCEDURE	65	"  v_cursor_query1 my_cursor_query1; --定义动态游标变量
+"
+PRC_AUTO_RUN_QUERY1	PROCEDURE	66	"
+"
+PRC_AUTO_RUN_QUERY1	PROCEDURE	67	"Begin
+"
+PRC_AUTO_RUN_QUERY1	PROCEDURE	68	"  v_Procedure_Name := 'PRC_AUTO_RUN_QUERY1';
+"
+PRC_AUTO_RUN_QUERY1	PROCEDURE	69	"  v_task           := ' ';
+"
+PRC_AUTO_RUN_QUERY1	PROCEDURE	70	"  lxdh             := '13777929515';
+"
+PRC_AUTO_RUN_QUERY1	PROCEDURE	71	"
+"
+PRC_AUTO_RUN_QUERY1	PROCEDURE	72	"  insert into zy_jiaoyi_v1
+"
+PRC_AUTO_RUN_QUERY1	PROCEDURE	73	"    (jiaoyilx, jylsh, flag)
+"
+PRC_AUTO_RUN_QUERY1	PROCEDURE	74	"  values
+"
+PRC_AUTO_RUN_QUERY1	PROCEDURE	75	"    (v_Procedure_Name, '开始', 0);
+"
+PRC_AUTO_RUN_QUERY1	PROCEDURE	76	"  commit;
+"
+PRC_AUTO_RUN_QUERY1	PROCEDURE	77	"  -- to_date(2019-11-04 00:00:00,""yyyy-mm-dd hh24:mi:ss"") 
+"
+PRC_AUTO_RUN_QUERY1	PROCEDURE	78	"  v_date_add_begin := ' to_date(''';
+"
+PRC_AUTO_RUN_QUERY1	PROCEDURE	79	"  v_date_add_end   := ''',''yyyy-mm-dd hh24:mi:ss'') ';
+"
+PRC_AUTO_RUN_QUERY1	PROCEDURE	80	"
+"
+PRC_AUTO_RUN_QUERY1	PROCEDURE	81	"  flag_do := 0;
+"
+PRC_AUTO_RUN_QUERY1	PROCEDURE	82	"
+"
+PRC_AUTO_RUN_QUERY1	PROCEDURE	83	"  --获取 日期范围 日 周 月 begin 
+"
+PRC_AUTO_RUN_QUERY1	PROCEDURE	84	"  if 1 = 1 then
+"
+PRC_AUTO_RUN_QUERY1	PROCEDURE	85	"    -- 获取时间 每天执行 
+"
+PRC_AUTO_RUN_QUERY1	PROCEDURE	86	"    if 1 = 1 then
+"
+PRC_AUTO_RUN_QUERY1	PROCEDURE	87	"      select v_date_add_begin || to_char(trunc(sysdate - 1), 'yyyy-mm-dd') ||
+"
+PRC_AUTO_RUN_QUERY1	PROCEDURE	88	"             ' 00:00:00' || v_date_add_end,
+"
+PRC_AUTO_RUN_QUERY1	PROCEDURE	89	"             v_date_add_begin || to_char(TRUNC(SYSDATE - 1), 'yyyy-mm-dd') ||
+"
+PRC_AUTO_RUN_QUERY1	PROCEDURE	90	"             ' 23:59:59' || v_date_add_end,
+"
+PRC_AUTO_RUN_QUERY1	PROCEDURE	91	"             to_char(trunc(sysdate - 1), 'yyyy-mm-dd') || chr(13) ||
+"
+PRC_AUTO_RUN_QUERY1	PROCEDURE	92	"             chr(10)
+"
+PRC_AUTO_RUN_QUERY1	PROCEDURE	93	"        into v_date_yesterday1, v_date_yesterday2, v_rq_day
+"
+PRC_AUTO_RUN_QUERY1	PROCEDURE	94	"        from dual;
+"
+PRC_AUTO_RUN_QUERY1	PROCEDURE	95	"    
+"
+PRC_AUTO_RUN_QUERY1	PROCEDURE	96	"    end if;
+"
+PRC_AUTO_RUN_QUERY1	PROCEDURE	97	"  
+"
+PRC_AUTO_RUN_QUERY1	PROCEDURE	98	"    -- 获取时间 每周执行 
+"
+PRC_AUTO_RUN_QUERY1	PROCEDURE	99	"    if 1 = 1 then
+"
+PRC_AUTO_RUN_QUERY1	PROCEDURE	100	"      select v_date_add_begin ||
+"
+PRC_AUTO_RUN_QUERY1	PROCEDURE	101	"             to_char(sysdate + (2 - to_char(sysdate, 'd')) - 7,
+"
+PRC_AUTO_RUN_QUERY1	PROCEDURE	102	"                     'yyyy-mm-dd') || ' 00:00:00' || v_date_add_end,
+"
+PRC_AUTO_RUN_QUERY1	PROCEDURE	103	"             v_date_add_begin ||
+"
+PRC_AUTO_RUN_QUERY1	PROCEDURE	104	"             to_char(sysdate + (2 - to_char(sysdate, 'd')) - 1,
+"
+PRC_AUTO_RUN_QUERY1	PROCEDURE	105	"                     'yyyy-mm-dd') || ' 23:59:59' || v_date_add_end,
+"
+PRC_AUTO_RUN_QUERY1	PROCEDURE	106	"             '上周: ' || to_char(sysdate + (2 - to_char(sysdate, 'd')) - 7,
+"
+PRC_AUTO_RUN_QUERY1	PROCEDURE	107	"                               'yyyy-mm-dd') || ' - ' ||
+"
+PRC_AUTO_RUN_QUERY1	PROCEDURE	108	"             to_char(sysdate + (2 - to_char(sysdate, 'd')) - 1,
+"
+PRC_AUTO_RUN_QUERY1	PROCEDURE	109	"                     'yyyy-mm-dd') || chr(13) || chr(10),
+"
+PRC_AUTO_RUN_QUERY1	PROCEDURE	110	"             to_char(trunc(sysdate, 'd') + 1, 'yyyy-mm-dd'),
+"
+PRC_AUTO_RUN_QUERY1	PROCEDURE	111	"             to_char(sysdate, 'yyyy-mm-dd')
+"
+PRC_AUTO_RUN_QUERY1	PROCEDURE	112	"        into v_date_week1, v_date_week2, v_rq_week, v_week_1, v_today
+"
+PRC_AUTO_RUN_QUERY1	PROCEDURE	113	"        from dual;
+"
+PRC_AUTO_RUN_QUERY1	PROCEDURE	114	"      if v_week_1 = v_today then
+"
+PRC_AUTO_RUN_QUERY1	PROCEDURE	115	"        flag_week := 1;
+"
+PRC_AUTO_RUN_QUERY1	PROCEDURE	116	"      else
+"
+PRC_AUTO_RUN_QUERY1	PROCEDURE	117	"        flag_week := 0;
+"
+PRC_AUTO_RUN_QUERY1	PROCEDURE	118	"      end if;
+"
+PRC_AUTO_RUN_QUERY1	PROCEDURE	119	"    
+"
+PRC_AUTO_RUN_QUERY1	PROCEDURE	120	"    end if;
+"
+PRC_AUTO_RUN_QUERY1	PROCEDURE	121	"  
+"
+PRC_AUTO_RUN_QUERY1	PROCEDURE	122	"    -- 获取时间 每月执行 
+"
+PRC_AUTO_RUN_QUERY1	PROCEDURE	123	"    if 1 = 1 then
+"
+PRC_AUTO_RUN_QUERY1	PROCEDURE	124	"      select v_date_add_begin ||
+"
+PRC_AUTO_RUN_QUERY1	PROCEDURE	125	"             to_char(trunc(add_months(sysdate, -1), 'mm'), 'yyyy-mm-dd') ||
+"
+PRC_AUTO_RUN_QUERY1	PROCEDURE	126	"             ' 00:00:00' || v_date_add_end,
+"
+PRC_AUTO_RUN_QUERY1	PROCEDURE	127	"             v_date_add_begin ||
+"
+PRC_AUTO_RUN_QUERY1	PROCEDURE	128	"             to_char(last_day(add_months(sysdate, -1)), 'yyyy-mm-dd') ||
+"
+PRC_AUTO_RUN_QUERY1	PROCEDURE	129	"             ' 23:59:59' || v_date_add_end,
+"
+PRC_AUTO_RUN_QUERY1	PROCEDURE	130	"             '上个月: ' ||
+"
+PRC_AUTO_RUN_QUERY1	PROCEDURE	131	"             to_char(trunc(add_months(sysdate, -1), 'mm'), 'yyyy-mm-dd') ||
+"
+PRC_AUTO_RUN_QUERY1	PROCEDURE	132	"             ' - ' ||
+"
+PRC_AUTO_RUN_QUERY1	PROCEDURE	133	"             to_char(last_day(add_months(sysdate, -1)), 'yyyy-mm-dd') ||
+"
+PRC_AUTO_RUN_QUERY1	PROCEDURE	134	"             chr(13) || chr(10),
+"
+PRC_AUTO_RUN_QUERY1	PROCEDURE	135	"             to_char(sysdate, 'dd')
+"
+PRC_AUTO_RUN_QUERY1	PROCEDURE	136	"        into v_date_month1, v_date_month2, v_rq_month, v_today
+"
+PRC_AUTO_RUN_QUERY1	PROCEDURE	137	"        from dual;
+"
+PRC_AUTO_RUN_QUERY1	PROCEDURE	138	"    
+"
+PRC_AUTO_RUN_QUERY1	PROCEDURE	139	"      if v_today = '01' then
+"
+PRC_AUTO_RUN_QUERY1	PROCEDURE	140	"        flag_month := 1;
+"
+PRC_AUTO_RUN_QUERY1	PROCEDURE	141	"      else
+"
+PRC_AUTO_RUN_QUERY1	PROCEDURE	142	"        flag_month := 0;
+"
+PRC_AUTO_RUN_QUERY1	PROCEDURE	143	"      end if;
+"
+PRC_AUTO_RUN_QUERY1	PROCEDURE	144	"    
+"
+PRC_AUTO_RUN_QUERY1	PROCEDURE	145	"    end if;
+"
+PRC_AUTO_RUN_QUERY1	PROCEDURE	146	"  end if;
+"
+PRC_AUTO_RUN_QUERY1	PROCEDURE	147	"  --获取 日期范围 日 周 月 end 
+"
+PRC_AUTO_RUN_QUERY1	PROCEDURE	148	"  --      select to_char(trunc(add_months(sysdate,-1),'mm'),'yyyy-mm-dd') ||' 00:00:00' first_day,to_char(last_day(add_months(sysdate,-1)),'yyyy-mm-dd') ||' 23:59:59' last_day from dual;
+"
+PRC_AUTO_RUN_QUERY1	PROCEDURE	149	"
+"
+PRC_AUTO_RUN_QUERY1	PROCEDURE	150	"  v_select_qeury1 := ' select id   From query1 where  flag_sms=1  and (zx_date is null or zx_date<sysdate  - 0.1)  ';
+"
+PRC_AUTO_RUN_QUERY1	PROCEDURE	151	"  open v_cursor_query1 for v_select_qeury1; --打开自定义REF游标
+"
+PRC_AUTO_RUN_QUERY1	PROCEDURE	152	"  loop
+"
+PRC_AUTO_RUN_QUERY1	PROCEDURE	153	"    v_query_id := 0;
+"
+PRC_AUTO_RUN_QUERY1	PROCEDURE	154	"    exit when sqlcode <> 0;
+"
+PRC_AUTO_RUN_QUERY1	PROCEDURE	155	"    fetch v_cursor_query1
+"
+PRC_AUTO_RUN_QUERY1	PROCEDURE	156	"      into v_query_id;
+"
+PRC_AUTO_RUN_QUERY1	PROCEDURE	157	"  
+"
+PRC_AUTO_RUN_QUERY1	PROCEDURE	158	"    exit when v_cursor_query1%notfound; --退出循环条件
+"
+PRC_AUTO_RUN_QUERY1	PROCEDURE	159	"    if v_query_id > 0 then
+"
+PRC_AUTO_RUN_QUERY1	PROCEDURE	160	"    
+"
+PRC_AUTO_RUN_QUERY1	PROCEDURE	161	"      -- 执行语句 begin
+"
+PRC_AUTO_RUN_QUERY1	PROCEDURE	162	"      if 2 = 2 then
+"
+PRC_AUTO_RUN_QUERY1	PROCEDURE	163	"      
+"
+PRC_AUTO_RUN_QUERY1	PROCEDURE	164	"        select *
+"
+PRC_AUTO_RUN_QUERY1	PROCEDURE	165	"          into v_query1
+"
+PRC_AUTO_RUN_QUERY1	PROCEDURE	166	"          From query1
+"
+PRC_AUTO_RUN_QUERY1	PROCEDURE	167	"         where id = v_query_id
+"
+PRC_AUTO_RUN_QUERY1	PROCEDURE	168	"           and flag_sms = 1;
+"
+PRC_AUTO_RUN_QUERY1	PROCEDURE	169	"      
+"
+PRC_AUTO_RUN_QUERY1	PROCEDURE	170	"        select substr(v_query1.sqltext, instr(v_query1.sqltext, 'from'))
+"
+PRC_AUTO_RUN_QUERY1	PROCEDURE	171	"          into v_query1.sqltext
+"
+PRC_AUTO_RUN_QUERY1	PROCEDURE	172	"          from dual;
+"
+PRC_AUTO_RUN_QUERY1	PROCEDURE	173	"        select v_query1.sqltext_sms || v_query1.sqltext
+"
+PRC_AUTO_RUN_QUERY1	PROCEDURE	174	"          into v_select
+"
+PRC_AUTO_RUN_QUERY1	PROCEDURE	175	"          from dual;
+"
+PRC_AUTO_RUN_QUERY1	PROCEDURE	176	"      
+"
+PRC_AUTO_RUN_QUERY1	PROCEDURE	177	"        for i in 1 .. 3 loop
+"
+PRC_AUTO_RUN_QUERY1	PROCEDURE	178	"        
+"
+PRC_AUTO_RUN_QUERY1	PROCEDURE	179	"          if i = 1 then
+"
+PRC_AUTO_RUN_QUERY1	PROCEDURE	180	"            if v_query1.zx_day = 1 then
+"
+PRC_AUTO_RUN_QUERY1	PROCEDURE	181	"              v_d1 := v_date_yesterday1;
+"
+PRC_AUTO_RUN_QUERY1	PROCEDURE	182	"              v_d2 := v_date_yesterday2;
+"
+PRC_AUTO_RUN_QUERY1	PROCEDURE	183	"              v_rq := v_rq_day;
+"
+PRC_AUTO_RUN_QUERY1	PROCEDURE	184	"            else
+"
+PRC_AUTO_RUN_QUERY1	PROCEDURE	185	"              continue;
+"
+PRC_AUTO_RUN_QUERY1	PROCEDURE	186	"            end if;
+"
+PRC_AUTO_RUN_QUERY1	PROCEDURE	187	"          end if;
+"
+PRC_AUTO_RUN_QUERY1	PROCEDURE	188	"        
+"
+PRC_AUTO_RUN_QUERY1	PROCEDURE	189	"          if i = 2 then
+"
+PRC_AUTO_RUN_QUERY1	PROCEDURE	190	"            if v_query1.zx_week = 1 and flag_week = 1 then
+"
+PRC_AUTO_RUN_QUERY1	PROCEDURE	191	"              v_d1 := v_date_week1;
+"
+PRC_AUTO_RUN_QUERY1	PROCEDURE	192	"              v_d2 := v_date_week2;
+"
+PRC_AUTO_RUN_QUERY1	PROCEDURE	193	"              v_rq := v_rq_week;
+"
+PRC_AUTO_RUN_QUERY1	PROCEDURE	194	"            else
+"
+PRC_AUTO_RUN_QUERY1	PROCEDURE	195	"              continue;
+"
+PRC_AUTO_RUN_QUERY1	PROCEDURE	196	"            end if;
+"
+PRC_AUTO_RUN_QUERY1	PROCEDURE	197	"          end if;
+"
+PRC_AUTO_RUN_QUERY1	PROCEDURE	198	"        
+"
+PRC_AUTO_RUN_QUERY1	PROCEDURE	199	"          if i = 3 then
+"
+PRC_AUTO_RUN_QUERY1	PROCEDURE	200	"            if v_query1.zx_month = 1 and flag_month = 1 then
+"
+PRC_AUTO_RUN_QUERY1	PROCEDURE	201	"              v_d1 := v_date_month1;
+"
+PRC_AUTO_RUN_QUERY1	PROCEDURE	202	"              v_d2 := v_date_month2;
+"
+PRC_AUTO_RUN_QUERY1	PROCEDURE	203	"              v_rq := v_rq_month;
+"
+PRC_AUTO_RUN_QUERY1	PROCEDURE	204	"            else
+"
+PRC_AUTO_RUN_QUERY1	PROCEDURE	205	"              continue;
+"
+PRC_AUTO_RUN_QUERY1	PROCEDURE	206	"            end if;
+"
+PRC_AUTO_RUN_QUERY1	PROCEDURE	207	"          end if;
+"
+PRC_AUTO_RUN_QUERY1	PROCEDURE	208	"        
+"
+PRC_AUTO_RUN_QUERY1	PROCEDURE	209	"          select replace(v_select, ':d1', v_d1) into v_select from dual;
+"
+PRC_AUTO_RUN_QUERY1	PROCEDURE	210	"          select replace(v_select, ':d2', v_d2) into v_select from dual;
+"
+PRC_AUTO_RUN_QUERY1	PROCEDURE	211	"          v_mess_all  := '';
+"
+PRC_AUTO_RUN_QUERY1	PROCEDURE	212	"          total_row   := 0;
+"
+PRC_AUTO_RUN_QUERY1	PROCEDURE	213	"          v_mess_send := '';
+"
+PRC_AUTO_RUN_QUERY1	PROCEDURE	214	"        
+"
+PRC_AUTO_RUN_QUERY1	PROCEDURE	215	"          open v_cursor for v_select; --打开自定义REF游标
+"
+PRC_AUTO_RUN_QUERY1	PROCEDURE	216	"          loop
+"
+PRC_AUTO_RUN_QUERY1	PROCEDURE	217	"            v_mess := '';
+"
+PRC_AUTO_RUN_QUERY1	PROCEDURE	218	"            exit when sqlcode <> 0;
+"
+PRC_AUTO_RUN_QUERY1	PROCEDURE	219	"            fetch v_cursor
+"
+PRC_AUTO_RUN_QUERY1	PROCEDURE	220	"              into v_mess; --指定行并into变量或%rowtype类型变量
+"
+PRC_AUTO_RUN_QUERY1	PROCEDURE	221	"            -- v_mess_all := v_mess_all + v_mess;
+"
+PRC_AUTO_RUN_QUERY1	PROCEDURE	222	"            select v_mess_all || v_mess || chr(13) || chr(10) || ' '
+"
+PRC_AUTO_RUN_QUERY1	PROCEDURE	223	"              into v_mess_all
+"
+PRC_AUTO_RUN_QUERY1	PROCEDURE	224	"              from dual;
+"
+PRC_AUTO_RUN_QUERY1	PROCEDURE	225	"            exit when v_cursor%notfound or total_row > 20; --退出循环条件
+"
+PRC_AUTO_RUN_QUERY1	PROCEDURE	226	"            total_row := total_row + 1;
+"
+PRC_AUTO_RUN_QUERY1	PROCEDURE	227	"          end loop;
+"
+PRC_AUTO_RUN_QUERY1	PROCEDURE	228	"          close v_cursor; --fetch循环游标需要关闭游标   
+"
+PRC_AUTO_RUN_QUERY1	PROCEDURE	229	"          select v_query1.scribe || ' ' || chr(13) || chr(10) || ' ' || v_rq ||
+"
+PRC_AUTO_RUN_QUERY1	PROCEDURE	230	"                 v_mess_all || v_mess || chr(13) || chr(10) || ' '
+"
+PRC_AUTO_RUN_QUERY1	PROCEDURE	231	"            into v_mess_all
+"
+PRC_AUTO_RUN_QUERY1	PROCEDURE	232	"            from dual;
+"
+PRC_AUTO_RUN_QUERY1	PROCEDURE	233	"        
+"
+PRC_AUTO_RUN_QUERY1	PROCEDURE	234	"          select to_char(sysdate, 'hh24:mi') into ls_now from dual;
+"
+PRC_AUTO_RUN_QUERY1	PROCEDURE	235	"          if (ls_now > '07:00' and ls_now < '22:00') then
+"
+PRC_AUTO_RUN_QUERY1	PROCEDURE	236	"          
+"
+PRC_AUTO_RUN_QUERY1	PROCEDURE	237	"            if v_query1.phone > '0' then
+"
+PRC_AUTO_RUN_QUERY1	PROCEDURE	238	"              prc_sms_send('au', v_query1.phone, v_mess_all, v_bz);
+"
+PRC_AUTO_RUN_QUERY1	PROCEDURE	239	"            end if;
+"
+PRC_AUTO_RUN_QUERY1	PROCEDURE	240	"          
+"
+PRC_AUTO_RUN_QUERY1	PROCEDURE	241	"            if v_query1.phone2 > '0' then
+"
+PRC_AUTO_RUN_QUERY1	PROCEDURE	242	"              prc_sms_send('au', v_query1.phone2, v_mess_all, v_bz);
+"
+PRC_AUTO_RUN_QUERY1	PROCEDURE	243	"            end if;
+"
+PRC_AUTO_RUN_QUERY1	PROCEDURE	244	"          
+"
+PRC_AUTO_RUN_QUERY1	PROCEDURE	245	"            if v_query1.phone3 > '0' then
+"
+PRC_AUTO_RUN_QUERY1	PROCEDURE	246	"              prc_sms_send('au', v_query1.phone3, v_mess_all, v_bz);
+"
+PRC_AUTO_RUN_QUERY1	PROCEDURE	247	"            end if;
+"
+PRC_AUTO_RUN_QUERY1	PROCEDURE	248	"          
+"
+PRC_AUTO_RUN_QUERY1	PROCEDURE	249	"            if v_query1.phone4 > '0' then
+"
+PRC_AUTO_RUN_QUERY1	PROCEDURE	250	"              prc_sms_send('au', v_query1.phone4, v_mess_all, v_bz);
+"
+PRC_AUTO_RUN_QUERY1	PROCEDURE	251	"            end if;
+"
+PRC_AUTO_RUN_QUERY1	PROCEDURE	252	"          
+"
+PRC_AUTO_RUN_QUERY1	PROCEDURE	253	"          else
+"
+PRC_AUTO_RUN_QUERY1	PROCEDURE	254	"          
+"
+PRC_AUTO_RUN_QUERY1	PROCEDURE	255	"            if v_query1.phone > '0' then
+"
+PRC_AUTO_RUN_QUERY1	PROCEDURE	256	"              prc_sms_send_mark('au', v_query1.phone, v_mess_all, v_bz);
+"
+PRC_AUTO_RUN_QUERY1	PROCEDURE	257	"            end if;
+"
+PRC_AUTO_RUN_QUERY1	PROCEDURE	258	"          
+"
+PRC_AUTO_RUN_QUERY1	PROCEDURE	259	"            if v_query1.phone2 > '0' then
+"
+PRC_AUTO_RUN_QUERY1	PROCEDURE	260	"              prc_sms_send_mark('au', v_query1.phone2, v_mess_all, v_bz);
+"
+PRC_AUTO_RUN_QUERY1	PROCEDURE	261	"            end if;
+"
+PRC_AUTO_RUN_QUERY1	PROCEDURE	262	"          
+"
+PRC_AUTO_RUN_QUERY1	PROCEDURE	263	"            if v_query1.phone3 > '0' then
+"
+PRC_AUTO_RUN_QUERY1	PROCEDURE	264	"              prc_sms_send_mark('au', v_query1.phone3, v_mess_all, v_bz);
+"
+PRC_AUTO_RUN_QUERY1	PROCEDURE	265	"            end if;
+"
+PRC_AUTO_RUN_QUERY1	PROCEDURE	266	"          
+"
+PRC_AUTO_RUN_QUERY1	PROCEDURE	267	"            if v_query1.phone4 > '0' then
+"
+PRC_AUTO_RUN_QUERY1	PROCEDURE	268	"              prc_sms_send_mark('au', v_query1.phone4, v_mess_all, v_bz);
+"
+PRC_AUTO_RUN_QUERY1	PROCEDURE	269	"            end if;
+"
+PRC_AUTO_RUN_QUERY1	PROCEDURE	270	"          
+"
+PRC_AUTO_RUN_QUERY1	PROCEDURE	271	"          end if;
+"
+PRC_AUTO_RUN_QUERY1	PROCEDURE	272	"        
+"
+PRC_AUTO_RUN_QUERY1	PROCEDURE	273	"        end loop;
+"
+PRC_AUTO_RUN_QUERY1	PROCEDURE	274	"      
+"
+PRC_AUTO_RUN_QUERY1	PROCEDURE	275	"        v_count := 1;
+"
+PRC_AUTO_RUN_QUERY1	PROCEDURE	276	"        update query1 set zx_date = sysdate where id = v_query1.id;
+"
+PRC_AUTO_RUN_QUERY1	PROCEDURE	277	"        if sqlcode = 0 then
+"
+PRC_AUTO_RUN_QUERY1	PROCEDURE	278	"          commit;
+"
+PRC_AUTO_RUN_QUERY1	PROCEDURE	279	"        else
+"
+PRC_AUTO_RUN_QUERY1	PROCEDURE	280	"          rollback;
+"
+PRC_AUTO_RUN_QUERY1	PROCEDURE	281	"        end if;
+"
+PRC_AUTO_RUN_QUERY1	PROCEDURE	282	"      
+"
+PRC_AUTO_RUN_QUERY1	PROCEDURE	283	"      end if;
+"
+PRC_AUTO_RUN_QUERY1	PROCEDURE	284	"    
+"
+PRC_AUTO_RUN_QUERY1	PROCEDURE	285	"      --执行语句 end 
+"
+PRC_AUTO_RUN_QUERY1	PROCEDURE	286	"    
+"
+PRC_AUTO_RUN_QUERY1	PROCEDURE	287	"    end if;
+"
+PRC_AUTO_RUN_QUERY1	PROCEDURE	288	"  end loop;
+"
+PRC_AUTO_RUN_QUERY1	PROCEDURE	289	"  close v_cursor_query1; --fetch循环游标需要关闭游标   
+"
+PRC_AUTO_RUN_QUERY1	PROCEDURE	290	"
+"
+PRC_AUTO_RUN_QUERY1	PROCEDURE	291	"End;
+"

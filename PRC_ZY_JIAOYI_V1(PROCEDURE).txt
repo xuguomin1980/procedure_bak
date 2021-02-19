@@ -1,0 +1,4668 @@
+PRC_ZY_JIAOYI_V1	PROCEDURE	1	"procedure prc_zy_jiaoyi_v1(in_jiaoyilx    in varchar2, --交易类型
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	2	"                                             in_caozuogh    in varchar2, --操作工号
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	3	"                                             in_patient_no  in number, --住院病人序号
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	4	"                                             in_yibao_jylsh in varchar2, --医保交易号
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	5	"                                             out_code       out INTEGER, -- 返回结果 0为执行成功
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	6	"                                             out_msg        out varchar2) is
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	7	"
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	8	"  --入参说明： in_jiaoyilx 交易类型 in_caozuogh 操作工号 in_patient_no 住院病人序号  in_yibao_jylsh 医保交易号 out_code 返回结果 out_msg 返回内容
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	9	"  --in_jylx 交易类型： 获取诊断入参  结算交易 医保预结算信息更新 医保结算信息更新 结算前检查 获取预结算入参 获取结算入参 获取诊断入参,插入医保签到流水号
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	10	"  --                   发票信息更新   门诊发票打印处理 删除就诊卡费用 减预交款
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	11	"
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	12	"  --住院病人序号
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	13	"  v_patient_no number;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	14	"
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	15	"  --医保住院病人序号
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	16	"  v_patient_no_yb varchar2(20);
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	17	"
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	18	"  --就诊卡号
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	19	"  v_jzkh varchar2(30);
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	20	"
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	21	"  v_ybjylsh varchar2(40);
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	22	"  v_ywzqh   varchar2(40);
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	23	"  --医保执行总次数
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	24	"  v_zxzcs number;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	25	"
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	26	"  --病人类别
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	27	"  v_brlb number;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	28	"  --结算标志
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	29	"  v_js_no     number;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	30	"  v_total_fee number;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	31	"  --预出院日期
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	32	"  v_preout_date varchar2(20);
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	33	"  --病人性质
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	34	"  v_brxz             varchar2(20);
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	35	"  v_icd10            varchar2(30);
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	36	"  v_icd10_from       varchar2(30);
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	37	"  v_data             varchar2(300);
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	38	"  v_data_temp        varchar2(200);
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	39	"  v_patient_no_zxzcs varchar2(30);
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	40	"  --临时的统计的数量
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	41	"  v_count      number;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	42	"  v_count2     number;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	43	"  v_count_temp number;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	44	"  --操作工号
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	45	"  --v_caozuogh varchar2(20);
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	46	"  --婴儿标志
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	47	"  v_infant_flag number;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	48	"  v_amount_date date;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	49	"
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	50	"  v_flag     varchar2(20);
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	51	"  v_flag_len number;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	52	"  v_pos      number;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	53	"
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	54	"  v_sj_kz_time  varchar2(20);
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	55	"  v_sj_kz_sl    number;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	56	"  v_sj_kz_time1 varchar2(20);
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	57	"  v_sj_kz_time2 varchar2(20);
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	58	"  v_sj_kz_time3 varchar2(20);
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	59	"
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	60	"  v_icd10_name   varchar2(50);
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	61	"  v_fphm         varchar2(30);
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	62	"  v_fphm_next    varchar2(30);
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	63	"  v_fphm_end     varchar2(30);
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	64	"  v_kdsm         varchar2(30);
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	65	"  v_jhyb_jylx    varchar2(30);
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	66	"  v_jiaoyilx_add varchar2(30);
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	67	"  --金华医保入参变量
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	68	"  v_head  varchar2(500); -- 入参报文头
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	69	"  v_xxlxm varchar2(10); -- 消息类型码:""xxlxm"":""Y006"" 交易类型 住院预结算""Y006""  住院结算""Y007""
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	70	"
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	71	"  v_ksjgs varchar2(200); -- 卡数据格式
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	72	"  v_knsj  varchar2(100); --卡内数据
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	73	"
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	74	"  v_jyjslb    varchar2(2); --交易结算类别  6 普通住院 10 生育住院
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	75	"  v_data_jhyb varchar2(500); -- 入参报文头
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	76	"
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	77	"  v_jhyb_fyze   varchar2(30);
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	78	"  v_jhyb_tjmxts varchar2(30);
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	79	"
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	80	"  v_jhyb_syzh    varchar2(30); --生育证号
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	81	"  v_jhyb_tesl    varchar2(20); --胎儿数量
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	82	"  v_jhyb_tc      varchar2(20);
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	83	"  v_jhyb_sysj    varchar2(50);
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	84	"  v_jhyb_sylx    varchar2(50); --生育类型
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	85	"  v_jhyb_data_sy varchar2(200); --生育数据
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	86	"  v_jhyb_cyyy    varchar2(20); --出院原因
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	87	"  --定义变量
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	88	"
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	89	"  v_fygl         zy_detail_charge.fygl%TYPE;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	90	"  v_je           zy_detail_charge.dj%TYPE;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	91	"  v_je_zf        zy_detail_charge.dj%TYPE;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	92	"  v_je_bxje      zy_detail_charge.dj%TYPE;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	93	"  v_hlh          zy_fp_fee.hlh%type;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	94	"  v_zy_total_fee zy_total_fee%rowtype;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	95	"  v_gy_brjbxxk   gy_brjbxxk%rowtype;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	96	"  v_cc_fee1      number;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	97	"  --定义游标
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	98	"  CURSOR zy_detail_charge_fygl_cursor(v_patient_no_in number) is
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	99	"    select fygl, sum(dj * sl), sum(dj * sl * nvl(self_percent, 0))
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	100	"      From zy_detail_charge
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	101	"     where patient_no = v_patient_no_in
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	102	"     group by fygl;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	103	"
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	104	"  --定义游标
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	105	"  CURSOR zy_fp_fee_cursor(v_patient_no_in number) is
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	106	"    select b.hlh hlh, sum(a.je) je
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	107	"      From zy_bill_fee a, ZY_FPDY b
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	108	"     where a.sfxm_code = b.sfxm
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	109	"       and b.fplx = 2
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	110	"       and b.self_flag = 0
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	111	"       and a.patient_no = v_patient_no_in
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	112	"     group by b.hlh
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	113	"    union all
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	114	"    select b.hlh hlh, sum(a.self_je + a.self_fee) je
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	115	"      From zy_bill_fee a, ZY_FPDY b
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	116	"     where a.sfxm_code = b.sfxm
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	117	"       and b.fplx = 2
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	118	"       and b.self_flag = 1
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	119	"       and a.patient_no = v_patient_no_in
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	120	"     group by b.hlh;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	121	"
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	122	"begin
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	123	"
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	124	"  insert into zy_jiaoyi_v1
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	125	"    (jiaoyilx, caozuogh, patient_no, jylsh, bz)
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	126	"  values
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	127	"    (in_jiaoyilx,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	128	"     in_caozuogh,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	129	"     in_patient_no,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	130	"     in_yibao_jylsh,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	131	"     'prc_zy_jiaoyi_v1');
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	132	"  commit;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	133	"
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	134	"  --控制指定自助机结算
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	135	"  if in_jiaoyilx = '获取预结算入参' then
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	136	"    select '#' || to_char(in_yibao_jylsh) || '#'
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	137	"      into v_data_temp
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	138	"      from dual;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	139	"    if instr('#ZY001#ZX064#', v_data_temp) > 0 then
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	140	"      v_data_temp := '';
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	141	"    else
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	142	"      v_data_temp := '';
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	143	"      -- out_code := -1;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	144	"      --  out_msg  := '此机器没有开通结算功能';
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	145	"      --  return;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	146	"    end if;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	147	"  end if;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	148	"
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	149	"  v_patient_no := in_patient_no;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	150	"  --test
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	151	"  --v_zy_total_fee.total_fee:=1230.01;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	152	"  --v_total_fee:=234.23;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	153	"  --select to_char(v_total_fee)||'与'||to_char(v_zy_total_fee.total_fee)||'总金额不一致' into out_msg from  dual;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	154	"  --out_msg:=v_total_fee+'与'+v_zy_total_fee.total_fee+'总金额不一致';
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	155	"  -- out_code:=-1;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	156	"
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	157	"  --  return ;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	158	"
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	159	"  --begin 开始执行
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	160	"  out_code := -1;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	161	"  out_msg  := '';
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	162	"
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	163	"  --in_jylx 交易类型  结算交易 医保预结算信息更新 医保结算信息更新 结算前检查 获取预结算入参 获取结算入参 插入医保签到流水号 获取住院信息变动入参
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	164	"
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	165	"  if in_jiaoyilx = '门诊建档' then
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	166	"    --门诊建档
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	167	"    --卡号%%姓名%%性别%%出生日期%%97%%地址%%手机号%%身份证号码
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	168	"  
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	169	"    v_flag     := '%%';
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	170	"    v_flag_len := 2;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	171	"    select in_yibao_jylsh || '%%' into out_msg from dual;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	172	"  
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	173	"    --jzkh
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	174	"    v_pos             := to_number(instr(out_msg, v_flag));
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	175	"    v_data            := ltrim(rtrim(substr(out_msg, 1, v_pos - 1)));
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	176	"    out_msg           := substr(out_msg, v_pos + v_flag_len);
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	177	"    v_gy_brjbxxk.jzkh := trim(v_data);
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	178	"    --xm
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	179	"    v_pos           := to_number(instr(out_msg, v_flag));
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	180	"    v_data          := ltrim(rtrim(substr(out_msg, 1, v_pos - 1)));
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	181	"    out_msg         := substr(out_msg, v_pos + v_flag_len);
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	182	"    v_gy_brjbxxk.xm := v_data;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	183	"    --xb
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	184	"    v_pos           := to_number(instr(out_msg, v_flag));
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	185	"    v_data          := ltrim(rtrim(substr(out_msg, 1, v_pos - 1)));
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	186	"    out_msg         := substr(out_msg, v_pos + v_flag_len);
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	187	"    v_gy_brjbxxk.xb := to_number(v_data);
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	188	"    --csrq
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	189	"  
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	190	"    v_pos   := to_number(instr(out_msg, v_flag));
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	191	"    v_data  := ltrim(rtrim(substr(out_msg, 1, v_pos - 1)));
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	192	"    out_msg := substr(out_msg, v_pos + v_flag_len);
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	193	"    select to_date(v_data, 'yyyy-mm-dd') into v_gy_brjbxxk.csrq from dual;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	194	"    --brlb
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	195	"    v_pos             := to_number(instr(out_msg, v_flag));
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	196	"    v_data            := ltrim(rtrim(substr(out_msg, 1, v_pos - 1)));
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	197	"    out_msg           := substr(out_msg, v_pos + v_flag_len);
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	198	"    v_gy_brjbxxk.brlb := to_number(v_data);
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	199	"    --dz
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	200	"    v_pos             := to_number(instr(out_msg, v_flag));
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	201	"    v_data            := ltrim(rtrim(substr(out_msg, 1, v_pos - 1)));
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	202	"    out_msg           := substr(out_msg, v_pos + v_flag_len);
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	203	"    v_gy_brjbxxk.jtzz := v_data;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	204	"    --lxdh
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	205	"    v_pos             := to_number(instr(out_msg, v_flag));
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	206	"    v_data            := ltrim(rtrim(substr(out_msg, 1, v_pos - 1)));
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	207	"    out_msg           := substr(out_msg, v_pos + v_flag_len);
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	208	"    v_gy_brjbxxk.lxdh := v_data;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	209	"    --sfzh
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	210	"    v_pos             := to_number(instr(out_msg, v_flag));
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	211	"    v_data            := ltrim(rtrim(substr(out_msg, 1, v_pos - 1)));
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	212	"    out_msg           := substr(out_msg, v_pos + v_flag_len);
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	213	"    v_gy_brjbxxk.sfzh := v_data;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	214	"  
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	215	"    if length(v_gy_brjbxxk.jzkh) > 5 then
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	216	"      null;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	217	"    else
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	218	"      out_code := -1;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	219	"      out_msg  := '卡号位数不能小于5!';
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	220	"      return;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	221	"    end if;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	222	"  
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	223	"    if length(v_gy_brjbxxk.sfzh) > 5 then
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	224	"      null;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	225	"    else
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	226	"      out_code := -1;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	227	"      out_msg  := '身份证号码 不能小于5!';
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	228	"      return;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	229	"    end if;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	230	"  
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	231	"    if length(v_gy_brjbxxk.lxdh) > 5 then
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	232	"      null;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	233	"    else
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	234	"      out_code := -1;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	235	"      out_msg  := '联系电话不能小于5!';
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	236	"      return;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	237	"    end if;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	238	"  
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	239	"    v_count := 0;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	240	"  
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	241	"    select count(*)
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	242	"      into v_count
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	243	"      From gy_brjbxxk
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	244	"     where jzkh = v_gy_brjbxxk.jzkh;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	245	"    if v_count > 0 then
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	246	"      out_code := -1;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	247	"      out_msg  := '该就诊卡号已经存在!';
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	248	"      return;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	249	"    else
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	250	"      --卡号%%姓名%%性别%%出生日期%%97%%地址%%手机号%%身份证号码
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	251	"      insert into gy_brjbxxk
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	252	"        (jzkh, xm, xb, csrq, brlb, jtzz, lxdh, sfzh)
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	253	"      values
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	254	"        (v_gy_brjbxxk.jzkh,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	255	"         v_gy_brjbxxk.xm,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	256	"         v_gy_brjbxxk.xb,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	257	"         v_gy_brjbxxk.csrq,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	258	"         v_gy_brjbxxk.brlb,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	259	"         v_gy_brjbxxk.jtzz,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	260	"         v_gy_brjbxxk.lxdh,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	261	"         v_gy_brjbxxk.sfzh);
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	262	"      if sqlcode = 0 then
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	263	"        commit;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	264	"        out_code := 0;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	265	"        out_msg  := '处理成功!';
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	266	"        return;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	267	"      else
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	268	"        rollback;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	269	"      end if;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	270	"    end if;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	271	"  
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	272	"    out_code := -1;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	273	"    out_msg  := '处理失败!';
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	274	"    return;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	275	"  end if;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	276	"
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	277	"  if in_jiaoyilx = '门诊医保卡更新' then
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	278	"    --门诊建档
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	279	"    --卡号%%医保内码
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	280	"  
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	281	"    v_flag     := '%%';
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	282	"    v_flag_len := 2;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	283	"    select in_yibao_jylsh || '%%' into out_msg from dual;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	284	"  
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	285	"    --jzkh
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	286	"    v_pos             := to_number(instr(out_msg, v_flag));
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	287	"    v_data            := ltrim(rtrim(substr(out_msg, 1, v_pos - 1)));
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	288	"    out_msg           := substr(out_msg, v_pos + v_flag_len);
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	289	"    v_gy_brjbxxk.jzkh := trim(v_data);
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	290	"    --ybkh
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	291	"    v_pos             := to_number(instr(out_msg, v_flag));
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	292	"    v_data            := ltrim(rtrim(substr(out_msg, 1, v_pos - 1)));
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	293	"    out_msg           := substr(out_msg, v_pos + v_flag_len);
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	294	"    v_gy_brjbxxk.ybkh := v_data;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	295	"  
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	296	"    if length(v_gy_brjbxxk.jzkh) > 5 then
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	297	"      null;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	298	"    else
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	299	"      out_code := -1;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	300	"      out_msg  := '卡号位数不能小于5!';
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	301	"      return;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	302	"    end if;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	303	"  
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	304	"    if length(v_gy_brjbxxk.ybkh) > 5 then
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	305	"      null;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	306	"    else
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	307	"      out_code := -1;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	308	"      out_msg  := '医保号码 不能小于5!';
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	309	"      return;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	310	"    end if;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	311	"  
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	312	"    v_count := 0;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	313	"  
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	314	"    select count(*)
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	315	"      into v_count
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	316	"      From gy_brjbxxk
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	317	"     where jzkh = v_gy_brjbxxk.jzkh;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	318	"    if v_count > 0 then
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	319	"      null;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	320	"    else
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	321	"    
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	322	"      out_code := -1;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	323	"      out_msg  := '该就诊卡号不存在!';
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	324	"      return;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	325	"    end if;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	326	"  
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	327	"    select v_gy_brjbxxk.jzkh || v_gy_brjbxxk.ybkh
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	328	"      into v_gy_brjbxxk.ybkh
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	329	"      From gy_brjbxxk
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	330	"     where jzkh = v_gy_brjbxxk.jzkh;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	331	"    update gy_brjbxxk
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	332	"       set ybkh = v_gy_brjbxxk.ybkh, black = v_gy_brjbxxk.ybkh, brlb = 97
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	333	"     where brlb in (27, 97)
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	334	"       and jzkh = v_gy_brjbxxk.jzkh;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	335	"    if sqlcode = 0 then
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	336	"      commit;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	337	"      ----
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	338	"      select count(*)
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	339	"        into v_count
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	340	"        From gy_brjbxxk
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	341	"       where brlb = 97
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	342	"         and jzkh = v_gy_brjbxxk.jzkh;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	343	"      if v_count > 0 then
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	344	"        select count(*)
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	345	"          into v_count
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	346	"          From gy_brjbxxk
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	347	"         where instr(nvl(brxzdm, '0'), 'JHYB') > 0
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	348	"           and brlb = 97
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	349	"           and jzkh = v_gy_brjbxxk.jzkh;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	350	"        if v_count = 0 then
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	351	"          out_code := -1;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	352	"          out_msg  := '请去挂号窗口更新该卡的医保信息!';
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	353	"        end if;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	354	"      end if;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	355	"    
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	356	"      -----更新该卡的医保信息
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	357	"      out_code := 0;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	358	"      out_msg  := '医保卡更新,处理成功!';
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	359	"      return;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	360	"    else
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	361	"      rollback;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	362	"    end if;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	363	"  
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	364	"    out_code := -1;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	365	"    out_msg  := '医保卡更新,处理失败!';
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	366	"    return;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	367	"  end if;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	368	"
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	369	"  if in_jiaoyilx = '医后付挂号费处理' then
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	370	"  
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	371	"    v_flag     := '%%';
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	372	"    v_flag_len := 2;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	373	"    select in_yibao_jylsh || '%%' into out_msg from dual;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	374	"  
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	375	"    --v_jzkh
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	376	"    v_pos   := to_number(instr(out_msg, v_flag));
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	377	"    v_data  := ltrim(rtrim(substr(out_msg, 1, v_pos - 1)));
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	378	"    out_msg := substr(out_msg, v_pos + v_flag_len);
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	379	"    v_jzkh  := trim(v_data);
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	380	"    insert into zy_jiaoyi_v1
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	381	"      (jiaoyilx, caozuogh, patient_no, jylsh)
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	382	"    values
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	383	"      (in_jiaoyilx, in_caozuogh, in_patient_no, v_jzkh);
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	384	"    commit;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	385	"    --v_ybjylsh
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	386	"    v_pos     := to_number(instr(out_msg, v_flag));
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	387	"    v_data    := ltrim(rtrim(substr(out_msg, 1, v_pos - 1)));
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	388	"    out_msg   := substr(out_msg, v_pos + v_flag_len);
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	389	"    v_ybjylsh := trim(v_data);
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	390	"    insert into zy_jiaoyi_v1
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	391	"      (jiaoyilx, caozuogh, patient_no, jylsh)
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	392	"    values
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	393	"      (in_jiaoyilx, in_caozuogh, in_patient_no, v_ybjylsh);
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	394	"    commit;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	395	"    --AND jzkh= v_jzkh
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	396	"  
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	397	"    UPDATE yj_Yjk1
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	398	"       SET BRXH = 999999999
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	399	"     where yjsb in (select yjsb
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	400	"                      from yj_Yjk2
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	401	"                     where fygb in (13, 14)
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	402	"                       and yjsb in (select yjsb
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	403	"                                      from yj_Yjk1
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	404	"                                     where kdsj > sysdate - 0.01
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	405	"                                       and czgh = in_caozuogh
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	406	"                                       and brxh is null
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	407	"                                       and sfsb is null
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	408	"                                       and jzkh = v_jzkh));
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	409	"    if sqlcode = 0 then
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	410	"      commit;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	411	"      out_code := 0;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	412	"      out_msg  := '处理成功!';
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	413	"      return;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	414	"    else
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	415	"    
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	416	"      rollback;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	417	"    end if;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	418	"  
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	419	"    out_code := -1;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	420	"    out_msg  := '处理失败!';
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	421	"    return;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	422	"  end if;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	423	"
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	424	"  if in_jiaoyilx = '删除就诊卡费用' then
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	425	"    if in_yibao_jylsh > '0' then
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	426	"      select in_yibao_jylsh || '%%%%' into out_msg from dual;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	427	"    
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	428	"      v_flag     := '%%';
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	429	"      v_flag_len := 2;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	430	"      v_jzkh     := '';
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	431	"      v_pos      := to_number(instr(out_msg, v_flag));
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	432	"      v_jzkh     := ltrim(rtrim(substr(out_msg, 1, v_pos - 1)));
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	433	"    
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	434	"      out_msg := substr(out_msg, v_pos + v_flag_len);
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	435	"      v_pos   := to_number(instr(out_msg, v_flag));
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	436	"      v_data  := ltrim(rtrim(substr(out_msg, 1, v_pos - 1)));
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	437	"      v_data  := trim(v_data);
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	438	"      if length(v_jzkh) > 10 then
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	439	"        null;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	440	"      else
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	441	"        out_code := -1;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	442	"        out_msg  := '处理失败!';
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	443	"        return;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	444	"      end if;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	445	"    
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	446	"      if length(v_data) > 10 then
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	447	"        update gy_brjbxxk set DZKXX = v_data where jzkh = v_jzkh;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	448	"        if sqlcode = 0 then
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	449	"          commit;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	450	"        else
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	451	"          rollback;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	452	"        end if;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	453	"      end if;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	454	"    
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	455	"      delete yj_Yjk2
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	456	"       where ylxh = 14870
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	457	"         and yjsb in (select yjsb
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	458	"                        From yj_yjk1
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	459	"                       where sfsb is null
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	460	"                         and jzkh = v_jzkh
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	461	"                         and kdsj > sysdate - 0.05)
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	462	"         and rownum = 1;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	463	"    
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	464	"      if sqlcode = 0 then
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	465	"        commit;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	466	"        out_code := 0;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	467	"        out_msg  := '处理成功!';
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	468	"        return;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	469	"      else
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	470	"      
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	471	"        rollback;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	472	"      end if;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	473	"    
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	474	"    end if;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	475	"    out_code := -1;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	476	"    out_msg  := '处理失败!';
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	477	"    return;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	478	"  end if;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	479	"
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	480	"  if in_jiaoyilx = '门诊发票打印处理' then
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	481	"  
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	482	"    if in_patient_no > 0 then
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	483	"    
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	484	"      out_msg := 'ok';
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	485	"    else
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	486	"      out_code := -1;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	487	"      out_msg  := '传入的sfsb不对!';
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	488	"      return;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	489	"    end if;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	490	"  
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	491	"    if in_yibao_jylsh > '0' or 1 = 1 then
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	492	"    
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	493	"      out_msg := 'ok';
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	494	"    else
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	495	"      out_code := -1;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	496	"      out_msg  := '传入的发票号码不对!';
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	497	"      return;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	498	"    end if;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	499	"  
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	500	"    v_count := 0;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	501	"  
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	502	"    select count(sfsb)
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	503	"      into v_count
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	504	"      from MZ_FEIYONGXINGXI_select
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	505	"     where sfsb = in_patient_no
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	506	"       and sfsb > 0;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	507	"  
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	508	"    if v_count > 0 then
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	509	"    
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	510	"      out_code := -1;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	511	"    else
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	512	"      out_code := -1;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	513	"      out_msg  := '未找到该sfsb对应的未打印的发票!';
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	514	"      return;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	515	"    end if;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	516	"    ----
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	517	"    select substr('0000000000' || to_char(to_number(curr_receipt) + 1),
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	518	"                  length('0000000000' ||
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	519	"                         to_char(to_number(curr_receipt) + 1)) - 9),
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	520	"           end_receipt,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	521	"           curr_receipt
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	522	"      into v_fphm_next, v_fphm_end, v_fphm
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	523	"      From zy_receipt_jdzz
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	524	"     where zgid = in_caozuogh
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	525	"       and rownum = 1;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	526	"  
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	527	"    if v_fphm <= v_fphm_end and v_fphm_end > '0' and v_fphm > '0' then
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	528	"      out_msg := 'ok';
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	529	"    
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	530	"    else
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	531	"      out_code := -1;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	532	"      out_msg  := '无法结算,此机器的发票未维护!';
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	533	"      return;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	534	"    end if;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	535	"  
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	536	"    -----
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	537	"  
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	538	"    update mz_mzsfk1
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	539	"       set fphm = v_fphm, cdpb = 1
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	540	"     where sfsb = in_patient_no;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	541	"    if sqlcode = 0 then
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	542	"    
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	543	"      Update zy_receipt_jdzz
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	544	"         Set curr_receipt = v_fphm_next
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	545	"       Where zgid = in_caozuogh;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	546	"      if sqlcode <> 0 then
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	547	"        rollback;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	548	"        out_code := -1;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	549	"        out_msg  := '更新失败 zy_receipt_jdzz ';
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	550	"        return;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	551	"      end if;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	552	"    
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	553	"      commit;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	554	"      out_code := 0;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	555	"      out_msg  := '处理成功!';
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	556	"      return;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	557	"    
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	558	"    else
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	559	"    
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	560	"      rollback;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	561	"    end if;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	562	"    out_code := -1;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	563	"    out_msg  := '更新发票信息失败!';
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	564	"    return;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	565	"  end if;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	566	"
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	567	"  if in_jiaoyilx = '插入医保签到流水号' then
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	568	"  
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	569	"    out_code := -1;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	570	"    out_msg  := '此交易作废!';
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	571	"    return;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	572	"  end if;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	573	"
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	574	"  if v_patient_no > 0 then
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	575	"    out_msg := '';
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	576	"  else
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	577	"    out_code := -1;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	578	"    out_msg  := '住院病人序号 不能为空,请核实!';
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	579	"    return;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	580	"  end if;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	581	"
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	582	"  if in_jiaoyilx = '获取诊断入参' then
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	583	"  
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	584	"    out_code := -1;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	585	"    out_msg  := '此交易作废!';
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	586	"    return;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	587	"  
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	588	"  end if;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	589	"
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	590	"  -- if   in_jiaoyilx='医保结算信息更新'    then
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	591	"  -- end if;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	592	"
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	593	"  if in_jiaoyilx = '减预交款' or in_jiaoyilx = '发票信息查询' or
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	594	"     in_jiaoyilx = '发票信息更新' or in_jiaoyilx = '结算交易' or
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	595	"     in_jiaoyilx = '医保预结算信息更新' or in_jiaoyilx = '医保结算信息更新' or
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	596	"     in_jiaoyilx = '结算前检查' or in_jiaoyilx = '获取预结算入参' or
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	597	"     in_jiaoyilx = '获取结算入参' or in_jiaoyilx = '获取金华医保结算入参' or
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	598	"     in_jiaoyilx = '获取诊断入参' or in_jiaoyilx = '获取住院信息变动入参' then
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	599	"  
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	600	"    out_msg := 'ok';
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	601	"  else
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	602	"    out_code := -1;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	603	"    out_msg  := '交易类型不对,只支持 减预交款 结算交易, 医保结算信息更新 ,结算前检查,获取预结算入参 获取诊断入参，请核实!';
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	604	"    return;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	605	"  end if;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	606	"
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	607	"  if in_caozuogh > '0' then
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	608	"  
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	609	"    out_msg := 'ok';
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	610	"  else
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	611	"    out_code := -1;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	612	"    out_msg  := '传入的操作工号不能为空!';
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	613	"    return;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	614	"  end if;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	615	"
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	616	"  ----------------
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	617	"  if in_jiaoyilx = '减预交款' then
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	618	"    if 1 = 1 then
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	619	"    
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	620	"      --in_yibao_jylsh=金额%%交易流水号%%微信支付宝
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	621	"    
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	622	"      select in_yibao_jylsh || '%%' into out_msg from dual;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	623	"      v_flag     := '%%';
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	624	"      v_flag_len := 2;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	625	"      --v_ybjylsh  交易流水号
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	626	"      --  v_brxz 微信支付宝
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	627	"    
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	628	"      --
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	629	"      v_je    := 0.00;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	630	"      v_pos   := to_number(instr(out_msg, v_flag));
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	631	"      v_data  := ltrim(rtrim(substr(out_msg, 1, v_pos - 1)));
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	632	"      out_msg := substr(out_msg, v_pos + v_flag_len);
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	633	"      v_je    := to_number(v_data);
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	634	"      --
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	635	"      v_pos     := to_number(instr(out_msg, v_flag));
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	636	"      v_data    := ltrim(rtrim(substr(out_msg, 1, v_pos - 1)));
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	637	"      out_msg   := substr(out_msg, v_pos + v_flag_len);
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	638	"      v_ybjylsh := trim(v_data);
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	639	"      --
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	640	"      v_pos   := to_number(instr(out_msg, v_flag));
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	641	"      v_data  := ltrim(rtrim(substr(out_msg, 1, v_pos - 1)));
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	642	"      out_msg := substr(out_msg, v_pos + v_flag_len);
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	643	"      v_brxz  := trim(v_data);
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	644	"      if v_brxz = '16' or v_brxz = '17' or v_brxz = '微信' or v_brxz = '支付宝' then
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	645	"        v_brlb := 17;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	646	"        if v_brxz = '16' or v_brxz = '微信' then
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	647	"          out_msg := 'ok';
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	648	"          v_brlb  := 16;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	649	"        end if;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	650	"      else
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	651	"        out_code := -1;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	652	"        out_msg  := '处理失败,传入的交款方式只能为支付宝,微信,16,17!';
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	653	"      end if;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	654	"    
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	655	"      -- v_je:=to_number(in_yibao_jylsh);
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	656	"      if v_je < 0.00 then
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	657	"        out_msg := 'ok';
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	658	"      else
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	659	"        out_code := -1;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	660	"        out_msg  := '处理失败,传入的金额应为负数!';
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	661	"      end if;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	662	"    
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	663	"      SELECT count(*)
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	664	"        into v_js_no
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	665	"        FROM ZY_PATIENT_INFORMATION
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	666	"       WHERE PREOUT_DATE is not null
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	667	"         and OUT_DATE is null
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	668	"         and patient_no = v_patient_no;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	669	"      --判断 是否已经预出院
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	670	"      if v_js_no = 1 then
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	671	"        out_msg := 'ok';
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	672	"      else
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	673	"        out_code := -1;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	674	"        out_msg  := '还未预出院,请核实';
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	675	"        return;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	676	"      end if;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	677	"    
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	678	"      select nvl(js_no, 0),
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	679	"             nvl(to_char(preout_date, 'yyyy'), '0'),
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	680	"             name,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	681	"             curr_ks
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	682	"        into v_js_no, v_preout_date, v_zy_total_fee.name, v_kdsm
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	683	"        from zy_patient_information
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	684	"       where patient_no = v_patient_no;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	685	"      --判断 是否已经结算
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	686	"      if v_js_no = 0 then
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	687	"        out_msg := 'ok';
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	688	"      else
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	689	"        out_code := -1;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	690	"        out_msg  := '结算标志不等于0,可能已经结算,请核实';
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	691	"        return;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	692	"      end if;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	693	"      --判断 是否已经预出院
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	694	"      if v_preout_date > '2000' then
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	695	"        out_msg := 'ok';
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	696	"      else
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	697	"        out_code := -1;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	698	"        out_msg  := '还未预出院,请核实';
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	699	"        return;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	700	"      end if;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	701	"    
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	702	"      --判断  退款金额不能大于余额
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	703	"      select nvl(yue, 0), nvl(total_fee, 0)
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	704	"        Into v_zy_total_fee.deposit_xj, v_zy_total_fee.total_fee
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	705	"        from zy_yujiaokuancx
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	706	"       where patient_no = v_patient_no;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	707	"      if v_zy_total_fee.deposit_xj > 0 and
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	708	"         v_zy_total_fee.deposit_xj + v_je >= 0 then
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	709	"        out_msg := 'ok';
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	710	"      else
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	711	"        out_code := -1;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	712	"        out_msg  := '退款金额错误';
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	713	"        return;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	714	"      end if;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	715	"    
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	716	"      v_count := 0;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	717	"      -- v_count := gf_getmax(sqlca,'ZY_DEPOSIT_FILE');
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	718	"    
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	719	"      UPDATE GY_xhb SET dqz = dqz + zz WHERE bm = 'ZY_DEPOSIT_FILE';
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	720	"    
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	721	"      if sqlcode = 0 then
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	722	"        commit;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	723	"      
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	724	"      else
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	725	"      
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	726	"        rollback;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	727	"        out_code := -1;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	728	"        out_msg  := '更新GY_xhb失败，ZY_DEPOSIT_FILE!';
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	729	"        return;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	730	"      end if;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	731	"    
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	732	"      SELECT dqz INTO v_count FROM GY_xhb WHERE bm = 'ZY_DEPOSIT_FILE';
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	733	"    
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	734	"      insert into zy_deposit_file
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	735	"        (jlxh,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	736	"         patient_no,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	737	"         js_no,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	738	"         name,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	739	"         depo_date,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	740	"         op_id,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	741	"         amount,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	742	"         depo_type,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	743	"         status,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	744	"         dept_code,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	745	"         bz)
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	746	"      values
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	747	"        (v_count,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	748	"         in_patient_no,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	749	"         0,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	750	"         v_zy_total_fee.name,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	751	"         sysdate,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	752	"         in_caozuogh,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	753	"         v_je,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	754	"         v_brlb,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	755	"         1,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	756	"         v_kdsm,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	757	"         v_ybjylsh);
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	758	"    
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	759	"      if sqlcode = 0 then
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	760	"        commit;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	761	"        out_code := 0;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	762	"        out_msg  := '处理成功!';
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	763	"        return;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	764	"      else
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	765	"      
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	766	"        rollback;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	767	"        out_code := -1;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	768	"        out_msg  := '处理失败!';
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	769	"        return;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	770	"      end if;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	771	"    
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	772	"    else
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	773	"    
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	774	"      out_code := -1;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	775	"      out_msg  := '处理失败,相关信息不能为空，金额%%交易流水号%%微信支付宝!';
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	776	"      return;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	777	"    
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	778	"    end if;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	779	"  
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	780	"    out_code := -1;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	781	"    out_msg  := '处理失败!';
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	782	"    return;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	783	"  
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	784	"  end if;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	785	"
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	786	"  -----------------
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	787	"
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	788	"  if in_jiaoyilx = '发票信息查询' then
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	789	"    ----
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	790	"    select substr('0000000000' || to_char(to_number(curr_receipt) + 1),
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	791	"                  length('0000000000' ||
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	792	"                         to_char(to_number(curr_receipt) + 1)) - 9),
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	793	"           end_receipt,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	794	"           curr_receipt
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	795	"      into v_fphm_next, v_fphm_end, v_fphm
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	796	"      From zy_receipt_jdzz
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	797	"     where zgid = in_caozuogh
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	798	"       and rownum = 1;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	799	"  
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	800	"    if v_fphm <= v_fphm_end and v_fphm_end > '0' and v_fphm > '0' then
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	801	"      out_msg  := 'ok';
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	802	"      out_code := 0;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	803	"      return;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	804	"    else
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	805	"      out_code := -1;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	806	"      out_msg  := '无法结算,此机器的发票未维护!';
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	807	"      return;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	808	"    end if;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	809	"  
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	810	"    ---
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	811	"  end if;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	812	"  if in_jiaoyilx = '发票信息更新' then
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	813	"  
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	814	"    select nvl(receipt_no, '0')
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	815	"      into v_fphm
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	816	"      from zy_total_fee
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	817	"     where patient_no = v_patient_no
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	818	"       and js_no > 0;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	819	"  
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	820	"    if v_fphm = '0' then
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	821	"    
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	822	"      select substr('0000000000' || to_char(to_number(curr_receipt) + 1),
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	823	"                    length('0000000000' ||
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	824	"                           to_char(to_number(curr_receipt) + 1)) - 9),
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	825	"             end_receipt,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	826	"             curr_receipt
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	827	"        into v_fphm_next, v_fphm_end, v_fphm
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	828	"        From zy_receipt_jdzz
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	829	"       where zgid = in_caozuogh
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	830	"         and rownum = 1;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	831	"    
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	832	"      if v_fphm <= v_fphm_end and v_fphm_end > '0' and v_fphm > '0' then
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	833	"      
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	834	"        Update zy_total_fee
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	835	"           Set receipt_no = v_fphm
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	836	"         Where patient_no = v_patient_no;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	837	"      
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	838	"        if sqlcode <> 0 then
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	839	"          rollback;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	840	"          out_code := -1;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	841	"          out_msg  := '更新失败 zy_total_fee ';
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	842	"          return;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	843	"        end if;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	844	"      
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	845	"        Update zy_receipt_jdzz
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	846	"           Set curr_receipt = v_fphm_next
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	847	"         Where zgid = in_caozuogh;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	848	"        if sqlcode <> 0 then
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	849	"          rollback;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	850	"          out_code := -1;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	851	"          out_msg  := '更新失败 zy_receipt_jdzz ';
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	852	"          return;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	853	"        end if;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	854	"      
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	855	"        commit;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	856	"        out_code := 0;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	857	"        out_msg  := '保存成功!';
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	858	"        return;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	859	"      
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	860	"      else
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	861	"        out_code := -1;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	862	"        out_msg  := in_caozuogh || ',当前的发票号码为空，或者超过当前的发票号码段!';
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	863	"        return;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	864	"      end if;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	865	"    
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	866	"    else
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	867	"      out_code := -1;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	868	"      out_msg  := '处理发票信息异常,请去窗口打印!';
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	869	"      return;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	870	"    end if;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	871	"  end if;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	872	"
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	873	"  if in_jiaoyilx = '结算交易' or in_jiaoyilx = '结算前检查' then
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	874	"  
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	875	"    select count(*)
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	876	"      into v_sj_kz_sl
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	877	"      From gy_charge_interface
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	878	"     where bingrenzyid = (select bah
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	879	"                            from zy_patient_information
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	880	"                           where patient_no = in_patient_no
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	881	"                             and nvl(sendflag, 0) = 0);
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	882	"  
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	883	"    if v_sj_kz_sl > 0 then
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	884	"      out_code := -1;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	885	"      out_msg  := '有费用未记账上传,gy_charge_interface!';
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	886	"      return;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	887	"    end if;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	888	"  
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	889	"    -- 输血费报销检查
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	890	"    if 1 = 1 then
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	891	"      SELECT F_ZYXT_JIESUAN(v_patient_no) Into out_msg From dual;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	892	"      if out_msg > '' then
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	893	"        out_code := -1;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	894	"        out_msg  := '给人员有献血记录，请去人工窗口结算报销!';
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	895	"        return;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	896	"      end if;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	897	"    end if;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	898	"    --
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	899	"  
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	900	"    select csz1, nvl(csz2, 0)
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	901	"      into v_sj_kz_time1, v_sj_kz_sl
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	902	"      from gy_xtcs
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	903	"     where xtxh = 11
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	904	"       and csmc = 'ZZJSSSKZ1';
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	905	"    if v_sj_kz_time1 = null or v_sj_kz_time1 = '' then
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	906	"      v_sj_kz_time1 := '08:00';
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	907	"    end if;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	908	"    if v_sj_kz_sl = null then
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	909	"      v_sj_kz_sl := 15;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	910	"    end if;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	911	"    v_sj_kz_sl := v_sj_kz_sl + 6;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	912	"  
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	913	"    select csz1
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	914	"      into v_sj_kz_time2
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	915	"      from gy_xtcs
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	916	"     where xtxh = 11
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	917	"       and csmc = 'ZZJSSSKZ2';
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	918	"    if v_sj_kz_time2 = null or v_sj_kz_time2 = '' then
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	919	"      v_sj_kz_time2 := '08:35';
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	920	"    end if;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	921	"  
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	922	"    select to_char(sysdate, 'hh24:mi'),
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	923	"           to_char(sysdate + v_sj_kz_sl / 1000, 'hh24:mi')
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	924	"      into v_sj_kz_time, v_sj_kz_time3
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	925	"      From dual;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	926	"  
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	927	"    if v_sj_kz_time >= v_sj_kz_time1 and v_sj_kz_time <= v_sj_kz_time2 then
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	928	"      out_code := -1;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	929	"      out_msg  := '无法结算，当前是做账时间,请去人工窗口结算, ' + v_sj_kz_time2 + '之后可以结算';
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	930	"      return;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	931	"    end if;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	932	"  
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	933	"  end if;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	934	"  v_patient_no := in_patient_no;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	935	"
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	936	"  --注意事项 确保人工已经成功调用预结算，本地医保需要 上传明细，预结算  出院信息变更交易  操作工号签到流水号
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	937	"
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	938	"  --判断是否有预出院日期，是否已经结算    out_msg:='找不到这个电脑号的记录'||out_msg||','||in_qtsfje ;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	939	"
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	940	"  select nvl(js_no, 0),
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	941	"         nvl(brlb, 0),
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	942	"         nvl(brxz, ''),
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	943	"         nvl(to_char(preout_date, 'yyyy'), '0'),
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	944	"         nvl(infant_flag, 0),
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	945	"         nvl(preout_date, sysdate),
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	946	"         name,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	947	"         nvl(zxzcs, 0),
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	948	"         nvl(jzkh, '0'),
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	949	"         nvl(ybjylsh, '0')
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	950	"    into v_js_no,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	951	"         v_brlb,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	952	"         v_brxz,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	953	"         v_preout_date,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	954	"         v_infant_flag,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	955	"         v_amount_date,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	956	"         v_zy_total_fee.name,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	957	"         v_zxzcs,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	958	"         v_jzkh,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	959	"         v_ybjylsh
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	960	"    from zy_patient_information
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	961	"   where patient_no = v_patient_no;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	962	"
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	963	"  if v_zxzcs > 0 then
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	964	"    select to_char(v_patient_no) || '-' || to_char(v_zxzcs)
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	965	"      into v_patient_no_zxzcs
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	966	"      from dual;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	967	"  else
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	968	"    select to_char(v_patient_no) into v_patient_no_zxzcs from dual;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	969	"  
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	970	"  end if;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	971	"
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	972	"  if v_infant_flag = 0 then
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	973	"    out_msg := 'ok';
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	974	"  else
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	975	"    out_code := -1;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	976	"    out_msg  := '无法结算，这是婴儿类型结算,请去人工窗口结算';
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	977	"    return;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	978	"  end if;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	979	"
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	980	"  --判断 是否已经结算
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	981	"  if v_js_no = 0 then
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	982	"    out_msg := 'ok';
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	983	"  else
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	984	"    out_code := -1;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	985	"    out_msg  := '无法结算，结算标志不等于0,可能已经结算,请核实';
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	986	"    return;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	987	"  end if;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	988	"
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	989	"  if v_zxzcs = 0 then
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	990	"    v_patient_no_yb := to_char(v_patient_no);
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	991	"  else
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	992	"    --v_patient_no_yb:=to_char(v_patient_no)+'-'+to_char(v_zxzcs);
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	993	"    select to_char(v_patient_no) || '-' || to_char(v_zxzcs)
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	994	"      into v_patient_no_yb
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	995	"      from dual;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	996	"  end if;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	997	"  v_count := 0;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	998	"  select count(patient_no)
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	999	"    into v_count
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1000	"    from zy_total_fee
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1001	"   where patient_no = v_patient_no
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1002	"     and js_no = 0;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1003	"  If v_count = 1 Then
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1004	"    out_msg := 'ok';
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1005	"  else
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1006	"    out_code := -1;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1007	"    out_msg  := '无法结算，费用总表没有信息,zy_total_fee';
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1008	"    return;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1009	"  end if;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1010	"
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1011	"  --判断 brlb,brxz是否正确
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1012	"  if v_brlb = 1 or v_brlb = 97 then
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1013	"    out_msg := 'ok';
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1014	"  else
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1015	"    out_code := -1;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1016	"    out_msg  := '无法结算，只支持自费或者金华医保,请核实';
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1017	"    return;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1018	"  end if;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1019	"
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1020	"  if v_brlb = 1 and v_brxz <> '1' then
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1021	"    out_code := -1;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1022	"    out_msg  := '无法结算，病人类别为自费，但是病人性质不是自费,请核实';
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1023	"    return;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1024	"  end if;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1025	"
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1026	"  if v_brlb = 97 and v_brxz < 'JHYB' then
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1027	"    out_code := -1;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1028	"    out_msg  := '无法结算，病人类别为医保，但是病人性质不是医保,请核实';
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1029	"    return;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1030	"  end if;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1031	"
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1032	"  --判断 是否已经预出院
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1033	"  if v_preout_date > '2000' then
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1034	"    out_msg := 'ok';
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1035	"  else
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1036	"    out_code := -1;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1037	"    out_msg  := '无法结算，还未预出院,请核实';
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1038	"    return;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1039	"  end if;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1040	"
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1041	"  --判断 明细 单价小于0
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1042	"
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1043	"  v_count := 0;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1044	"  Select count(patient_no)
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1045	"    Into v_count
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1046	"    From zy_detail_charge
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1047	"   where patient_no = v_patient_no
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1048	"     And nvl(dj, 0) < 0;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1049	"  If v_count = 0 Then
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1050	"    out_msg := 'ok';
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1051	"  else
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1052	"    out_code := -1;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1053	"    out_msg  := '无法结算，有单价小于0的明细';
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1054	"    return;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1055	"  end if;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1056	"
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1057	"  --判断 费用大项的合计小于0
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1058	"
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1059	"  v_count := 0;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1060	"  select count(*)
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1061	"    Into v_count
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1062	"    from (select a.fygl, sum(a.dj * a.sl) zje
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1063	"            from zy_detail_charge a
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1064	"           where patient_no = v_patient_no
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1065	"           group by a.fygl
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1066	"          having sum(a.dj * a.sl) < 0);
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1067	"  If v_count = 0 Then
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1068	"    out_msg := 'ok';
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1069	"  else
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1070	"    out_code := -1;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1071	"    out_msg  := '无法结算，费用大项的合计小于0';
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1072	"    return;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1073	"  end if;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1074	"
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1075	"  --判断 费用明细表zy_detail_charge
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1076	"
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1077	"  v_count := 0;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1078	"  select count(*)
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1079	"    Into v_count
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1080	"    From zy_detail_charge
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1081	"   where patient_no = v_patient_no
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1082	"     And js_No <> 0;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1083	"  If v_count = 0 Then
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1084	"    out_msg := 'ok';
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1085	"  else
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1086	"    out_code := -1;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1087	"    out_msg  := '无法结算，费用明细中存在已经结算的费用,请去人工窗口结算';
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1088	"    return;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1089	"  end if;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1090	"
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1091	"  --判断医保病人 出院诊断 ICD10编码
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1092	"  /*
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1093	"  if v_brlb = 27 then
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1094	"    v_count := 0;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1095	"    Select count(icd10)
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1096	"      Into v_count
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1097	"      From v_bl_bingrenzdqk
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1098	"     Where zhenduanlx In (3, 4)
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1099	"       And icd10 Is Not null
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1100	"       And (bingrenid = v_patient_no or zhenduanjlid = 1598409);
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1101	"    If v_count > 1 Then
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1102	"      out_msg := 'ok';
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1103	"    else
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1104	"      out_code := -1;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1105	"      out_msg  := '无法结算，(ICD10编码)出院诊断未录入,请联系病区';
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1106	"      return;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1107	"    end if;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1108	"  end if;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1109	"  */
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1110	"
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1111	"  --判断医保病人 未上传的明细
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1112	"  if v_brlb = 97 then
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1113	"    v_count := 0;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1114	"    Select count(patient_no)
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1115	"      Into v_count
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1116	"      From zy_detail_charge
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1117	"     where patient_no = v_patient_no
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1118	"       and instr(nvl(ybdm, '0'), '生活费') = 0
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1119	"       And to_char(scrq, 'yyyy') = '1900';
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1120	"    If v_count = 0 Then
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1121	"      out_msg := 'ok';
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1122	"    else
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1123	"      out_code := -1;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1124	"      out_msg  := '无法结算，还有未上传的明细';
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1125	"      return;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1126	"    end if;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1127	"  
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1128	"  end if;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1129	"
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1130	"  if in_jiaoyilx = '医保预结算信息更新' then
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1131	"    --6921.43%%926.14%%123.28%%4104.01%%0%%0%%0%%0%%0%%0%%0%%2817.42%%0%%400%%4104.01%%1103%%94.6%%822.73%%24.68%%85%%4%%9.44%%916.7%%1449.42%%5872.01%%.5%%0%%2017%%1380.73%%0
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1132	"    --ylfze=806.00%%zfze=0.00%%zlze=0.00%%xjzfze=0.00%%jjzfze=806.00%%806.00%%0.00%%0%%564.20%%0.00%%0%%0%%0%%0%%0%%0.00%%0.00%%0.00%%0%%0%%0.00%%0%%241.80%%0.00%%0%%0%%0%%0%%0%%0.00
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1133	"  
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1134	"    if v_brlb = 97 then
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1135	"      if in_yibao_jylsh = null or in_yibao_jylsh = '' then
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1136	"        out_code := -1;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1137	"        out_msg  := '无法处理,结算费用信息不能为空';
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1138	"        return;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1139	"      end if;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1140	"    
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1141	"      v_zy_total_fee.jyjg := in_yibao_jylsh;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1142	"    
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1143	"      Select sum(round(dj * sl, 2))
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1144	"        Into v_total_fee
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1145	"        From zy_detail_charge
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1146	"       where patient_no = v_patient_no;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1147	"      if v_total_fee = null then
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1148	"        v_total_fee := 0.00;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1149	"      end if;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1150	"    
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1151	"      v_flag     := '%%';
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1152	"      v_flag_len := 2;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1153	"      select in_yibao_jylsh || '%%' into out_msg from dual;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1154	"    
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1155	"      select total_Fee, zf_fee, total_Fee - zf_fee
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1156	"        into v_je, v_je_zf, v_je_bxje
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1157	"        From zy_total_fee
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1158	"       where patient_No = v_patient_no;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1159	"      if v_total_fee = v_je then
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1160	"        out_code := -1;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1161	"      else
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1162	"        out_code := -1;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1163	"        select '费用总额与明细不一致，total_Fee=' || to_char(v_je) ||
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1164	"               ',zy_detail_charge=' || to_char(v_total_fee)
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1165	"          into out_msg
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1166	"          from dual;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1167	"        return;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1168	"      end if;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1169	"    
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1170	"      select nvl(cc_fee1, 0)
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1171	"        into v_cc_fee1
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1172	"        From zy_total_fee
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1173	"       where patient_No = v_patient_no;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1174	"    
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1175	"      -- 医疗费用总额total_fee
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1176	"      v_pos                    := to_number(instr(out_msg, v_flag));
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1177	"      v_data                   := ltrim(rtrim(substr(out_msg, 1, v_pos - 1)));
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1178	"      out_msg                  := substr(out_msg, v_pos + v_flag_len);
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1179	"      v_zy_total_fee.total_fee := to_number(v_data);
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1180	"      v_zy_total_fee.total_fee := v_zy_total_fee.total_fee + v_cc_fee1;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1181	"      if v_total_fee = v_zy_total_fee.total_fee then
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1182	"        v_pos := 0;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1183	"      else
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1184	"        out_code := -1;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1185	"        select '费用总额与医保总额不一致，total_Fee=' || to_char(v_je) ||
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1186	"               ',zy_detail_charge=' || to_char(v_zy_total_fee.total_fee) ||
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1187	"               ',cc_fee1=' || to_char(v_cc_fee1)
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1188	"          into out_msg
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1189	"          from dual;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1190	"        return;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1191	"      end if;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1192	"    
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1193	"      --医疗费用自费总额zfje
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1194	"      v_pos               := to_number(instr(out_msg, v_flag));
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1195	"      v_data              := ltrim(rtrim(substr(out_msg, 1, v_pos - 1)));
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1196	"      out_msg             := substr(out_msg, v_pos + v_flag_len);
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1197	"      v_zy_total_fee.zfje := to_number(v_data);
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1198	"      --医疗费用自理总额zlje
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1199	"      v_pos               := to_number(instr(out_msg, v_flag));
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1200	"      v_data              := ltrim(rtrim(substr(out_msg, 1, v_pos - 1)));
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1201	"      out_msg             := substr(out_msg, v_pos + v_flag_len);
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1202	"      v_zy_total_fee.zlje := to_number(v_data);
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1203	"      --现金支付总额zf_fee
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1204	"    
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1205	"      v_pos                 := to_number(instr(out_msg, v_flag));
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1206	"      v_data                := ltrim(rtrim(substr(out_msg, 1, v_pos - 1)));
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1207	"      out_msg               := substr(out_msg, v_pos + v_flag_len);
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1208	"      v_zy_total_fee.zf_fee := to_number(v_data);
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1209	"      v_zy_total_fee.zf_fee := v_zy_total_fee.zf_fee + v_cc_fee1;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1210	"      if v_je_zf = v_zy_total_fee.zf_fee then
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1211	"        v_pos := 0;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1212	"      else
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1213	"        out_code := -1;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1214	"        select '现金支付总额与医保现金支付总额不一致，zy_totalfe表zf_fee=' || to_char(v_je_zf) ||
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1215	"               ',医保现金=' || to_char(v_zy_total_fee.zf_fee) || ',v_cc_fee1=' ||
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1216	"               to_char(v_cc_fee1)
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1217	"          into out_msg
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1218	"          from dual;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1219	"        return;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1220	"      end if;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1221	"    
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1222	"      --基金支付总额
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1223	"      v_pos   := to_number(instr(out_msg, v_flag));
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1224	"      v_data  := ltrim(rtrim(substr(out_msg, 1, v_pos - 1)));
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1225	"      out_msg := substr(out_msg, v_pos + v_flag_len);
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1226	"      v_je_zf := to_number(v_data);
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1227	"      if v_je_zf = v_je_bxje then
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1228	"        v_pos := 0;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1229	"      else
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1230	"        out_code := -1;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1231	"        select '基金支付总额与医保基金支付总额不一致，zy_totalfe表基金支付总额=' ||
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1232	"               to_char(v_je_bxje) || ',医保基金支付总额=' || to_char(v_je_zf)
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1233	"          into out_msg
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1234	"          from dual;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1235	"        return;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1236	"      end if;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1237	"    
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1238	"      --起付标准
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1239	"      v_pos   := to_number(instr(out_msg, v_flag));
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1240	"      v_data  := ltrim(rtrim(substr(out_msg, 1, v_pos - 1)));
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1241	"      out_msg := substr(out_msg, v_pos + v_flag_len);
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1242	"    
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1243	"      --统筹支付数db_fee
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1244	"      v_pos                 := to_number(instr(out_msg, v_flag));
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1245	"      v_data                := ltrim(rtrim(substr(out_msg, 1, v_pos - 1)));
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1246	"      out_msg               := substr(out_msg, v_pos + v_flag_len);
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1247	"      v_zy_total_fee.db_fee := to_number(v_data);
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1248	"    
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1249	"      --民政救助支付数jzje
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1250	"      v_pos               := to_number(instr(out_msg, v_flag));
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1251	"      v_data              := ltrim(rtrim(substr(out_msg, 1, v_pos - 1)));
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1252	"      out_msg             := substr(out_msg, v_pos + v_flag_len);
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1253	"      v_zy_total_fee.jzje := to_number(v_data);
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1254	"    
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1255	"      --个人当年帐户支付数grzhje
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1256	"      v_pos                 := to_number(instr(out_msg, v_flag));
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1257	"      v_data                := ltrim(rtrim(substr(out_msg, 1, v_pos - 1)));
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1258	"      out_msg               := substr(out_msg, v_pos + v_flag_len);
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1259	"      v_zy_total_fee.grzhje := to_number(v_data);
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1260	"    
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1261	"      --个人历年帐户支付数grzhje_ln
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1262	"      v_pos                    := to_number(instr(out_msg, v_flag));
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1263	"      v_data                   := ltrim(rtrim(substr(out_msg, 1, v_pos - 1)));
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1264	"      out_msg                  := substr(out_msg, v_pos + v_flag_len);
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1265	"      v_zy_total_fee.grzhje_ln := to_number(v_data);
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1266	"      --公补基金支付数gf_fee
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1267	"      v_pos                 := to_number(instr(out_msg, v_flag));
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1268	"      v_data                := ltrim(rtrim(substr(out_msg, 1, v_pos - 1)));
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1269	"      out_msg               := substr(out_msg, v_pos + v_flag_len);
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1270	"      v_zy_total_fee.gf_fee := to_number(v_data);
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1271	"    
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1272	"      --离休基金支付数lxjj
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1273	"      v_pos               := to_number(instr(out_msg, v_flag));
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1274	"      v_data              := ltrim(rtrim(substr(out_msg, 1, v_pos - 1)));
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1275	"      out_msg             := substr(out_msg, v_pos + v_flag_len);
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1276	"      v_zy_total_fee.lxjj := to_number(v_data);
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1277	"    
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1278	"      --二乙基金支付数 tcje
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1279	"    
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1280	"      v_pos               := to_number(instr(out_msg, v_flag));
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1281	"      v_data              := ltrim(rtrim(substr(out_msg, 1, v_pos - 1)));
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1282	"      out_msg             := substr(out_msg, v_pos + v_flag_len);
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1283	"      v_zy_total_fee.tcje := to_number(v_data);
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1284	"    
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1285	"      --劳模基金支付数 lmbzje
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1286	"      v_pos                 := to_number(instr(out_msg, v_flag));
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1287	"      v_data                := ltrim(rtrim(substr(out_msg, 1, v_pos - 1)));
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1288	"      out_msg               := substr(out_msg, v_pos + v_flag_len);
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1289	"      v_zy_total_fee.lmbzje := to_number(v_data);
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1290	"    
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1291	"      --民政补助基金支付数 Mzbzje
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1292	"      v_pos                 := to_number(instr(out_msg, v_flag));
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1293	"      v_data                := ltrim(rtrim(substr(out_msg, 1, v_pos - 1)));
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1294	"      out_msg               := substr(out_msg, v_pos + v_flag_len);
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1295	"      v_zy_total_fee.Mzbzje := to_number(v_data);
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1296	"      --大病保险基金支付数 dbjzje
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1297	"      v_pos                 := to_number(instr(out_msg, v_flag));
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1298	"      v_data                := ltrim(rtrim(substr(out_msg, 1, v_pos - 1)));
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1299	"      out_msg               := substr(out_msg, v_pos + v_flag_len);
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1300	"      v_zy_total_fee.dbjzje := to_number(v_data);
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1301	"      --转外自理比例
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1302	"      v_pos   := to_number(instr(out_msg, v_flag));
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1303	"      v_data  := ltrim(rtrim(substr(out_msg, 1, v_pos - 1)));
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1304	"      out_msg := substr(out_msg, v_pos + v_flag_len);
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1305	"    
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1306	"      --转外自理金额
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1307	"      v_pos   := to_number(instr(out_msg, v_flag));
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1308	"      v_data  := ltrim(rtrim(substr(out_msg, 1, v_pos - 1)));
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1309	"      out_msg := substr(out_msg, v_pos + v_flag_len);
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1310	"    
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1311	"      --转外自费比例
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1312	"      v_pos   := to_number(instr(out_msg, v_flag));
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1313	"      v_data  := ltrim(rtrim(substr(out_msg, 1, v_pos - 1)));
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1314	"      out_msg := substr(out_msg, v_pos + v_flag_len);
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1315	"    
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1316	"      --转外自费金额
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1317	"      v_pos   := to_number(instr(out_msg, v_flag));
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1318	"      v_data  := ltrim(rtrim(substr(out_msg, 1, v_pos - 1)));
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1319	"      out_msg := substr(out_msg, v_pos + v_flag_len);
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1320	"    
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1321	"      --家庭个账共济 qtzhzf
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1322	"      v_pos                 := to_number(instr(out_msg, v_flag));
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1323	"      v_data                := ltrim(rtrim(substr(out_msg, 1, v_pos - 1)));
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1324	"      out_msg               := substr(out_msg, v_pos + v_flag_len);
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1325	"      v_zy_total_fee.qtzhzf := to_number(v_data);
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1326	"    
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1327	"      --惠民支付数 liangFeiLXJJ
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1328	"      v_pos                       := to_number(instr(out_msg, v_flag));
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1329	"      v_data                      := ltrim(rtrim(substr(out_msg,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1330	"                                                        1,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1331	"                                                        v_pos - 1)));
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1332	"      out_msg                     := substr(out_msg, v_pos + v_flag_len);
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1333	"      v_zy_total_fee.liangFeiLXJJ := to_number(v_data);
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1334	"    
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1335	"      --工会补助金额 LaoNianJJ
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1336	"      v_pos                    := to_number(instr(out_msg, v_flag));
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1337	"      v_data                   := ltrim(rtrim(substr(out_msg, 1, v_pos - 1)));
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1338	"      out_msg                  := substr(out_msg, v_pos + v_flag_len);
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1339	"      v_zy_total_fee.LaoNianJJ := to_number(v_data);
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1340	"    
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1341	"      --生育基金支付金额KunNanBZJJ
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1342	"      v_pos                     := to_number(instr(out_msg, v_flag));
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1343	"      v_data                    := ltrim(rtrim(substr(out_msg, 1, v_pos - 1)));
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1344	"      out_msg                   := substr(out_msg, v_pos + v_flag_len);
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1345	"      v_zy_total_fee.KunNanBZJJ := to_number(v_data);
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1346	"      --托管基金支付金额 NongBaoJJ
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1347	"      v_pos                    := to_number(instr(out_msg, v_flag));
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1348	"      v_data                   := ltrim(rtrim(substr(out_msg, 1, v_pos - 1)));
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1349	"      out_msg                  := substr(out_msg, v_pos + v_flag_len);
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1350	"      v_zy_total_fee.NongBaoJJ := to_number(v_data);
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1351	"      --建国前老工人支付金额 qtcd_1
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1352	"      v_pos                 := to_number(instr(out_msg, v_flag));
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1353	"      v_data                := ltrim(rtrim(substr(out_msg, 1, v_pos - 1)));
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1354	"      out_msg               := substr(out_msg, v_pos + v_flag_len);
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1355	"      v_zy_total_fee.qtcd_1 := to_number(v_data);
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1356	"    
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1357	"      --补充险待遇qtcd_2
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1358	"      v_pos                 := to_number(instr(out_msg, v_flag));
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1359	"      v_data                := ltrim(rtrim(substr(out_msg, 1, v_pos - 1)));
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1360	"      out_msg               := substr(out_msg, v_pos + v_flag_len);
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1361	"      v_zy_total_fee.qtcd_2 := to_number(v_data);
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1362	"    
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1363	"      --其他基金支付3 :qtcd_3
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1364	"      v_pos                 := to_number(instr(out_msg, v_flag));
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1365	"      v_data                := ltrim(rtrim(substr(out_msg, 1, v_pos - 1)));
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1366	"      out_msg               := substr(out_msg, v_pos + v_flag_len);
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1367	"      v_zy_total_fee.qtcd_3 := to_number(v_data);
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1368	"    
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1369	"      --其他基金支付4 :qtcd_4
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1370	"      v_pos                 := to_number(instr(out_msg, v_flag));
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1371	"      v_data                := ltrim(rtrim(substr(out_msg, 1, v_pos - 1)));
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1372	"      out_msg               := substr(out_msg, v_pos + v_flag_len);
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1373	"      v_zy_total_fee.qtcd_4 := to_number(v_data);
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1374	"      --个人按比例自负
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1375	"      v_pos   := to_number(instr(out_msg, v_flag));
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1376	"      v_data  := ltrim(rtrim(substr(out_msg, 1, v_pos - 1)));
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1377	"      out_msg := substr(out_msg, v_pos + v_flag_len);
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1378	"    
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1379	"      if v_zy_total_fee.total_fee = null then
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1380	"        v_zy_total_fee.total_fee := 0.00;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1381	"      end if;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1382	"    
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1383	"      if v_total_fee <> v_zy_total_fee.total_fee then
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1384	"        out_code := -1;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1385	"        select to_char(v_total_fee) || '与' ||
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1386	"               to_char(v_zy_total_fee.total_fee) || '总金额不一致'
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1387	"          into out_msg
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1388	"          from dual;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1389	"        return;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1390	"      end if;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1391	"    
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1392	"      update zy_total_fee
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1393	"         set total_fee    = v_zy_total_fee.total_fee,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1394	"             zfje         = v_zy_total_fee.zfje,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1395	"             zlje         = v_zy_total_fee.zlje,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1396	"             db_fee       = v_zy_total_fee.db_fee,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1397	"             grzhje_ln    = v_zy_total_fee.grzhje_ln,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1398	"             grzhje       = v_zy_total_fee.grzhje,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1399	"             gf_fee       = v_zy_total_fee.gf_fee,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1400	"             zf_fee       = v_zy_total_fee.zf_fee,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1401	"             jyjg         = in_yibao_jylsh,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1402	"             jzje         = v_zy_total_fee.jzje,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1403	"             lxjj         = v_zy_total_fee.lxjj,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1404	"             tcje         = v_zy_total_fee.tcje,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1405	"             lmbzje       = v_zy_total_fee.lmbzje,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1406	"             Mzbzje       = v_zy_total_fee.Mzbzje,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1407	"             dbjzje       = v_zy_total_fee.dbjzje,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1408	"             qtzhzf       = v_zy_total_fee.qtzhzf,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1409	"             liangFeiLXJJ = v_zy_total_fee.liangFeiLXJJ,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1410	"             LaoNianJJ    = v_zy_total_fee.LaoNianJJ,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1411	"             KunNanBZJJ   = v_zy_total_fee.KunNanBZJJ,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1412	"             NongBaoJJ    = v_zy_total_fee.NongBaoJJ,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1413	"             qtcd_1       = v_zy_total_fee.qtcd_1,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1414	"             qtcd_2       = v_zy_total_fee.qtcd_2,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1415	"             qtcd_3       = v_zy_total_fee.qtcd_3,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1416	"             qtcd_4       = v_zy_total_fee.qtcd_4,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1417	"             dnsyje       = v_zy_total_fee.total_fee - v_zy_total_fee.zf_fee
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1418	"       where patient_no = v_patient_no
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1419	"         and js_no = 0;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1420	"    
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1421	"      if sqlcode = 0 then
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1422	"        commit;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1423	"        out_code := 0;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1424	"        return;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1425	"      else
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1426	"        rollback;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1427	"        out_code := -1;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1428	"        --select to_char(v_total_fee)||'与'||to_char(v_zy_total_fee.total_fee)||'总金额不一致' into out_msg from  dual;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1429	"        out_msg := '更新数据失败';
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1430	"        return;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1431	"      end if;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1432	"    
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1433	"      v_zy_total_fee.dnsyje := v_zy_total_fee.total_fee -
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1434	"                               v_zy_total_fee.zf_fee;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1435	"    else
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1436	"      out_code := -1;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1437	"      out_msg  := '无法处理,非医保病人';
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1438	"      return;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1439	"    end if;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1440	"  
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1441	"  end if;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1442	"
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1443	"  --医保预结算信息更新
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1444	"  --if v_brlb=27 then
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1445	"  -- v_count:=0;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1446	"  --select  total_fee,nvl(jyjg,'0') into v_zy_total_fee.total_fee,v_zy_total_fee.jyjg from zy_total_fee where    patient_no=v_patient_no and js_no=0;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1447	"  --  If v_zy_total_fee.total_fee>0 Then
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1448	"  --   out_msg:=v_zy_total_fee.jyjg;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1449	"  --   v_flag:='%%';
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1450	"  --  v_pos:=to_number(instr(out_msg,v_flag));
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1451	"  --v_str1:=ltrim(rtrim(substr(v_data,1,v_pos - 1)));
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1452	"  -- v_data:=substr(out_msg,v_pos+v_flag_len);
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1453	"  --   out_msg:='';
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1454	"  --6921.43%%926.14%%123.28%%4104.01%%0%%0%%0%%0%%0%%0%%0%%2817.42%%0%%400%%4104.01%%1103%%94.6%%822.73%%24.68%%85%%4%%9.44%%916.7%%1449.42%%5872.01%%.5%%0%%2017%%1380.73%%0
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1455	"  --  else
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1456	"  --  out_code:=-1;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1457	"  --  out_msg:='无法结算，总费用为零,zy_total_fee';
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1458	"  --  return ;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1459	"  --end if;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1460	"
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1461	"  --end if;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1462	"
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1463	"  if in_jiaoyilx = '获取住院信息变动入参' then
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1464	"  
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1465	"    out_code := -1;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1466	"    out_msg  := '该交易已经作废 获取住院信息变动入参';
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1467	"    return;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1468	"  end if;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1469	"  if in_jiaoyilx = '获取预结算入参' or in_jiaoyilx = '获取结算入参' then
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1470	"  
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1471	"    if v_brlb = 97 then
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1472	"      out_msg := '';
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1473	"    else
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1474	"      out_code := -1;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1475	"      out_msg  := '只能获取 金华医保 入参';
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1476	"      return;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1477	"    end if;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1478	"  
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1479	"    -- 金华医保 begin
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1480	"    if 97 = 97 then
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1481	"      --  获取诊断 begin
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1482	"    
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1483	"      --1 E11.900 2型糖尿病
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1484	"      IF v_patient_no = 843608 or v_patient_no = 851509 THEN
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1485	"        v_icd10      := 'E11.900';
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1486	"        v_icd10_name := '糖尿病';
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1487	"        v_count_temp := 1;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1488	"      END IF;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1489	"      --IF 843608 THEN 
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1490	"      if 1 = 1 and v_patient_no <> 843608 and v_patient_no <> 851509 then
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1491	"        v_icd10      := '';
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1492	"        v_count_temp := 0;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1493	"        SELECT count(*)
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1494	"          into v_count_temp
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1495	"          From v_yb_jbml_9997
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1496	"         Where icd10 in (SELECT icd10
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1497	"                           From v_bl_bingrenzdqk
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1498	"                          Where bingrenid in (v_patient_no)
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1499	"                            And zhenduanlx In (3, 4)
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1500	"                            And icd10 Is Not Null)
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1501	"           and rownum = 1;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1502	"      
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1503	"        if v_count_temp > 0 then
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1504	"        
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1505	"          SELECT jbdm, jbmc
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1506	"            into v_icd10, v_icd10_name
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1507	"            From v_yb_jbml_9997
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1508	"           Where icd10 in (SELECT icd10
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1509	"                             From v_bl_bingrenzdqk
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1510	"                            Where bingrenid in (v_patient_no)
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1511	"                              And zhenduanlx In (3, 4)
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1512	"                              And icd10 Is Not Null)
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1513	"             and rownum = 1;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1514	"        
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1515	"        end if;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1516	"      
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1517	"        if v_count_temp = 0 then
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1518	"        
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1519	"          v_count_temp := 0;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1520	"          SELECT count(*)
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1521	"            into v_count_temp
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1522	"            From v_yb_jbml_9997
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1523	"           Where substr(icd10, 1, 6) in
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1524	"                 (SELECT substr(icd10, 1, 6)
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1525	"                    From v_bl_bingrenzdqk
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1526	"                   Where bingrenid in (v_patient_no)
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1527	"                     And zhenduanlx In (3, 4)
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1528	"                     And icd10 Is Not Null)
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1529	"             and rownum = 1;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1530	"        
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1531	"          if v_count_temp > 0 then
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1532	"          
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1533	"            SELECT jbdm, jbmc
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1534	"              into v_icd10, v_icd10_name
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1535	"              From v_yb_jbml_9997
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1536	"             Where substr(icd10, 1, 6) in
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1537	"                   (SELECT substr(icd10, 1, 6)
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1538	"                      From v_bl_bingrenzdqk
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1539	"                     Where bingrenid in (v_patient_no)
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1540	"                       And zhenduanlx In (3, 4)
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1541	"                       And icd10 Is Not Null)
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1542	"               and rownum = 1;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1543	"          
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1544	"          end if;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1545	"        
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1546	"        end if;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1547	"      
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1548	"        if v_count_temp = 0 then
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1549	"        
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1550	"          v_count_temp := 0;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1551	"          SELECT count(*)
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1552	"            into v_count_temp
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1553	"            From v_yb_jbml_9997
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1554	"           Where substr(icd10, 1, 4) in
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1555	"                 (SELECT substr(icd10, 1, 4)
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1556	"                    From v_bl_bingrenzdqk
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1557	"                   Where bingrenid in (v_patient_no)
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1558	"                     And zhenduanlx In (3, 4)
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1559	"                     And icd10 Is Not Null)
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1560	"             and rownum = 1;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1561	"        
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1562	"          if v_count_temp > 0 then
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1563	"          
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1564	"            SELECT jbdm, jbmc
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1565	"              into v_icd10, v_icd10_name
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1566	"              From v_yb_jbml_9997
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1567	"             Where substr(icd10, 1, 4) in
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1568	"                   (SELECT substr(icd10, 1, 4)
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1569	"                      From v_bl_bingrenzdqk
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1570	"                     Where bingrenid in (v_patient_no)
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1571	"                       And zhenduanlx In (3, 4)
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1572	"                       And icd10 Is Not Null)
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1573	"               and rownum = 1;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1574	"          
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1575	"          end if;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1576	"        
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1577	"        end if;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1578	"      
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1579	"      end if;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1580	"      if v_count_temp = 0 then
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1581	"        out_code := -1;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1582	"        out_msg  := '获取入参失败，没有找到医保对应的ICD10出院诊断';
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1583	"        return;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1584	"      end if;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1585	"      --end 1=1 获取诊断
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1586	"    
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1587	"      --获取预结算入参 获取结算入参
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1588	"      if in_jiaoyilx = '获取预结算入参' then
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1589	"        v_xxlxm := 'Y006'; --'获取预结算入参'
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1590	"      else
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1591	"        v_xxlxm := 'Y007'; --'获取结算入参'
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1592	"      end if;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1593	"    
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1594	"      --""head"" :{""jylsh"" :""00001172201909051145352069475"", ""xxlxm"" :""Y006"", ""fhsj"" :"""", ""xxfhm"" :"""", ""fhxx"" :"""", ""zdjbh"" :"""", ""yytcq"" :""330782"", ""yljgdm"" :""1172"", ""czydm"" :""DBA"", ""bbh"" :""1.0"", ""yl1"" :"""", ""yl2"" :""""}
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1595	"      select '""head"":{""jylsh"":""' || '00001172' ||
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1596	"             to_char(sysdate, 'yyyymmddhh24miss') ||
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1597	"             to_char(seq_jhyblsh.nextval) || '"",""xxlxm"":""' || v_xxlxm ||
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1598	"             '"",""fhsj"":"""",""xxfhm"":"""",""fhxx"":"""",""zdjbh"":"""",""yytcq"":""330782"",""yljgdm"":""1172"",""czydm"":""' ||
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1599	"             in_caozuogh || '"",""bbh"":""1.0"",""yl1"":"""",""yl2"":""""}'
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1600	"        into v_head
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1601	"        from dual;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1602	"    
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1603	"      select '""ksjgs"":{""klb"":""12"",""knsj"":""' || ic || '""}',
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1604	"             nvl(indi_id, ''),
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1605	"             decode(nvl(cyzt, '0'),
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1606	"                    '治愈',
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1607	"                    '11',
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1608	"                    '未愈',
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1609	"                    '12',
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1610	"                    '好转',
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1611	"                    '13',
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1612	"                    '死亡',
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1613	"                    '30',
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1614	"                    '90')
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1615	"        into v_knsj, v_jhyb_syzh, v_jhyb_cyyy
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1616	"        from zy_patient_information
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1617	"       where patient_No = v_patient_no;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1618	"    
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1619	"      select decode(count(patient_No), 0, '6', '10')
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1620	"        into v_jyjslb
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1621	"        from zy_patient_information y
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1622	"       where INDI_ID > '0'
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1623	"         and substr(y.protect, 1, 1) = '4'
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1624	"         and patient_No = v_patient_no;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1625	"      v_jhyb_tesl := '0';
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1626	"    
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1627	"      if v_jyjslb = '10' then
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1628	"        v_count_temp := 0;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1629	"        select count(*)
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1630	"          into v_count_temp
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1631	"          from jh_zysyxx
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1632	"         where patient_no = v_patient_no
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1633	"           and tesl > 0;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1634	"      
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1635	"        if v_count_temp > 0 then
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1636	"        
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1637	"          --v_jhyb_tesl  胎儿数  v_jhyb_tc, v_jhyb_sysj 生育时间 , v_jhyb_sylx 生育类别
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1638	"        
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1639	"          select to_char(nvl(tesl, 0)),
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1640	"                 nvl(tc, ''),
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1641	"                 to_char(sysj, 'yyyymmdd/hh24miss/'),
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1642	"                 nvl(sylx, '')
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1643	"            into v_jhyb_tesl, v_jhyb_tc, v_jhyb_sysj, v_jhyb_sylx
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1644	"            from jh_zysyxx
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1645	"           where patient_no = v_patient_no
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1646	"             and tesl > 0
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1647	"             and rownum = 1;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1648	"          select ',""syzh"":""' || v_jhyb_syzh || '"" ,""sylb"":""' || v_jhyb_sylx ||
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1649	"                 '"" ,""tesl"":""' || v_jhyb_tesl || '"" ,""tc"":""' || v_jhyb_tc ||
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1650	"                 '"" ,""sysj"":""' || v_jhyb_sysj || '""'
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1651	"            into v_jhyb_data_sy
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1652	"            from dual;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1653	"        
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1654	"        end if;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1655	"      end if;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1656	"      if v_jhyb_data_sy > '' then
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1657	"        null;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1658	"      else
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1659	"      
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1660	"        v_jhyb_data_sy := '';
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1661	"      end if;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1662	"      SELECT to_char(sum(round(nvl(dj, 0) * nvl(sl, 0), 2))),
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1663	"             to_char(count(*))
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1664	"        INTO v_jhyb_fyze, v_jhyb_tjmxts
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1665	"        from zy_detail_charge
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1666	"       WHERE Patient_no = v_patient_no
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1667	"         and instr(nvl(ybdm, '0'), '生活费') = 0
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1668	"         AND Scrq <> to_Date('1900-01-01', 'yyyy-mm-dd');
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1669	"    
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1670	"      select '""data"":{' || v_knsj || ',""jyjslb"":""' || v_jyjslb ||
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1671	"             '"",""ksbm"":""' || nvl(curr_ks, '') || '"",""ysdm"":""' ||
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1672	"             nvl(zzys, '') || '"",""zddmxht"":[{""zddm"":""' || v_icd10 ||
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1673	"             '"",""zdmc"":""' || v_icd10_name || '""}],""zybh"":""' || patient_No ||
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1674	"             decode(nvl(zxzcs, 0), 0, '', '-' || zxzcs) || '"",""jzbh"":""' ||
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1675	"             Nvl(Ybjylsh, '') || '"",""mxzdh"":""' || Nvl(Ywzqh, '') ||
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1676	"             '"",""rysj"":""' || to_char(nvl(admiss_date, jz_date), 'yyyymmdd') || '/' ||
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1677	"             to_char(nvl(admiss_date, jz_date), 'hh24mi') || '01' ||
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1678	"             '/"",""cysj"":""' ||
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1679	"             to_char(nvl(preout_date, jz_date), 'yyyymmdd') || '/' ||
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1680	"             to_char(nvl(preout_date, jz_date), 'hh24mi') || '01/' ||
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1681	"             '"",""fyze"":""' || v_jhyb_fyze || '"",""tjmxts"":""' || v_jhyb_tjmxts ||
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1682	"             '"",""tac"":""""  ,""bqms"":""无"",""cyyy"":""' || v_jhyb_cyyy || '""' ||
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1683	"             v_jhyb_data_sy || '}'
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1684	"        into v_data_jhyb
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1685	"        from zy_patient_information
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1686	"       where patient_No = v_patient_no;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1687	"    
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1688	"      select '{' || v_head || ',' || v_data_jhyb || '}'
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1689	"        into out_msg
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1690	"        from dual;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1691	"      out_code := 0;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1692	"    
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1693	"      insert into zy_jiaoyi_v1
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1694	"        (jiaoyilx, caozuogh, patient_no, jylsh)
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1695	"      values
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1696	"        (in_jiaoyilx, in_caozuogh, in_patient_no, out_msg);
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1697	"      commit;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1698	"    
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1699	"      return;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1700	"    
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1701	"    end if;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1702	"    -- return 金华医保 end
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1703	"  
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1704	"    out_code := -1;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1705	"    out_msg  := '获取结算(预结算)入参失败';
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1706	"    insert into zy_jiaoyi_v1
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1707	"      (jiaoyilx, caozuogh, patient_no, jylsh)
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1708	"    values
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1709	"      (in_jiaoyilx, in_caozuogh, in_patient_no, out_msg);
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1710	"    commit;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1711	"  
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1712	"    return;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1713	"  
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1714	"  end if;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1715	"
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1716	"  --判断 余额刚好=0
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1717	"
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1718	"  v_count                  := 0;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1719	"  v_zy_total_fee.total_fee := -1;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1720	"  select nvl(yue, 0), nvl(total_fee, 0)
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1721	"    Into v_zy_total_fee.deposit_xj, v_zy_total_fee.total_fee
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1722	"    from zy_yujiaokuancx
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1723	"   where patient_no = v_patient_no;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1724	"  If v_zy_total_fee.deposit_xj > 0 or v_zy_total_fee.deposit_xj < 0 Then
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1725	"  
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1726	"    out_code := -1;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1727	"    out_msg  := '无法结算，余额没有等于0';
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1728	"    return;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1729	"  end if;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1730	"
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1731	"  If v_zy_total_fee.total_fee > 0 Then
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1732	"    out_msg := '';
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1733	"  else
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1734	"  
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1735	"    out_code := -1;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1736	"    out_msg  := '无法结算，总金额不能等于0';
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1737	"    return;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1738	"  end if;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1739	"
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1740	"  if in_jiaoyilx = '结算前检查' then
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1741	"    out_code := 0;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1742	"    out_msg  := 'ok|结算前检查';
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1743	"    return;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1744	"  end if;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1745	"
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1746	"  if in_jiaoyilx = '结算交易' then
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1747	"    if v_brlb = 1 or v_brlb = 97 then
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1748	"      out_msg := '';
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1749	"    else
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1750	"      out_code := -1;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1751	"      out_msg  := '只能结算自费何金华医保';
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1752	"      return;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1753	"    end if;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1754	"    out_msg := '';
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1755	"  else
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1756	"    out_code := -1;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1757	"    out_msg  := '传入的交易类型不对,不能进行  结算交易';
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1758	"    return;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1759	"  end if;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1760	"
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1761	"  --医保病人检查
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1762	"
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1763	"  --更新相关信息表
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1764	"
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1765	"  v_js_no := v_js_no + 1;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1766	"
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1767	"  insert into zy_change_item
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1768	"    (PATIENT_NO,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1769	"     JS_NO,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1770	"     NAME,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1771	"     CHANGE_DATE,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1772	"     OLD_ITEM,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1773	"     CURR_ITEM,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1774	"     OP_ID,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1775	"     CHANGE_ITEM)
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1776	"  values
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1777	"    (v_patient_no,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1778	"     1,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1779	"     v_zy_total_fee.name,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1780	"     sysdate,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1781	"     '在院病人',
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1782	"     '出院结算',
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1783	"     in_caozuogh,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1784	"     '出院结算');
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1785	"  if sqlcode = 0 then
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1786	"    out_msg := '';
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1787	"  else
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1788	"    rollback;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1789	"    out_code := -1;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1790	"    out_msg  := '结算失败，更新失败 zy_change_item 费用明细表';
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1791	"    return;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1792	"  end if;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1793	"
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1794	"  --zy_bill_fee  处理  begin
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1795	"  LOOP
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1796	"  
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1797	"    IF NOT zy_detail_charge_fygl_cursor%ISOPEN THEN
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1798	"      --打开游标
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1799	"      OPEN zy_detail_charge_fygl_cursor(v_patient_no);
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1800	"    END IF;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1801	"  
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1802	"    FETCH zy_detail_charge_fygl_cursor
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1803	"      INTO v_fygl, v_je, v_je_zf;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1804	"    --退出循环的条件
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1805	"    EXIT WHEN zy_detail_charge_fygl_cursor%NOTFOUND OR zy_detail_charge_fygl_cursor%NOTFOUND IS NULL;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1806	"  
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1807	"    insert into zy_bill_fee
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1808	"      (patient_no,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1809	"       js_no,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1810	"       infant_flag,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1811	"       sfxm_code,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1812	"       je,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1813	"       self_je,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1814	"       self_fee,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1815	"       fyfl)
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1816	"    VALUES
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1817	"      (v_patient_no, v_js_no, v_infant_flag, v_fygl, v_je, 0, v_je_zf, 0);
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1818	"  
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1819	"    if sqlcode <> 0 then
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1820	"      rollback;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1821	"      --关闭游标
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1822	"      close zy_detail_charge_fygl_cursor;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1823	"      out_code := -1;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1824	"      out_msg  := '结算失败，增加zy_bill_fee记录失败';
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1825	"      return;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1826	"    end if;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1827	"  
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1828	"    --dbms_output.put_line('员工编号为' || v_yhdm|| '的' || v_xm|| '系统序号为:' ||v_xtxh);
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1829	"  
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1830	"  END LOOP;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1831	"
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1832	"  --zy_bill_fee  处理  end
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1833	"
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1834	"  --zy_fp_fee  处理  begin
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1835	"  LOOP
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1836	"  
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1837	"    IF NOT zy_fp_fee_cursor%ISOPEN THEN
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1838	"      --打开游标
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1839	"      OPEN zy_fp_fee_cursor(v_patient_no);
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1840	"    END IF;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1841	"  
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1842	"    FETCH zy_fp_fee_cursor
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1843	"      INTO v_hlh, v_je;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1844	"    --退出循环的条件
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1845	"    EXIT WHEN zy_fp_fee_cursor%NOTFOUND OR zy_fp_fee_cursor%NOTFOUND IS NULL;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1846	"  
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1847	"    insert into zy_fp_fee
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1848	"      (patient_no, js_no, infant_flag, hlh, fee)
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1849	"    VALUES
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1850	"      (v_patient_no, v_js_no, v_infant_flag, v_hlh, v_je);
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1851	"  
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1852	"    if sqlcode <> 0 then
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1853	"      rollback;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1854	"      --关闭游标
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1855	"      close zy_fp_fee_cursor;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1856	"      out_code := -1;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1857	"      out_msg  := '结算失败，增加zy_fp_fee记录失败';
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1858	"      return;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1859	"    end if;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1860	"  
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1861	"  END LOOP;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1862	"
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1863	"  --zy_fp_fee  处理  end
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1864	"
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1865	"  v_zy_total_fee.deposit_xj := 0;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1866	"  select nvl(sum(nvl(amount, 0)), 0)
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1867	"    into v_zy_total_fee.deposit_xj
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1868	"    from zy_deposit_file
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1869	"   where patient_no = v_patient_no
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1870	"     and js_no = 0
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1871	"     and depo_type in (1);
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1872	"  select nvl(sum(nvl(amount, 0)), 0)
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1873	"    into v_zy_total_fee.deposit_qt
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1874	"    from zy_deposit_file
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1875	"   where patient_no = v_patient_no
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1876	"     and js_no = 0
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1877	"     and depo_type in (16, 17);
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1878	"  select nvl(sum(nvl(amount, 0)), 0)
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1879	"    into v_zy_total_fee.deposit_zp
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1880	"    from zy_deposit_file
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1881	"   where patient_no = v_patient_no
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1882	"     and js_no = 0
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1883	"     and depo_type not in (1, 16, 17);
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1884	"  select sum(nvl(dj * sl, 0))
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1885	"    into v_zy_total_fee.total_fee
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1886	"    from zy_detail_charge
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1887	"   where patient_no = v_patient_no
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1888	"     and js_no = 0;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1889	"
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1890	"  if v_zy_total_fee.deposit_xj > 0 or v_zy_total_fee.deposit_xj < 0 then
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1891	"    out_msg := '';
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1892	"  else
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1893	"  
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1894	"    v_zy_total_fee.deposit_xj := 0.00;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1895	"  end if;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1896	"
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1897	"  if v_zy_total_fee.deposit_qt > 0 or v_zy_total_fee.deposit_qt < 0 then
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1898	"    out_msg := '';
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1899	"  else
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1900	"  
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1901	"    v_zy_total_fee.deposit_qt := 0.00;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1902	"  end if;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1903	"
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1904	"  if v_zy_total_fee.deposit_zp > 0 or v_zy_total_fee.deposit_zp < 0 then
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1905	"    out_msg := '';
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1906	"  else
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1907	"  
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1908	"    v_zy_total_fee.deposit_zp := 0.00;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1909	"  end if;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1910	"
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1911	"  update zy_patient_information
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1912	"     set js_no = v_js_no
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1913	"   where patient_no = v_patient_no
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1914	"     and js_no = 0;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1915	"
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1916	"  if sqlcode = 0 then
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1917	"    out_msg := 'ok';
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1918	"  else
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1919	"    rollback;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1920	"    out_code := -1;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1921	"    out_msg  := '结算失败，更新失败 zy_patient_information ';
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1922	"    return;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1923	"  end if;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1924	"
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1925	"  if v_brlb = 97 then
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1926	"    --y.ybjylsh,y.yyjylsh
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1927	"    v_flag     := '%%';
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1928	"    v_flag_len := 2;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1929	"    select in_yibao_jylsh || '%%' into v_data_temp from dual;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1930	"  
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1931	"    -- v_zy_total_fee.ybjylsh
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1932	"    v_pos                  := to_number(instr(v_data_temp, v_flag));
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1933	"    v_data                 := ltrim(rtrim(substr(v_data_temp, 1, v_pos - 1)));
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1934	"    v_data_temp            := substr(v_data_temp, v_pos + v_flag_len);
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1935	"    v_zy_total_fee.ybjylsh := v_data;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1936	"  
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1937	"    -- v_zy_total_fee.yyjylsh
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1938	"    v_pos                  := to_number(instr(v_data_temp, v_flag));
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1939	"    v_data                 := ltrim(rtrim(substr(v_data_temp, 1, v_pos - 1)));
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1940	"    v_data_temp            := substr(v_data_temp, v_pos + v_flag_len);
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1941	"    v_zy_total_fee.yyjylsh := v_data;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1942	"  
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1943	"    update zy_total_fee
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1944	"       set js_no        = v_js_no,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1945	"           flag         = 2,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1946	"           account_date = v_amount_date,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1947	"           jz_date      = sysdate,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1948	"           lq_date      = null,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1949	"           op_id        = in_caozuogh,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1950	"           deposit_xj   = v_zy_total_fee.deposit_xj,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1951	"           deposit_zp   = v_zy_total_fee.deposit_zp,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1952	"           deposit_qt   = v_zy_total_fee.deposit_qt,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1953	"           total_fee    = v_zy_total_fee.total_fee,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1954	"           pay_xj       = 0,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1955	"           pay_zp       = 0,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1956	"           return_xj    = 0,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1957	"           return_zp    = 0,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1958	"           zc_xj        = 0,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1959	"           zc_zp        = 0
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1960	"           --, zf_fee=v_zy_total_fee.total_fee
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1961	"          ,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1962	"           jyrq    = sysdate,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1963	"           ywzqh   = v_ywzqh,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1964	"           ybjylsh = v_zy_total_fee.ybjylsh,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1965	"           yyjylsh = v_zy_total_fee.yyjylsh,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1966	"           jlxh    = seq_zy_total_fee.nextval
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1967	"     where patient_no = v_patient_no
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1968	"       and js_no = 0;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1969	"  else
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1970	"  
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1971	"    update zy_total_fee
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1972	"       set js_no        = v_js_no,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1973	"           flag         = 2,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1974	"           account_date = v_amount_date,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1975	"           jz_date      = sysdate,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1976	"           lq_date      = null,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1977	"           op_id        = in_caozuogh,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1978	"           deposit_xj   = v_zy_total_fee.deposit_xj,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1979	"           deposit_zp   = v_zy_total_fee.deposit_zp,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1980	"           deposit_qt   = v_zy_total_fee.deposit_qt,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1981	"           total_fee    = v_zy_total_fee.total_fee,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1982	"           pay_xj       = 0,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1983	"           pay_zp       = 0,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1984	"           return_xj    = 0,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1985	"           return_zp    = 0,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1986	"           zc_xj        = 0,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1987	"           zc_zp        = 0,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1988	"           zf_fee       = v_zy_total_fee.total_fee
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1989	"     where patient_no = v_patient_no
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1990	"       and js_no = 0;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1991	"  end if;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1992	"
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1993	"  if sqlcode = 0 then
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1994	"    out_msg := 'ok';
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1995	"  else
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1996	"    rollback;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1997	"    out_code := -1;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1998	"    out_msg  := '结算失败，更新失败 zy_total_fee ';
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	1999	"    return;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	2000	"  end if;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	2001	"
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	2002	"  update zy_deposit_file
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	2003	"     set js_no = v_js_no
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	2004	"   where patient_no = v_patient_no
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	2005	"     and js_no = 0;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	2006	"  if sqlcode = 0 then
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	2007	"    out_msg := 'ok';
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	2008	"  else
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	2009	"    rollback;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	2010	"    out_code := -1;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	2011	"    out_msg  := '结算失败，更新失败 zy_deposit_file ';
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	2012	"    return;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	2013	"  end if;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	2014	"
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	2015	"  update zy_patient_information
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	2016	"     set js_no = v_js_no, out_date = v_amount_date
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	2017	"   where patient_no = v_patient_no;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	2018	"  if sqlcode = 0 then
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	2019	"    out_msg := 'ok';
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	2020	"  else
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	2021	"    rollback;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	2022	"    out_code := -1;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	2023	"    out_msg  := '结算失败，更新失败 zy_patient_information ';
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	2024	"    return;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	2025	"  end if;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	2026	"
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	2027	"  --更新 zy_detail_charge 费用明细表
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	2028	"  update zy_detail_charge
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	2029	"     set js_no = v_js_no
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	2030	"   where patient_no = v_patient_no
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	2031	"     and js_no = 0;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	2032	"
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	2033	"  if sqlcode = 0 then
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	2034	"    out_msg := 'ok';
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	2035	"  else
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	2036	"    rollback;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	2037	"    out_code := -1;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	2038	"    out_msg  := '结算失败，更新失败 zy_detail_charge 费用明细表';
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	2039	"    return;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	2040	"  end if;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	2041	"
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	2042	"  update zy_bed
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	2043	"     set patient_no = -1, bed_status = 0, patient_flag = 0
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	2044	"   where patient_no = v_patient_no;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	2045	"  --if in_qtsffs=26 then
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	2046	"  --  update mz_mzsfk1  set   qtsfje=nvl(xj,0)+nvl(qtsfje,0),xj=0  where sfsb=in_sfsb and  rbrq is null ;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	2047	"  --  commit;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	2048	"  -- out_msg:=in_sfsb||'修改成银行刷卡，处理成功';
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	2049	"  --end if;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	2050	"  commit;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	2051	"
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	2052	"  --医保 更新zy_total_fee_fjy
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	2053	"  if v_brlb = 97 then
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	2054	"    -- delete zy_total_fee_fjy where patient_no = v_patient_no;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	2055	"    -- commit;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	2056	"  
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	2057	"    insert into zy_total_fee_fjy
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	2058	"      (PATIENT_NO,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	2059	"       JS_NO,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	2060	"       INFANT_FLAG,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	2061	"       NAME,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	2062	"       BRLB,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	2063	"       BRXZ,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	2064	"       ACCOUNT_DATE,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	2065	"       JZ_DATE,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	2066	"       LQ_DATE,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	2067	"       RB_DATE,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	2068	"       OP_ID,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	2069	"       DEPOSIT_XJ,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	2070	"       DEPOSIT_ZP,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	2071	"       DEPOSIT_QT,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	2072	"       TOTAL_FEE,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	2073	"       ZF_FEE,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	2074	"       QTCD_FEE,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	2075	"       GF_FEE,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	2076	"       DB_FEE,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	2077	"       PAY_XJ,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	2078	"       RETURN_XJ,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	2079	"       PAY_ZP,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	2080	"       RETURN_ZP,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	2081	"       ZC_XJ,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	2082	"       ZC_ZP,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	2083	"       RECEIPT_NO,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	2084	"       FLAG,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	2085	"       JTBF_FLAG,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	2086	"       BORROW_FLAG,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	2087	"       BORROW_KS,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	2088	"       CURR_KS,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	2089	"       CURR_BED,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	2090	"       FDFEE,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	2091	"       QTCD_1,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	2092	"       QTCD_2,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	2093	"       QTCD_3,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	2094	"       BZ,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	2095	"       CURR_BQ,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	2096	"       BEGIN_RQ,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	2097	"       GROUP_CODE,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	2098	"       QTCD_4,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	2099	"       CC_FEE,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	2100	"       ICKJE,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	2101	"       GRZHJE,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	2102	"       SCRQ,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	2103	"       GRZHJE_LN,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	2104	"       GRZH,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	2105	"       GRZH_LN,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	2106	"       TCLJJE,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	2107	"       DBSUM_FEE,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	2108	"       DOWN_XJ,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	2109	"       GRZHJE_LN_UP,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	2110	"       PAY_HP,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	2111	"       RETURN_HP,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	2112	"       CC_FEE_1,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	2113	"       CC_FEE_2,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	2114	"       CC_FEE_3,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	2115	"       CC_FEE_4,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	2116	"       DBSUM_JE,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	2117	"       GWYBZJE,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	2118	"       DBJZJE,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	2119	"       JZJE,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	2120	"       TCJE,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	2121	"       MPATIENT_NO,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	2122	"       ZHGXSJ,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	2123	"       YHJE,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	2124	"       KNDPB,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	2125	"       DBSUM_FEE2,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	2126	"       SNJZJE,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	2127	"       DNZBJE,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	2128	"       DNSYJE,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	2129	"       LNSYJE,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	2130	"       DNYBZJE,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	2131	"       LMBZJ,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	2132	"       YHLX,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	2133	"       FPLX,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	2134	"       SECOND_BRXZ,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	2135	"       XYKZF,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	2136	"       YYLSH,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	2137	"       FYBH,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	2138	"       ZHXGSJ,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	2139	"       DWYCBD_FEE,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	2140	"       DWYLBZ_FEE,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	2141	"       EDJCBZ_FEE,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	2142	"       FSZJE,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	2143	"       SFJE,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	2144	"       SECOND_RECEIPT_NO,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	2145	"       KUNNANBZJJ,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	2146	"       LAONIANJJ,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	2147	"       LIANGFEILXJJ,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	2148	"       JYRQ,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	2149	"       LIXIUYZJJ,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	2150	"       YBJYLSH,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	2151	"       YYJYLSH,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	2152	"       JLXH,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	2153	"       YWZQH,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	2154	"       PROTECT,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	2155	"       ZXZCS,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	2156	"       RECEIPT_NO_YB,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	2157	"       ZINVTCJJ,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	2158	"       GONGFEILXJJ,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	2159	"       GONGFEIKZPO,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	2160	"       GONGFEIJFPO,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	2161	"       LIANGFEIKZPO,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	2162	"       LIANGFEIJFPO,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	2163	"       XUESHENGJJ,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	2164	"       JBYWYHJE,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	2165	"       YB_SUMFEE,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	2166	"       YBZJE,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	2167	"       YBXJZF,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	2168	"       ERTONGJJ,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	2169	"       QTCD_6,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	2170	"       DBJZZF,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	2171	"       GHYLBZ,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	2172	"       JRJYLSH,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	2173	"       ZJJSKHYH,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	2174	"       PAY_FS,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	2175	"       ZYZFJE,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	2176	"       BZJJZF,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	2177	"       LMBZJE,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	2178	"       LXJJ,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	2179	"       MZBZJE,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	2180	"       QTZHZF,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	2181	"       ZWJY_ZLBL,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	2182	"       ZWJY_ZLJE,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	2183	"       JMJE2,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	2184	"       HUOSHIFBZJE,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	2185	"       DANJUH,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	2186	"       XZLB,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	2187	"       zfje,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	2188	"       zlje,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	2189	"       NongBaoJJ
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	2190	"       
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	2191	"       )
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	2192	"    
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	2193	"      select PATIENT_NO,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	2194	"             JS_NO,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	2195	"             INFANT_FLAG,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	2196	"             NAME,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	2197	"             BRLB,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	2198	"             BRXZ,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	2199	"             ACCOUNT_DATE,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	2200	"             JZ_DATE,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	2201	"             LQ_DATE,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	2202	"             RB_DATE,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	2203	"             OP_ID,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	2204	"             DEPOSIT_XJ,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	2205	"             DEPOSIT_ZP,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	2206	"             DEPOSIT_QT,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	2207	"             TOTAL_FEE,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	2208	"             ZF_FEE,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	2209	"             QTCD_FEE,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	2210	"             GF_FEE,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	2211	"             DB_FEE,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	2212	"             PAY_XJ,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	2213	"             RETURN_XJ,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	2214	"             PAY_ZP,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	2215	"             RETURN_ZP,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	2216	"             ZC_XJ,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	2217	"             ZC_ZP,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	2218	"             RECEIPT_NO,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	2219	"             FLAG,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	2220	"             JTBF_FLAG,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	2221	"             BORROW_FLAG,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	2222	"             BORROW_KS,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	2223	"             CURR_KS,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	2224	"             CURR_BED,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	2225	"             FDFEE,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	2226	"             QTCD_1,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	2227	"             QTCD_2,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	2228	"             QTCD_3,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	2229	"             BZ,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	2230	"             CURR_BQ,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	2231	"             BEGIN_RQ,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	2232	"             GROUP_CODE,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	2233	"             QTCD_4,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	2234	"             CC_FEE,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	2235	"             ICKJE,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	2236	"             GRZHJE,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	2237	"             SCRQ,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	2238	"             GRZHJE_LN,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	2239	"             GRZH,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	2240	"             GRZH_LN,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	2241	"             TCLJJE,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	2242	"             DBSUM_FEE,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	2243	"             DOWN_XJ,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	2244	"             GRZHJE_LN_UP,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	2245	"             PAY_HP,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	2246	"             RETURN_HP,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	2247	"             CC_FEE_1,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	2248	"             CC_FEE_2,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	2249	"             CC_FEE_3,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	2250	"             CC_FEE_4,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	2251	"             DBSUM_JE,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	2252	"             GWYBZJE,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	2253	"             DBJZJE,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	2254	"             JZJE,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	2255	"             TCJE,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	2256	"             MPATIENT_NO,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	2257	"             ZHGXSJ,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	2258	"             YHJE,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	2259	"             KNDPB,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	2260	"             DBSUM_FEE2,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	2261	"             SNJZJE,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	2262	"             DNZBJE,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	2263	"             DNSYJE,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	2264	"             LNSYJE,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	2265	"             DNYBZJE,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	2266	"             LMBZJ,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	2267	"             YHLX,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	2268	"             FPLX,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	2269	"             SECOND_BRXZ,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	2270	"             XYKZF,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	2271	"             YYLSH,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	2272	"             FYBH,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	2273	"             ZHXGSJ,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	2274	"             DWYCBD_FEE,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	2275	"             DWYLBZ_FEE,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	2276	"             EDJCBZ_FEE,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	2277	"             FSZJE,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	2278	"             SFJE,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	2279	"             SECOND_RECEIPT_NO,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	2280	"             KUNNANBZJJ,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	2281	"             LAONIANJJ,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	2282	"             LIANGFEILXJJ,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	2283	"             JYRQ,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	2284	"             LIXIUYZJJ,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	2285	"             YBJYLSH,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	2286	"             YYJYLSH,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	2287	"             jlxh,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	2288	"             YWZQH,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	2289	"             PROTECT,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	2290	"             ZXZCS,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	2291	"             RECEIPT_NO_YB,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	2292	"             ZINVTCJJ,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	2293	"             GONGFEILXJJ,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	2294	"             GONGFEIKZPO,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	2295	"             GONGFEIJFPO,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	2296	"             LIANGFEIKZPO,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	2297	"             LIANGFEIJFPO,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	2298	"             XUESHENGJJ,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	2299	"             JBYWYHJE,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	2300	"             YB_SUMFEE,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	2301	"             YBZJE,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	2302	"             YBXJZF,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	2303	"             ERTONGJJ,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	2304	"             QTCD_6,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	2305	"             DBJZZF,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	2306	"             GHYLBZ,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	2307	"             JRJYLSH,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	2308	"             ZJJSKHYH,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	2309	"             PAY_FS,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	2310	"             ZYZFJE,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	2311	"             BZJJZF,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	2312	"             LMBZJE,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	2313	"             LXJJ,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	2314	"             MZBZJE,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	2315	"             QTZHZF,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	2316	"             ZWJY_ZLBL,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	2317	"             ZWJY_ZLJE,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	2318	"             JMJE2,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	2319	"             HUOSHIFBZJE,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	2320	"             DANJUH,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	2321	"             XZLB,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	2322	"             zfje,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	2323	"             zlje,
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	2324	"             NongBaoJJ
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	2325	"        from zy_total_fee
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	2326	"       where patient_no = v_patient_no;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	2327	"    commit;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	2328	"  end if;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	2329	"
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	2330	"  out_code := 0;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	2331	"  out_msg  := 'ok|结算交易成功';
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	2332	"  return;
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	2333	"
+"
+PRC_ZY_JIAOYI_V1	PROCEDURE	2334	"end;
+"

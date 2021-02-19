@@ -1,0 +1,86 @@
+F_YB_ZNSHCL_ZYBR	FUNCTION	1	"FUNCTION ""F_YB_ZNSHCL_ZYBR""(arg_ksdm       varchar2,
+"
+F_YB_ZNSHCL_ZYBR	FUNCTION	2	"                                              arg_patient_no Number)
+"
+F_YB_ZNSHCL_ZYBR	FUNCTION	3	"  return varchar2 Is
+"
+F_YB_ZNSHCL_ZYBR	FUNCTION	4	"  ll_count  number;
+"
+F_YB_ZNSHCL_ZYBR	FUNCTION	5	"  ll_count2 number;
+"
+F_YB_ZNSHCL_ZYBR	FUNCTION	6	"  ll_brlb   number;
+"
+F_YB_ZNSHCL_ZYBR	FUNCTION	7	"  ls_show   varchar2(500);
+"
+F_YB_ZNSHCL_ZYBR	FUNCTION	8	"  ls_time   varchar2(20);
+"
+F_YB_ZNSHCL_ZYBR	FUNCTION	9	"  --  ll_pos         number;
+"
+F_YB_ZNSHCL_ZYBR	FUNCTION	10	"  --ls_syzldm      varchar2(200);
+"
+F_YB_ZNSHCL_ZYBR	FUNCTION	11	"  -- ls_ybdm        varchar2(50);
+"
+F_YB_ZNSHCL_ZYBR	FUNCTION	12	"Begin
+"
+F_YB_ZNSHCL_ZYBR	FUNCTION	13	"
+"
+F_YB_ZNSHCL_ZYBR	FUNCTION	14	"  ----气垫床加收 14433--
+"
+F_YB_ZNSHCL_ZYBR	FUNCTION	15	"  /*
+"
+F_YB_ZNSHCL_ZYBR	FUNCTION	16	"  insert into zy_jiaoyi_v1
+"
+F_YB_ZNSHCL_ZYBR	FUNCTION	17	"    (jiaoyilx, patient_no, jylsh)
+"
+F_YB_ZNSHCL_ZYBR	FUNCTION	18	"  values
+"
+F_YB_ZNSHCL_ZYBR	FUNCTION	19	"    ('F_YB_ZNSHCL_ZYBR', arg_patient_no, arg_ksdm);
+"
+F_YB_ZNSHCL_ZYBR	FUNCTION	20	"  commit;
+"
+F_YB_ZNSHCL_ZYBR	FUNCTION	21	"  */
+"
+F_YB_ZNSHCL_ZYBR	FUNCTION	22	"  -- PRC_AUTO_RUN_BAK();
+"
+F_YB_ZNSHCL_ZYBR	FUNCTION	23	"  if arg_ksdm > '0' then
+"
+F_YB_ZNSHCL_ZYBR	FUNCTION	24	"    ll_count := 0;
+"
+F_YB_ZNSHCL_ZYBR	FUNCTION	25	"  end if;
+"
+F_YB_ZNSHCL_ZYBR	FUNCTION	26	"
+"
+F_YB_ZNSHCL_ZYBR	FUNCTION	27	"  Select nvl(count(b.patient_No), 0)
+"
+F_YB_ZNSHCL_ZYBR	FUNCTION	28	"    Into ll_count
+"
+F_YB_ZNSHCL_ZYBR	FUNCTION	29	"    From zy_detail_charge a, zy_patient_information b
+"
+F_YB_ZNSHCL_ZYBR	FUNCTION	30	"   Where a.patient_No = b.patient_No
+"
+F_YB_ZNSHCL_ZYBR	FUNCTION	31	"     and a.js_No = b.js_No
+"
+F_YB_ZNSHCL_ZYBR	FUNCTION	32	"     and a.scrq < sysdate - 200
+"
+F_YB_ZNSHCL_ZYBR	FUNCTION	33	"     and b.brlb = 97
+"
+F_YB_ZNSHCL_ZYBR	FUNCTION	34	"     and a.patient_no = arg_patient_no;
+"
+F_YB_ZNSHCL_ZYBR	FUNCTION	35	"
+"
+F_YB_ZNSHCL_ZYBR	FUNCTION	36	"  if ll_count > 0 then
+"
+F_YB_ZNSHCL_ZYBR	FUNCTION	37	"    -- Return '';
+"
+F_YB_ZNSHCL_ZYBR	FUNCTION	38	"    return '该医保病人费用明细还未全部上传';
+"
+F_YB_ZNSHCL_ZYBR	FUNCTION	39	"  end if;
+"
+F_YB_ZNSHCL_ZYBR	FUNCTION	40	"
+"
+F_YB_ZNSHCL_ZYBR	FUNCTION	41	"  Return ' 123 ';
+"
+F_YB_ZNSHCL_ZYBR	FUNCTION	42	"
+"
+F_YB_ZNSHCL_ZYBR	FUNCTION	43	"End;
+"

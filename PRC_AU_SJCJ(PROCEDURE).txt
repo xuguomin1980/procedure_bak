@@ -1,0 +1,63 @@
+PRC_AU_SJCJ	PROCEDURE	1	"PROCEDURE         ""PRC_AU_SJCJ"" 
+"
+PRC_AU_SJCJ	PROCEDURE	2	"Is
+"
+PRC_AU_SJCJ	PROCEDURE	3	"
+"
+PRC_AU_SJCJ	PROCEDURE	4	"/*=============================================================================
+"
+PRC_AU_SJCJ	PROCEDURE	5	"|| 过程名称 ： 决策分析采集住院数据自动记帐部分prc_au_sjcj
+"
+PRC_AU_SJCJ	PROCEDURE	6	"||-----------------------------------------------------------------------------
+"
+PRC_AU_SJCJ	PROCEDURE	7	"|| 功能说明 ： 利用包PKG_JCFX把住院的自动记帐部分数据采集生成决策分析数据
+"
+PRC_AU_SJCJ	PROCEDURE	8	"||-----------------------------------------------------------------------------
+"
+PRC_AU_SJCJ	PROCEDURE	9	"|| 参数描述 ： 无
+"
+PRC_AU_SJCJ	PROCEDURE	10	"------------------------------------------------------------
+"
+PRC_AU_SJCJ	PROCEDURE	11	"||-----------------------------------------------------------------------------
+"
+PRC_AU_SJCJ	PROCEDURE	12	"|| 注意事项 ： 采集日期 ＝ 当天日期 － 1
+"
+PRC_AU_SJCJ	PROCEDURE	13	"||            -----------------------------------------------------------------
+"
+PRC_AU_SJCJ	PROCEDURE	14	"||             需要在当天住院自动记帐部分自动滚动后自行，所以建议中午12点后执行
+"
+PRC_AU_SJCJ	PROCEDURE	15	"||-----------------------------------------------------------------------------
+"
+PRC_AU_SJCJ	PROCEDURE	16	"|| 作    者 ： 陈联      完成日期 ：2001-03
+"
+PRC_AU_SJCJ	PROCEDURE	17	"||-----------------------------------------------------------------------------
+"
+PRC_AU_SJCJ	PROCEDURE	18	"|| 修改记录 ： 陈智鸿 @ 2002-10-21
+"
+PRC_AU_SJCJ	PROCEDURE	19	"||             整理代码
+"
+PRC_AU_SJCJ	PROCEDURE	20	"=============================================================================*/
+"
+PRC_AU_SJCJ	PROCEDURE	21	"
+"
+PRC_AU_SJCJ	PROCEDURE	22	"  ln_jcfx_id  Number;
+"
+PRC_AU_SJCJ	PROCEDURE	23	"  ln_code     Number;
+"
+PRC_AU_SJCJ	PROCEDURE	24	"  ls_mess     Varchar2(100);
+"
+PRC_AU_SJCJ	PROCEDURE	25	"  
+"
+PRC_AU_SJCJ	PROCEDURE	26	"Begin
+"
+PRC_AU_SJCJ	PROCEDURE	27	"  ln_jcfx_id := To_Number( To_Char( Sysdate - 1, 'YYYYMMDD' ));
+"
+PRC_AU_SJCJ	PROCEDURE	28	"  pkg_jcfx.prc_zy_sjcj_au( ln_jcfx_id, 1, ln_code, ls_mess );
+"
+PRC_AU_SJCJ	PROCEDURE	29	"  
+"
+PRC_AU_SJCJ	PROCEDURE	30	"End prc_au_sjcj;
+"
+PRC_AU_SJCJ	PROCEDURE	31	"
+"
+PRC_AU_SJCJ	PROCEDURE	32	 

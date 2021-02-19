@@ -1,0 +1,136 @@
+PRO_BR_SFZH_LXDH_SEND_BAK	PROCEDURE	1	"procedure pro_br_sfzh_lxdh_send_bak is
+"
+PRO_BR_SFZH_LXDH_SEND_BAK	PROCEDURE	2	"  nr            varchar2(200);
+"
+PRO_BR_SFZH_LXDH_SEND_BAK	PROCEDURE	3	"  lxdh          varchar2(40);
+"
+PRO_BR_SFZH_LXDH_SEND_BAK	PROCEDURE	4	"  xm            varchar2(40);
+"
+PRO_BR_SFZH_LXDH_SEND_BAK	PROCEDURE	5	"  sj            number;
+"
+PRO_BR_SFZH_LXDH_SEND_BAK	PROCEDURE	6	"  sl            number;
+"
+PRO_BR_SFZH_LXDH_SEND_BAK	PROCEDURE	7	"  ll_laborder   number;
+"
+PRO_BR_SFZH_LXDH_SEND_BAK	PROCEDURE	8	"  ll_xh         number;
+"
+PRO_BR_SFZH_LXDH_SEND_BAK	PROCEDURE	9	"  v_data_return varchar2(100);
+"
+PRO_BR_SFZH_LXDH_SEND_BAK	PROCEDURE	10	"  --定义游标
+"
+PRO_BR_SFZH_LXDH_SEND_BAK	PROCEDURE	11	"  CURSOR v_gy_brjbxxk_sfzh_lxdh_cursor is
+"
+PRO_BR_SFZH_LXDH_SEND_BAK	PROCEDURE	12	"  
+"
+PRO_BR_SFZH_LXDH_SEND_BAK	PROCEDURE	13	"    select xm, lxdh From v_gy_brjbxxk_sfzh_lxdh_send;
+"
+PRO_BR_SFZH_LXDH_SEND_BAK	PROCEDURE	14	"
+"
+PRO_BR_SFZH_LXDH_SEND_BAK	PROCEDURE	15	"begin
+"
+PRO_BR_SFZH_LXDH_SEND_BAK	PROCEDURE	16	"
+"
+PRO_BR_SFZH_LXDH_SEND_BAK	PROCEDURE	17	"  nr := '尊敬的病友，本院推行实名制就诊，请您下次携带身份证及就诊卡就诊，给您造成不便敬请谅解，祝您健康！';
+"
+PRO_BR_SFZH_LXDH_SEND_BAK	PROCEDURE	18	"  insert into zy_jiaoyi_v1
+"
+PRO_BR_SFZH_LXDH_SEND_BAK	PROCEDURE	19	"    (jiaoyilx, jylsh, bz)
+"
+PRO_BR_SFZH_LXDH_SEND_BAK	PROCEDURE	20	"  values
+"
+PRO_BR_SFZH_LXDH_SEND_BAK	PROCEDURE	21	"    ('后台执行_pro_br_sfzh_lxdh_send_bak',
+"
+PRO_BR_SFZH_LXDH_SEND_BAK	PROCEDURE	22	"     'sfzh send lxdh',
+"
+PRO_BR_SFZH_LXDH_SEND_BAK	PROCEDURE	23	"     '实名制就诊短信提醒');
+"
+PRO_BR_SFZH_LXDH_SEND_BAK	PROCEDURE	24	"
+"
+PRO_BR_SFZH_LXDH_SEND_BAK	PROCEDURE	25	"  commit;
+"
+PRO_BR_SFZH_LXDH_SEND_BAK	PROCEDURE	26	"
+"
+PRO_BR_SFZH_LXDH_SEND_BAK	PROCEDURE	27	"  LOOP
+"
+PRO_BR_SFZH_LXDH_SEND_BAK	PROCEDURE	28	"  
+"
+PRO_BR_SFZH_LXDH_SEND_BAK	PROCEDURE	29	"    IF NOT v_gy_brjbxxk_sfzh_lxdh_cursor%ISOPEN THEN
+"
+PRO_BR_SFZH_LXDH_SEND_BAK	PROCEDURE	30	"      --打开游标
+"
+PRO_BR_SFZH_LXDH_SEND_BAK	PROCEDURE	31	"      OPEN v_gy_brjbxxk_sfzh_lxdh_cursor;
+"
+PRO_BR_SFZH_LXDH_SEND_BAK	PROCEDURE	32	"    END IF;
+"
+PRO_BR_SFZH_LXDH_SEND_BAK	PROCEDURE	33	"  
+"
+PRO_BR_SFZH_LXDH_SEND_BAK	PROCEDURE	34	"    FETCH v_gy_brjbxxk_sfzh_lxdh_cursor
+"
+PRO_BR_SFZH_LXDH_SEND_BAK	PROCEDURE	35	"      INTO xm, lxdh;
+"
+PRO_BR_SFZH_LXDH_SEND_BAK	PROCEDURE	36	"    --退出循环的条件
+"
+PRO_BR_SFZH_LXDH_SEND_BAK	PROCEDURE	37	"    EXIT WHEN v_gy_brjbxxk_sfzh_lxdh_cursor%NOTFOUND OR v_gy_brjbxxk_sfzh_lxdh_cursor%NOTFOUND IS NULL;
+"
+PRO_BR_SFZH_LXDH_SEND_BAK	PROCEDURE	38	"  
+"
+PRO_BR_SFZH_LXDH_SEND_BAK	PROCEDURE	39	"    insert into zy_jiaoyi_v1
+"
+PRO_BR_SFZH_LXDH_SEND_BAK	PROCEDURE	40	"      (jylsh)
+"
+PRO_BR_SFZH_LXDH_SEND_BAK	PROCEDURE	41	"    values
+"
+PRO_BR_SFZH_LXDH_SEND_BAK	PROCEDURE	42	"      ('实名短信提醒,' || lxdh || ',' || xm);
+"
+PRO_BR_SFZH_LXDH_SEND_BAK	PROCEDURE	43	"    commit;
+"
+PRO_BR_SFZH_LXDH_SEND_BAK	PROCEDURE	44	"  
+"
+PRO_BR_SFZH_LXDH_SEND_BAK	PROCEDURE	45	"    prc_sms_send('sm', lxdh, nr, v_data_return);
+"
+PRO_BR_SFZH_LXDH_SEND_BAK	PROCEDURE	46	"  
+"
+PRO_BR_SFZH_LXDH_SEND_BAK	PROCEDURE	47	"  END LOOP;
+"
+PRO_BR_SFZH_LXDH_SEND_BAK	PROCEDURE	48	"
+"
+PRO_BR_SFZH_LXDH_SEND_BAK	PROCEDURE	49	"  close v_gy_brjbxxk_sfzh_lxdh_cursor;
+"
+PRO_BR_SFZH_LXDH_SEND_BAK	PROCEDURE	50	"
+"
+PRO_BR_SFZH_LXDH_SEND_BAK	PROCEDURE	51	"  --短信提示
+"
+PRO_BR_SFZH_LXDH_SEND_BAK	PROCEDURE	52	"  if 2 = 2 then
+"
+PRO_BR_SFZH_LXDH_SEND_BAK	PROCEDURE	53	"    lxdh := '13777929515';
+"
+PRO_BR_SFZH_LXDH_SEND_BAK	PROCEDURE	54	"    nr   := '后台 pro_br_sfzh_lxdh_send_bak ,prc_auto_task_v1 (zy_jiaoyi_v1 flag <0) yb_log';
+"
+PRO_BR_SFZH_LXDH_SEND_BAK	PROCEDURE	55	"    prc_sms_send('ts', lxdh, nr, v_data_return);
+"
+PRO_BR_SFZH_LXDH_SEND_BAK	PROCEDURE	56	"  end if;
+"
+PRO_BR_SFZH_LXDH_SEND_BAK	PROCEDURE	57	"
+"
+PRO_BR_SFZH_LXDH_SEND_BAK	PROCEDURE	58	"  insert into zy_jiaoyi_v1
+"
+PRO_BR_SFZH_LXDH_SEND_BAK	PROCEDURE	59	"    (jiaoyilx, jylsh, bz, flag)
+"
+PRO_BR_SFZH_LXDH_SEND_BAK	PROCEDURE	60	"  values
+"
+PRO_BR_SFZH_LXDH_SEND_BAK	PROCEDURE	61	"    ('后台执行_pro_br_sfzh_lxdh_send_bak',
+"
+PRO_BR_SFZH_LXDH_SEND_BAK	PROCEDURE	62	"     'prc_auto_task_v1()',
+"
+PRO_BR_SFZH_LXDH_SEND_BAK	PROCEDURE	63	"     '执行prc_auto_task_v1()',
+"
+PRO_BR_SFZH_LXDH_SEND_BAK	PROCEDURE	64	"     1);
+"
+PRO_BR_SFZH_LXDH_SEND_BAK	PROCEDURE	65	"
+"
+PRO_BR_SFZH_LXDH_SEND_BAK	PROCEDURE	66	"  commit;
+"
+PRO_BR_SFZH_LXDH_SEND_BAK	PROCEDURE	67	"
+"
+PRO_BR_SFZH_LXDH_SEND_BAK	PROCEDURE	68	"end pro_br_sfzh_lxdh_send_bak;
+"

@@ -1,0 +1,154 @@
+PRC_SMS_SEND	PROCEDURE	1	"PROCEDURE prc_sms_send( --¶ÌÐÅ·¢ËÍ
+"
+PRC_SMS_SEND	PROCEDURE	2	"                                         in_lx   in VARCHAR,
+"
+PRC_SMS_SEND	PROCEDURE	3	"                                         in_lxdh in VARCHAR,
+"
+PRC_SMS_SEND	PROCEDURE	4	"                                         in_msg  in VARCHAR,
+"
+PRC_SMS_SEND	PROCEDURE	5	"                                         out_msg out VARCHAR) AS
+"
+PRC_SMS_SEND	PROCEDURE	6	"
+"
+PRC_SMS_SEND	PROCEDURE	7	"  nr          varchar2(1800);
+"
+PRC_SMS_SEND	PROCEDURE	8	"  lxdh        varchar2(90);
+"
+PRC_SMS_SEND	PROCEDURE	9	"  xm          varchar2(40);
+"
+PRC_SMS_SEND	PROCEDURE	10	"  sj          number;
+"
+PRC_SMS_SEND	PROCEDURE	11	"  sl          number;
+"
+PRC_SMS_SEND	PROCEDURE	12	"  ll_laborder number;
+"
+PRC_SMS_SEND	PROCEDURE	13	"  ll_xh       number;
+"
+PRC_SMS_SEND	PROCEDURE	14	"  ll_xh_max   number;
+"
+PRC_SMS_SEND	PROCEDURE	15	"  ll_count    number;
+"
+PRC_SMS_SEND	PROCEDURE	16	"
+"
+PRC_SMS_SEND	PROCEDURE	17	"begin
+"
+PRC_SMS_SEND	PROCEDURE	18	"
+"
+PRC_SMS_SEND	PROCEDURE	19	"  nr := in_msg;
+"
+PRC_SMS_SEND	PROCEDURE	20	"  SELECT SEQ_AUTO_TASK_YWZX_SEND_XH.NEXTVAL into ll_xh from dual;
+"
+PRC_SMS_SEND	PROCEDURE	21	"  select max(xh) into ll_xh_max from auto_task_ywzx_send;
+"
+PRC_SMS_SEND	PROCEDURE	22	"
+"
+PRC_SMS_SEND	PROCEDURE	23	"  WHILE ll_xh <= ll_xh_max LOOP
+"
+PRC_SMS_SEND	PROCEDURE	24	"    SELECT SEQ_AUTO_TASK_YWZX_SEND_XH.NEXTVAL into ll_xh from dual;
+"
+PRC_SMS_SEND	PROCEDURE	25	"    select max(xh) into ll_xh_max from auto_task_ywzx_send;
+"
+PRC_SMS_SEND	PROCEDURE	26	"  end loop;
+"
+PRC_SMS_SEND	PROCEDURE	27	"
+"
+PRC_SMS_SEND	PROCEDURE	28	"  insert into auto_task_ywzx_send
+"
+PRC_SMS_SEND	PROCEDURE	29	"    (xh, lxdh, bz, date_add, lx)
+"
+PRC_SMS_SEND	PROCEDURE	30	"  values
+"
+PRC_SMS_SEND	PROCEDURE	31	"    (ll_xh, in_lxdh, nr, sysdate, in_lx);
+"
+PRC_SMS_SEND	PROCEDURE	32	"
+"
+PRC_SMS_SEND	PROCEDURE	33	"  if sqlcode <> 0 then
+"
+PRC_SMS_SEND	PROCEDURE	34	"    rollback;
+"
+PRC_SMS_SEND	PROCEDURE	35	"  
+"
+PRC_SMS_SEND	PROCEDURE	36	"    SELECT SEQ_AUTO_TASK_YWZX_SEND_XH.NEXTVAL into ll_xh from dual;
+"
+PRC_SMS_SEND	PROCEDURE	37	"    select max(xh) into ll_xh_max from auto_task_ywzx_send;
+"
+PRC_SMS_SEND	PROCEDURE	38	"  
+"
+PRC_SMS_SEND	PROCEDURE	39	"    WHILE ll_xh <= ll_xh_max LOOP
+"
+PRC_SMS_SEND	PROCEDURE	40	"      SELECT SEQ_AUTO_TASK_YWZX_SEND_XH.NEXTVAL into ll_xh from dual;
+"
+PRC_SMS_SEND	PROCEDURE	41	"      select max(xh) into ll_xh_max from auto_task_ywzx_send;
+"
+PRC_SMS_SEND	PROCEDURE	42	"    end loop;
+"
+PRC_SMS_SEND	PROCEDURE	43	"  
+"
+PRC_SMS_SEND	PROCEDURE	44	"    insert into auto_task_ywzx_send
+"
+PRC_SMS_SEND	PROCEDURE	45	"      (xh, lxdh, bz, date_add, lx)
+"
+PRC_SMS_SEND	PROCEDURE	46	"    values
+"
+PRC_SMS_SEND	PROCEDURE	47	"      (ll_xh, in_lxdh, nr, sysdate, in_lx);
+"
+PRC_SMS_SEND	PROCEDURE	48	"  
+"
+PRC_SMS_SEND	PROCEDURE	49	"    if sqlcode <> 0 then
+"
+PRC_SMS_SEND	PROCEDURE	50	"      rollback;
+"
+PRC_SMS_SEND	PROCEDURE	51	"    
+"
+PRC_SMS_SEND	PROCEDURE	52	"      SELECT SEQ_AUTO_TASK_YWZX_SEND_XH.NEXTVAL into ll_xh from dual;
+"
+PRC_SMS_SEND	PROCEDURE	53	"      select max(xh) into ll_xh_max from auto_task_ywzx_send;
+"
+PRC_SMS_SEND	PROCEDURE	54	"    
+"
+PRC_SMS_SEND	PROCEDURE	55	"      WHILE ll_xh <= ll_xh_max LOOP
+"
+PRC_SMS_SEND	PROCEDURE	56	"        SELECT SEQ_AUTO_TASK_YWZX_SEND_XH.NEXTVAL into ll_xh from dual;
+"
+PRC_SMS_SEND	PROCEDURE	57	"        select max(xh) into ll_xh_max from auto_task_ywzx_send;
+"
+PRC_SMS_SEND	PROCEDURE	58	"      end loop;
+"
+PRC_SMS_SEND	PROCEDURE	59	"    
+"
+PRC_SMS_SEND	PROCEDURE	60	"      insert into auto_task_ywzx_send
+"
+PRC_SMS_SEND	PROCEDURE	61	"        (xh, lxdh, bz, date_add, lx)
+"
+PRC_SMS_SEND	PROCEDURE	62	"      values
+"
+PRC_SMS_SEND	PROCEDURE	63	"        (ll_xh, in_lxdh, nr, sysdate, in_lx);
+"
+PRC_SMS_SEND	PROCEDURE	64	"      if sqlcode <> 0 then
+"
+PRC_SMS_SEND	PROCEDURE	65	"        rollback;
+"
+PRC_SMS_SEND	PROCEDURE	66	"        out_msg := 'error';
+"
+PRC_SMS_SEND	PROCEDURE	67	"        return;
+"
+PRC_SMS_SEND	PROCEDURE	68	"      end if;
+"
+PRC_SMS_SEND	PROCEDURE	69	"    end if;
+"
+PRC_SMS_SEND	PROCEDURE	70	"  end if;
+"
+PRC_SMS_SEND	PROCEDURE	71	"
+"
+PRC_SMS_SEND	PROCEDURE	72	"  commit;
+"
+PRC_SMS_SEND	PROCEDURE	73	"
+"
+PRC_SMS_SEND	PROCEDURE	74	"  out_msg := 'OK';
+"
+PRC_SMS_SEND	PROCEDURE	75	"  return;
+"
+PRC_SMS_SEND	PROCEDURE	76	"
+"
+PRC_SMS_SEND	PROCEDURE	77	"end;
+"

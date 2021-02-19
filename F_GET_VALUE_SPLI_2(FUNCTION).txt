@@ -1,0 +1,108 @@
+F_GET_VALUE_SPLI_2	FUNCTION	1	"FUNCTION ""F_GET_VALUE_SPLI_2""(arg_source in varchar2,
+"
+F_GET_VALUE_SPLI_2	FUNCTION	2	"                                                arg_spli   in varchar2,
+"
+F_GET_VALUE_SPLI_2	FUNCTION	3	"                                                arg_n      in number)
+"
+F_GET_VALUE_SPLI_2	FUNCTION	4	"  return varchar2 is
+"
+F_GET_VALUE_SPLI_2	FUNCTION	5	"  ls_return   varchar2(260);
+"
+F_GET_VALUE_SPLI_2	FUNCTION	6	"  ls_item     varchar2(200);
+"
+F_GET_VALUE_SPLI_2	FUNCTION	7	"  ls_source   varchar2(500);
+"
+F_GET_VALUE_SPLI_2	FUNCTION	8	"  ll_pos1     number;
+"
+F_GET_VALUE_SPLI_2	FUNCTION	9	"  ll_pos2     number;
+"
+F_GET_VALUE_SPLI_2	FUNCTION	10	"  ll_pos_spli number;
+"
+F_GET_VALUE_SPLI_2	FUNCTION	11	"  ll_n        number;
+"
+F_GET_VALUE_SPLI_2	FUNCTION	12	"begin
+"
+F_GET_VALUE_SPLI_2	FUNCTION	13	"
+"
+F_GET_VALUE_SPLI_2	FUNCTION	14	"  --select F_GET_VALUE_SPLI_2('a|b|c|d|e|','|',2)  from dual;
+"
+F_GET_VALUE_SPLI_2	FUNCTION	15	"  -- return 'b'
+"
+F_GET_VALUE_SPLI_2	FUNCTION	16	"  ls_return := '';
+"
+F_GET_VALUE_SPLI_2	FUNCTION	17	"  select length(arg_source) into ll_pos1 from dual;
+"
+F_GET_VALUE_SPLI_2	FUNCTION	18	"  if ll_pos1 > 0 then
+"
+F_GET_VALUE_SPLI_2	FUNCTION	19	"    ls_source := arg_source;
+"
+F_GET_VALUE_SPLI_2	FUNCTION	20	"  else
+"
+F_GET_VALUE_SPLI_2	FUNCTION	21	"    return '';
+"
+F_GET_VALUE_SPLI_2	FUNCTION	22	"  end if;
+"
+F_GET_VALUE_SPLI_2	FUNCTION	23	"
+"
+F_GET_VALUE_SPLI_2	FUNCTION	24	"  select length(arg_spli) into ll_pos1 from dual;
+"
+F_GET_VALUE_SPLI_2	FUNCTION	25	"  if ll_pos1 > 0 then
+"
+F_GET_VALUE_SPLI_2	FUNCTION	26	"    select length(arg_spli) into ll_pos_spli from dual;
+"
+F_GET_VALUE_SPLI_2	FUNCTION	27	"    --select  arg_source || arg_spli into ls_source from dual;
+"
+F_GET_VALUE_SPLI_2	FUNCTION	28	"  else
+"
+F_GET_VALUE_SPLI_2	FUNCTION	29	"    return '';
+"
+F_GET_VALUE_SPLI_2	FUNCTION	30	"  end if;
+"
+F_GET_VALUE_SPLI_2	FUNCTION	31	"
+"
+F_GET_VALUE_SPLI_2	FUNCTION	32	"  if arg_n > 0 then
+"
+F_GET_VALUE_SPLI_2	FUNCTION	33	"    ll_n := arg_n;
+"
+F_GET_VALUE_SPLI_2	FUNCTION	34	"  else
+"
+F_GET_VALUE_SPLI_2	FUNCTION	35	"    ll_n := 1;
+"
+F_GET_VALUE_SPLI_2	FUNCTION	36	"  end if;
+"
+F_GET_VALUE_SPLI_2	FUNCTION	37	"
+"
+F_GET_VALUE_SPLI_2	FUNCTION	38	"  while ll_n > 0 loop
+"
+F_GET_VALUE_SPLI_2	FUNCTION	39	"    ll_n := ll_n - 1;
+"
+F_GET_VALUE_SPLI_2	FUNCTION	40	"    select instr(ls_source, arg_spli) into ll_pos1 from dual;
+"
+F_GET_VALUE_SPLI_2	FUNCTION	41	"    if ll_pos1 > 0 then
+"
+F_GET_VALUE_SPLI_2	FUNCTION	42	"      select substr(ls_source, 1, ll_pos1 - 1) into ls_return from dual;
+"
+F_GET_VALUE_SPLI_2	FUNCTION	43	"      select substr(ls_source, ll_pos1 + ll_pos_spli)
+"
+F_GET_VALUE_SPLI_2	FUNCTION	44	"        into ls_source
+"
+F_GET_VALUE_SPLI_2	FUNCTION	45	"        from dual;
+"
+F_GET_VALUE_SPLI_2	FUNCTION	46	"    else
+"
+F_GET_VALUE_SPLI_2	FUNCTION	47	"      ls_source := '';
+"
+F_GET_VALUE_SPLI_2	FUNCTION	48	"      ls_return := '';
+"
+F_GET_VALUE_SPLI_2	FUNCTION	49	"    end if;
+"
+F_GET_VALUE_SPLI_2	FUNCTION	50	"  
+"
+F_GET_VALUE_SPLI_2	FUNCTION	51	"  end loop;
+"
+F_GET_VALUE_SPLI_2	FUNCTION	52	"
+"
+F_GET_VALUE_SPLI_2	FUNCTION	53	"  return(ls_return);
+"
+F_GET_VALUE_SPLI_2	FUNCTION	54	"end;
+"

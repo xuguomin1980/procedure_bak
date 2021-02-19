@@ -1,0 +1,248 @@
+PRO_HIS_DO	PROCEDURE	1	"procedure ""PRO_HIS_DO""(in_item   in varchar2,
+"
+PRO_HIS_DO	PROCEDURE	2	"                                         in_source in varchar2,
+"
+PRO_HIS_DO	PROCEDURE	3	"                                         out_msg   out varchar2) is
+"
+PRO_HIS_DO	PROCEDURE	4	"
+"
+PRO_HIS_DO	PROCEDURE	5	"  v_data     varchar2(200);
+"
+PRO_HIS_DO	PROCEDURE	6	"  v_str1     varchar2(100);
+"
+PRO_HIS_DO	PROCEDURE	7	"  v_str2     varchar2(100);
+"
+PRO_HIS_DO	PROCEDURE	8	"  v_str3     varchar2(100);
+"
+PRO_HIS_DO	PROCEDURE	9	"  v_str4     varchar2(100);
+"
+PRO_HIS_DO	PROCEDURE	10	"  v_str5     varchar2(100);
+"
+PRO_HIS_DO	PROCEDURE	11	"  v_str6     varchar2(100);
+"
+PRO_HIS_DO	PROCEDURE	12	"  v_str7     varchar2(100);
+"
+PRO_HIS_DO	PROCEDURE	13	"  v_str8     varchar2(100);
+"
+PRO_HIS_DO	PROCEDURE	14	"  v_str9     varchar2(100);
+"
+PRO_HIS_DO	PROCEDURE	15	"  v_pos      number;
+"
+PRO_HIS_DO	PROCEDURE	16	"  v_flag     varchar2(50);
+"
+PRO_HIS_DO	PROCEDURE	17	"  v_flag_len number;
+"
+PRO_HIS_DO	PROCEDURE	18	"  v_sl       number;
+"
+PRO_HIS_DO	PROCEDURE	19	"  v_je       number;
+"
+PRO_HIS_DO	PROCEDURE	20	"
+"
+PRO_HIS_DO	PROCEDURE	21	"  v_cfsb     number;
+"
+PRO_HIS_DO	PROCEDURE	22	"  v_cfk1_new number;
+"
+PRO_HIS_DO	PROCEDURE	23	"  v_jzkh     varchar(20);
+"
+PRO_HIS_DO	PROCEDURE	24	"  v_brxm     varchar(50);
+"
+PRO_HIS_DO	PROCEDURE	25	"  v_sl_tf    number;
+"
+PRO_HIS_DO	PROCEDURE	26	"  v_fypb     number;
+"
+PRO_HIS_DO	PROCEDURE	27	"
+"
+PRO_HIS_DO	PROCEDURE	28	"begin
+"
+PRO_HIS_DO	PROCEDURE	29	"
+"
+PRO_HIS_DO	PROCEDURE	30	"  --out_msg:='没有处理的内容';
+"
+PRO_HIS_DO	PROCEDURE	31	"  out_msg := '';
+"
+PRO_HIS_DO	PROCEDURE	32	"
+"
+PRO_HIS_DO	PROCEDURE	33	"  --获取入参的值
+"
+PRO_HIS_DO	PROCEDURE	34	"  if 1 = 1 then
+"
+PRO_HIS_DO	PROCEDURE	35	"  
+"
+PRO_HIS_DO	PROCEDURE	36	"    v_flag     := '##';
+"
+PRO_HIS_DO	PROCEDURE	37	"    v_flag_len := 2;
+"
+PRO_HIS_DO	PROCEDURE	38	"    v_data     := in_source || v_flag;
+"
+PRO_HIS_DO	PROCEDURE	39	"    --1
+"
+PRO_HIS_DO	PROCEDURE	40	"    v_pos  := to_number(instr(v_data, v_flag));
+"
+PRO_HIS_DO	PROCEDURE	41	"    v_str1 := ltrim(rtrim(substr(v_data, 1, v_pos - 1)));
+"
+PRO_HIS_DO	PROCEDURE	42	"    v_data := substr(v_data, v_pos + v_flag_len);
+"
+PRO_HIS_DO	PROCEDURE	43	"    --2
+"
+PRO_HIS_DO	PROCEDURE	44	"    v_pos  := to_number(instr(v_data, v_flag));
+"
+PRO_HIS_DO	PROCEDURE	45	"    v_str2 := ltrim(rtrim(substr(v_data, 1, v_pos - 1)));
+"
+PRO_HIS_DO	PROCEDURE	46	"    v_data := substr(v_data, v_pos + v_flag_len);
+"
+PRO_HIS_DO	PROCEDURE	47	"    --//3
+"
+PRO_HIS_DO	PROCEDURE	48	"    v_pos  := to_number(instr(v_data, v_flag));
+"
+PRO_HIS_DO	PROCEDURE	49	"    v_str3 := ltrim(rtrim(substr(v_data, 1, v_pos - 1)));
+"
+PRO_HIS_DO	PROCEDURE	50	"    v_data := substr(v_data, v_pos + v_flag_len);
+"
+PRO_HIS_DO	PROCEDURE	51	"    --//4
+"
+PRO_HIS_DO	PROCEDURE	52	"    v_pos  := to_number(instr(v_data, v_flag));
+"
+PRO_HIS_DO	PROCEDURE	53	"    v_str4 := ltrim(rtrim(substr(v_data, 1, v_pos - 1)));
+"
+PRO_HIS_DO	PROCEDURE	54	"    v_data := substr(v_data, v_pos + v_flag_len);
+"
+PRO_HIS_DO	PROCEDURE	55	"    -- //5
+"
+PRO_HIS_DO	PROCEDURE	56	"    v_pos  := to_number(instr(v_data, v_flag));
+"
+PRO_HIS_DO	PROCEDURE	57	"    v_str5 := ltrim(rtrim(substr(v_data, 1, v_pos - 1)));
+"
+PRO_HIS_DO	PROCEDURE	58	"    v_data := substr(v_data, v_pos + v_flag_len);
+"
+PRO_HIS_DO	PROCEDURE	59	"    -- //
+"
+PRO_HIS_DO	PROCEDURE	60	"    v_pos  := to_number(instr(v_data, v_flag));
+"
+PRO_HIS_DO	PROCEDURE	61	"    v_str6 := ltrim(rtrim(substr(v_data, 1, v_pos - 1)));
+"
+PRO_HIS_DO	PROCEDURE	62	"    v_data := substr(v_data, v_pos + v_flag_len);
+"
+PRO_HIS_DO	PROCEDURE	63	"    --//
+"
+PRO_HIS_DO	PROCEDURE	64	"    v_pos  := to_number(instr(v_data, v_flag));
+"
+PRO_HIS_DO	PROCEDURE	65	"    v_str7 := ltrim(rtrim(substr(v_data, 1, v_pos - 1)));
+"
+PRO_HIS_DO	PROCEDURE	66	"    v_data := substr(v_data, v_pos + v_flag_len);
+"
+PRO_HIS_DO	PROCEDURE	67	"    --//
+"
+PRO_HIS_DO	PROCEDURE	68	"    v_pos  := to_number(instr(v_data, v_flag));
+"
+PRO_HIS_DO	PROCEDURE	69	"    v_str8 := ltrim(rtrim(substr(v_data, 1, v_pos - 1)));
+"
+PRO_HIS_DO	PROCEDURE	70	"    v_data := substr(v_data, v_pos + v_flag_len);
+"
+PRO_HIS_DO	PROCEDURE	71	"    --//9
+"
+PRO_HIS_DO	PROCEDURE	72	"    v_pos  := to_number(instr(v_data, v_flag));
+"
+PRO_HIS_DO	PROCEDURE	73	"    v_str9 := ltrim(rtrim(substr(v_data, 1, v_pos - 1)));
+"
+PRO_HIS_DO	PROCEDURE	74	"    v_data := substr(v_data, v_pos + v_flag_len);
+"
+PRO_HIS_DO	PROCEDURE	75	"  
+"
+PRO_HIS_DO	PROCEDURE	76	"  end if;
+"
+PRO_HIS_DO	PROCEDURE	77	"
+"
+PRO_HIS_DO	PROCEDURE	78	"  insert into zy_jiaoyi_v1
+"
+PRO_HIS_DO	PROCEDURE	79	"    (jiaoyilx, jylsh, bz)
+"
+PRO_HIS_DO	PROCEDURE	80	"  values
+"
+PRO_HIS_DO	PROCEDURE	81	"    (in_item, in_source, 'PRO_HIS_DO');
+"
+PRO_HIS_DO	PROCEDURE	82	"  commit;
+"
+PRO_HIS_DO	PROCEDURE	83	"  --增加门诊病人修改记录 begin
+"
+PRO_HIS_DO	PROCEDURE	84	"  if in_item = '增加门诊病人修改记录' then
+"
+PRO_HIS_DO	PROCEDURE	85	"    -- //sfsb,qtsfje
+"
+PRO_HIS_DO	PROCEDURE	86	"  
+"
+PRO_HIS_DO	PROCEDURE	87	"    if v_str1 is null or v_str1 = '' then
+"
+PRO_HIS_DO	PROCEDURE	88	"      out_msg := '就诊卡号不能为空';
+"
+PRO_HIS_DO	PROCEDURE	89	"      return;
+"
+PRO_HIS_DO	PROCEDURE	90	"    end if;
+"
+PRO_HIS_DO	PROCEDURE	91	"  
+"
+PRO_HIS_DO	PROCEDURE	92	"    v_jzkh := v_str1;
+"
+PRO_HIS_DO	PROCEDURE	93	"  
+"
+PRO_HIS_DO	PROCEDURE	94	"    select count(jzkh) into v_sl from gy_brjbxxk where jzkh = v_jzkh;
+"
+PRO_HIS_DO	PROCEDURE	95	"  
+"
+PRO_HIS_DO	PROCEDURE	96	"    if v_sl = 1 then
+"
+PRO_HIS_DO	PROCEDURE	97	"      out_msg := '';
+"
+PRO_HIS_DO	PROCEDURE	98	"    else
+"
+PRO_HIS_DO	PROCEDURE	99	"      out_msg := '找不到这个卡号的病人信息,' || v_str1;
+"
+PRO_HIS_DO	PROCEDURE	100	"      return;
+"
+PRO_HIS_DO	PROCEDURE	101	"    end if;
+"
+PRO_HIS_DO	PROCEDURE	102	"  
+"
+PRO_HIS_DO	PROCEDURE	103	"    v_brxm := '';
+"
+PRO_HIS_DO	PROCEDURE	104	"    select xm into v_brxm from gy_brjbxxk where jzkh = v_jzkh;
+"
+PRO_HIS_DO	PROCEDURE	105	"  
+"
+PRO_HIS_DO	PROCEDURE	106	"    if v_brxm is null or v_brxm = '' then
+"
+PRO_HIS_DO	PROCEDURE	107	"      out_msg := '找不到这个卡号的病人信息,' || v_str1;
+"
+PRO_HIS_DO	PROCEDURE	108	"      return;
+"
+PRO_HIS_DO	PROCEDURE	109	"    end if;
+"
+PRO_HIS_DO	PROCEDURE	110	"  
+"
+PRO_HIS_DO	PROCEDURE	111	"    out_msg := 'ok' || ',修改处方状态，处理成功';
+"
+PRO_HIS_DO	PROCEDURE	112	"  
+"
+PRO_HIS_DO	PROCEDURE	113	"    return;
+"
+PRO_HIS_DO	PROCEDURE	114	"  end if;
+"
+PRO_HIS_DO	PROCEDURE	115	"  --增加门诊病人修改记录  end
+"
+PRO_HIS_DO	PROCEDURE	116	"
+"
+PRO_HIS_DO	PROCEDURE	117	"  return;
+"
+PRO_HIS_DO	PROCEDURE	118	"
+"
+PRO_HIS_DO	PROCEDURE	119	"EXCEPTION
+"
+PRO_HIS_DO	PROCEDURE	120	"  WHEN OTHERS Then
+"
+PRO_HIS_DO	PROCEDURE	121	"    Rollback;
+"
+PRO_HIS_DO	PROCEDURE	122	"    out_msg := '处理失败,' || v_str1;
+"
+PRO_HIS_DO	PROCEDURE	123	"    return;
+"
+PRO_HIS_DO	PROCEDURE	124	"end pro_his_do;
+"

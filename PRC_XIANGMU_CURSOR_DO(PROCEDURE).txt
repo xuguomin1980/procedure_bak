@@ -1,0 +1,734 @@
+PRC_XIANGMU_CURSOR_DO	PROCEDURE	1	"procedure prc_xiangmu_cursor_do(in_jiaoyilx in varchar2, --交易类型
+"
+PRC_XIANGMU_CURSOR_DO	PROCEDURE	2	"                                                  in_caozuogh in varchar2, --操作工号                                            
+"
+PRC_XIANGMU_CURSOR_DO	PROCEDURE	3	"                                                  in_jylsh    in varchar2, --其它参数
+"
+PRC_XIANGMU_CURSOR_DO	PROCEDURE	4	"                                                  out_code    out INTEGER, -- 返回结果 0为执行成功
+"
+PRC_XIANGMU_CURSOR_DO	PROCEDURE	5	"                                                  out_msg     out varchar2) is
+"
+PRC_XIANGMU_CURSOR_DO	PROCEDURE	6	"
+"
+PRC_XIANGMU_CURSOR_DO	PROCEDURE	7	"  v_icd10      varchar2(30);
+"
+PRC_XIANGMU_CURSOR_DO	PROCEDURE	8	"  v_icd10_from varchar2(30);
+"
+PRC_XIANGMU_CURSOR_DO	PROCEDURE	9	"  v_data       varchar2(500);
+"
+PRC_XIANGMU_CURSOR_DO	PROCEDURE	10	"  v_data_temp  varchar2(500);
+"
+PRC_XIANGMU_CURSOR_DO	PROCEDURE	11	"  v_sfzh       varchar2(50);
+"
+PRC_XIANGMU_CURSOR_DO	PROCEDURE	12	"  v_str1       varchar2(20);
+"
+PRC_XIANGMU_CURSOR_DO	PROCEDURE	13	"  v_str2       varchar2(20);
+"
+PRC_XIANGMU_CURSOR_DO	PROCEDURE	14	"  v_str3       varchar2(20);
+"
+PRC_XIANGMU_CURSOR_DO	PROCEDURE	15	"  v_str4       varchar2(20);
+"
+PRC_XIANGMU_CURSOR_DO	PROCEDURE	16	"  v_str5       varchar2(20);
+"
+PRC_XIANGMU_CURSOR_DO	PROCEDURE	17	"  v_str6       varchar2(20);
+"
+PRC_XIANGMU_CURSOR_DO	PROCEDURE	18	"  v_str7       varchar2(20);
+"
+PRC_XIANGMU_CURSOR_DO	PROCEDURE	19	"  v_str8       varchar2(20);
+"
+PRC_XIANGMU_CURSOR_DO	PROCEDURE	20	"  v_str9       varchar2(20);
+"
+PRC_XIANGMU_CURSOR_DO	PROCEDURE	21	"  v_temp       varchar2(200);
+"
+PRC_XIANGMU_CURSOR_DO	PROCEDURE	22	"  v_flag1      varchar2(10);
+"
+PRC_XIANGMU_CURSOR_DO	PROCEDURE	23	"  v_flag2      varchar2(10);
+"
+PRC_XIANGMU_CURSOR_DO	PROCEDURE	24	"  v_ysgh       varchar2(20);
+"
+PRC_XIANGMU_CURSOR_DO	PROCEDURE	25	"  v_lxdh       varchar2(20);
+"
+PRC_XIANGMU_CURSOR_DO	PROCEDURE	26	"  v_lxdh2      varchar2(20);
+"
+PRC_XIANGMU_CURSOR_DO	PROCEDURE	27	"  v_ksdm       varchar2(30);
+"
+PRC_XIANGMU_CURSOR_DO	PROCEDURE	28	"  --临时的统计的数量
+"
+PRC_XIANGMU_CURSOR_DO	PROCEDURE	29	"  v_count      number;
+"
+PRC_XIANGMU_CURSOR_DO	PROCEDURE	30	"  v_count2     number;
+"
+PRC_XIANGMU_CURSOR_DO	PROCEDURE	31	"  v_order_no   number;
+"
+PRC_XIANGMU_CURSOR_DO	PROCEDURE	32	"  v_dqz        number;
+"
+PRC_XIANGMU_CURSOR_DO	PROCEDURE	33	"  v_xh         number;
+"
+PRC_XIANGMU_CURSOR_DO	PROCEDURE	34	"  v_patient_no number;
+"
+PRC_XIANGMU_CURSOR_DO	PROCEDURE	35	"  --计费
+"
+PRC_XIANGMU_CURSOR_DO	PROCEDURE	36	"
+"
+PRC_XIANGMU_CURSOR_DO	PROCEDURE	37	"  --定义游标
+"
+PRC_XIANGMU_CURSOR_DO	PROCEDURE	38	"  CURSOR cursor1 IS
+"
+PRC_XIANGMU_CURSOR_DO	PROCEDURE	39	"  
+"
+PRC_XIANGMU_CURSOR_DO	PROCEDURE	40	"    select t.ksdm,
+"
+PRC_XIANGMU_CURSOR_DO	PROCEDURE	41	"           t.order_no,
+"
+PRC_XIANGMU_CURSOR_DO	PROCEDURE	42	"           z.zzys,
+"
+PRC_XIANGMU_CURSOR_DO	PROCEDURE	43	"           z.curr_bed || '床 ' || z.bah || ' ' || z.name || ' 抗菌药物' ||
+"
+PRC_XIANGMU_CURSOR_DO	PROCEDURE	44	"           t.order_name || '已经到期并自动停止，请结合临床重新评估是否续用'
+"
+PRC_XIANGMU_CURSOR_DO	PROCEDURE	45	"      from yz_inpatient_order t, zy_patient_information z
+"
+PRC_XIANGMU_CURSOR_DO	PROCEDURE	46	"     where t.djxh = z.patient_no
+"
+PRC_XIANGMU_CURSOR_DO	PROCEDURE	47	"       and z.patient_no not in
+"
+PRC_XIANGMU_CURSOR_DO	PROCEDURE	48	"           (select djxh
+"
+PRC_XIANGMU_CURSOR_DO	PROCEDURE	49	"              From yz_inpatient_order
+"
+PRC_XIANGMU_CURSOR_DO	PROCEDURE	50	"             where order_name like '%今日出院%'
+"
+PRC_XIANGMU_CURSOR_DO	PROCEDURE	51	"               and enter_time >= trunc(sysdate))
+"
+PRC_XIANGMU_CURSOR_DO	PROCEDURE	52	"       and z.js_No = 0
+"
+PRC_XIANGMU_CURSOR_DO	PROCEDURE	53	"       and z.preout_date is null
+"
+PRC_XIANGMU_CURSOR_DO	PROCEDURE	54	"       and t.ypxh in (SELECT ypxh from gy_ypmcggzd x where x.kjywxj > 0)
+"
+PRC_XIANGMU_CURSOR_DO	PROCEDURE	55	"          --ypxh in (SELECT yibaodm from yb_xianzhixm_0902_kss_v)
+"
+PRC_XIANGMU_CURSOR_DO	PROCEDURE	56	"          --  and start_time < end_time
+"
+PRC_XIANGMU_CURSOR_DO	PROCEDURE	57	"       and nvl(t.supply_name, '0') <> '出院带药'
+"
+PRC_XIANGMU_CURSOR_DO	PROCEDURE	58	"       and t.frequ_code not in ('ONCE')
+"
+PRC_XIANGMU_CURSOR_DO	PROCEDURE	59	"       AND yzlx not in (2, 3, 4, 5)
+"
+PRC_XIANGMU_CURSOR_DO	PROCEDURE	60	"       and t.end_time > trunc(sysdate)
+"
+PRC_XIANGMU_CURSOR_DO	PROCEDURE	61	"       and t.end_time < trunc(sysdate + 1);
+"
+PRC_XIANGMU_CURSOR_DO	PROCEDURE	62	"
+"
+PRC_XIANGMU_CURSOR_DO	PROCEDURE	63	"  CURSOR cursor_tingzhen IS
+"
+PRC_XIANGMU_CURSOR_DO	PROCEDURE	64	"    select a.yyxh,
+"
+PRC_XIANGMU_CURSOR_DO	PROCEDURE	65	"           lxdh,
+"
+PRC_XIANGMU_CURSOR_DO	PROCEDURE	66	"           a.xm || ', ' || '您预约了' || to_char(a.YYRQ1, 'yyyy-mm-dd') || '的' ||
+"
+PRC_XIANGMU_CURSOR_DO	PROCEDURE	67	"           c.ksmc || '的' || d.xm || ',由于该医师临时有事，当天停诊，给您带来不便，敬请谅解!'
+"
+PRC_XIANGMU_CURSOR_DO	PROCEDURE	68	"    
+"
+PRC_XIANGMU_CURSOR_DO	PROCEDURE	69	"      FROM GH_MZYYK a, GH_MBZHGL b, gy_ksdm c, gy_zgxx d
+"
+PRC_XIANGMU_CURSOR_DO	PROCEDURE	70	"     WHERE a.ksdm = c.ksdm(+)
+"
+PRC_XIANGMU_CURSOR_DO	PROCEDURE	71	"       and a.ysgh = d.zgid(+)
+"
+PRC_XIANGMU_CURSOR_DO	PROCEDURE	72	"       and a.ksdm = b.ksdm
+"
+PRC_XIANGMU_CURSOR_DO	PROCEDURE	73	"       and a.yyrq1 > sysdate
+"
+PRC_XIANGMU_CURSOR_DO	PROCEDURE	74	"       and nvl(a.YSGH, '0') = nvl(b.ysgh, 0)
+"
+PRC_XIANGMU_CURSOR_DO	PROCEDURE	75	"       and ((a.yysj = 1 and b.swjsh < 0) or (a.yysj = 2 and b.xwjsh < 0))
+"
+PRC_XIANGMU_CURSOR_DO	PROCEDURE	76	"       and nvl(b.ZFPB, 0) = 0
+"
+PRC_XIANGMU_CURSOR_DO	PROCEDURE	77	"       and (nvl(a.ZT, 0) = 0)
+"
+PRC_XIANGMU_CURSOR_DO	PROCEDURE	78	"       and nvl(a.Message, 0) in (0, 1)
+"
+PRC_XIANGMU_CURSOR_DO	PROCEDURE	79	"       and trunc(a.YYRQ1) >= trunc(b.ksrq)
+"
+PRC_XIANGMU_CURSOR_DO	PROCEDURE	80	"       and trunc(a.YYRQ1) <= trunc(b.jsrq)
+"
+PRC_XIANGMU_CURSOR_DO	PROCEDURE	81	"       and b.CZRQ >= sysdate - 4
+"
+PRC_XIANGMU_CURSOR_DO	PROCEDURE	82	"       and b.CZRQ < sysdate + 1;
+"
+PRC_XIANGMU_CURSOR_DO	PROCEDURE	83	"
+"
+PRC_XIANGMU_CURSOR_DO	PROCEDURE	84	"  CURSOR cursor_ybznsh IS
+"
+PRC_XIANGMU_CURSOR_DO	PROCEDURE	85	"    select patient_no, substr(bz, 1, 200)
+"
+PRC_XIANGMU_CURSOR_DO	PROCEDURE	86	"      from yb_znshgz_zybr
+"
+PRC_XIANGMU_CURSOR_DO	PROCEDURE	87	"     where 1 = 1
+"
+PRC_XIANGMU_CURSOR_DO	PROCEDURE	88	"        or patient_no = 830446;
+"
+PRC_XIANGMU_CURSOR_DO	PROCEDURE	89	"
+"
+PRC_XIANGMU_CURSOR_DO	PROCEDURE	90	"begin
+"
+PRC_XIANGMU_CURSOR_DO	PROCEDURE	91	"
+"
+PRC_XIANGMU_CURSOR_DO	PROCEDURE	92	"  out_code := 1;
+"
+PRC_XIANGMU_CURSOR_DO	PROCEDURE	93	"  out_msg  := '';
+"
+PRC_XIANGMU_CURSOR_DO	PROCEDURE	94	"
+"
+PRC_XIANGMU_CURSOR_DO	PROCEDURE	95	"  insert into zy_jiaoyi_v1
+"
+PRC_XIANGMU_CURSOR_DO	PROCEDURE	96	"    (jiaoyilx, caozuogh, jylsh, bz)
+"
+PRC_XIANGMU_CURSOR_DO	PROCEDURE	97	"  values
+"
+PRC_XIANGMU_CURSOR_DO	PROCEDURE	98	"    (in_jiaoyilx, in_caozuogh, in_jylsh, 'prc_xiangmu_cursor');
+"
+PRC_XIANGMU_CURSOR_DO	PROCEDURE	99	"  commit;
+"
+PRC_XIANGMU_CURSOR_DO	PROCEDURE	100	"
+"
+PRC_XIANGMU_CURSOR_DO	PROCEDURE	101	"  --抗菌药物停止通知
+"
+PRC_XIANGMU_CURSOR_DO	PROCEDURE	102	"  if 1 = 1 and in_jiaoyilx = '抗菌药物停止通知' then
+"
+PRC_XIANGMU_CURSOR_DO	PROCEDURE	103	"  
+"
+PRC_XIANGMU_CURSOR_DO	PROCEDURE	104	"    select count(*)
+"
+PRC_XIANGMU_CURSOR_DO	PROCEDURE	105	"      into v_count
+"
+PRC_XIANGMU_CURSOR_DO	PROCEDURE	106	"      from zy_jiaoyi_v1
+"
+PRC_XIANGMU_CURSOR_DO	PROCEDURE	107	"     where flag = 1
+"
+PRC_XIANGMU_CURSOR_DO	PROCEDURE	108	"       and jiaoyilx = in_jiaoyilx
+"
+PRC_XIANGMU_CURSOR_DO	PROCEDURE	109	"       and jyrq > trunc(sysdate)
+"
+PRC_XIANGMU_CURSOR_DO	PROCEDURE	110	"       and jyrq < sysdate;
+"
+PRC_XIANGMU_CURSOR_DO	PROCEDURE	111	"    if v_count > 6 then
+"
+PRC_XIANGMU_CURSOR_DO	PROCEDURE	112	"      return;
+"
+PRC_XIANGMU_CURSOR_DO	PROCEDURE	113	"    end if;
+"
+PRC_XIANGMU_CURSOR_DO	PROCEDURE	114	"    v_count2 := 0;
+"
+PRC_XIANGMU_CURSOR_DO	PROCEDURE	115	"    -- prc_sms_send('ts', '13777929515', in_jiaoyilx, v_temp);
+"
+PRC_XIANGMU_CURSOR_DO	PROCEDURE	116	"  
+"
+PRC_XIANGMU_CURSOR_DO	PROCEDURE	117	"    select nvl(max(csz1), '0')
+"
+PRC_XIANGMU_CURSOR_DO	PROCEDURE	118	"      into v_lxdh2
+"
+PRC_XIANGMU_CURSOR_DO	PROCEDURE	119	"      From gy_xtcs
+"
+PRC_XIANGMU_CURSOR_DO	PROCEDURE	120	"     where csmc = 'YZ_SJHM'
+"
+PRC_XIANGMU_CURSOR_DO	PROCEDURE	121	"       and xtxh = 12;
+"
+PRC_XIANGMU_CURSOR_DO	PROCEDURE	122	"  
+"
+PRC_XIANGMU_CURSOR_DO	PROCEDURE	123	"    --循环开始
+"
+PRC_XIANGMU_CURSOR_DO	PROCEDURE	124	"    LOOP
+"
+PRC_XIANGMU_CURSOR_DO	PROCEDURE	125	"    
+"
+PRC_XIANGMU_CURSOR_DO	PROCEDURE	126	"      IF NOT cursor1%ISOPEN THEN
+"
+PRC_XIANGMU_CURSOR_DO	PROCEDURE	127	"        --打开游标
+"
+PRC_XIANGMU_CURSOR_DO	PROCEDURE	128	"        OPEN cursor1;
+"
+PRC_XIANGMU_CURSOR_DO	PROCEDURE	129	"      END IF;
+"
+PRC_XIANGMU_CURSOR_DO	PROCEDURE	130	"    
+"
+PRC_XIANGMU_CURSOR_DO	PROCEDURE	131	"      FETCH cursor1
+"
+PRC_XIANGMU_CURSOR_DO	PROCEDURE	132	"        INTO v_ksdm, v_order_no, v_ysgh, v_data_temp;
+"
+PRC_XIANGMU_CURSOR_DO	PROCEDURE	133	"      --退出循环的条件
+"
+PRC_XIANGMU_CURSOR_DO	PROCEDURE	134	"      EXIT WHEN cursor1%NOTFOUND OR cursor1%NOTFOUND IS NULL;
+"
+PRC_XIANGMU_CURSOR_DO	PROCEDURE	135	"    
+"
+PRC_XIANGMU_CURSOR_DO	PROCEDURE	136	"      if sqlcode <> 0 then
+"
+PRC_XIANGMU_CURSOR_DO	PROCEDURE	137	"        rollback;
+"
+PRC_XIANGMU_CURSOR_DO	PROCEDURE	138	"        --关闭游标
+"
+PRC_XIANGMU_CURSOR_DO	PROCEDURE	139	"        close cursor1;
+"
+PRC_XIANGMU_CURSOR_DO	PROCEDURE	140	"      
+"
+PRC_XIANGMU_CURSOR_DO	PROCEDURE	141	"      end if;
+"
+PRC_XIANGMU_CURSOR_DO	PROCEDURE	142	"    
+"
+PRC_XIANGMU_CURSOR_DO	PROCEDURE	143	"      v_count := 0;
+"
+PRC_XIANGMU_CURSOR_DO	PROCEDURE	144	"      select count(xh)
+"
+PRC_XIANGMU_CURSOR_DO	PROCEDURE	145	"        into v_count
+"
+PRC_XIANGMU_CURSOR_DO	PROCEDURE	146	"        from auto_task_ywzx_send
+"
+PRC_XIANGMU_CURSOR_DO	PROCEDURE	147	"       where lx = 'kj'
+"
+PRC_XIANGMU_CURSOR_DO	PROCEDURE	148	"         and laborder = v_order_no
+"
+PRC_XIANGMU_CURSOR_DO	PROCEDURE	149	"         and date_add > sysdate - 5;
+"
+PRC_XIANGMU_CURSOR_DO	PROCEDURE	150	"      if v_count > 0 then
+"
+PRC_XIANGMU_CURSOR_DO	PROCEDURE	151	"        continue;
+"
+PRC_XIANGMU_CURSOR_DO	PROCEDURE	152	"      end if;
+"
+PRC_XIANGMU_CURSOR_DO	PROCEDURE	153	"    
+"
+PRC_XIANGMU_CURSOR_DO	PROCEDURE	154	"      v_lxdh := '';
+"
+PRC_XIANGMU_CURSOR_DO	PROCEDURE	155	"      select nvl(max(b.shoujihm), '0')
+"
+PRC_XIANGMU_CURSOR_DO	PROCEDURE	156	"        into v_lxdh
+"
+PRC_XIANGMU_CURSOR_DO	PROCEDURE	157	"        from gy_zgxx b
+"
+PRC_XIANGMU_CURSOR_DO	PROCEDURE	158	"       where zgid = v_ysgh;
+"
+PRC_XIANGMU_CURSOR_DO	PROCEDURE	159	"    
+"
+PRC_XIANGMU_CURSOR_DO	PROCEDURE	160	"      if length(v_lxdh) = 11 then
+"
+PRC_XIANGMU_CURSOR_DO	PROCEDURE	161	"        null;
+"
+PRC_XIANGMU_CURSOR_DO	PROCEDURE	162	"      else
+"
+PRC_XIANGMU_CURSOR_DO	PROCEDURE	163	"        --v_lxdh := '13777929515';
+"
+PRC_XIANGMU_CURSOR_DO	PROCEDURE	164	"        v_lxdh := v_lxdh2;
+"
+PRC_XIANGMU_CURSOR_DO	PROCEDURE	165	"      end if;
+"
+PRC_XIANGMU_CURSOR_DO	PROCEDURE	166	"    
+"
+PRC_XIANGMU_CURSOR_DO	PROCEDURE	167	"      if length(v_lxdh) = 11 then
+"
+PRC_XIANGMU_CURSOR_DO	PROCEDURE	168	"        null;
+"
+PRC_XIANGMU_CURSOR_DO	PROCEDURE	169	"      else
+"
+PRC_XIANGMU_CURSOR_DO	PROCEDURE	170	"        v_lxdh := '13777929515';
+"
+PRC_XIANGMU_CURSOR_DO	PROCEDURE	171	"      
+"
+PRC_XIANGMU_CURSOR_DO	PROCEDURE	172	"      end if;
+"
+PRC_XIANGMU_CURSOR_DO	PROCEDURE	173	"      UPDATE gy_xhb SET DQZ = DQZ + ZZ WHERE BM = 'YZ_BBS';
+"
+PRC_XIANGMU_CURSOR_DO	PROCEDURE	174	"      if sqlcode = 0 then
+"
+PRC_XIANGMU_CURSOR_DO	PROCEDURE	175	"        commit;
+"
+PRC_XIANGMU_CURSOR_DO	PROCEDURE	176	"      else
+"
+PRC_XIANGMU_CURSOR_DO	PROCEDURE	177	"        rollback;
+"
+PRC_XIANGMU_CURSOR_DO	PROCEDURE	178	"        UPDATE gy_xhb SET DQZ = DQZ + ZZ WHERE BM = 'YZ_BBS';
+"
+PRC_XIANGMU_CURSOR_DO	PROCEDURE	179	"        if sqlcode = 0 then
+"
+PRC_XIANGMU_CURSOR_DO	PROCEDURE	180	"          commit;
+"
+PRC_XIANGMU_CURSOR_DO	PROCEDURE	181	"        else
+"
+PRC_XIANGMU_CURSOR_DO	PROCEDURE	182	"          rollback;
+"
+PRC_XIANGMU_CURSOR_DO	PROCEDURE	183	"          continue;
+"
+PRC_XIANGMU_CURSOR_DO	PROCEDURE	184	"        end if;
+"
+PRC_XIANGMU_CURSOR_DO	PROCEDURE	185	"      end if;
+"
+PRC_XIANGMU_CURSOR_DO	PROCEDURE	186	"      select dqz into v_dqz from gy_xhb WHERE BM = 'YZ_BBS';
+"
+PRC_XIANGMU_CURSOR_DO	PROCEDURE	187	"      insert into yz_bbs
+"
+PRC_XIANGMU_CURSOR_DO	PROCEDURE	188	"        (xh, bt, nr, fbrgh, rq, bqdm, jsrgh, zt, lb)
+"
+PRC_XIANGMU_CURSOR_DO	PROCEDURE	189	"      values
+"
+PRC_XIANGMU_CURSOR_DO	PROCEDURE	190	"        (v_dqz,
+"
+PRC_XIANGMU_CURSOR_DO	PROCEDURE	191	"         '抗菌药物停止',
+"
+PRC_XIANGMU_CURSOR_DO	PROCEDURE	192	"         v_data_temp,
+"
+PRC_XIANGMU_CURSOR_DO	PROCEDURE	193	"         '',
+"
+PRC_XIANGMU_CURSOR_DO	PROCEDURE	194	"         sysdate,
+"
+PRC_XIANGMU_CURSOR_DO	PROCEDURE	195	"         v_ksdm,
+"
+PRC_XIANGMU_CURSOR_DO	PROCEDURE	196	"         v_ysgh,
+"
+PRC_XIANGMU_CURSOR_DO	PROCEDURE	197	"         0,
+"
+PRC_XIANGMU_CURSOR_DO	PROCEDURE	198	"         1);
+"
+PRC_XIANGMU_CURSOR_DO	PROCEDURE	199	"      if sqlcode = 0 then
+"
+PRC_XIANGMU_CURSOR_DO	PROCEDURE	200	"        commit;
+"
+PRC_XIANGMU_CURSOR_DO	PROCEDURE	201	"      else
+"
+PRC_XIANGMU_CURSOR_DO	PROCEDURE	202	"        rollback;
+"
+PRC_XIANGMU_CURSOR_DO	PROCEDURE	203	"        continue;
+"
+PRC_XIANGMU_CURSOR_DO	PROCEDURE	204	"      end if;
+"
+PRC_XIANGMU_CURSOR_DO	PROCEDURE	205	"      if v_lxdh = '13967426888' then
+"
+PRC_XIANGMU_CURSOR_DO	PROCEDURE	206	"        v_lxdh := '13777929515';
+"
+PRC_XIANGMU_CURSOR_DO	PROCEDURE	207	"      end if;
+"
+PRC_XIANGMU_CURSOR_DO	PROCEDURE	208	"      --prc_sms_send('ts', v_lxdh, v_data_temp, v_temp);
+"
+PRC_XIANGMU_CURSOR_DO	PROCEDURE	209	"      prc_sms_send_laborder('kj', v_lxdh, v_data_temp, v_order_no, v_temp);
+"
+PRC_XIANGMU_CURSOR_DO	PROCEDURE	210	"    
+"
+PRC_XIANGMU_CURSOR_DO	PROCEDURE	211	"      v_count2 := v_count2 + 1;
+"
+PRC_XIANGMU_CURSOR_DO	PROCEDURE	212	"    END LOOP;
+"
+PRC_XIANGMU_CURSOR_DO	PROCEDURE	213	"    out_code := 0;
+"
+PRC_XIANGMU_CURSOR_DO	PROCEDURE	214	"    out_msg  := '退出循环的条件';
+"
+PRC_XIANGMU_CURSOR_DO	PROCEDURE	215	"    select in_jiaoyilx || ':' || to_char(v_count2) into v_data from dual;
+"
+PRC_XIANGMU_CURSOR_DO	PROCEDURE	216	"    --  prc_sms_send('kj', '13777929515', v_data, v_temp);
+"
+PRC_XIANGMU_CURSOR_DO	PROCEDURE	217	"  
+"
+PRC_XIANGMU_CURSOR_DO	PROCEDURE	218	"    insert into zy_jiaoyi_v1
+"
+PRC_XIANGMU_CURSOR_DO	PROCEDURE	219	"      (jiaoyilx, caozuogh, jylsh, bz, flag)
+"
+PRC_XIANGMU_CURSOR_DO	PROCEDURE	220	"    values
+"
+PRC_XIANGMU_CURSOR_DO	PROCEDURE	221	"      (in_jiaoyilx, in_caozuogh, in_jylsh, 'prc_xiangmu_cursor', 1);
+"
+PRC_XIANGMU_CURSOR_DO	PROCEDURE	222	"    commit;
+"
+PRC_XIANGMU_CURSOR_DO	PROCEDURE	223	"  
+"
+PRC_XIANGMU_CURSOR_DO	PROCEDURE	224	"  end if;
+"
+PRC_XIANGMU_CURSOR_DO	PROCEDURE	225	"  --end 抗菌药物停止通知
+"
+PRC_XIANGMU_CURSOR_DO	PROCEDURE	226	"  -----
+"
+PRC_XIANGMU_CURSOR_DO	PROCEDURE	227	"
+"
+PRC_XIANGMU_CURSOR_DO	PROCEDURE	228	"  --物价核查通知
+"
+PRC_XIANGMU_CURSOR_DO	PROCEDURE	229	"  if 1 = 1 and in_jiaoyilx = '物价核查通知' then
+"
+PRC_XIANGMU_CURSOR_DO	PROCEDURE	230	"  
+"
+PRC_XIANGMU_CURSOR_DO	PROCEDURE	231	"    --循环开始
+"
+PRC_XIANGMU_CURSOR_DO	PROCEDURE	232	"    LOOP
+"
+PRC_XIANGMU_CURSOR_DO	PROCEDURE	233	"    
+"
+PRC_XIANGMU_CURSOR_DO	PROCEDURE	234	"      IF NOT cursor_ybznsh%ISOPEN THEN
+"
+PRC_XIANGMU_CURSOR_DO	PROCEDURE	235	"        --打开游标
+"
+PRC_XIANGMU_CURSOR_DO	PROCEDURE	236	"        OPEN cursor_ybznsh;
+"
+PRC_XIANGMU_CURSOR_DO	PROCEDURE	237	"      END IF;
+"
+PRC_XIANGMU_CURSOR_DO	PROCEDURE	238	"    
+"
+PRC_XIANGMU_CURSOR_DO	PROCEDURE	239	"      FETCH cursor_ybznsh
+"
+PRC_XIANGMU_CURSOR_DO	PROCEDURE	240	"        INTO v_patient_no, v_data_temp;
+"
+PRC_XIANGMU_CURSOR_DO	PROCEDURE	241	"      --退出循环的条件
+"
+PRC_XIANGMU_CURSOR_DO	PROCEDURE	242	"      EXIT WHEN cursor_ybznsh%NOTFOUND OR cursor_ybznsh%NOTFOUND IS NULL;
+"
+PRC_XIANGMU_CURSOR_DO	PROCEDURE	243	"    
+"
+PRC_XIANGMU_CURSOR_DO	PROCEDURE	244	"      if sqlcode <> 0 then
+"
+PRC_XIANGMU_CURSOR_DO	PROCEDURE	245	"        rollback;
+"
+PRC_XIANGMU_CURSOR_DO	PROCEDURE	246	"        --关闭游标
+"
+PRC_XIANGMU_CURSOR_DO	PROCEDURE	247	"        close cursor_ybznsh;
+"
+PRC_XIANGMU_CURSOR_DO	PROCEDURE	248	"      
+"
+PRC_XIANGMU_CURSOR_DO	PROCEDURE	249	"      end if;
+"
+PRC_XIANGMU_CURSOR_DO	PROCEDURE	250	"    
+"
+PRC_XIANGMU_CURSOR_DO	PROCEDURE	251	"      UPDATE gy_xhb SET DQZ = DQZ + ZZ WHERE BM = 'YZ_BBS';
+"
+PRC_XIANGMU_CURSOR_DO	PROCEDURE	252	"      if sqlcode = 0 then
+"
+PRC_XIANGMU_CURSOR_DO	PROCEDURE	253	"        commit;
+"
+PRC_XIANGMU_CURSOR_DO	PROCEDURE	254	"      else
+"
+PRC_XIANGMU_CURSOR_DO	PROCEDURE	255	"        rollback;
+"
+PRC_XIANGMU_CURSOR_DO	PROCEDURE	256	"        UPDATE gy_xhb SET DQZ = DQZ + ZZ WHERE BM = 'YZ_BBS';
+"
+PRC_XIANGMU_CURSOR_DO	PROCEDURE	257	"        if sqlcode = 0 then
+"
+PRC_XIANGMU_CURSOR_DO	PROCEDURE	258	"          commit;
+"
+PRC_XIANGMU_CURSOR_DO	PROCEDURE	259	"        else
+"
+PRC_XIANGMU_CURSOR_DO	PROCEDURE	260	"          rollback;
+"
+PRC_XIANGMU_CURSOR_DO	PROCEDURE	261	"          continue;
+"
+PRC_XIANGMU_CURSOR_DO	PROCEDURE	262	"        end if;
+"
+PRC_XIANGMU_CURSOR_DO	PROCEDURE	263	"      end if;
+"
+PRC_XIANGMU_CURSOR_DO	PROCEDURE	264	"      select dqz into v_dqz from gy_xhb WHERE BM = 'YZ_BBS';
+"
+PRC_XIANGMU_CURSOR_DO	PROCEDURE	265	"    
+"
+PRC_XIANGMU_CURSOR_DO	PROCEDURE	266	"      select curr_bq,
+"
+PRC_XIANGMU_CURSOR_DO	PROCEDURE	267	"             substr('预出院(物价核查),点击处理; ' || curr_bed || '床 ' || name || ',' ||
+"
+PRC_XIANGMU_CURSOR_DO	PROCEDURE	268	"                    v_data_temp,
+"
+PRC_XIANGMU_CURSOR_DO	PROCEDURE	269	"                    1,
+"
+PRC_XIANGMU_CURSOR_DO	PROCEDURE	270	"                    200)
+"
+PRC_XIANGMU_CURSOR_DO	PROCEDURE	271	"        into v_ksdm, v_data
+"
+PRC_XIANGMU_CURSOR_DO	PROCEDURE	272	"        From zy_patient_information
+"
+PRC_XIANGMU_CURSOR_DO	PROCEDURE	273	"       where patient_no = v_patient_no
+"
+PRC_XIANGMU_CURSOR_DO	PROCEDURE	274	"         and preout_date is null
+"
+PRC_XIANGMU_CURSOR_DO	PROCEDURE	275	"         and js_no = 0;
+"
+PRC_XIANGMU_CURSOR_DO	PROCEDURE	276	"    
+"
+PRC_XIANGMU_CURSOR_DO	PROCEDURE	277	"      insert into yz_bbs
+"
+PRC_XIANGMU_CURSOR_DO	PROCEDURE	278	"        (xh, bt, nr, fbrgh, rq, bqdm, zt, lb)
+"
+PRC_XIANGMU_CURSOR_DO	PROCEDURE	279	"      values
+"
+PRC_XIANGMU_CURSOR_DO	PROCEDURE	280	"        (v_dqz, '物价核查通知', v_data, '', sysdate, v_ksdm, 0, 1);
+"
+PRC_XIANGMU_CURSOR_DO	PROCEDURE	281	"      if sqlcode = 0 then
+"
+PRC_XIANGMU_CURSOR_DO	PROCEDURE	282	"        commit;
+"
+PRC_XIANGMU_CURSOR_DO	PROCEDURE	283	"      else
+"
+PRC_XIANGMU_CURSOR_DO	PROCEDURE	284	"        rollback;
+"
+PRC_XIANGMU_CURSOR_DO	PROCEDURE	285	"      
+"
+PRC_XIANGMU_CURSOR_DO	PROCEDURE	286	"      end if;
+"
+PRC_XIANGMU_CURSOR_DO	PROCEDURE	287	"    
+"
+PRC_XIANGMU_CURSOR_DO	PROCEDURE	288	"    END LOOP;
+"
+PRC_XIANGMU_CURSOR_DO	PROCEDURE	289	"    out_code := 0;
+"
+PRC_XIANGMU_CURSOR_DO	PROCEDURE	290	"    out_msg  := '退出循环的条件';
+"
+PRC_XIANGMU_CURSOR_DO	PROCEDURE	291	"  
+"
+PRC_XIANGMU_CURSOR_DO	PROCEDURE	292	"  end if;
+"
+PRC_XIANGMU_CURSOR_DO	PROCEDURE	293	"  --end 物价核查通知
+"
+PRC_XIANGMU_CURSOR_DO	PROCEDURE	294	"  -----
+"
+PRC_XIANGMU_CURSOR_DO	PROCEDURE	295	"
+"
+PRC_XIANGMU_CURSOR_DO	PROCEDURE	296	"  if 1 = 1 and in_jiaoyilx = '门诊停诊通知' then
+"
+PRC_XIANGMU_CURSOR_DO	PROCEDURE	297	"  
+"
+PRC_XIANGMU_CURSOR_DO	PROCEDURE	298	"    v_count := 0;
+"
+PRC_XIANGMU_CURSOR_DO	PROCEDURE	299	"    --循环开始
+"
+PRC_XIANGMU_CURSOR_DO	PROCEDURE	300	"    LOOP
+"
+PRC_XIANGMU_CURSOR_DO	PROCEDURE	301	"    
+"
+PRC_XIANGMU_CURSOR_DO	PROCEDURE	302	"      IF NOT cursor_tingzhen%ISOPEN THEN
+"
+PRC_XIANGMU_CURSOR_DO	PROCEDURE	303	"        --打开游标
+"
+PRC_XIANGMU_CURSOR_DO	PROCEDURE	304	"        OPEN cursor_tingzhen;
+"
+PRC_XIANGMU_CURSOR_DO	PROCEDURE	305	"      END IF;
+"
+PRC_XIANGMU_CURSOR_DO	PROCEDURE	306	"    
+"
+PRC_XIANGMU_CURSOR_DO	PROCEDURE	307	"      FETCH cursor_tingzhen
+"
+PRC_XIANGMU_CURSOR_DO	PROCEDURE	308	"        INTO v_xh, v_lxdh, v_data_temp;
+"
+PRC_XIANGMU_CURSOR_DO	PROCEDURE	309	"      --退出循环的条件
+"
+PRC_XIANGMU_CURSOR_DO	PROCEDURE	310	"      EXIT WHEN cursor_tingzhen%NOTFOUND OR cursor_tingzhen%NOTFOUND IS NULL;
+"
+PRC_XIANGMU_CURSOR_DO	PROCEDURE	311	"    
+"
+PRC_XIANGMU_CURSOR_DO	PROCEDURE	312	"      if sqlcode <> 0 then
+"
+PRC_XIANGMU_CURSOR_DO	PROCEDURE	313	"        rollback;
+"
+PRC_XIANGMU_CURSOR_DO	PROCEDURE	314	"        --关闭游标
+"
+PRC_XIANGMU_CURSOR_DO	PROCEDURE	315	"        close cursor_tingzhen;
+"
+PRC_XIANGMU_CURSOR_DO	PROCEDURE	316	"      
+"
+PRC_XIANGMU_CURSOR_DO	PROCEDURE	317	"      end if;
+"
+PRC_XIANGMU_CURSOR_DO	PROCEDURE	318	"    
+"
+PRC_XIANGMU_CURSOR_DO	PROCEDURE	319	"      if length(v_lxdh) = 11 then
+"
+PRC_XIANGMU_CURSOR_DO	PROCEDURE	320	"        null;
+"
+PRC_XIANGMU_CURSOR_DO	PROCEDURE	321	"      else
+"
+PRC_XIANGMU_CURSOR_DO	PROCEDURE	322	"        v_lxdh := '18367851266';
+"
+PRC_XIANGMU_CURSOR_DO	PROCEDURE	323	"        select '联系电话不对,' || v_data_temp into v_data_temp from dual;
+"
+PRC_XIANGMU_CURSOR_DO	PROCEDURE	324	"      end if;
+"
+PRC_XIANGMU_CURSOR_DO	PROCEDURE	325	"    
+"
+PRC_XIANGMU_CURSOR_DO	PROCEDURE	326	"      Update gh_mzyyk
+"
+PRC_XIANGMU_CURSOR_DO	PROCEDURE	327	"         set Message = 2
+"
+PRC_XIANGMU_CURSOR_DO	PROCEDURE	328	"       where yyxh = v_xh
+"
+PRC_XIANGMU_CURSOR_DO	PROCEDURE	329	"         And nvl(Message, 0) <> 2;
+"
+PRC_XIANGMU_CURSOR_DO	PROCEDURE	330	"      if sqlcode = 0 then
+"
+PRC_XIANGMU_CURSOR_DO	PROCEDURE	331	"        commit;
+"
+PRC_XIANGMU_CURSOR_DO	PROCEDURE	332	"        prc_sms_send('3', v_lxdh, v_data_temp, v_temp);
+"
+PRC_XIANGMU_CURSOR_DO	PROCEDURE	333	"        v_count := v_count + 1;
+"
+PRC_XIANGMU_CURSOR_DO	PROCEDURE	334	"      else
+"
+PRC_XIANGMU_CURSOR_DO	PROCEDURE	335	"        rollback;
+"
+PRC_XIANGMU_CURSOR_DO	PROCEDURE	336	"        continue;
+"
+PRC_XIANGMU_CURSOR_DO	PROCEDURE	337	"      end if;
+"
+PRC_XIANGMU_CURSOR_DO	PROCEDURE	338	"    
+"
+PRC_XIANGMU_CURSOR_DO	PROCEDURE	339	"    END LOOP;
+"
+PRC_XIANGMU_CURSOR_DO	PROCEDURE	340	"    out_code := 0;
+"
+PRC_XIANGMU_CURSOR_DO	PROCEDURE	341	"    out_msg  := '退出循环的条件';
+"
+PRC_XIANGMU_CURSOR_DO	PROCEDURE	342	"    select in_jiaoyilx || ':' || to_char(v_count) into v_data from dual;
+"
+PRC_XIANGMU_CURSOR_DO	PROCEDURE	343	"    --  prc_sms_send('kj', '13777929515', v_data, v_temp);
+"
+PRC_XIANGMU_CURSOR_DO	PROCEDURE	344	"    if v_count > 0 then
+"
+PRC_XIANGMU_CURSOR_DO	PROCEDURE	345	"      select ' 本次停诊，共通知了' || v_count || '病人!'
+"
+PRC_XIANGMU_CURSOR_DO	PROCEDURE	346	"        into v_data_temp
+"
+PRC_XIANGMU_CURSOR_DO	PROCEDURE	347	"        from dual;
+"
+PRC_XIANGMU_CURSOR_DO	PROCEDURE	348	"      prc_sms_send('ts', '18367851266', v_data_temp, v_temp);
+"
+PRC_XIANGMU_CURSOR_DO	PROCEDURE	349	"      prc_sms_send('ts', '13777929515', v_data_temp, v_temp);
+"
+PRC_XIANGMU_CURSOR_DO	PROCEDURE	350	"    end if;
+"
+PRC_XIANGMU_CURSOR_DO	PROCEDURE	351	"    insert into zy_jiaoyi_v1
+"
+PRC_XIANGMU_CURSOR_DO	PROCEDURE	352	"      (jiaoyilx, caozuogh, jylsh, bz, flag)
+"
+PRC_XIANGMU_CURSOR_DO	PROCEDURE	353	"    values
+"
+PRC_XIANGMU_CURSOR_DO	PROCEDURE	354	"      (in_jiaoyilx, in_caozuogh, in_jylsh, 'prc_xiangmu_cursor', 1);
+"
+PRC_XIANGMU_CURSOR_DO	PROCEDURE	355	"    if sqlcode = 0 then
+"
+PRC_XIANGMU_CURSOR_DO	PROCEDURE	356	"      commit;
+"
+PRC_XIANGMU_CURSOR_DO	PROCEDURE	357	"    else
+"
+PRC_XIANGMU_CURSOR_DO	PROCEDURE	358	"      rollback;
+"
+PRC_XIANGMU_CURSOR_DO	PROCEDURE	359	"    end if;
+"
+PRC_XIANGMU_CURSOR_DO	PROCEDURE	360	"  
+"
+PRC_XIANGMU_CURSOR_DO	PROCEDURE	361	"  end if;
+"
+PRC_XIANGMU_CURSOR_DO	PROCEDURE	362	"
+"
+PRC_XIANGMU_CURSOR_DO	PROCEDURE	363	"  out_code := 1;
+"
+PRC_XIANGMU_CURSOR_DO	PROCEDURE	364	"  out_msg  := '';
+"
+PRC_XIANGMU_CURSOR_DO	PROCEDURE	365	"  return;
+"
+PRC_XIANGMU_CURSOR_DO	PROCEDURE	366	"
+"
+PRC_XIANGMU_CURSOR_DO	PROCEDURE	367	"end;
+"

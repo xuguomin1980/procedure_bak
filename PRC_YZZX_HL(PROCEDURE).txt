@@ -1,0 +1,280 @@
+PRC_YZZX_HL	PROCEDURE	1	"procedure prc_yzzx_hl(patient in number,
+"
+PRC_YZZX_HL	PROCEDURE	2	"                                        message out varchar2,
+"
+PRC_YZZX_HL	PROCEDURE	3	"                                        ret     out number) is
+"
+PRC_YZZX_HL	PROCEDURE	4	"  ldt_charge_date date;
+"
+PRC_YZZX_HL	PROCEDURE	5	"  ll_sl           number;
+"
+PRC_YZZX_HL	PROCEDURE	6	"  ll_jlxh_z       number;
+"
+PRC_YZZX_HL	PROCEDURE	7	"  ll_jlxh_f       number;
+"
+PRC_YZZX_HL	PROCEDURE	8	"  /*如果一天内特级护理数量大于等于24条，删除一条等级护理的费用*/
+"
+PRC_YZZX_HL	PROCEDURE	9	"  cursor c1 is
+"
+PRC_YZZX_HL	PROCEDURE	10	"    select trunc(charge_date), sum(sl)
+"
+PRC_YZZX_HL	PROCEDURE	11	"      from zy_detail_charge a
+"
+PRC_YZZX_HL	PROCEDURE	12	"     where js_no = 0
+"
+PRC_YZZX_HL	PROCEDURE	13	"       and charge_name = '特级护理'
+"
+PRC_YZZX_HL	PROCEDURE	14	"       and patient_no = patient
+"
+PRC_YZZX_HL	PROCEDURE	15	"     group by trunc(charge_date)
+"
+PRC_YZZX_HL	PROCEDURE	16	"    having sum(sl) > 23
+"
+PRC_YZZX_HL	PROCEDURE	17	"    union all
+"
+PRC_YZZX_HL	PROCEDURE	18	"    select trunc(charge_date), sum(sl)
+"
+PRC_YZZX_HL	PROCEDURE	19	"      from zy_detail_charge a
+"
+PRC_YZZX_HL	PROCEDURE	20	"     where js_no = 0
+"
+PRC_YZZX_HL	PROCEDURE	21	"       and charge_code = 31049
+"
+PRC_YZZX_HL	PROCEDURE	22	"       and patient_no = patient
+"
+PRC_YZZX_HL	PROCEDURE	23	"     group by trunc(charge_date);
+"
+PRC_YZZX_HL	PROCEDURE	24	"begin
+"
+PRC_YZZX_HL	PROCEDURE	25	"  if 1 = 1 then
+"
+PRC_YZZX_HL	PROCEDURE	26	"    --20201215 规范梅毒螺旋抗体测定医保支付范围
+"
+PRC_YZZX_HL	PROCEDURE	27	"    prc_changefee(patient);
+"
+PRC_YZZX_HL	PROCEDURE	28	"  end if;
+"
+PRC_YZZX_HL	PROCEDURE	29	"  open c1;
+"
+PRC_YZZX_HL	PROCEDURE	30	"  loop
+"
+PRC_YZZX_HL	PROCEDURE	31	"    fetch c1
+"
+PRC_YZZX_HL	PROCEDURE	32	"      into ldt_charge_date, ll_sl;
+"
+PRC_YZZX_HL	PROCEDURE	33	"    exit when c1%NOTFOUND;
+"
+PRC_YZZX_HL	PROCEDURE	34	"    select count(*)
+"
+PRC_YZZX_HL	PROCEDURE	35	"      into ll_sl
+"
+PRC_YZZX_HL	PROCEDURE	36	"      from zy_detail_charge a
+"
+PRC_YZZX_HL	PROCEDURE	37	"     where js_no = 0
+"
+PRC_YZZX_HL	PROCEDURE	38	"       and charge_name = '等级护理'
+"
+PRC_YZZX_HL	PROCEDURE	39	"       and patient_no = patient
+"
+PRC_YZZX_HL	PROCEDURE	40	"       and trunc(charge_date) = trunc(ldt_charge_date)
+"
+PRC_YZZX_HL	PROCEDURE	41	"       and sl > 0;
+"
+PRC_YZZX_HL	PROCEDURE	42	"    if ll_sl > 0 then
+"
+PRC_YZZX_HL	PROCEDURE	43	"      select max(jlxh)
+"
+PRC_YZZX_HL	PROCEDURE	44	"        into ll_jlxh_z
+"
+PRC_YZZX_HL	PROCEDURE	45	"        from zy_detail_charge a
+"
+PRC_YZZX_HL	PROCEDURE	46	"       where js_no = 0
+"
+PRC_YZZX_HL	PROCEDURE	47	"         and charge_name = '等级护理'
+"
+PRC_YZZX_HL	PROCEDURE	48	"         and patient_no = patient
+"
+PRC_YZZX_HL	PROCEDURE	49	"         and trunc(charge_date) = trunc(ldt_charge_date)
+"
+PRC_YZZX_HL	PROCEDURE	50	"         and sl > 0;
+"
+PRC_YZZX_HL	PROCEDURE	51	"      if ll_jlxh_z > 0 then
+"
+PRC_YZZX_HL	PROCEDURE	52	"        --当天有收过等级护理
+"
+PRC_YZZX_HL	PROCEDURE	53	"        select count(*)
+"
+PRC_YZZX_HL	PROCEDURE	54	"          into ll_jlxh_f
+"
+PRC_YZZX_HL	PROCEDURE	55	"          from zy_detail_charge a
+"
+PRC_YZZX_HL	PROCEDURE	56	"         where js_no = 0
+"
+PRC_YZZX_HL	PROCEDURE	57	"           and charge_name = '等级护理'
+"
+PRC_YZZX_HL	PROCEDURE	58	"           and patient_no = patient
+"
+PRC_YZZX_HL	PROCEDURE	59	"           and trunc(charge_date) = trunc(ldt_charge_date)
+"
+PRC_YZZX_HL	PROCEDURE	60	"           and sl < 0;
+"
+PRC_YZZX_HL	PROCEDURE	61	"      
+"
+PRC_YZZX_HL	PROCEDURE	62	"        if ll_jlxh_f = 0 then
+"
+PRC_YZZX_HL	PROCEDURE	63	"          --当天未退等级护理
+"
+PRC_YZZX_HL	PROCEDURE	64	"          insert into zy_detail_charge
+"
+PRC_YZZX_HL	PROCEDURE	65	"            (jlxh,
+"
+PRC_YZZX_HL	PROCEDURE	66	"             patient_no,
+"
+PRC_YZZX_HL	PROCEDURE	67	"             js_no,
+"
+PRC_YZZX_HL	PROCEDURE	68	"             infant_flag,
+"
+PRC_YZZX_HL	PROCEDURE	69	"             charge_name,
+"
+PRC_YZZX_HL	PROCEDURE	70	"             charge_code,
+"
+PRC_YZZX_HL	PROCEDURE	71	"             fygl,
+"
+PRC_YZZX_HL	PROCEDURE	72	"             twice_detail_code,
+"
+PRC_YZZX_HL	PROCEDURE	73	"             charge_date,
+"
+PRC_YZZX_HL	PROCEDURE	74	"             sl,
+"
+PRC_YZZX_HL	PROCEDURE	75	"             dj,
+"
+PRC_YZZX_HL	PROCEDURE	76	"             je,
+"
+PRC_YZZX_HL	PROCEDURE	77	"             ys_code,
+"
+PRC_YZZX_HL	PROCEDURE	78	"             zzys,
+"
+PRC_YZZX_HL	PROCEDURE	79	"             zx_ks,
+"
+PRC_YZZX_HL	PROCEDURE	80	"             curr_ks,
+"
+PRC_YZZX_HL	PROCEDURE	81	"             curr_bed,
+"
+PRC_YZZX_HL	PROCEDURE	82	"             op_id,
+"
+PRC_YZZX_HL	PROCEDURE	83	"             fhr,
+"
+PRC_YZZX_HL	PROCEDURE	84	"             gfbz,
+"
+PRC_YZZX_HL	PROCEDURE	85	"             start_date,
+"
+PRC_YZZX_HL	PROCEDURE	86	"             bqdm,
+"
+PRC_YZZX_HL	PROCEDURE	87	"             self_percent)
+"
+PRC_YZZX_HL	PROCEDURE	88	"            select zy_detail_charge_jlxh.nextval,
+"
+PRC_YZZX_HL	PROCEDURE	89	"                   patient_no,
+"
+PRC_YZZX_HL	PROCEDURE	90	"                   js_no,
+"
+PRC_YZZX_HL	PROCEDURE	91	"                   infant_flag,
+"
+PRC_YZZX_HL	PROCEDURE	92	"                   charge_name,
+"
+PRC_YZZX_HL	PROCEDURE	93	"                   charge_code,
+"
+PRC_YZZX_HL	PROCEDURE	94	"                   fygl,
+"
+PRC_YZZX_HL	PROCEDURE	95	"                   twice_detail_code,
+"
+PRC_YZZX_HL	PROCEDURE	96	"                   charge_date,
+"
+PRC_YZZX_HL	PROCEDURE	97	"                   sl * -1,
+"
+PRC_YZZX_HL	PROCEDURE	98	"                   dj,
+"
+PRC_YZZX_HL	PROCEDURE	99	"                   je * -1,
+"
+PRC_YZZX_HL	PROCEDURE	100	"                   ys_code,
+"
+PRC_YZZX_HL	PROCEDURE	101	"                   zzys,
+"
+PRC_YZZX_HL	PROCEDURE	102	"                   zx_ks,
+"
+PRC_YZZX_HL	PROCEDURE	103	"                   curr_ks,
+"
+PRC_YZZX_HL	PROCEDURE	104	"                   curr_bed,
+"
+PRC_YZZX_HL	PROCEDURE	105	"                   op_id,
+"
+PRC_YZZX_HL	PROCEDURE	106	"                   fhr,
+"
+PRC_YZZX_HL	PROCEDURE	107	"                   gfbz,
+"
+PRC_YZZX_HL	PROCEDURE	108	"                   start_date,
+"
+PRC_YZZX_HL	PROCEDURE	109	"                   bqdm,
+"
+PRC_YZZX_HL	PROCEDURE	110	"                   self_percent
+"
+PRC_YZZX_HL	PROCEDURE	111	"              from zy_detail_charge
+"
+PRC_YZZX_HL	PROCEDURE	112	"             where jlxh = ll_jlxh_z;
+"
+PRC_YZZX_HL	PROCEDURE	113	"          commit;
+"
+PRC_YZZX_HL	PROCEDURE	114	"        else
+"
+PRC_YZZX_HL	PROCEDURE	115	"          message := '';
+"
+PRC_YZZX_HL	PROCEDURE	116	"          ret     := 1;
+"
+PRC_YZZX_HL	PROCEDURE	117	"        end if;
+"
+PRC_YZZX_HL	PROCEDURE	118	"      end if;
+"
+PRC_YZZX_HL	PROCEDURE	119	"    end if;
+"
+PRC_YZZX_HL	PROCEDURE	120	"  end loop;
+"
+PRC_YZZX_HL	PROCEDURE	121	"
+"
+PRC_YZZX_HL	PROCEDURE	122	"  --20201120 根据病人住院天数计算床位费、住院诊查费，计头不计尾，多收的费用删除掉
+"
+PRC_YZZX_HL	PROCEDURE	123	"  delete from zy_detail_charge a
+"
+PRC_YZZX_HL	PROCEDURE	124	"   where patient_no = patient
+"
+PRC_YZZX_HL	PROCEDURE	125	"     and trunc(charge_date) not in
+"
+PRC_YZZX_HL	PROCEDURE	126	"         (select (select trunc(admiss_date)
+"
+PRC_YZZX_HL	PROCEDURE	127	"                    from zy_patient_information a
+"
+PRC_YZZX_HL	PROCEDURE	128	"                   where patient_no = patient) + rownum - 1 as d
+"
+PRC_YZZX_HL	PROCEDURE	129	"            from user_objects
+"
+PRC_YZZX_HL	PROCEDURE	130	"           where rownum <= (select trunc(sysdate) - trunc(admiss_date)
+"
+PRC_YZZX_HL	PROCEDURE	131	"                              from zy_patient_information a
+"
+PRC_YZZX_HL	PROCEDURE	132	"                             where patient_no = patient))
+"
+PRC_YZZX_HL	PROCEDURE	133	"     and charge_code in
+"
+PRC_YZZX_HL	PROCEDURE	134	"         (select csz2 from gy_xtcs a where csmc in ('ZYZCF', 'ZYCWF'));
+"
+PRC_YZZX_HL	PROCEDURE	135	"
+"
+PRC_YZZX_HL	PROCEDURE	136	"  commit;
+"
+PRC_YZZX_HL	PROCEDURE	137	"  message := '';
+"
+PRC_YZZX_HL	PROCEDURE	138	"  ret     := 1;
+"
+PRC_YZZX_HL	PROCEDURE	139	"  return;
+"
+PRC_YZZX_HL	PROCEDURE	140	"end prc_yzzx_hl;
+"

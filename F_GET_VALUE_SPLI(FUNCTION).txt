@@ -1,0 +1,154 @@
+F_GET_VALUE_SPLI	FUNCTION	1	"FUNCTION ""F_GET_VALUE_SPLI""(arg_source in varchar2,
+"
+F_GET_VALUE_SPLI	FUNCTION	2	"                                              arg_item   in varchar2,
+"
+F_GET_VALUE_SPLI	FUNCTION	3	"                                              arg_spli   in varchar2)
+"
+F_GET_VALUE_SPLI	FUNCTION	4	"  return varchar2 is
+"
+F_GET_VALUE_SPLI	FUNCTION	5	"  ls_return   varchar2(260);
+"
+F_GET_VALUE_SPLI	FUNCTION	6	"  ls_item     varchar2(200);
+"
+F_GET_VALUE_SPLI	FUNCTION	7	"  ls_source   varchar2(500);
+"
+F_GET_VALUE_SPLI	FUNCTION	8	"  ll_pos1     number;
+"
+F_GET_VALUE_SPLI	FUNCTION	9	"   ll_pos2     number;
+"
+F_GET_VALUE_SPLI	FUNCTION	10	"  ll_pos_spli number;
+"
+F_GET_VALUE_SPLI	FUNCTION	11	"begin
+"
+F_GET_VALUE_SPLI	FUNCTION	12	"
+"
+F_GET_VALUE_SPLI	FUNCTION	13	"  select length(arg_source) into ll_pos1 from dual;
+"
+F_GET_VALUE_SPLI	FUNCTION	14	"  if ll_pos1 > 0 then
+"
+F_GET_VALUE_SPLI	FUNCTION	15	"    null;
+"
+F_GET_VALUE_SPLI	FUNCTION	16	"  else
+"
+F_GET_VALUE_SPLI	FUNCTION	17	"    return '';
+"
+F_GET_VALUE_SPLI	FUNCTION	18	"  end if;
+"
+F_GET_VALUE_SPLI	FUNCTION	19	"
+"
+F_GET_VALUE_SPLI	FUNCTION	20	"  select length(arg_item) into ll_pos1 from dual;
+"
+F_GET_VALUE_SPLI	FUNCTION	21	"  if ll_pos1 > 0 then
+"
+F_GET_VALUE_SPLI	FUNCTION	22	"    null;
+"
+F_GET_VALUE_SPLI	FUNCTION	23	"  else
+"
+F_GET_VALUE_SPLI	FUNCTION	24	"    return '';
+"
+F_GET_VALUE_SPLI	FUNCTION	25	"  end if;
+"
+F_GET_VALUE_SPLI	FUNCTION	26	"
+"
+F_GET_VALUE_SPLI	FUNCTION	27	"  select length(arg_spli) into ll_pos1 from dual;
+"
+F_GET_VALUE_SPLI	FUNCTION	28	"  if ll_pos1 > 0 then
+"
+F_GET_VALUE_SPLI	FUNCTION	29	"    null;
+"
+F_GET_VALUE_SPLI	FUNCTION	30	"  else
+"
+F_GET_VALUE_SPLI	FUNCTION	31	"    return '';
+"
+F_GET_VALUE_SPLI	FUNCTION	32	"  end if;
+"
+F_GET_VALUE_SPLI	FUNCTION	33	"
+"
+F_GET_VALUE_SPLI	FUNCTION	34	"  -- select F_GET_VALUE_SPLI('mpsj=%%%mpzrr=超级用户%%%sfgl=','mpzrr=','%%%')  from dual;
+"
+F_GET_VALUE_SPLI	FUNCTION	35	"  --mpzrr=超级用户
+"
+F_GET_VALUE_SPLI	FUNCTION	36	"
+"
+F_GET_VALUE_SPLI	FUNCTION	37	"  --jqhddd=%%%mpsj=%%%mpzrr=超级用户%%%sfgl=%%%sfmp=%%%sfls=%%%xjzdz=北苑街道四季社区%%%
+"
+F_GET_VALUE_SPLI	FUNCTION	38	"
+"
+F_GET_VALUE_SPLI	FUNCTION	39	"  --  select  instr('jqhddd=%%%mpsj=%%%mpzrr=超级用户%%%sfgl=%%%sfmp=%%%sfls=%%%xjzdz=北苑街道四季社区%%%','%%%mpzrr=') from dual   --16 
+"
+F_GET_VALUE_SPLI	FUNCTION	40	"  --select length('%%%mpzrr=') from dual  --9
+"
+F_GET_VALUE_SPLI	FUNCTION	41	"  --16+9
+"
+F_GET_VALUE_SPLI	FUNCTION	42	"  --select substr('jqhddd=%%%mpsj=%%%mpzrr=超级用户%%%sfgl=%%%sfmp=%%%sfls=%%%xjzdz=北苑街道四季社区%%%',(16 +9)) from dual
+"
+F_GET_VALUE_SPLI	FUNCTION	43	"
+"
+F_GET_VALUE_SPLI	FUNCTION	44	"  --select  instr('超级用户%%%sfgl=%%%sfmp=%%%sfls=%%%xjzdz=北苑街道四季社区%%%','%%%') from dual   --5
+"
+F_GET_VALUE_SPLI	FUNCTION	45	"  --5-1=4
+"
+F_GET_VALUE_SPLI	FUNCTION	46	"  --select substr('超级用户%%%sfgl=%%%sfmp=%%%sfls=%%%xjzdz=北苑街道四季社区%%%',1,4) from dual
+"
+F_GET_VALUE_SPLI	FUNCTION	47	"
+"
+F_GET_VALUE_SPLI	FUNCTION	48	"  select arg_spli || arg_source || arg_spli into ls_source from dual;
+"
+F_GET_VALUE_SPLI	FUNCTION	49	"
+"
+F_GET_VALUE_SPLI	FUNCTION	50	"  select arg_spli || arg_item into ls_item from dual;
+"
+F_GET_VALUE_SPLI	FUNCTION	51	"  select instr(ls_source, ls_item) into ll_pos1 from dual;
+"
+F_GET_VALUE_SPLI	FUNCTION	52	"  select length(arg_spli) into ll_pos_spli from dual;
+"
+F_GET_VALUE_SPLI	FUNCTION	53	"  select ll_pos1 + ll_pos_spli into ll_pos_spli from dual;
+"
+F_GET_VALUE_SPLI	FUNCTION	54	"
+"
+F_GET_VALUE_SPLI	FUNCTION	55	"  select substr(ls_source, ll_pos_spli) into ls_source from dual;
+"
+F_GET_VALUE_SPLI	FUNCTION	56	"
+"
+F_GET_VALUE_SPLI	FUNCTION	57	"  select instr(ls_source, arg_spli) into ll_pos1 from dual;
+"
+F_GET_VALUE_SPLI	FUNCTION	58	"  select substr(ls_source, 1, ll_pos1 - 1) into ls_source from dual;
+"
+F_GET_VALUE_SPLI	FUNCTION	59	"
+"
+F_GET_VALUE_SPLI	FUNCTION	60	"  select length(arg_item) into ll_pos1 from dual;
+"
+F_GET_VALUE_SPLI	FUNCTION	61	"    select length(ls_source) into ll_pos2 from dual;
+"
+F_GET_VALUE_SPLI	FUNCTION	62	"    
+"
+F_GET_VALUE_SPLI	FUNCTION	63	"    ----?
+"
+F_GET_VALUE_SPLI	FUNCTION	64	"    if ll_pos1 >ll_pos2+1 then 
+"
+F_GET_VALUE_SPLI	FUNCTION	65	"    ls_return := '';
+"
+F_GET_VALUE_SPLI	FUNCTION	66	"    end if;
+"
+F_GET_VALUE_SPLI	FUNCTION	67	"    
+"
+F_GET_VALUE_SPLI	FUNCTION	68	"  select substr(ls_source, ll_pos1 + 1) into ls_return from dual;
+"
+F_GET_VALUE_SPLI	FUNCTION	69	"
+"
+F_GET_VALUE_SPLI	FUNCTION	70	"  select length(ls_return) into ll_pos1 from dual;
+"
+F_GET_VALUE_SPLI	FUNCTION	71	"  if ll_pos1 > 0 then
+"
+F_GET_VALUE_SPLI	FUNCTION	72	"    null;
+"
+F_GET_VALUE_SPLI	FUNCTION	73	"  else
+"
+F_GET_VALUE_SPLI	FUNCTION	74	"    ls_return := '';
+"
+F_GET_VALUE_SPLI	FUNCTION	75	"  end if;
+"
+F_GET_VALUE_SPLI	FUNCTION	76	"  return(ls_return);
+"
+F_GET_VALUE_SPLI	FUNCTION	77	"end;
+"

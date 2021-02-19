@@ -1,0 +1,104 @@
+YWZXYY20141028	PROCEDURE	1	"PROCEDURE ""YWZXYY20141028"" is
+"
+YWZXYY20141028	PROCEDURE	2	"begin
+"
+YWZXYY20141028	PROCEDURE	3	"
+"
+YWZXYY20141028	PROCEDURE	4	"  insert into zy_jiaoyi_v1 (bz) values ('YWZXYY20141028');
+"
+YWZXYY20141028	PROCEDURE	5	"  if sqlcode = 0 then
+"
+YWZXYY20141028	PROCEDURE	6	"    commit;
+"
+YWZXYY20141028	PROCEDURE	7	"  else
+"
+YWZXYY20141028	PROCEDURE	8	"    rollback;
+"
+YWZXYY20141028	PROCEDURE	9	"  end if;
+"
+YWZXYY20141028	PROCEDURE	10	"
+"
+YWZXYY20141028	PROCEDURE	11	"  update l_laborder
+"
+YWZXYY20141028	PROCEDURE	12	"     set receiveflag = -2
+"
+YWZXYY20141028	PROCEDURE	13	"   where printflag = 0
+"
+YWZXYY20141028	PROCEDURE	14	"     and receiveflag <> -2
+"
+YWZXYY20141028	PROCEDURE	15	"     and laborderorg in (select a.sfsb
+"
+YWZXYY20141028	PROCEDURE	16	"                           From yj_Yjk1 a
+"
+YWZXYY20141028	PROCEDURE	17	"                          where a.sfsb > 0
+"
+YWZXYY20141028	PROCEDURE	18	"                            and a.sjysgh = 'D8000'
+"
+YWZXYY20141028	PROCEDURE	19	"                            and a.kdsj > sysdate - 2);
+"
+YWZXYY20141028	PROCEDURE	20	"  if sqlcode = 0 then
+"
+YWZXYY20141028	PROCEDURE	21	"    commit;
+"
+YWZXYY20141028	PROCEDURE	22	"  else
+"
+YWZXYY20141028	PROCEDURE	23	"    rollback;
+"
+YWZXYY20141028	PROCEDURE	24	"  end if;
+"
+YWZXYY20141028	PROCEDURE	25	"  update yj_Yjk2
+"
+YWZXYY20141028	PROCEDURE	26	"     set zxksdm = '10900001'
+"
+YWZXYY20141028	PROCEDURE	27	"   where zxksdm <> '10900001'
+"
+YWZXYY20141028	PROCEDURE	28	"     and fhr is null
+"
+YWZXYY20141028	PROCEDURE	29	"     and yjsb in (select a.yjsb
+"
+YWZXYY20141028	PROCEDURE	30	"                    From yj_Yjk1 a
+"
+YWZXYY20141028	PROCEDURE	31	"                   where a.sfsb > 0
+"
+YWZXYY20141028	PROCEDURE	32	"                     and a.sjysgh = 'D8000'
+"
+YWZXYY20141028	PROCEDURE	33	"                     and a.kdsj > sysdate - 2);
+"
+YWZXYY20141028	PROCEDURE	34	"  if sqlcode = 0 then
+"
+YWZXYY20141028	PROCEDURE	35	"    commit;
+"
+YWZXYY20141028	PROCEDURE	36	"  else
+"
+YWZXYY20141028	PROCEDURE	37	"    rollback;
+"
+YWZXYY20141028	PROCEDURE	38	"  end if;
+"
+YWZXYY20141028	PROCEDURE	39	"
+"
+YWZXYY20141028	PROCEDURE	40	"  update l_Patientinfo
+"
+YWZXYY20141028	PROCEDURE	41	"     set feestatus = 6
+"
+YWZXYY20141028	PROCEDURE	42	"   where feestatus <> 6
+"
+YWZXYY20141028	PROCEDURE	43	"     and resultstatus >= 1
+"
+YWZXYY20141028	PROCEDURE	44	"     and stayhospitalmode = 3
+"
+YWZXYY20141028	PROCEDURE	45	"     and checktime > sysdate - 2;
+"
+YWZXYY20141028	PROCEDURE	46	"  if sqlcode = 0 then
+"
+YWZXYY20141028	PROCEDURE	47	"    commit;
+"
+YWZXYY20141028	PROCEDURE	48	"  else
+"
+YWZXYY20141028	PROCEDURE	49	"    rollback;
+"
+YWZXYY20141028	PROCEDURE	50	"  end if;
+"
+YWZXYY20141028	PROCEDURE	51	"
+"
+YWZXYY20141028	PROCEDURE	52	"end ywzxyy20141028;
+"

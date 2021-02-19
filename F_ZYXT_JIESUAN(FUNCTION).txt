@@ -1,0 +1,482 @@
+F_ZYXT_JIESUAN	FUNCTION	1	"FUNCTION ""F_ZYXT_JIESUAN""(arg_patient_no Number)
+"
+F_ZYXT_JIESUAN	FUNCTION	2	"  return varchar2 Is
+"
+F_ZYXT_JIESUAN	FUNCTION	3	"  ll_count  number;
+"
+F_ZYXT_JIESUAN	FUNCTION	4	"  ll_count2 number;
+"
+F_ZYXT_JIESUAN	FUNCTION	5	"  v_count   number;
+"
+F_ZYXT_JIESUAN	FUNCTION	6	"  ll_brlb   number;
+"
+F_ZYXT_JIESUAN	FUNCTION	7	"  je_infant number;
+"
+F_ZYXT_JIESUAN	FUNCTION	8	"  ls_show   varchar2(500);
+"
+F_ZYXT_JIESUAN	FUNCTION	9	"  ls_time   varchar2(20);
+"
+F_ZYXT_JIESUAN	FUNCTION	10	"  --  ll_pos         number;
+"
+F_ZYXT_JIESUAN	FUNCTION	11	"  --ls_syzldm      varchar2(200);
+"
+F_ZYXT_JIESUAN	FUNCTION	12	"  -- ls_ybdm        varchar2(50);
+"
+F_ZYXT_JIESUAN	FUNCTION	13	"Begin
+"
+F_ZYXT_JIESUAN	FUNCTION	14	"  --return 有内容时 进行控制。如果 内容前面+‘’空格 放行
+"
+F_ZYXT_JIESUAN	FUNCTION	15	"
+"
+F_ZYXT_JIESUAN	FUNCTION	16	"  ls_show := '';
+"
+F_ZYXT_JIESUAN	FUNCTION	17	"
+"
+F_ZYXT_JIESUAN	FUNCTION	18	"  select COUNT(*)
+"
+F_ZYXT_JIESUAN	FUNCTION	19	"    INTO ll_count
+"
+F_ZYXT_JIESUAN	FUNCTION	20	"    From zy_patient_information
+"
+F_ZYXT_JIESUAN	FUNCTION	21	"   where patient_no = arg_patient_no;
+"
+F_ZYXT_JIESUAN	FUNCTION	22	"
+"
+F_ZYXT_JIESUAN	FUNCTION	23	"  IF ll_count = 0 then
+"
+F_ZYXT_JIESUAN	FUNCTION	24	"    select '未找到记录 zy_patient_information, 函数F_ZYXT_JIESUAN'
+"
+F_ZYXT_JIESUAN	FUNCTION	25	"      into ls_show
+"
+F_ZYXT_JIESUAN	FUNCTION	26	"      from dual;
+"
+F_ZYXT_JIESUAN	FUNCTION	27	"    return ls_show;
+"
+F_ZYXT_JIESUAN	FUNCTION	28	"  end if;
+"
+F_ZYXT_JIESUAN	FUNCTION	29	"
+"
+F_ZYXT_JIESUAN	FUNCTION	30	"  -- t_pass_zy  病案号 放行
+"
+F_ZYXT_JIESUAN	FUNCTION	31	"  if 1 = 1 then
+"
+F_ZYXT_JIESUAN	FUNCTION	32	"  
+"
+F_ZYXT_JIESUAN	FUNCTION	33	"    select count(bah)
+"
+F_ZYXT_JIESUAN	FUNCTION	34	"      into v_count
+"
+F_ZYXT_JIESUAN	FUNCTION	35	"      From t_pass_zy
+"
+F_ZYXT_JIESUAN	FUNCTION	36	"     where bah in (select bah
+"
+F_ZYXT_JIESUAN	FUNCTION	37	"                     from zy_patient_information
+"
+F_ZYXT_JIESUAN	FUNCTION	38	"                    where patient_no = arg_patient_no)
+"
+F_ZYXT_JIESUAN	FUNCTION	39	"       and czrq > sysdate - 0.1;
+"
+F_ZYXT_JIESUAN	FUNCTION	40	"  
+"
+F_ZYXT_JIESUAN	FUNCTION	41	"    if v_count >= 1 then
+"
+F_ZYXT_JIESUAN	FUNCTION	42	"    
+"
+F_ZYXT_JIESUAN	FUNCTION	43	"      return '';
+"
+F_ZYXT_JIESUAN	FUNCTION	44	"    end if;
+"
+F_ZYXT_JIESUAN	FUNCTION	45	"  
+"
+F_ZYXT_JIESUAN	FUNCTION	46	"  end if;
+"
+F_ZYXT_JIESUAN	FUNCTION	47	"
+"
+F_ZYXT_JIESUAN	FUNCTION	48	"  select COUNT(*)
+"
+F_ZYXT_JIESUAN	FUNCTION	49	"    INTO ll_count
+"
+F_ZYXT_JIESUAN	FUNCTION	50	"    From zy_detail_charge
+"
+F_ZYXT_JIESUAN	FUNCTION	51	"   where patient_no = arg_patient_no
+"
+F_ZYXT_JIESUAN	FUNCTION	52	"     and dj < 0;
+"
+F_ZYXT_JIESUAN	FUNCTION	53	"
+"
+F_ZYXT_JIESUAN	FUNCTION	54	"  IF ll_count > 0 then
+"
+F_ZYXT_JIESUAN	FUNCTION	55	"    select '存在单价小于0的记录, 函数F_ZYXT_JIESUAN'
+"
+F_ZYXT_JIESUAN	FUNCTION	56	"      into ls_show
+"
+F_ZYXT_JIESUAN	FUNCTION	57	"      from dual;
+"
+F_ZYXT_JIESUAN	FUNCTION	58	"    return ls_show;
+"
+F_ZYXT_JIESUAN	FUNCTION	59	"  end if;
+"
+F_ZYXT_JIESUAN	FUNCTION	60	"
+"
+F_ZYXT_JIESUAN	FUNCTION	61	"
+"
+F_ZYXT_JIESUAN	FUNCTION	62	"
+"
+F_ZYXT_JIESUAN	FUNCTION	63	"  --病人费用锁定 begin 
+"
+F_ZYXT_JIESUAN	FUNCTION	64	"  if 1 = 1 then
+"
+F_ZYXT_JIESUAN	FUNCTION	65	"    select nvl(max(bz), ' ')
+"
+F_ZYXT_JIESUAN	FUNCTION	66	"      into ls_show
+"
+F_ZYXT_JIESUAN	FUNCTION	67	"      from temp_lock
+"
+F_ZYXT_JIESUAN	FUNCTION	68	"     where patient_no = arg_patient_no;
+"
+F_ZYXT_JIESUAN	FUNCTION	69	"  
+"
+F_ZYXT_JIESUAN	FUNCTION	70	"    if ls_show > ' ' then
+"
+F_ZYXT_JIESUAN	FUNCTION	71	"      select ls_show || '[F_ZYXT_JIESUAN]' into ls_show from dual;
+"
+F_ZYXT_JIESUAN	FUNCTION	72	"    
+"
+F_ZYXT_JIESUAN	FUNCTION	73	"      return ls_show;
+"
+F_ZYXT_JIESUAN	FUNCTION	74	"    end if;
+"
+F_ZYXT_JIESUAN	FUNCTION	75	"  end if;
+"
+F_ZYXT_JIESUAN	FUNCTION	76	"  --高值耗材核查 begin 
+"
+F_ZYXT_JIESUAN	FUNCTION	77	"
+"
+F_ZYXT_JIESUAN	FUNCTION	78	"  --材料费 单价不一致
+"
+F_ZYXT_JIESUAN	FUNCTION	79	"  if 1 = 0 then
+"
+F_ZYXT_JIESUAN	FUNCTION	80	"    select nvl(max(xmmc), ' ')
+"
+F_ZYXT_JIESUAN	FUNCTION	81	"      into ls_show
+"
+F_ZYXT_JIESUAN	FUNCTION	82	"      from (select xmmc0 || '单价不一致,函数F_ZYXT_JIESUAN' xmmc
+"
+F_ZYXT_JIESUAN	FUNCTION	83	"            
+"
+F_ZYXT_JIESUAN	FUNCTION	84	"              from (select charge_name || charge_code xmmc0,
+"
+F_ZYXT_JIESUAN	FUNCTION	85	"                           count(distinct(dj))
+"
+F_ZYXT_JIESUAN	FUNCTION	86	"                      From zy_detail_charge
+"
+F_ZYXT_JIESUAN	FUNCTION	87	"                     where charge_name || charge_code in
+"
+F_ZYXT_JIESUAN	FUNCTION	88	"                           (select charge_name || charge_code
+"
+F_ZYXT_JIESUAN	FUNCTION	89	"                              from zy_detail_charge a
+"
+F_ZYXT_JIESUAN	FUNCTION	90	"                             where sl < 0
+"
+F_ZYXT_JIESUAN	FUNCTION	91	"                               and js_no = 0
+"
+F_ZYXT_JIESUAN	FUNCTION	92	"                               and patient_NO = arg_patient_no)
+"
+F_ZYXT_JIESUAN	FUNCTION	93	"                       and fygl = 25
+"
+F_ZYXT_JIESUAN	FUNCTION	94	"                       and dj > 150
+"
+F_ZYXT_JIESUAN	FUNCTION	95	"                       and js_No = 0
+"
+F_ZYXT_JIESUAN	FUNCTION	96	"                       and patient_NO = arg_patient_no
+"
+F_ZYXT_JIESUAN	FUNCTION	97	"                     group by charge_name || charge_code
+"
+F_ZYXT_JIESUAN	FUNCTION	98	"                    having count(distinct(dj)) > 1)
+"
+F_ZYXT_JIESUAN	FUNCTION	99	"            union all
+"
+F_ZYXT_JIESUAN	FUNCTION	100	"            select ' ' from dual);
+"
+F_ZYXT_JIESUAN	FUNCTION	101	"    IF ls_show > ' ' then
+"
+F_ZYXT_JIESUAN	FUNCTION	102	"    
+"
+F_ZYXT_JIESUAN	FUNCTION	103	"      return ls_show;
+"
+F_ZYXT_JIESUAN	FUNCTION	104	"    end if;
+"
+F_ZYXT_JIESUAN	FUNCTION	105	"  end if;
+"
+F_ZYXT_JIESUAN	FUNCTION	106	"
+"
+F_ZYXT_JIESUAN	FUNCTION	107	"  --判断医保报销费用
+"
+F_ZYXT_JIESUAN	FUNCTION	108	"
+"
+F_ZYXT_JIESUAN	FUNCTION	109	"  select sum(zje)
+"
+F_ZYXT_JIESUAN	FUNCTION	110	"    into je_infant
+"
+F_ZYXT_JIESUAN	FUNCTION	111	"    from (select sum(dj * sl) zje
+"
+F_ZYXT_JIESUAN	FUNCTION	112	"            from zy_detail_charge
+"
+F_ZYXT_JIESUAN	FUNCTION	113	"           where infant_flag = 1
+"
+F_ZYXT_JIESUAN	FUNCTION	114	"             and js_no = 0
+"
+F_ZYXT_JIESUAN	FUNCTION	115	"             and patient_no = arg_patient_no
+"
+F_ZYXT_JIESUAN	FUNCTION	116	"          union all
+"
+F_ZYXT_JIESUAN	FUNCTION	117	"          select 0 from dual);
+"
+F_ZYXT_JIESUAN	FUNCTION	118	"
+"
+F_ZYXT_JIESUAN	FUNCTION	119	"  select nvl(brlb, 0)
+"
+F_ZYXT_JIESUAN	FUNCTION	120	"    into ll_brlb
+"
+F_ZYXT_JIESUAN	FUNCTION	121	"    from zy_patient_information
+"
+F_ZYXT_JIESUAN	FUNCTION	122	"   where patient_no = arg_patient_no;
+"
+F_ZYXT_JIESUAN	FUNCTION	123	"  if ll_brlb = 99 then
+"
+F_ZYXT_JIESUAN	FUNCTION	124	"    select COUNT(*)
+"
+F_ZYXT_JIESUAN	FUNCTION	125	"      INTO ll_count
+"
+F_ZYXT_JIESUAN	FUNCTION	126	"      from v_yibao_qg_check_yjs
+"
+F_ZYXT_JIESUAN	FUNCTION	127	"     where (nvl(zf_fee, 0) - je_infant) <> nvl(yb_grxj, 0)
+"
+F_ZYXT_JIESUAN	FUNCTION	128	"       and brlb = 99
+"
+F_ZYXT_JIESUAN	FUNCTION	129	"       and patient_no = arg_patient_no;
+"
+F_ZYXT_JIESUAN	FUNCTION	130	"  
+"
+F_ZYXT_JIESUAN	FUNCTION	131	"    IF ll_count > 0 then
+"
+F_ZYXT_JIESUAN	FUNCTION	132	"      return '99医保预结算费用不一致,函数F_ZYXT_JIESUAN';
+"
+F_ZYXT_JIESUAN	FUNCTION	133	"      select '99医保预结算费用不一致,函数F_ZYXT_JIESUAN'
+"
+F_ZYXT_JIESUAN	FUNCTION	134	"        into ls_show
+"
+F_ZYXT_JIESUAN	FUNCTION	135	"        from dual;
+"
+F_ZYXT_JIESUAN	FUNCTION	136	"      return ls_show;
+"
+F_ZYXT_JIESUAN	FUNCTION	137	"    end if;
+"
+F_ZYXT_JIESUAN	FUNCTION	138	"  end if;
+"
+F_ZYXT_JIESUAN	FUNCTION	139	"
+"
+F_ZYXT_JIESUAN	FUNCTION	140	"  if ll_brlb = 97 then
+"
+F_ZYXT_JIESUAN	FUNCTION	141	"    select COUNT(*)
+"
+F_ZYXT_JIESUAN	FUNCTION	142	"      INTO ll_count
+"
+F_ZYXT_JIESUAN	FUNCTION	143	"      from v_yibao_jhyb_check_yjs
+"
+F_ZYXT_JIESUAN	FUNCTION	144	"     where (nvl(zf_fee, 0) - je_infant) <> nvl(yb_grxj, 0)
+"
+F_ZYXT_JIESUAN	FUNCTION	145	"       and brlb = 97
+"
+F_ZYXT_JIESUAN	FUNCTION	146	"       and patient_no = arg_patient_no;
+"
+F_ZYXT_JIESUAN	FUNCTION	147	"  
+"
+F_ZYXT_JIESUAN	FUNCTION	148	"    IF ll_count > 0 then
+"
+F_ZYXT_JIESUAN	FUNCTION	149	"      return '97医保预结算费用不一致,函数F_ZYXT_JIESUAN';
+"
+F_ZYXT_JIESUAN	FUNCTION	150	"      select '97医保预结算费用不一致,函数F_ZYXT_JIESUAN'
+"
+F_ZYXT_JIESUAN	FUNCTION	151	"        into ls_show
+"
+F_ZYXT_JIESUAN	FUNCTION	152	"        from dual;
+"
+F_ZYXT_JIESUAN	FUNCTION	153	"      return ls_show;
+"
+F_ZYXT_JIESUAN	FUNCTION	154	"    end if;
+"
+F_ZYXT_JIESUAN	FUNCTION	155	"  end if;
+"
+F_ZYXT_JIESUAN	FUNCTION	156	"
+"
+F_ZYXT_JIESUAN	FUNCTION	157	"  if 1 = 0 then
+"
+F_ZYXT_JIESUAN	FUNCTION	158	"    select COUNT(*)
+"
+F_ZYXT_JIESUAN	FUNCTION	159	"      INTO ll_count
+"
+F_ZYXT_JIESUAN	FUNCTION	160	"      from v_zy_yujiaokuancx_yjs
+"
+F_ZYXT_JIESUAN	FUNCTION	161	"     where nvl(total_fee, 0) < nvl(total_fee_mx, 0)
+"
+F_ZYXT_JIESUAN	FUNCTION	162	"       and patient_no = arg_patient_no;
+"
+F_ZYXT_JIESUAN	FUNCTION	163	"  
+"
+F_ZYXT_JIESUAN	FUNCTION	164	"    IF ll_count > 0 then
+"
+F_ZYXT_JIESUAN	FUNCTION	165	"      return '明细费用合计与total_Fee 不一致,函数F_ZYXT_JIESUAN';
+"
+F_ZYXT_JIESUAN	FUNCTION	166	"      select '明细费用合计与total_Fee 不一致,函数F_ZYXT_JIESUAN'
+"
+F_ZYXT_JIESUAN	FUNCTION	167	"        into ls_show
+"
+F_ZYXT_JIESUAN	FUNCTION	168	"        from dual;
+"
+F_ZYXT_JIESUAN	FUNCTION	169	"      return ls_show;
+"
+F_ZYXT_JIESUAN	FUNCTION	170	"    
+"
+F_ZYXT_JIESUAN	FUNCTION	171	"    end if;
+"
+F_ZYXT_JIESUAN	FUNCTION	172	"  end if;
+"
+F_ZYXT_JIESUAN	FUNCTION	173	"
+"
+F_ZYXT_JIESUAN	FUNCTION	174	"  if 1 = 1 then
+"
+F_ZYXT_JIESUAN	FUNCTION	175	"    select COUNT(*)
+"
+F_ZYXT_JIESUAN	FUNCTION	176	"      INTO ll_count
+"
+F_ZYXT_JIESUAN	FUNCTION	177	"      from v_zy_yujiaokuancx_yjs
+"
+F_ZYXT_JIESUAN	FUNCTION	178	"     where nvl(zyjjk, 0) < nvl(zf_fee_2, 0)
+"
+F_ZYXT_JIESUAN	FUNCTION	179	"       and patient_No = arg_patient_no;
+"
+F_ZYXT_JIESUAN	FUNCTION	180	"  
+"
+F_ZYXT_JIESUAN	FUNCTION	181	"    IF ll_count > 0 then
+"
+F_ZYXT_JIESUAN	FUNCTION	182	"    
+"
+F_ZYXT_JIESUAN	FUNCTION	183	"      select ls_show || ' 需补交' || (nvl(zf_fee_2, 0) - nvl(zyjjk, 0)) ||
+"
+F_ZYXT_JIESUAN	FUNCTION	184	"             '(F_ZYXT_JIESUAN)'
+"
+F_ZYXT_JIESUAN	FUNCTION	185	"        into ls_show
+"
+F_ZYXT_JIESUAN	FUNCTION	186	"        from v_zy_yujiaokuancx_yjs
+"
+F_ZYXT_JIESUAN	FUNCTION	187	"       where nvl(zyjjk, 0) < nvl(zf_fee_2, 0)
+"
+F_ZYXT_JIESUAN	FUNCTION	188	"         and patient_No = arg_patient_no;
+"
+F_ZYXT_JIESUAN	FUNCTION	189	"    
+"
+F_ZYXT_JIESUAN	FUNCTION	190	"      /*   select ls_show || ' ，请核查,函数F_ZYXT_JIESUAN'
+"
+F_ZYXT_JIESUAN	FUNCTION	191	"      into ls_show
+"
+F_ZYXT_JIESUAN	FUNCTION	192	"      from dual;*/
+"
+F_ZYXT_JIESUAN	FUNCTION	193	"      -- return ls_show;
+"
+F_ZYXT_JIESUAN	FUNCTION	194	"    end if;
+"
+F_ZYXT_JIESUAN	FUNCTION	195	"  end if;
+"
+F_ZYXT_JIESUAN	FUNCTION	196	"
+"
+F_ZYXT_JIESUAN	FUNCTION	197	"  --判断 用血记录
+"
+F_ZYXT_JIESUAN	FUNCTION	198	"  select COUNT(*)
+"
+F_ZYXT_JIESUAN	FUNCTION	199	"    INTO ll_count
+"
+F_ZYXT_JIESUAN	FUNCTION	200	"    from zy_detail_charge
+"
+F_ZYXT_JIESUAN	FUNCTION	201	"   where patient_no = arg_patient_no
+"
+F_ZYXT_JIESUAN	FUNCTION	202	"     and fygl = 11;
+"
+F_ZYXT_JIESUAN	FUNCTION	203	"
+"
+F_ZYXT_JIESUAN	FUNCTION	204	"  IF ll_count > 0 then
+"
+F_ZYXT_JIESUAN	FUNCTION	205	"  
+"
+F_ZYXT_JIESUAN	FUNCTION	206	"    select COUNT(*)
+"
+F_ZYXT_JIESUAN	FUNCTION	207	"      INTO ll_count
+"
+F_ZYXT_JIESUAN	FUNCTION	208	"      from temp_sfzh_xianxue20191010
+"
+F_ZYXT_JIESUAN	FUNCTION	209	"     where s2 in (select social_id
+"
+F_ZYXT_JIESUAN	FUNCTION	210	"                    From zy_patient_information
+"
+F_ZYXT_JIESUAN	FUNCTION	211	"                   where patient_no = arg_patient_no);
+"
+F_ZYXT_JIESUAN	FUNCTION	212	"  
+"
+F_ZYXT_JIESUAN	FUNCTION	213	"    IF ll_count > 0 then
+"
+F_ZYXT_JIESUAN	FUNCTION	214	"      select ls_show || ' 该病人有用血记录,同时有献血证,函数F_ZYXT_JIESUAN'
+"
+F_ZYXT_JIESUAN	FUNCTION	215	"        into ls_show
+"
+F_ZYXT_JIESUAN	FUNCTION	216	"        from dual;
+"
+F_ZYXT_JIESUAN	FUNCTION	217	"    
+"
+F_ZYXT_JIESUAN	FUNCTION	218	"    else
+"
+F_ZYXT_JIESUAN	FUNCTION	219	"      select ls_show || ' 该病人有用血记录,核实是否符合用血直免,函数F_ZYXT_JIESUAN'
+"
+F_ZYXT_JIESUAN	FUNCTION	220	"        into ls_show
+"
+F_ZYXT_JIESUAN	FUNCTION	221	"        from dual;
+"
+F_ZYXT_JIESUAN	FUNCTION	222	"    end if;
+"
+F_ZYXT_JIESUAN	FUNCTION	223	"  
+"
+F_ZYXT_JIESUAN	FUNCTION	224	"  end if;
+"
+F_ZYXT_JIESUAN	FUNCTION	225	"
+"
+F_ZYXT_JIESUAN	FUNCTION	226	"  --判断献血着
+"
+F_ZYXT_JIESUAN	FUNCTION	227	"  /*  select COUNT(*)
+"
+F_ZYXT_JIESUAN	FUNCTION	228	"    INTO ll_count
+"
+F_ZYXT_JIESUAN	FUNCTION	229	"    from temp_sfzh_xianxue20191010
+"
+F_ZYXT_JIESUAN	FUNCTION	230	"   where s2 in (select social_id
+"
+F_ZYXT_JIESUAN	FUNCTION	231	"                  From zy_patient_information
+"
+F_ZYXT_JIESUAN	FUNCTION	232	"                 where patient_no = arg_patient_no);
+"
+F_ZYXT_JIESUAN	FUNCTION	233	"  
+"
+F_ZYXT_JIESUAN	FUNCTION	234	"  IF ll_count > 0 then
+"
+F_ZYXT_JIESUAN	FUNCTION	235	"  
+"
+F_ZYXT_JIESUAN	FUNCTION	236	"    return ' 该病人有献血证,函数F_ZYXT_JIESUAN';
+"
+F_ZYXT_JIESUAN	FUNCTION	237	"  end if;*/
+"
+F_ZYXT_JIESUAN	FUNCTION	238	"
+"
+F_ZYXT_JIESUAN	FUNCTION	239	"  Return ls_show;
+"
+F_ZYXT_JIESUAN	FUNCTION	240	"
+"
+F_ZYXT_JIESUAN	FUNCTION	241	"End;
+"

@@ -1,0 +1,3848 @@
+PRC_AUTO_TASK_V1	PROCEDURE	1	"procedure prc_auto_task_v1 is
+"
+PRC_AUTO_TASK_V1	PROCEDURE	2	"
+"
+PRC_AUTO_TASK_V1	PROCEDURE	3	"  v_zy_jiaoyi_v1    zy_jiaoyi_v1%rowtype;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	4	"  v_count           number;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	5	"  v_count2          number;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	6	"  v_count_do        number;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	7	"  v_flag_len        number;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	8	"  v_flag_success    number;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	9	"  v_procedure_error varchar2(80);
+"
+PRC_AUTO_TASK_V1	PROCEDURE	10	"  v_bz              varchar2(80);
+"
+PRC_AUTO_TASK_V1	PROCEDURE	11	"  v_type            varchar2(80);
+"
+PRC_AUTO_TASK_V1	PROCEDURE	12	"  lxdh              varchar2(20);
+"
+PRC_AUTO_TASK_V1	PROCEDURE	13	"  nr                varchar2(800);
+"
+PRC_AUTO_TASK_V1	PROCEDURE	14	"  nr2               varchar2(800);
+"
+PRC_AUTO_TASK_V1	PROCEDURE	15	"  str_sql           varchar2(800);
+"
+PRC_AUTO_TASK_V1	PROCEDURE	16	"begin
+"
+PRC_AUTO_TASK_V1	PROCEDURE	17	"  v_zy_jiaoyi_v1.jiaoyilx := '后台执行_prc_auto_task_v1';
+"
+PRC_AUTO_TASK_V1	PROCEDURE	18	"  v_zy_jiaoyi_v1.caozuogh := 'DBA';
+"
+PRC_AUTO_TASK_V1	PROCEDURE	19	"  lxdh                    := '13777929515';
+"
+PRC_AUTO_TASK_V1	PROCEDURE	20	"  /*  insert into zy_jiaoyi_v1
+"
+PRC_AUTO_TASK_V1	PROCEDURE	21	"    (jiaoyilx, caozuogh, flag)
+"
+PRC_AUTO_TASK_V1	PROCEDURE	22	"  values
+"
+PRC_AUTO_TASK_V1	PROCEDURE	23	"    (v_zy_jiaoyi_v1.jiaoyilx, v_zy_jiaoyi_v1.caozuogh, 0);
+"
+PRC_AUTO_TASK_V1	PROCEDURE	24	"  commit;*/
+"
+PRC_AUTO_TASK_V1	PROCEDURE	25	"
+"
+PRC_AUTO_TASK_V1	PROCEDURE	26	"  --begin 开始执行
+"
+PRC_AUTO_TASK_V1	PROCEDURE	27	"
+"
+PRC_AUTO_TASK_V1	PROCEDURE	28	"  -- (存储过程，函数失效)检查
+"
+PRC_AUTO_TASK_V1	PROCEDURE	29	"  if 2 = 2 then
+"
+PRC_AUTO_TASK_V1	PROCEDURE	30	"    v_type         := '存储过程，函数 失效';
+"
+PRC_AUTO_TASK_V1	PROCEDURE	31	"    v_flag_success := 1;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	32	"  
+"
+PRC_AUTO_TASK_V1	PROCEDURE	33	"    select count(object_name) into v_count from v_system_view_fail;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	34	"    if v_count > 0 then
+"
+PRC_AUTO_TASK_V1	PROCEDURE	35	"      select v_zy_jiaoyi_v1.jiaoyilx || ',存储过程，函数失效,sl:' ||
+"
+PRC_AUTO_TASK_V1	PROCEDURE	36	"             to_char(v_count)
+"
+PRC_AUTO_TASK_V1	PROCEDURE	37	"        into nr
+"
+PRC_AUTO_TASK_V1	PROCEDURE	38	"        from dual;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	39	"      lxdh := '13777929515';
+"
+PRC_AUTO_TASK_V1	PROCEDURE	40	"      prc_sms_send_mark('au', lxdh, nr, v_bz);
+"
+PRC_AUTO_TASK_V1	PROCEDURE	41	"    
+"
+PRC_AUTO_TASK_V1	PROCEDURE	42	"      /*     select 'alter ' || object_type || '  ' || object_name || ' compile'
+"
+PRC_AUTO_TASK_V1	PROCEDURE	43	"        into str_sql
+"
+PRC_AUTO_TASK_V1	PROCEDURE	44	"        from v_system_view_fail
+"
+PRC_AUTO_TASK_V1	PROCEDURE	45	"       where rownum = 1;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	46	"      
+"
+PRC_AUTO_TASK_V1	PROCEDURE	47	"      if length(str_sql) > 1 then
+"
+PRC_AUTO_TASK_V1	PROCEDURE	48	"        begin
+"
+PRC_AUTO_TASK_V1	PROCEDURE	49	"          execute immediate str_sql;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	50	"          \*  execute immediate 'alter procedure ' || v_procedure_error ||
+"
+PRC_AUTO_TASK_V1	PROCEDURE	51	"          ' compile';*\
+"
+PRC_AUTO_TASK_V1	PROCEDURE	52	"        end;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	53	"      end if;*/
+"
+PRC_AUTO_TASK_V1	PROCEDURE	54	"    
+"
+PRC_AUTO_TASK_V1	PROCEDURE	55	"    end if;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	56	"  
+"
+PRC_AUTO_TASK_V1	PROCEDURE	57	"    insert into zy_jiaoyi_v1
+"
+PRC_AUTO_TASK_V1	PROCEDURE	58	"      (jiaoyilx, caozuogh, bz, flag)
+"
+PRC_AUTO_TASK_V1	PROCEDURE	59	"    values
+"
+PRC_AUTO_TASK_V1	PROCEDURE	60	"      (v_zy_jiaoyi_v1.jiaoyilx,
+"
+PRC_AUTO_TASK_V1	PROCEDURE	61	"       v_zy_jiaoyi_v1.caozuogh,
+"
+PRC_AUTO_TASK_V1	PROCEDURE	62	"       v_type,
+"
+PRC_AUTO_TASK_V1	PROCEDURE	63	"       v_flag_success);
+"
+PRC_AUTO_TASK_V1	PROCEDURE	64	"    if sqlcode = 0 then
+"
+PRC_AUTO_TASK_V1	PROCEDURE	65	"      commit;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	66	"    else
+"
+PRC_AUTO_TASK_V1	PROCEDURE	67	"      rollback;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	68	"    end if;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	69	"    if v_flag_success < 1 then
+"
+PRC_AUTO_TASK_V1	PROCEDURE	70	"      select 'error ' || v_zy_jiaoyi_v1.jiaoyilx || ' _' || v_type
+"
+PRC_AUTO_TASK_V1	PROCEDURE	71	"        into nr
+"
+PRC_AUTO_TASK_V1	PROCEDURE	72	"        from dual;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	73	"      lxdh := '13777929515';
+"
+PRC_AUTO_TASK_V1	PROCEDURE	74	"      prc_sms_send_mark('au', lxdh, nr, v_bz);
+"
+PRC_AUTO_TASK_V1	PROCEDURE	75	"    end if;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	76	"  
+"
+PRC_AUTO_TASK_V1	PROCEDURE	77	"  end if;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	78	"  -- end (存储过程，函数失效)检查
+"
+PRC_AUTO_TASK_V1	PROCEDURE	79	"
+"
+PRC_AUTO_TASK_V1	PROCEDURE	80	"  --门诊停诊停止通知
+"
+PRC_AUTO_TASK_V1	PROCEDURE	81	"  if 1 = 1 then
+"
+PRC_AUTO_TASK_V1	PROCEDURE	82	"    null;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	83	"    prc_xiangmu_cursor_do('门诊停诊通知', '', '', v_count, v_bz);
+"
+PRC_AUTO_TASK_V1	PROCEDURE	84	"  end if;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	85	"
+"
+PRC_AUTO_TASK_V1	PROCEDURE	86	"  -- 收费未对照
+"
+PRC_AUTO_TASK_V1	PROCEDURE	87	"  if 0 = 0 then
+"
+PRC_AUTO_TASK_V1	PROCEDURE	88	"  
+"
+PRC_AUTO_TASK_V1	PROCEDURE	89	"    select to_char(wm_concat(xmmc))
+"
+PRC_AUTO_TASK_V1	PROCEDURE	90	"      into nr
+"
+PRC_AUTO_TASK_V1	PROCEDURE	91	"      from (select nvl(nvl(ybdz, sfdz) || ':' || count(distinct(wzmc)), '0') xmmc
+"
+PRC_AUTO_TASK_V1	PROCEDURE	92	"              from v_ylsbgl2_duizhao
+"
+PRC_AUTO_TASK_V1	PROCEDURE	93	"             group by ybdz, sfdz);
+"
+PRC_AUTO_TASK_V1	PROCEDURE	94	"  
+"
+PRC_AUTO_TASK_V1	PROCEDURE	95	"    if length(nr) > 1 then
+"
+PRC_AUTO_TASK_V1	PROCEDURE	96	"      -- prc_sms_send('ts', lxdh, nr, v_bz);
+"
+PRC_AUTO_TASK_V1	PROCEDURE	97	"      -- lxdh := '13750927708';
+"
+PRC_AUTO_TASK_V1	PROCEDURE	98	"      --  prc_sms_send('ts', lxdh, nr, v_bz);
+"
+PRC_AUTO_TASK_V1	PROCEDURE	99	"      lxdh := '13735720686';
+"
+PRC_AUTO_TASK_V1	PROCEDURE	100	"      prc_sms_send('ts', lxdh, nr, v_bz);
+"
+PRC_AUTO_TASK_V1	PROCEDURE	101	"    
+"
+PRC_AUTO_TASK_V1	PROCEDURE	102	"    end if;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	103	"  
+"
+PRC_AUTO_TASK_V1	PROCEDURE	104	"  end if;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	105	"
+"
+PRC_AUTO_TASK_V1	PROCEDURE	106	"  -- 匹配多个收费项目
+"
+PRC_AUTO_TASK_V1	PROCEDURE	107	"  if 0 = 0 then
+"
+PRC_AUTO_TASK_V1	PROCEDURE	108	"  
+"
+PRC_AUTO_TASK_V1	PROCEDURE	109	"    Select nvl(min((select mc || '[' || ggxh || ']'
+"
+PRC_AUTO_TASK_V1	PROCEDURE	110	"                      From ylsbgl2.wz_mcgg
+"
+PRC_AUTO_TASK_V1	PROCEDURE	111	"                     where xh = t.xh
+"
+PRC_AUTO_TASK_V1	PROCEDURE	112	"                       and xtxh = 29
+"
+PRC_AUTO_TASK_V1	PROCEDURE	113	"                       and rownum = 1) || ' ,匹配多个收费项目'),
+"
+PRC_AUTO_TASK_V1	PROCEDURE	114	"               '0')
+"
+PRC_AUTO_TASK_V1	PROCEDURE	115	"      into nr
+"
+PRC_AUTO_TASK_V1	PROCEDURE	116	"      from ylsbgl2.wz_ylsf t
+"
+PRC_AUTO_TASK_V1	PROCEDURE	117	"     Where xh In (Select xh
+"
+PRC_AUTO_TASK_V1	PROCEDURE	118	"                    From ylsbgl2.wz_ylsf
+"
+PRC_AUTO_TASK_V1	PROCEDURE	119	"                   where sxbz = 0
+"
+PRC_AUTO_TASK_V1	PROCEDURE	120	"                   Group By xh
+"
+PRC_AUTO_TASK_V1	PROCEDURE	121	"                  Having Count(*) > 1)
+"
+PRC_AUTO_TASK_V1	PROCEDURE	122	"       and sxbz = 0;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	123	"  
+"
+PRC_AUTO_TASK_V1	PROCEDURE	124	"    if length(nr) > 1 then
+"
+PRC_AUTO_TASK_V1	PROCEDURE	125	"      -- prc_sms_send('ts', lxdh, nr, v_bz);
+"
+PRC_AUTO_TASK_V1	PROCEDURE	126	"      --lxdh := '13750927708';
+"
+PRC_AUTO_TASK_V1	PROCEDURE	127	"      --prc_sms_send('ts', lxdh, nr, v_bz);
+"
+PRC_AUTO_TASK_V1	PROCEDURE	128	"      lxdh := '13735720686';
+"
+PRC_AUTO_TASK_V1	PROCEDURE	129	"      prc_sms_send('ts', lxdh, nr, v_bz);
+"
+PRC_AUTO_TASK_V1	PROCEDURE	130	"    
+"
+PRC_AUTO_TASK_V1	PROCEDURE	131	"    end if;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	132	"  
+"
+PRC_AUTO_TASK_V1	PROCEDURE	133	"  end if;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	134	"
+"
+PRC_AUTO_TASK_V1	PROCEDURE	135	"  if 1 = 1 then
+"
+PRC_AUTO_TASK_V1	PROCEDURE	136	"    select decode(count(*), 0, '0', '住院预计款没有交易流水号,jrjylsh')
+"
+PRC_AUTO_TASK_V1	PROCEDURE	137	"      into nr
+"
+PRC_AUTO_TASK_V1	PROCEDURE	138	"      from zy_deposit_file
+"
+PRC_AUTO_TASK_V1	PROCEDURE	139	"     where depo_type in (16, 17, 18, 19)
+"
+PRC_AUTO_TASK_V1	PROCEDURE	140	"       and amount > 0
+"
+PRC_AUTO_TASK_V1	PROCEDURE	141	"       and depo_date > sysdate - 1
+"
+PRC_AUTO_TASK_V1	PROCEDURE	142	"       and nvl(jrjylsh, 0) = 0;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	143	"  
+"
+PRC_AUTO_TASK_V1	PROCEDURE	144	"    if length(nr) > 1 then
+"
+PRC_AUTO_TASK_V1	PROCEDURE	145	"    
+"
+PRC_AUTO_TASK_V1	PROCEDURE	146	"      lxdh := '13777929515';
+"
+PRC_AUTO_TASK_V1	PROCEDURE	147	"      prc_sms_send('ts', lxdh, nr, v_bz);
+"
+PRC_AUTO_TASK_V1	PROCEDURE	148	"    
+"
+PRC_AUTO_TASK_V1	PROCEDURE	149	"    end if;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	150	"  end if;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	151	"
+"
+PRC_AUTO_TASK_V1	PROCEDURE	152	"  --全国医保 自助机 签到
+"
+PRC_AUTO_TASK_V1	PROCEDURE	153	"
+"
+PRC_AUTO_TASK_V1	PROCEDURE	154	"  if 2 = 2 then
+"
+PRC_AUTO_TASK_V1	PROCEDURE	155	"    v_type         := '全国医保 自助机签到处理';
+"
+PRC_AUTO_TASK_V1	PROCEDURE	156	"    v_flag_success := 1;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	157	"  
+"
+PRC_AUTO_TASK_V1	PROCEDURE	158	"    UPDate YB_MRDZZB
+"
+PRC_AUTO_TASK_V1	PROCEDURE	159	"       set YWLB = 1
+"
+PRC_AUTO_TASK_V1	PROCEDURE	160	"     WHERE DZBZ IN ('0', '-1')
+"
+PRC_AUTO_TASK_V1	PROCEDURE	161	"       AND YWLB = 2
+"
+PRC_AUTO_TASK_V1	PROCEDURE	162	"       AND YBLX = '9999'
+"
+PRC_AUTO_TASK_V1	PROCEDURE	163	"       and czgh = 'AUTO1'
+"
+PRC_AUTO_TASK_V1	PROCEDURE	164	"       AND QDRQ > SYSDATE - 7
+"
+PRC_AUTO_TASK_V1	PROCEDURE	165	"       and QDRQ < trunc(sysdate);
+"
+PRC_AUTO_TASK_V1	PROCEDURE	166	"    if sqlcode = 0 then
+"
+PRC_AUTO_TASK_V1	PROCEDURE	167	"      commit;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	168	"    else
+"
+PRC_AUTO_TASK_V1	PROCEDURE	169	"      rollback;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	170	"      v_flag_success := -1;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	171	"    end if;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	172	"  
+"
+PRC_AUTO_TASK_V1	PROCEDURE	173	"    insert into zy_jiaoyi_v1
+"
+PRC_AUTO_TASK_V1	PROCEDURE	174	"      (jiaoyilx, caozuogh, bz, flag)
+"
+PRC_AUTO_TASK_V1	PROCEDURE	175	"    values
+"
+PRC_AUTO_TASK_V1	PROCEDURE	176	"      (v_zy_jiaoyi_v1.jiaoyilx,
+"
+PRC_AUTO_TASK_V1	PROCEDURE	177	"       v_zy_jiaoyi_v1.caozuogh,
+"
+PRC_AUTO_TASK_V1	PROCEDURE	178	"       v_type,
+"
+PRC_AUTO_TASK_V1	PROCEDURE	179	"       v_flag_success);
+"
+PRC_AUTO_TASK_V1	PROCEDURE	180	"    if sqlcode = 0 then
+"
+PRC_AUTO_TASK_V1	PROCEDURE	181	"      commit;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	182	"    else
+"
+PRC_AUTO_TASK_V1	PROCEDURE	183	"      rollback;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	184	"    end if;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	185	"    if v_flag_success < 1 then
+"
+PRC_AUTO_TASK_V1	PROCEDURE	186	"      select 'error ' || v_zy_jiaoyi_v1.jiaoyilx || ' _' || v_type
+"
+PRC_AUTO_TASK_V1	PROCEDURE	187	"        into nr
+"
+PRC_AUTO_TASK_V1	PROCEDURE	188	"        from dual;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	189	"      lxdh := '13777929515';
+"
+PRC_AUTO_TASK_V1	PROCEDURE	190	"      prc_sms_send_mark('au', lxdh, nr, v_bz);
+"
+PRC_AUTO_TASK_V1	PROCEDURE	191	"    end if;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	192	"  
+"
+PRC_AUTO_TASK_V1	PROCEDURE	193	"  end if;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	194	"  --end 全国医保 自助机 签到
+"
+PRC_AUTO_TASK_V1	PROCEDURE	195	"
+"
+PRC_AUTO_TASK_V1	PROCEDURE	196	"  --实名制 临时身份证号重复处理
+"
+PRC_AUTO_TASK_V1	PROCEDURE	197	"  if 3 = 3 then
+"
+PRC_AUTO_TASK_V1	PROCEDURE	198	"    v_type         := '临时身份证号重复处理';
+"
+PRC_AUTO_TASK_V1	PROCEDURE	199	"    v_flag_success := 1;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	200	"  
+"
+PRC_AUTO_TASK_V1	PROCEDURE	201	"    delete temp_01;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	202	"    if sqlcode = 0 then
+"
+PRC_AUTO_TASK_V1	PROCEDURE	203	"      commit;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	204	"    else
+"
+PRC_AUTO_TASK_V1	PROCEDURE	205	"      rollback;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	206	"      v_flag_success := -1;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	207	"    end if;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	208	"    insert into temp_01
+"
+PRC_AUTO_TASK_V1	PROCEDURE	209	"      (xh, s1, s2, s3)
+"
+PRC_AUTO_TASK_V1	PROCEDURE	210	"      select rownum, jzkh, sfzh, substr(nvl(b.sfzh, '0'), 1, 10) ||
+"
+PRC_AUTO_TASK_V1	PROCEDURE	211	"       right('000' || rownum, 4)
+"
+PRC_AUTO_TASK_V1	PROCEDURE	212	"        from gy_brjbxxk b
+"
+PRC_AUTO_TASK_V1	PROCEDURE	213	"       where sfzh in (select sfzh
+"
+PRC_AUTO_TASK_V1	PROCEDURE	214	"                        from (select a.sfzh, count(*)
+"
+PRC_AUTO_TASK_V1	PROCEDURE	215	"                                from gy_brjbxxk a
+"
+PRC_AUTO_TASK_V1	PROCEDURE	216	"                               where substr(nvl(a.sfzh, '0'), 1, 8) <=
+"
+PRC_AUTO_TASK_V1	PROCEDURE	217	"                                     to_char(sysdate + 1, 'yyyymmdd')
+"
+PRC_AUTO_TASK_V1	PROCEDURE	218	"                                 and substr(nvl(a.sfzh, '0'), 1, 8) >=
+"
+PRC_AUTO_TASK_V1	PROCEDURE	219	"                                     to_char(sysdate - 3, 'yyyymmdd')
+"
+PRC_AUTO_TASK_V1	PROCEDURE	220	"                               group by a.sfzh
+"
+PRC_AUTO_TASK_V1	PROCEDURE	221	"                              having count(*) > 1))
+"
+PRC_AUTO_TASK_V1	PROCEDURE	222	"         and rownum < 9999;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	223	"  
+"
+PRC_AUTO_TASK_V1	PROCEDURE	224	"    if sqlcode = 0 then
+"
+PRC_AUTO_TASK_V1	PROCEDURE	225	"      commit;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	226	"    else
+"
+PRC_AUTO_TASK_V1	PROCEDURE	227	"      rollback;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	228	"      v_flag_success := -2;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	229	"    end if;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	230	"  
+"
+PRC_AUTO_TASK_V1	PROCEDURE	231	"    v_count := 0;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	232	"    select count(*) into v_count From temp_01;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	233	"    if v_count >= 0 then
+"
+PRC_AUTO_TASK_V1	PROCEDURE	234	"      update gy_brjbxxk a
+"
+PRC_AUTO_TASK_V1	PROCEDURE	235	"         set a.sfzh = (select s3 from temp_01 where temp_01.s1 = a.jzkh)
+"
+PRC_AUTO_TASK_V1	PROCEDURE	236	"       where exists (select 1 from temp_01 where temp_01.s1 = a.jzkh);
+"
+PRC_AUTO_TASK_V1	PROCEDURE	237	"    
+"
+PRC_AUTO_TASK_V1	PROCEDURE	238	"      if sqlcode = 0 then
+"
+PRC_AUTO_TASK_V1	PROCEDURE	239	"        commit;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	240	"      else
+"
+PRC_AUTO_TASK_V1	PROCEDURE	241	"        rollback;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	242	"        v_flag_success := -3;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	243	"      end if;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	244	"    
+"
+PRC_AUTO_TASK_V1	PROCEDURE	245	"    end if;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	246	"  
+"
+PRC_AUTO_TASK_V1	PROCEDURE	247	"    insert into zy_jiaoyi_v1
+"
+PRC_AUTO_TASK_V1	PROCEDURE	248	"      (jiaoyilx, caozuogh, bz, flag)
+"
+PRC_AUTO_TASK_V1	PROCEDURE	249	"    values
+"
+PRC_AUTO_TASK_V1	PROCEDURE	250	"      (v_zy_jiaoyi_v1.jiaoyilx,
+"
+PRC_AUTO_TASK_V1	PROCEDURE	251	"       v_zy_jiaoyi_v1.caozuogh,
+"
+PRC_AUTO_TASK_V1	PROCEDURE	252	"       v_type,
+"
+PRC_AUTO_TASK_V1	PROCEDURE	253	"       v_flag_success);
+"
+PRC_AUTO_TASK_V1	PROCEDURE	254	"    if sqlcode = 0 then
+"
+PRC_AUTO_TASK_V1	PROCEDURE	255	"      commit;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	256	"    else
+"
+PRC_AUTO_TASK_V1	PROCEDURE	257	"      rollback;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	258	"    end if;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	259	"    if v_flag_success < 1 then
+"
+PRC_AUTO_TASK_V1	PROCEDURE	260	"      select 'error ' || v_zy_jiaoyi_v1.jiaoyilx || ' _' || v_type
+"
+PRC_AUTO_TASK_V1	PROCEDURE	261	"        into nr
+"
+PRC_AUTO_TASK_V1	PROCEDURE	262	"        from dual;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	263	"      lxdh := '13777929515';
+"
+PRC_AUTO_TASK_V1	PROCEDURE	264	"      prc_sms_send_mark('au', lxdh, nr, v_bz);
+"
+PRC_AUTO_TASK_V1	PROCEDURE	265	"    end if;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	266	"  
+"
+PRC_AUTO_TASK_V1	PROCEDURE	267	"  end if;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	268	"
+"
+PRC_AUTO_TASK_V1	PROCEDURE	269	"  -- end 实名制 临时身份证号重复处理
+"
+PRC_AUTO_TASK_V1	PROCEDURE	270	"
+"
+PRC_AUTO_TASK_V1	PROCEDURE	271	"  -- 5 =5 异地医保 更新ywzqh
+"
+PRC_AUTO_TASK_V1	PROCEDURE	272	"  if 5 = 5 then
+"
+PRC_AUTO_TASK_V1	PROCEDURE	273	"  
+"
+PRC_AUTO_TASK_V1	PROCEDURE	274	"    v_type         := '异地医保 更新ywzqh';
+"
+PRC_AUTO_TASK_V1	PROCEDURE	275	"    v_flag_success := 1;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	276	"  
+"
+PRC_AUTO_TASK_V1	PROCEDURE	277	"    update zy_total_fee_fjy
+"
+PRC_AUTO_TASK_V1	PROCEDURE	278	"       set ywzqh = (select ywzqh
+"
+PRC_AUTO_TASK_V1	PROCEDURE	279	"                      from zy_total_fee
+"
+PRC_AUTO_TASK_V1	PROCEDURE	280	"                     where zy_total_fee.patient_no =
+"
+PRC_AUTO_TASK_V1	PROCEDURE	281	"                           zy_total_fee_fjy.patient_no
+"
+PRC_AUTO_TASK_V1	PROCEDURE	282	"                       and zy_total_fee.js_no = zy_total_fee_fjy.js_no
+"
+PRC_AUTO_TASK_V1	PROCEDURE	283	"                       and zy_total_fee.brlb = 99
+"
+PRC_AUTO_TASK_V1	PROCEDURE	284	"                       and zy_total_fee.jz_date > sysdate - 10
+"
+PRC_AUTO_TASK_V1	PROCEDURE	285	"                       and zy_total_fee.js_no > 0
+"
+PRC_AUTO_TASK_V1	PROCEDURE	286	"                       and length(zy_total_fee.ywzqh) > 4)
+"
+PRC_AUTO_TASK_V1	PROCEDURE	287	"     where exists
+"
+PRC_AUTO_TASK_V1	PROCEDURE	288	"     (select 1
+"
+PRC_AUTO_TASK_V1	PROCEDURE	289	"              from zy_total_fee
+"
+PRC_AUTO_TASK_V1	PROCEDURE	290	"             where zy_total_fee_fjy.patient_no = zy_total_fee.patient_no
+"
+PRC_AUTO_TASK_V1	PROCEDURE	291	"               and zy_total_fee_fjy.js_no = zy_total_fee.js_no
+"
+PRC_AUTO_TASK_V1	PROCEDURE	292	"               and zy_total_fee.brlb = 99
+"
+PRC_AUTO_TASK_V1	PROCEDURE	293	"               and zy_total_fee.jz_date > sysdate - 10
+"
+PRC_AUTO_TASK_V1	PROCEDURE	294	"               and zy_total_fee.js_no > 0
+"
+PRC_AUTO_TASK_V1	PROCEDURE	295	"               and length(zy_total_fee.ywzqh) > 4);
+"
+PRC_AUTO_TASK_V1	PROCEDURE	296	"  
+"
+PRC_AUTO_TASK_V1	PROCEDURE	297	"    if sqlcode = 0 then
+"
+PRC_AUTO_TASK_V1	PROCEDURE	298	"      commit;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	299	"    else
+"
+PRC_AUTO_TASK_V1	PROCEDURE	300	"      rollback;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	301	"      v_flag_success := v_flag_success - 2;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	302	"    end if;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	303	"  
+"
+PRC_AUTO_TASK_V1	PROCEDURE	304	"    insert into zy_jiaoyi_v1
+"
+PRC_AUTO_TASK_V1	PROCEDURE	305	"      (jiaoyilx, caozuogh, bz, flag)
+"
+PRC_AUTO_TASK_V1	PROCEDURE	306	"    values
+"
+PRC_AUTO_TASK_V1	PROCEDURE	307	"      (v_zy_jiaoyi_v1.jiaoyilx,
+"
+PRC_AUTO_TASK_V1	PROCEDURE	308	"       v_zy_jiaoyi_v1.caozuogh,
+"
+PRC_AUTO_TASK_V1	PROCEDURE	309	"       v_type,
+"
+PRC_AUTO_TASK_V1	PROCEDURE	310	"       v_flag_success);
+"
+PRC_AUTO_TASK_V1	PROCEDURE	311	"    if sqlcode = 0 then
+"
+PRC_AUTO_TASK_V1	PROCEDURE	312	"      commit;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	313	"    else
+"
+PRC_AUTO_TASK_V1	PROCEDURE	314	"      rollback;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	315	"    end if;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	316	"    if v_flag_success < 1 then
+"
+PRC_AUTO_TASK_V1	PROCEDURE	317	"      select 'error ' || v_zy_jiaoyi_v1.jiaoyilx || ' _' || v_type
+"
+PRC_AUTO_TASK_V1	PROCEDURE	318	"        into nr
+"
+PRC_AUTO_TASK_V1	PROCEDURE	319	"        from dual;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	320	"      lxdh := '13777929515';
+"
+PRC_AUTO_TASK_V1	PROCEDURE	321	"      prc_sms_send_mark('au', lxdh, nr, v_bz);
+"
+PRC_AUTO_TASK_V1	PROCEDURE	322	"    end if;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	323	"  
+"
+PRC_AUTO_TASK_V1	PROCEDURE	324	"  end if;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	325	"  -- end 5 =5 异地医保 更新ywzqh
+"
+PRC_AUTO_TASK_V1	PROCEDURE	326	"
+"
+PRC_AUTO_TASK_V1	PROCEDURE	327	"  --大屏展示数据采集
+"
+PRC_AUTO_TASK_V1	PROCEDURE	328	"  -- PRC_HIS_DO('大屏展示数据采集', '', 'DBA', v_bz);
+"
+PRC_AUTO_TASK_V1	PROCEDURE	329	"
+"
+PRC_AUTO_TASK_V1	PROCEDURE	330	"  --大屏展示数据采集 检查人次 begin
+"
+PRC_AUTO_TASK_V1	PROCEDURE	331	"  if 2 = 2 then
+"
+PRC_AUTO_TASK_V1	PROCEDURE	332	"    v_type         := '大屏展示数据采集';
+"
+PRC_AUTO_TASK_V1	PROCEDURE	333	"    v_flag_success := 1;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	334	"  
+"
+PRC_AUTO_TASK_V1	PROCEDURE	335	"    delete temp_dpzs_jcyyrc20190701
+"
+PRC_AUTO_TASK_V1	PROCEDURE	336	"     where rq = to_char(sysdate - 1, 'yyyy-mm-dd');
+"
+PRC_AUTO_TASK_V1	PROCEDURE	337	"    commit;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	338	"    insert into temp_dpzs_jcyyrc20190701
+"
+PRC_AUTO_TASK_V1	PROCEDURE	339	"      (rq, rc_qubu, rc_sanyue, rc_jizhong, rc_zhengjian, rc_zhizhu)
+"
+PRC_AUTO_TASK_V1	PROCEDURE	340	"      select rq, rc_qubu, rc_sanyue, rc_jizhong, rc_zhengjian, rc_zhizhu
+"
+PRC_AUTO_TASK_V1	PROCEDURE	341	"        From V_DPZS_JCYYRC20190630
+"
+PRC_AUTO_TASK_V1	PROCEDURE	342	"       where rq = to_char(sysdate - 1, 'yyyy-mm-dd');
+"
+PRC_AUTO_TASK_V1	PROCEDURE	343	"  
+"
+PRC_AUTO_TASK_V1	PROCEDURE	344	"    if sqlcode = 0 then
+"
+PRC_AUTO_TASK_V1	PROCEDURE	345	"      commit;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	346	"    else
+"
+PRC_AUTO_TASK_V1	PROCEDURE	347	"      rollback;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	348	"      v_flag_success := v_flag_success - 2;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	349	"    end if;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	350	"  
+"
+PRC_AUTO_TASK_V1	PROCEDURE	351	"    insert into zy_jiaoyi_v1
+"
+PRC_AUTO_TASK_V1	PROCEDURE	352	"      (jiaoyilx, caozuogh, bz, flag)
+"
+PRC_AUTO_TASK_V1	PROCEDURE	353	"    values
+"
+PRC_AUTO_TASK_V1	PROCEDURE	354	"      (v_zy_jiaoyi_v1.jiaoyilx,
+"
+PRC_AUTO_TASK_V1	PROCEDURE	355	"       v_zy_jiaoyi_v1.caozuogh,
+"
+PRC_AUTO_TASK_V1	PROCEDURE	356	"       v_type,
+"
+PRC_AUTO_TASK_V1	PROCEDURE	357	"       v_flag_success);
+"
+PRC_AUTO_TASK_V1	PROCEDURE	358	"    if sqlcode = 0 then
+"
+PRC_AUTO_TASK_V1	PROCEDURE	359	"      commit;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	360	"    else
+"
+PRC_AUTO_TASK_V1	PROCEDURE	361	"      rollback;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	362	"    end if;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	363	"    if v_flag_success < 1 then
+"
+PRC_AUTO_TASK_V1	PROCEDURE	364	"      select 'error ' || v_zy_jiaoyi_v1.jiaoyilx || ' _' || v_type
+"
+PRC_AUTO_TASK_V1	PROCEDURE	365	"        into nr
+"
+PRC_AUTO_TASK_V1	PROCEDURE	366	"        from dual;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	367	"      lxdh := '13777929515';
+"
+PRC_AUTO_TASK_V1	PROCEDURE	368	"      prc_sms_send_mark('au', lxdh, nr, v_bz);
+"
+PRC_AUTO_TASK_V1	PROCEDURE	369	"    end if;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	370	"  
+"
+PRC_AUTO_TASK_V1	PROCEDURE	371	"    /*  if v_flag_success = 1 then
+"
+PRC_AUTO_TASK_V1	PROCEDURE	372	"      select 'success ' || v_zy_jiaoyi_v1.jiaoyilx || ' _' || v_type
+"
+PRC_AUTO_TASK_V1	PROCEDURE	373	"        into nr
+"
+PRC_AUTO_TASK_V1	PROCEDURE	374	"        from dual;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	375	"      lxdh := '13777929515';
+"
+PRC_AUTO_TASK_V1	PROCEDURE	376	"      prc_sms_send_mark('au', lxdh, nr, v_bz);
+"
+PRC_AUTO_TASK_V1	PROCEDURE	377	"    end if;*/
+"
+PRC_AUTO_TASK_V1	PROCEDURE	378	"  
+"
+PRC_AUTO_TASK_V1	PROCEDURE	379	"  end if;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	380	"  --end 大屏展示数据采集 检查人次  end 
+"
+PRC_AUTO_TASK_V1	PROCEDURE	381	"
+"
+PRC_AUTO_TASK_V1	PROCEDURE	382	"  --
+"
+PRC_AUTO_TASK_V1	PROCEDURE	383	"  --医保检查   V_YIBAO_QG_CHECK  v_yibao_jhyb_check
+"
+PRC_AUTO_TASK_V1	PROCEDURE	384	"  if 2 = 1 then
+"
+PRC_AUTO_TASK_V1	PROCEDURE	385	"    v_type         := ' 医保检查 V_YIBAO_QG_CHECK ';
+"
+PRC_AUTO_TASK_V1	PROCEDURE	386	"    v_flag_success := 1;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	387	"    v_count        := 0;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	388	"    select count(*) into v_count from V_YIBAO_QG_CHECK;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	389	"    if v_count > 0 then
+"
+PRC_AUTO_TASK_V1	PROCEDURE	390	"      select v_zy_jiaoyi_v1.jiaoyilx || v_type || to_char(v_count)
+"
+PRC_AUTO_TASK_V1	PROCEDURE	391	"        into nr
+"
+PRC_AUTO_TASK_V1	PROCEDURE	392	"        from dual;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	393	"      lxdh := '13777929515';
+"
+PRC_AUTO_TASK_V1	PROCEDURE	394	"      prc_sms_send_mark('au', lxdh, nr, v_bz);
+"
+PRC_AUTO_TASK_V1	PROCEDURE	395	"    end if;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	396	"  
+"
+PRC_AUTO_TASK_V1	PROCEDURE	397	"    v_type  := ' 医保检查  v_yibao_jhyb_check ';
+"
+PRC_AUTO_TASK_V1	PROCEDURE	398	"    v_count := 0;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	399	"    select count(*) into v_count from v_yibao_jhyb_check;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	400	"    if v_count > 0 then
+"
+PRC_AUTO_TASK_V1	PROCEDURE	401	"      select v_zy_jiaoyi_v1.jiaoyilx || v_type || to_char(v_count)
+"
+PRC_AUTO_TASK_V1	PROCEDURE	402	"        into nr
+"
+PRC_AUTO_TASK_V1	PROCEDURE	403	"        from dual;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	404	"      lxdh := '13777929515';
+"
+PRC_AUTO_TASK_V1	PROCEDURE	405	"      prc_sms_send_mark('au', lxdh, nr, v_bz);
+"
+PRC_AUTO_TASK_V1	PROCEDURE	406	"    end if;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	407	"  
+"
+PRC_AUTO_TASK_V1	PROCEDURE	408	"    v_type  := ' 结算检查  xj ';
+"
+PRC_AUTO_TASK_V1	PROCEDURE	409	"    v_count := 0;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	410	"    select count(*)
+"
+PRC_AUTO_TASK_V1	PROCEDURE	411	"      into v_count
+"
+PRC_AUTO_TASK_V1	PROCEDURE	412	"      from v_zy_yujiaokuancx_js t
+"
+PRC_AUTO_TASK_V1	PROCEDURE	413	"     where nvl(zyjjk + js_pay - zf_fee_2, 0) <> 0
+"
+PRC_AUTO_TASK_V1	PROCEDURE	414	"       and jz_date > sysdate - 3;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	415	"    if v_count > 0 then
+"
+PRC_AUTO_TASK_V1	PROCEDURE	416	"      select v_zy_jiaoyi_v1.jiaoyilx || v_type || to_char(v_count)
+"
+PRC_AUTO_TASK_V1	PROCEDURE	417	"        into nr
+"
+PRC_AUTO_TASK_V1	PROCEDURE	418	"        from dual;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	419	"      lxdh := '13777929515';
+"
+PRC_AUTO_TASK_V1	PROCEDURE	420	"      prc_sms_send_mark('au', lxdh, nr, v_bz);
+"
+PRC_AUTO_TASK_V1	PROCEDURE	421	"    end if;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	422	"  
+"
+PRC_AUTO_TASK_V1	PROCEDURE	423	"    v_type := ' 医保检查 V_YIBAO_QG_CHECK v_yibao_jhyb_check ';
+"
+PRC_AUTO_TASK_V1	PROCEDURE	424	"    insert into zy_jiaoyi_v1
+"
+PRC_AUTO_TASK_V1	PROCEDURE	425	"      (jiaoyilx, caozuogh, bz, flag)
+"
+PRC_AUTO_TASK_V1	PROCEDURE	426	"    values
+"
+PRC_AUTO_TASK_V1	PROCEDURE	427	"      (v_zy_jiaoyi_v1.jiaoyilx,
+"
+PRC_AUTO_TASK_V1	PROCEDURE	428	"       v_zy_jiaoyi_v1.caozuogh,
+"
+PRC_AUTO_TASK_V1	PROCEDURE	429	"       v_type,
+"
+PRC_AUTO_TASK_V1	PROCEDURE	430	"       v_flag_success);
+"
+PRC_AUTO_TASK_V1	PROCEDURE	431	"  
+"
+PRC_AUTO_TASK_V1	PROCEDURE	432	"    if sqlcode = 0 then
+"
+PRC_AUTO_TASK_V1	PROCEDURE	433	"      commit;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	434	"    else
+"
+PRC_AUTO_TASK_V1	PROCEDURE	435	"      rollback;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	436	"    end if;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	437	"  
+"
+PRC_AUTO_TASK_V1	PROCEDURE	438	"    if v_flag_success < 1 then
+"
+PRC_AUTO_TASK_V1	PROCEDURE	439	"      select 'error ' || v_zy_jiaoyi_v1.jiaoyilx || ' _' || v_type
+"
+PRC_AUTO_TASK_V1	PROCEDURE	440	"        into nr
+"
+PRC_AUTO_TASK_V1	PROCEDURE	441	"        from dual;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	442	"      lxdh := '13777929515';
+"
+PRC_AUTO_TASK_V1	PROCEDURE	443	"      prc_sms_send_mark('au', lxdh, nr, v_bz);
+"
+PRC_AUTO_TASK_V1	PROCEDURE	444	"    end if;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	445	"  
+"
+PRC_AUTO_TASK_V1	PROCEDURE	446	"  end if;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	447	"  -- end 异地医保   V_YIBAO_QG_CHECK
+"
+PRC_AUTO_TASK_V1	PROCEDURE	448	"
+"
+PRC_AUTO_TASK_V1	PROCEDURE	449	"  --检验材料费核查
+"
+PRC_AUTO_TASK_V1	PROCEDURE	450	"  if 91 = 91 then
+"
+PRC_AUTO_TASK_V1	PROCEDURE	451	"    v_type         := '检验材料费核查';
+"
+PRC_AUTO_TASK_V1	PROCEDURE	452	"    v_flag_success := 1;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	453	"  
+"
+PRC_AUTO_TASK_V1	PROCEDURE	454	"    select to_char(wm_concat(czgh || '_' || fjxx2 || ':' || sl0 || '>' || sl1))
+"
+PRC_AUTO_TASK_V1	PROCEDURE	455	"      into nr2
+"
+PRC_AUTO_TASK_V1	PROCEDURE	456	"      from (select czgh, fjxx2, sum(sl1 + sl2) sl0, sum(sl3) sl1
+"
+PRC_AUTO_TASK_V1	PROCEDURE	457	"              from (select czgh,
+"
+PRC_AUTO_TASK_V1	PROCEDURE	458	"                           fjxx2,
+"
+PRC_AUTO_TASK_V1	PROCEDURE	459	"                           sum(decode(sl2, 1, 1, 0)) sl1,
+"
+PRC_AUTO_TASK_V1	PROCEDURE	460	"                           sum(decode(sl2, 2, 1, 0)) sl2,
+"
+PRC_AUTO_TASK_V1	PROCEDURE	461	"                           sum(decode(sl2, 3, 1, 0)) sl3
+"
+PRC_AUTO_TASK_V1	PROCEDURE	462	"                      from (select a.czgh,
+"
+PRC_AUTO_TASK_V1	PROCEDURE	463	"                                   a.fjxx fjxx2,
+"
+PRC_AUTO_TASK_V1	PROCEDURE	464	"                                   a.sfsb,
+"
+PRC_AUTO_TASK_V1	PROCEDURE	465	"                                   count(distinct(sfxm)) sl2
+"
+PRC_AUTO_TASK_V1	PROCEDURE	466	"                              From mz_mzsfk2 b, mz_mzsfk1 a
+"
+PRC_AUTO_TASK_V1	PROCEDURE	467	"                             where a.sfsb = b.sfsb
+"
+PRC_AUTO_TASK_V1	PROCEDURE	468	"                               and b.sfxm in (9, 25, 34)
+"
+PRC_AUTO_TASK_V1	PROCEDURE	469	"                               and a.sfsb in
+"
+PRC_AUTO_TASK_V1	PROCEDURE	470	"                                   (select sfsb
+"
+PRC_AUTO_TASK_V1	PROCEDURE	471	"                                      From mz_mzsfk2
+"
+PRC_AUTO_TASK_V1	PROCEDURE	472	"                                     where sfxm = 9
+"
+PRC_AUTO_TASK_V1	PROCEDURE	473	"                                       and sfsb in
+"
+PRC_AUTO_TASK_V1	PROCEDURE	474	"                                           (select sfsb
+"
+PRC_AUTO_TASK_V1	PROCEDURE	475	"                                              from mz_mzsfk1
+"
+PRC_AUTO_TASK_V1	PROCEDURE	476	"                                             where sfrq > sysdate - 1))
+"
+PRC_AUTO_TASK_V1	PROCEDURE	477	"                             group by a.czgh, a.fjxx, a.sfsb)
+"
+PRC_AUTO_TASK_V1	PROCEDURE	478	"                     group by czgh, fjxx2, sl2
+"
+PRC_AUTO_TASK_V1	PROCEDURE	479	"                     order by fjxx2)
+"
+PRC_AUTO_TASK_V1	PROCEDURE	480	"             group by czgh, fjxx2
+"
+PRC_AUTO_TASK_V1	PROCEDURE	481	"             order by czgh)
+"
+PRC_AUTO_TASK_V1	PROCEDURE	482	"     where sl0 > 10
+"
+PRC_AUTO_TASK_V1	PROCEDURE	483	"       and sl0 > sl1;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	484	"    if length(nr2) > 2 then
+"
+PRC_AUTO_TASK_V1	PROCEDURE	485	"      select 'error ' || v_zy_jiaoyi_v1.jiaoyilx || ' _' || v_type
+"
+PRC_AUTO_TASK_V1	PROCEDURE	486	"        into nr
+"
+PRC_AUTO_TASK_V1	PROCEDURE	487	"        from dual;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	488	"      lxdh := '13777929515';
+"
+PRC_AUTO_TASK_V1	PROCEDURE	489	"      prc_sms_send_mark('au', lxdh, nr, v_bz);
+"
+PRC_AUTO_TASK_V1	PROCEDURE	490	"      prc_sms_send_mark('au', lxdh, nr2, v_bz);
+"
+PRC_AUTO_TASK_V1	PROCEDURE	491	"    end if;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	492	"  
+"
+PRC_AUTO_TASK_V1	PROCEDURE	493	"    insert into zy_jiaoyi_v1
+"
+PRC_AUTO_TASK_V1	PROCEDURE	494	"      (jiaoyilx, caozuogh, bz, flag)
+"
+PRC_AUTO_TASK_V1	PROCEDURE	495	"    values
+"
+PRC_AUTO_TASK_V1	PROCEDURE	496	"      (v_zy_jiaoyi_v1.jiaoyilx,
+"
+PRC_AUTO_TASK_V1	PROCEDURE	497	"       v_zy_jiaoyi_v1.caozuogh,
+"
+PRC_AUTO_TASK_V1	PROCEDURE	498	"       v_type,
+"
+PRC_AUTO_TASK_V1	PROCEDURE	499	"       v_flag_success);
+"
+PRC_AUTO_TASK_V1	PROCEDURE	500	"    if sqlcode = 0 then
+"
+PRC_AUTO_TASK_V1	PROCEDURE	501	"      commit;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	502	"    else
+"
+PRC_AUTO_TASK_V1	PROCEDURE	503	"      rollback;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	504	"    end if;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	505	"    if v_flag_success < 1 then
+"
+PRC_AUTO_TASK_V1	PROCEDURE	506	"      select 'error ' || v_zy_jiaoyi_v1.jiaoyilx || ' _' || v_type
+"
+PRC_AUTO_TASK_V1	PROCEDURE	507	"        into nr
+"
+PRC_AUTO_TASK_V1	PROCEDURE	508	"        from dual;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	509	"      lxdh := '13777929515';
+"
+PRC_AUTO_TASK_V1	PROCEDURE	510	"      prc_sms_send_mark('au', lxdh, nr, v_bz);
+"
+PRC_AUTO_TASK_V1	PROCEDURE	511	"    end if;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	512	"  
+"
+PRC_AUTO_TASK_V1	PROCEDURE	513	"  end if;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	514	"  --end 检验材料费核查
+"
+PRC_AUTO_TASK_V1	PROCEDURE	515	"
+"
+PRC_AUTO_TASK_V1	PROCEDURE	516	"  --医保违规项目核查
+"
+PRC_AUTO_TASK_V1	PROCEDURE	517	"  if 100 = 100 then
+"
+PRC_AUTO_TASK_V1	PROCEDURE	518	"    v_type         := '医保违规项目核查';
+"
+PRC_AUTO_TASK_V1	PROCEDURE	519	"    v_flag_success := 1;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	520	"    PRC_YB_CHECK_zy('0', 0, v_bz);
+"
+PRC_AUTO_TASK_V1	PROCEDURE	521	"  
+"
+PRC_AUTO_TASK_V1	PROCEDURE	522	"    insert into zy_jiaoyi_v1
+"
+PRC_AUTO_TASK_V1	PROCEDURE	523	"      (jiaoyilx, caozuogh, bz, flag)
+"
+PRC_AUTO_TASK_V1	PROCEDURE	524	"    values
+"
+PRC_AUTO_TASK_V1	PROCEDURE	525	"      (v_zy_jiaoyi_v1.jiaoyilx,
+"
+PRC_AUTO_TASK_V1	PROCEDURE	526	"       v_zy_jiaoyi_v1.caozuogh,
+"
+PRC_AUTO_TASK_V1	PROCEDURE	527	"       v_type,
+"
+PRC_AUTO_TASK_V1	PROCEDURE	528	"       v_flag_success);
+"
+PRC_AUTO_TASK_V1	PROCEDURE	529	"    if sqlcode = 0 then
+"
+PRC_AUTO_TASK_V1	PROCEDURE	530	"      commit;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	531	"    else
+"
+PRC_AUTO_TASK_V1	PROCEDURE	532	"      rollback;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	533	"    end if;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	534	"    if v_flag_success < 1 then
+"
+PRC_AUTO_TASK_V1	PROCEDURE	535	"      select 'error ' || v_zy_jiaoyi_v1.jiaoyilx || ' _' || v_type
+"
+PRC_AUTO_TASK_V1	PROCEDURE	536	"        into nr
+"
+PRC_AUTO_TASK_V1	PROCEDURE	537	"        from dual;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	538	"      lxdh := '13777929515';
+"
+PRC_AUTO_TASK_V1	PROCEDURE	539	"      prc_sms_send_mark('au', lxdh, nr, v_bz);
+"
+PRC_AUTO_TASK_V1	PROCEDURE	540	"    end if;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	541	"  
+"
+PRC_AUTO_TASK_V1	PROCEDURE	542	"  end if;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	543	"
+"
+PRC_AUTO_TASK_V1	PROCEDURE	544	"  --end 医保违规项目核查
+"
+PRC_AUTO_TASK_V1	PROCEDURE	545	"
+"
+PRC_AUTO_TASK_V1	PROCEDURE	546	"  --dj<0的记录处理
+"
+PRC_AUTO_TASK_V1	PROCEDURE	547	"  if 101 = 101 then
+"
+PRC_AUTO_TASK_V1	PROCEDURE	548	"    v_type         := 'dj<0的记录处理';
+"
+PRC_AUTO_TASK_V1	PROCEDURE	549	"    v_flag_success := 1;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	550	"    update zy_detail_charge
+"
+PRC_AUTO_TASK_V1	PROCEDURE	551	"       set dj = dj * -1, sl = sl * -1
+"
+PRC_AUTO_TASK_V1	PROCEDURE	552	"     where dj < 0
+"
+PRC_AUTO_TASK_V1	PROCEDURE	553	"       and js_no = 0
+"
+PRC_AUTO_TASK_V1	PROCEDURE	554	"       and jcfx_date > sysdate - 2.1
+"
+PRC_AUTO_TASK_V1	PROCEDURE	555	"       and jcfx_date < sysdate - 0.01;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	556	"  
+"
+PRC_AUTO_TASK_V1	PROCEDURE	557	"    if sqlcode = 0 then
+"
+PRC_AUTO_TASK_V1	PROCEDURE	558	"      commit;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	559	"    else
+"
+PRC_AUTO_TASK_V1	PROCEDURE	560	"      rollback;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	561	"      v_flag_success := v_flag_success - 2;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	562	"    end if;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	563	"  
+"
+PRC_AUTO_TASK_V1	PROCEDURE	564	"    insert into zy_jiaoyi_v1
+"
+PRC_AUTO_TASK_V1	PROCEDURE	565	"      (jiaoyilx, caozuogh, bz, flag)
+"
+PRC_AUTO_TASK_V1	PROCEDURE	566	"    values
+"
+PRC_AUTO_TASK_V1	PROCEDURE	567	"      (v_zy_jiaoyi_v1.jiaoyilx,
+"
+PRC_AUTO_TASK_V1	PROCEDURE	568	"       v_zy_jiaoyi_v1.caozuogh,
+"
+PRC_AUTO_TASK_V1	PROCEDURE	569	"       v_type,
+"
+PRC_AUTO_TASK_V1	PROCEDURE	570	"       v_flag_success);
+"
+PRC_AUTO_TASK_V1	PROCEDURE	571	"    if sqlcode = 0 then
+"
+PRC_AUTO_TASK_V1	PROCEDURE	572	"      commit;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	573	"    else
+"
+PRC_AUTO_TASK_V1	PROCEDURE	574	"      rollback;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	575	"    end if;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	576	"    if v_flag_success < 1 then
+"
+PRC_AUTO_TASK_V1	PROCEDURE	577	"      select 'error ' || v_zy_jiaoyi_v1.jiaoyilx || ' _' || v_type
+"
+PRC_AUTO_TASK_V1	PROCEDURE	578	"        into nr
+"
+PRC_AUTO_TASK_V1	PROCEDURE	579	"        from dual;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	580	"      lxdh := '13777929515';
+"
+PRC_AUTO_TASK_V1	PROCEDURE	581	"      prc_sms_send_mark('au', lxdh, nr, v_bz);
+"
+PRC_AUTO_TASK_V1	PROCEDURE	582	"    end if;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	583	"  
+"
+PRC_AUTO_TASK_V1	PROCEDURE	584	"  end if;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	585	"  --end  dj<0的记录处理
+"
+PRC_AUTO_TASK_V1	PROCEDURE	586	"
+"
+PRC_AUTO_TASK_V1	PROCEDURE	587	"  --床位费自动计费核查
+"
+PRC_AUTO_TASK_V1	PROCEDURE	588	"  if 102 = 102 then
+"
+PRC_AUTO_TASK_V1	PROCEDURE	589	"    v_type         := '床位费自动计费核查';
+"
+PRC_AUTO_TASK_V1	PROCEDURE	590	"    v_flag_success := 1;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	591	"  
+"
+PRC_AUTO_TASK_V1	PROCEDURE	592	"    v_count := 0;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	593	"    select count(*) into v_count From v_ck_auto_bed_fee;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	594	"    if v_count > 0 then
+"
+PRC_AUTO_TASK_V1	PROCEDURE	595	"      select '床位费自动计费出错核查 v_ck_auto_bed_fee ' into nr from dual;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	596	"    
+"
+PRC_AUTO_TASK_V1	PROCEDURE	597	"      lxdh := '13777929515';
+"
+PRC_AUTO_TASK_V1	PROCEDURE	598	"      prc_sms_send_mark('au', lxdh, nr, v_bz);
+"
+PRC_AUTO_TASK_V1	PROCEDURE	599	"    end if;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	600	"  
+"
+PRC_AUTO_TASK_V1	PROCEDURE	601	"    insert into zy_jiaoyi_v1
+"
+PRC_AUTO_TASK_V1	PROCEDURE	602	"      (jiaoyilx, caozuogh, bz, flag)
+"
+PRC_AUTO_TASK_V1	PROCEDURE	603	"    values
+"
+PRC_AUTO_TASK_V1	PROCEDURE	604	"      (v_zy_jiaoyi_v1.jiaoyilx,
+"
+PRC_AUTO_TASK_V1	PROCEDURE	605	"       v_zy_jiaoyi_v1.caozuogh,
+"
+PRC_AUTO_TASK_V1	PROCEDURE	606	"       v_type,
+"
+PRC_AUTO_TASK_V1	PROCEDURE	607	"       v_flag_success);
+"
+PRC_AUTO_TASK_V1	PROCEDURE	608	"    if sqlcode = 0 then
+"
+PRC_AUTO_TASK_V1	PROCEDURE	609	"      commit;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	610	"    else
+"
+PRC_AUTO_TASK_V1	PROCEDURE	611	"      rollback;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	612	"    end if;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	613	"    if v_flag_success < 1 then
+"
+PRC_AUTO_TASK_V1	PROCEDURE	614	"      select 'error ' || v_zy_jiaoyi_v1.jiaoyilx || ' _' || v_type
+"
+PRC_AUTO_TASK_V1	PROCEDURE	615	"        into nr
+"
+PRC_AUTO_TASK_V1	PROCEDURE	616	"        from dual;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	617	"      lxdh := '13777929515';
+"
+PRC_AUTO_TASK_V1	PROCEDURE	618	"      prc_sms_send_mark('au', lxdh, nr, v_bz);
+"
+PRC_AUTO_TASK_V1	PROCEDURE	619	"    end if;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	620	"  
+"
+PRC_AUTO_TASK_V1	PROCEDURE	621	"  end if;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	622	"  --end 床位费自动计费核查
+"
+PRC_AUTO_TASK_V1	PROCEDURE	623	"
+"
+PRC_AUTO_TASK_V1	PROCEDURE	624	"  --后台滚的数量过大，预交款重复录入 异地医保目录对照自动更新  门诊诊断医保未对照
+"
+PRC_AUTO_TASK_V1	PROCEDURE	625	"  if 101 = 101 then
+"
+PRC_AUTO_TASK_V1	PROCEDURE	626	"    --自动滚的费用 数量过大 begin
+"
+PRC_AUTO_TASK_V1	PROCEDURE	627	"    if 1 = 1 then
+"
+PRC_AUTO_TASK_V1	PROCEDURE	628	"      v_type         := '后台滚的数量过大';
+"
+PRC_AUTO_TASK_V1	PROCEDURE	629	"      v_flag_success := 1;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	630	"      select count(*)
+"
+PRC_AUTO_TASK_V1	PROCEDURE	631	"        into v_count
+"
+PRC_AUTO_TASK_V1	PROCEDURE	632	"        from zy_detail_charge
+"
+PRC_AUTO_TASK_V1	PROCEDURE	633	"       where (sl > 50 or sl < -50)
+"
+PRC_AUTO_TASK_V1	PROCEDURE	634	"         and dj <> 0
+"
+PRC_AUTO_TASK_V1	PROCEDURE	635	"         and fygl in (13, 18)
+"
+PRC_AUTO_TASK_V1	PROCEDURE	636	"         and jcfx_date > sysdate - 3;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	637	"      if v_count > 0 then
+"
+PRC_AUTO_TASK_V1	PROCEDURE	638	"      
+"
+PRC_AUTO_TASK_V1	PROCEDURE	639	"        select 'zy_detail_charge数量过大 SERVE fygl13,18  jcfx_date，记录为:' ||
+"
+PRC_AUTO_TASK_V1	PROCEDURE	640	"               to_char(v_count)
+"
+PRC_AUTO_TASK_V1	PROCEDURE	641	"          into nr
+"
+PRC_AUTO_TASK_V1	PROCEDURE	642	"          from dual;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	643	"        lxdh := '13777929515';
+"
+PRC_AUTO_TASK_V1	PROCEDURE	644	"        -- prc_sms_send('ts', lxdh, nr, v_bz);
+"
+PRC_AUTO_TASK_V1	PROCEDURE	645	"        prc_sms_send_mark('au', lxdh, nr, v_bz);
+"
+PRC_AUTO_TASK_V1	PROCEDURE	646	"      end if;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	647	"    
+"
+PRC_AUTO_TASK_V1	PROCEDURE	648	"      insert into zy_jiaoyi_v1
+"
+PRC_AUTO_TASK_V1	PROCEDURE	649	"        (jiaoyilx, caozuogh, bz, flag)
+"
+PRC_AUTO_TASK_V1	PROCEDURE	650	"      values
+"
+PRC_AUTO_TASK_V1	PROCEDURE	651	"        (v_zy_jiaoyi_v1.jiaoyilx,
+"
+PRC_AUTO_TASK_V1	PROCEDURE	652	"         v_zy_jiaoyi_v1.caozuogh,
+"
+PRC_AUTO_TASK_V1	PROCEDURE	653	"         v_type,
+"
+PRC_AUTO_TASK_V1	PROCEDURE	654	"         v_flag_success);
+"
+PRC_AUTO_TASK_V1	PROCEDURE	655	"      if sqlcode = 0 then
+"
+PRC_AUTO_TASK_V1	PROCEDURE	656	"        commit;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	657	"      else
+"
+PRC_AUTO_TASK_V1	PROCEDURE	658	"        rollback;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	659	"      end if;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	660	"    
+"
+PRC_AUTO_TASK_V1	PROCEDURE	661	"    end if;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	662	"    --end 自动滚的费用 数量过大 end
+"
+PRC_AUTO_TASK_V1	PROCEDURE	663	"  
+"
+PRC_AUTO_TASK_V1	PROCEDURE	664	"    --万达预交款重复录入 begin 
+"
+PRC_AUTO_TASK_V1	PROCEDURE	665	"    if 1 = 1 then
+"
+PRC_AUTO_TASK_V1	PROCEDURE	666	"      v_type         := '万达预交款重复录入';
+"
+PRC_AUTO_TASK_V1	PROCEDURE	667	"      v_flag_success := 1;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	668	"      select count(*)
+"
+PRC_AUTO_TASK_V1	PROCEDURE	669	"        into v_count
+"
+PRC_AUTO_TASK_V1	PROCEDURE	670	"        From zy_deposit_file a
+"
+PRC_AUTO_TASK_V1	PROCEDURE	671	"       where depo_date > sysdate - 7
+"
+PRC_AUTO_TASK_V1	PROCEDURE	672	"         and jrjylsh in (select jrjylsh
+"
+PRC_AUTO_TASK_V1	PROCEDURE	673	"                           from (select jrjylsh, count(*)
+"
+PRC_AUTO_TASK_V1	PROCEDURE	674	"                                   From zy_deposit_file
+"
+PRC_AUTO_TASK_V1	PROCEDURE	675	"                                  where depo_date > sysdate - 7
+"
+PRC_AUTO_TASK_V1	PROCEDURE	676	"                                    and jrjylsh is not null
+"
+PRC_AUTO_TASK_V1	PROCEDURE	677	"                                    and patient_no > 0
+"
+PRC_AUTO_TASK_V1	PROCEDURE	678	"                                  group by jrjylsh
+"
+PRC_AUTO_TASK_V1	PROCEDURE	679	"                                 having count(*) > 1))
+"
+PRC_AUTO_TASK_V1	PROCEDURE	680	"         and patient_no > 0;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	681	"      if v_count > 0 then
+"
+PRC_AUTO_TASK_V1	PROCEDURE	682	"        select 'zy_deposit_file预交款重复录入，记录为:' || to_char(v_count)
+"
+PRC_AUTO_TASK_V1	PROCEDURE	683	"          into nr
+"
+PRC_AUTO_TASK_V1	PROCEDURE	684	"          from dual;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	685	"        lxdh := '13777929515';
+"
+PRC_AUTO_TASK_V1	PROCEDURE	686	"        prc_sms_send_mark('au', lxdh, nr, v_bz);
+"
+PRC_AUTO_TASK_V1	PROCEDURE	687	"      end if;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	688	"    
+"
+PRC_AUTO_TASK_V1	PROCEDURE	689	"      insert into zy_jiaoyi_v1
+"
+PRC_AUTO_TASK_V1	PROCEDURE	690	"        (jiaoyilx, caozuogh, bz, flag)
+"
+PRC_AUTO_TASK_V1	PROCEDURE	691	"      values
+"
+PRC_AUTO_TASK_V1	PROCEDURE	692	"        (v_zy_jiaoyi_v1.jiaoyilx,
+"
+PRC_AUTO_TASK_V1	PROCEDURE	693	"         v_zy_jiaoyi_v1.caozuogh,
+"
+PRC_AUTO_TASK_V1	PROCEDURE	694	"         v_type,
+"
+PRC_AUTO_TASK_V1	PROCEDURE	695	"         v_flag_success);
+"
+PRC_AUTO_TASK_V1	PROCEDURE	696	"      if sqlcode = 0 then
+"
+PRC_AUTO_TASK_V1	PROCEDURE	697	"        commit;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	698	"      else
+"
+PRC_AUTO_TASK_V1	PROCEDURE	699	"        rollback;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	700	"      end if;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	701	"    
+"
+PRC_AUTO_TASK_V1	PROCEDURE	702	"    end if;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	703	"    --end 万达 预交款重复录入 end 
+"
+PRC_AUTO_TASK_V1	PROCEDURE	704	"  
+"
+PRC_AUTO_TASK_V1	PROCEDURE	705	"    --异地医保目录对照自动更新 begin
+"
+PRC_AUTO_TASK_V1	PROCEDURE	706	"    if 1 = 1 then
+"
+PRC_AUTO_TASK_V1	PROCEDURE	707	"      v_type         := '异地医保目录对照自动更新';
+"
+PRC_AUTO_TASK_V1	PROCEDURE	708	"      v_flag_success := 1;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	709	"    
+"
+PRC_AUTO_TASK_V1	PROCEDURE	710	"      v_count := 0;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	711	"      select count(*)
+"
+PRC_AUTO_TASK_V1	PROCEDURE	712	"        into v_count
+"
+PRC_AUTO_TASK_V1	PROCEDURE	713	"        From yb_duizhaoml
+"
+PRC_AUTO_TASK_V1	PROCEDURE	714	"       where yaopinpb || xiangmuxh || xiangmucd not in
+"
+PRC_AUTO_TASK_V1	PROCEDURE	715	"             (select yaopinpb || xiangmuxh || xiangmucd
+"
+PRC_AUTO_TASK_V1	PROCEDURE	716	"                from yb_duizhaoml
+"
+PRC_AUTO_TASK_V1	PROCEDURE	717	"               where yibaolx = '0902')
+"
+PRC_AUTO_TASK_V1	PROCEDURE	718	"         and yibaolx = '9997'
+"
+PRC_AUTO_TASK_V1	PROCEDURE	719	"         and xiangmuxh > 0
+"
+PRC_AUTO_TASK_V1	PROCEDURE	720	"         and tingyongrq is null;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	721	"    
+"
+PRC_AUTO_TASK_V1	PROCEDURE	722	"      if v_count > 0 then
+"
+PRC_AUTO_TASK_V1	PROCEDURE	723	"        insert into yb_duizhaoml
+"
+PRC_AUTO_TASK_V1	PROCEDURE	724	"          (yibaolx,
+"
+PRC_AUTO_TASK_V1	PROCEDURE	725	"           yaopinpb,
+"
+PRC_AUTO_TASK_V1	PROCEDURE	726	"           xiangmuxh,
+"
+PRC_AUTO_TASK_V1	PROCEDURE	727	"           xiangmucd,
+"
+PRC_AUTO_TASK_V1	PROCEDURE	728	"           yibaodm,
+"
+PRC_AUTO_TASK_V1	PROCEDURE	729	"           shenpijg,
+"
+PRC_AUTO_TASK_V1	PROCEDURE	730	"           qiyongrq)
+"
+PRC_AUTO_TASK_V1	PROCEDURE	731	"          select distinct ('0902'),
+"
+PRC_AUTO_TASK_V1	PROCEDURE	732	"                          yaopinpb,
+"
+PRC_AUTO_TASK_V1	PROCEDURE	733	"                          xiangmuxh,
+"
+PRC_AUTO_TASK_V1	PROCEDURE	734	"                          xiangmucd,
+"
+PRC_AUTO_TASK_V1	PROCEDURE	735	"                          yibaodm,
+"
+PRC_AUTO_TASK_V1	PROCEDURE	736	"                          4,
+"
+PRC_AUTO_TASK_V1	PROCEDURE	737	"                          to_char(sysdate, 'yyyymmdd')
+"
+PRC_AUTO_TASK_V1	PROCEDURE	738	"            From yb_duizhaoml
+"
+PRC_AUTO_TASK_V1	PROCEDURE	739	"           where yaopinpb || xiangmuxh || xiangmucd not in
+"
+PRC_AUTO_TASK_V1	PROCEDURE	740	"                 (select yaopinpb || xiangmuxh || xiangmucd
+"
+PRC_AUTO_TASK_V1	PROCEDURE	741	"                    from yb_duizhaoml
+"
+PRC_AUTO_TASK_V1	PROCEDURE	742	"                   where yibaolx = '0902')
+"
+PRC_AUTO_TASK_V1	PROCEDURE	743	"             and yibaolx = '9997'
+"
+PRC_AUTO_TASK_V1	PROCEDURE	744	"             and xiangmuxh > 0
+"
+PRC_AUTO_TASK_V1	PROCEDURE	745	"             and tingyongrq is null;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	746	"        if sqlcode = 0 then
+"
+PRC_AUTO_TASK_V1	PROCEDURE	747	"          commit;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	748	"        else
+"
+PRC_AUTO_TASK_V1	PROCEDURE	749	"          rollback;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	750	"          v_flag_success := v_flag_success - 2;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	751	"        end if;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	752	"      
+"
+PRC_AUTO_TASK_V1	PROCEDURE	753	"      end if;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	754	"    
+"
+PRC_AUTO_TASK_V1	PROCEDURE	755	"      insert into zy_jiaoyi_v1
+"
+PRC_AUTO_TASK_V1	PROCEDURE	756	"        (jiaoyilx, caozuogh, bz, flag)
+"
+PRC_AUTO_TASK_V1	PROCEDURE	757	"      values
+"
+PRC_AUTO_TASK_V1	PROCEDURE	758	"        (v_zy_jiaoyi_v1.jiaoyilx,
+"
+PRC_AUTO_TASK_V1	PROCEDURE	759	"         v_zy_jiaoyi_v1.caozuogh,
+"
+PRC_AUTO_TASK_V1	PROCEDURE	760	"         v_type,
+"
+PRC_AUTO_TASK_V1	PROCEDURE	761	"         v_flag_success);
+"
+PRC_AUTO_TASK_V1	PROCEDURE	762	"      if sqlcode = 0 then
+"
+PRC_AUTO_TASK_V1	PROCEDURE	763	"        commit;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	764	"      else
+"
+PRC_AUTO_TASK_V1	PROCEDURE	765	"        rollback;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	766	"      end if;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	767	"      if v_flag_success < 1 then
+"
+PRC_AUTO_TASK_V1	PROCEDURE	768	"        select 'error ' || v_zy_jiaoyi_v1.jiaoyilx || ' _' || v_type
+"
+PRC_AUTO_TASK_V1	PROCEDURE	769	"          into nr
+"
+PRC_AUTO_TASK_V1	PROCEDURE	770	"          from dual;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	771	"        lxdh := '13777929515';
+"
+PRC_AUTO_TASK_V1	PROCEDURE	772	"        prc_sms_send_mark('au', lxdh, nr, v_bz);
+"
+PRC_AUTO_TASK_V1	PROCEDURE	773	"      end if;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	774	"    
+"
+PRC_AUTO_TASK_V1	PROCEDURE	775	"    end if;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	776	"    --end 异地医保目录对照自动更新 end
+"
+PRC_AUTO_TASK_V1	PROCEDURE	777	"  
+"
+PRC_AUTO_TASK_V1	PROCEDURE	778	"    --门诊诊断医保未对照  begin
+"
+PRC_AUTO_TASK_V1	PROCEDURE	779	"    if 1 = 1 then
+"
+PRC_AUTO_TASK_V1	PROCEDURE	780	"      v_type         := '门诊诊断医保未对照';
+"
+PRC_AUTO_TASK_V1	PROCEDURE	781	"      v_flag_success := 1;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	782	"      --   select count(zddm)         into v_count         from (select distinct (zddm) zddm                 From zj_zdxx
+"
+PRC_AUTO_TASK_V1	PROCEDURE	783	"      --            where jzxh in                      (select jzxh from zj_jzxx where jzrq > sysdate - 7))
+"
+PRC_AUTO_TASK_V1	PROCEDURE	784	"      --   where zddm not in              (select jibingxh From yb_duizhaoml_jb where yibaolx = '9997');
+"
+PRC_AUTO_TASK_V1	PROCEDURE	785	"    
+"
+PRC_AUTO_TASK_V1	PROCEDURE	786	"      select count(distinct(icd10m))
+"
+PRC_AUTO_TASK_V1	PROCEDURE	787	"        into v_count
+"
+PRC_AUTO_TASK_V1	PROCEDURE	788	"        from zj_zdxx
+"
+PRC_AUTO_TASK_V1	PROCEDURE	789	"       where jzxh >
+"
+PRC_AUTO_TASK_V1	PROCEDURE	790	"             (select min(jzxh) from zj_jzxx where jzrq > sysdate - 2)
+"
+PRC_AUTO_TASK_V1	PROCEDURE	791	"         and icd10m not in (select icd10 From v_yb_jbml_9997);
+"
+PRC_AUTO_TASK_V1	PROCEDURE	792	"    
+"
+PRC_AUTO_TASK_V1	PROCEDURE	793	"      if v_count > 0 then
+"
+PRC_AUTO_TASK_V1	PROCEDURE	794	"      
+"
+PRC_AUTO_TASK_V1	PROCEDURE	795	"        select '门诊诊断医保未对照，记录为:' || to_char(v_count)
+"
+PRC_AUTO_TASK_V1	PROCEDURE	796	"          into nr
+"
+PRC_AUTO_TASK_V1	PROCEDURE	797	"          from dual;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	798	"        lxdh := '13777929515';
+"
+PRC_AUTO_TASK_V1	PROCEDURE	799	"        -- prc_sms_send('ts', lxdh, nr, v_bz);
+"
+PRC_AUTO_TASK_V1	PROCEDURE	800	"        prc_sms_send_mark('au', lxdh, nr, v_bz);
+"
+PRC_AUTO_TASK_V1	PROCEDURE	801	"      
+"
+PRC_AUTO_TASK_V1	PROCEDURE	802	"      end if;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	803	"    
+"
+PRC_AUTO_TASK_V1	PROCEDURE	804	"      insert into zy_jiaoyi_v1
+"
+PRC_AUTO_TASK_V1	PROCEDURE	805	"        (jiaoyilx, caozuogh, bz, flag)
+"
+PRC_AUTO_TASK_V1	PROCEDURE	806	"      values
+"
+PRC_AUTO_TASK_V1	PROCEDURE	807	"        (v_zy_jiaoyi_v1.jiaoyilx,
+"
+PRC_AUTO_TASK_V1	PROCEDURE	808	"         v_zy_jiaoyi_v1.caozuogh,
+"
+PRC_AUTO_TASK_V1	PROCEDURE	809	"         v_type,
+"
+PRC_AUTO_TASK_V1	PROCEDURE	810	"         v_flag_success);
+"
+PRC_AUTO_TASK_V1	PROCEDURE	811	"      if sqlcode = 0 then
+"
+PRC_AUTO_TASK_V1	PROCEDURE	812	"        commit;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	813	"      else
+"
+PRC_AUTO_TASK_V1	PROCEDURE	814	"        rollback;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	815	"      end if;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	816	"      if v_flag_success < 1 then
+"
+PRC_AUTO_TASK_V1	PROCEDURE	817	"        select 'error ' || v_zy_jiaoyi_v1.jiaoyilx || ' _' || v_type
+"
+PRC_AUTO_TASK_V1	PROCEDURE	818	"          into nr
+"
+PRC_AUTO_TASK_V1	PROCEDURE	819	"          from dual;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	820	"        lxdh := '13777929515';
+"
+PRC_AUTO_TASK_V1	PROCEDURE	821	"        prc_sms_send_mark('au', lxdh, nr, v_bz);
+"
+PRC_AUTO_TASK_V1	PROCEDURE	822	"      end if;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	823	"    
+"
+PRC_AUTO_TASK_V1	PROCEDURE	824	"    end if;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	825	"    -- end 门诊诊断医保未对照  end 
+"
+PRC_AUTO_TASK_V1	PROCEDURE	826	"  end if;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	827	"
+"
+PRC_AUTO_TASK_V1	PROCEDURE	828	"  --门诊诊断医保对照
+"
+PRC_AUTO_TASK_V1	PROCEDURE	829	"  if 0 = 1 then
+"
+PRC_AUTO_TASK_V1	PROCEDURE	830	"    v_type         := '门诊诊断医保对照';
+"
+PRC_AUTO_TASK_V1	PROCEDURE	831	"    v_flag_success := 1;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	832	"  
+"
+PRC_AUTO_TASK_V1	PROCEDURE	833	"    v_flag_len := 12;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	834	"    v_count_do := 0;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	835	"  
+"
+PRC_AUTO_TASK_V1	PROCEDURE	836	"    loop
+"
+PRC_AUTO_TASK_V1	PROCEDURE	837	"      v_count := 0;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	838	"      select count(*)
+"
+PRC_AUTO_TASK_V1	PROCEDURE	839	"        into v_count
+"
+PRC_AUTO_TASK_V1	PROCEDURE	840	"        from v_yb_jbml_9997 x,
+"
+PRC_AUTO_TASK_V1	PROCEDURE	841	"             (select distinct (icd10) icd10m
+"
+PRC_AUTO_TASK_V1	PROCEDURE	842	"                from gy_jbdm
+"
+PRC_AUTO_TASK_V1	PROCEDURE	843	"               where icd10 is not null
+"
+PRC_AUTO_TASK_V1	PROCEDURE	844	"                 and icd10 not in (select icd10 From v_yb_jbml_9997)) y
+"
+PRC_AUTO_TASK_V1	PROCEDURE	845	"       where substr(x.icd10, 1, v_flag_len) =
+"
+PRC_AUTO_TASK_V1	PROCEDURE	846	"             substr(y.icd10m, 1, v_flag_len);
+"
+PRC_AUTO_TASK_V1	PROCEDURE	847	"    
+"
+PRC_AUTO_TASK_V1	PROCEDURE	848	"      if v_count > 0 then
+"
+PRC_AUTO_TASK_V1	PROCEDURE	849	"      
+"
+PRC_AUTO_TASK_V1	PROCEDURE	850	"        insert into yb_jbml_9997_add
+"
+PRC_AUTO_TASK_V1	PROCEDURE	851	"          (YBLX,
+"
+PRC_AUTO_TASK_V1	PROCEDURE	852	"           JBDM,
+"
+PRC_AUTO_TASK_V1	PROCEDURE	853	"           JBMC,
+"
+PRC_AUTO_TASK_V1	PROCEDURE	854	"           SRM1,
+"
+PRC_AUTO_TASK_V1	PROCEDURE	855	"           SRM2,
+"
+PRC_AUTO_TASK_V1	PROCEDURE	856	"           JBXH,
+"
+PRC_AUTO_TASK_V1	PROCEDURE	857	"           TSBZ,
+"
+PRC_AUTO_TASK_V1	PROCEDURE	858	"           icd10,
+"
+PRC_AUTO_TASK_V1	PROCEDURE	859	"           ZFPB,
+"
+PRC_AUTO_TASK_V1	PROCEDURE	860	"           ZFBZ,
+"
+PRC_AUTO_TASK_V1	PROCEDURE	861	"           FLDM,
+"
+PRC_AUTO_TASK_V1	PROCEDURE	862	"           SRM3,
+"
+PRC_AUTO_TASK_V1	PROCEDURE	863	"           BZ,
+"
+PRC_AUTO_TASK_V1	PROCEDURE	864	"           TSBZBM,
+"
+PRC_AUTO_TASK_V1	PROCEDURE	865	"           KSRQ,
+"
+PRC_AUTO_TASK_V1	PROCEDURE	866	"           JSRQ,
+"
+PRC_AUTO_TASK_V1	PROCEDURE	867	"           JBLB,
+"
+PRC_AUTO_TASK_V1	PROCEDURE	868	"           DYBZ,
+"
+PRC_AUTO_TASK_V1	PROCEDURE	869	"           ZXLSH,
+"
+PRC_AUTO_TASK_V1	PROCEDURE	870	"           PYZJM,
+"
+PRC_AUTO_TASK_V1	PROCEDURE	871	"           ZJSRQ,
+"
+PRC_AUTO_TASK_V1	PROCEDURE	872	"           ZKSRQ,
+"
+PRC_AUTO_TASK_V1	PROCEDURE	873	"           ZBM,
+"
+PRC_AUTO_TASK_V1	PROCEDURE	874	"           ZMC)
+"
+PRC_AUTO_TASK_V1	PROCEDURE	875	"          select YBLX,
+"
+PRC_AUTO_TASK_V1	PROCEDURE	876	"                 JBDM,
+"
+PRC_AUTO_TASK_V1	PROCEDURE	877	"                 JBMC,
+"
+PRC_AUTO_TASK_V1	PROCEDURE	878	"                 SRM1,
+"
+PRC_AUTO_TASK_V1	PROCEDURE	879	"                 SRM2,
+"
+PRC_AUTO_TASK_V1	PROCEDURE	880	"                 JBXH,
+"
+PRC_AUTO_TASK_V1	PROCEDURE	881	"                 TSBZ,
+"
+PRC_AUTO_TASK_V1	PROCEDURE	882	"                 y.icd10m,
+"
+PRC_AUTO_TASK_V1	PROCEDURE	883	"                 ZFPB,
+"
+PRC_AUTO_TASK_V1	PROCEDURE	884	"                 ZFBZ,
+"
+PRC_AUTO_TASK_V1	PROCEDURE	885	"                 FLDM,
+"
+PRC_AUTO_TASK_V1	PROCEDURE	886	"                 SRM3,
+"
+PRC_AUTO_TASK_V1	PROCEDURE	887	"                 BZ,
+"
+PRC_AUTO_TASK_V1	PROCEDURE	888	"                 TSBZBM,
+"
+PRC_AUTO_TASK_V1	PROCEDURE	889	"                 KSRQ,
+"
+PRC_AUTO_TASK_V1	PROCEDURE	890	"                 JSRQ,
+"
+PRC_AUTO_TASK_V1	PROCEDURE	891	"                 JBLB,
+"
+PRC_AUTO_TASK_V1	PROCEDURE	892	"                 DYBZ,
+"
+PRC_AUTO_TASK_V1	PROCEDURE	893	"                 ZXLSH,
+"
+PRC_AUTO_TASK_V1	PROCEDURE	894	"                 PYZJM,
+"
+PRC_AUTO_TASK_V1	PROCEDURE	895	"                 ZJSRQ,
+"
+PRC_AUTO_TASK_V1	PROCEDURE	896	"                 ZKSRQ,
+"
+PRC_AUTO_TASK_V1	PROCEDURE	897	"                 ZBM,
+"
+PRC_AUTO_TASK_V1	PROCEDURE	898	"                 ZMC
+"
+PRC_AUTO_TASK_V1	PROCEDURE	899	"          
+"
+PRC_AUTO_TASK_V1	PROCEDURE	900	"            from v_yb_jbml_9997 x,
+"
+PRC_AUTO_TASK_V1	PROCEDURE	901	"                 (select distinct (icd10) icd10m
+"
+PRC_AUTO_TASK_V1	PROCEDURE	902	"                    from gy_jbdm
+"
+PRC_AUTO_TASK_V1	PROCEDURE	903	"                   where icd10 is not null
+"
+PRC_AUTO_TASK_V1	PROCEDURE	904	"                     and icd10 not in (select icd10 From v_yb_jbml_9997)) y
+"
+PRC_AUTO_TASK_V1	PROCEDURE	905	"           where substr(x.icd10, 1, v_flag_len) =
+"
+PRC_AUTO_TASK_V1	PROCEDURE	906	"                 substr(y.icd10m, 1, v_flag_len);
+"
+PRC_AUTO_TASK_V1	PROCEDURE	907	"        if sqlcode = 0 then
+"
+PRC_AUTO_TASK_V1	PROCEDURE	908	"          commit;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	909	"          v_count_do := v_count_do + v_count;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	910	"        else
+"
+PRC_AUTO_TASK_V1	PROCEDURE	911	"          rollback;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	912	"          v_flag_success := -1;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	913	"          exit;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	914	"        end if;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	915	"      
+"
+PRC_AUTO_TASK_V1	PROCEDURE	916	"      end if;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	917	"    
+"
+PRC_AUTO_TASK_V1	PROCEDURE	918	"      --判断是否要退出循环
+"
+PRC_AUTO_TASK_V1	PROCEDURE	919	"      v_flag_len := v_flag_len - 1;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	920	"      exit when v_flag_len < 3;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	921	"    
+"
+PRC_AUTO_TASK_V1	PROCEDURE	922	"    end loop;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	923	"  
+"
+PRC_AUTO_TASK_V1	PROCEDURE	924	"    --删除重复数据
+"
+PRC_AUTO_TASK_V1	PROCEDURE	925	"    if v_count_do > 0 then
+"
+PRC_AUTO_TASK_V1	PROCEDURE	926	"      DELETE from yb_jbml_9997_add
+"
+PRC_AUTO_TASK_V1	PROCEDURE	927	"       WHERE (icd10) IN (SELECT icd10
+"
+PRC_AUTO_TASK_V1	PROCEDURE	928	"                           FROM yb_jbml_9997_add
+"
+PRC_AUTO_TASK_V1	PROCEDURE	929	"                          GROUP BY icd10
+"
+PRC_AUTO_TASK_V1	PROCEDURE	930	"                         HAVING COUNT(icd10) > 1)
+"
+PRC_AUTO_TASK_V1	PROCEDURE	931	"         AND ROWID NOT IN (SELECT MIN(ROWID)
+"
+PRC_AUTO_TASK_V1	PROCEDURE	932	"                             FROM yb_jbml_9997_add
+"
+PRC_AUTO_TASK_V1	PROCEDURE	933	"                            GROUP BY icd10
+"
+PRC_AUTO_TASK_V1	PROCEDURE	934	"                           HAVING COUNT(*) > 1);
+"
+PRC_AUTO_TASK_V1	PROCEDURE	935	"      commit;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	936	"    
+"
+PRC_AUTO_TASK_V1	PROCEDURE	937	"    end if;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	938	"  
+"
+PRC_AUTO_TASK_V1	PROCEDURE	939	"    insert into zy_jiaoyi_v1
+"
+PRC_AUTO_TASK_V1	PROCEDURE	940	"      (jiaoyilx, caozuogh, bz, flag)
+"
+PRC_AUTO_TASK_V1	PROCEDURE	941	"    values
+"
+PRC_AUTO_TASK_V1	PROCEDURE	942	"      (v_zy_jiaoyi_v1.jiaoyilx,
+"
+PRC_AUTO_TASK_V1	PROCEDURE	943	"       v_zy_jiaoyi_v1.caozuogh,
+"
+PRC_AUTO_TASK_V1	PROCEDURE	944	"       v_type,
+"
+PRC_AUTO_TASK_V1	PROCEDURE	945	"       v_flag_success);
+"
+PRC_AUTO_TASK_V1	PROCEDURE	946	"    if sqlcode = 0 then
+"
+PRC_AUTO_TASK_V1	PROCEDURE	947	"      commit;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	948	"    else
+"
+PRC_AUTO_TASK_V1	PROCEDURE	949	"      rollback;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	950	"    end if;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	951	"    if v_flag_success < 1 then
+"
+PRC_AUTO_TASK_V1	PROCEDURE	952	"      select 'error ' || v_zy_jiaoyi_v1.jiaoyilx || ' _' || v_type
+"
+PRC_AUTO_TASK_V1	PROCEDURE	953	"        into nr
+"
+PRC_AUTO_TASK_V1	PROCEDURE	954	"        from dual;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	955	"      lxdh := '13777929515';
+"
+PRC_AUTO_TASK_V1	PROCEDURE	956	"      prc_sms_send_mark('au', lxdh, nr, v_bz);
+"
+PRC_AUTO_TASK_V1	PROCEDURE	957	"    end if;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	958	"  
+"
+PRC_AUTO_TASK_V1	PROCEDURE	959	"  end if;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	960	"
+"
+PRC_AUTO_TASK_V1	PROCEDURE	961	"  -- end   门诊诊断医保对照
+"
+PRC_AUTO_TASK_V1	PROCEDURE	962	"
+"
+PRC_AUTO_TASK_V1	PROCEDURE	963	"  --   日志删除
+"
+PRC_AUTO_TASK_V1	PROCEDURE	964	"  if 4 = 4 then
+"
+PRC_AUTO_TASK_V1	PROCEDURE	965	"    v_type         := '日志删除 处理';
+"
+PRC_AUTO_TASK_V1	PROCEDURE	966	"    v_flag_success := 1;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	967	"    delete yb_log
+"
+PRC_AUTO_TASK_V1	PROCEDURE	968	"     where indata like '%读卡%'
+"
+PRC_AUTO_TASK_V1	PROCEDURE	969	"       and jyrq < sysdate - 2;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	970	"  
+"
+PRC_AUTO_TASK_V1	PROCEDURE	971	"    if sqlcode = 0 then
+"
+PRC_AUTO_TASK_V1	PROCEDURE	972	"      commit;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	973	"    else
+"
+PRC_AUTO_TASK_V1	PROCEDURE	974	"      rollback;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	975	"      v_flag_success := v_flag_success - 2;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	976	"    end if;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	977	"  
+"
+PRC_AUTO_TASK_V1	PROCEDURE	978	"    delete yb_log where jyrq < sysdate - 80;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	979	"  
+"
+PRC_AUTO_TASK_V1	PROCEDURE	980	"    if sqlcode = 0 then
+"
+PRC_AUTO_TASK_V1	PROCEDURE	981	"      commit;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	982	"    else
+"
+PRC_AUTO_TASK_V1	PROCEDURE	983	"      rollback;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	984	"      v_flag_success := v_flag_success - 2;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	985	"    end if;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	986	"  
+"
+PRC_AUTO_TASK_V1	PROCEDURE	987	"    delete zy_jiaoyi_v1
+"
+PRC_AUTO_TASK_V1	PROCEDURE	988	"     where jiaoyilx not in ('报错日志_健康义乌APP', '报错日志_微信公众号', '增加门诊病人修改记录')
+"
+PRC_AUTO_TASK_V1	PROCEDURE	989	"       and jyrq < sysdate - 7;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	990	"    if sqlcode = 0 then
+"
+PRC_AUTO_TASK_V1	PROCEDURE	991	"      commit;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	992	"    else
+"
+PRC_AUTO_TASK_V1	PROCEDURE	993	"      rollback;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	994	"      v_flag_success := v_flag_success - 2;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	995	"    end if;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	996	"  
+"
+PRC_AUTO_TASK_V1	PROCEDURE	997	"    delete zy_jiaoyi_v1
+"
+PRC_AUTO_TASK_V1	PROCEDURE	998	"     where jiaoyilx in ('报错日志_健康义乌APP', '报错日志_微信公众号', '增加门诊病人修改记录')
+"
+PRC_AUTO_TASK_V1	PROCEDURE	999	"       and jyrq < sysdate - 30;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1000	"    if sqlcode = 0 then
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1001	"      commit;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1002	"    else
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1003	"      rollback;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1004	"      v_flag_success := v_flag_success - 2;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1005	"    end if;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1006	"  
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1007	"    insert into zy_jiaoyi_v1
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1008	"      (jiaoyilx, caozuogh, bz, flag)
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1009	"    values
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1010	"      (v_zy_jiaoyi_v1.jiaoyilx,
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1011	"       v_zy_jiaoyi_v1.caozuogh,
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1012	"       v_type,
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1013	"       v_flag_success);
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1014	"    if sqlcode = 0 then
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1015	"      commit;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1016	"    else
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1017	"      rollback;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1018	"    end if;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1019	"    if v_flag_success < 1 then
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1020	"      select 'error ' || v_zy_jiaoyi_v1.jiaoyilx || ' _' || v_type
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1021	"        into nr
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1022	"        from dual;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1023	"      lxdh := '13777929515';
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1024	"      prc_sms_send_mark('au', lxdh, nr, v_bz);
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1025	"    end if;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1026	"  
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1027	"  end if;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1028	"  -- 4=4 end  日志删除
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1029	"
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1030	"  --日志表记录处理
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1031	"  if 99 = 99 then
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1032	"  
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1033	"    v_type         := '日志表记录处理';
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1034	"    v_flag_success := 1;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1035	"    --保存登录日志
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1036	"  
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1037	"    insert into gy_xtrz_bak
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1038	"      select * from gy_xtrz where dlsj > trunc(sysdate) - 0.30;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1039	"    if sqlcode = 0 then
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1040	"      commit;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1041	"    else
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1042	"      rollback;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1043	"      v_flag_success := v_flag_success - 2;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1044	"    end if;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1045	"  
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1046	"    delete gy_xtrz_bak where dlsj < sysdate - 70;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1047	"    if sqlcode = 0 then
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1048	"      commit;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1049	"    else
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1050	"      rollback;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1051	"      v_flag_success := v_flag_success - 2;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1052	"    end if;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1053	"  
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1054	"    delete a_log where add_date < sysdate - 30;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1055	"    if sqlcode = 0 then
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1056	"      commit;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1057	"    else
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1058	"      rollback;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1059	"      v_flag_success := v_flag_success - 2;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1060	"    end if;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1061	"  
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1062	"    --日志表数量统计
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1063	"    --select count(*) from gy_logs, xt_XtRzXx , gy_xtrz, gy_xtrz_bak,  yb_log ,zy_jiaoyi_v1， yb_jyrz_jhwd 
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1064	"    select count(*) into v_count from a_log;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1065	"    --  nr := ' 数据统计 yb_log= ' 
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1066	"    if v_count > 399999 then
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1067	"      select ' 病区条码打印日志 a_log= ' || to_char(v_count)
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1068	"        into nr
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1069	"        from dual;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1070	"      lxdh := '13777929515';
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1071	"      -- prc_sms_send('ts', lxdh, nr, v_bz);
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1072	"      prc_sms_send_mark('au', lxdh, nr, v_bz);
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1073	"    end if;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1074	"  
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1075	"    select count(*) into v_count from yb_log;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1076	"    --  nr := ' 数据统计 yb_log= ' 
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1077	"    if v_count > 399999 then
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1078	"      select '  yb_log= ' || to_char(v_count) into nr from dual;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1079	"      lxdh := '13777929515';
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1080	"      -- prc_sms_send('ts', lxdh, nr, v_bz);
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1081	"      prc_sms_send_mark('au', lxdh, nr, v_bz);
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1082	"    end if;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1083	"    delete yb_jyrz_jhwd
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1084	"     where jylx = 'Y004'
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1085	"       and jyrq < sysdate - 30;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1086	"    if sqlcode = 0 then
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1087	"      commit;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1088	"    else
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1089	"      rollback;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1090	"      v_flag_success := v_flag_success - 2;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1091	"    end if;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1092	"  
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1093	"    delete yb_jyrz_jhwd
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1094	"     where jylx = 'Y006'
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1095	"       and jyrq < sysdate - 1;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1096	"    if sqlcode = 0 then
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1097	"      commit;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1098	"    else
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1099	"      rollback;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1100	"      v_flag_success := v_flag_success - 2;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1101	"    end if;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1102	"  
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1103	"    delete yb_jyrz_jhwd where jyrq < sysdate - 300;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1104	"    if sqlcode = 0 then
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1105	"      commit;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1106	"    else
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1107	"      rollback;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1108	"      v_flag_success := v_flag_success - 2;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1109	"    end if;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1110	"  
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1111	"    select count(*) into v_count from yb_jyrz_jhwd;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1112	"    --  nr := ' 数据统计 yb_log= ' 
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1113	"    if v_count > 399999 then
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1114	"      select '  yb_jyrz_jhwd= ' || to_char(v_count) into nr from dual;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1115	"      lxdh := '13777929515';
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1116	"      -- prc_sms_send('ts', lxdh, nr, v_bz);
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1117	"      prc_sms_send_mark('au', lxdh, nr, v_bz);
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1118	"    end if;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1119	"  
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1120	"    select count(*) into v_count from zy_jiaoyi_v1;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1121	"    --  nr := ' 数据统计 zy_jiaoyi_v1= ' 
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1122	"    if v_count > 499999 then
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1123	"      select ' zy_jiaoyi_v1=' || to_char(v_count) into nr from dual;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1124	"      lxdh := '13777929515';
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1125	"      --prc_sms_send('ts', lxdh, nr, v_bz);
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1126	"      prc_sms_send_mark('au', lxdh, nr, v_bz);
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1127	"    end if;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1128	"  
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1129	"    select count(*) into v_count from gy_xtrz_bak;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1130	"    --  nr := ' 数据统计 gy_xtrz_bak= ' 
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1131	"    if v_count > 499999 then
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1132	"      select ' gy_xtrz_bak=' || to_char(v_count) into nr from dual;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1133	"      lxdh := '13777929515';
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1134	"      -- prc_sms_send('ts', lxdh, nr, v_bz);
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1135	"      prc_sms_send_mark('au', lxdh, nr, v_bz);
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1136	"    end if;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1137	"  
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1138	"    select count(*) into v_count from t_log;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1139	"    --  nr := ' 数据统计 gy_xtrz_bak= ' 
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1140	"    if v_count > 499999 then
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1141	"      select ' t_log=' || to_char(v_count) into nr from dual;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1142	"      lxdh := '13777929515';
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1143	"      -- prc_sms_send('ts', lxdh, nr, v_bz);
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1144	"      prc_sms_send_mark('au', lxdh, nr, v_bz);
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1145	"    end if;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1146	"  
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1147	"    select count(*) into v_count from gy_xtrz;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1148	"    --  nr := ' 数据统计 gy_xtrz= ' 
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1149	"    if v_count > 499999 then
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1150	"      select ' gy_xtrz=' || to_char(v_count) into nr from dual;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1151	"      lxdh := '13777929515';
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1152	"      -- prc_sms_send('ts', lxdh, nr, v_bz);
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1153	"      prc_sms_send_mark('au', lxdh, nr, v_bz);
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1154	"    end if;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1155	"  
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1156	"    nr := '';
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1157	"    select count(*) into v_count from xt_XtRzXx;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1158	"    if v_count > 1499999 then
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1159	"      select nr || ' xt_XtRzXx=' || to_char(v_count) into nr from dual;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1160	"      lxdh := '13777929515';
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1161	"      --prc_sms_send('ts', lxdh, nr, v_bz);
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1162	"      prc_sms_send_mark('au', lxdh, nr, v_bz);
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1163	"    end if;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1164	"  
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1165	"    select count(*) into v_count from gy_logs;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1166	"    if v_count > 499999 then
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1167	"      select nr || ' gy_logs=' || to_char(v_count) into nr from dual;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1168	"      lxdh := '13777929515';
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1169	"      -- prc_sms_send('ts', lxdh, nr, v_bz);
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1170	"      prc_sms_send_mark('au', lxdh, nr, v_bz);
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1171	"    end if;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1172	"    delete sms_l_patientinfo where add_date < sysdate - 300;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1173	"    if sqlcode = 0 then
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1174	"      commit;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1175	"    else
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1176	"      rollback;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1177	"    end if;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1178	"    select count(*) into v_count from sms_l_patientinfo;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1179	"    if v_count > 499999 then
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1180	"      select nr || ' sms_l_patientinfo=' || to_char(v_count)
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1181	"        into nr
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1182	"        from dual;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1183	"      lxdh := '13777929515';
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1184	"      -- prc_sms_send('ts', lxdh, nr, v_bz);
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1185	"      prc_sms_send_mark('au', lxdh, nr, v_bz);
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1186	"    end if;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1187	"  
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1188	"    insert into zy_jiaoyi_v1
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1189	"      (jiaoyilx, caozuogh, bz, flag)
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1190	"    values
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1191	"      (v_zy_jiaoyi_v1.jiaoyilx,
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1192	"       v_zy_jiaoyi_v1.caozuogh,
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1193	"       v_type,
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1194	"       v_flag_success);
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1195	"    if sqlcode = 0 then
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1196	"      commit;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1197	"    else
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1198	"      rollback;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1199	"    end if;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1200	"    if v_flag_success < 1 then
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1201	"      select 'error ' || v_zy_jiaoyi_v1.jiaoyilx || ' _' || v_type
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1202	"        into nr
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1203	"        from dual;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1204	"      lxdh := '13777929515';
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1205	"      prc_sms_send_mark('au', lxdh, nr, v_bz);
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1206	"    end if;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1207	"  
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1208	"    --处理 zy_detail_charge_yb_20190409 
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1209	"    if 1 = 1 then
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1210	"    
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1211	"      select count(*)
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1212	"        into v_count
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1213	"        from zy_detail_charge_yb_20190409
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1214	"       where jcfx_date < sysdate - 0.5;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1215	"    
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1216	"      if v_count > 99999 then
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1217	"        select ' zy_detail_charge_yb_20190409 记录:' || to_char(v_count)
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1218	"          into nr
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1219	"          from dual;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1220	"        lxdh := '13777929515';
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1221	"        -- prc_sms_send('ts', lxdh, nr, v_bz);
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1222	"        prc_sms_send_mark('au', lxdh, nr, v_bz);
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1223	"      else
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1224	"      
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1225	"        delete zy_detail_charge_yb_20190409
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1226	"         where jcfx_date < sysdate - 0.5;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1227	"        if sqlcode = 0 then
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1228	"          commit;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1229	"        else
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1230	"          rollback;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1231	"        end if;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1232	"      
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1233	"      end if;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1234	"    
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1235	"    end if;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1236	"    --处理 zy_detail_charge_yb_20190409  end
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1237	"  end if;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1238	"  -- end 日志表记录处理
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1239	"  if 1 = 1 then
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1240	"    select nvl(to_char(wm_concat(patient_no)), '0')
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1241	"      into nr
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1242	"      from zy_deposit_file
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1243	"     where depo_date > sysdate - 3
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1244	"       and patient_No not in
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1245	"           (select patient_No from zy_patient_information);
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1246	"    if length(nr) > 1 then
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1247	"      select '预交款patient_NO对应不上,' || nr into nr from dual;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1248	"      prc_sms_send_mark('au', '13777929515', nr, v_bz);
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1249	"    end if;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1250	"  
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1251	"  end if;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1252	"
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1253	"  --预交款patient_NO对应不上
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1254	"  if 1 = 1 then
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1255	"    select nvl(to_char(wm_concat(patient_no)), '0')
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1256	"      into nr
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1257	"      from zy_deposit_file
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1258	"     where depo_date > sysdate - 3
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1259	"       and patient_No not in
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1260	"           (select patient_No from zy_patient_information);
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1261	"    if length(nr) > 1 then
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1262	"      select '预交款patient_NO对应不上,' || nr into nr from dual;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1263	"      prc_sms_send_mark('au', '13777929515', nr, v_bz);
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1264	"    end if;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1265	"  
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1266	"  end if;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1267	"
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1268	"  --免费挂号 统计
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1269	"  if 1 = 1 then
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1270	"    select nvl(to_char(wm_concat('免费挂号' || c.czgh || ':' || count(*))),
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1271	"               '0')
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1272	"      into nr
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1273	"      From yj_Yjk1 A, YJ_YJK2 B, mz_mzsfk1 c
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1274	"     where a.sfsb = c.sfsb
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1275	"       and A.YJSB = b.yjsb
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1276	"       and b.fygb in (13, 14)
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1277	"       and b.dj = 0.01
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1278	"       and c.sfrq between trunc(sysdate) and trunc(sysdate + 1)
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1279	"     group by c.czgh;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1280	"  
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1281	"    if length(nr) > 1 then
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1282	"      prc_sms_send_mark('au', '13777929515', nr, v_bz);
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1283	"    end if;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1284	"  
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1285	"  end if;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1286	"
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1287	"  --检验套餐 检验标志为标记
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1288	"  if 1 = 1 then
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1289	"  
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1290	"    select count(*)
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1291	"      into v_count
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1292	"      fROM GY_YLSF T
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1293	"     WHERE SFXM = 99
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1294	"       AND TCLB = 1
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1295	"       AND nvl(hYBZ, 0) = 0
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1296	"       and ylxh not in (31610, 31611);
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1297	"  
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1298	"    if v_count > 0 then
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1299	"      select 'error,检验套餐 未标记 化验分类  :' || v_count
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1300	"        into nr
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1301	"        from dual;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1302	"      prc_sms_send_mark('au', '13777929515', nr, v_bz);
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1303	"      prc_sms_send_mark('au', '13735615961', nr, v_bz);
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1304	"    
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1305	"      update GY_YLSF
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1306	"         set hYBZ        = 1,
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1307	"             jianyanfjxx = jianyanfjxx || '|检验套餐后台标记化验分类|'
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1308	"       where SFXM = 99
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1309	"         AND TCLB = 1
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1310	"         AND nvl(hYBZ, 0) = 0
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1311	"         and ylxh not in (31610, 31611);
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1312	"      if sqlcode = 0 then
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1313	"        commit;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1314	"      else
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1315	"        rollback;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1316	"      end if;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1317	"    
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1318	"    end if;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1319	"  end if;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1320	"  --减免发票数
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1321	"  if 1 = 1 then
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1322	"    select nvl(to_char(wm_concat('减免发票数' || c.czgh || ':' || count(*))),
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1323	"               '0')
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1324	"      into nr
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1325	"      From mz_mzsfk1 c
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1326	"     where c.yhje1 > 0.5
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1327	"       and c.sfrq between trunc(sysdate) and trunc(sysdate + 1)
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1328	"     group by c.czgh;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1329	"  
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1330	"    if length(nr) > 1 then
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1331	"      prc_sms_send_mark('au', '13777929515', nr, v_bz);
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1332	"    end if;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1333	"  
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1334	"  end if;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1335	"
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1336	"  if 1 = 1 then
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1337	"  
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1338	"    select count(laborder)
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1339	"      into v_count
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1340	"      from l_laborder
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1341	"     where laborderorg in
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1342	"           (select sfsb
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1343	"              From yj_Yjk1
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1344	"             where jchm = '应检尽检'
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1345	"               and sfsb in
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1346	"                   (select sfsb from mz_mzsfk1 where sfrq > sysdate - 1))
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1347	"       and receiveflag <> -1;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1348	"    if v_count > 0 then
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1349	"      select '应检尽检 条码未作废  ' into nr from dual;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1350	"      lxdh := '13777929515';
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1351	"      prc_sms_send_mark('au', lxdh, nr, v_bz);
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1352	"    end if;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1353	"  end if;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1354	"
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1355	"  --  update mz_mzsfk1 set jyjg = jyjg || '|财政医保=1|'
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1356	"  if 3 = 3 then
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1357	"  
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1358	"    update mz_mzsfk1
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1359	"       set jyjg = jyjg || '|财政医保=1|'
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1360	"     where sfsb in
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1361	"           (select sfsb
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1362	"              from (select d.lxdh,
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1363	"                           d.jgbm,
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1364	"                           a.jzkh jzkh1,
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1365	"                           a.brxm,
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1366	"                           decode(a.brlb,
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1367	"                                  1,
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1368	"                                  '现金',
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1369	"                                  97,
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1370	"                                  '金华医保',
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1371	"                                  99,
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1372	"                                  '全国医保',
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1373	"                                  a.brlb) brlb,
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1374	"                           a.sfsb,
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1375	"                           a.sfrq,
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1376	"                           nvl(a.yhje1, 0) yhje1,
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1377	"                           nvl(ybbxje, 0) ybbxje,
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1378	"                           nvl(b.jchm, '0') jchm,
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1379	"                           c.ylxh,
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1380	"                           (select ylmc from gy_ylsf where ylxh = c.ylxh) ylmc,
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1381	"                           c.dj,
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1382	"                           c.sl,
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1383	"                           b.jzxh jzxh1,
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1384	"                           (select sum(y.dj * y.sl)
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1385	"                              from yj_Yjk1 x, yj_Yjk2 y
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1386	"                             where x.yjsb = y.yjsb
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1387	"                               and x.sfsb = a.sfsb
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1388	"                               and y.ylxh in
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1389	"                                   (select ylxh From v_temp_ylxh_20200623_mf)) yhje2,
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1390	"                           d.sfzh,
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1391	"                           d.jtzz,
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1392	"                           (select mc
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1393	"                              From gy_gydm
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1394	"                             where dm = d.jgdm
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1395	"                               and dmlb = 6) jiguan
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1396	"                      From mz_mzsfk1 a, yj_yjk1 b, yj_Yjk2 c, gy_brjbxxk d
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1397	"                     where a.sfsb = b.sfsb
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1398	"                       and b.yjsb = c.yjsb
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1399	"                       and a.jzkh = d.jzkh
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1400	"                       and a.sfrq > sysdate - 2
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1401	"                       and a.sfrq < sysdate - 0.01
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1402	"                       and c.ylxh in
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1403	"                           (select ylxh From v_temp_ylxh_20200623_mf))
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1404	"             where (yhje1 <> 0 or instr(jchm, '检') > 0 or dj < 0.1)
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1405	"               and jchm <> '体检'
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1406	"            
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1407	"            )
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1408	"       and instr(nvl(jyjg, '0'), '财政医保=1') = 0;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1409	"    if sqlcode = 0 then
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1410	"      commit;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1411	"      select 'prc_auto_task_v  ok,应检尽检 财政医保=1' into nr from dual;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1412	"      prc_sms_send_mark('au', '13777929515', nr, v_bz);
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1413	"    else
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1414	"    
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1415	"      rollback;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1416	"      select 'prc_auto_task_v  error,应检尽检 财政医保=1'
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1417	"        into nr
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1418	"        from dual;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1419	"      prc_sms_send_mark('au', '13777929515', nr, v_bz);
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1420	"    end if;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1421	"  end if;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1422	"  --end   '|财政医保=1|' 
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1423	"
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1424	"  -- 高值耗材增加计费科室
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1425	"  if 1 = 1 then
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1426	"    select count(DISTINCT(EXECUTDEPT))
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1427	"      into v_count
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1428	"      From gy_charge_interface
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1429	"     where chargedate > sysdate - 10
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1430	"       and systemtype = 'SS'
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1431	"       AND EXECUTDEPT NOT IN (SELECT KSDM FROM ylsbgl2.WZ_EJKF_SFQX);
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1432	"    if v_count > 0 then
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1433	"    
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1434	"      insert into ylsbgl2.WZ_EJKF_SFQX
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1435	"        (ksdm, lx)
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1436	"        select DISTINCT (EXECUTDEPT), 'SC'
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1437	"          From gy_charge_interface
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1438	"         where chargedate > sysdate - 10
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1439	"           and systemtype = 'SS'
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1440	"           AND EXECUTDEPT NOT IN (SELECT KSDM FROM ylsbgl2.WZ_EJKF_SFQX);
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1441	"      if sqlcode = 0 then
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1442	"        commit;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1443	"        select 'prc_auto_task_v ok 高值耗材增加计费科室' into nr from dual;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1444	"        prc_sms_send_mark('au', '13777929515', nr, v_bz);
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1445	"      else
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1446	"        rollback;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1447	"        select 'prc_auto_task_v  error, 高值耗材增加计费科室'
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1448	"          into nr
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1449	"          from dual;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1450	"        prc_sms_send_mark('au', '13777929515', nr, v_bz);
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1451	"      end if;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1452	"    
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1453	"    end if;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1454	"  end if;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1455	"  -- end 高值耗材增加计费科室
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1456	"
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1457	"  --
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1458	"  if 1 = 1 then
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1459	"  
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1460	"    select count(*)
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1461	"      into v_count
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1462	"      from (select jz_date,
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1463	"                   patient_NO,
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1464	"                   x.total_fee,
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1465	"                   (select sum(round(dj * sl, 2))
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1466	"                      from zy_detail_charge
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1467	"                     where patient_NO = x.patient_no
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1468	"                       and js_No = x.js_no) total_fee_detail
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1469	"              From zy_total_fee x
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1470	"             where js_No >= 1
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1471	"               and jz_date > sysdate - 3)
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1472	"     where total_fee <> total_fee_detail;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1473	"    if v_count > 0 then
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1474	"      select '住院病人 明细费用与tototal_fee 不符  ' || v_count
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1475	"        into nr
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1476	"        from dual;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1477	"      lxdh := '13777929515';
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1478	"      prc_sms_send_mark('au', lxdh, nr, v_bz);
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1479	"    end if;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1480	"  
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1481	"    select count(*)
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1482	"      into v_count
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1483	"      from (select x.total_fee - dbsum_fee,
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1484	"                   x.zf_fee + dbsum_fee - x.total_fee，x.total_fee,
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1485	"                   x.zf_fee,
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1486	"                   x.total_fee - x.zf_fee,
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1487	"                   x.db_fee + x.qtzhzf + x.laonianjj + x.dbjzje + x.grzhje +
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1488	"                   x.grzhje_ln + qtcd_2 + kunnanbzjj + jzje + lxjj +
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1489	"                   nongbaojj + tcje + qtcd_1 + gf_fee + cc_Fee_4,
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1490	"                   x.db_fee + x.qtzhzf + x.laonianjj + x.dbjzje + x.grzhje +
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1491	"                   x.grzhje_ln + qtcd_2 + x.zf_fee + kunnanbzjj + jzje + lxjj +
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1492	"                   nongbaojj + tcje + qtcd_1 + gf_fee + cc_Fee_4 -
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1493	"                   x.total_fee ， x.*
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1494	"              From zy_total_fee x
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1495	"             where js_No >= 1
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1496	"               and brlb = 97
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1497	"               and jz_date > sysdate - 3
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1498	"               and (x.total_fee <>
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1499	"                   (x.zf_fee + x.db_fee + x.qtzhzf + x.laonianjj + x.dbjzje +
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1500	"                   x.grzhje + x.grzhje_ln + qtcd_2 + kunnanbzjj + jzje + lxjj +
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1501	"                   nongbaojj + tcje + qtcd_1 + gf_fee + cc_Fee_4) or
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1502	"                   x.total_fee <> (x.zf_fee + dbsum_fee)));
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1503	"    if v_count > 0 then
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1504	"      select '住院病人 金华医保病人 自费费用与zf_fee 不符  ' || v_count
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1505	"        into nr
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1506	"        from dual;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1507	"      lxdh := '13777929515';
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1508	"      prc_sms_send_mark('au', lxdh, nr, v_bz);
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1509	"    end if;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1510	"  
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1511	"    select count(*)
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1512	"      into v_count
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1513	"      From (select patient_no,
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1514	"                   x.total_fee,
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1515	"                   dbsum_fee,
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1516	"                   zf_fee,
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1517	"                   cc_fee1,
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1518	"                   (select nvl(sum(dj * sl), 0)
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1519	"                      from zy_detail_charge
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1520	"                     where patient_no = x.patient_no
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1521	"                       and js_no = x.js_no
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1522	"                       and instr(ybdm, '生活费') > 0) cc_fee1_detail,
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1523	"                   (select nvl(sum(dj * sl), 0)
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1524	"                      from zy_detail_charge
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1525	"                     where patient_no = x.patient_no
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1526	"                       and js_no = x.js_no
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1527	"                       and charge_code in (select ylxh from v_gy_ylsf_eat)) cc_fee1_detail_22
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1528	"              From zy_total_fee x
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1529	"             where js_No >= 1
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1530	"               and brlb = 97
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1531	"               and jz_date > sysdate - 0.5)
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1532	"     where cc_fee1_detail <> cc_fee1_detail_22;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1533	"  
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1534	"    if v_count > 0 then
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1535	"      select '生活费用没有分2张发票  ' || v_count into nr from dual;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1536	"      lxdh := '13777929515';
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1537	"      prc_sms_send_mark('au', lxdh, nr, v_bz);
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1538	"    end if;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1539	"  
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1540	"    select count(*)
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1541	"      into v_count
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1542	"      From zy_total_fee x
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1543	"     where js_No >= 1
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1544	"       and brlb = 97
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1545	"       and cc_fee1 > 0
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1546	"       and jz_date > sysdate - 0.5;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1547	"  
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1548	"    if v_count > 0 then
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1549	"      select '生活费用分2张发票  ' || v_count into nr from dual;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1550	"      lxdh := '13777929515';
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1551	"      prc_sms_send_mark('au', lxdh, nr, v_bz);
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1552	"    end if;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1553	"  
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1554	"  end if;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1555	"
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1556	"  --免费挂号 科室 医生
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1557	"  if 1 = 1 then
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1558	"  
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1559	"    select sum(sl)
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1560	"      into v_count
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1561	"      from (select count(*) sl
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1562	"              From gy_ksdm
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1563	"             where nvl(zlf, 0) + nvl(ghf, 0) < 1
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1564	"               and nvl(zlf, 0) + nvl(ghf, 0) <> 0
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1565	"            union
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1566	"            select count(*)
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1567	"              From gy_zgxx
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1568	"             where nvl(zlf, 0) + nvl(ghf, 0) < 1
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1569	"               and nvl(zlf, 0) + nvl(ghf, 0) <> 0);
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1570	"    if v_count > 0 then
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1571	"      select '免费挂号科室与医生:  ' || v_count into nr from dual;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1572	"      lxdh := '13777929515';
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1573	"      prc_sms_send_mark('au', lxdh, nr, v_bz);
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1574	"    end if;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1575	"  
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1576	"  end if;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1577	"
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1578	"  -- end 免费挂号科室 医生
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1579	"
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1580	"  --冠状病毒检验项目上传 名称对照
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1581	"  if 1 = 1 then
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1582	"  
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1583	"    select count(ylxh)
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1584	"      into v_count
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1585	"      From l_patientinfo t1
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1586	"     where t1.sampleno > to_char(sysdate, 'yyyymmdd')
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1587	"       and t1.examinaim like '%冠状%'
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1588	"       and instr(ylxh, '+') = 0
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1589	"       and ylxh not in (select to_char(ylxh) From WEB_WD_XINGUANHSJCXMDZ);
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1590	"    if v_count > 0 then
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1591	"      select '冠状病毒检验项目上传 名称对照 不规范:  ' || v_count
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1592	"        into nr
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1593	"        from dual;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1594	"      lxdh := '13777929515';
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1595	"      prc_sms_send_mark('au', lxdh, nr, v_bz);
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1596	"    end if;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1597	"  
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1598	"  end if;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1599	"
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1600	"  -- end冠状病毒检验项目上传 名称对照 
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1601	"
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1602	"  -- 高值收费匹配,同个收费代码,存在不同价格
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1603	"  if 1 = 1 then
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1604	"  
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1605	"    /* select count(distinct(ylxh))
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1606	"     into v_count
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1607	"     From ylsbgl2.WZ_YLSF t
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1608	"    where ylxh in (select ylxh
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1609	"                     from (select ylxh, count(distinct(sfje))
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1610	"                             from ylsbgl2.WZ_YLSF
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1611	"                            group by ylxh
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1612	"                           having count(distinct(sfje)) > 1));*/
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1613	"  
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1614	"    SELECT COUNT(YLXH)
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1615	"      into v_count
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1616	"      FROM (SELECT ylxh, min(sfje) sfje_min, max(sfje) sfje_max
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1617	"              FROM YLSBGL2.Wz_ylsf
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1618	"             where ylxh in
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1619	"                   (select distinct (ylxh)
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1620	"                      From ylsbgl2.WZ_YLSF t
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1621	"                     where ylxh in
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1622	"                           (select ylxh
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1623	"                              from (select ylxh, count(distinct(sfje))
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1624	"                                      from ylsbgl2.WZ_YLSF
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1625	"                                     group by ylxh
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1626	"                                    having count(distinct(sfje)) > 1)))
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1627	"             group by ylxh
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1628	"            having max(sfje) - MIN(SFJE) > 600);
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1629	"  
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1630	"    if v_count > 0 then
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1631	"      select '高值收费匹配,同个收费代码,存在不同价格,差价大于600 : ' || v_count
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1632	"        into nr
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1633	"        from dual;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1634	"      lxdh := '13777929515';
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1635	"      prc_sms_send_mark('au', lxdh, nr, v_bz);
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1636	"      lxdh := '13735720686';
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1637	"      prc_sms_send_mark('au', lxdh, nr, v_bz);
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1638	"    end if;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1639	"  
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1640	"  end if;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1641	"  --
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1642	"
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1643	"  --kettle 任务
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1644	"  if 1 = 1 then
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1645	"  
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1646	"    select wm_concat(bz)
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1647	"      into nr
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1648	"      from (select 'kettle任务执行成功:' || count(distinct(bz)) bz
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1649	"              From zy_jiaoyi_v1
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1650	"             where jyrq >= trunc(sysdate - 1)
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1651	"               and jyrq < trunc(sysdate)
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1652	"               and jiaoyilx = 'KETTLE'
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1653	"               and flag = 1
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1654	"            union all
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1655	"            select 'kettle任务执行失败:' || count(distinct(bz))
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1656	"              From zy_jiaoyi_v1
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1657	"             where jyrq >= trunc(sysdate - 1)
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1658	"               and jyrq < trunc(sysdate)
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1659	"               and jiaoyilx = 'KETTLE'
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1660	"               and flag = -1);
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1661	"  
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1662	"    lxdh := '13777929515';
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1663	"    prc_sms_send_mark('au', lxdh, nr, v_bz);
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1664	"  end if;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1665	"
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1666	"  --药品 ddd 
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1667	"  if 1 = 1 then
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1668	"    insert into gy_ypmcggzd_ddd
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1669	"      (ypxh, ypmc, ypgg, gg, ddd)
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1670	"      select ypxh, ypmc, ypgg, 0, 0
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1671	"        from gy_ypmcggzd
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1672	"       where ypxh not in (select ypxh From gy_ypmcggzd_ddd)
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1673	"         and ypxh in (select ypxh
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1674	"                        from my_ypkcz
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1675	"                       where xtxh in (5, 53)
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1676	"                         and skc > 0
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1677	"                      union
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1678	"                      select ypxh from by_ypkcz where skc > 0
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1679	"                      
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1680	"                      );
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1681	"    if sqlcode = 0 then
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1682	"    
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1683	"      commit;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1684	"    else
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1685	"      rollback;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1686	"    end if;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1687	"  end if;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1688	"  --周排班记录序号更新
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1689	"  /*if  1=1 then 
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1690	"  update gh_ghk  t set pbjlxh=(
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1691	"     select  pbjlxh From gh_mzpbk  where jlxh=t.pbxh and  trunc(rq)=trunc(t.ghrq)  ）
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1692	"     where t.ghrq>sysdate  - 15 and t.ghrq<sysdate  - 2 and pbjlxh is null;  
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1693	"    if sqlcode=0 then 
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1694	"    commit;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1695	"    else
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1696	"    rollback;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1697	"    select ' gh_ghk ,更新周排班记录序号 失败:  prc_auto_task_v1 ' into nr from dual;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1698	"        lxdh := '13777929515';
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1699	"        prc_sms_send_mark('au', lxdh, nr, v_bz);
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1700	"    end if; 
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1701	"    
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1702	"  
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1703	"  end if;*/
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1704	"  --更新医嘱标签
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1705	"  if 1 = 0 then
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1706	"  
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1707	"    update yz_inpatient_order t
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1708	"       set kuozhanxx = '<QMBZ>' ||
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1709	"                       substr(kuozhanxx, instr(kuozhanxx, '</zsyfjsm>') + 10) ||
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1710	"                       substr(kuozhanxx,
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1711	"                              instr(kuozhanxx, '<zsyfjsm>'),
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1712	"                              (instr(kuozhanxx, '</zsyfjsm>') -
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1713	"                              instr(kuozhanxx, '<zsyfjsm>')) + 10)
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1714	"     where order_no in (select order_no
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1715	"                          From yz_inpatient_order r
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1716	"                         where length(kuozhanxx) -
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1717	"                               length(replace(kuozhanxx, '<zsyfjsm>')) > 10
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1718	"                           and kuozhanxx like '%<zsyfjsm>%'
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1719	"                           and r.start_time > sysdate - 10
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1720	"                           and r.start_time < sysdate - 0.1
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1721	"                           and kuozhanxx like '%<QMBZ>%')
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1722	"       and
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1723	"          
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1724	"           instr(kuozhanxx, '<zsyfjsm>') > instr(kuozhanxx, '<QMBZ>')
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1725	"       and instr(kuozhanxx, '</zsyfjsm>') < instr(kuozhanxx, '</QMBZ>');
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1726	"    if sqlcode = 0 then
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1727	"      commit;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1728	"    else
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1729	"      rollback;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1730	"      select '更新医嘱签名标志失败:  prc_auto_task_v1 ' into nr from dual;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1731	"      lxdh := '13777929515';
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1732	"      prc_sms_send_mark('au', lxdh, nr, v_bz);
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1733	"    end if;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1734	"  
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1735	"  end if;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1736	"
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1737	"  --zj_jizhenptsc.lxdh3
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1738	"  if 1 = 1 then
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1739	"    update zj_jizhenptsc
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1740	"       set tbxx = REGEXP_REPLACE(tbxx, 'lxdh', 'lxdh3=', 1, 3)
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1741	"     where rbrq > sysdate - 3
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1742	"       and xtxh = 23
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1743	"       and instr(tbxx, 'lxdh3=') = 0;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1744	"    if sqlcode = 0 then
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1745	"      commit;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1746	"    else
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1747	"      rollback;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1748	"      select 'update zj_jizhenptsc.lxdh3=   prc_auto_task_v1'
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1749	"        into nr
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1750	"        from dual;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1751	"      lxdh := '13777929515';
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1752	"      prc_sms_send_mark('au', lxdh, nr, v_bz);
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1753	"    end if;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1754	"  end if;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1755	"
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1756	"  --返乡核酸
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1757	"  if 1 = 1 then
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1758	"    select to_char(sysdate, 'yyyy-mm-dd') || '返乡核酸:' || count(*)
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1759	"      into nr
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1760	"      from l_laborder t
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1761	"     where (instr(examitem, '返乡') > 0 or instr(examitem, 'FX') > 0 or
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1762	"           requester in ('DBA', 'A1606', '10261', 'A0464', 'A0449'))
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1763	"       and patient_no is null
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1764	"       and instr(examitem, '免费') = 0
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1765	"       and instr(examitem, '发热') = 0
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1766	"       and instr(patientid, 'BY') = 0
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1767	"       and stayhospitalmode = 1
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1768	"       and instr(examitem, '冠状') > 0
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1769	"       and instr(examitem, '核酸') > 0
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1770	"       and testdescribe in (31944, 31976)
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1771	"       and receivetime >=
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1772	"           to_date(to_char(trunc(sysdate - 1), 'yyyy.mm.dd') || ' 17',
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1773	"                   'yyyy.mm.dd hh24')
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1774	"       and receivetime <
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1775	"           to_date(to_char(trunc(sysdate), 'yyyy.mm.dd') || ' 17',
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1776	"                   'yyyy.mm.dd hh24');
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1777	"    prc_sms_send_mark('au', '13958443561', nr, v_bz);
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1778	"  end if;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1779	"  --gy_jrjymx记录异常,交易流水号空
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1780	"  if 1 = 1 then
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1781	"    select count(*)
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1782	"      into v_count
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1783	"      From gy_jrjymx
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1784	"     where jyje > 0
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1785	"       and jysj > sysdate - 2
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1786	"       and nvl(zxlsh, shlsh) is null;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1787	"    if v_count > 0 then
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1788	"      select count(jlxh)
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1789	"        into v_count2
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1790	"        From zy_deposit_file
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1791	"       where amount = 0
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1792	"         and depo_type in (18, 19)
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1793	"         and jrjylsh > 0
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1794	"         and depo_date > sysdate - 2;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1795	"      select 'gy_jrjymx记录异常,交易流水号空 prc_auto_task_v1 : ' || v_count ||
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1796	"             ',zy_deposit_file 金额为0: ' || v_count2
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1797	"        into nr
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1798	"        from dual;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1799	"      lxdh := '13777929515';
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1800	"      prc_sms_send_mark('au', lxdh, nr, v_bz);
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1801	"    end if;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1802	"  end if;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1803	"
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1804	"  --cc_fee1
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1805	"  if 1 = 1 then
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1806	"    update zy_total_fee_fjy t
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1807	"       set cc_fee1 = (select cc_fee1
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1808	"                        from zy_total_fee
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1809	"                       where patient_No = t.patient_no
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1810	"                         and js_no = t.js_no
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1811	"                         and infant_flag = t.infant_flag)
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1812	"     where js_No > 0
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1813	"       and jz_date > sysdate - 6
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1814	"       and jz_date < sysdate - 0.1
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1815	"       and op_id = 'JDZZ'
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1816	"       AND NVL(CC_FEE1, 0) = 0;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1817	"  
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1818	"    if sqlcode = 0 then
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1819	"      commit;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1820	"    else
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1821	"      rollback;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1822	"      select 'error prc_auto_task_v1 _cc_fee1 ' into nr from dual;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1823	"      lxdh := '13777929515';
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1824	"      prc_sms_send_mark('au', lxdh, nr, v_bz);
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1825	"    end if;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1826	"  end if;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1827	"
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1828	"  -- 医共体住院病人信息  wd_zy_patient_information
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1829	"  if 1 = 1 then
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1830	"    insert into wd_zy_patient_information
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1831	"    
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1832	"      select *
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1833	"        from GY_GZHC_YGT
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1834	"       where mrn || '_' || p_name || '_' || ygtbs || '_' ||
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1835	"             to_char(create_time, 'yyyy-mm-dd hh24:mi:ss') not in
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1836	"             (select mrn || '_' || p_name || '_' || ygtbs || '_' ||
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1837	"                     to_char(create_time, 'yyyy-mm-dd hh24:mi:ss')
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1838	"                from wd_zy_patient_information
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1839	"               where create_time > sysdate - 5)
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1840	"         and create_time > sysdate - 5;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1841	"    if sqlcode = 0 then
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1842	"      commit;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1843	"    else
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1844	"      rollback;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1845	"      select '医共体住院病人信息 失败  [prc_auto_task_v1]  '
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1846	"        into nr
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1847	"        from dual;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1848	"      lxdh := '13777929515';
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1849	"      prc_sms_send_mark('au', lxdh, nr, v_bz);
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1850	"    end if;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1851	"  
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1852	"  end if;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1853	"
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1854	"  --留义温暖基金
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1855	"  if 1 = 1 then
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1856	"  
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1857	"    select to_char(nvl(wm_concat('留义温暖基金 ' || fs || ':' || je), '0'))
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1858	"      into nr
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1859	"      from (select decode(depo_type, 1, '现金', 2, '支票', '其它方式') fs,
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1860	"                   sum(amount) je
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1861	"              from zy_deposit_file
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1862	"             where depo_date >= trunc(sysdate)
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1863	"               and op_Id = 'AU002'
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1864	"             group by depo_type);
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1865	"    if length(nr) > 5 then
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1866	"      prc_sms_send('ts', '13777929515', nr, v_bz);
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1867	"    end if;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1868	"  
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1869	"  end if;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1870	"
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1871	"  --本院核酸检测 挂号记录
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1872	"  if 1 = 1 then
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1873	"  
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1874	"    select to_char(nvl(wm_concat('本院核酸检测 挂号记录 ' || ':' || sl),
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1875	"                       '0'))
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1876	"      into nr
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1877	"      from (select count(*) sl
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1878	"              From gh_ghk
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1879	"             where jzkh like 'BY%'
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1880	"               and ghrq >= trunc(sysdate));
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1881	"    if length(nr) > 5 then
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1882	"      prc_sms_send('ts', '13777929515', nr, v_bz);
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1883	"    end if;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1884	"  
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1885	"  end if;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1886	"
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1887	"  --finish
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1888	"  select '调用成功 prc_auto_task_v1  ' into nr from dual;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1889	"  lxdh := '13777929515';
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1890	"  prc_sms_send_mark('au', lxdh, nr, v_bz);
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1891	"
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1892	"  prc_auto_task_v1_add();
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1893	"
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1894	"  -- zy_detail_charge curr is null begin
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1895	"  /* if 98 = 98 then
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1896	"    select count(*)
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1897	"      into v_count
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1898	"      from zy_detail_charge
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1899	"     where curr_ks is null
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1900	"       and jcfx_date > sysdate - 3;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1901	"    if v_count > 0 then
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1902	"    
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1903	"      select 'zy_detail_charge curr is null，记录为:' || to_char(v_count)
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1904	"        into nr
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1905	"        from dual;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1906	"      lxdh := '13777929515';
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1907	"      prc_sms_send('ts', lxdh, nr, v_bz);
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1908	"    
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1909	"      update zy_detail_charge x
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1910	"         set curr_ks = (select curr_ks
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1911	"                          from zy_patient_information
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1912	"                         where zy_patient_information.patient_No =
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1913	"                               x.patient_No)
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1914	"       where x.curr_ks is null
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1915	"         and x.jcfx_date > sysdate - 3 
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1916	"         and exists
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1917	"       (select 1
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1918	"                from zy_patient_information
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1919	"               where zy_patient_information.patient_No = x.patient_NO);
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1920	"      commit;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1921	"    end if;
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1922	"  end if;*/
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1923	"
+"
+PRC_AUTO_TASK_V1	PROCEDURE	1924	"end;
+"

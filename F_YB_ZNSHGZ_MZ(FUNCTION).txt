@@ -1,0 +1,226 @@
+F_YB_ZNSHGZ_MZ	FUNCTION	1	"FUNCTION ""F_YB_ZNSHGZ_MZ""(arg_xmxh   Number,
+"
+F_YB_ZNSHGZ_MZ	FUNCTION	2	"                                            arg_cddm   Number,
+"
+F_YB_ZNSHGZ_MZ	FUNCTION	3	"                                            arg_ypzlpb Number)
+"
+F_YB_ZNSHGZ_MZ	FUNCTION	4	"  return varchar2 /*主要用于义乌医保智能审核功能，add by pxf*/
+"
+F_YB_ZNSHGZ_MZ	FUNCTION	5	" Is
+"
+F_YB_ZNSHGZ_MZ	FUNCTION	6	"  ls_return varchar2(200);
+"
+F_YB_ZNSHGZ_MZ	FUNCTION	7	"  ls_tmp    varchar2(100);
+"
+F_YB_ZNSHGZ_MZ	FUNCTION	8	"  ls_ybdm   yb_znshgz.xmbh%type;
+"
+F_YB_ZNSHGZ_MZ	FUNCTION	9	"  ls_gzbh   yb_znshgz.gzbh%type;
+"
+F_YB_ZNSHGZ_MZ	FUNCTION	10	"  ls_shbz   yb_znshgz.shbz%type;
+"
+F_YB_ZNSHGZ_MZ	FUNCTION	11	"  ls_bz     yb_znshgz.bz%type;
+"
+F_YB_ZNSHGZ_MZ	FUNCTION	12	"  i         number(10);
+"
+F_YB_ZNSHGZ_MZ	FUNCTION	13	"  t         varchar2(200);
+"
+F_YB_ZNSHGZ_MZ	FUNCTION	14	"  temp      varchar2(200);
+"
+F_YB_ZNSHGZ_MZ	FUNCTION	15	"  Cursor c1 Is
+"
+F_YB_ZNSHGZ_MZ	FUNCTION	16	"    Select gzbh, shbz, bz from yb_znshgz where xmbh = ls_ybdm;
+"
+F_YB_ZNSHGZ_MZ	FUNCTION	17	"Begin
+"
+F_YB_ZNSHGZ_MZ	FUNCTION	18	"  If arg_ypzlpb = '1' Then
+"
+F_YB_ZNSHGZ_MZ	FUNCTION	19	"    SELECT YIBAODM
+"
+F_YB_ZNSHGZ_MZ	FUNCTION	20	"      INTO ls_ybdm
+"
+F_YB_ZNSHGZ_MZ	FUNCTION	21	"      FROM YB_DUIZHAOML
+"
+F_YB_ZNSHGZ_MZ	FUNCTION	22	"     WHERE XIANGMUXH = arg_xmxh
+"
+F_YB_ZNSHGZ_MZ	FUNCTION	23	"       AND XIANGMUCD = arg_cddm
+"
+F_YB_ZNSHGZ_MZ	FUNCTION	24	"       AND YAOPINPB = 1
+"
+F_YB_ZNSHGZ_MZ	FUNCTION	25	"       AND TINGYONGRQ IS NULL
+"
+F_YB_ZNSHGZ_MZ	FUNCTION	26	"       and YIBAOLX = '9997';
+"
+F_YB_ZNSHGZ_MZ	FUNCTION	27	"  Else
+"
+F_YB_ZNSHGZ_MZ	FUNCTION	28	"    SELECT YIBAODM
+"
+F_YB_ZNSHGZ_MZ	FUNCTION	29	"      INTO ls_ybdm
+"
+F_YB_ZNSHGZ_MZ	FUNCTION	30	"      FROM YB_DUIZHAOML
+"
+F_YB_ZNSHGZ_MZ	FUNCTION	31	"     WHERE XIANGMUXH = arg_xmxh
+"
+F_YB_ZNSHGZ_MZ	FUNCTION	32	"       AND YAOPINPB = 0
+"
+F_YB_ZNSHGZ_MZ	FUNCTION	33	"       AND TINGYONGRQ IS NULL
+"
+F_YB_ZNSHGZ_MZ	FUNCTION	34	"       and YIBAOLX = '9997';
+"
+F_YB_ZNSHGZ_MZ	FUNCTION	35	"  End If;
+"
+F_YB_ZNSHGZ_MZ	FUNCTION	36	"  ls_return := '0^' || ls_ybdm;
+"
+F_YB_ZNSHGZ_MZ	FUNCTION	37	"  Open c1;
+"
+F_YB_ZNSHGZ_MZ	FUNCTION	38	"  Loop
+"
+F_YB_ZNSHGZ_MZ	FUNCTION	39	"    Fetch c1
+"
+F_YB_ZNSHGZ_MZ	FUNCTION	40	"      Into ls_gzbh, ls_shbz, ls_bz;
+"
+F_YB_ZNSHGZ_MZ	FUNCTION	41	"    Exit When c1%notfound;
+"
+F_YB_ZNSHGZ_MZ	FUNCTION	42	"    Case ls_gzbh
+"
+F_YB_ZNSHGZ_MZ	FUNCTION	43	"      When '1' Then
+"
+F_YB_ZNSHGZ_MZ	FUNCTION	44	"        --限工伤保险 注：标识^提示信息
+"
+F_YB_ZNSHGZ_MZ	FUNCTION	45	"        ls_tmp := '1^限工伤保险';
+"
+F_YB_ZNSHGZ_MZ	FUNCTION	46	"      When '2' Then
+"
+F_YB_ZNSHGZ_MZ	FUNCTION	47	"        --限生育 注：标识^提示信息
+"
+F_YB_ZNSHGZ_MZ	FUNCTION	48	"        ls_tmp := '2^限生育';
+"
+F_YB_ZNSHGZ_MZ	FUNCTION	49	"      When '4' Then
+"
+F_YB_ZNSHGZ_MZ	FUNCTION	50	"        --限年龄 注：标识^强制标志（该值为1且系统判定不符合时只允许自费使用）^单位^年龄^提示信息
+"
+F_YB_ZNSHGZ_MZ	FUNCTION	51	"        ls_tmp := '4^1';
+"
+F_YB_ZNSHGZ_MZ	FUNCTION	52	"        if instr(ls_shbz, '周岁') > 0 then
+"
+F_YB_ZNSHGZ_MZ	FUNCTION	53	"          ls_tmp := ls_tmp || '^周岁';
+"
+F_YB_ZNSHGZ_MZ	FUNCTION	54	"        elsif instr(ls_shbz, '天') > 0 then
+"
+F_YB_ZNSHGZ_MZ	FUNCTION	55	"          ls_tmp := ls_tmp || '^天';
+"
+F_YB_ZNSHGZ_MZ	FUNCTION	56	"        else
+"
+F_YB_ZNSHGZ_MZ	FUNCTION	57	"          ls_tmp := ls_tmp || '^';
+"
+F_YB_ZNSHGZ_MZ	FUNCTION	58	"        end if;
+"
+F_YB_ZNSHGZ_MZ	FUNCTION	59	"        ls_tmp := ls_tmp || '^' ||
+"
+F_YB_ZNSHGZ_MZ	FUNCTION	60	"                  translate(ls_shbz, '0123456789' || ls_shbz, '0123456789');
+"
+F_YB_ZNSHGZ_MZ	FUNCTION	61	"        ls_tmp := ls_tmp || '^' || translate(ls_shbz, 'A^|', 'A');
+"
+F_YB_ZNSHGZ_MZ	FUNCTION	62	"      When '5' Then
+"
+F_YB_ZNSHGZ_MZ	FUNCTION	63	"        --材料与项目不符 注：标识^诊疗分类1^诊疗分类2...
+"
+F_YB_ZNSHGZ_MZ	FUNCTION	64	"        ls_tmp := '5';
+"
+F_YB_ZNSHGZ_MZ	FUNCTION	65	"        i      := 0;
+"
+F_YB_ZNSHGZ_MZ	FUNCTION	66	"        temp   := null;
+"
+F_YB_ZNSHGZ_MZ	FUNCTION	67	"        Loop
+"
+F_YB_ZNSHGZ_MZ	FUNCTION	68	"          i := i + 1;
+"
+F_YB_ZNSHGZ_MZ	FUNCTION	69	"          Exit When i > length(ls_shbz);
+"
+F_YB_ZNSHGZ_MZ	FUNCTION	70	"          t := substr(ls_shbz, i, 1);
+"
+F_YB_ZNSHGZ_MZ	FUNCTION	71	"          if translate(t, 'A0123456789', 'A') is null then
+"
+F_YB_ZNSHGZ_MZ	FUNCTION	72	"            temp := temp || t;
+"
+F_YB_ZNSHGZ_MZ	FUNCTION	73	"          else
+"
+F_YB_ZNSHGZ_MZ	FUNCTION	74	"            if temp is not null then
+"
+F_YB_ZNSHGZ_MZ	FUNCTION	75	"              ls_tmp := ls_tmp || '^' || temp;
+"
+F_YB_ZNSHGZ_MZ	FUNCTION	76	"              temp   := null;
+"
+F_YB_ZNSHGZ_MZ	FUNCTION	77	"            end if;
+"
+F_YB_ZNSHGZ_MZ	FUNCTION	78	"          end if;
+"
+F_YB_ZNSHGZ_MZ	FUNCTION	79	"        End Loop;
+"
+F_YB_ZNSHGZ_MZ	FUNCTION	80	"        if temp is not null then
+"
+F_YB_ZNSHGZ_MZ	FUNCTION	81	"          ls_tmp := ls_tmp || '^' || temp;
+"
+F_YB_ZNSHGZ_MZ	FUNCTION	82	"        end if;
+"
+F_YB_ZNSHGZ_MZ	FUNCTION	83	"      When '6' Then
+"
+F_YB_ZNSHGZ_MZ	FUNCTION	84	"        --限性别 注：标识^强制标志（该值为1且系统判定不符合时只允许自费使用）^性别^提示信息
+"
+F_YB_ZNSHGZ_MZ	FUNCTION	85	"        ls_tmp := '6^1';
+"
+F_YB_ZNSHGZ_MZ	FUNCTION	86	"        if instr(ls_shbz, '男') > 0 then
+"
+F_YB_ZNSHGZ_MZ	FUNCTION	87	"          ls_tmp := ls_tmp || '^男';
+"
+F_YB_ZNSHGZ_MZ	FUNCTION	88	"        elsif instr(ls_shbz, '女') > 0 then
+"
+F_YB_ZNSHGZ_MZ	FUNCTION	89	"          ls_tmp := ls_tmp || '^女';
+"
+F_YB_ZNSHGZ_MZ	FUNCTION	90	"        else
+"
+F_YB_ZNSHGZ_MZ	FUNCTION	91	"          ls_tmp := ls_tmp || '^';
+"
+F_YB_ZNSHGZ_MZ	FUNCTION	92	"        end if;
+"
+F_YB_ZNSHGZ_MZ	FUNCTION	93	"        ls_tmp := ls_tmp || '^限性别：' || translate(ls_shbz, '1^|', '1');
+"
+F_YB_ZNSHGZ_MZ	FUNCTION	94	"      When '7' Then
+"
+F_YB_ZNSHGZ_MZ	FUNCTION	95	"        --限定频次 注：标识^最大次数
+"
+F_YB_ZNSHGZ_MZ	FUNCTION	96	"        ls_tmp := '7';
+"
+F_YB_ZNSHGZ_MZ	FUNCTION	97	"        if instr(ls_bz, '门诊按疗程') > 0 then
+"
+F_YB_ZNSHGZ_MZ	FUNCTION	98	"          ls_shbz := 50;
+"
+F_YB_ZNSHGZ_MZ	FUNCTION	99	"        end if;
+"
+F_YB_ZNSHGZ_MZ	FUNCTION	100	"        ls_tmp := ls_tmp || '^' || ls_shbz;
+"
+F_YB_ZNSHGZ_MZ	FUNCTION	101	"      Else
+"
+F_YB_ZNSHGZ_MZ	FUNCTION	102	"        ls_tmp := null;
+"
+F_YB_ZNSHGZ_MZ	FUNCTION	103	"    End Case;
+"
+F_YB_ZNSHGZ_MZ	FUNCTION	104	"    If ls_tmp Is Not Null Then
+"
+F_YB_ZNSHGZ_MZ	FUNCTION	105	"      if ls_return is not null then
+"
+F_YB_ZNSHGZ_MZ	FUNCTION	106	"        ls_return := ls_return || '|';
+"
+F_YB_ZNSHGZ_MZ	FUNCTION	107	"      end if;
+"
+F_YB_ZNSHGZ_MZ	FUNCTION	108	"      ls_return := ls_return || ls_tmp;
+"
+F_YB_ZNSHGZ_MZ	FUNCTION	109	"    End If;
+"
+F_YB_ZNSHGZ_MZ	FUNCTION	110	"  End Loop;
+"
+F_YB_ZNSHGZ_MZ	FUNCTION	111	"  Close c1;
+"
+F_YB_ZNSHGZ_MZ	FUNCTION	112	"  Return(ls_return);
+"
+F_YB_ZNSHGZ_MZ	FUNCTION	113	"End;
+"

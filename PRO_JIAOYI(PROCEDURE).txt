@@ -1,0 +1,378 @@
+PRO_JIAOYI	PROCEDURE	1	"procedure pro_jiaoyi(in_item   in varchar2,
+"
+PRO_JIAOYI	PROCEDURE	2	"                                       in_source in varchar2,
+"
+PRO_JIAOYI	PROCEDURE	3	"                                       out_code  out INTEGER, -- 返回结果 0为执行成功
+"
+PRO_JIAOYI	PROCEDURE	4	"                                       out_msg   out varchar2) is
+"
+PRO_JIAOYI	PROCEDURE	5	"  v_source     varchar2(2000);
+"
+PRO_JIAOYI	PROCEDURE	6	"  v_ts         varchar2(200);
+"
+PRO_JIAOYI	PROCEDURE	7	"  v_data       varchar2(2000);
+"
+PRO_JIAOYI	PROCEDURE	8	"  v_data_temp  varchar2(2000);
+"
+PRO_JIAOYI	PROCEDURE	9	"  v_data_add   varchar2(2000);
+"
+PRO_JIAOYI	PROCEDURE	10	"  v_data_left  varchar2(2000);
+"
+PRO_JIAOYI	PROCEDURE	11	"  v_data_right varchar2(2000);
+"
+PRO_JIAOYI	PROCEDURE	12	"  v_data_max   number;
+"
+PRO_JIAOYI	PROCEDURE	13	"  v_data2      varchar2(2000);
+"
+PRO_JIAOYI	PROCEDURE	14	"  v_str1       varchar2(2000);
+"
+PRO_JIAOYI	PROCEDURE	15	"  v_str2       varchar2(2000);
+"
+PRO_JIAOYI	PROCEDURE	16	"  v_str3       varchar2(100);
+"
+PRO_JIAOYI	PROCEDURE	17	"  v_str4       varchar2(100);
+"
+PRO_JIAOYI	PROCEDURE	18	"  v_str5       varchar2(100);
+"
+PRO_JIAOYI	PROCEDURE	19	"  v_str6       varchar2(100);
+"
+PRO_JIAOYI	PROCEDURE	20	"  v_str7       varchar2(100);
+"
+PRO_JIAOYI	PROCEDURE	21	"  v_str8       varchar2(100);
+"
+PRO_JIAOYI	PROCEDURE	22	"  v_str9       varchar2(100);
+"
+PRO_JIAOYI	PROCEDURE	23	"  v_str0       varchar2(100);
+"
+PRO_JIAOYI	PROCEDURE	24	"  v_pos        number;
+"
+PRO_JIAOYI	PROCEDURE	25	"  v_pos2       number;
+"
+PRO_JIAOYI	PROCEDURE	26	"  v_pos_select number;
+"
+PRO_JIAOYI	PROCEDURE	27	"  v_flag       varchar2(50);
+"
+PRO_JIAOYI	PROCEDURE	28	"  v_flag_len   number;
+"
+PRO_JIAOYI	PROCEDURE	29	"  v_sl         number;
+"
+PRO_JIAOYI	PROCEDURE	30	"  v_je         number;
+"
+PRO_JIAOYI	PROCEDURE	31	"
+"
+PRO_JIAOYI	PROCEDURE	32	"  v_cfsb     number;
+"
+PRO_JIAOYI	PROCEDURE	33	"  v_cfk1_new number;
+"
+PRO_JIAOYI	PROCEDURE	34	"  v_jzkh     varchar(40);
+"
+PRO_JIAOYI	PROCEDURE	35	"  v_brxm     varchar(50);
+"
+PRO_JIAOYI	PROCEDURE	36	"  v_sl_tf    number;
+"
+PRO_JIAOYI	PROCEDURE	37	"  v_fypb     number;
+"
+PRO_JIAOYI	PROCEDURE	38	"  v_count    number;
+"
+PRO_JIAOYI	PROCEDURE	39	"  v_count2   number;
+"
+PRO_JIAOYI	PROCEDURE	40	"
+"
+PRO_JIAOYI	PROCEDURE	41	"  v_sysdate date;
+"
+PRO_JIAOYI	PROCEDURE	42	"
+"
+PRO_JIAOYI	PROCEDURE	43	"begin
+"
+PRO_JIAOYI	PROCEDURE	44	"
+"
+PRO_JIAOYI	PROCEDURE	45	"  --end a=a
+"
+PRO_JIAOYI	PROCEDURE	46	"  if 1 = 1 then
+"
+PRO_JIAOYI	PROCEDURE	47	"    v_source   := in_source;
+"
+PRO_JIAOYI	PROCEDURE	48	"    v_flag     := '%%';
+"
+PRO_JIAOYI	PROCEDURE	49	"    v_flag_len := 2;
+"
+PRO_JIAOYI	PROCEDURE	50	"    v_data     := v_source || v_flag;
+"
+PRO_JIAOYI	PROCEDURE	51	"    --1
+"
+PRO_JIAOYI	PROCEDURE	52	"    v_pos  := to_number(instr(v_data, v_flag));
+"
+PRO_JIAOYI	PROCEDURE	53	"    v_str1 := ltrim(rtrim(substr(v_data, 1, v_pos - 1)));
+"
+PRO_JIAOYI	PROCEDURE	54	"    v_data := substr(v_data, v_pos + v_flag_len);
+"
+PRO_JIAOYI	PROCEDURE	55	"    --2
+"
+PRO_JIAOYI	PROCEDURE	56	"    v_pos  := to_number(instr(v_data, v_flag));
+"
+PRO_JIAOYI	PROCEDURE	57	"    v_str2 := ltrim(rtrim(substr(v_data, 1, v_pos - 1)));
+"
+PRO_JIAOYI	PROCEDURE	58	"    v_data := substr(v_data, v_pos + v_flag_len);
+"
+PRO_JIAOYI	PROCEDURE	59	"    --//3
+"
+PRO_JIAOYI	PROCEDURE	60	"    v_pos  := to_number(instr(v_data, v_flag));
+"
+PRO_JIAOYI	PROCEDURE	61	"    v_str3 := ltrim(rtrim(substr(v_data, 1, v_pos - 1)));
+"
+PRO_JIAOYI	PROCEDURE	62	"    v_data := substr(v_data, v_pos + v_flag_len);
+"
+PRO_JIAOYI	PROCEDURE	63	"    --//4
+"
+PRO_JIAOYI	PROCEDURE	64	"    v_pos  := to_number(instr(v_data, v_flag));
+"
+PRO_JIAOYI	PROCEDURE	65	"    v_str4 := ltrim(rtrim(substr(v_data, 1, v_pos - 1)));
+"
+PRO_JIAOYI	PROCEDURE	66	"    v_data := substr(v_data, v_pos + v_flag_len);
+"
+PRO_JIAOYI	PROCEDURE	67	"    -- //5
+"
+PRO_JIAOYI	PROCEDURE	68	"    v_pos  := to_number(instr(v_data, v_flag));
+"
+PRO_JIAOYI	PROCEDURE	69	"    v_str5 := ltrim(rtrim(substr(v_data, 1, v_pos - 1)));
+"
+PRO_JIAOYI	PROCEDURE	70	"    v_data := substr(v_data, v_pos + v_flag_len);
+"
+PRO_JIAOYI	PROCEDURE	71	"    -- //
+"
+PRO_JIAOYI	PROCEDURE	72	"    v_pos  := to_number(instr(v_data, v_flag));
+"
+PRO_JIAOYI	PROCEDURE	73	"    v_str6 := ltrim(rtrim(substr(v_data, 1, v_pos - 1)));
+"
+PRO_JIAOYI	PROCEDURE	74	"    v_data := substr(v_data, v_pos + v_flag_len);
+"
+PRO_JIAOYI	PROCEDURE	75	"    --//
+"
+PRO_JIAOYI	PROCEDURE	76	"    v_pos  := to_number(instr(v_data, v_flag));
+"
+PRO_JIAOYI	PROCEDURE	77	"    v_str7 := ltrim(rtrim(substr(v_data, 1, v_pos - 1)));
+"
+PRO_JIAOYI	PROCEDURE	78	"    v_data := substr(v_data, v_pos + v_flag_len);
+"
+PRO_JIAOYI	PROCEDURE	79	"    --//
+"
+PRO_JIAOYI	PROCEDURE	80	"    v_pos  := to_number(instr(v_data, v_flag));
+"
+PRO_JIAOYI	PROCEDURE	81	"    v_str8 := ltrim(rtrim(substr(v_data, 1, v_pos - 1)));
+"
+PRO_JIAOYI	PROCEDURE	82	"    v_data := substr(v_data, v_pos + v_flag_len);
+"
+PRO_JIAOYI	PROCEDURE	83	"    --//9
+"
+PRO_JIAOYI	PROCEDURE	84	"    v_pos  := to_number(instr(v_data, v_flag));
+"
+PRO_JIAOYI	PROCEDURE	85	"    v_str9 := ltrim(rtrim(substr(v_data, 1, v_pos - 1)));
+"
+PRO_JIAOYI	PROCEDURE	86	"    v_data := substr(v_data, v_pos + v_flag_len);
+"
+PRO_JIAOYI	PROCEDURE	87	"  
+"
+PRO_JIAOYI	PROCEDURE	88	"  end if;
+"
+PRO_JIAOYI	PROCEDURE	89	"
+"
+PRO_JIAOYI	PROCEDURE	90	"  --（档案号——就诊卡号）身份证号码，姓名，性别，出生日期，联系电话，地址
+"
+PRO_JIAOYI	PROCEDURE	91	"  if in_item = '获取体检人员信息' then
+"
+PRO_JIAOYI	PROCEDURE	92	"  
+"
+PRO_JIAOYI	PROCEDURE	93	"    if v_str2 > '0' then
+"
+PRO_JIAOYI	PROCEDURE	94	"      out_msg := '';
+"
+PRO_JIAOYI	PROCEDURE	95	"    else
+"
+PRO_JIAOYI	PROCEDURE	96	"      out_code := -1;
+"
+PRO_JIAOYI	PROCEDURE	97	"      out_msg  := '身份证号码不能为空';
+"
+PRO_JIAOYI	PROCEDURE	98	"      return;
+"
+PRO_JIAOYI	PROCEDURE	99	"    end if;
+"
+PRO_JIAOYI	PROCEDURE	100	"    /*   select nvl(max(jzkh), '0')
+"
+PRO_JIAOYI	PROCEDURE	101	"     into v_jzkh
+"
+PRO_JIAOYI	PROCEDURE	102	"     from gy_brjbxxk
+"
+PRO_JIAOYI	PROCEDURE	103	"    where sfzh = v_str2
+"
+PRO_JIAOYI	PROCEDURE	104	"      and length(jzkh) = 8;*/
+"
+PRO_JIAOYI	PROCEDURE	105	"  
+"
+PRO_JIAOYI	PROCEDURE	106	"    v_jzkh := v_str1;
+"
+PRO_JIAOYI	PROCEDURE	107	"    if v_str4 = '男' or v_str4 = '1' then
+"
+PRO_JIAOYI	PROCEDURE	108	"      v_str4 := '1';
+"
+PRO_JIAOYI	PROCEDURE	109	"    end if;
+"
+PRO_JIAOYI	PROCEDURE	110	"  
+"
+PRO_JIAOYI	PROCEDURE	111	"    if v_str4 = '女' or v_str4 = '2' then
+"
+PRO_JIAOYI	PROCEDURE	112	"      v_str4 := '2';
+"
+PRO_JIAOYI	PROCEDURE	113	"    end if;
+"
+PRO_JIAOYI	PROCEDURE	114	"  
+"
+PRO_JIAOYI	PROCEDURE	115	"    select to_date(v_str5, 'yyyy-mm-dd') into v_sysdate from dual;
+"
+PRO_JIAOYI	PROCEDURE	116	"  
+"
+PRO_JIAOYI	PROCEDURE	117	"    select nvl(max(jzkh), '0')
+"
+PRO_JIAOYI	PROCEDURE	118	"      into v_jzkh
+"
+PRO_JIAOYI	PROCEDURE	119	"      from gy_brjbxxk
+"
+PRO_JIAOYI	PROCEDURE	120	"     where jzkh = v_str1;
+"
+PRO_JIAOYI	PROCEDURE	121	"  
+"
+PRO_JIAOYI	PROCEDURE	122	"    if v_jzkh > '0' then
+"
+PRO_JIAOYI	PROCEDURE	123	"      out_msg := '';
+"
+PRO_JIAOYI	PROCEDURE	124	"    
+"
+PRO_JIAOYI	PROCEDURE	125	"      update gy_brjbxxk
+"
+PRO_JIAOYI	PROCEDURE	126	"         set sfzh   = v_str2,
+"
+PRO_JIAOYI	PROCEDURE	127	"             xm     = v_str3,
+"
+PRO_JIAOYI	PROCEDURE	128	"             xb     = v_str4,
+"
+PRO_JIAOYI	PROCEDURE	129	"             csrq   = v_sysdate,
+"
+PRO_JIAOYI	PROCEDURE	130	"             lxdh   = v_str6,
+"
+PRO_JIAOYI	PROCEDURE	131	"             jtzz   = v_str7,
+"
+PRO_JIAOYI	PROCEDURE	132	"             brlb   = 1,
+"
+PRO_JIAOYI	PROCEDURE	133	"             brxzdm = '1'
+"
+PRO_JIAOYI	PROCEDURE	134	"       where jzkh = v_jzkh;
+"
+PRO_JIAOYI	PROCEDURE	135	"    
+"
+PRO_JIAOYI	PROCEDURE	136	"    else
+"
+PRO_JIAOYI	PROCEDURE	137	"    
+"
+PRO_JIAOYI	PROCEDURE	138	"      /*     select to_char(max(jzkh) + 1)
+"
+PRO_JIAOYI	PROCEDURE	139	"       into v_jzkh
+"
+PRO_JIAOYI	PROCEDURE	140	"       from gy_brjbxxk
+"
+PRO_JIAOYI	PROCEDURE	141	"      where length(jzkh) = 8
+"
+PRO_JIAOYI	PROCEDURE	142	"        and jzkh < '70999999';*/
+"
+PRO_JIAOYI	PROCEDURE	143	"      v_jzkh := v_str1;
+"
+PRO_JIAOYI	PROCEDURE	144	"      insert into gy_brjbxxk
+"
+PRO_JIAOYI	PROCEDURE	145	"        (jzkh, sfzh, xm, xb, csrq, lxdh, jtzz, brlb, brxzdm)
+"
+PRO_JIAOYI	PROCEDURE	146	"      values
+"
+PRO_JIAOYI	PROCEDURE	147	"        (v_jzkh, v_str2, v_str3, v_str4, v_sysdate, v_str6, v_str7, 1, '1');
+"
+PRO_JIAOYI	PROCEDURE	148	"    
+"
+PRO_JIAOYI	PROCEDURE	149	"    end if;
+"
+PRO_JIAOYI	PROCEDURE	150	"  
+"
+PRO_JIAOYI	PROCEDURE	151	"    if sqlcode = 0 then
+"
+PRO_JIAOYI	PROCEDURE	152	"      commit;
+"
+PRO_JIAOYI	PROCEDURE	153	"    else
+"
+PRO_JIAOYI	PROCEDURE	154	"      rollback;
+"
+PRO_JIAOYI	PROCEDURE	155	"      out_msg  := '保存HIS数据失败';
+"
+PRO_JIAOYI	PROCEDURE	156	"      out_code := -1;
+"
+PRO_JIAOYI	PROCEDURE	157	"    end if;
+"
+PRO_JIAOYI	PROCEDURE	158	"  
+"
+PRO_JIAOYI	PROCEDURE	159	"    select jzkh || v_flag || sfzh || v_flag || xm || v_flag ||
+"
+PRO_JIAOYI	PROCEDURE	160	"           decode(xb, 1, '男', '女') || v_flag || to_char(csrq, 'yyyy-mm-dd') ||
+"
+PRO_JIAOYI	PROCEDURE	161	"           v_flag || lxdh || v_flag || lxdz || v_flag || nvl(jtzz, '') ||
+"
+PRO_JIAOYI	PROCEDURE	162	"           nvl(dwmc, '') || v_flag,
+"
+PRO_JIAOYI	PROCEDURE	163	"           xm
+"
+PRO_JIAOYI	PROCEDURE	164	"      into out_msg, v_brxm
+"
+PRO_JIAOYI	PROCEDURE	165	"      from gy_brjbxxk
+"
+PRO_JIAOYI	PROCEDURE	166	"     where jzkh = v_jzkh;
+"
+PRO_JIAOYI	PROCEDURE	167	"    if v_brxm = v_str3 then
+"
+PRO_JIAOYI	PROCEDURE	168	"      out_code := 0;
+"
+PRO_JIAOYI	PROCEDURE	169	"    else
+"
+PRO_JIAOYI	PROCEDURE	170	"      out_msg  := '病人姓名不一致性,' || v_brxm;
+"
+PRO_JIAOYI	PROCEDURE	171	"      out_code := -1;
+"
+PRO_JIAOYI	PROCEDURE	172	"    end if;
+"
+PRO_JIAOYI	PROCEDURE	173	"  
+"
+PRO_JIAOYI	PROCEDURE	174	"    return;
+"
+PRO_JIAOYI	PROCEDURE	175	"  end if;
+"
+PRO_JIAOYI	PROCEDURE	176	"  -- end '获取体检人员信息'
+"
+PRO_JIAOYI	PROCEDURE	177	"
+"
+PRO_JIAOYI	PROCEDURE	178	"  out_code := -1;
+"
+PRO_JIAOYI	PROCEDURE	179	"  out_msg  := '交易方式不存在';
+"
+PRO_JIAOYI	PROCEDURE	180	"
+"
+PRO_JIAOYI	PROCEDURE	181	"  return;
+"
+PRO_JIAOYI	PROCEDURE	182	"
+"
+PRO_JIAOYI	PROCEDURE	183	"EXCEPTION
+"
+PRO_JIAOYI	PROCEDURE	184	"  WHEN OTHERS Then
+"
+PRO_JIAOYI	PROCEDURE	185	"    Rollback;
+"
+PRO_JIAOYI	PROCEDURE	186	"    out_msg  := '处理失败,' || in_item;
+"
+PRO_JIAOYI	PROCEDURE	187	"    out_code := -1;
+"
+PRO_JIAOYI	PROCEDURE	188	"    return;
+"
+PRO_JIAOYI	PROCEDURE	189	"end;
+"

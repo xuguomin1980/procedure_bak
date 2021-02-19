@@ -1,0 +1,164 @@
+PRC_YB_CHECK_ZY	PROCEDURE	1	"procedure ""PRC_YB_CHECK_ZY""(in_ksdm       in varchar2,
+"
+PRC_YB_CHECK_ZY	PROCEDURE	2	"                                              in_patient_no in number,
+"
+PRC_YB_CHECK_ZY	PROCEDURE	3	"                                              out_msg       out varchar2) is
+"
+PRC_YB_CHECK_ZY	PROCEDURE	4	"
+"
+PRC_YB_CHECK_ZY	PROCEDURE	5	"  v_data       varchar2(200);
+"
+PRC_YB_CHECK_ZY	PROCEDURE	6	"  v_patient_no number;
+"
+PRC_YB_CHECK_ZY	PROCEDURE	7	"  v_count      number;
+"
+PRC_YB_CHECK_ZY	PROCEDURE	8	"  v_rq         varchar2(50);
+"
+PRC_YB_CHECK_ZY	PROCEDURE	9	"  v_xmmc       varchar2(50);
+"
+PRC_YB_CHECK_ZY	PROCEDURE	10	"  v_xmbh       varchar2(50);
+"
+PRC_YB_CHECK_ZY	PROCEDURE	11	"  v_sl_sum     number(10, 4);
+"
+PRC_YB_CHECK_ZY	PROCEDURE	12	"  v_kzsl_zy    number(10, 4);
+"
+PRC_YB_CHECK_ZY	PROCEDURE	13	"  v_add1       varchar2(50);
+"
+PRC_YB_CHECK_ZY	PROCEDURE	14	"  v_add2       varchar2(50);
+"
+PRC_YB_CHECK_ZY	PROCEDURE	15	"  v_add3       varchar2(50);
+"
+PRC_YB_CHECK_ZY	PROCEDURE	16	"  v_add4       varchar2(50);
+"
+PRC_YB_CHECK_ZY	PROCEDURE	17	"  v_ksdm       varchar2(50);
+"
+PRC_YB_CHECK_ZY	PROCEDURE	18	"
+"
+PRC_YB_CHECK_ZY	PROCEDURE	19	"  --定义游标
+"
+PRC_YB_CHECK_ZY	PROCEDURE	20	"  --   rq || "","" || xmmc || ""["" ||xmbh ||""],使用数量"" || sl_sum || "",超过限定数量"" || kzsl_zy || "";""
+"
+PRC_YB_CHECK_ZY	PROCEDURE	21	"  --select patient_no, rq, xmmc, xmbh, sl_sum, kzsl_zy
+"
+PRC_YB_CHECK_ZY	PROCEDURE	22	"
+"
+PRC_YB_CHECK_ZY	PROCEDURE	23	"begin
+"
+PRC_YB_CHECK_ZY	PROCEDURE	24	"  if in_ksdm = '0' and in_patient_no = 0 then
+"
+PRC_YB_CHECK_ZY	PROCEDURE	25	"    delete yb_znshgz_zybr;
+"
+PRC_YB_CHECK_ZY	PROCEDURE	26	"    if sqlcode = 0 then
+"
+PRC_YB_CHECK_ZY	PROCEDURE	27	"      commit;
+"
+PRC_YB_CHECK_ZY	PROCEDURE	28	"    else
+"
+PRC_YB_CHECK_ZY	PROCEDURE	29	"      rollback;
+"
+PRC_YB_CHECK_ZY	PROCEDURE	30	"    end if;
+"
+PRC_YB_CHECK_ZY	PROCEDURE	31	"  end if;
+"
+PRC_YB_CHECK_ZY	PROCEDURE	32	"
+"
+PRC_YB_CHECK_ZY	PROCEDURE	33	"  if in_patient_no > 0 then
+"
+PRC_YB_CHECK_ZY	PROCEDURE	34	"    delete yb_znshgz_zybr where patient_No = in_patient_no;
+"
+PRC_YB_CHECK_ZY	PROCEDURE	35	"    if sqlcode = 0 then
+"
+PRC_YB_CHECK_ZY	PROCEDURE	36	"      commit;
+"
+PRC_YB_CHECK_ZY	PROCEDURE	37	"    else
+"
+PRC_YB_CHECK_ZY	PROCEDURE	38	"      rollback;
+"
+PRC_YB_CHECK_ZY	PROCEDURE	39	"    end if;
+"
+PRC_YB_CHECK_ZY	PROCEDURE	40	"  
+"
+PRC_YB_CHECK_ZY	PROCEDURE	41	"    -- t_pass_zy  病案号 放行
+"
+PRC_YB_CHECK_ZY	PROCEDURE	42	"    if 1 = 1 then
+"
+PRC_YB_CHECK_ZY	PROCEDURE	43	"      v_count := 0;
+"
+PRC_YB_CHECK_ZY	PROCEDURE	44	"      select count(bah)
+"
+PRC_YB_CHECK_ZY	PROCEDURE	45	"        into v_count
+"
+PRC_YB_CHECK_ZY	PROCEDURE	46	"        From t_pass_zy
+"
+PRC_YB_CHECK_ZY	PROCEDURE	47	"       where bah in (select bah
+"
+PRC_YB_CHECK_ZY	PROCEDURE	48	"                       from zy_patient_information
+"
+PRC_YB_CHECK_ZY	PROCEDURE	49	"                      where patient_no = in_patient_no)
+"
+PRC_YB_CHECK_ZY	PROCEDURE	50	"         and czrq > sysdate - 0.1;
+"
+PRC_YB_CHECK_ZY	PROCEDURE	51	"    
+"
+PRC_YB_CHECK_ZY	PROCEDURE	52	"      if v_count >= 1 then
+"
+PRC_YB_CHECK_ZY	PROCEDURE	53	"        out_msg := '';
+"
+PRC_YB_CHECK_ZY	PROCEDURE	54	"        return;
+"
+PRC_YB_CHECK_ZY	PROCEDURE	55	"      end if;
+"
+PRC_YB_CHECK_ZY	PROCEDURE	56	"    
+"
+PRC_YB_CHECK_ZY	PROCEDURE	57	"    end if;
+"
+PRC_YB_CHECK_ZY	PROCEDURE	58	"  
+"
+PRC_YB_CHECK_ZY	PROCEDURE	59	"  end if;
+"
+PRC_YB_CHECK_ZY	PROCEDURE	60	"
+"
+PRC_YB_CHECK_ZY	PROCEDURE	61	"  if sqlcode = 0 then
+"
+PRC_YB_CHECK_ZY	PROCEDURE	62	"    commit;
+"
+PRC_YB_CHECK_ZY	PROCEDURE	63	"  else
+"
+PRC_YB_CHECK_ZY	PROCEDURE	64	"    rollback;
+"
+PRC_YB_CHECK_ZY	PROCEDURE	65	"  end if;
+"
+PRC_YB_CHECK_ZY	PROCEDURE	66	"
+"
+PRC_YB_CHECK_ZY	PROCEDURE	67	"  --1  限工伤保险   16 单病种费用控制 2限生育, 4 限儿童,5 材料与项目不符, 6限性别,7 限定频次,8重复收费,82 重复用药
+"
+PRC_YB_CHECK_ZY	PROCEDURE	68	"  --7住院病人超频次检查
+"
+PRC_YB_CHECK_ZY	PROCEDURE	69	"  PRC_YB_CHECK_6(in_ksdm, in_patient_no, v_data);
+"
+PRC_YB_CHECK_ZY	PROCEDURE	70	"  PRC_YB_CHECK_7(in_ksdm, in_patient_no, v_data);
+"
+PRC_YB_CHECK_ZY	PROCEDURE	71	"  PRC_YB_CHECK_8(in_ksdm, in_patient_no, v_data);
+"
+PRC_YB_CHECK_ZY	PROCEDURE	72	"
+"
+PRC_YB_CHECK_ZY	PROCEDURE	73	"  PRC_YB_CHECK_4(in_ksdm, in_patient_no, v_data);
+"
+PRC_YB_CHECK_ZY	PROCEDURE	74	"  PRC_YB_CHECK_4_28(in_ksdm, in_patient_no, v_data);
+"
+PRC_YB_CHECK_ZY	PROCEDURE	75	"  prc_yb_check_4_2190(in_ksdm, in_patient_no, v_data);
+"
+PRC_YB_CHECK_ZY	PROCEDURE	76	"
+"
+PRC_YB_CHECK_ZY	PROCEDURE	77	"EXCEPTION
+"
+PRC_YB_CHECK_ZY	PROCEDURE	78	"  WHEN OTHERS Then
+"
+PRC_YB_CHECK_ZY	PROCEDURE	79	"    Rollback;
+"
+PRC_YB_CHECK_ZY	PROCEDURE	80	"    out_msg := '处理失败,';
+"
+PRC_YB_CHECK_ZY	PROCEDURE	81	"    return;
+"
+PRC_YB_CHECK_ZY	PROCEDURE	82	"end PRC_YB_CHECK_ZY;
+"

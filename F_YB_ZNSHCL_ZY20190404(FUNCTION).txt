@@ -1,0 +1,158 @@
+F_YB_ZNSHCL_ZY20190404	FUNCTION	1	"FUNCTION ""F_YB_ZNSHCL_ZY20190404"" ( in_patient_no  number, in_jcfx_date date )
+"
+F_YB_ZNSHCL_ZY20190404	FUNCTION	2	"  return varchar2
+"
+F_YB_ZNSHCL_ZY20190404	FUNCTION	3	"Is
+"
+F_YB_ZNSHCL_ZY20190404	FUNCTION	4	"
+"
+F_YB_ZNSHCL_ZY20190404	FUNCTION	5	"
+"
+F_YB_ZNSHCL_ZY20190404	FUNCTION	6	"v_data varchar2(200);
+"
+F_YB_ZNSHCL_ZY20190404	FUNCTION	7	"v_temp  varchar2(500);
+"
+F_YB_ZNSHCL_ZY20190404	FUNCTION	8	"v_str2 varchar2(100);
+"
+F_YB_ZNSHCL_ZY20190404	FUNCTION	9	"
+"
+F_YB_ZNSHCL_ZY20190404	FUNCTION	10	"
+"
+F_YB_ZNSHCL_ZY20190404	FUNCTION	11	" 
+"
+F_YB_ZNSHCL_ZY20190404	FUNCTION	12	"v_pos number;
+"
+F_YB_ZNSHCL_ZY20190404	FUNCTION	13	"v_flag varchar2(50);
+"
+F_YB_ZNSHCL_ZY20190404	FUNCTION	14	"v_flag_len number;
+"
+F_YB_ZNSHCL_ZY20190404	FUNCTION	15	"v_sl  number;
+"
+F_YB_ZNSHCL_ZY20190404	FUNCTION	16	"v_je number;
+"
+F_YB_ZNSHCL_ZY20190404	FUNCTION	17	"ll_count  number;
+"
+F_YB_ZNSHCL_ZY20190404	FUNCTION	18	"
+"
+F_YB_ZNSHCL_ZY20190404	FUNCTION	19	"v_cfsb number;
+"
+F_YB_ZNSHCL_ZY20190404	FUNCTION	20	"v_cfk1_new number;
+"
+F_YB_ZNSHCL_ZY20190404	FUNCTION	21	"v_jzkh varchar(20);
+"
+F_YB_ZNSHCL_ZY20190404	FUNCTION	22	"v_brxm varchar(50);
+"
+F_YB_ZNSHCL_ZY20190404	FUNCTION	23	"
+"
+F_YB_ZNSHCL_ZY20190404	FUNCTION	24	"v_fypb number;
+"
+F_YB_ZNSHCL_ZY20190404	FUNCTION	25	"
+"
+F_YB_ZNSHCL_ZY20190404	FUNCTION	26	"arg_systime varchar2(50);
+"
+F_YB_ZNSHCL_ZY20190404	FUNCTION	27	"arg_patient_no  varchar2(20);
+"
+F_YB_ZNSHCL_ZY20190404	FUNCTION	28	"arg_fygl varchar2(20);
+"
+F_YB_ZNSHCL_ZY20190404	FUNCTION	29	"arg_charge_code   varchar2(20);
+"
+F_YB_ZNSHCL_ZY20190404	FUNCTION	30	"arg_sl   number;
+"
+F_YB_ZNSHCL_ZY20190404	FUNCTION	31	"arg_dj  number;
+"
+F_YB_ZNSHCL_ZY20190404	FUNCTION	32	"arg_spbh   varchar2(20);
+"
+F_YB_ZNSHCL_ZY20190404	FUNCTION	33	"arg_zx_ks   varchar2(20);
+"
+F_YB_ZNSHCL_ZY20190404	FUNCTION	34	"arg_curr_ks   varchar2(20);
+"
+F_YB_ZNSHCL_ZY20190404	FUNCTION	35	"arg_czgh   varchar2(20);
+"
+F_YB_ZNSHCL_ZY20190404	FUNCTION	36	"arg_twice_detail_code varchar2(50);
+"
+F_YB_ZNSHCL_ZY20190404	FUNCTION	37	"arg_charge_name varchar2(50);
+"
+F_YB_ZNSHCL_ZY20190404	FUNCTION	38	"arg_twice_detail_id varchar2(50);
+"
+F_YB_ZNSHCL_ZY20190404	FUNCTION	39	"arg_ysgh varchar2(50);
+"
+F_YB_ZNSHCL_ZY20190404	FUNCTION	40	"
+"
+F_YB_ZNSHCL_ZY20190404	FUNCTION	41	"
+"
+F_YB_ZNSHCL_ZY20190404	FUNCTION	42	"begin
+"
+F_YB_ZNSHCL_ZY20190404	FUNCTION	43	"
+"
+F_YB_ZNSHCL_ZY20190404	FUNCTION	44	"--out_msg:='';
+"
+F_YB_ZNSHCL_ZY20190404	FUNCTION	45	"--insert into zy_jiaoyi_v1(jiaoyilx,jylsh) values (in_item,in_source);
+"
+F_YB_ZNSHCL_ZY20190404	FUNCTION	46	"--commit;
+"
+F_YB_ZNSHCL_ZY20190404	FUNCTION	47	"
+"
+F_YB_ZNSHCL_ZY20190404	FUNCTION	48	" --out_msg:='没有处理的内容';
+"
+F_YB_ZNSHCL_ZY20190404	FUNCTION	49	"
+"
+F_YB_ZNSHCL_ZY20190404	FUNCTION	50	"
+"
+F_YB_ZNSHCL_ZY20190404	FUNCTION	51	"select to_char(trunc(sysdate),'yyyy-mm-dd ')||ylmc||'('||ylxh||')单日总次数为 '||zsl||'超过物价规定:' ||kzsl_zy into v_temp from 
+"
+F_YB_ZNSHCL_ZY20190404	FUNCTION	52	"(
+"
+F_YB_ZNSHCL_ZY20190404	FUNCTION	53	"select trunc(sysdate),ylxh,ylmc , kzsl_zy,bz,sum(sl) zsl
+"
+F_YB_ZNSHCL_ZY20190404	FUNCTION	54	"from (
+"
+F_YB_ZNSHCL_ZY20190404	FUNCTION	55	" select   trunc(sysdate),    b.ylxh,b.ylmc,b.kzsl_zy,b.bz ,sum(a.sl)  sl
+"
+F_YB_ZNSHCL_ZY20190404	FUNCTION	56	"   from  zy_detail_charge_yb_20190409 a,v_yb_znshgz_zy b  where a.charge_code=b.ylxh and  a.jcfx_date=in_jcfx_date 
+"
+F_YB_ZNSHCL_ZY20190404	FUNCTION	57	"   and trunc(charge_date)=trunc(sysdate)  and a.patient_No=in_patient_no
+"
+F_YB_ZNSHCL_ZY20190404	FUNCTION	58	"   group by  trunc(sysdate),b.ylxh,b.ylmc,b.kzsl_zy,b.bz
+"
+F_YB_ZNSHCL_ZY20190404	FUNCTION	59	"   union all
+"
+F_YB_ZNSHCL_ZY20190404	FUNCTION	60	"   
+"
+F_YB_ZNSHCL_ZY20190404	FUNCTION	61	"     select trunc(sysdate),   b.ylxh,b.ylmc,b.kzsl_zy,b.bz ,sum(a.sl)  sl
+"
+F_YB_ZNSHCL_ZY20190404	FUNCTION	62	"   from  zy_detail_charge  a,v_yb_znshgz_zy b  where a.charge_code=b.ylxh and trunc(charge_date)=trunc(sysdate)  and a.patient_No=in_patient_no
+"
+F_YB_ZNSHCL_ZY20190404	FUNCTION	63	"   group by trunc(sysdate), b.ylxh,b.ylmc,b.kzsl_zy,b.bz  
+"
+F_YB_ZNSHCL_ZY20190404	FUNCTION	64	"   
+"
+F_YB_ZNSHCL_ZY20190404	FUNCTION	65	"   )
+"
+F_YB_ZNSHCL_ZY20190404	FUNCTION	66	"   group by trunc(sysdate),ylxh,ylmc , kzsl_zy,bz
+"
+F_YB_ZNSHCL_ZY20190404	FUNCTION	67	"   having kzsl_zy =sum(sl)
+"
+F_YB_ZNSHCL_ZY20190404	FUNCTION	68	"   ) where rownum=1;
+"
+F_YB_ZNSHCL_ZY20190404	FUNCTION	69	"if v_temp =null then 
+"
+F_YB_ZNSHCL_ZY20190404	FUNCTION	70	"    v_temp:='';
+"
+F_YB_ZNSHCL_ZY20190404	FUNCTION	71	"end if;
+"
+F_YB_ZNSHCL_ZY20190404	FUNCTION	72	"
+"
+F_YB_ZNSHCL_ZY20190404	FUNCTION	73	"
+"
+F_YB_ZNSHCL_ZY20190404	FUNCTION	74	"Return v_temp;
+"
+F_YB_ZNSHCL_ZY20190404	FUNCTION	75	"
+"
+F_YB_ZNSHCL_ZY20190404	FUNCTION	76	"
+"
+F_YB_ZNSHCL_ZY20190404	FUNCTION	77	"  Return '';
+"
+F_YB_ZNSHCL_ZY20190404	FUNCTION	78	"
+"
+F_YB_ZNSHCL_ZY20190404	FUNCTION	79	"End;
+"

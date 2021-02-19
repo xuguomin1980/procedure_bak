@@ -1,0 +1,518 @@
+F_GET_FENLEI_SCB	FUNCTION	1	"function f_get_fenlei_scb(in_jylsh in varchar2)
+"
+F_GET_FENLEI_SCB	FUNCTION	2	"  return varchar2 is
+"
+F_GET_FENLEI_SCB	FUNCTION	3	"  --新冠防控分类()
+"
+F_GET_FENLEI_SCB	FUNCTION	4	"  out_msg  varchar2(200);
+"
+F_GET_FENLEI_SCB	FUNCTION	5	"  v_czgh   varchar2(20);
+"
+F_GET_FENLEI_SCB	FUNCTION	6	"  v_data   varchar2(20);
+"
+F_GET_FENLEI_SCB	FUNCTION	7	"  out_code number(5);
+"
+F_GET_FENLEI_SCB	FUNCTION	8	"  v_str1   varchar2(20);
+"
+F_GET_FENLEI_SCB	FUNCTION	9	"  v_str2   varchar2(20);
+"
+F_GET_FENLEI_SCB	FUNCTION	10	"  v_str3   varchar2(20);
+"
+F_GET_FENLEI_SCB	FUNCTION	11	"  v_str4   varchar2(20);
+"
+F_GET_FENLEI_SCB	FUNCTION	12	"  v_str5   varchar2(20);
+"
+F_GET_FENLEI_SCB	FUNCTION	13	"  v_str6   varchar2(20);
+"
+F_GET_FENLEI_SCB	FUNCTION	14	"  v_jylsh  varchar2(2000);
+"
+F_GET_FENLEI_SCB	FUNCTION	15	"
+"
+F_GET_FENLEI_SCB	FUNCTION	16	"begin
+"
+F_GET_FENLEI_SCB	FUNCTION	17	"  select replace(in_jylsh, '&', '|') into v_jylsh from dual;
+"
+F_GET_FENLEI_SCB	FUNCTION	18	"  out_msg := '';
+"
+F_GET_FENLEI_SCB	FUNCTION	19	"  v_czgh  := F_GET_VALUE_SPLI(v_jylsh, 'czgh=', '|');
+"
+F_GET_FENLEI_SCB	FUNCTION	20	"
+"
+F_GET_FENLEI_SCB	FUNCTION	21	"  out_msg := '0,0,255';
+"
+F_GET_FENLEI_SCB	FUNCTION	22	"  if v_czgh = 'JDZZ' then
+"
+F_GET_FENLEI_SCB	FUNCTION	23	"    out_msg := '红色';
+"
+F_GET_FENLEI_SCB	FUNCTION	24	"  end if;
+"
+F_GET_FENLEI_SCB	FUNCTION	25	"
+"
+F_GET_FENLEI_SCB	FUNCTION	26	"  v_data := F_GET_VALUE_SPLI(v_jylsh, 'lxdh=', '|');
+"
+F_GET_FENLEI_SCB	FUNCTION	27	"  if length(v_data) = 11 or length(v_data) = 8 then
+"
+F_GET_FENLEI_SCB	FUNCTION	28	"    null;
+"
+F_GET_FENLEI_SCB	FUNCTION	29	"  else
+"
+F_GET_FENLEI_SCB	FUNCTION	30	"    out_code := -1;
+"
+F_GET_FENLEI_SCB	FUNCTION	31	"    out_msg  := '联系电话error，不是11位或8位';
+"
+F_GET_FENLEI_SCB	FUNCTION	32	"    return out_msg;
+"
+F_GET_FENLEI_SCB	FUNCTION	33	"  end if;
+"
+F_GET_FENLEI_SCB	FUNCTION	34	"
+"
+F_GET_FENLEI_SCB	FUNCTION	35	"  /*
+"
+F_GET_FENLEI_SCB	FUNCTION	36	"   v_data := F_GET_VALUE_SPLI(v_jylsh, 'lxdh2=', '|');
+"
+F_GET_FENLEI_SCB	FUNCTION	37	"  if length(v_data) < 2 or length(v_data) = 11 or length(v_data) = 8 then
+"
+F_GET_FENLEI_SCB	FUNCTION	38	"     null;
+"
+F_GET_FENLEI_SCB	FUNCTION	39	"   else
+"
+F_GET_FENLEI_SCB	FUNCTION	40	"     out_code := -1;
+"
+F_GET_FENLEI_SCB	FUNCTION	41	"     out_msg  := '联系电话2，不是11位或8位';
+"
+F_GET_FENLEI_SCB	FUNCTION	42	"     return out_msg;
+"
+F_GET_FENLEI_SCB	FUNCTION	43	"   end if;
+"
+F_GET_FENLEI_SCB	FUNCTION	44	"   */
+"
+F_GET_FENLEI_SCB	FUNCTION	45	"
+"
+F_GET_FENLEI_SCB	FUNCTION	46	"  v_data := F_GET_VALUE_SPLI(v_jylsh, 'sfzh=', '|');
+"
+F_GET_FENLEI_SCB	FUNCTION	47	"  if length(v_data) > 1 then
+"
+F_GET_FENLEI_SCB	FUNCTION	48	"    null;
+"
+F_GET_FENLEI_SCB	FUNCTION	49	"  else
+"
+F_GET_FENLEI_SCB	FUNCTION	50	"    out_code := -1;
+"
+F_GET_FENLEI_SCB	FUNCTION	51	"    out_msg  := '身份证号错误error';
+"
+F_GET_FENLEI_SCB	FUNCTION	52	"    return out_msg;
+"
+F_GET_FENLEI_SCB	FUNCTION	53	"  end if;
+"
+F_GET_FENLEI_SCB	FUNCTION	54	"
+"
+F_GET_FENLEI_SCB	FUNCTION	55	"  --  xm=姓名|sfzh=身份证号|jzkh=病案号|sheng=省|shi=市|qu=区|jiedao=街道|shequ=社区|lxdh=联系电话1|lxdh2=联系电话2|
+"
+F_GET_FENLEI_SCB	FUNCTION	56	"  --lk=离开过金华|hbwz=来自湖北省或浙江省温州市|qg=去过有新型冠状病毒感染确诊患者的社区|qzjc=是否与确诊患者密切接触
+"
+F_GET_FENLEI_SCB	FUNCTION	57	"  --|mjjc=是否与接触过确诊患者的人接触|qzeb=是否为确诊治愈留观满28天内患者|jjx=聚集性发病
+"
+F_GET_FENLEI_SCB	FUNCTION	58	"
+"
+F_GET_FENLEI_SCB	FUNCTION	59	"  --|fr=是否出现发热|twfr=当前体温是否有发热|tsy=是否服用过退热药或感冒药
+"
+F_GET_FENLEI_SCB	FUNCTION	60	"  --症状 |ks=是否咳嗽|hlt=是否咽痛|lt=是否流涕|fl=是否乏力|jrst=是否肌肉酸痛|fx=是否腹泻|
+"
+F_GET_FENLEI_SCB	FUNCTION	61	"  --|qiduan=是否气短|jiemocx=是否结膜充血|
+"
+F_GET_FENLEI_SCB	FUNCTION	62	"
+"
+F_GET_FENLEI_SCB	FUNCTION	63	"  --|hy=如为女性，是否怀孕备孕|
+"
+F_GET_FENLEI_SCB	FUNCTION	64	"
+"
+F_GET_FENLEI_SCB	FUNCTION	65	"  --|jiankanma=健康码|jiankanma2=健康码说明
+"
+F_GET_FENLEI_SCB	FUNCTION	66	"
+"
+F_GET_FENLEI_SCB	FUNCTION	67	"  --有流行病学史 v_str1
+"
+F_GET_FENLEI_SCB	FUNCTION	68	"
+"
+F_GET_FENLEI_SCB	FUNCTION	69	"  ---sflz add 2-18
+"
+F_GET_FENLEI_SCB	FUNCTION	70	"
+"
+F_GET_FENLEI_SCB	FUNCTION	71	"  --lk 离开 ,bs 鼻塞,ex 恶心,ot 呕吐  去掉不用的选择项目
+"
+F_GET_FENLEI_SCB	FUNCTION	72	"  if 1 = 1 then
+"
+F_GET_FENLEI_SCB	FUNCTION	73	"    v_str1 := '0';
+"
+F_GET_FENLEI_SCB	FUNCTION	74	"  
+"
+F_GET_FENLEI_SCB	FUNCTION	75	"    /*    if F_GET_VALUE_SPLI(v_jylsh, 'lk=', '|') = '1' then
+"
+F_GET_FENLEI_SCB	FUNCTION	76	"      v_str1 := '1';
+"
+F_GET_FENLEI_SCB	FUNCTION	77	"    end if;*/
+"
+F_GET_FENLEI_SCB	FUNCTION	78	"    if F_GET_VALUE_SPLI(v_jylsh, 'hbwz=', '|') = '1' then
+"
+F_GET_FENLEI_SCB	FUNCTION	79	"      v_str1 := '1';
+"
+F_GET_FENLEI_SCB	FUNCTION	80	"    end if;
+"
+F_GET_FENLEI_SCB	FUNCTION	81	"  
+"
+F_GET_FENLEI_SCB	FUNCTION	82	"    if F_GET_VALUE_SPLI(v_jylsh, 'qg=', '|') = '1' then
+"
+F_GET_FENLEI_SCB	FUNCTION	83	"      v_str1 := '1';
+"
+F_GET_FENLEI_SCB	FUNCTION	84	"    end if;
+"
+F_GET_FENLEI_SCB	FUNCTION	85	"    if F_GET_VALUE_SPLI(v_jylsh, 'qzjc=', '|') = '1' then
+"
+F_GET_FENLEI_SCB	FUNCTION	86	"      v_str1 := '1';
+"
+F_GET_FENLEI_SCB	FUNCTION	87	"    end if;
+"
+F_GET_FENLEI_SCB	FUNCTION	88	"    if F_GET_VALUE_SPLI(v_jylsh, 'mjjc=', '|') = '1' then
+"
+F_GET_FENLEI_SCB	FUNCTION	89	"      v_str1 := '1';
+"
+F_GET_FENLEI_SCB	FUNCTION	90	"    end if;
+"
+F_GET_FENLEI_SCB	FUNCTION	91	"    if F_GET_VALUE_SPLI(v_jylsh, 'qzeb=', '|') = '1' then
+"
+F_GET_FENLEI_SCB	FUNCTION	92	"      v_str1 := '1';
+"
+F_GET_FENLEI_SCB	FUNCTION	93	"    end if;
+"
+F_GET_FENLEI_SCB	FUNCTION	94	"    if F_GET_VALUE_SPLI(v_jylsh, 'jjx=', '|') = '1' then
+"
+F_GET_FENLEI_SCB	FUNCTION	95	"      v_str1 := '1';
+"
+F_GET_FENLEI_SCB	FUNCTION	96	"    end if;
+"
+F_GET_FENLEI_SCB	FUNCTION	97	"  
+"
+F_GET_FENLEI_SCB	FUNCTION	98	"    if F_GET_VALUE_SPLI(v_jylsh, 'sflz=', '|') = '1' then
+"
+F_GET_FENLEI_SCB	FUNCTION	99	"      v_str1 := '1';
+"
+F_GET_FENLEI_SCB	FUNCTION	100	"    end if;
+"
+F_GET_FENLEI_SCB	FUNCTION	101	"  
+"
+F_GET_FENLEI_SCB	FUNCTION	102	"  end if;
+"
+F_GET_FENLEI_SCB	FUNCTION	103	"
+"
+F_GET_FENLEI_SCB	FUNCTION	104	"  --发热 v_str2
+"
+F_GET_FENLEI_SCB	FUNCTION	105	"  if 1 = 1 then
+"
+F_GET_FENLEI_SCB	FUNCTION	106	"    v_str2 := '0';
+"
+F_GET_FENLEI_SCB	FUNCTION	107	"  
+"
+F_GET_FENLEI_SCB	FUNCTION	108	"    if F_GET_VALUE_SPLI(v_jylsh, 'fr=', '|') = '1' then
+"
+F_GET_FENLEI_SCB	FUNCTION	109	"      v_str2 := '1';
+"
+F_GET_FENLEI_SCB	FUNCTION	110	"    end if;
+"
+F_GET_FENLEI_SCB	FUNCTION	111	"    if F_GET_VALUE_SPLI(v_jylsh, 'twfr=', '|') = '1' then
+"
+F_GET_FENLEI_SCB	FUNCTION	112	"      v_str2 := '1';
+"
+F_GET_FENLEI_SCB	FUNCTION	113	"    end if;
+"
+F_GET_FENLEI_SCB	FUNCTION	114	"    if F_GET_VALUE_SPLI(v_jylsh, 'tsy=', '|') = '1' then
+"
+F_GET_FENLEI_SCB	FUNCTION	115	"      v_str2 := '1';
+"
+F_GET_FENLEI_SCB	FUNCTION	116	"    end if;
+"
+F_GET_FENLEI_SCB	FUNCTION	117	"  
+"
+F_GET_FENLEI_SCB	FUNCTION	118	"  end if;
+"
+F_GET_FENLEI_SCB	FUNCTION	119	"
+"
+F_GET_FENLEI_SCB	FUNCTION	120	"  --有可疑症状 v_str3
+"
+F_GET_FENLEI_SCB	FUNCTION	121	"  if 1 = 1 then
+"
+F_GET_FENLEI_SCB	FUNCTION	122	"    v_str3 := '0';
+"
+F_GET_FENLEI_SCB	FUNCTION	123	"    --症状 ks=0|hlt=0|lt=0|bs=0|fl=0|jrst=0|fx=0|ex=1|ot=0
+"
+F_GET_FENLEI_SCB	FUNCTION	124	"    if F_GET_VALUE_SPLI(v_jylsh, 'ks=', '|') = '1' then
+"
+F_GET_FENLEI_SCB	FUNCTION	125	"      v_str3 := '1';
+"
+F_GET_FENLEI_SCB	FUNCTION	126	"    end if;
+"
+F_GET_FENLEI_SCB	FUNCTION	127	"    if F_GET_VALUE_SPLI(v_jylsh, 'hlt=', '|') = '1' then
+"
+F_GET_FENLEI_SCB	FUNCTION	128	"      v_str3 := '1';
+"
+F_GET_FENLEI_SCB	FUNCTION	129	"    end if;
+"
+F_GET_FENLEI_SCB	FUNCTION	130	"    if F_GET_VALUE_SPLI(v_jylsh, 'lt=', '|') = '1' then
+"
+F_GET_FENLEI_SCB	FUNCTION	131	"      v_str3 := '1';
+"
+F_GET_FENLEI_SCB	FUNCTION	132	"    end if;
+"
+F_GET_FENLEI_SCB	FUNCTION	133	"    /*    if F_GET_VALUE_SPLI(v_jylsh, 'bs=', '|') = '1' then
+"
+F_GET_FENLEI_SCB	FUNCTION	134	"      v_str3 := '1';
+"
+F_GET_FENLEI_SCB	FUNCTION	135	"    end if;*/
+"
+F_GET_FENLEI_SCB	FUNCTION	136	"    if F_GET_VALUE_SPLI(v_jylsh, 'fl=', '|') = '1' then
+"
+F_GET_FENLEI_SCB	FUNCTION	137	"      v_str3 := '1';
+"
+F_GET_FENLEI_SCB	FUNCTION	138	"    end if;
+"
+F_GET_FENLEI_SCB	FUNCTION	139	"    if F_GET_VALUE_SPLI(v_jylsh, 'jrst=', '|') = '1' then
+"
+F_GET_FENLEI_SCB	FUNCTION	140	"      v_str3 := '1';
+"
+F_GET_FENLEI_SCB	FUNCTION	141	"    end if;
+"
+F_GET_FENLEI_SCB	FUNCTION	142	"    if F_GET_VALUE_SPLI(v_jylsh, 'fx=', '|') = '1' then
+"
+F_GET_FENLEI_SCB	FUNCTION	143	"      v_str3 := '1';
+"
+F_GET_FENLEI_SCB	FUNCTION	144	"    end if;
+"
+F_GET_FENLEI_SCB	FUNCTION	145	"    /*  if F_GET_VALUE_SPLI(v_jylsh, 'ex=', '|') = '1' then
+"
+F_GET_FENLEI_SCB	FUNCTION	146	"      v_str3 := '1';
+"
+F_GET_FENLEI_SCB	FUNCTION	147	"    end if;
+"
+F_GET_FENLEI_SCB	FUNCTION	148	"    if F_GET_VALUE_SPLI(v_jylsh, 'ot=', '|') = '1' then
+"
+F_GET_FENLEI_SCB	FUNCTION	149	"      v_str3 := '1';
+"
+F_GET_FENLEI_SCB	FUNCTION	150	"    end if;*/
+"
+F_GET_FENLEI_SCB	FUNCTION	151	"  
+"
+F_GET_FENLEI_SCB	FUNCTION	152	"    if F_GET_VALUE_SPLI(v_jylsh, 'qiduan=', '|') = '1' then
+"
+F_GET_FENLEI_SCB	FUNCTION	153	"      v_str3 := '1';
+"
+F_GET_FENLEI_SCB	FUNCTION	154	"    end if;
+"
+F_GET_FENLEI_SCB	FUNCTION	155	"    if F_GET_VALUE_SPLI(v_jylsh, 'jiemocx=', '|') = '1' then
+"
+F_GET_FENLEI_SCB	FUNCTION	156	"      v_str3 := '1';
+"
+F_GET_FENLEI_SCB	FUNCTION	157	"    end if;
+"
+F_GET_FENLEI_SCB	FUNCTION	158	"  
+"
+F_GET_FENLEI_SCB	FUNCTION	159	"  end if;
+"
+F_GET_FENLEI_SCB	FUNCTION	160	"
+"
+F_GET_FENLEI_SCB	FUNCTION	161	"  --怀孕 v_str4
+"
+F_GET_FENLEI_SCB	FUNCTION	162	"  if 1 = 1 then
+"
+F_GET_FENLEI_SCB	FUNCTION	163	"    v_str4 := '0';
+"
+F_GET_FENLEI_SCB	FUNCTION	164	"    if F_GET_VALUE_SPLI(v_jylsh, 'hy=', '|') = '1' then
+"
+F_GET_FENLEI_SCB	FUNCTION	165	"      v_str4 := '1';
+"
+F_GET_FENLEI_SCB	FUNCTION	166	"    end if;
+"
+F_GET_FENLEI_SCB	FUNCTION	167	"  
+"
+F_GET_FENLEI_SCB	FUNCTION	168	"  end if;
+"
+F_GET_FENLEI_SCB	FUNCTION	169	"
+"
+F_GET_FENLEI_SCB	FUNCTION	170	"  --红色  '255,0,0';  绿色  0,255,0   紫色 128,0,128 黄色   255,255,0 蓝色 0,0,255 橙色  255,165,0  返回
+"
+F_GET_FENLEI_SCB	FUNCTION	171	"
+"
+F_GET_FENLEI_SCB	FUNCTION	172	"  --孕妇或备孕状态，当出现可疑症状但无流行病学史及发热，由橙色直接升为蓝色 0,0,255
+"
+F_GET_FENLEI_SCB	FUNCTION	173	"  if 1 = 1 then
+"
+F_GET_FENLEI_SCB	FUNCTION	174	"    if v_str1 = '0' and v_str2 = '0' and v_str3 = '1' and v_str4 = '1' then
+"
+F_GET_FENLEI_SCB	FUNCTION	175	"      out_code := 0;
+"
+F_GET_FENLEI_SCB	FUNCTION	176	"      out_msg  := '0,0,255';
+"
+F_GET_FENLEI_SCB	FUNCTION	177	"      if v_czgh = 'JDZZ' then
+"
+F_GET_FENLEI_SCB	FUNCTION	178	"        out_msg := '蓝色';
+"
+F_GET_FENLEI_SCB	FUNCTION	179	"      end if;
+"
+F_GET_FENLEI_SCB	FUNCTION	180	"      return out_msg;
+"
+F_GET_FENLEI_SCB	FUNCTION	181	"    end if;
+"
+F_GET_FENLEI_SCB	FUNCTION	182	"  
+"
+F_GET_FENLEI_SCB	FUNCTION	183	"  end if;
+"
+F_GET_FENLEI_SCB	FUNCTION	184	"
+"
+F_GET_FENLEI_SCB	FUNCTION	185	"  --绿色 0,255,0 无流行病学史，无发热，无可疑症状
+"
+F_GET_FENLEI_SCB	FUNCTION	186	"  if 1 = 1 then
+"
+F_GET_FENLEI_SCB	FUNCTION	187	"    if v_str1 = '0' and v_str2 = '0' and v_str3 = '0' then
+"
+F_GET_FENLEI_SCB	FUNCTION	188	"      out_code := 0;
+"
+F_GET_FENLEI_SCB	FUNCTION	189	"      out_msg  := '0,255,0';
+"
+F_GET_FENLEI_SCB	FUNCTION	190	"      if v_czgh = 'JDZZ' then
+"
+F_GET_FENLEI_SCB	FUNCTION	191	"        out_msg := '绿色';
+"
+F_GET_FENLEI_SCB	FUNCTION	192	"      end if;
+"
+F_GET_FENLEI_SCB	FUNCTION	193	"    
+"
+F_GET_FENLEI_SCB	FUNCTION	194	"      return out_msg;
+"
+F_GET_FENLEI_SCB	FUNCTION	195	"    end if;
+"
+F_GET_FENLEI_SCB	FUNCTION	196	"  
+"
+F_GET_FENLEI_SCB	FUNCTION	197	"  end if;
+"
+F_GET_FENLEI_SCB	FUNCTION	198	"
+"
+F_GET_FENLEI_SCB	FUNCTION	199	"  --紫色   128,0,128 有流行病学史，有发热或可疑症状者
+"
+F_GET_FENLEI_SCB	FUNCTION	200	"  if 1 = 1 then
+"
+F_GET_FENLEI_SCB	FUNCTION	201	"    if v_str1 = '1' and (v_str2 = '1' or v_str3 = '1') then
+"
+F_GET_FENLEI_SCB	FUNCTION	202	"      out_code := 0;
+"
+F_GET_FENLEI_SCB	FUNCTION	203	"      out_msg  := '128,0,128';
+"
+F_GET_FENLEI_SCB	FUNCTION	204	"      if v_czgh = 'JDZZ' then
+"
+F_GET_FENLEI_SCB	FUNCTION	205	"        out_msg := '紫色';
+"
+F_GET_FENLEI_SCB	FUNCTION	206	"      end if;
+"
+F_GET_FENLEI_SCB	FUNCTION	207	"      return out_msg;
+"
+F_GET_FENLEI_SCB	FUNCTION	208	"    end if;
+"
+F_GET_FENLEI_SCB	FUNCTION	209	"  
+"
+F_GET_FENLEI_SCB	FUNCTION	210	"  end if;
+"
+F_GET_FENLEI_SCB	FUNCTION	211	"
+"
+F_GET_FENLEI_SCB	FUNCTION	212	"  -- 黄色  255,255,0 无流行病学史的发热患者
+"
+F_GET_FENLEI_SCB	FUNCTION	213	"  if 1 = 1 then
+"
+F_GET_FENLEI_SCB	FUNCTION	214	"    if v_str1 = '0' and v_str2 = '1' then
+"
+F_GET_FENLEI_SCB	FUNCTION	215	"      out_code := 0;
+"
+F_GET_FENLEI_SCB	FUNCTION	216	"      out_msg  := '255,255,0';
+"
+F_GET_FENLEI_SCB	FUNCTION	217	"      if v_czgh = 'JDZZ' then
+"
+F_GET_FENLEI_SCB	FUNCTION	218	"        out_msg := '黄色';
+"
+F_GET_FENLEI_SCB	FUNCTION	219	"      end if;
+"
+F_GET_FENLEI_SCB	FUNCTION	220	"      return out_msg;
+"
+F_GET_FENLEI_SCB	FUNCTION	221	"    end if;
+"
+F_GET_FENLEI_SCB	FUNCTION	222	"  
+"
+F_GET_FENLEI_SCB	FUNCTION	223	"  end if;
+"
+F_GET_FENLEI_SCB	FUNCTION	224	"
+"
+F_GET_FENLEI_SCB	FUNCTION	225	"  --蓝色  0,0,255 有流病学史，无发热且无可疑症状，因其他原因就诊
+"
+F_GET_FENLEI_SCB	FUNCTION	226	"  if 1 = 1 then
+"
+F_GET_FENLEI_SCB	FUNCTION	227	"    if v_str1 = '1' and v_str2 = '0' and v_str3 = '0' then
+"
+F_GET_FENLEI_SCB	FUNCTION	228	"      out_code := 0;
+"
+F_GET_FENLEI_SCB	FUNCTION	229	"      out_msg  := '0,0,255';
+"
+F_GET_FENLEI_SCB	FUNCTION	230	"      if v_czgh = 'JDZZ' then
+"
+F_GET_FENLEI_SCB	FUNCTION	231	"        out_msg := '蓝色';
+"
+F_GET_FENLEI_SCB	FUNCTION	232	"      end if;
+"
+F_GET_FENLEI_SCB	FUNCTION	233	"      return out_msg;
+"
+F_GET_FENLEI_SCB	FUNCTION	234	"    end if;
+"
+F_GET_FENLEI_SCB	FUNCTION	235	"  
+"
+F_GET_FENLEI_SCB	FUNCTION	236	"  end if;
+"
+F_GET_FENLEI_SCB	FUNCTION	237	"
+"
+F_GET_FENLEI_SCB	FUNCTION	238	"  --橙色  255,165,0 有可疑症状，无流行病学史，无发热
+"
+F_GET_FENLEI_SCB	FUNCTION	239	"  if 1 = 1 then
+"
+F_GET_FENLEI_SCB	FUNCTION	240	"    if v_str1 = '0' and v_str2 = '0' and v_str3 = '1' then
+"
+F_GET_FENLEI_SCB	FUNCTION	241	"      out_code := 0;
+"
+F_GET_FENLEI_SCB	FUNCTION	242	"      out_msg  := '255,165,0';
+"
+F_GET_FENLEI_SCB	FUNCTION	243	"      if v_czgh = 'JDZZ' then
+"
+F_GET_FENLEI_SCB	FUNCTION	244	"        out_msg := '橙色';
+"
+F_GET_FENLEI_SCB	FUNCTION	245	"      end if;
+"
+F_GET_FENLEI_SCB	FUNCTION	246	"      return out_msg;
+"
+F_GET_FENLEI_SCB	FUNCTION	247	"    end if;
+"
+F_GET_FENLEI_SCB	FUNCTION	248	"  
+"
+F_GET_FENLEI_SCB	FUNCTION	249	"  end if;
+"
+F_GET_FENLEI_SCB	FUNCTION	250	"
+"
+F_GET_FENLEI_SCB	FUNCTION	251	"  --默认红色放行 '255,0,0'
+"
+F_GET_FENLEI_SCB	FUNCTION	252	"  out_code := 0;
+"
+F_GET_FENLEI_SCB	FUNCTION	253	"  out_msg  := '255,0,0';
+"
+F_GET_FENLEI_SCB	FUNCTION	254	"  if v_czgh = 'JDZZ' then
+"
+F_GET_FENLEI_SCB	FUNCTION	255	"    out_msg := '红色';
+"
+F_GET_FENLEI_SCB	FUNCTION	256	"  end if;
+"
+F_GET_FENLEI_SCB	FUNCTION	257	"  return out_msg;
+"
+F_GET_FENLEI_SCB	FUNCTION	258	"
+"
+F_GET_FENLEI_SCB	FUNCTION	259	"end;
+"

@@ -1,0 +1,5266 @@
+PRO_ITEM_DO	PROCEDURE	1	"procedure pro_item_do(in_item   in varchar2,
+"
+PRO_ITEM_DO	PROCEDURE	2	"                                        in_source in varchar2,
+"
+PRO_ITEM_DO	PROCEDURE	3	"                                        out_msg   out varchar2) is
+"
+PRO_ITEM_DO	PROCEDURE	4	"  v_source     varchar2(2000);
+"
+PRO_ITEM_DO	PROCEDURE	5	"  v_ts         varchar2(200);
+"
+PRO_ITEM_DO	PROCEDURE	6	"  v_data       varchar2(2000);
+"
+PRO_ITEM_DO	PROCEDURE	7	"  v_data_temp  varchar2(2000);
+"
+PRO_ITEM_DO	PROCEDURE	8	"  v_data_add   varchar2(2000);
+"
+PRO_ITEM_DO	PROCEDURE	9	"  v_data_left  varchar2(2000);
+"
+PRO_ITEM_DO	PROCEDURE	10	"  v_data_right varchar2(2000);
+"
+PRO_ITEM_DO	PROCEDURE	11	"  v_data_max   number;
+"
+PRO_ITEM_DO	PROCEDURE	12	"  v_data2      varchar2(2000);
+"
+PRO_ITEM_DO	PROCEDURE	13	"  v_csmc       varchar2(100);
+"
+PRO_ITEM_DO	PROCEDURE	14	"  v_czgh_xm    varchar2(100);
+"
+PRO_ITEM_DO	PROCEDURE	15	"  v_str1       varchar2(2000);
+"
+PRO_ITEM_DO	PROCEDURE	16	"  v_str2       varchar2(2000);
+"
+PRO_ITEM_DO	PROCEDURE	17	"  v_str3       varchar2(100);
+"
+PRO_ITEM_DO	PROCEDURE	18	"  v_str4       varchar2(100);
+"
+PRO_ITEM_DO	PROCEDURE	19	"  v_str5       varchar2(100);
+"
+PRO_ITEM_DO	PROCEDURE	20	"  v_str6       varchar2(100);
+"
+PRO_ITEM_DO	PROCEDURE	21	"  v_str7       varchar2(100);
+"
+PRO_ITEM_DO	PROCEDURE	22	"  v_str8       varchar2(100);
+"
+PRO_ITEM_DO	PROCEDURE	23	"  v_str9       varchar2(100);
+"
+PRO_ITEM_DO	PROCEDURE	24	"  v_str0       varchar2(100);
+"
+PRO_ITEM_DO	PROCEDURE	25	"
+"
+PRO_ITEM_DO	PROCEDURE	26	"  in_item_temp varchar2(100);
+"
+PRO_ITEM_DO	PROCEDURE	27	"
+"
+PRO_ITEM_DO	PROCEDURE	28	"  v_pos        number;
+"
+PRO_ITEM_DO	PROCEDURE	29	"  v_pos2       number;
+"
+PRO_ITEM_DO	PROCEDURE	30	"  v_pos_select number;
+"
+PRO_ITEM_DO	PROCEDURE	31	"  v_flag       varchar2(50);
+"
+PRO_ITEM_DO	PROCEDURE	32	"  v_flag_len   number;
+"
+PRO_ITEM_DO	PROCEDURE	33	"  v_sl         number;
+"
+PRO_ITEM_DO	PROCEDURE	34	"  v_je         number;
+"
+PRO_ITEM_DO	PROCEDURE	35	"
+"
+PRO_ITEM_DO	PROCEDURE	36	"  v_cfsb        number;
+"
+PRO_ITEM_DO	PROCEDURE	37	"  v_cfk1_new    number;
+"
+PRO_ITEM_DO	PROCEDURE	38	"  v_jzkh        varchar(20);
+"
+PRO_ITEM_DO	PROCEDURE	39	"  v_zgid        varchar(20);
+"
+PRO_ITEM_DO	PROCEDURE	40	"  v_brxm        varchar(50);
+"
+PRO_ITEM_DO	PROCEDURE	41	"  v_sl_tf       number;
+"
+PRO_ITEM_DO	PROCEDURE	42	"  v_fypb        number;
+"
+PRO_ITEM_DO	PROCEDURE	43	"  v_count       number;
+"
+PRO_ITEM_DO	PROCEDURE	44	"  v_count2      number;
+"
+PRO_ITEM_DO	PROCEDURE	45	"  v_count4      number;
+"
+PRO_ITEM_DO	PROCEDURE	46	"  v_count0      number;
+"
+PRO_ITEM_DO	PROCEDURE	47	"  v_t_question  t_question%rowtype;
+"
+PRO_ITEM_DO	PROCEDURE	48	"  v_t_question2 t_question%rowtype;
+"
+PRO_ITEM_DO	PROCEDURE	49	"  v_sysdate     date;
+"
+PRO_ITEM_DO	PROCEDURE	50	"
+"
+PRO_ITEM_DO	PROCEDURE	51	"  v_sl_count number;
+"
+PRO_ITEM_DO	PROCEDURE	52	"  ll_count   number;
+"
+PRO_ITEM_DO	PROCEDURE	53	"  ll_jlxh_a  number;
+"
+PRO_ITEM_DO	PROCEDURE	54	"  ll_jlxh_b  number;
+"
+PRO_ITEM_DO	PROCEDURE	55	"
+"
+PRO_ITEM_DO	PROCEDURE	56	"  ll_patient_no  number;
+"
+PRO_ITEM_DO	PROCEDURE	57	"  ll_charge_code number;
+"
+PRO_ITEM_DO	PROCEDURE	58	"  ll_dj          number;
+"
+PRO_ITEM_DO	PROCEDURE	59	"  ll_sl          number;
+"
+PRO_ITEM_DO	PROCEDURE	60	"  ls_charge_date Varchar2(20);
+"
+PRO_ITEM_DO	PROCEDURE	61	"
+"
+PRO_ITEM_DO	PROCEDURE	62	"  v_select varchar2(2000);
+"
+PRO_ITEM_DO	PROCEDURE	63	"  Type my_cursor is ref cursor; --声明动态游标类型
+"
+PRO_ITEM_DO	PROCEDURE	64	"  v_cursor my_cursor; --定义动态游标变量
+"
+PRO_ITEM_DO	PROCEDURE	65	"
+"
+PRO_ITEM_DO	PROCEDURE	66	"  Type my_cursor2 is ref cursor; --声明动态游标类型
+"
+PRO_ITEM_DO	PROCEDURE	67	"  v_cursor2 my_cursor2; --定义动态游标变量
+"
+PRO_ITEM_DO	PROCEDURE	68	"
+"
+PRO_ITEM_DO	PROCEDURE	69	"begin
+"
+PRO_ITEM_DO	PROCEDURE	70	"  if 0 = 0 then
+"
+PRO_ITEM_DO	PROCEDURE	71	"    select sysdate into v_sysdate from dual;
+"
+PRO_ITEM_DO	PROCEDURE	72	"    if length(in_item) > 46 then
+"
+PRO_ITEM_DO	PROCEDURE	73	"      insert into zy_jiaoyi_v1
+"
+PRO_ITEM_DO	PROCEDURE	74	"        (jiaoyilx, jylsh, bz)
+"
+PRO_ITEM_DO	PROCEDURE	75	"      values
+"
+PRO_ITEM_DO	PROCEDURE	76	"        ('errror', 'jiaoyilx>46', 'PRO_ITEM_DO');
+"
+PRO_ITEM_DO	PROCEDURE	77	"    end if;
+"
+PRO_ITEM_DO	PROCEDURE	78	"  
+"
+PRO_ITEM_DO	PROCEDURE	79	"    if length(in_source) > 1900 then
+"
+PRO_ITEM_DO	PROCEDURE	80	"      insert into zy_jiaoyi_v1
+"
+PRO_ITEM_DO	PROCEDURE	81	"        (jiaoyilx, jylsh, bz)
+"
+PRO_ITEM_DO	PROCEDURE	82	"      values
+"
+PRO_ITEM_DO	PROCEDURE	83	"        ('errror', 'jylsh>1900', 'PRO_ITEM_DO');
+"
+PRO_ITEM_DO	PROCEDURE	84	"    end if;
+"
+PRO_ITEM_DO	PROCEDURE	85	"  
+"
+PRO_ITEM_DO	PROCEDURE	86	"    insert into zy_jiaoyi_v1
+"
+PRO_ITEM_DO	PROCEDURE	87	"      (jiaoyilx, jylsh, bz)
+"
+PRO_ITEM_DO	PROCEDURE	88	"    values
+"
+PRO_ITEM_DO	PROCEDURE	89	"      (in_item, in_source, 'PRO_ITEM_DO');
+"
+PRO_ITEM_DO	PROCEDURE	90	"    commit;
+"
+PRO_ITEM_DO	PROCEDURE	91	"  
+"
+PRO_ITEM_DO	PROCEDURE	92	"    out_msg := '没有处理的内容';
+"
+PRO_ITEM_DO	PROCEDURE	93	"    -- out_msg := v_data;
+"
+PRO_ITEM_DO	PROCEDURE	94	"    --获取入参的值
+"
+PRO_ITEM_DO	PROCEDURE	95	"  
+"
+PRO_ITEM_DO	PROCEDURE	96	"    if in_item = 'IP地址判断' then
+"
+PRO_ITEM_DO	PROCEDURE	97	"      out_msg := 'error';
+"
+PRO_ITEM_DO	PROCEDURE	98	"      v_data  := ',192.168.32.190,172.18.2.138,192.168.1.58,192.168.1.199,192.168.1.96,192.168.1.232,192.168.1.222,192.168.1.173,192.168.1.220,192.168.1.61,192.168.1.60,127.0.0.1,192.168.20.227,192.168.20.26,192.168.1.169,192.168.1.166,192.168.1.165,192.168.1.59,192.168.1.55,192.168.1.95,192.168.25.9,172.18.2.138,192.168.25.61,';
+"
+PRO_ITEM_DO	PROCEDURE	99	"      select ',' || in_source || ',' into v_str1 from dual;
+"
+PRO_ITEM_DO	PROCEDURE	100	"      select instr(v_data, v_str1) into v_pos from dual;
+"
+PRO_ITEM_DO	PROCEDURE	101	"      if v_pos > 0 or 1 = 1 then
+"
+PRO_ITEM_DO	PROCEDURE	102	"        out_msg := 'ok';
+"
+PRO_ITEM_DO	PROCEDURE	103	"      end if;
+"
+PRO_ITEM_DO	PROCEDURE	104	"      return;
+"
+PRO_ITEM_DO	PROCEDURE	105	"    
+"
+PRO_ITEM_DO	PROCEDURE	106	"    end if;
+"
+PRO_ITEM_DO	PROCEDURE	107	"  
+"
+PRO_ITEM_DO	PROCEDURE	108	"    v_source := in_source;
+"
+PRO_ITEM_DO	PROCEDURE	109	"  end if;
+"
+PRO_ITEM_DO	PROCEDURE	110	"  --end a=a 
+"
+PRO_ITEM_DO	PROCEDURE	111	"  -- select instr() into v_count  from dual;
+"
+PRO_ITEM_DO	PROCEDURE	112	"
+"
+PRO_ITEM_DO	PROCEDURE	113	"  if 0 = 0 then
+"
+PRO_ITEM_DO	PROCEDURE	114	"  
+"
+PRO_ITEM_DO	PROCEDURE	115	"    v_flag     := '##';
+"
+PRO_ITEM_DO	PROCEDURE	116	"    v_flag_len := 2;
+"
+PRO_ITEM_DO	PROCEDURE	117	"    v_data     := v_source || v_flag;
+"
+PRO_ITEM_DO	PROCEDURE	118	"    --1
+"
+PRO_ITEM_DO	PROCEDURE	119	"    v_pos  := to_number(instr(v_data, v_flag));
+"
+PRO_ITEM_DO	PROCEDURE	120	"    v_str1 := ltrim(rtrim(substr(v_data, 1, v_pos - 1)));
+"
+PRO_ITEM_DO	PROCEDURE	121	"    v_data := substr(v_data, v_pos + v_flag_len);
+"
+PRO_ITEM_DO	PROCEDURE	122	"    --2
+"
+PRO_ITEM_DO	PROCEDURE	123	"    v_pos  := to_number(instr(v_data, v_flag));
+"
+PRO_ITEM_DO	PROCEDURE	124	"    v_str2 := ltrim(rtrim(substr(v_data, 1, v_pos - 1)));
+"
+PRO_ITEM_DO	PROCEDURE	125	"    v_data := substr(v_data, v_pos + v_flag_len);
+"
+PRO_ITEM_DO	PROCEDURE	126	"    --//3
+"
+PRO_ITEM_DO	PROCEDURE	127	"    v_pos  := to_number(instr(v_data, v_flag));
+"
+PRO_ITEM_DO	PROCEDURE	128	"    v_str3 := ltrim(rtrim(substr(v_data, 1, v_pos - 1)));
+"
+PRO_ITEM_DO	PROCEDURE	129	"    v_data := substr(v_data, v_pos + v_flag_len);
+"
+PRO_ITEM_DO	PROCEDURE	130	"    --//4
+"
+PRO_ITEM_DO	PROCEDURE	131	"    v_pos  := to_number(instr(v_data, v_flag));
+"
+PRO_ITEM_DO	PROCEDURE	132	"    v_str4 := ltrim(rtrim(substr(v_data, 1, v_pos - 1)));
+"
+PRO_ITEM_DO	PROCEDURE	133	"    v_data := substr(v_data, v_pos + v_flag_len);
+"
+PRO_ITEM_DO	PROCEDURE	134	"    -- //5
+"
+PRO_ITEM_DO	PROCEDURE	135	"    v_pos  := to_number(instr(v_data, v_flag));
+"
+PRO_ITEM_DO	PROCEDURE	136	"    v_str5 := ltrim(rtrim(substr(v_data, 1, v_pos - 1)));
+"
+PRO_ITEM_DO	PROCEDURE	137	"    v_data := substr(v_data, v_pos + v_flag_len);
+"
+PRO_ITEM_DO	PROCEDURE	138	"    -- //
+"
+PRO_ITEM_DO	PROCEDURE	139	"    v_pos  := to_number(instr(v_data, v_flag));
+"
+PRO_ITEM_DO	PROCEDURE	140	"    v_str6 := ltrim(rtrim(substr(v_data, 1, v_pos - 1)));
+"
+PRO_ITEM_DO	PROCEDURE	141	"    v_data := substr(v_data, v_pos + v_flag_len);
+"
+PRO_ITEM_DO	PROCEDURE	142	"    --//
+"
+PRO_ITEM_DO	PROCEDURE	143	"    v_pos  := to_number(instr(v_data, v_flag));
+"
+PRO_ITEM_DO	PROCEDURE	144	"    v_str7 := ltrim(rtrim(substr(v_data, 1, v_pos - 1)));
+"
+PRO_ITEM_DO	PROCEDURE	145	"    v_data := substr(v_data, v_pos + v_flag_len);
+"
+PRO_ITEM_DO	PROCEDURE	146	"    --//
+"
+PRO_ITEM_DO	PROCEDURE	147	"    v_pos  := to_number(instr(v_data, v_flag));
+"
+PRO_ITEM_DO	PROCEDURE	148	"    v_str8 := ltrim(rtrim(substr(v_data, 1, v_pos - 1)));
+"
+PRO_ITEM_DO	PROCEDURE	149	"    v_data := substr(v_data, v_pos + v_flag_len);
+"
+PRO_ITEM_DO	PROCEDURE	150	"    --//9
+"
+PRO_ITEM_DO	PROCEDURE	151	"    v_pos  := to_number(instr(v_data, v_flag));
+"
+PRO_ITEM_DO	PROCEDURE	152	"    v_str9 := ltrim(rtrim(substr(v_data, 1, v_pos - 1)));
+"
+PRO_ITEM_DO	PROCEDURE	153	"    v_data := substr(v_data, v_pos + v_flag_len);
+"
+PRO_ITEM_DO	PROCEDURE	154	"  
+"
+PRO_ITEM_DO	PROCEDURE	155	"  end if;
+"
+PRO_ITEM_DO	PROCEDURE	156	"
+"
+PRO_ITEM_DO	PROCEDURE	157	"  --v_str1='login'
+"
+PRO_ITEM_DO	PROCEDURE	158	"  if 0 = 0 and v_str1 = 'login' then
+"
+PRO_ITEM_DO	PROCEDURE	159	"    select count(*)
+"
+PRO_ITEM_DO	PROCEDURE	160	"      into ll_count
+"
+PRO_ITEM_DO	PROCEDURE	161	"      From gy_yhxx
+"
+PRO_ITEM_DO	PROCEDURE	162	"     where yhdm = v_str2
+"
+PRO_ITEM_DO	PROCEDURE	163	"       and bmz = v_str3;
+"
+PRO_ITEM_DO	PROCEDURE	164	"    if ll_count > 0 then
+"
+PRO_ITEM_DO	PROCEDURE	165	"      null;
+"
+PRO_ITEM_DO	PROCEDURE	166	"      v_zgid := v_str2;
+"
+PRO_ITEM_DO	PROCEDURE	167	"    else
+"
+PRO_ITEM_DO	PROCEDURE	168	"      select v_str2 || ' 工号不存在,或者 密码错误 ' into out_msg from dual;
+"
+PRO_ITEM_DO	PROCEDURE	169	"      return;
+"
+PRO_ITEM_DO	PROCEDURE	170	"    end if;
+"
+PRO_ITEM_DO	PROCEDURE	171	"  
+"
+PRO_ITEM_DO	PROCEDURE	172	"    select count(*) into ll_count From gy_zgxx where zgid = v_str2;
+"
+PRO_ITEM_DO	PROCEDURE	173	"    if ll_count > 0 then
+"
+PRO_ITEM_DO	PROCEDURE	174	"      select xm into v_czgh_xm from gy_zgxx where zgid = v_str2;
+"
+PRO_ITEM_DO	PROCEDURE	175	"    
+"
+PRO_ITEM_DO	PROCEDURE	176	"    else
+"
+PRO_ITEM_DO	PROCEDURE	177	"      select v_str2 || ' 工号不存在 gy_zgxx ' into out_msg from dual;
+"
+PRO_ITEM_DO	PROCEDURE	178	"      return;
+"
+PRO_ITEM_DO	PROCEDURE	179	"    end if;
+"
+PRO_ITEM_DO	PROCEDURE	180	"  
+"
+PRO_ITEM_DO	PROCEDURE	181	"  end if;
+"
+PRO_ITEM_DO	PROCEDURE	182	"  --v_str1='login' end 
+"
+PRO_ITEM_DO	PROCEDURE	183	"
+"
+PRO_ITEM_DO	PROCEDURE	184	"  --'查询信息login    begin 
+"
+PRO_ITEM_DO	PROCEDURE	185	"  if in_item = '查询信息login' then
+"
+PRO_ITEM_DO	PROCEDURE	186	"    -- //sfsb,qtsfje
+"
+PRO_ITEM_DO	PROCEDURE	187	"    --login,zgid,password,aaa,
+"
+PRO_ITEM_DO	PROCEDURE	188	"    select v_str1 || ',' || v_str2 || ',' || v_str3 || ',' || v_str4 || ',' ||
+"
+PRO_ITEM_DO	PROCEDURE	189	"           v_str5 || ','
+"
+PRO_ITEM_DO	PROCEDURE	190	"      into out_msg
+"
+PRO_ITEM_DO	PROCEDURE	191	"      from dual;
+"
+PRO_ITEM_DO	PROCEDURE	192	"  
+"
+PRO_ITEM_DO	PROCEDURE	193	"    return;
+"
+PRO_ITEM_DO	PROCEDURE	194	"  end if;
+"
+PRO_ITEM_DO	PROCEDURE	195	"  --'查询信息login end  
+"
+PRO_ITEM_DO	PROCEDURE	196	"
+"
+PRO_ITEM_DO	PROCEDURE	197	"  --'住院病人费用锁定    begin 
+"
+PRO_ITEM_DO	PROCEDURE	198	"  if in_item = '住院病人费用锁定' then
+"
+PRO_ITEM_DO	PROCEDURE	199	"  
+"
+PRO_ITEM_DO	PROCEDURE	200	"    select nvl(max(patient_no), 0)
+"
+PRO_ITEM_DO	PROCEDURE	201	"      into ll_patient_no
+"
+PRO_ITEM_DO	PROCEDURE	202	"      from zy_patient_information
+"
+PRO_ITEM_DO	PROCEDURE	203	"     where js_no = 0
+"
+PRO_ITEM_DO	PROCEDURE	204	"       and bah = v_str4;
+"
+PRO_ITEM_DO	PROCEDURE	205	"    if ll_patient_no > 0 then
+"
+PRO_ITEM_DO	PROCEDURE	206	"      select v_str5 || '(' || v_str2 || ')' || v_czgh_xm || '操作,' ||
+"
+PRO_ITEM_DO	PROCEDURE	207	"             to_char(sysdate, 'yyyy-mm-dd hh24:mi:ss')
+"
+PRO_ITEM_DO	PROCEDURE	208	"        into v_str5
+"
+PRO_ITEM_DO	PROCEDURE	209	"        from dual;
+"
+PRO_ITEM_DO	PROCEDURE	210	"    
+"
+PRO_ITEM_DO	PROCEDURE	211	"      insert into temp_lock
+"
+PRO_ITEM_DO	PROCEDURE	212	"        (patient_no, bah, jzkh, name, jz_date, bz, zgid, jiaoyilx)
+"
+PRO_ITEM_DO	PROCEDURE	213	"        select patient_no,
+"
+PRO_ITEM_DO	PROCEDURE	214	"               bah,
+"
+PRO_ITEM_DO	PROCEDURE	215	"               jzkh,
+"
+PRO_ITEM_DO	PROCEDURE	216	"               name,
+"
+PRO_ITEM_DO	PROCEDURE	217	"               sysdate,
+"
+PRO_ITEM_DO	PROCEDURE	218	"               v_str5,
+"
+PRO_ITEM_DO	PROCEDURE	219	"               v_zgid,
+"
+PRO_ITEM_DO	PROCEDURE	220	"               '住院病人费用锁定'
+"
+PRO_ITEM_DO	PROCEDURE	221	"          from zy_patient_information
+"
+PRO_ITEM_DO	PROCEDURE	222	"         where patient_no = ll_patient_no;
+"
+PRO_ITEM_DO	PROCEDURE	223	"    
+"
+PRO_ITEM_DO	PROCEDURE	224	"      if sqlcode = 0 then
+"
+PRO_ITEM_DO	PROCEDURE	225	"        commit;
+"
+PRO_ITEM_DO	PROCEDURE	226	"        -- select v_str4 || ' 锁定状态成功 ' into out_msg from dual;
+"
+PRO_ITEM_DO	PROCEDURE	227	"      
+"
+PRO_ITEM_DO	PROCEDURE	228	"        select bah || name || ' 锁定状态成功 '
+"
+PRO_ITEM_DO	PROCEDURE	229	"          into out_msg
+"
+PRO_ITEM_DO	PROCEDURE	230	"          from zy_patient_information
+"
+PRO_ITEM_DO	PROCEDURE	231	"         where patient_no = ll_patient_no;
+"
+PRO_ITEM_DO	PROCEDURE	232	"      
+"
+PRO_ITEM_DO	PROCEDURE	233	"      else
+"
+PRO_ITEM_DO	PROCEDURE	234	"        rollback;
+"
+PRO_ITEM_DO	PROCEDURE	235	"        select ' 锁定操作失败! ' into out_msg from dual;
+"
+PRO_ITEM_DO	PROCEDURE	236	"      end if;
+"
+PRO_ITEM_DO	PROCEDURE	237	"    
+"
+PRO_ITEM_DO	PROCEDURE	238	"    else
+"
+PRO_ITEM_DO	PROCEDURE	239	"      select v_str4 || ' 该住院号不存在，或者已经结算 '
+"
+PRO_ITEM_DO	PROCEDURE	240	"        into out_msg
+"
+PRO_ITEM_DO	PROCEDURE	241	"        from dual;
+"
+PRO_ITEM_DO	PROCEDURE	242	"      return;
+"
+PRO_ITEM_DO	PROCEDURE	243	"    end if;
+"
+PRO_ITEM_DO	PROCEDURE	244	"  
+"
+PRO_ITEM_DO	PROCEDURE	245	"    return;
+"
+PRO_ITEM_DO	PROCEDURE	246	"  end if;
+"
+PRO_ITEM_DO	PROCEDURE	247	"  --'住院病人费用锁定 end 
+"
+PRO_ITEM_DO	PROCEDURE	248	"
+"
+PRO_ITEM_DO	PROCEDURE	249	"  --'住院病人费用解锁    begin 
+"
+PRO_ITEM_DO	PROCEDURE	250	"  if in_item = '住院病人费用解锁' then
+"
+PRO_ITEM_DO	PROCEDURE	251	"  
+"
+PRO_ITEM_DO	PROCEDURE	252	"    select nvl(max(patient_no), 0)
+"
+PRO_ITEM_DO	PROCEDURE	253	"      into ll_patient_no
+"
+PRO_ITEM_DO	PROCEDURE	254	"      from zy_patient_information
+"
+PRO_ITEM_DO	PROCEDURE	255	"     where js_no = 0
+"
+PRO_ITEM_DO	PROCEDURE	256	"       and bah = v_str4;
+"
+PRO_ITEM_DO	PROCEDURE	257	"    if ll_patient_no > 0 then
+"
+PRO_ITEM_DO	PROCEDURE	258	"    
+"
+PRO_ITEM_DO	PROCEDURE	259	"      select count(*)
+"
+PRO_ITEM_DO	PROCEDURE	260	"        into ll_count
+"
+PRO_ITEM_DO	PROCEDURE	261	"        from temp_lock
+"
+PRO_ITEM_DO	PROCEDURE	262	"       where patient_no > 0
+"
+PRO_ITEM_DO	PROCEDURE	263	"         and patient_no = ll_patient_no
+"
+PRO_ITEM_DO	PROCEDURE	264	"         and zgid = v_zgid
+"
+PRO_ITEM_DO	PROCEDURE	265	"         and jiaoyilx = '住院病人费用锁定';
+"
+PRO_ITEM_DO	PROCEDURE	266	"      if ll_count > 0 then
+"
+PRO_ITEM_DO	PROCEDURE	267	"        update temp_lock
+"
+PRO_ITEM_DO	PROCEDURE	268	"           set patient_no = patient_no * (-1)
+"
+PRO_ITEM_DO	PROCEDURE	269	"         where patient_no > 0
+"
+PRO_ITEM_DO	PROCEDURE	270	"           and patient_no = ll_patient_no
+"
+PRO_ITEM_DO	PROCEDURE	271	"           and zgid = v_zgid
+"
+PRO_ITEM_DO	PROCEDURE	272	"           and jiaoyilx = '住院病人费用锁定';
+"
+PRO_ITEM_DO	PROCEDURE	273	"      
+"
+PRO_ITEM_DO	PROCEDURE	274	"        if sqlcode = 0 then
+"
+PRO_ITEM_DO	PROCEDURE	275	"          commit;
+"
+PRO_ITEM_DO	PROCEDURE	276	"        
+"
+PRO_ITEM_DO	PROCEDURE	277	"          select bah || name || ' 解锁状态成功 '
+"
+PRO_ITEM_DO	PROCEDURE	278	"            into out_msg
+"
+PRO_ITEM_DO	PROCEDURE	279	"            from zy_patient_information
+"
+PRO_ITEM_DO	PROCEDURE	280	"           where patient_no = ll_patient_no;
+"
+PRO_ITEM_DO	PROCEDURE	281	"        
+"
+PRO_ITEM_DO	PROCEDURE	282	"        else
+"
+PRO_ITEM_DO	PROCEDURE	283	"          rollback;
+"
+PRO_ITEM_DO	PROCEDURE	284	"          select ' 锁定操作失败! ' into out_msg from dual;
+"
+PRO_ITEM_DO	PROCEDURE	285	"        end if;
+"
+PRO_ITEM_DO	PROCEDURE	286	"      end if;
+"
+PRO_ITEM_DO	PROCEDURE	287	"    else
+"
+PRO_ITEM_DO	PROCEDURE	288	"      select v_str4 || ' 该住院号不存在，或者已经结算 '
+"
+PRO_ITEM_DO	PROCEDURE	289	"        into out_msg
+"
+PRO_ITEM_DO	PROCEDURE	290	"        from dual;
+"
+PRO_ITEM_DO	PROCEDURE	291	"      return;
+"
+PRO_ITEM_DO	PROCEDURE	292	"    end if;
+"
+PRO_ITEM_DO	PROCEDURE	293	"  
+"
+PRO_ITEM_DO	PROCEDURE	294	"    return;
+"
+PRO_ITEM_DO	PROCEDURE	295	"  end if;
+"
+PRO_ITEM_DO	PROCEDURE	296	"  --'住院病人费用解锁 end 
+"
+PRO_ITEM_DO	PROCEDURE	297	"
+"
+PRO_ITEM_DO	PROCEDURE	298	"  --'重复挂号处理   begin 
+"
+PRO_ITEM_DO	PROCEDURE	299	"  if in_item = '重复挂号处理' then
+"
+PRO_ITEM_DO	PROCEDURE	300	"  
+"
+PRO_ITEM_DO	PROCEDURE	301	"    select nvl(count(jlxh), 0)
+"
+PRO_ITEM_DO	PROCEDURE	302	"      into ll_count
+"
+PRO_ITEM_DO	PROCEDURE	303	"      From gh_ghk
+"
+PRO_ITEM_DO	PROCEDURE	304	"     where jzkh = v_str4
+"
+PRO_ITEM_DO	PROCEDURE	305	"       and ghrq > sysdate - 0.5
+"
+PRO_ITEM_DO	PROCEDURE	306	"       and nvl(thbz, 0) = 0
+"
+PRO_ITEM_DO	PROCEDURE	307	"       and nvl(zfpb, 0) = 0
+"
+PRO_ITEM_DO	PROCEDURE	308	"       and mzrq is not null
+"
+PRO_ITEM_DO	PROCEDURE	309	"       and jzbs = 1;
+"
+PRO_ITEM_DO	PROCEDURE	310	"  
+"
+PRO_ITEM_DO	PROCEDURE	311	"    if ll_count > 0 then
+"
+PRO_ITEM_DO	PROCEDURE	312	"      v_ts := '';
+"
+PRO_ITEM_DO	PROCEDURE	313	"      select max((ksdm || ',' || nvl(ysgh, '0')))
+"
+PRO_ITEM_DO	PROCEDURE	314	"        into v_ts
+"
+PRO_ITEM_DO	PROCEDURE	315	"        From gh_ghk
+"
+PRO_ITEM_DO	PROCEDURE	316	"       where jzkh = v_str4
+"
+PRO_ITEM_DO	PROCEDURE	317	"         and ghrq > sysdate - 0.5
+"
+PRO_ITEM_DO	PROCEDURE	318	"         and nvl(thbz, 0) = 0
+"
+PRO_ITEM_DO	PROCEDURE	319	"         and nvl(zfpb, 0) = 0
+"
+PRO_ITEM_DO	PROCEDURE	320	"         and mzrq is not null
+"
+PRO_ITEM_DO	PROCEDURE	321	"         and jzbs = 1
+"
+PRO_ITEM_DO	PROCEDURE	322	"       group by ksdm || ',' || nvl(ysgh, '0')
+"
+PRO_ITEM_DO	PROCEDURE	323	"      having count(*) > 1;
+"
+PRO_ITEM_DO	PROCEDURE	324	"    
+"
+PRO_ITEM_DO	PROCEDURE	325	"      if length(v_ts) > 1 then
+"
+PRO_ITEM_DO	PROCEDURE	326	"        ll_jlxh_a := 0;
+"
+PRO_ITEM_DO	PROCEDURE	327	"        select max(jlxh)
+"
+PRO_ITEM_DO	PROCEDURE	328	"          into ll_jlxh_a
+"
+PRO_ITEM_DO	PROCEDURE	329	"          From gh_ghk
+"
+PRO_ITEM_DO	PROCEDURE	330	"         where jzkh = v_str4
+"
+PRO_ITEM_DO	PROCEDURE	331	"           and ghrq > sysdate - 0.5
+"
+PRO_ITEM_DO	PROCEDURE	332	"           and nvl(thbz, 0) = 0
+"
+PRO_ITEM_DO	PROCEDURE	333	"           and nvl(zfpb, 0) = 0
+"
+PRO_ITEM_DO	PROCEDURE	334	"           and mzrq is not null
+"
+PRO_ITEM_DO	PROCEDURE	335	"           and jzbs = 1
+"
+PRO_ITEM_DO	PROCEDURE	336	"           and ksdm || ',' || nvl(ysgh, '0') = v_ts;
+"
+PRO_ITEM_DO	PROCEDURE	337	"      
+"
+PRO_ITEM_DO	PROCEDURE	338	"        if ll_jlxh_a > 0 then
+"
+PRO_ITEM_DO	PROCEDURE	339	"          update gh_ghk set mzrq = null, jzbs = 0 where jlxh = ll_jlxh_a;
+"
+PRO_ITEM_DO	PROCEDURE	340	"        
+"
+PRO_ITEM_DO	PROCEDURE	341	"          if sqlcode = 0 then
+"
+PRO_ITEM_DO	PROCEDURE	342	"            commit;
+"
+PRO_ITEM_DO	PROCEDURE	343	"          
+"
+PRO_ITEM_DO	PROCEDURE	344	"            select v_str4 || ' 重复挂号处理成功 ' into out_msg from dual;
+"
+PRO_ITEM_DO	PROCEDURE	345	"          
+"
+PRO_ITEM_DO	PROCEDURE	346	"          else
+"
+PRO_ITEM_DO	PROCEDURE	347	"            rollback;
+"
+PRO_ITEM_DO	PROCEDURE	348	"            select v_str4 || ' 重复挂号 操作失败 ' into out_msg from dual;
+"
+PRO_ITEM_DO	PROCEDURE	349	"          
+"
+PRO_ITEM_DO	PROCEDURE	350	"          end if;
+"
+PRO_ITEM_DO	PROCEDURE	351	"        end if;
+"
+PRO_ITEM_DO	PROCEDURE	352	"      
+"
+PRO_ITEM_DO	PROCEDURE	353	"      end if;
+"
+PRO_ITEM_DO	PROCEDURE	354	"    else
+"
+PRO_ITEM_DO	PROCEDURE	355	"      return;
+"
+PRO_ITEM_DO	PROCEDURE	356	"    end if;
+"
+PRO_ITEM_DO	PROCEDURE	357	"  
+"
+PRO_ITEM_DO	PROCEDURE	358	"    return;
+"
+PRO_ITEM_DO	PROCEDURE	359	"  end if;
+"
+PRO_ITEM_DO	PROCEDURE	360	"  --'重复挂号处理 end 
+"
+PRO_ITEM_DO	PROCEDURE	361	"
+"
+PRO_ITEM_DO	PROCEDURE	362	"  --'查询处方的药房   begin 
+"
+PRO_ITEM_DO	PROCEDURE	363	"  if in_item = '查询处方的药房' then
+"
+PRO_ITEM_DO	PROCEDURE	364	"    -- //sfsb,qtsfje
+"
+PRO_ITEM_DO	PROCEDURE	365	"    v_str2 := '0';
+"
+PRO_ITEM_DO	PROCEDURE	366	"    if v_str1 is null or v_str1 = '' then
+"
+PRO_ITEM_DO	PROCEDURE	367	"      out_msg := '卡号不能为空';
+"
+PRO_ITEM_DO	PROCEDURE	368	"      return;
+"
+PRO_ITEM_DO	PROCEDURE	369	"    end if;
+"
+PRO_ITEM_DO	PROCEDURE	370	"    if length(v_str1) > 1 then
+"
+PRO_ITEM_DO	PROCEDURE	371	"    
+"
+PRO_ITEM_DO	PROCEDURE	372	"      select wm_concat(nvl(jzkh, '') || '  ' || nvl(brxm, '') || ' , 处方日期' ||
+"
+PRO_ITEM_DO	PROCEDURE	373	"                       nvl(to_char(cfrq, 'yyyy-mm-dd hh24:mi'), '') ||
+"
+PRO_ITEM_DO	PROCEDURE	374	"                       ' ,状态' ||
+"
+PRO_ITEM_DO	PROCEDURE	375	"                       decode(fypb, 0, '未发药', 1, '已发药', fypb) ||
+"
+PRO_ITEM_DO	PROCEDURE	376	"                       decode(nvl(cflx, 0),
+"
+PRO_ITEM_DO	PROCEDURE	377	"                              1,
+"
+PRO_ITEM_DO	PROCEDURE	378	"                              ' 西药',
+"
+PRO_ITEM_DO	PROCEDURE	379	"                              2,
+"
+PRO_ITEM_DO	PROCEDURE	380	"                              ' 成药',
+"
+PRO_ITEM_DO	PROCEDURE	381	"                              4,
+"
+PRO_ITEM_DO	PROCEDURE	382	"                              ' 草药',
+"
+PRO_ITEM_DO	PROCEDURE	383	"                              cflx) || '  ,' ||
+"
+PRO_ITEM_DO	PROCEDURE	384	"                       decode(nvl(t.fybh, 0),
+"
+PRO_ITEM_DO	PROCEDURE	385	"                              5,
+"
+PRO_ITEM_DO	PROCEDURE	386	"                              '急诊楼药房',
+"
+PRO_ITEM_DO	PROCEDURE	387	"                              6,
+"
+PRO_ITEM_DO	PROCEDURE	388	"                              '佛堂应急药房',
+"
+PRO_ITEM_DO	PROCEDURE	389	"                              7,
+"
+PRO_ITEM_DO	PROCEDURE	390	"                              '发热药房' ，3,
+"
+PRO_ITEM_DO	PROCEDURE	391	"                              '结核药房',
+"
+PRO_ITEM_DO	PROCEDURE	392	"                              4,
+"
+PRO_ITEM_DO	PROCEDURE	393	"                              '绣湖分院',
+"
+PRO_ITEM_DO	PROCEDURE	394	"                              0,
+"
+PRO_ITEM_DO	PROCEDURE	395	"                              '门诊西药房',
+"
+PRO_ITEM_DO	PROCEDURE	396	"                              fybh) || ' ,医生工号 ' || nvl(ysgh, '') ||
+"
+PRO_ITEM_DO	PROCEDURE	397	"                       ' , 收费标志' || nvl(nvl(sfsb, brxh), '') || '  ' ||
+"
+PRO_ITEM_DO	PROCEDURE	398	"                       ' ,cfsb ' || cfsb || chr(13) || chr(10))
+"
+PRO_ITEM_DO	PROCEDURE	399	"        into v_data
+"
+PRO_ITEM_DO	PROCEDURE	400	"        From mz_cfk1 t
+"
+PRO_ITEM_DO	PROCEDURE	401	"       where cfrq >= trunc(sysdate - 1)
+"
+PRO_ITEM_DO	PROCEDURE	402	"         and jzkh = v_str1;
+"
+PRO_ITEM_DO	PROCEDURE	403	"    else
+"
+PRO_ITEM_DO	PROCEDURE	404	"      out_msg := '请输入卡号';
+"
+PRO_ITEM_DO	PROCEDURE	405	"      return;
+"
+PRO_ITEM_DO	PROCEDURE	406	"    end if;
+"
+PRO_ITEM_DO	PROCEDURE	407	"    if v_data > '0' then
+"
+PRO_ITEM_DO	PROCEDURE	408	"      out_msg := v_data;
+"
+PRO_ITEM_DO	PROCEDURE	409	"    else
+"
+PRO_ITEM_DO	PROCEDURE	410	"      out_msg := '未查询到最近2天的处方记录';
+"
+PRO_ITEM_DO	PROCEDURE	411	"    end if;
+"
+PRO_ITEM_DO	PROCEDURE	412	"    return;
+"
+PRO_ITEM_DO	PROCEDURE	413	"  end if;
+"
+PRO_ITEM_DO	PROCEDURE	414	"  --'查询处方的药房  end  
+"
+PRO_ITEM_DO	PROCEDURE	415	"
+"
+PRO_ITEM_DO	PROCEDURE	416	"  --'出院结算问题处理   begin 
+"
+PRO_ITEM_DO	PROCEDURE	417	"  if in_item = '出院结算问题处理' then
+"
+PRO_ITEM_DO	PROCEDURE	418	"    -- //sfsb,qtsfje
+"
+PRO_ITEM_DO	PROCEDURE	419	"    v_str2 := '0';
+"
+PRO_ITEM_DO	PROCEDURE	420	"    if v_str1 is null or v_str1 = '' then
+"
+PRO_ITEM_DO	PROCEDURE	421	"      out_msg := '住院号不能为空';
+"
+PRO_ITEM_DO	PROCEDURE	422	"      return;
+"
+PRO_ITEM_DO	PROCEDURE	423	"    end if;
+"
+PRO_ITEM_DO	PROCEDURE	424	"    if length(v_str1) > 1 then
+"
+PRO_ITEM_DO	PROCEDURE	425	"      null;
+"
+PRO_ITEM_DO	PROCEDURE	426	"    else
+"
+PRO_ITEM_DO	PROCEDURE	427	"      out_msg := '请输入 住院号';
+"
+PRO_ITEM_DO	PROCEDURE	428	"      return;
+"
+PRO_ITEM_DO	PROCEDURE	429	"    end if;
+"
+PRO_ITEM_DO	PROCEDURE	430	"    -- dj<0
+"
+PRO_ITEM_DO	PROCEDURE	431	"    select min(patient_no)
+"
+PRO_ITEM_DO	PROCEDURE	432	"      into ll_patient_no
+"
+PRO_ITEM_DO	PROCEDURE	433	"      From zy_patient_information
+"
+PRO_ITEM_DO	PROCEDURE	434	"     where js_no = 0
+"
+PRO_ITEM_DO	PROCEDURE	435	"       and bah = v_str1;
+"
+PRO_ITEM_DO	PROCEDURE	436	"  
+"
+PRO_ITEM_DO	PROCEDURE	437	"    if ll_patient_no > 0 then
+"
+PRO_ITEM_DO	PROCEDURE	438	"      null;
+"
+PRO_ITEM_DO	PROCEDURE	439	"    else
+"
+PRO_ITEM_DO	PROCEDURE	440	"      out_msg := '未查询到未结算的记录';
+"
+PRO_ITEM_DO	PROCEDURE	441	"      return;
+"
+PRO_ITEM_DO	PROCEDURE	442	"    end if;
+"
+PRO_ITEM_DO	PROCEDURE	443	"  
+"
+PRO_ITEM_DO	PROCEDURE	444	"    v_data := '';
+"
+PRO_ITEM_DO	PROCEDURE	445	"    --单价小于0
+"
+PRO_ITEM_DO	PROCEDURE	446	"    if 1 = 1 then
+"
+PRO_ITEM_DO	PROCEDURE	447	"    
+"
+PRO_ITEM_DO	PROCEDURE	448	"      select count(*)
+"
+PRO_ITEM_DO	PROCEDURE	449	"        into ll_count
+"
+PRO_ITEM_DO	PROCEDURE	450	"        from zy_detail_charge
+"
+PRO_ITEM_DO	PROCEDURE	451	"       where dj < 0
+"
+PRO_ITEM_DO	PROCEDURE	452	"         and js_No = 0
+"
+PRO_ITEM_DO	PROCEDURE	453	"         and patient_No = ll_patient_no;
+"
+PRO_ITEM_DO	PROCEDURE	454	"      if ll_count > 0 then
+"
+PRO_ITEM_DO	PROCEDURE	455	"        update zy_detail_charge
+"
+PRO_ITEM_DO	PROCEDURE	456	"           set dj = dj * -1, sl = sl * -1
+"
+PRO_ITEM_DO	PROCEDURE	457	"         where dj < 0
+"
+PRO_ITEM_DO	PROCEDURE	458	"           and js_No = 0
+"
+PRO_ITEM_DO	PROCEDURE	459	"           and patient_No = ll_patient_no;
+"
+PRO_ITEM_DO	PROCEDURE	460	"        if sqlcode = 0 then
+"
+PRO_ITEM_DO	PROCEDURE	461	"          commit;
+"
+PRO_ITEM_DO	PROCEDURE	462	"          select v_data || ' ,单价小于0 ' into v_data from dual;
+"
+PRO_ITEM_DO	PROCEDURE	463	"        else
+"
+PRO_ITEM_DO	PROCEDURE	464	"          rollback;
+"
+PRO_ITEM_DO	PROCEDURE	465	"          select v_data || ' ,报错失败 单价小于0 ' into v_data from dual;
+"
+PRO_ITEM_DO	PROCEDURE	466	"        end if;
+"
+PRO_ITEM_DO	PROCEDURE	467	"      end if;
+"
+PRO_ITEM_DO	PROCEDURE	468	"    
+"
+PRO_ITEM_DO	PROCEDURE	469	"    end if;
+"
+PRO_ITEM_DO	PROCEDURE	470	"  
+"
+PRO_ITEM_DO	PROCEDURE	471	"    --ys_code 错误,不在gy_zgxx
+"
+PRO_ITEM_DO	PROCEDURE	472	"    if 1 = 1 then
+"
+PRO_ITEM_DO	PROCEDURE	473	"    
+"
+PRO_ITEM_DO	PROCEDURE	474	"      select count(*)
+"
+PRO_ITEM_DO	PROCEDURE	475	"        into ll_count
+"
+PRO_ITEM_DO	PROCEDURE	476	"        from zy_detail_charge
+"
+PRO_ITEM_DO	PROCEDURE	477	"       where (ys_code is null or ys_code not in (select zgid from gy_zgxx))
+"
+PRO_ITEM_DO	PROCEDURE	478	"         and js_No = 0
+"
+PRO_ITEM_DO	PROCEDURE	479	"         and patient_No = ll_patient_no;
+"
+PRO_ITEM_DO	PROCEDURE	480	"      if ll_count > 0 then
+"
+PRO_ITEM_DO	PROCEDURE	481	"        select zzys
+"
+PRO_ITEM_DO	PROCEDURE	482	"          into v_ts
+"
+PRO_ITEM_DO	PROCEDURE	483	"          from zy_patient_information
+"
+PRO_ITEM_DO	PROCEDURE	484	"         where patient_No = ll_patient_no;
+"
+PRO_ITEM_DO	PROCEDURE	485	"        update zy_detail_charge
+"
+PRO_ITEM_DO	PROCEDURE	486	"           set ys_code = v_ts
+"
+PRO_ITEM_DO	PROCEDURE	487	"         where (ys_code is null or
+"
+PRO_ITEM_DO	PROCEDURE	488	"               ys_code not in (select zgid from gy_zgxx))
+"
+PRO_ITEM_DO	PROCEDURE	489	"           and js_No = 0
+"
+PRO_ITEM_DO	PROCEDURE	490	"           and patient_No = ll_patient_no;
+"
+PRO_ITEM_DO	PROCEDURE	491	"        if sqlcode = 0 then
+"
+PRO_ITEM_DO	PROCEDURE	492	"          commit;
+"
+PRO_ITEM_DO	PROCEDURE	493	"          select v_data || ' ,ys_code 错误,不在gy_zgxx '
+"
+PRO_ITEM_DO	PROCEDURE	494	"            into v_data
+"
+PRO_ITEM_DO	PROCEDURE	495	"            from dual;
+"
+PRO_ITEM_DO	PROCEDURE	496	"        else
+"
+PRO_ITEM_DO	PROCEDURE	497	"          rollback;
+"
+PRO_ITEM_DO	PROCEDURE	498	"          select v_data || ' ,报错失败 ys_code 错误,不在gy_zgxx '
+"
+PRO_ITEM_DO	PROCEDURE	499	"            into v_data
+"
+PRO_ITEM_DO	PROCEDURE	500	"            from dual;
+"
+PRO_ITEM_DO	PROCEDURE	501	"        end if;
+"
+PRO_ITEM_DO	PROCEDURE	502	"      end if;
+"
+PRO_ITEM_DO	PROCEDURE	503	"    
+"
+PRO_ITEM_DO	PROCEDURE	504	"    end if;
+"
+PRO_ITEM_DO	PROCEDURE	505	"  
+"
+PRO_ITEM_DO	PROCEDURE	506	"    ---
+"
+PRO_ITEM_DO	PROCEDURE	507	"    select '处理完成,' || v_data into v_data from dual;
+"
+PRO_ITEM_DO	PROCEDURE	508	"    out_msg := v_data;
+"
+PRO_ITEM_DO	PROCEDURE	509	"    return;
+"
+PRO_ITEM_DO	PROCEDURE	510	"  end if;
+"
+PRO_ITEM_DO	PROCEDURE	511	"  --'出院结算问题处理  end  
+"
+PRO_ITEM_DO	PROCEDURE	512	"
+"
+PRO_ITEM_DO	PROCEDURE	513	"  if in_item = '调整手术执行判别' then
+"
+PRO_ITEM_DO	PROCEDURE	514	"    select instr(in_source, '正负') into ll_count from dual;
+"
+PRO_ITEM_DO	PROCEDURE	515	"    if ll_count > 0 then
+"
+PRO_ITEM_DO	PROCEDURE	516	"      in_item_temp  := '正负';
+"
+PRO_ITEM_DO	PROCEDURE	517	"      ll_patient_no := 0;
+"
+PRO_ITEM_DO	PROCEDURE	518	"      v_jzkh        := '';
+"
+PRO_ITEM_DO	PROCEDURE	519	"      select REGEXP_substr(in_source, '[0-9]+') into v_jzkh from dual;
+"
+PRO_ITEM_DO	PROCEDURE	520	"    
+"
+PRO_ITEM_DO	PROCEDURE	521	"      select nvl(max(patient_no), 0)
+"
+PRO_ITEM_DO	PROCEDURE	522	"        into ll_patient_no
+"
+PRO_ITEM_DO	PROCEDURE	523	"        from zy_patient_information
+"
+PRO_ITEM_DO	PROCEDURE	524	"       where js_no = 0
+"
+PRO_ITEM_DO	PROCEDURE	525	"         and bah = v_jzkh;
+"
+PRO_ITEM_DO	PROCEDURE	526	"      if ll_patient_no > 0 then
+"
+PRO_ITEM_DO	PROCEDURE	527	"        null;
+"
+PRO_ITEM_DO	PROCEDURE	528	"      else
+"
+PRO_ITEM_DO	PROCEDURE	529	"        out_msg := '未找到该住院号对应的未结算记录';
+"
+PRO_ITEM_DO	PROCEDURE	530	"        return;
+"
+PRO_ITEM_DO	PROCEDURE	531	"      end if;
+"
+PRO_ITEM_DO	PROCEDURE	532	"    end if;
+"
+PRO_ITEM_DO	PROCEDURE	533	"  
+"
+PRO_ITEM_DO	PROCEDURE	534	"  end if;
+"
+PRO_ITEM_DO	PROCEDURE	535	"
+"
+PRO_ITEM_DO	PROCEDURE	536	"  --门诊诊断医保对照 temp
+"
+PRO_ITEM_DO	PROCEDURE	537	"  --(select icd10_yb From  temp_icd10_yb_0229  where icd10_his='A04.301' and ronum=1 )
+"
+PRO_ITEM_DO	PROCEDURE	538	"  if 1 = 1 and in_item = '调整手术执行判别' and v_str1 = '诊断对照temp' then
+"
+PRO_ITEM_DO	PROCEDURE	539	"  
+"
+PRO_ITEM_DO	PROCEDURE	540	"    --v_bz       := '门诊诊断医保对照';
+"
+PRO_ITEM_DO	PROCEDURE	541	"    v_flag_len := 15;
+"
+PRO_ITEM_DO	PROCEDURE	542	"  
+"
+PRO_ITEM_DO	PROCEDURE	543	"    v_count := 0;
+"
+PRO_ITEM_DO	PROCEDURE	544	"  
+"
+PRO_ITEM_DO	PROCEDURE	545	"    select count(sl)
+"
+PRO_ITEM_DO	PROCEDURE	546	"      into v_count
+"
+PRO_ITEM_DO	PROCEDURE	547	"      from (select count(*) sl
+"
+PRO_ITEM_DO	PROCEDURE	548	"            
+"
+PRO_ITEM_DO	PROCEDURE	549	"              from (select distinct (a.code) code, b.icd10_yb
+"
+PRO_ITEM_DO	PROCEDURE	550	"                    
+"
+PRO_ITEM_DO	PROCEDURE	551	"                      from Gy_Jbdm a, temp_icd10_yb_0229 b
+"
+PRO_ITEM_DO	PROCEDURE	552	"                     where a.icd10 = b.icd10_his
+"
+PRO_ITEM_DO	PROCEDURE	553	"                       and a.icd10 is not null
+"
+PRO_ITEM_DO	PROCEDURE	554	"                       and code not in (select jibingxh
+"
+PRO_ITEM_DO	PROCEDURE	555	"                                          From yb_duizhaoml_jb0301
+"
+PRO_ITEM_DO	PROCEDURE	556	"                                         where yibaolx = '9997'))
+"
+PRO_ITEM_DO	PROCEDURE	557	"             group by code
+"
+PRO_ITEM_DO	PROCEDURE	558	"            having count(*) > 1);
+"
+PRO_ITEM_DO	PROCEDURE	559	"  
+"
+PRO_ITEM_DO	PROCEDURE	560	"    if v_count > 0 then
+"
+PRO_ITEM_DO	PROCEDURE	561	"      out_msg := '诊断匹配有重复,无法处理';
+"
+PRO_ITEM_DO	PROCEDURE	562	"      return;
+"
+PRO_ITEM_DO	PROCEDURE	563	"    end if;
+"
+PRO_ITEM_DO	PROCEDURE	564	"  
+"
+PRO_ITEM_DO	PROCEDURE	565	"    insert into yb_duizhaoml_jb0301
+"
+PRO_ITEM_DO	PROCEDURE	566	"      (yibaolx, jibingxh, yibaojbdm, shenpijg, qiyongrq, caozuogh)
+"
+PRO_ITEM_DO	PROCEDURE	567	"      select '9997',
+"
+PRO_ITEM_DO	PROCEDURE	568	"             z.code,
+"
+PRO_ITEM_DO	PROCEDURE	569	"             z.icd10_yb,
+"
+PRO_ITEM_DO	PROCEDURE	570	"             1,
+"
+PRO_ITEM_DO	PROCEDURE	571	"             to_char(sysdate, 'yyyymmdd'),
+"
+PRO_ITEM_DO	PROCEDURE	572	"             'DBA_t'
+"
+PRO_ITEM_DO	PROCEDURE	573	"        from (select distinct (a.code) code, b.icd10_yb
+"
+PRO_ITEM_DO	PROCEDURE	574	"              
+"
+PRO_ITEM_DO	PROCEDURE	575	"                from Gy_Jbdm a, temp_icd10_yb_0229 b
+"
+PRO_ITEM_DO	PROCEDURE	576	"               where a.icd10 = b.icd10_his
+"
+PRO_ITEM_DO	PROCEDURE	577	"                 and a.icd10 is not null
+"
+PRO_ITEM_DO	PROCEDURE	578	"                 and code not in (select jibingxh
+"
+PRO_ITEM_DO	PROCEDURE	579	"                                    From yb_duizhaoml_jb0301
+"
+PRO_ITEM_DO	PROCEDURE	580	"                                   where yibaolx = '9997')) z
+"
+PRO_ITEM_DO	PROCEDURE	581	"       where icd10_yb is not null;
+"
+PRO_ITEM_DO	PROCEDURE	582	"  
+"
+PRO_ITEM_DO	PROCEDURE	583	"    if sqlcode = 0 then
+"
+PRO_ITEM_DO	PROCEDURE	584	"      commit;
+"
+PRO_ITEM_DO	PROCEDURE	585	"      out_msg := '处理成功，诊断对照temp ';
+"
+PRO_ITEM_DO	PROCEDURE	586	"    else
+"
+PRO_ITEM_DO	PROCEDURE	587	"      rollback;
+"
+PRO_ITEM_DO	PROCEDURE	588	"    
+"
+PRO_ITEM_DO	PROCEDURE	589	"      out_msg := '处理失败，诊断对照temp 结束';
+"
+PRO_ITEM_DO	PROCEDURE	590	"    end if;
+"
+PRO_ITEM_DO	PROCEDURE	591	"  
+"
+PRO_ITEM_DO	PROCEDURE	592	"    return;
+"
+PRO_ITEM_DO	PROCEDURE	593	"  end if;
+"
+PRO_ITEM_DO	PROCEDURE	594	"  --门诊诊断医保对照 temp 
+"
+PRO_ITEM_DO	PROCEDURE	595	"
+"
+PRO_ITEM_DO	PROCEDURE	596	"  --门诊诊断医保对照 2 
+"
+PRO_ITEM_DO	PROCEDURE	597	"  if 1 = 1 and in_item = '调整手术执行判别' and v_str1 = '诊断对照add' then
+"
+PRO_ITEM_DO	PROCEDURE	598	"    --v_bz       := '门诊诊断医保对照';
+"
+PRO_ITEM_DO	PROCEDURE	599	"    v_flag_len := 15;
+"
+PRO_ITEM_DO	PROCEDURE	600	"  
+"
+PRO_ITEM_DO	PROCEDURE	601	"    loop
+"
+PRO_ITEM_DO	PROCEDURE	602	"      v_count := 0;
+"
+PRO_ITEM_DO	PROCEDURE	603	"    
+"
+PRO_ITEM_DO	PROCEDURE	604	"      select count(code)
+"
+PRO_ITEM_DO	PROCEDURE	605	"        into v_count
+"
+PRO_ITEM_DO	PROCEDURE	606	"        from gy_jbdm
+"
+PRO_ITEM_DO	PROCEDURE	607	"       where icd10 is not null
+"
+PRO_ITEM_DO	PROCEDURE	608	"         and code not in (select jibingxh
+"
+PRO_ITEM_DO	PROCEDURE	609	"                            From yb_duizhaoml_jb0301
+"
+PRO_ITEM_DO	PROCEDURE	610	"                           where yibaolx = '9997');
+"
+PRO_ITEM_DO	PROCEDURE	611	"    
+"
+PRO_ITEM_DO	PROCEDURE	612	"      if v_count > 0 then
+"
+PRO_ITEM_DO	PROCEDURE	613	"      
+"
+PRO_ITEM_DO	PROCEDURE	614	"        insert into yb_duizhaoml_jb0301
+"
+PRO_ITEM_DO	PROCEDURE	615	"          (yibaolx, jibingxh, yibaojbdm, shenpijg, qiyongrq, caozuogh)
+"
+PRO_ITEM_DO	PROCEDURE	616	"          select '9997',
+"
+PRO_ITEM_DO	PROCEDURE	617	"                 code,
+"
+PRO_ITEM_DO	PROCEDURE	618	"                 (select jbdm
+"
+PRO_ITEM_DO	PROCEDURE	619	"                    From yb_jbml_9997_20200221
+"
+PRO_ITEM_DO	PROCEDURE	620	"                   where yblx = '9997'
+"
+PRO_ITEM_DO	PROCEDURE	621	"                     and substr(icd10, 1, v_flag_len) =
+"
+PRO_ITEM_DO	PROCEDURE	622	"                         substr(x.icd10, 1, v_flag_len)
+"
+PRO_ITEM_DO	PROCEDURE	623	"                     and rownum = 1),
+"
+PRO_ITEM_DO	PROCEDURE	624	"                 1,
+"
+PRO_ITEM_DO	PROCEDURE	625	"                 to_char(sysdate, 'yyyymmdd'),
+"
+PRO_ITEM_DO	PROCEDURE	626	"                 'DBA_add'
+"
+PRO_ITEM_DO	PROCEDURE	627	"            from gy_jbdm x
+"
+PRO_ITEM_DO	PROCEDURE	628	"           where icd10 is not null
+"
+PRO_ITEM_DO	PROCEDURE	629	"             and code not in (select jibingxh
+"
+PRO_ITEM_DO	PROCEDURE	630	"                                From yb_duizhaoml_jb0301
+"
+PRO_ITEM_DO	PROCEDURE	631	"                               where yibaolx = '9997')
+"
+PRO_ITEM_DO	PROCEDURE	632	"             and substr(icd10, 1, v_flag_len) in
+"
+PRO_ITEM_DO	PROCEDURE	633	"                 ((select substr(icd10, 1, v_flag_len)
+"
+PRO_ITEM_DO	PROCEDURE	634	"                     From yb_jbml_9997_20200221
+"
+PRO_ITEM_DO	PROCEDURE	635	"                    where yblx = '9997'
+"
+PRO_ITEM_DO	PROCEDURE	636	"                      and substr(icd10, 1, v_flag_len) =
+"
+PRO_ITEM_DO	PROCEDURE	637	"                          substr(x.icd10, 1, v_flag_len)));
+"
+PRO_ITEM_DO	PROCEDURE	638	"      
+"
+PRO_ITEM_DO	PROCEDURE	639	"        if sqlcode = 0 then
+"
+PRO_ITEM_DO	PROCEDURE	640	"          commit;
+"
+PRO_ITEM_DO	PROCEDURE	641	"        else
+"
+PRO_ITEM_DO	PROCEDURE	642	"          rollback;
+"
+PRO_ITEM_DO	PROCEDURE	643	"          exit;
+"
+PRO_ITEM_DO	PROCEDURE	644	"        end if;
+"
+PRO_ITEM_DO	PROCEDURE	645	"      
+"
+PRO_ITEM_DO	PROCEDURE	646	"      end if;
+"
+PRO_ITEM_DO	PROCEDURE	647	"    
+"
+PRO_ITEM_DO	PROCEDURE	648	"      --判断是否要退出循环
+"
+PRO_ITEM_DO	PROCEDURE	649	"      v_flag_len := v_flag_len - 1;
+"
+PRO_ITEM_DO	PROCEDURE	650	"      exit when v_flag_len < 3;
+"
+PRO_ITEM_DO	PROCEDURE	651	"    
+"
+PRO_ITEM_DO	PROCEDURE	652	"    end loop;
+"
+PRO_ITEM_DO	PROCEDURE	653	"    out_msg := '诊断对照 结束';
+"
+PRO_ITEM_DO	PROCEDURE	654	"    return;
+"
+PRO_ITEM_DO	PROCEDURE	655	"  end if;
+"
+PRO_ITEM_DO	PROCEDURE	656	"  --门诊诊断医保对照 end 
+"
+PRO_ITEM_DO	PROCEDURE	657	"
+"
+PRO_ITEM_DO	PROCEDURE	658	"  --正负记录调整
+"
+PRO_ITEM_DO	PROCEDURE	659	"  if in_item_temp = '正负' and ll_patient_no > 0 and 1 = 1 then
+"
+PRO_ITEM_DO	PROCEDURE	660	"  
+"
+PRO_ITEM_DO	PROCEDURE	661	"    ll_jlxh_a  := 0;
+"
+PRO_ITEM_DO	PROCEDURE	662	"    ll_jlxh_b  := 0;
+"
+PRO_ITEM_DO	PROCEDURE	663	"    v_sl_count := 0;
+"
+PRO_ITEM_DO	PROCEDURE	664	"    loop
+"
+PRO_ITEM_DO	PROCEDURE	665	"      v_sl_count := v_sl_count + 1;
+"
+PRO_ITEM_DO	PROCEDURE	666	"      if v_sl_count > 500 then
+"
+PRO_ITEM_DO	PROCEDURE	667	"        exit;
+"
+PRO_ITEM_DO	PROCEDURE	668	"      end if;
+"
+PRO_ITEM_DO	PROCEDURE	669	"    
+"
+PRO_ITEM_DO	PROCEDURE	670	"      select count(jlxh)
+"
+PRO_ITEM_DO	PROCEDURE	671	"        into ll_count
+"
+PRO_ITEM_DO	PROCEDURE	672	"        from zy_detail_charge
+"
+PRO_ITEM_DO	PROCEDURE	673	"       where fygl > 3
+"
+PRO_ITEM_DO	PROCEDURE	674	"         and sl < 0
+"
+PRO_ITEM_DO	PROCEDURE	675	"         and jlxh > ll_jlxh_a
+"
+PRO_ITEM_DO	PROCEDURE	676	"         and js_no = 0
+"
+PRO_ITEM_DO	PROCEDURE	677	"         and infant_flag = 0
+"
+PRO_ITEM_DO	PROCEDURE	678	"         and patient_no = ll_patient_no;
+"
+PRO_ITEM_DO	PROCEDURE	679	"      if ll_count > 0 then
+"
+PRO_ITEM_DO	PROCEDURE	680	"        null;
+"
+PRO_ITEM_DO	PROCEDURE	681	"      else
+"
+PRO_ITEM_DO	PROCEDURE	682	"        exit;
+"
+PRO_ITEM_DO	PROCEDURE	683	"      end if;
+"
+PRO_ITEM_DO	PROCEDURE	684	"    
+"
+PRO_ITEM_DO	PROCEDURE	685	"      select min(jlxh)
+"
+PRO_ITEM_DO	PROCEDURE	686	"        into ll_jlxh_a
+"
+PRO_ITEM_DO	PROCEDURE	687	"        from zy_detail_charge
+"
+PRO_ITEM_DO	PROCEDURE	688	"       where fygl > 3
+"
+PRO_ITEM_DO	PROCEDURE	689	"         and sl < 0
+"
+PRO_ITEM_DO	PROCEDURE	690	"         and jlxh > ll_jlxh_a
+"
+PRO_ITEM_DO	PROCEDURE	691	"         and js_no = 0
+"
+PRO_ITEM_DO	PROCEDURE	692	"         and infant_flag = 0
+"
+PRO_ITEM_DO	PROCEDURE	693	"         and patient_no = ll_patient_no;
+"
+PRO_ITEM_DO	PROCEDURE	694	"    
+"
+PRO_ITEM_DO	PROCEDURE	695	"      select to_char(charge_DATE, 'yyyymmdd'), CHARGE_code, sl, dj
+"
+PRO_ITEM_DO	PROCEDURE	696	"        into ls_charge_date, ll_charge_code, ll_sl, ll_dj
+"
+PRO_ITEM_DO	PROCEDURE	697	"        from zy_detail_charge
+"
+PRO_ITEM_DO	PROCEDURE	698	"       where patient_no = ll_patient_no
+"
+PRO_ITEM_DO	PROCEDURE	699	"         and js_no = 0
+"
+PRO_ITEM_DO	PROCEDURE	700	"         and infant_flag = 0
+"
+PRO_ITEM_DO	PROCEDURE	701	"         and jlxh = ll_jlxh_a;
+"
+PRO_ITEM_DO	PROCEDURE	702	"    
+"
+PRO_ITEM_DO	PROCEDURE	703	"      select count(jlxh)
+"
+PRO_ITEM_DO	PROCEDURE	704	"        into ll_count
+"
+PRO_ITEM_DO	PROCEDURE	705	"        from zy_detail_charge
+"
+PRO_ITEM_DO	PROCEDURE	706	"       where to_char(charge_date, 'yyyymmdd') = ls_charge_date
+"
+PRO_ITEM_DO	PROCEDURE	707	"         and sl = ll_sl * -1
+"
+PRO_ITEM_DO	PROCEDURE	708	"         and dj = ll_dj
+"
+PRO_ITEM_DO	PROCEDURE	709	"         and charge_code = ll_charge_code
+"
+PRO_ITEM_DO	PROCEDURE	710	"         and js_no = 0
+"
+PRO_ITEM_DO	PROCEDURE	711	"         and infant_flag = 0
+"
+PRO_ITEM_DO	PROCEDURE	712	"         and patient_no = ll_patient_no;
+"
+PRO_ITEM_DO	PROCEDURE	713	"    
+"
+PRO_ITEM_DO	PROCEDURE	714	"      if ll_count > 0 then
+"
+PRO_ITEM_DO	PROCEDURE	715	"        null;
+"
+PRO_ITEM_DO	PROCEDURE	716	"      else
+"
+PRO_ITEM_DO	PROCEDURE	717	"        continue;
+"
+PRO_ITEM_DO	PROCEDURE	718	"      end if;
+"
+PRO_ITEM_DO	PROCEDURE	719	"    
+"
+PRO_ITEM_DO	PROCEDURE	720	"      select min(jlxh)
+"
+PRO_ITEM_DO	PROCEDURE	721	"        into ll_jlxh_b
+"
+PRO_ITEM_DO	PROCEDURE	722	"        from zy_detail_charge
+"
+PRO_ITEM_DO	PROCEDURE	723	"       where to_char(charge_date, 'yyyymmdd') = ls_charge_date
+"
+PRO_ITEM_DO	PROCEDURE	724	"         and sl = ll_sl * -1
+"
+PRO_ITEM_DO	PROCEDURE	725	"         and dj = ll_dj
+"
+PRO_ITEM_DO	PROCEDURE	726	"         and charge_code = ll_charge_code
+"
+PRO_ITEM_DO	PROCEDURE	727	"         and js_no = 0
+"
+PRO_ITEM_DO	PROCEDURE	728	"         and infant_flag = 0
+"
+PRO_ITEM_DO	PROCEDURE	729	"         and patient_no = ll_patient_no;
+"
+PRO_ITEM_DO	PROCEDURE	730	"    
+"
+PRO_ITEM_DO	PROCEDURE	731	"      select count(jlxh)
+"
+PRO_ITEM_DO	PROCEDURE	732	"        into ll_count
+"
+PRO_ITEM_DO	PROCEDURE	733	"        from zy_detail_charge
+"
+PRO_ITEM_DO	PROCEDURE	734	"       where jlxh in (ll_jlxh_a, ll_jlxh_b)
+"
+PRO_ITEM_DO	PROCEDURE	735	"         and js_no = 0
+"
+PRO_ITEM_DO	PROCEDURE	736	"         and infant_flag = 0
+"
+PRO_ITEM_DO	PROCEDURE	737	"         and patient_no = ll_patient_no;
+"
+PRO_ITEM_DO	PROCEDURE	738	"    
+"
+PRO_ITEM_DO	PROCEDURE	739	"      if ll_count = 2 then
+"
+PRO_ITEM_DO	PROCEDURE	740	"        null;
+"
+PRO_ITEM_DO	PROCEDURE	741	"      else
+"
+PRO_ITEM_DO	PROCEDURE	742	"        continue;
+"
+PRO_ITEM_DO	PROCEDURE	743	"      end if;
+"
+PRO_ITEM_DO	PROCEDURE	744	"    
+"
+PRO_ITEM_DO	PROCEDURE	745	"      update zy_detail_charge
+"
+PRO_ITEM_DO	PROCEDURE	746	"         set patient_No = patient_No * -1
+"
+PRO_ITEM_DO	PROCEDURE	747	"       where jlxh in (ll_jlxh_a, ll_jlxh_b)
+"
+PRO_ITEM_DO	PROCEDURE	748	"         and js_no = 0
+"
+PRO_ITEM_DO	PROCEDURE	749	"         and infant_flag = 0
+"
+PRO_ITEM_DO	PROCEDURE	750	"         and patient_no = ll_patient_no;
+"
+PRO_ITEM_DO	PROCEDURE	751	"    
+"
+PRO_ITEM_DO	PROCEDURE	752	"      if sqlcode = 0 then
+"
+PRO_ITEM_DO	PROCEDURE	753	"        commit;
+"
+PRO_ITEM_DO	PROCEDURE	754	"      else
+"
+PRO_ITEM_DO	PROCEDURE	755	"        rollback;
+"
+PRO_ITEM_DO	PROCEDURE	756	"      end if;
+"
+PRO_ITEM_DO	PROCEDURE	757	"    
+"
+PRO_ITEM_DO	PROCEDURE	758	"    end loop;
+"
+PRO_ITEM_DO	PROCEDURE	759	"  
+"
+PRO_ITEM_DO	PROCEDURE	760	"    select '住院号' || v_jzkh || '正负调整 结束' into out_msg from dual;
+"
+PRO_ITEM_DO	PROCEDURE	761	"    return;
+"
+PRO_ITEM_DO	PROCEDURE	762	"  end if;
+"
+PRO_ITEM_DO	PROCEDURE	763	"
+"
+PRO_ITEM_DO	PROCEDURE	764	"  --正负记录调整 end 
+"
+PRO_ITEM_DO	PROCEDURE	765	"
+"
+PRO_ITEM_DO	PROCEDURE	766	"  --无法收费_医生正在修改处方 begin 
+"
+PRO_ITEM_DO	PROCEDURE	767	"  if in_item = '无法收费_医生正在修改处方' then
+"
+PRO_ITEM_DO	PROCEDURE	768	"    -- //sfsb,qtsfje
+"
+PRO_ITEM_DO	PROCEDURE	769	"  
+"
+PRO_ITEM_DO	PROCEDURE	770	"    /*    delete yj_Yjk2
+"
+PRO_ITEM_DO	PROCEDURE	771	"     where fygb in (13, 14)
+"
+PRO_ITEM_DO	PROCEDURE	772	"       and yjsb in (select YJSB
+"
+PRO_ITEM_DO	PROCEDURE	773	"                      from yj_Yjk1
+"
+PRO_ITEM_DO	PROCEDURE	774	"                     where sfsb is null
+"
+PRO_ITEM_DO	PROCEDURE	775	"                       and kdsj > sysdate - 3
+"
+PRO_ITEM_DO	PROCEDURE	776	"                       and jzkh = 'C09B0C314')
+"
+PRO_ITEM_DO	PROCEDURE	777	"       and rownum < 3;
+"
+PRO_ITEM_DO	PROCEDURE	778	"    commit;*/
+"
+PRO_ITEM_DO	PROCEDURE	779	"  
+"
+PRO_ITEM_DO	PROCEDURE	780	"    if v_str1 is null or v_str1 = '' then
+"
+PRO_ITEM_DO	PROCEDURE	781	"      out_msg := '就诊卡号不能为空';
+"
+PRO_ITEM_DO	PROCEDURE	782	"      return;
+"
+PRO_ITEM_DO	PROCEDURE	783	"    end if;
+"
+PRO_ITEM_DO	PROCEDURE	784	"  
+"
+PRO_ITEM_DO	PROCEDURE	785	"    v_jzkh := v_str1;
+"
+PRO_ITEM_DO	PROCEDURE	786	"  
+"
+PRO_ITEM_DO	PROCEDURE	787	"    select count(jzkh) into v_sl from gy_brjbxxk where jzkh = v_jzkh;
+"
+PRO_ITEM_DO	PROCEDURE	788	"  
+"
+PRO_ITEM_DO	PROCEDURE	789	"    if v_sl = 1 then
+"
+PRO_ITEM_DO	PROCEDURE	790	"      out_msg := '';
+"
+PRO_ITEM_DO	PROCEDURE	791	"    else
+"
+PRO_ITEM_DO	PROCEDURE	792	"      out_msg := '找不到这个卡号的病人信息,' || v_str1;
+"
+PRO_ITEM_DO	PROCEDURE	793	"      return;
+"
+PRO_ITEM_DO	PROCEDURE	794	"    end if;
+"
+PRO_ITEM_DO	PROCEDURE	795	"  
+"
+PRO_ITEM_DO	PROCEDURE	796	"    v_brxm := '';
+"
+PRO_ITEM_DO	PROCEDURE	797	"    select xm into v_brxm from gy_brjbxxk where jzkh = v_jzkh;
+"
+PRO_ITEM_DO	PROCEDURE	798	"  
+"
+PRO_ITEM_DO	PROCEDURE	799	"    if v_brxm is null or v_brxm = '' then
+"
+PRO_ITEM_DO	PROCEDURE	800	"      out_msg := '找不到这个卡号的病人信息,' || v_str1;
+"
+PRO_ITEM_DO	PROCEDURE	801	"      return;
+"
+PRO_ITEM_DO	PROCEDURE	802	"    end if;
+"
+PRO_ITEM_DO	PROCEDURE	803	"  
+"
+PRO_ITEM_DO	PROCEDURE	804	"    select count(jzkh)
+"
+PRO_ITEM_DO	PROCEDURE	805	"      into v_sl
+"
+PRO_ITEM_DO	PROCEDURE	806	"      from (select jzkh
+"
+PRO_ITEM_DO	PROCEDURE	807	"              From yj_Yjk1
+"
+PRO_ITEM_DO	PROCEDURE	808	"             where kdsj > sysdate - 10
+"
+PRO_ITEM_DO	PROCEDURE	809	"               and xgbz > 0
+"
+PRO_ITEM_DO	PROCEDURE	810	"               and jzkh = v_jzkh
+"
+PRO_ITEM_DO	PROCEDURE	811	"            union
+"
+PRO_ITEM_DO	PROCEDURE	812	"            select jzkh
+"
+PRO_ITEM_DO	PROCEDURE	813	"              From mz_cfk1
+"
+PRO_ITEM_DO	PROCEDURE	814	"             where cfrq > sysdate - 10
+"
+PRO_ITEM_DO	PROCEDURE	815	"               and xgbz > 0
+"
+PRO_ITEM_DO	PROCEDURE	816	"               and jzkh = v_jzkh);
+"
+PRO_ITEM_DO	PROCEDURE	817	"  
+"
+PRO_ITEM_DO	PROCEDURE	818	"    if v_sl >= 1 then
+"
+PRO_ITEM_DO	PROCEDURE	819	"      out_msg := '';
+"
+PRO_ITEM_DO	PROCEDURE	820	"    else
+"
+PRO_ITEM_DO	PROCEDURE	821	"      out_msg := '找不到这个卡号的异常记录,' || v_brxm;
+"
+PRO_ITEM_DO	PROCEDURE	822	"      return;
+"
+PRO_ITEM_DO	PROCEDURE	823	"    end if;
+"
+PRO_ITEM_DO	PROCEDURE	824	"  
+"
+PRO_ITEM_DO	PROCEDURE	825	"    update yj_Yjk1
+"
+PRO_ITEM_DO	PROCEDURE	826	"       set xgbz = 0
+"
+PRO_ITEM_DO	PROCEDURE	827	"     where kdsj > sysdate - 10
+"
+PRO_ITEM_DO	PROCEDURE	828	"       and xgbz > 0
+"
+PRO_ITEM_DO	PROCEDURE	829	"       and jzkh = v_jzkh
+"
+PRO_ITEM_DO	PROCEDURE	830	"       and rownum < 9;
+"
+PRO_ITEM_DO	PROCEDURE	831	"    update mz_cfk1
+"
+PRO_ITEM_DO	PROCEDURE	832	"       set xgbz = 0
+"
+PRO_ITEM_DO	PROCEDURE	833	"     where cfrq > sysdate - 10
+"
+PRO_ITEM_DO	PROCEDURE	834	"       and xgbz > 0
+"
+PRO_ITEM_DO	PROCEDURE	835	"       and jzkh = v_jzkh
+"
+PRO_ITEM_DO	PROCEDURE	836	"       and rownum < 9;
+"
+PRO_ITEM_DO	PROCEDURE	837	"    if sqlcode = 0 then
+"
+PRO_ITEM_DO	PROCEDURE	838	"      commit;
+"
+PRO_ITEM_DO	PROCEDURE	839	"      out_msg := v_jzkh || v_brxm || '修改处方状态，处理成功';
+"
+PRO_ITEM_DO	PROCEDURE	840	"    else
+"
+PRO_ITEM_DO	PROCEDURE	841	"      rollback;
+"
+PRO_ITEM_DO	PROCEDURE	842	"      out_msg := v_jzkh || v_brxm || '保存失败，修改处方状态';
+"
+PRO_ITEM_DO	PROCEDURE	843	"    end if;
+"
+PRO_ITEM_DO	PROCEDURE	844	"  
+"
+PRO_ITEM_DO	PROCEDURE	845	"    return;
+"
+PRO_ITEM_DO	PROCEDURE	846	"  end if;
+"
+PRO_ITEM_DO	PROCEDURE	847	"  --无法收费_医生正在修改处方 end  
+"
+PRO_ITEM_DO	PROCEDURE	848	"
+"
+PRO_ITEM_DO	PROCEDURE	849	"  -- liuguan2 begin 
+"
+PRO_ITEM_DO	PROCEDURE	850	"  if in_item = 'liuguan2' then
+"
+PRO_ITEM_DO	PROCEDURE	851	"    -- //sfsb,qtsfje
+"
+PRO_ITEM_DO	PROCEDURE	852	"    if v_str1 = '2' or v_str1 = '4' then
+"
+PRO_ITEM_DO	PROCEDURE	853	"      if v_str1 = '2' then
+"
+PRO_ITEM_DO	PROCEDURE	854	"        v_csmc := 'liuguan2';
+"
+PRO_ITEM_DO	PROCEDURE	855	"      end if;
+"
+PRO_ITEM_DO	PROCEDURE	856	"      if v_str1 = '4' then
+"
+PRO_ITEM_DO	PROCEDURE	857	"        v_csmc := 'liuguan4';
+"
+PRO_ITEM_DO	PROCEDURE	858	"      end if;
+"
+PRO_ITEM_DO	PROCEDURE	859	"      if v_str2 is null or v_str2 = '' then
+"
+PRO_ITEM_DO	PROCEDURE	860	"        out_msg := '数量不能为空';
+"
+PRO_ITEM_DO	PROCEDURE	861	"        return;
+"
+PRO_ITEM_DO	PROCEDURE	862	"      end if;
+"
+PRO_ITEM_DO	PROCEDURE	863	"    
+"
+PRO_ITEM_DO	PROCEDURE	864	"      select to_number(v_str2) into v_sl from dual;
+"
+PRO_ITEM_DO	PROCEDURE	865	"    
+"
+PRO_ITEM_DO	PROCEDURE	866	"      if v_sl > -99 and v_sl < 99 then
+"
+PRO_ITEM_DO	PROCEDURE	867	"        out_msg := '';
+"
+PRO_ITEM_DO	PROCEDURE	868	"      
+"
+PRO_ITEM_DO	PROCEDURE	869	"      else
+"
+PRO_ITEM_DO	PROCEDURE	870	"        out_msg := '输入数量不对';
+"
+PRO_ITEM_DO	PROCEDURE	871	"        return;
+"
+PRO_ITEM_DO	PROCEDURE	872	"      end if;
+"
+PRO_ITEM_DO	PROCEDURE	873	"    
+"
+PRO_ITEM_DO	PROCEDURE	874	"      select nvl(csz1, 0)
+"
+PRO_ITEM_DO	PROCEDURE	875	"        into v_count
+"
+PRO_ITEM_DO	PROCEDURE	876	"        from gy_xtcs
+"
+PRO_ITEM_DO	PROCEDURE	877	"       where xtxh = 0
+"
+PRO_ITEM_DO	PROCEDURE	878	"         and csmc = v_csmc;
+"
+PRO_ITEM_DO	PROCEDURE	879	"    
+"
+PRO_ITEM_DO	PROCEDURE	880	"      update gy_xtcs
+"
+PRO_ITEM_DO	PROCEDURE	881	"         set csz1 = csz1 + v_sl
+"
+PRO_ITEM_DO	PROCEDURE	882	"       where xtxh = 0
+"
+PRO_ITEM_DO	PROCEDURE	883	"         and csmc = v_csmc;
+"
+PRO_ITEM_DO	PROCEDURE	884	"      commit;
+"
+PRO_ITEM_DO	PROCEDURE	885	"      select nvl(csz1, 0)
+"
+PRO_ITEM_DO	PROCEDURE	886	"        into v_count0
+"
+PRO_ITEM_DO	PROCEDURE	887	"        from gy_xtcs
+"
+PRO_ITEM_DO	PROCEDURE	888	"       where xtxh = 0
+"
+PRO_ITEM_DO	PROCEDURE	889	"         and csmc = v_csmc;
+"
+PRO_ITEM_DO	PROCEDURE	890	"    
+"
+PRO_ITEM_DO	PROCEDURE	891	"      if v_count <> v_count0 then
+"
+PRO_ITEM_DO	PROCEDURE	892	"        out_msg := '';
+"
+PRO_ITEM_DO	PROCEDURE	893	"      else
+"
+PRO_ITEM_DO	PROCEDURE	894	"        out_msg := '操作失败,请重新打开网页操作';
+"
+PRO_ITEM_DO	PROCEDURE	895	"        return;
+"
+PRO_ITEM_DO	PROCEDURE	896	"      end if;
+"
+PRO_ITEM_DO	PROCEDURE	897	"    end if;
+"
+PRO_ITEM_DO	PROCEDURE	898	"  
+"
+PRO_ITEM_DO	PROCEDURE	899	"    select ' 二楼空床：' || to_char(to_number(csz2) - nvl(csz1, 0))
+"
+PRO_ITEM_DO	PROCEDURE	900	"      into v_data
+"
+PRO_ITEM_DO	PROCEDURE	901	"      from gy_xtcs
+"
+PRO_ITEM_DO	PROCEDURE	902	"     where xtxh = 0
+"
+PRO_ITEM_DO	PROCEDURE	903	"       and csmc = 'liuguan2';
+"
+PRO_ITEM_DO	PROCEDURE	904	"    select ' 四楼空床：' || to_char(to_number(csz2) - nvl(csz1, 0))
+"
+PRO_ITEM_DO	PROCEDURE	905	"      into v_data2
+"
+PRO_ITEM_DO	PROCEDURE	906	"      from gy_xtcs
+"
+PRO_ITEM_DO	PROCEDURE	907	"     where xtxh = 0
+"
+PRO_ITEM_DO	PROCEDURE	908	"       and csmc = 'liuguan4';
+"
+PRO_ITEM_DO	PROCEDURE	909	"    select to_char(sysdate, 'yyyy-mm-dd hh24:mi:ss') || v_data || v_data2
+"
+PRO_ITEM_DO	PROCEDURE	910	"      into out_msg
+"
+PRO_ITEM_DO	PROCEDURE	911	"      from dual;
+"
+PRO_ITEM_DO	PROCEDURE	912	"    -- out_msg :='修改处方状态，处理成功';
+"
+PRO_ITEM_DO	PROCEDURE	913	"  
+"
+PRO_ITEM_DO	PROCEDURE	914	"    return;
+"
+PRO_ITEM_DO	PROCEDURE	915	"  end if;
+"
+PRO_ITEM_DO	PROCEDURE	916	"  --liuguan2 end  
+"
+PRO_ITEM_DO	PROCEDURE	917	"
+"
+PRO_ITEM_DO	PROCEDURE	918	"  if 2 = 2 then
+"
+PRO_ITEM_DO	PROCEDURE	919	"    --问题查询 begin 
+"
+PRO_ITEM_DO	PROCEDURE	920	"    if in_item = '问题查询' then
+"
+PRO_ITEM_DO	PROCEDURE	921	"      -- //sfsb,qtsfje
+"
+PRO_ITEM_DO	PROCEDURE	922	"      v_str2 := '0';
+"
+PRO_ITEM_DO	PROCEDURE	923	"      if v_str1 is null or v_str1 = '' then
+"
+PRO_ITEM_DO	PROCEDURE	924	"        out_msg := '问题描述不能为空';
+"
+PRO_ITEM_DO	PROCEDURE	925	"      
+"
+PRO_ITEM_DO	PROCEDURE	926	"        return;
+"
+PRO_ITEM_DO	PROCEDURE	927	"      end if;
+"
+PRO_ITEM_DO	PROCEDURE	928	"    
+"
+PRO_ITEM_DO	PROCEDURE	929	"      select trim(v_str1) into v_str1 from dual;
+"
+PRO_ITEM_DO	PROCEDURE	930	"      select upper(v_str1) into v_str1 from dual;
+"
+PRO_ITEM_DO	PROCEDURE	931	"    
+"
+PRO_ITEM_DO	PROCEDURE	932	"      ----日常处理 begin 
+"
+PRO_ITEM_DO	PROCEDURE	933	"      if 1 = 1 then
+"
+PRO_ITEM_DO	PROCEDURE	934	"        select instr(v_str1, '日常处理') into v_pos_select from dual;
+"
+PRO_ITEM_DO	PROCEDURE	935	"      
+"
+PRO_ITEM_DO	PROCEDURE	936	"        if v_pos_select > 0 then
+"
+PRO_ITEM_DO	PROCEDURE	937	"        
+"
+PRO_ITEM_DO	PROCEDURE	938	"          -------------  begin    
+"
+PRO_ITEM_DO	PROCEDURE	939	"        
+"
+PRO_ITEM_DO	PROCEDURE	940	"          select sql_select
+"
+PRO_ITEM_DO	PROCEDURE	941	"            into v_select
+"
+PRO_ITEM_DO	PROCEDURE	942	"            from t_question
+"
+PRO_ITEM_DO	PROCEDURE	943	"           where xtmc = v_str1
+"
+PRO_ITEM_DO	PROCEDURE	944	"             and rownum = 1;
+"
+PRO_ITEM_DO	PROCEDURE	945	"        
+"
+PRO_ITEM_DO	PROCEDURE	946	"          --检索内容
+"
+PRO_ITEM_DO	PROCEDURE	947	"          if length(v_select) > 1 then
+"
+PRO_ITEM_DO	PROCEDURE	948	"          
+"
+PRO_ITEM_DO	PROCEDURE	949	"            open v_cursor for v_select;
+"
+PRO_ITEM_DO	PROCEDURE	950	"          
+"
+PRO_ITEM_DO	PROCEDURE	951	"            loop
+"
+PRO_ITEM_DO	PROCEDURE	952	"              fetch v_cursor
+"
+PRO_ITEM_DO	PROCEDURE	953	"                into v_data_temp; --打开自定义REF游标
+"
+PRO_ITEM_DO	PROCEDURE	954	"              exit when v_cursor%notfound;
+"
+PRO_ITEM_DO	PROCEDURE	955	"            
+"
+PRO_ITEM_DO	PROCEDURE	956	"              --如果检索到内容 begin
+"
+PRO_ITEM_DO	PROCEDURE	957	"            
+"
+PRO_ITEM_DO	PROCEDURE	958	"              if length(v_data_temp) > 0 and v_data_temp is not null then
+"
+PRO_ITEM_DO	PROCEDURE	959	"              
+"
+PRO_ITEM_DO	PROCEDURE	960	"                select substr(v_data || v_data_temp || chr(13) || chr(10),
+"
+PRO_ITEM_DO	PROCEDURE	961	"                              1,
+"
+PRO_ITEM_DO	PROCEDURE	962	"                              1800)
+"
+PRO_ITEM_DO	PROCEDURE	963	"                  into v_data
+"
+PRO_ITEM_DO	PROCEDURE	964	"                  from dual;
+"
+PRO_ITEM_DO	PROCEDURE	965	"              
+"
+PRO_ITEM_DO	PROCEDURE	966	"              else
+"
+PRO_ITEM_DO	PROCEDURE	967	"                -- 未找到检索内容(位置=0)
+"
+PRO_ITEM_DO	PROCEDURE	968	"                exit;
+"
+PRO_ITEM_DO	PROCEDURE	969	"              
+"
+PRO_ITEM_DO	PROCEDURE	970	"              end if;
+"
+PRO_ITEM_DO	PROCEDURE	971	"            
+"
+PRO_ITEM_DO	PROCEDURE	972	"            end loop;
+"
+PRO_ITEM_DO	PROCEDURE	973	"          
+"
+PRO_ITEM_DO	PROCEDURE	974	"            close v_cursor; --fetch循环游标需要关闭游标        
+"
+PRO_ITEM_DO	PROCEDURE	975	"          
+"
+PRO_ITEM_DO	PROCEDURE	976	"          end if;
+"
+PRO_ITEM_DO	PROCEDURE	977	"          if v_data is null then
+"
+PRO_ITEM_DO	PROCEDURE	978	"            v_data := '无数据需处理';
+"
+PRO_ITEM_DO	PROCEDURE	979	"          end if;
+"
+PRO_ITEM_DO	PROCEDURE	980	"          select substr(v_str1 || ':' || chr(13) || chr(10) || v_data ||
+"
+PRO_ITEM_DO	PROCEDURE	981	"                        chr(13) || chr(10) || sql_select2,
+"
+PRO_ITEM_DO	PROCEDURE	982	"                        1,
+"
+PRO_ITEM_DO	PROCEDURE	983	"                        1800)
+"
+PRO_ITEM_DO	PROCEDURE	984	"            into v_data
+"
+PRO_ITEM_DO	PROCEDURE	985	"            from t_question
+"
+PRO_ITEM_DO	PROCEDURE	986	"           where xtmc = v_str1
+"
+PRO_ITEM_DO	PROCEDURE	987	"             and rownum = 1;
+"
+PRO_ITEM_DO	PROCEDURE	988	"        
+"
+PRO_ITEM_DO	PROCEDURE	989	"          out_msg := v_data;
+"
+PRO_ITEM_DO	PROCEDURE	990	"          return;
+"
+PRO_ITEM_DO	PROCEDURE	991	"        end if;
+"
+PRO_ITEM_DO	PROCEDURE	992	"      
+"
+PRO_ITEM_DO	PROCEDURE	993	"      end if;
+"
+PRO_ITEM_DO	PROCEDURE	994	"      ----  --日常处理  end
+"
+PRO_ITEM_DO	PROCEDURE	995	"    
+"
+PRO_ITEM_DO	PROCEDURE	996	"      v_data_max := instr(v_str1, ' ');
+"
+PRO_ITEM_DO	PROCEDURE	997	"      if v_data_max > 1 then
+"
+PRO_ITEM_DO	PROCEDURE	998	"        v_str2 := substr(v_str1, v_data_max + 1);
+"
+PRO_ITEM_DO	PROCEDURE	999	"        v_str1 := substr(v_str1, 1, v_data_max - 1);
+"
+PRO_ITEM_DO	PROCEDURE	1000	"      
+"
+PRO_ITEM_DO	PROCEDURE	1001	"        select trim(v_str1) into v_str1 from dual;
+"
+PRO_ITEM_DO	PROCEDURE	1002	"        select upper(v_str1) into v_str1 from dual;
+"
+PRO_ITEM_DO	PROCEDURE	1003	"      
+"
+PRO_ITEM_DO	PROCEDURE	1004	"        select trim(v_str2) into v_str2 from dual;
+"
+PRO_ITEM_DO	PROCEDURE	1005	"        select upper(v_str2) into v_str2 from dual;
+"
+PRO_ITEM_DO	PROCEDURE	1006	"      
+"
+PRO_ITEM_DO	PROCEDURE	1007	"      end if;
+"
+PRO_ITEM_DO	PROCEDURE	1008	"      if v_str2 is null then
+"
+PRO_ITEM_DO	PROCEDURE	1009	"        v_str2 := '0';
+"
+PRO_ITEM_DO	PROCEDURE	1010	"      end if;
+"
+PRO_ITEM_DO	PROCEDURE	1011	"      if length(v_str2) < 2 then
+"
+PRO_ITEM_DO	PROCEDURE	1012	"      
+"
+PRO_ITEM_DO	PROCEDURE	1013	"        select length(wm_concat(ms || chr(13) || chr(10)))
+"
+PRO_ITEM_DO	PROCEDURE	1014	"          into v_data_max
+"
+PRO_ITEM_DO	PROCEDURE	1015	"          from t_question
+"
+PRO_ITEM_DO	PROCEDURE	1016	"         where xtmc in (select xtmc
+"
+PRO_ITEM_DO	PROCEDURE	1017	"                          from t_question
+"
+PRO_ITEM_DO	PROCEDURE	1018	"                         where ms like '%' || v_str1 || '%'
+"
+PRO_ITEM_DO	PROCEDURE	1019	"                            or xtmc like '%' || v_str1 || '%');
+"
+PRO_ITEM_DO	PROCEDURE	1020	"      
+"
+PRO_ITEM_DO	PROCEDURE	1021	"        if v_data_max > 1800 then
+"
+PRO_ITEM_DO	PROCEDURE	1022	"        
+"
+PRO_ITEM_DO	PROCEDURE	1023	"          select substr(' 字符数过多: ' || (wm_concat(ms || chr(13) || chr(10))),
+"
+PRO_ITEM_DO	PROCEDURE	1024	"                        1,
+"
+PRO_ITEM_DO	PROCEDURE	1025	"                        1820)
+"
+PRO_ITEM_DO	PROCEDURE	1026	"            into v_data
+"
+PRO_ITEM_DO	PROCEDURE	1027	"            from t_question
+"
+PRO_ITEM_DO	PROCEDURE	1028	"           where xtmc in (select xtmc
+"
+PRO_ITEM_DO	PROCEDURE	1029	"                            from t_question
+"
+PRO_ITEM_DO	PROCEDURE	1030	"                           where ms like '%' || v_str1 || '%'
+"
+PRO_ITEM_DO	PROCEDURE	1031	"                              or xtmc like '%' || v_str1 || '%');
+"
+PRO_ITEM_DO	PROCEDURE	1032	"        
+"
+PRO_ITEM_DO	PROCEDURE	1033	"        else
+"
+PRO_ITEM_DO	PROCEDURE	1034	"          select ' ' || (wm_concat(ms || chr(13) || chr(10)))
+"
+PRO_ITEM_DO	PROCEDURE	1035	"            into v_data
+"
+PRO_ITEM_DO	PROCEDURE	1036	"            from t_question
+"
+PRO_ITEM_DO	PROCEDURE	1037	"           where xtmc in (select xtmc
+"
+PRO_ITEM_DO	PROCEDURE	1038	"                            from t_question
+"
+PRO_ITEM_DO	PROCEDURE	1039	"                           where ms like '%' || v_str1 || '%'
+"
+PRO_ITEM_DO	PROCEDURE	1040	"                              or xtmc like '%' || v_str1 || '%');
+"
+PRO_ITEM_DO	PROCEDURE	1041	"        end if;
+"
+PRO_ITEM_DO	PROCEDURE	1042	"      
+"
+PRO_ITEM_DO	PROCEDURE	1043	"        select wm_concat(xtmc_add0)
+"
+PRO_ITEM_DO	PROCEDURE	1044	"          into v_data2
+"
+PRO_ITEM_DO	PROCEDURE	1045	"          from (select distinct (xtmc_add) xtmc_add0
+"
+PRO_ITEM_DO	PROCEDURE	1046	"                
+"
+PRO_ITEM_DO	PROCEDURE	1047	"                  from t_question
+"
+PRO_ITEM_DO	PROCEDURE	1048	"                 where xtmc in
+"
+PRO_ITEM_DO	PROCEDURE	1049	"                       (select xtmc
+"
+PRO_ITEM_DO	PROCEDURE	1050	"                          from t_question
+"
+PRO_ITEM_DO	PROCEDURE	1051	"                         where ms like '%' || v_str1 || '%'
+"
+PRO_ITEM_DO	PROCEDURE	1052	"                            or xtmc like '%' || v_str1 || '%'));
+"
+PRO_ITEM_DO	PROCEDURE	1053	"      
+"
+PRO_ITEM_DO	PROCEDURE	1054	"        select chr(13) || chr(10) || ' 相关 : ' || v_data2
+"
+PRO_ITEM_DO	PROCEDURE	1055	"          into v_data2
+"
+PRO_ITEM_DO	PROCEDURE	1056	"          from dual;
+"
+PRO_ITEM_DO	PROCEDURE	1057	"      
+"
+PRO_ITEM_DO	PROCEDURE	1058	"        ----------------------------else-------------------------
+"
+PRO_ITEM_DO	PROCEDURE	1059	"      
+"
+PRO_ITEM_DO	PROCEDURE	1060	"      else
+"
+PRO_ITEM_DO	PROCEDURE	1061	"      
+"
+PRO_ITEM_DO	PROCEDURE	1062	"        select length(wm_concat(ms || chr(13) || chr(10)))
+"
+PRO_ITEM_DO	PROCEDURE	1063	"          into v_data_max
+"
+PRO_ITEM_DO	PROCEDURE	1064	"          from t_question
+"
+PRO_ITEM_DO	PROCEDURE	1065	"         where xtmc in (select xtmc
+"
+PRO_ITEM_DO	PROCEDURE	1066	"                          from t_question
+"
+PRO_ITEM_DO	PROCEDURE	1067	"                         where ms like '%' || v_str1 || '%'
+"
+PRO_ITEM_DO	PROCEDURE	1068	"                           and ms like '%' || v_str2 || '%');
+"
+PRO_ITEM_DO	PROCEDURE	1069	"      
+"
+PRO_ITEM_DO	PROCEDURE	1070	"        if v_data_max > 1800 then
+"
+PRO_ITEM_DO	PROCEDURE	1071	"        
+"
+PRO_ITEM_DO	PROCEDURE	1072	"          select substr(' 字符数过多: ' || (wm_concat(ms || chr(13) || chr(10))),
+"
+PRO_ITEM_DO	PROCEDURE	1073	"                        1,
+"
+PRO_ITEM_DO	PROCEDURE	1074	"                        1820)
+"
+PRO_ITEM_DO	PROCEDURE	1075	"            into v_data
+"
+PRO_ITEM_DO	PROCEDURE	1076	"            from t_question
+"
+PRO_ITEM_DO	PROCEDURE	1077	"           where xtmc in (select xtmc
+"
+PRO_ITEM_DO	PROCEDURE	1078	"                            from t_question
+"
+PRO_ITEM_DO	PROCEDURE	1079	"                           where ms like '%' || v_str1 || '%'
+"
+PRO_ITEM_DO	PROCEDURE	1080	"                             and ms like '%' || v_str2 || '%');
+"
+PRO_ITEM_DO	PROCEDURE	1081	"        
+"
+PRO_ITEM_DO	PROCEDURE	1082	"        else
+"
+PRO_ITEM_DO	PROCEDURE	1083	"          select ' ' || (wm_concat(ms || chr(13) || chr(10)))
+"
+PRO_ITEM_DO	PROCEDURE	1084	"            into v_data
+"
+PRO_ITEM_DO	PROCEDURE	1085	"            from t_question
+"
+PRO_ITEM_DO	PROCEDURE	1086	"           where xtmc in (select xtmc
+"
+PRO_ITEM_DO	PROCEDURE	1087	"                            from t_question
+"
+PRO_ITEM_DO	PROCEDURE	1088	"                           where ms like '%' || v_str1 || '%'
+"
+PRO_ITEM_DO	PROCEDURE	1089	"                             and ms like '%' || v_str2 || '%');
+"
+PRO_ITEM_DO	PROCEDURE	1090	"        end if;
+"
+PRO_ITEM_DO	PROCEDURE	1091	"      
+"
+PRO_ITEM_DO	PROCEDURE	1092	"        --b
+"
+PRO_ITEM_DO	PROCEDURE	1093	"        select wm_concat(xtmc_add0)
+"
+PRO_ITEM_DO	PROCEDURE	1094	"          into v_data2
+"
+PRO_ITEM_DO	PROCEDURE	1095	"          from (select distinct (xtmc_add) xtmc_add0
+"
+PRO_ITEM_DO	PROCEDURE	1096	"                  from t_question
+"
+PRO_ITEM_DO	PROCEDURE	1097	"                 where xtmc in ((select xtmc
+"
+PRO_ITEM_DO	PROCEDURE	1098	"                                   from t_question
+"
+PRO_ITEM_DO	PROCEDURE	1099	"                                  where instr(ms, v_str1) > 0
+"
+PRO_ITEM_DO	PROCEDURE	1100	"                                    and instr(ms, v_str2) > 0)));
+"
+PRO_ITEM_DO	PROCEDURE	1101	"      
+"
+PRO_ITEM_DO	PROCEDURE	1102	"        select chr(13) || chr(10) || ' 相关: ' || v_data2
+"
+PRO_ITEM_DO	PROCEDURE	1103	"          into v_data2
+"
+PRO_ITEM_DO	PROCEDURE	1104	"          from dual;
+"
+PRO_ITEM_DO	PROCEDURE	1105	"      end if;
+"
+PRO_ITEM_DO	PROCEDURE	1106	"    
+"
+PRO_ITEM_DO	PROCEDURE	1107	"      --------------end 
+"
+PRO_ITEM_DO	PROCEDURE	1108	"    
+"
+PRO_ITEM_DO	PROCEDURE	1109	"      select substr(v_data || v_data2, 1, 1900) into v_data from dual;
+"
+PRO_ITEM_DO	PROCEDURE	1110	"      out_msg := v_data;
+"
+PRO_ITEM_DO	PROCEDURE	1111	"      return;
+"
+PRO_ITEM_DO	PROCEDURE	1112	"    end if;
+"
+PRO_ITEM_DO	PROCEDURE	1113	"    --问题查询 end  
+"
+PRO_ITEM_DO	PROCEDURE	1114	"  
+"
+PRO_ITEM_DO	PROCEDURE	1115	"    --病人查询 结果查询 begin 
+"
+PRO_ITEM_DO	PROCEDURE	1116	"    if in_item = '病人查询' then
+"
+PRO_ITEM_DO	PROCEDURE	1117	"      -- //sfsb,qtsfje
+"
+PRO_ITEM_DO	PROCEDURE	1118	"      v_str2 := '0';
+"
+PRO_ITEM_DO	PROCEDURE	1119	"      if v_str1 is null or v_str1 = '' then
+"
+PRO_ITEM_DO	PROCEDURE	1120	"        out_msg := '姓名不能为空';
+"
+PRO_ITEM_DO	PROCEDURE	1121	"        return;
+"
+PRO_ITEM_DO	PROCEDURE	1122	"      end if;
+"
+PRO_ITEM_DO	PROCEDURE	1123	"      if length(v_str1) > 1 then
+"
+PRO_ITEM_DO	PROCEDURE	1124	"        select wm_concat(brxm || '   采集日期:' || rq_caije || '   结果:' ||
+"
+PRO_ITEM_DO	PROCEDURE	1125	"                         jeigou || chr(13) || chr(10))
+"
+PRO_ITEM_DO	PROCEDURE	1126	"          into v_data
+"
+PRO_ITEM_DO	PROCEDURE	1127	"          From temp_jieguocx
+"
+PRO_ITEM_DO	PROCEDURE	1128	"         where brxm = v_str1
+"
+PRO_ITEM_DO	PROCEDURE	1129	"         order by rq_caije desc;
+"
+PRO_ITEM_DO	PROCEDURE	1130	"      else
+"
+PRO_ITEM_DO	PROCEDURE	1131	"        out_msg := '请输入姓名';
+"
+PRO_ITEM_DO	PROCEDURE	1132	"        return;
+"
+PRO_ITEM_DO	PROCEDURE	1133	"      end if;
+"
+PRO_ITEM_DO	PROCEDURE	1134	"      if v_data > '0' then
+"
+PRO_ITEM_DO	PROCEDURE	1135	"        out_msg := v_data;
+"
+PRO_ITEM_DO	PROCEDURE	1136	"      else
+"
+PRO_ITEM_DO	PROCEDURE	1137	"        out_msg := '未查询到记录';
+"
+PRO_ITEM_DO	PROCEDURE	1138	"      end if;
+"
+PRO_ITEM_DO	PROCEDURE	1139	"      return;
+"
+PRO_ITEM_DO	PROCEDURE	1140	"    end if;
+"
+PRO_ITEM_DO	PROCEDURE	1141	"    --病人查询  结果查询end  
+"
+PRO_ITEM_DO	PROCEDURE	1142	"  
+"
+PRO_ITEM_DO	PROCEDURE	1143	"    --日常处理查询 begin 
+"
+PRO_ITEM_DO	PROCEDURE	1144	"    if in_item = '日常处理查询' then
+"
+PRO_ITEM_DO	PROCEDURE	1145	"      -- //sfsb,qtsfje
+"
+PRO_ITEM_DO	PROCEDURE	1146	"      v_str2 := '0';
+"
+PRO_ITEM_DO	PROCEDURE	1147	"      if v_str1 is null or v_str1 = '' then
+"
+PRO_ITEM_DO	PROCEDURE	1148	"        out_msg := '问题描述不能为空';
+"
+PRO_ITEM_DO	PROCEDURE	1149	"      
+"
+PRO_ITEM_DO	PROCEDURE	1150	"        return;
+"
+PRO_ITEM_DO	PROCEDURE	1151	"      end if;
+"
+PRO_ITEM_DO	PROCEDURE	1152	"    
+"
+PRO_ITEM_DO	PROCEDURE	1153	"      select trim(v_str1) into v_str1 from dual;
+"
+PRO_ITEM_DO	PROCEDURE	1154	"      select upper(v_str1) into v_str1 from dual;
+"
+PRO_ITEM_DO	PROCEDURE	1155	"    
+"
+PRO_ITEM_DO	PROCEDURE	1156	"      ----日常处理 begin 
+"
+PRO_ITEM_DO	PROCEDURE	1157	"      if 1 = 1 then
+"
+PRO_ITEM_DO	PROCEDURE	1158	"        select instr(v_str1, '日常处理') into v_pos_select from dual;
+"
+PRO_ITEM_DO	PROCEDURE	1159	"      
+"
+PRO_ITEM_DO	PROCEDURE	1160	"        if v_pos_select > 0 then
+"
+PRO_ITEM_DO	PROCEDURE	1161	"        
+"
+PRO_ITEM_DO	PROCEDURE	1162	"          -------------  begin    
+"
+PRO_ITEM_DO	PROCEDURE	1163	"        
+"
+PRO_ITEM_DO	PROCEDURE	1164	"          select sql_select
+"
+PRO_ITEM_DO	PROCEDURE	1165	"            into v_select
+"
+PRO_ITEM_DO	PROCEDURE	1166	"            from t_question
+"
+PRO_ITEM_DO	PROCEDURE	1167	"           where xtmc = v_str1
+"
+PRO_ITEM_DO	PROCEDURE	1168	"             and rownum = 1;
+"
+PRO_ITEM_DO	PROCEDURE	1169	"        
+"
+PRO_ITEM_DO	PROCEDURE	1170	"          --检索内容
+"
+PRO_ITEM_DO	PROCEDURE	1171	"          if length(v_select) > 1 then
+"
+PRO_ITEM_DO	PROCEDURE	1172	"          
+"
+PRO_ITEM_DO	PROCEDURE	1173	"            open v_cursor for v_select;
+"
+PRO_ITEM_DO	PROCEDURE	1174	"          
+"
+PRO_ITEM_DO	PROCEDURE	1175	"            loop
+"
+PRO_ITEM_DO	PROCEDURE	1176	"              fetch v_cursor
+"
+PRO_ITEM_DO	PROCEDURE	1177	"                into v_data_temp; --打开自定义REF游标
+"
+PRO_ITEM_DO	PROCEDURE	1178	"              exit when v_cursor%notfound;
+"
+PRO_ITEM_DO	PROCEDURE	1179	"            
+"
+PRO_ITEM_DO	PROCEDURE	1180	"              --如果检索到内容 begin
+"
+PRO_ITEM_DO	PROCEDURE	1181	"            
+"
+PRO_ITEM_DO	PROCEDURE	1182	"              if length(v_data_temp) > 0 and v_data_temp is not null then
+"
+PRO_ITEM_DO	PROCEDURE	1183	"              
+"
+PRO_ITEM_DO	PROCEDURE	1184	"                select substr(v_data || v_data_temp || chr(13) || chr(10),
+"
+PRO_ITEM_DO	PROCEDURE	1185	"                              1,
+"
+PRO_ITEM_DO	PROCEDURE	1186	"                              1800)
+"
+PRO_ITEM_DO	PROCEDURE	1187	"                  into v_data
+"
+PRO_ITEM_DO	PROCEDURE	1188	"                  from dual;
+"
+PRO_ITEM_DO	PROCEDURE	1189	"              
+"
+PRO_ITEM_DO	PROCEDURE	1190	"              else
+"
+PRO_ITEM_DO	PROCEDURE	1191	"                -- 未找到检索内容(位置=0)
+"
+PRO_ITEM_DO	PROCEDURE	1192	"                exit;
+"
+PRO_ITEM_DO	PROCEDURE	1193	"              
+"
+PRO_ITEM_DO	PROCEDURE	1194	"              end if;
+"
+PRO_ITEM_DO	PROCEDURE	1195	"            
+"
+PRO_ITEM_DO	PROCEDURE	1196	"            end loop;
+"
+PRO_ITEM_DO	PROCEDURE	1197	"          
+"
+PRO_ITEM_DO	PROCEDURE	1198	"            close v_cursor; --fetch循环游标需要关闭游标        
+"
+PRO_ITEM_DO	PROCEDURE	1199	"          
+"
+PRO_ITEM_DO	PROCEDURE	1200	"          end if;
+"
+PRO_ITEM_DO	PROCEDURE	1201	"          if v_data is null then
+"
+PRO_ITEM_DO	PROCEDURE	1202	"            v_data := '无数据需处理';
+"
+PRO_ITEM_DO	PROCEDURE	1203	"          end if;
+"
+PRO_ITEM_DO	PROCEDURE	1204	"          select substr(v_str1 || ':' || chr(13) || chr(10) || v_data ||
+"
+PRO_ITEM_DO	PROCEDURE	1205	"                        chr(13) || chr(10) || sql_select2,
+"
+PRO_ITEM_DO	PROCEDURE	1206	"                        1,
+"
+PRO_ITEM_DO	PROCEDURE	1207	"                        1800)
+"
+PRO_ITEM_DO	PROCEDURE	1208	"            into v_data
+"
+PRO_ITEM_DO	PROCEDURE	1209	"            from t_question
+"
+PRO_ITEM_DO	PROCEDURE	1210	"           where xtmc = v_str1
+"
+PRO_ITEM_DO	PROCEDURE	1211	"             and rownum = 1;
+"
+PRO_ITEM_DO	PROCEDURE	1212	"        
+"
+PRO_ITEM_DO	PROCEDURE	1213	"          out_msg := v_data;
+"
+PRO_ITEM_DO	PROCEDURE	1214	"          return;
+"
+PRO_ITEM_DO	PROCEDURE	1215	"        end if;
+"
+PRO_ITEM_DO	PROCEDURE	1216	"      
+"
+PRO_ITEM_DO	PROCEDURE	1217	"      end if;
+"
+PRO_ITEM_DO	PROCEDURE	1218	"      ----  --日常处理  end
+"
+PRO_ITEM_DO	PROCEDURE	1219	"    
+"
+PRO_ITEM_DO	PROCEDURE	1220	"      v_data_max := instr(v_str1, ' ');
+"
+PRO_ITEM_DO	PROCEDURE	1221	"      if v_data_max > 1 then
+"
+PRO_ITEM_DO	PROCEDURE	1222	"        v_str2 := substr(v_str1, v_data_max + 1);
+"
+PRO_ITEM_DO	PROCEDURE	1223	"        v_str1 := substr(v_str1, 1, v_data_max - 1);
+"
+PRO_ITEM_DO	PROCEDURE	1224	"      
+"
+PRO_ITEM_DO	PROCEDURE	1225	"        select trim(v_str1) into v_str1 from dual;
+"
+PRO_ITEM_DO	PROCEDURE	1226	"        select upper(v_str1) into v_str1 from dual;
+"
+PRO_ITEM_DO	PROCEDURE	1227	"      
+"
+PRO_ITEM_DO	PROCEDURE	1228	"        select trim(v_str2) into v_str2 from dual;
+"
+PRO_ITEM_DO	PROCEDURE	1229	"        select upper(v_str2) into v_str2 from dual;
+"
+PRO_ITEM_DO	PROCEDURE	1230	"      
+"
+PRO_ITEM_DO	PROCEDURE	1231	"      end if;
+"
+PRO_ITEM_DO	PROCEDURE	1232	"      if v_str2 is null then
+"
+PRO_ITEM_DO	PROCEDURE	1233	"        v_str2 := '0';
+"
+PRO_ITEM_DO	PROCEDURE	1234	"      end if;
+"
+PRO_ITEM_DO	PROCEDURE	1235	"      if length(v_str2) < 2 then
+"
+PRO_ITEM_DO	PROCEDURE	1236	"      
+"
+PRO_ITEM_DO	PROCEDURE	1237	"        select length(wm_concat(ms || chr(13) || chr(10)))
+"
+PRO_ITEM_DO	PROCEDURE	1238	"          into v_data_max
+"
+PRO_ITEM_DO	PROCEDURE	1239	"          from t_question
+"
+PRO_ITEM_DO	PROCEDURE	1240	"         where xtmc in (select xtmc
+"
+PRO_ITEM_DO	PROCEDURE	1241	"                          from t_question
+"
+PRO_ITEM_DO	PROCEDURE	1242	"                         where ms like '%' || v_str1 || '%'
+"
+PRO_ITEM_DO	PROCEDURE	1243	"                            or xtmc like '%' || v_str1 || '%');
+"
+PRO_ITEM_DO	PROCEDURE	1244	"      
+"
+PRO_ITEM_DO	PROCEDURE	1245	"        if v_data_max > 1800 then
+"
+PRO_ITEM_DO	PROCEDURE	1246	"        
+"
+PRO_ITEM_DO	PROCEDURE	1247	"          select substr(' 字符数过多: ' || (wm_concat(ms || chr(13) || chr(10))),
+"
+PRO_ITEM_DO	PROCEDURE	1248	"                        1,
+"
+PRO_ITEM_DO	PROCEDURE	1249	"                        1820)
+"
+PRO_ITEM_DO	PROCEDURE	1250	"            into v_data
+"
+PRO_ITEM_DO	PROCEDURE	1251	"            from t_question
+"
+PRO_ITEM_DO	PROCEDURE	1252	"           where xtmc in (select xtmc
+"
+PRO_ITEM_DO	PROCEDURE	1253	"                            from t_question
+"
+PRO_ITEM_DO	PROCEDURE	1254	"                           where ms like '%' || v_str1 || '%'
+"
+PRO_ITEM_DO	PROCEDURE	1255	"                              or xtmc like '%' || v_str1 || '%');
+"
+PRO_ITEM_DO	PROCEDURE	1256	"        
+"
+PRO_ITEM_DO	PROCEDURE	1257	"        else
+"
+PRO_ITEM_DO	PROCEDURE	1258	"          select ' ' || (wm_concat(ms || chr(13) || chr(10)))
+"
+PRO_ITEM_DO	PROCEDURE	1259	"            into v_data
+"
+PRO_ITEM_DO	PROCEDURE	1260	"            from t_question
+"
+PRO_ITEM_DO	PROCEDURE	1261	"           where xtmc in (select xtmc
+"
+PRO_ITEM_DO	PROCEDURE	1262	"                            from t_question
+"
+PRO_ITEM_DO	PROCEDURE	1263	"                           where ms like '%' || v_str1 || '%'
+"
+PRO_ITEM_DO	PROCEDURE	1264	"                              or xtmc like '%' || v_str1 || '%');
+"
+PRO_ITEM_DO	PROCEDURE	1265	"        end if;
+"
+PRO_ITEM_DO	PROCEDURE	1266	"      
+"
+PRO_ITEM_DO	PROCEDURE	1267	"        select wm_concat(xtmc_add0)
+"
+PRO_ITEM_DO	PROCEDURE	1268	"          into v_data2
+"
+PRO_ITEM_DO	PROCEDURE	1269	"          from (select distinct (xtmc_add) xtmc_add0
+"
+PRO_ITEM_DO	PROCEDURE	1270	"                
+"
+PRO_ITEM_DO	PROCEDURE	1271	"                  from t_question
+"
+PRO_ITEM_DO	PROCEDURE	1272	"                 where xtmc in
+"
+PRO_ITEM_DO	PROCEDURE	1273	"                       (select xtmc
+"
+PRO_ITEM_DO	PROCEDURE	1274	"                          from t_question
+"
+PRO_ITEM_DO	PROCEDURE	1275	"                         where ms like '%' || v_str1 || '%'
+"
+PRO_ITEM_DO	PROCEDURE	1276	"                            or xtmc like '%' || v_str1 || '%'));
+"
+PRO_ITEM_DO	PROCEDURE	1277	"      
+"
+PRO_ITEM_DO	PROCEDURE	1278	"        select chr(13) || chr(10) || ' 相关 : ' || v_data2
+"
+PRO_ITEM_DO	PROCEDURE	1279	"          into v_data2
+"
+PRO_ITEM_DO	PROCEDURE	1280	"          from dual;
+"
+PRO_ITEM_DO	PROCEDURE	1281	"      
+"
+PRO_ITEM_DO	PROCEDURE	1282	"        ----------------------------else-------------------------
+"
+PRO_ITEM_DO	PROCEDURE	1283	"      
+"
+PRO_ITEM_DO	PROCEDURE	1284	"      else
+"
+PRO_ITEM_DO	PROCEDURE	1285	"      
+"
+PRO_ITEM_DO	PROCEDURE	1286	"        select length(wm_concat(ms || chr(13) || chr(10)))
+"
+PRO_ITEM_DO	PROCEDURE	1287	"          into v_data_max
+"
+PRO_ITEM_DO	PROCEDURE	1288	"          from t_question
+"
+PRO_ITEM_DO	PROCEDURE	1289	"         where xtmc in (select xtmc
+"
+PRO_ITEM_DO	PROCEDURE	1290	"                          from t_question
+"
+PRO_ITEM_DO	PROCEDURE	1291	"                         where ms like '%' || v_str1 || '%'
+"
+PRO_ITEM_DO	PROCEDURE	1292	"                           and ms like '%' || v_str2 || '%');
+"
+PRO_ITEM_DO	PROCEDURE	1293	"      
+"
+PRO_ITEM_DO	PROCEDURE	1294	"        if v_data_max > 1800 then
+"
+PRO_ITEM_DO	PROCEDURE	1295	"        
+"
+PRO_ITEM_DO	PROCEDURE	1296	"          select substr(' 字符数过多: ' || (wm_concat(ms || chr(13) || chr(10))),
+"
+PRO_ITEM_DO	PROCEDURE	1297	"                        1,
+"
+PRO_ITEM_DO	PROCEDURE	1298	"                        1820)
+"
+PRO_ITEM_DO	PROCEDURE	1299	"            into v_data
+"
+PRO_ITEM_DO	PROCEDURE	1300	"            from t_question
+"
+PRO_ITEM_DO	PROCEDURE	1301	"           where xtmc in (select xtmc
+"
+PRO_ITEM_DO	PROCEDURE	1302	"                            from t_question
+"
+PRO_ITEM_DO	PROCEDURE	1303	"                           where ms like '%' || v_str1 || '%'
+"
+PRO_ITEM_DO	PROCEDURE	1304	"                             and ms like '%' || v_str2 || '%');
+"
+PRO_ITEM_DO	PROCEDURE	1305	"        
+"
+PRO_ITEM_DO	PROCEDURE	1306	"        else
+"
+PRO_ITEM_DO	PROCEDURE	1307	"          select ' ' || (wm_concat(ms || chr(13) || chr(10)))
+"
+PRO_ITEM_DO	PROCEDURE	1308	"            into v_data
+"
+PRO_ITEM_DO	PROCEDURE	1309	"            from t_question
+"
+PRO_ITEM_DO	PROCEDURE	1310	"           where xtmc in (select xtmc
+"
+PRO_ITEM_DO	PROCEDURE	1311	"                            from t_question
+"
+PRO_ITEM_DO	PROCEDURE	1312	"                           where ms like '%' || v_str1 || '%'
+"
+PRO_ITEM_DO	PROCEDURE	1313	"                             and ms like '%' || v_str2 || '%');
+"
+PRO_ITEM_DO	PROCEDURE	1314	"        end if;
+"
+PRO_ITEM_DO	PROCEDURE	1315	"      
+"
+PRO_ITEM_DO	PROCEDURE	1316	"        --b
+"
+PRO_ITEM_DO	PROCEDURE	1317	"        select wm_concat(xtmc_add0)
+"
+PRO_ITEM_DO	PROCEDURE	1318	"          into v_data2
+"
+PRO_ITEM_DO	PROCEDURE	1319	"          from (select distinct (xtmc_add) xtmc_add0
+"
+PRO_ITEM_DO	PROCEDURE	1320	"                  from t_question
+"
+PRO_ITEM_DO	PROCEDURE	1321	"                 where xtmc in ((select xtmc
+"
+PRO_ITEM_DO	PROCEDURE	1322	"                                   from t_question
+"
+PRO_ITEM_DO	PROCEDURE	1323	"                                  where instr(ms, v_str1) > 0
+"
+PRO_ITEM_DO	PROCEDURE	1324	"                                    and instr(ms, v_str2) > 0)));
+"
+PRO_ITEM_DO	PROCEDURE	1325	"      
+"
+PRO_ITEM_DO	PROCEDURE	1326	"        select chr(13) || chr(10) || ' 相关: ' || v_data2
+"
+PRO_ITEM_DO	PROCEDURE	1327	"          into v_data2
+"
+PRO_ITEM_DO	PROCEDURE	1328	"          from dual;
+"
+PRO_ITEM_DO	PROCEDURE	1329	"      end if;
+"
+PRO_ITEM_DO	PROCEDURE	1330	"    
+"
+PRO_ITEM_DO	PROCEDURE	1331	"      --------------end 
+"
+PRO_ITEM_DO	PROCEDURE	1332	"    
+"
+PRO_ITEM_DO	PROCEDURE	1333	"      select substr(v_data || v_data2, 1, 1900) into v_data from dual;
+"
+PRO_ITEM_DO	PROCEDURE	1334	"      out_msg := v_data;
+"
+PRO_ITEM_DO	PROCEDURE	1335	"      return;
+"
+PRO_ITEM_DO	PROCEDURE	1336	"    end if;
+"
+PRO_ITEM_DO	PROCEDURE	1337	"    --日常处理查询 end  
+"
+PRO_ITEM_DO	PROCEDURE	1338	"  
+"
+PRO_ITEM_DO	PROCEDURE	1339	"    --问题查询2 begin 
+"
+PRO_ITEM_DO	PROCEDURE	1340	"    if in_item = '问题查询_关键字' then
+"
+PRO_ITEM_DO	PROCEDURE	1341	"      -- //sfsb,qtsfje
+"
+PRO_ITEM_DO	PROCEDURE	1342	"      v_str2 := '';
+"
+PRO_ITEM_DO	PROCEDURE	1343	"      if v_str1 is null or v_str1 = '' then
+"
+PRO_ITEM_DO	PROCEDURE	1344	"        out_msg := '问题描述不能为空';
+"
+PRO_ITEM_DO	PROCEDURE	1345	"        return;
+"
+PRO_ITEM_DO	PROCEDURE	1346	"      end if;
+"
+PRO_ITEM_DO	PROCEDURE	1347	"    
+"
+PRO_ITEM_DO	PROCEDURE	1348	"      select trim(v_str1) into v_str1 from dual;
+"
+PRO_ITEM_DO	PROCEDURE	1349	"      select upper(v_str1) into v_str1 from dual;
+"
+PRO_ITEM_DO	PROCEDURE	1350	"    
+"
+PRO_ITEM_DO	PROCEDURE	1351	"      v_data := '';
+"
+PRO_ITEM_DO	PROCEDURE	1352	"    
+"
+PRO_ITEM_DO	PROCEDURE	1353	"      -------------  begin    
+"
+PRO_ITEM_DO	PROCEDURE	1354	"    
+"
+PRO_ITEM_DO	PROCEDURE	1355	"      select 'select ms,xtmc,xtmc_add  from t_question  where ms like ''%' ||
+"
+PRO_ITEM_DO	PROCEDURE	1356	"             v_str1 || '%'''
+"
+PRO_ITEM_DO	PROCEDURE	1357	"        into v_select
+"
+PRO_ITEM_DO	PROCEDURE	1358	"        from dual;
+"
+PRO_ITEM_DO	PROCEDURE	1359	"    
+"
+PRO_ITEM_DO	PROCEDURE	1360	"      --检索内容
+"
+PRO_ITEM_DO	PROCEDURE	1361	"      if length(v_select) > 1 then
+"
+PRO_ITEM_DO	PROCEDURE	1362	"      
+"
+PRO_ITEM_DO	PROCEDURE	1363	"        open v_cursor for v_select;
+"
+PRO_ITEM_DO	PROCEDURE	1364	"      
+"
+PRO_ITEM_DO	PROCEDURE	1365	"        loop
+"
+PRO_ITEM_DO	PROCEDURE	1366	"          fetch v_cursor
+"
+PRO_ITEM_DO	PROCEDURE	1367	"            into v_t_question.ms, v_t_question.xtmc, v_t_question.xtmc_add; --打开自定义REF游标
+"
+PRO_ITEM_DO	PROCEDURE	1368	"          exit when v_cursor%notfound;
+"
+PRO_ITEM_DO	PROCEDURE	1369	"        
+"
+PRO_ITEM_DO	PROCEDURE	1370	"          v_data_temp := v_t_question.ms;
+"
+PRO_ITEM_DO	PROCEDURE	1371	"        
+"
+PRO_ITEM_DO	PROCEDURE	1372	"          --如果检索到内容 begin
+"
+PRO_ITEM_DO	PROCEDURE	1373	"        
+"
+PRO_ITEM_DO	PROCEDURE	1374	"          if length(v_data_temp) > 0 and v_data_temp is not null then
+"
+PRO_ITEM_DO	PROCEDURE	1375	"            --v_data_add := ' ';
+"
+PRO_ITEM_DO	PROCEDURE	1376	"          
+"
+PRO_ITEM_DO	PROCEDURE	1377	"            --begin 在检索里的内容，截取对应的节点内容
+"
+PRO_ITEM_DO	PROCEDURE	1378	"            loop
+"
+PRO_ITEM_DO	PROCEDURE	1379	"            
+"
+PRO_ITEM_DO	PROCEDURE	1380	"              --查找 检索内容的位置
+"
+PRO_ITEM_DO	PROCEDURE	1381	"              select instr(v_data_temp, v_str1, 1, 1) into v_pos from dual;
+"
+PRO_ITEM_DO	PROCEDURE	1382	"            
+"
+PRO_ITEM_DO	PROCEDURE	1383	"              -- 找到检索内容(位置>0)
+"
+PRO_ITEM_DO	PROCEDURE	1384	"              if v_pos > 0 then
+"
+PRO_ITEM_DO	PROCEDURE	1385	"                --查找 检索内容之后的]分割符号的位置
+"
+PRO_ITEM_DO	PROCEDURE	1386	"                select instr(v_data_temp, ']', v_pos, 1)
+"
+PRO_ITEM_DO	PROCEDURE	1387	"                  into v_pos2
+"
+PRO_ITEM_DO	PROCEDURE	1388	"                  from dual;
+"
+PRO_ITEM_DO	PROCEDURE	1389	"                if v_pos2 > 0 then
+"
+PRO_ITEM_DO	PROCEDURE	1390	"                  -- 获取 左边的内容
+"
+PRO_ITEM_DO	PROCEDURE	1391	"                  select substr(v_data_temp, 1, v_pos2)
+"
+PRO_ITEM_DO	PROCEDURE	1392	"                    into v_data_left
+"
+PRO_ITEM_DO	PROCEDURE	1393	"                    from dual;
+"
+PRO_ITEM_DO	PROCEDURE	1394	"                  -- 获取 右边的内容
+"
+PRO_ITEM_DO	PROCEDURE	1395	"                  select substr(v_data_temp, v_pos2 + 1)
+"
+PRO_ITEM_DO	PROCEDURE	1396	"                    into v_data_temp
+"
+PRO_ITEM_DO	PROCEDURE	1397	"                    from dual;
+"
+PRO_ITEM_DO	PROCEDURE	1398	"                
+"
+PRO_ITEM_DO	PROCEDURE	1399	"                  --查找 v_data_left里 [ 的位置
+"
+PRO_ITEM_DO	PROCEDURE	1400	"                  select instr(v_data_left, '[', -1, 1)
+"
+PRO_ITEM_DO	PROCEDURE	1401	"                    into v_pos
+"
+PRO_ITEM_DO	PROCEDURE	1402	"                    from dual;
+"
+PRO_ITEM_DO	PROCEDURE	1403	"                  if v_pos > 0 then
+"
+PRO_ITEM_DO	PROCEDURE	1404	"                    select substr(v_data_left, v_pos, v_pos2)
+"
+PRO_ITEM_DO	PROCEDURE	1405	"                      into v_data_left
+"
+PRO_ITEM_DO	PROCEDURE	1406	"                      from dual;
+"
+PRO_ITEM_DO	PROCEDURE	1407	"                  end if;
+"
+PRO_ITEM_DO	PROCEDURE	1408	"                
+"
+PRO_ITEM_DO	PROCEDURE	1409	"                end if;
+"
+PRO_ITEM_DO	PROCEDURE	1410	"              
+"
+PRO_ITEM_DO	PROCEDURE	1411	"                if v_pos2 = 0 then
+"
+PRO_ITEM_DO	PROCEDURE	1412	"                
+"
+PRO_ITEM_DO	PROCEDURE	1413	"                  v_data_left := v_data_temp;
+"
+PRO_ITEM_DO	PROCEDURE	1414	"                  v_data_temp := '';
+"
+PRO_ITEM_DO	PROCEDURE	1415	"                end if;
+"
+PRO_ITEM_DO	PROCEDURE	1416	"              
+"
+PRO_ITEM_DO	PROCEDURE	1417	"                select length(v_data_add) + length(v_data_left)
+"
+PRO_ITEM_DO	PROCEDURE	1418	"                  into v_data_max
+"
+PRO_ITEM_DO	PROCEDURE	1419	"                  from dual;
+"
+PRO_ITEM_DO	PROCEDURE	1420	"                select substr(v_data_add || v_data_left || chr(13) ||
+"
+PRO_ITEM_DO	PROCEDURE	1421	"                              chr(10),
+"
+PRO_ITEM_DO	PROCEDURE	1422	"                              1,
+"
+PRO_ITEM_DO	PROCEDURE	1423	"                              1800)
+"
+PRO_ITEM_DO	PROCEDURE	1424	"                  into v_data_add
+"
+PRO_ITEM_DO	PROCEDURE	1425	"                  from dual;
+"
+PRO_ITEM_DO	PROCEDURE	1426	"              
+"
+PRO_ITEM_DO	PROCEDURE	1427	"              else
+"
+PRO_ITEM_DO	PROCEDURE	1428	"                -- 未找到检索内容(位置=0)
+"
+PRO_ITEM_DO	PROCEDURE	1429	"                exit;
+"
+PRO_ITEM_DO	PROCEDURE	1430	"              
+"
+PRO_ITEM_DO	PROCEDURE	1431	"              end if;
+"
+PRO_ITEM_DO	PROCEDURE	1432	"            
+"
+PRO_ITEM_DO	PROCEDURE	1433	"            end loop;
+"
+PRO_ITEM_DO	PROCEDURE	1434	"            ---end 在检索里的内容，截取对应的节点内容
+"
+PRO_ITEM_DO	PROCEDURE	1435	"          
+"
+PRO_ITEM_DO	PROCEDURE	1436	"          end if;
+"
+PRO_ITEM_DO	PROCEDURE	1437	"        
+"
+PRO_ITEM_DO	PROCEDURE	1438	"          --如果检索到内容  end
+"
+PRO_ITEM_DO	PROCEDURE	1439	"        
+"
+PRO_ITEM_DO	PROCEDURE	1440	"          --整合 对应项目的信息
+"
+PRO_ITEM_DO	PROCEDURE	1441	"          select length(v_data) + length(v_data_add) +
+"
+PRO_ITEM_DO	PROCEDURE	1442	"                 length(v_t_question.xtmc)
+"
+PRO_ITEM_DO	PROCEDURE	1443	"            into v_data_max
+"
+PRO_ITEM_DO	PROCEDURE	1444	"            from dual;
+"
+PRO_ITEM_DO	PROCEDURE	1445	"          select substr(v_data || v_t_question.xtmc || ':' || v_data_add,
+"
+PRO_ITEM_DO	PROCEDURE	1446	"                        1,
+"
+PRO_ITEM_DO	PROCEDURE	1447	"                        1900)
+"
+PRO_ITEM_DO	PROCEDURE	1448	"            into v_data
+"
+PRO_ITEM_DO	PROCEDURE	1449	"            from dual;
+"
+PRO_ITEM_DO	PROCEDURE	1450	"          v_data_add := '';
+"
+PRO_ITEM_DO	PROCEDURE	1451	"          exit when v_cursor%notfound; --退出循环条件   
+"
+PRO_ITEM_DO	PROCEDURE	1452	"        end loop;
+"
+PRO_ITEM_DO	PROCEDURE	1453	"      
+"
+PRO_ITEM_DO	PROCEDURE	1454	"        close v_cursor; --fetch循环游标需要关闭游标        
+"
+PRO_ITEM_DO	PROCEDURE	1455	"      
+"
+PRO_ITEM_DO	PROCEDURE	1456	"      end if;
+"
+PRO_ITEM_DO	PROCEDURE	1457	"    
+"
+PRO_ITEM_DO	PROCEDURE	1458	"      --------------  end 
+"
+PRO_ITEM_DO	PROCEDURE	1459	"    
+"
+PRO_ITEM_DO	PROCEDURE	1460	"      select substr(v_data, 1, 1900) into v_data from dual;
+"
+PRO_ITEM_DO	PROCEDURE	1461	"      if v_data is null then
+"
+PRO_ITEM_DO	PROCEDURE	1462	"        v_data := '无数据';
+"
+PRO_ITEM_DO	PROCEDURE	1463	"      end if;
+"
+PRO_ITEM_DO	PROCEDURE	1464	"    
+"
+PRO_ITEM_DO	PROCEDURE	1465	"      out_msg := v_data;
+"
+PRO_ITEM_DO	PROCEDURE	1466	"    
+"
+PRO_ITEM_DO	PROCEDURE	1467	"      return;
+"
+PRO_ITEM_DO	PROCEDURE	1468	"    end if;
+"
+PRO_ITEM_DO	PROCEDURE	1469	"    --问题查询2 end  
+"
+PRO_ITEM_DO	PROCEDURE	1470	"  
+"
+PRO_ITEM_DO	PROCEDURE	1471	"    --问题查询 begin 
+"
+PRO_ITEM_DO	PROCEDURE	1472	"    if in_item = '问题查询汇总' then
+"
+PRO_ITEM_DO	PROCEDURE	1473	"      --select wm_concat(xtmc) into out_msg from t_question order by lb;
+"
+PRO_ITEM_DO	PROCEDURE	1474	"      select wm_concat(xtmc)
+"
+PRO_ITEM_DO	PROCEDURE	1475	"        into v_data
+"
+PRO_ITEM_DO	PROCEDURE	1476	"        from (select xtmc
+"
+PRO_ITEM_DO	PROCEDURE	1477	"                from t_question
+"
+PRO_ITEM_DO	PROCEDURE	1478	"               WHERE xtmc like '日常处理_%'
+"
+PRO_ITEM_DO	PROCEDURE	1479	"               order by lb);
+"
+PRO_ITEM_DO	PROCEDURE	1480	"    
+"
+PRO_ITEM_DO	PROCEDURE	1481	"      select wm_concat(xtmc)
+"
+PRO_ITEM_DO	PROCEDURE	1482	"        into v_data_temp
+"
+PRO_ITEM_DO	PROCEDURE	1483	"        from (select xtmc
+"
+PRO_ITEM_DO	PROCEDURE	1484	"                from t_question
+"
+PRO_ITEM_DO	PROCEDURE	1485	"               WHERE xtmc like '项目_%'
+"
+PRO_ITEM_DO	PROCEDURE	1486	"               order by lb);
+"
+PRO_ITEM_DO	PROCEDURE	1487	"    
+"
+PRO_ITEM_DO	PROCEDURE	1488	"      select v_data || chr(13) || chr(10) || v_data_temp
+"
+PRO_ITEM_DO	PROCEDURE	1489	"        into v_data
+"
+PRO_ITEM_DO	PROCEDURE	1490	"        from dual;
+"
+PRO_ITEM_DO	PROCEDURE	1491	"    
+"
+PRO_ITEM_DO	PROCEDURE	1492	"      select wm_concat(xtmc)
+"
+PRO_ITEM_DO	PROCEDURE	1493	"        into v_data_temp
+"
+PRO_ITEM_DO	PROCEDURE	1494	"        from (select xtmc from t_question WHERE length(xtmc) < 4 order by lb);
+"
+PRO_ITEM_DO	PROCEDURE	1495	"    
+"
+PRO_ITEM_DO	PROCEDURE	1496	"      select v_data || chr(13) || chr(10) || v_data_temp
+"
+PRO_ITEM_DO	PROCEDURE	1497	"        into v_data
+"
+PRO_ITEM_DO	PROCEDURE	1498	"        from dual;
+"
+PRO_ITEM_DO	PROCEDURE	1499	"    
+"
+PRO_ITEM_DO	PROCEDURE	1500	"      select wm_concat(xtmc)
+"
+PRO_ITEM_DO	PROCEDURE	1501	"        into v_data_temp
+"
+PRO_ITEM_DO	PROCEDURE	1502	"        from (select xtmc
+"
+PRO_ITEM_DO	PROCEDURE	1503	"                from t_question
+"
+PRO_ITEM_DO	PROCEDURE	1504	"               WHERE xtmc not like '项目_%'
+"
+PRO_ITEM_DO	PROCEDURE	1505	"                 and xtmc not like '日常处理_%'
+"
+PRO_ITEM_DO	PROCEDURE	1506	"                 and length(xtmc) >= 4
+"
+PRO_ITEM_DO	PROCEDURE	1507	"                 and xtmc > 'A'
+"
+PRO_ITEM_DO	PROCEDURE	1508	"               order by lb);
+"
+PRO_ITEM_DO	PROCEDURE	1509	"    
+"
+PRO_ITEM_DO	PROCEDURE	1510	"      select v_data || chr(13) || chr(10) || v_data_temp
+"
+PRO_ITEM_DO	PROCEDURE	1511	"        into v_data
+"
+PRO_ITEM_DO	PROCEDURE	1512	"        from dual;
+"
+PRO_ITEM_DO	PROCEDURE	1513	"    
+"
+PRO_ITEM_DO	PROCEDURE	1514	"      select wm_concat(xtmc)
+"
+PRO_ITEM_DO	PROCEDURE	1515	"        into v_data_temp
+"
+PRO_ITEM_DO	PROCEDURE	1516	"        from (select xtmc
+"
+PRO_ITEM_DO	PROCEDURE	1517	"                from t_question
+"
+PRO_ITEM_DO	PROCEDURE	1518	"               WHERE length(xtmc) >= 4
+"
+PRO_ITEM_DO	PROCEDURE	1519	"                 and xtmc < 'A'
+"
+PRO_ITEM_DO	PROCEDURE	1520	"               order by lb);
+"
+PRO_ITEM_DO	PROCEDURE	1521	"    
+"
+PRO_ITEM_DO	PROCEDURE	1522	"      select v_data || chr(13) || chr(10) || v_data_temp
+"
+PRO_ITEM_DO	PROCEDURE	1523	"        into v_data
+"
+PRO_ITEM_DO	PROCEDURE	1524	"        from dual;
+"
+PRO_ITEM_DO	PROCEDURE	1525	"      out_msg := v_data;
+"
+PRO_ITEM_DO	PROCEDURE	1526	"      return;
+"
+PRO_ITEM_DO	PROCEDURE	1527	"    
+"
+PRO_ITEM_DO	PROCEDURE	1528	"    end if;
+"
+PRO_ITEM_DO	PROCEDURE	1529	"    --问题查询 end  
+"
+PRO_ITEM_DO	PROCEDURE	1530	"  
+"
+PRO_ITEM_DO	PROCEDURE	1531	"    --问题查询8 begin 
+"
+PRO_ITEM_DO	PROCEDURE	1532	"    if in_item = '日常处理_批量' then
+"
+PRO_ITEM_DO	PROCEDURE	1533	"      v_data  := '';
+"
+PRO_ITEM_DO	PROCEDURE	1534	"      v_data2 := '';
+"
+PRO_ITEM_DO	PROCEDURE	1535	"      for v_t_question in (select xtmc
+"
+PRO_ITEM_DO	PROCEDURE	1536	"                             from t_question
+"
+PRO_ITEM_DO	PROCEDURE	1537	"                            where xtmc like '日常处理_%') loop
+"
+PRO_ITEM_DO	PROCEDURE	1538	"      
+"
+PRO_ITEM_DO	PROCEDURE	1539	"        if length(v_t_question.xtmc) > 0 and v_t_question.xtmc is not null then
+"
+PRO_ITEM_DO	PROCEDURE	1540	"        
+"
+PRO_ITEM_DO	PROCEDURE	1541	"          v_data := '';
+"
+PRO_ITEM_DO	PROCEDURE	1542	"          select sql_select, sql_select2
+"
+PRO_ITEM_DO	PROCEDURE	1543	"            into v_t_question2.sql_select, v_t_question2.sql_select2
+"
+PRO_ITEM_DO	PROCEDURE	1544	"            from t_question
+"
+PRO_ITEM_DO	PROCEDURE	1545	"           where xtmc = v_t_question.xtmc
+"
+PRO_ITEM_DO	PROCEDURE	1546	"             and rownum = 1;
+"
+PRO_ITEM_DO	PROCEDURE	1547	"        
+"
+PRO_ITEM_DO	PROCEDURE	1548	"          --检索内容
+"
+PRO_ITEM_DO	PROCEDURE	1549	"          if length(v_t_question2.sql_select) > 1 then
+"
+PRO_ITEM_DO	PROCEDURE	1550	"            v_data_temp := '';
+"
+PRO_ITEM_DO	PROCEDURE	1551	"            open v_cursor2 for v_t_question2.sql_select;
+"
+PRO_ITEM_DO	PROCEDURE	1552	"          
+"
+PRO_ITEM_DO	PROCEDURE	1553	"            fetch v_cursor2
+"
+PRO_ITEM_DO	PROCEDURE	1554	"              into v_data_temp; --打开自定义REF游标
+"
+PRO_ITEM_DO	PROCEDURE	1555	"          
+"
+PRO_ITEM_DO	PROCEDURE	1556	"            --如果检索到内容 begin
+"
+PRO_ITEM_DO	PROCEDURE	1557	"          
+"
+PRO_ITEM_DO	PROCEDURE	1558	"            if length(v_data_temp) > 0 and v_data_temp is not null then
+"
+PRO_ITEM_DO	PROCEDURE	1559	"            
+"
+PRO_ITEM_DO	PROCEDURE	1560	"              select substr(v_t_question.xtmc || ' : ' || v_data_temp ||
+"
+PRO_ITEM_DO	PROCEDURE	1561	"                            chr(13) || chr(10) || v_t_question2.sql_select2 ||
+"
+PRO_ITEM_DO	PROCEDURE	1562	"                            chr(13) || chr(10),
+"
+PRO_ITEM_DO	PROCEDURE	1563	"                            1,
+"
+PRO_ITEM_DO	PROCEDURE	1564	"                            1800)
+"
+PRO_ITEM_DO	PROCEDURE	1565	"                into v_data
+"
+PRO_ITEM_DO	PROCEDURE	1566	"                from dual;
+"
+PRO_ITEM_DO	PROCEDURE	1567	"            else
+"
+PRO_ITEM_DO	PROCEDURE	1568	"              -- 未找到检索内容(位置=0)
+"
+PRO_ITEM_DO	PROCEDURE	1569	"              select v_t_question.xtmc || ':无数据处理' || chr(13) || chr(10)
+"
+PRO_ITEM_DO	PROCEDURE	1570	"                into v_data
+"
+PRO_ITEM_DO	PROCEDURE	1571	"                from dual;
+"
+PRO_ITEM_DO	PROCEDURE	1572	"            
+"
+PRO_ITEM_DO	PROCEDURE	1573	"            end if;
+"
+PRO_ITEM_DO	PROCEDURE	1574	"          
+"
+PRO_ITEM_DO	PROCEDURE	1575	"            close v_cursor2; --fetch循环游标需要关闭游标        
+"
+PRO_ITEM_DO	PROCEDURE	1576	"          
+"
+PRO_ITEM_DO	PROCEDURE	1577	"          end if;
+"
+PRO_ITEM_DO	PROCEDURE	1578	"        
+"
+PRO_ITEM_DO	PROCEDURE	1579	"          ----  --日常处理1  end
+"
+PRO_ITEM_DO	PROCEDURE	1580	"        
+"
+PRO_ITEM_DO	PROCEDURE	1581	"        end if;
+"
+PRO_ITEM_DO	PROCEDURE	1582	"      
+"
+PRO_ITEM_DO	PROCEDURE	1583	"        --如果检索到内容  end      
+"
+PRO_ITEM_DO	PROCEDURE	1584	"      
+"
+PRO_ITEM_DO	PROCEDURE	1585	"        select v_data2 || v_data into v_data2 from dual;
+"
+PRO_ITEM_DO	PROCEDURE	1586	"      
+"
+PRO_ITEM_DO	PROCEDURE	1587	"      end loop;
+"
+PRO_ITEM_DO	PROCEDURE	1588	"    
+"
+PRO_ITEM_DO	PROCEDURE	1589	"      out_msg := v_data2;
+"
+PRO_ITEM_DO	PROCEDURE	1590	"      return;
+"
+PRO_ITEM_DO	PROCEDURE	1591	"    end if;
+"
+PRO_ITEM_DO	PROCEDURE	1592	"  
+"
+PRO_ITEM_DO	PROCEDURE	1593	"    --问题查询8 end 
+"
+PRO_ITEM_DO	PROCEDURE	1594	"  
+"
+PRO_ITEM_DO	PROCEDURE	1595	"    --问题查询  项目最新情况 begin 
+"
+PRO_ITEM_DO	PROCEDURE	1596	"    if in_item = '项目最新情况' then
+"
+PRO_ITEM_DO	PROCEDURE	1597	"      v_data := '';
+"
+PRO_ITEM_DO	PROCEDURE	1598	"      select 'select ms,xtmc,xtmc_add  from t_question  where xtmc like ''项目_%'''
+"
+PRO_ITEM_DO	PROCEDURE	1599	"        into v_select
+"
+PRO_ITEM_DO	PROCEDURE	1600	"        from dual;
+"
+PRO_ITEM_DO	PROCEDURE	1601	"    
+"
+PRO_ITEM_DO	PROCEDURE	1602	"      --检索内容
+"
+PRO_ITEM_DO	PROCEDURE	1603	"      if length(v_select) > 1 then
+"
+PRO_ITEM_DO	PROCEDURE	1604	"      
+"
+PRO_ITEM_DO	PROCEDURE	1605	"        open v_cursor for v_select;
+"
+PRO_ITEM_DO	PROCEDURE	1606	"      
+"
+PRO_ITEM_DO	PROCEDURE	1607	"        loop
+"
+PRO_ITEM_DO	PROCEDURE	1608	"          fetch v_cursor
+"
+PRO_ITEM_DO	PROCEDURE	1609	"            into v_t_question.ms, v_t_question.xtmc, v_t_question.xtmc_add; --打开自定义REF游标
+"
+PRO_ITEM_DO	PROCEDURE	1610	"          exit when v_cursor%notfound;
+"
+PRO_ITEM_DO	PROCEDURE	1611	"        
+"
+PRO_ITEM_DO	PROCEDURE	1612	"          v_data_temp := v_t_question.ms;
+"
+PRO_ITEM_DO	PROCEDURE	1613	"          --如果检索到内容 begin      
+"
+PRO_ITEM_DO	PROCEDURE	1614	"          if length(v_data_temp) > 0 and v_data_temp is not null then
+"
+PRO_ITEM_DO	PROCEDURE	1615	"          
+"
+PRO_ITEM_DO	PROCEDURE	1616	"            select instr(v_data_temp, ']', 1, 1) into v_pos from dual;
+"
+PRO_ITEM_DO	PROCEDURE	1617	"            -- 找到检索内容(位置>0)
+"
+PRO_ITEM_DO	PROCEDURE	1618	"            if v_pos > 0 then
+"
+PRO_ITEM_DO	PROCEDURE	1619	"              --查找 检索内容之后的]分割符号的位置        
+"
+PRO_ITEM_DO	PROCEDURE	1620	"              select substr(v_data_temp, 1, v_pos)
+"
+PRO_ITEM_DO	PROCEDURE	1621	"                into v_data_left
+"
+PRO_ITEM_DO	PROCEDURE	1622	"                from dual;
+"
+PRO_ITEM_DO	PROCEDURE	1623	"            else
+"
+PRO_ITEM_DO	PROCEDURE	1624	"              v_data_left := v_data_temp;
+"
+PRO_ITEM_DO	PROCEDURE	1625	"            end if;
+"
+PRO_ITEM_DO	PROCEDURE	1626	"          
+"
+PRO_ITEM_DO	PROCEDURE	1627	"          end if;
+"
+PRO_ITEM_DO	PROCEDURE	1628	"        
+"
+PRO_ITEM_DO	PROCEDURE	1629	"          --如果检索到内容  end
+"
+PRO_ITEM_DO	PROCEDURE	1630	"          v_data_temp := '';
+"
+PRO_ITEM_DO	PROCEDURE	1631	"        
+"
+PRO_ITEM_DO	PROCEDURE	1632	"          v_data_right := '';
+"
+PRO_ITEM_DO	PROCEDURE	1633	"          select wm_concat(to_char(rq, 'yyyy-mm-dd') || ' : ' || ms)
+"
+PRO_ITEM_DO	PROCEDURE	1634	"            into v_data_right
+"
+PRO_ITEM_DO	PROCEDURE	1635	"            from t_question_xiangmu
+"
+PRO_ITEM_DO	PROCEDURE	1636	"           where rq > (select rq - 14
+"
+PRO_ITEM_DO	PROCEDURE	1637	"                         From t_question
+"
+PRO_ITEM_DO	PROCEDURE	1638	"                        where xtmc = v_t_question.xtmc)
+"
+PRO_ITEM_DO	PROCEDURE	1639	"             and xtmc = v_t_question.xtmc
+"
+PRO_ITEM_DO	PROCEDURE	1640	"           order by rq;
+"
+PRO_ITEM_DO	PROCEDURE	1641	"        
+"
+PRO_ITEM_DO	PROCEDURE	1642	"          --trim(v_t_question.xtmc) || ':' || chr(13) || chr(10) ||
+"
+PRO_ITEM_DO	PROCEDURE	1643	"          select trim(v_data_left) || chr(13) || chr(10) ||
+"
+PRO_ITEM_DO	PROCEDURE	1644	"                 trim(v_data_right) || chr(13) || chr(10)
+"
+PRO_ITEM_DO	PROCEDURE	1645	"            into v_data_temp
+"
+PRO_ITEM_DO	PROCEDURE	1646	"            from dual;
+"
+PRO_ITEM_DO	PROCEDURE	1647	"        
+"
+PRO_ITEM_DO	PROCEDURE	1648	"          --整合 对应项目的信息      
+"
+PRO_ITEM_DO	PROCEDURE	1649	"          select substr(v_data || chr(13) || chr(10) || v_data_temp,
+"
+PRO_ITEM_DO	PROCEDURE	1650	"                        1,
+"
+PRO_ITEM_DO	PROCEDURE	1651	"                        1900)
+"
+PRO_ITEM_DO	PROCEDURE	1652	"            into v_data
+"
+PRO_ITEM_DO	PROCEDURE	1653	"            from dual;
+"
+PRO_ITEM_DO	PROCEDURE	1654	"        
+"
+PRO_ITEM_DO	PROCEDURE	1655	"          exit when v_cursor%notfound; --退出循环条件   
+"
+PRO_ITEM_DO	PROCEDURE	1656	"        end loop;
+"
+PRO_ITEM_DO	PROCEDURE	1657	"      
+"
+PRO_ITEM_DO	PROCEDURE	1658	"        close v_cursor; --fetch循环游标需要关闭游标        
+"
+PRO_ITEM_DO	PROCEDURE	1659	"      
+"
+PRO_ITEM_DO	PROCEDURE	1660	"      end if;
+"
+PRO_ITEM_DO	PROCEDURE	1661	"    
+"
+PRO_ITEM_DO	PROCEDURE	1662	"      --------------  end 
+"
+PRO_ITEM_DO	PROCEDURE	1663	"    
+"
+PRO_ITEM_DO	PROCEDURE	1664	"      select substr(v_data, 1, 1900) into v_data from dual;
+"
+PRO_ITEM_DO	PROCEDURE	1665	"      if v_data is null then
+"
+PRO_ITEM_DO	PROCEDURE	1666	"        v_data := '无数据';
+"
+PRO_ITEM_DO	PROCEDURE	1667	"      end if;
+"
+PRO_ITEM_DO	PROCEDURE	1668	"    
+"
+PRO_ITEM_DO	PROCEDURE	1669	"      out_msg := v_data;
+"
+PRO_ITEM_DO	PROCEDURE	1670	"      return;
+"
+PRO_ITEM_DO	PROCEDURE	1671	"    
+"
+PRO_ITEM_DO	PROCEDURE	1672	"    end if;
+"
+PRO_ITEM_DO	PROCEDURE	1673	"    --问题查询  项目最新情况end  
+"
+PRO_ITEM_DO	PROCEDURE	1674	"  
+"
+PRO_ITEM_DO	PROCEDURE	1675	"    --问题查询 增加内容_更新  begin 
+"
+PRO_ITEM_DO	PROCEDURE	1676	"    if in_item = '增加内容_更新' then
+"
+PRO_ITEM_DO	PROCEDURE	1677	"    
+"
+PRO_ITEM_DO	PROCEDURE	1678	"      -- select '保存失败' into v_data from t_question where xtmc = v_str1;
+"
+PRO_ITEM_DO	PROCEDURE	1679	"      -- out_msg := v_data; 
+"
+PRO_ITEM_DO	PROCEDURE	1680	"      -- return;
+"
+PRO_ITEM_DO	PROCEDURE	1681	"    
+"
+PRO_ITEM_DO	PROCEDURE	1682	"      select trim(v_str1) into v_str1 from dual;
+"
+PRO_ITEM_DO	PROCEDURE	1683	"      select upper(v_str1) into v_str1 from dual;
+"
+PRO_ITEM_DO	PROCEDURE	1684	"    
+"
+PRO_ITEM_DO	PROCEDURE	1685	"      select trim(v_str2) into v_str2 from dual;
+"
+PRO_ITEM_DO	PROCEDURE	1686	"    
+"
+PRO_ITEM_DO	PROCEDURE	1687	"      if v_str1 is null or v_str1 = '' then
+"
+PRO_ITEM_DO	PROCEDURE	1688	"        out_msg := '问题不能为空';
+"
+PRO_ITEM_DO	PROCEDURE	1689	"        return;
+"
+PRO_ITEM_DO	PROCEDURE	1690	"      end if;
+"
+PRO_ITEM_DO	PROCEDURE	1691	"    
+"
+PRO_ITEM_DO	PROCEDURE	1692	"      if v_str2 is null or v_str2 = '' then
+"
+PRO_ITEM_DO	PROCEDURE	1693	"        out_msg := '增加内容不能为空';
+"
+PRO_ITEM_DO	PROCEDURE	1694	"        return;
+"
+PRO_ITEM_DO	PROCEDURE	1695	"      end if;
+"
+PRO_ITEM_DO	PROCEDURE	1696	"    
+"
+PRO_ITEM_DO	PROCEDURE	1697	"      select count(*) into v_count from t_question where xtmc = v_str1;
+"
+PRO_ITEM_DO	PROCEDURE	1698	"      if v_count > 1 then
+"
+PRO_ITEM_DO	PROCEDURE	1699	"        select v_str1 || ',存在重复问题。操作失败！'
+"
+PRO_ITEM_DO	PROCEDURE	1700	"          into out_msg
+"
+PRO_ITEM_DO	PROCEDURE	1701	"          from dual;
+"
+PRO_ITEM_DO	PROCEDURE	1702	"        -- out_msg := '增加内容不能为空';
+"
+PRO_ITEM_DO	PROCEDURE	1703	"        return;
+"
+PRO_ITEM_DO	PROCEDURE	1704	"      end if;
+"
+PRO_ITEM_DO	PROCEDURE	1705	"    
+"
+PRO_ITEM_DO	PROCEDURE	1706	"      if v_count = 0 then
+"
+PRO_ITEM_DO	PROCEDURE	1707	"        select '[' || v_str1 || ']' into v_str3 from dual;
+"
+PRO_ITEM_DO	PROCEDURE	1708	"      
+"
+PRO_ITEM_DO	PROCEDURE	1709	"        insert into t_question
+"
+PRO_ITEM_DO	PROCEDURE	1710	"          (xtmc, rq, ms)
+"
+PRO_ITEM_DO	PROCEDURE	1711	"        values
+"
+PRO_ITEM_DO	PROCEDURE	1712	"          (v_str1, v_sysdate, v_str3);
+"
+PRO_ITEM_DO	PROCEDURE	1713	"        commit;
+"
+PRO_ITEM_DO	PROCEDURE	1714	"      end if;
+"
+PRO_ITEM_DO	PROCEDURE	1715	"    
+"
+PRO_ITEM_DO	PROCEDURE	1716	"      if length(v_str1) < 4 then
+"
+PRO_ITEM_DO	PROCEDURE	1717	"      
+"
+PRO_ITEM_DO	PROCEDURE	1718	"        update t_question
+"
+PRO_ITEM_DO	PROCEDURE	1719	"           set ms = v_str2, rq = v_sysdate
+"
+PRO_ITEM_DO	PROCEDURE	1720	"         where xtmc = v_str1;
+"
+PRO_ITEM_DO	PROCEDURE	1721	"      
+"
+PRO_ITEM_DO	PROCEDURE	1722	"        if sqlcode = 0 then
+"
+PRO_ITEM_DO	PROCEDURE	1723	"          commit;
+"
+PRO_ITEM_DO	PROCEDURE	1724	"          select '保存成功,' || ms
+"
+PRO_ITEM_DO	PROCEDURE	1725	"            into v_data
+"
+PRO_ITEM_DO	PROCEDURE	1726	"            from t_question
+"
+PRO_ITEM_DO	PROCEDURE	1727	"           where xtmc = v_str1;
+"
+PRO_ITEM_DO	PROCEDURE	1728	"        else
+"
+PRO_ITEM_DO	PROCEDURE	1729	"          rollback;
+"
+PRO_ITEM_DO	PROCEDURE	1730	"          select '保存失败,' || ms
+"
+PRO_ITEM_DO	PROCEDURE	1731	"            into v_data
+"
+PRO_ITEM_DO	PROCEDURE	1732	"            from t_question
+"
+PRO_ITEM_DO	PROCEDURE	1733	"           where xtmc = v_str1;
+"
+PRO_ITEM_DO	PROCEDURE	1734	"        
+"
+PRO_ITEM_DO	PROCEDURE	1735	"        end if;
+"
+PRO_ITEM_DO	PROCEDURE	1736	"        out_msg := v_data;
+"
+PRO_ITEM_DO	PROCEDURE	1737	"        return;
+"
+PRO_ITEM_DO	PROCEDURE	1738	"      end if;
+"
+PRO_ITEM_DO	PROCEDURE	1739	"    
+"
+PRO_ITEM_DO	PROCEDURE	1740	"      update t_question
+"
+PRO_ITEM_DO	PROCEDURE	1741	"         set ms = ms || chr(13) || chr(10) || '[' || v_str2 || ']',
+"
+PRO_ITEM_DO	PROCEDURE	1742	"             rq = v_sysdate
+"
+PRO_ITEM_DO	PROCEDURE	1743	"       where xtmc = v_str1;
+"
+PRO_ITEM_DO	PROCEDURE	1744	"    
+"
+PRO_ITEM_DO	PROCEDURE	1745	"      if sqlcode = 0 then
+"
+PRO_ITEM_DO	PROCEDURE	1746	"        out_msg := '';
+"
+PRO_ITEM_DO	PROCEDURE	1747	"      else
+"
+PRO_ITEM_DO	PROCEDURE	1748	"        rollback;
+"
+PRO_ITEM_DO	PROCEDURE	1749	"        select '保存失败' into v_data from t_question where xtmc = v_str1;
+"
+PRO_ITEM_DO	PROCEDURE	1750	"        out_msg := v_data;
+"
+PRO_ITEM_DO	PROCEDURE	1751	"      end if;
+"
+PRO_ITEM_DO	PROCEDURE	1752	"    
+"
+PRO_ITEM_DO	PROCEDURE	1753	"      --问题查询 项目_增加内容  begin 
+"
+PRO_ITEM_DO	PROCEDURE	1754	"      select instr(v_str1, '项目_') into v_count from dual;
+"
+PRO_ITEM_DO	PROCEDURE	1755	"      if v_count = 1 then
+"
+PRO_ITEM_DO	PROCEDURE	1756	"        insert into t_question_xiangmu
+"
+PRO_ITEM_DO	PROCEDURE	1757	"          (xtmc, ms, rq)
+"
+PRO_ITEM_DO	PROCEDURE	1758	"        values
+"
+PRO_ITEM_DO	PROCEDURE	1759	"          (v_str1, v_str2, v_sysdate);
+"
+PRO_ITEM_DO	PROCEDURE	1760	"      
+"
+PRO_ITEM_DO	PROCEDURE	1761	"        if sqlcode = 0 then
+"
+PRO_ITEM_DO	PROCEDURE	1762	"          commit;
+"
+PRO_ITEM_DO	PROCEDURE	1763	"          -- out_msg := '增加内容成功';
+"
+PRO_ITEM_DO	PROCEDURE	1764	"          select substr(ms, 1, 1900)
+"
+PRO_ITEM_DO	PROCEDURE	1765	"            into v_data
+"
+PRO_ITEM_DO	PROCEDURE	1766	"            from t_question
+"
+PRO_ITEM_DO	PROCEDURE	1767	"           where xtmc = v_str1;
+"
+PRO_ITEM_DO	PROCEDURE	1768	"        
+"
+PRO_ITEM_DO	PROCEDURE	1769	"          out_msg := v_data;
+"
+PRO_ITEM_DO	PROCEDURE	1770	"        else
+"
+PRO_ITEM_DO	PROCEDURE	1771	"          rollback;
+"
+PRO_ITEM_DO	PROCEDURE	1772	"        
+"
+PRO_ITEM_DO	PROCEDURE	1773	"          select '保存失败'
+"
+PRO_ITEM_DO	PROCEDURE	1774	"            into v_data
+"
+PRO_ITEM_DO	PROCEDURE	1775	"            from t_question
+"
+PRO_ITEM_DO	PROCEDURE	1776	"           where xtmc = v_str1;
+"
+PRO_ITEM_DO	PROCEDURE	1777	"          out_msg := v_data;
+"
+PRO_ITEM_DO	PROCEDURE	1778	"        end if;
+"
+PRO_ITEM_DO	PROCEDURE	1779	"      
+"
+PRO_ITEM_DO	PROCEDURE	1780	"        out_msg := out_msg;
+"
+PRO_ITEM_DO	PROCEDURE	1781	"        return;
+"
+PRO_ITEM_DO	PROCEDURE	1782	"      end if;
+"
+PRO_ITEM_DO	PROCEDURE	1783	"      --问题查询 项目_增加内容 end   
+"
+PRO_ITEM_DO	PROCEDURE	1784	"    
+"
+PRO_ITEM_DO	PROCEDURE	1785	"      -- update t_question set ms = v_str2 where xtmc = v_str1;
+"
+PRO_ITEM_DO	PROCEDURE	1786	"    
+"
+PRO_ITEM_DO	PROCEDURE	1787	"      insert into t_question_bak
+"
+PRO_ITEM_DO	PROCEDURE	1788	"        (xtmc, ms, rq, xtmc_add, sql_select, sql_select2, lb, code_check)
+"
+PRO_ITEM_DO	PROCEDURE	1789	"        select xtmc,
+"
+PRO_ITEM_DO	PROCEDURE	1790	"               ms,
+"
+PRO_ITEM_DO	PROCEDURE	1791	"               rq,
+"
+PRO_ITEM_DO	PROCEDURE	1792	"               xtmc_add,
+"
+PRO_ITEM_DO	PROCEDURE	1793	"               sql_select,
+"
+PRO_ITEM_DO	PROCEDURE	1794	"               sql_select2,
+"
+PRO_ITEM_DO	PROCEDURE	1795	"               lb,
+"
+PRO_ITEM_DO	PROCEDURE	1796	"               code_check
+"
+PRO_ITEM_DO	PROCEDURE	1797	"          From t_question
+"
+PRO_ITEM_DO	PROCEDURE	1798	"         where xtmc = v_str1;
+"
+PRO_ITEM_DO	PROCEDURE	1799	"    
+"
+PRO_ITEM_DO	PROCEDURE	1800	"      if sqlcode = 0 then
+"
+PRO_ITEM_DO	PROCEDURE	1801	"        commit;
+"
+PRO_ITEM_DO	PROCEDURE	1802	"        -- out_msg := '增加内容成功';
+"
+PRO_ITEM_DO	PROCEDURE	1803	"        select substr(ms, 1, 1900)
+"
+PRO_ITEM_DO	PROCEDURE	1804	"          into v_data
+"
+PRO_ITEM_DO	PROCEDURE	1805	"          from t_question
+"
+PRO_ITEM_DO	PROCEDURE	1806	"         where xtmc = v_str1;
+"
+PRO_ITEM_DO	PROCEDURE	1807	"        out_msg := v_data;
+"
+PRO_ITEM_DO	PROCEDURE	1808	"      else
+"
+PRO_ITEM_DO	PROCEDURE	1809	"        rollback;
+"
+PRO_ITEM_DO	PROCEDURE	1810	"      
+"
+PRO_ITEM_DO	PROCEDURE	1811	"        select '保存失败' into v_data from t_question where xtmc = v_str1;
+"
+PRO_ITEM_DO	PROCEDURE	1812	"        out_msg := v_data;
+"
+PRO_ITEM_DO	PROCEDURE	1813	"      end if;
+"
+PRO_ITEM_DO	PROCEDURE	1814	"    
+"
+PRO_ITEM_DO	PROCEDURE	1815	"      out_msg := out_msg;
+"
+PRO_ITEM_DO	PROCEDURE	1816	"      return;
+"
+PRO_ITEM_DO	PROCEDURE	1817	"    end if;
+"
+PRO_ITEM_DO	PROCEDURE	1818	"    --问题查询 增加内容_更新 end   
+"
+PRO_ITEM_DO	PROCEDURE	1819	"  
+"
+PRO_ITEM_DO	PROCEDURE	1820	"  end if;
+"
+PRO_ITEM_DO	PROCEDURE	1821	"  --end 2=2 
+"
+PRO_ITEM_DO	PROCEDURE	1822	"  --现金改成银行卡 begin
+"
+PRO_ITEM_DO	PROCEDURE	1823	"  if in_item = '现金改成银行卡' then
+"
+PRO_ITEM_DO	PROCEDURE	1824	"    -- //sfsb,qtsfje
+"
+PRO_ITEM_DO	PROCEDURE	1825	"    if v_str1 is null or v_str1 = '' then
+"
+PRO_ITEM_DO	PROCEDURE	1826	"      out_msg := '电脑号不能为空';
+"
+PRO_ITEM_DO	PROCEDURE	1827	"      return;
+"
+PRO_ITEM_DO	PROCEDURE	1828	"    end if;
+"
+PRO_ITEM_DO	PROCEDURE	1829	"    if v_str2 is null or v_str2 = '' then
+"
+PRO_ITEM_DO	PROCEDURE	1830	"      out_msg := '金额不能为空';
+"
+PRO_ITEM_DO	PROCEDURE	1831	"      return;
+"
+PRO_ITEM_DO	PROCEDURE	1832	"    end if;
+"
+PRO_ITEM_DO	PROCEDURE	1833	"  
+"
+PRO_ITEM_DO	PROCEDURE	1834	"    select count(sfsb)
+"
+PRO_ITEM_DO	PROCEDURE	1835	"      into v_sl
+"
+PRO_ITEM_DO	PROCEDURE	1836	"      from mz_mzsfk1
+"
+PRO_ITEM_DO	PROCEDURE	1837	"     where sfsb = to_number(v_str1)
+"
+PRO_ITEM_DO	PROCEDURE	1838	"       and rbrq is null;
+"
+PRO_ITEM_DO	PROCEDURE	1839	"  
+"
+PRO_ITEM_DO	PROCEDURE	1840	"    if v_sl = 1 then
+"
+PRO_ITEM_DO	PROCEDURE	1841	"      out_msg := '';
+"
+PRO_ITEM_DO	PROCEDURE	1842	"    else
+"
+PRO_ITEM_DO	PROCEDURE	1843	"      out_msg := '找不到这个电脑号的记录' || v_str1;
+"
+PRO_ITEM_DO	PROCEDURE	1844	"      return;
+"
+PRO_ITEM_DO	PROCEDURE	1845	"    end if;
+"
+PRO_ITEM_DO	PROCEDURE	1846	"  
+"
+PRO_ITEM_DO	PROCEDURE	1847	"    select nvl(xj, 0.00) + nvl(qtsfje, 0.00)
+"
+PRO_ITEM_DO	PROCEDURE	1848	"      into v_je
+"
+PRO_ITEM_DO	PROCEDURE	1849	"      from mz_mzsfk1
+"
+PRO_ITEM_DO	PROCEDURE	1850	"     where sfsb = to_number(v_str1)
+"
+PRO_ITEM_DO	PROCEDURE	1851	"       and rbrq is null
+"
+PRO_ITEM_DO	PROCEDURE	1852	"       and rownum = 1;
+"
+PRO_ITEM_DO	PROCEDURE	1853	"  
+"
+PRO_ITEM_DO	PROCEDURE	1854	"    if v_je = to_number(v_str2) then
+"
+PRO_ITEM_DO	PROCEDURE	1855	"      out_msg := '';
+"
+PRO_ITEM_DO	PROCEDURE	1856	"    else
+"
+PRO_ITEM_DO	PROCEDURE	1857	"    
+"
+PRO_ITEM_DO	PROCEDURE	1858	"      out_msg := v_str1 || '输入的金额不符:qtsfje=' || v_str2;
+"
+PRO_ITEM_DO	PROCEDURE	1859	"      return;
+"
+PRO_ITEM_DO	PROCEDURE	1860	"    end if;
+"
+PRO_ITEM_DO	PROCEDURE	1861	"  
+"
+PRO_ITEM_DO	PROCEDURE	1862	"    update mz_mzsfk1
+"
+PRO_ITEM_DO	PROCEDURE	1863	"       set qtsfje = nvl(xj, 0) + nvl(qtsfje, 0), xj = 0, qtsffs = 26
+"
+PRO_ITEM_DO	PROCEDURE	1864	"     where sfsb = to_number(v_str1)
+"
+PRO_ITEM_DO	PROCEDURE	1865	"       and rbrq is null;
+"
+PRO_ITEM_DO	PROCEDURE	1866	"    commit;
+"
+PRO_ITEM_DO	PROCEDURE	1867	"    out_msg := v_str1 || '修改成银行刷卡，处理成功';
+"
+PRO_ITEM_DO	PROCEDURE	1868	"  
+"
+PRO_ITEM_DO	PROCEDURE	1869	"    return;
+"
+PRO_ITEM_DO	PROCEDURE	1870	"  end if;
+"
+PRO_ITEM_DO	PROCEDURE	1871	"  --现金改成银行卡 end 
+"
+PRO_ITEM_DO	PROCEDURE	1872	"
+"
+PRO_ITEM_DO	PROCEDURE	1873	"  --银行卡改成现金 begin
+"
+PRO_ITEM_DO	PROCEDURE	1874	"  if in_item = '银行卡改成现金' then
+"
+PRO_ITEM_DO	PROCEDURE	1875	"    -- //sfsb,qtsfje
+"
+PRO_ITEM_DO	PROCEDURE	1876	"    if v_str1 is null or v_str1 = '' then
+"
+PRO_ITEM_DO	PROCEDURE	1877	"      out_msg := '电脑号不能为空';
+"
+PRO_ITEM_DO	PROCEDURE	1878	"      return;
+"
+PRO_ITEM_DO	PROCEDURE	1879	"    end if;
+"
+PRO_ITEM_DO	PROCEDURE	1880	"    if v_str2 is null or v_str2 = '' then
+"
+PRO_ITEM_DO	PROCEDURE	1881	"      out_msg := '金额不能为空';
+"
+PRO_ITEM_DO	PROCEDURE	1882	"      return;
+"
+PRO_ITEM_DO	PROCEDURE	1883	"    end if;
+"
+PRO_ITEM_DO	PROCEDURE	1884	"  
+"
+PRO_ITEM_DO	PROCEDURE	1885	"    select count(sfsb)
+"
+PRO_ITEM_DO	PROCEDURE	1886	"      into v_sl
+"
+PRO_ITEM_DO	PROCEDURE	1887	"      from mz_mzsfk1
+"
+PRO_ITEM_DO	PROCEDURE	1888	"     where sfsb = to_number(v_str1)
+"
+PRO_ITEM_DO	PROCEDURE	1889	"       and rbrq is null;
+"
+PRO_ITEM_DO	PROCEDURE	1890	"  
+"
+PRO_ITEM_DO	PROCEDURE	1891	"    if v_sl = 1 then
+"
+PRO_ITEM_DO	PROCEDURE	1892	"      out_msg := '';
+"
+PRO_ITEM_DO	PROCEDURE	1893	"    else
+"
+PRO_ITEM_DO	PROCEDURE	1894	"      out_msg := '找不到这个电脑号的记录' || v_str1;
+"
+PRO_ITEM_DO	PROCEDURE	1895	"      return;
+"
+PRO_ITEM_DO	PROCEDURE	1896	"    end if;
+"
+PRO_ITEM_DO	PROCEDURE	1897	"  
+"
+PRO_ITEM_DO	PROCEDURE	1898	"    select nvl(xj, 0.00) + nvl(qtsfje, 0.00)
+"
+PRO_ITEM_DO	PROCEDURE	1899	"      into v_je
+"
+PRO_ITEM_DO	PROCEDURE	1900	"      from mz_mzsfk1
+"
+PRO_ITEM_DO	PROCEDURE	1901	"     where sfsb = to_number(v_str1)
+"
+PRO_ITEM_DO	PROCEDURE	1902	"       and rbrq is null
+"
+PRO_ITEM_DO	PROCEDURE	1903	"       and rownum = 1;
+"
+PRO_ITEM_DO	PROCEDURE	1904	"  
+"
+PRO_ITEM_DO	PROCEDURE	1905	"    if v_je = to_number(v_str2) then
+"
+PRO_ITEM_DO	PROCEDURE	1906	"      out_msg := '';
+"
+PRO_ITEM_DO	PROCEDURE	1907	"    else
+"
+PRO_ITEM_DO	PROCEDURE	1908	"    
+"
+PRO_ITEM_DO	PROCEDURE	1909	"      out_msg := v_str1 || '输入的金额不符:qtsfje=' || v_str2;
+"
+PRO_ITEM_DO	PROCEDURE	1910	"      return;
+"
+PRO_ITEM_DO	PROCEDURE	1911	"    end if;
+"
+PRO_ITEM_DO	PROCEDURE	1912	"  
+"
+PRO_ITEM_DO	PROCEDURE	1913	"    update mz_mzsfk1
+"
+PRO_ITEM_DO	PROCEDURE	1914	"       set xj = nvl(xj, 0) + nvl(qtsfje, 0), qtsfje = 0
+"
+PRO_ITEM_DO	PROCEDURE	1915	"     where sfsb = to_number(v_str1)
+"
+PRO_ITEM_DO	PROCEDURE	1916	"       and rbrq is null;
+"
+PRO_ITEM_DO	PROCEDURE	1917	"    commit;
+"
+PRO_ITEM_DO	PROCEDURE	1918	"    out_msg := v_str1 || '修改成现金，处理成功';
+"
+PRO_ITEM_DO	PROCEDURE	1919	"  
+"
+PRO_ITEM_DO	PROCEDURE	1920	"    return;
+"
+PRO_ITEM_DO	PROCEDURE	1921	"  end if;
+"
+PRO_ITEM_DO	PROCEDURE	1922	"  --银行卡改成现金 end 
+"
+PRO_ITEM_DO	PROCEDURE	1923	"
+"
+PRO_ITEM_DO	PROCEDURE	1924	"  --修改发票重打begin 调整医后付
+"
+PRO_ITEM_DO	PROCEDURE	1925	"  if in_item = '修改发票重打' then
+"
+PRO_ITEM_DO	PROCEDURE	1926	"    -- //sfsb,qtsfje
+"
+PRO_ITEM_DO	PROCEDURE	1927	"    if v_str1 is null or v_str1 = '' then
+"
+PRO_ITEM_DO	PROCEDURE	1928	"      out_msg := '就诊卡号不能为空,调整医后付';
+"
+PRO_ITEM_DO	PROCEDURE	1929	"      return;
+"
+PRO_ITEM_DO	PROCEDURE	1930	"    end if;
+"
+PRO_ITEM_DO	PROCEDURE	1931	"  
+"
+PRO_ITEM_DO	PROCEDURE	1932	"    select count(jzkh) into v_sl from gy_brjbxxk where jzkh = (v_str1);
+"
+PRO_ITEM_DO	PROCEDURE	1933	"    if v_sl = 1 then
+"
+PRO_ITEM_DO	PROCEDURE	1934	"      out_msg := '';
+"
+PRO_ITEM_DO	PROCEDURE	1935	"    else
+"
+PRO_ITEM_DO	PROCEDURE	1936	"      out_msg := '找不到这个就诊卡号的记录(gy_brjbxxk)' || v_str1;
+"
+PRO_ITEM_DO	PROCEDURE	1937	"      return;
+"
+PRO_ITEM_DO	PROCEDURE	1938	"    end if;
+"
+PRO_ITEM_DO	PROCEDURE	1939	"  
+"
+PRO_ITEM_DO	PROCEDURE	1940	"    update yj_yjk1
+"
+PRO_ITEM_DO	PROCEDURE	1941	"       set brxh = 999999999
+"
+PRO_ITEM_DO	PROCEDURE	1942	"     where sfsb is null
+"
+PRO_ITEM_DO	PROCEDURE	1943	"       and brxh > 0
+"
+PRO_ITEM_DO	PROCEDURE	1944	"       and jzkh = v_str1;
+"
+PRO_ITEM_DO	PROCEDURE	1945	"    if sqlcode = 0 then
+"
+PRO_ITEM_DO	PROCEDURE	1946	"      update mz_cfk1
+"
+PRO_ITEM_DO	PROCEDURE	1947	"         set brxh = 999999999
+"
+PRO_ITEM_DO	PROCEDURE	1948	"       where sfsb is null
+"
+PRO_ITEM_DO	PROCEDURE	1949	"         and brxh > 0
+"
+PRO_ITEM_DO	PROCEDURE	1950	"         and jzkh = v_str1;
+"
+PRO_ITEM_DO	PROCEDURE	1951	"      if sqlcode = 0 then
+"
+PRO_ITEM_DO	PROCEDURE	1952	"        commit;
+"
+PRO_ITEM_DO	PROCEDURE	1953	"        update mz_jkk
+"
+PRO_ITEM_DO	PROCEDURE	1954	"           set jkje_use = 0.00
+"
+PRO_ITEM_DO	PROCEDURE	1955	"         where sfsb is null
+"
+PRO_ITEM_DO	PROCEDURE	1956	"           and jkje_use > 0
+"
+PRO_ITEM_DO	PROCEDURE	1957	"           and jzkh = v_str1;
+"
+PRO_ITEM_DO	PROCEDURE	1958	"        if sqlcode = 0 then
+"
+PRO_ITEM_DO	PROCEDURE	1959	"          commit;
+"
+PRO_ITEM_DO	PROCEDURE	1960	"          out_msg := v_str1 || '处理成功,调整医后付';
+"
+PRO_ITEM_DO	PROCEDURE	1961	"        else
+"
+PRO_ITEM_DO	PROCEDURE	1962	"          rollback;
+"
+PRO_ITEM_DO	PROCEDURE	1963	"          out_msg := v_str1 || '处理失败,调整医后付';
+"
+PRO_ITEM_DO	PROCEDURE	1964	"        end if;
+"
+PRO_ITEM_DO	PROCEDURE	1965	"      
+"
+PRO_ITEM_DO	PROCEDURE	1966	"      else
+"
+PRO_ITEM_DO	PROCEDURE	1967	"        rollback;
+"
+PRO_ITEM_DO	PROCEDURE	1968	"        out_msg := v_str1 || '处理失败,调整医后付';
+"
+PRO_ITEM_DO	PROCEDURE	1969	"      end if;
+"
+PRO_ITEM_DO	PROCEDURE	1970	"    else
+"
+PRO_ITEM_DO	PROCEDURE	1971	"      rollback;
+"
+PRO_ITEM_DO	PROCEDURE	1972	"      out_msg := v_str1 || '处理失败,调整医后付';
+"
+PRO_ITEM_DO	PROCEDURE	1973	"    end if;
+"
+PRO_ITEM_DO	PROCEDURE	1974	"  
+"
+PRO_ITEM_DO	PROCEDURE	1975	"    return;
+"
+PRO_ITEM_DO	PROCEDURE	1976	"  end if;
+"
+PRO_ITEM_DO	PROCEDURE	1977	"  --修改发票重打end  调整医后付
+"
+PRO_ITEM_DO	PROCEDURE	1978	"
+"
+PRO_ITEM_DO	PROCEDURE	1979	"  --放射科手工退药处理 begin
+"
+PRO_ITEM_DO	PROCEDURE	1980	"  if in_item = '放射科手工退药处理' then
+"
+PRO_ITEM_DO	PROCEDURE	1981	"    -- //sfsb
+"
+PRO_ITEM_DO	PROCEDURE	1982	"    if v_str1 is null or v_str1 = '' then
+"
+PRO_ITEM_DO	PROCEDURE	1983	"      out_msg := '1电脑号不能为空00,放射科手工退药处理';
+"
+PRO_ITEM_DO	PROCEDURE	1984	"      return;
+"
+PRO_ITEM_DO	PROCEDURE	1985	"    end if;
+"
+PRO_ITEM_DO	PROCEDURE	1986	"  
+"
+PRO_ITEM_DO	PROCEDURE	1987	"    out_msg := '失败';
+"
+PRO_ITEM_DO	PROCEDURE	1988	"    v_fypb  := 0;
+"
+PRO_ITEM_DO	PROCEDURE	1989	"    v_cfsb  := 0;
+"
+PRO_ITEM_DO	PROCEDURE	1990	"    v_sl    := 0;
+"
+PRO_ITEM_DO	PROCEDURE	1991	"    select count(cfsb)
+"
+PRO_ITEM_DO	PROCEDURE	1992	"      into v_sl
+"
+PRO_ITEM_DO	PROCEDURE	1993	"      from mz_cfk1
+"
+PRO_ITEM_DO	PROCEDURE	1994	"     where cfsb not in (select nvl(ycfsb, 0)
+"
+PRO_ITEM_DO	PROCEDURE	1995	"                          from mz_cfk1
+"
+PRO_ITEM_DO	PROCEDURE	1996	"                         where cflx = 1
+"
+PRO_ITEM_DO	PROCEDURE	1997	"                           and cfrq > sysdate - 10
+"
+PRO_ITEM_DO	PROCEDURE	1998	"                           and nvl(ycfsb, 0) > 0
+"
+PRO_ITEM_DO	PROCEDURE	1999	"                           and jzkh = v_jzkh)
+"
+PRO_ITEM_DO	PROCEDURE	2000	"       and cflx = 1
+"
+PRO_ITEM_DO	PROCEDURE	2001	"       and (ksdm = '10900001' or
+"
+PRO_ITEM_DO	PROCEDURE	2002	"           fyks in (select ksdm from v_gy_ksdm_yaopin))
+"
+PRO_ITEM_DO	PROCEDURE	2003	"       and sfsb = to_number(v_str1)
+"
+PRO_ITEM_DO	PROCEDURE	2004	"       and rownum = 1;
+"
+PRO_ITEM_DO	PROCEDURE	2005	"  
+"
+PRO_ITEM_DO	PROCEDURE	2006	"    if v_sl = 0 then
+"
+PRO_ITEM_DO	PROCEDURE	2007	"      out_msg := '2未找到此电脑号的放射科的处方记录001,mz_cfk1' || v_str1;
+"
+PRO_ITEM_DO	PROCEDURE	2008	"      return;
+"
+PRO_ITEM_DO	PROCEDURE	2009	"    end if;
+"
+PRO_ITEM_DO	PROCEDURE	2010	"  
+"
+PRO_ITEM_DO	PROCEDURE	2011	"    v_cfsb := 0;
+"
+PRO_ITEM_DO	PROCEDURE	2012	"  
+"
+PRO_ITEM_DO	PROCEDURE	2013	"    select cfsb, jzkh, nvl(fypb, 0)
+"
+PRO_ITEM_DO	PROCEDURE	2014	"      into v_cfsb, v_jzkh, v_fypb
+"
+PRO_ITEM_DO	PROCEDURE	2015	"      from mz_cfk1
+"
+PRO_ITEM_DO	PROCEDURE	2016	"     where cfsb not in (select nvl(ycfsb, 0)
+"
+PRO_ITEM_DO	PROCEDURE	2017	"                          from mz_cfk1
+"
+PRO_ITEM_DO	PROCEDURE	2018	"                         where cflx = 1
+"
+PRO_ITEM_DO	PROCEDURE	2019	"                           and cfrq > sysdate - 10
+"
+PRO_ITEM_DO	PROCEDURE	2020	"                           and nvl(ycfsb, 0) > 0
+"
+PRO_ITEM_DO	PROCEDURE	2021	"                           and jzkh = v_jzkh)
+"
+PRO_ITEM_DO	PROCEDURE	2022	"       and cflx = 1
+"
+PRO_ITEM_DO	PROCEDURE	2023	"       and (ksdm = '10900001' or
+"
+PRO_ITEM_DO	PROCEDURE	2024	"           fyks in (select ksdm from v_gy_ksdm_yaopin))
+"
+PRO_ITEM_DO	PROCEDURE	2025	"       and sfsb = to_number(v_str1)
+"
+PRO_ITEM_DO	PROCEDURE	2026	"       and rownum = 1;
+"
+PRO_ITEM_DO	PROCEDURE	2027	"  
+"
+PRO_ITEM_DO	PROCEDURE	2028	"    v_cfsb := 0;
+"
+PRO_ITEM_DO	PROCEDURE	2029	"    v_fypb := 9;
+"
+PRO_ITEM_DO	PROCEDURE	2030	"    select cfsb
+"
+PRO_ITEM_DO	PROCEDURE	2031	"      into v_cfsb
+"
+PRO_ITEM_DO	PROCEDURE	2032	"      from mz_cfk1
+"
+PRO_ITEM_DO	PROCEDURE	2033	"     where cfsb not in (select nvl(ycfsb, 0)
+"
+PRO_ITEM_DO	PROCEDURE	2034	"                          from mz_cfk1
+"
+PRO_ITEM_DO	PROCEDURE	2035	"                         where cflx = 1
+"
+PRO_ITEM_DO	PROCEDURE	2036	"                           and cfrq > sysdate - 10
+"
+PRO_ITEM_DO	PROCEDURE	2037	"                           and nvl(ycfsb, 0) > 0
+"
+PRO_ITEM_DO	PROCEDURE	2038	"                           and jzkh = v_jzkh)
+"
+PRO_ITEM_DO	PROCEDURE	2039	"       and cflx = 1
+"
+PRO_ITEM_DO	PROCEDURE	2040	"       and (ksdm = '10900001' or
+"
+PRO_ITEM_DO	PROCEDURE	2041	"           fyks in (select ksdm from v_gy_ksdm_yaopin))
+"
+PRO_ITEM_DO	PROCEDURE	2042	"       and nvl(fypb, 0) = 9
+"
+PRO_ITEM_DO	PROCEDURE	2043	"       and sfsb = to_number(v_str1)
+"
+PRO_ITEM_DO	PROCEDURE	2044	"       and rownum = 1;
+"
+PRO_ITEM_DO	PROCEDURE	2045	"  
+"
+PRO_ITEM_DO	PROCEDURE	2046	"    v_sl_tf := 0;
+"
+PRO_ITEM_DO	PROCEDURE	2047	"  
+"
+PRO_ITEM_DO	PROCEDURE	2048	"    select count(cfsb)
+"
+PRO_ITEM_DO	PROCEDURE	2049	"      into v_sl_tf
+"
+PRO_ITEM_DO	PROCEDURE	2050	"      from mz_cfk1
+"
+PRO_ITEM_DO	PROCEDURE	2051	"     where cflx = 1
+"
+PRO_ITEM_DO	PROCEDURE	2052	"       and ycfsb = v_cfsb
+"
+PRO_ITEM_DO	PROCEDURE	2053	"       and jzkh = v_jzkh
+"
+PRO_ITEM_DO	PROCEDURE	2054	"       and rownum = 1;
+"
+PRO_ITEM_DO	PROCEDURE	2055	"    if v_sl_tf > 0 then
+"
+PRO_ITEM_DO	PROCEDURE	2056	"      out_msg := '0002已存在退药记录02,ycfsb=' || to_char(v_cfsb);
+"
+PRO_ITEM_DO	PROCEDURE	2057	"      return;
+"
+PRO_ITEM_DO	PROCEDURE	2058	"    end if;
+"
+PRO_ITEM_DO	PROCEDURE	2059	"  
+"
+PRO_ITEM_DO	PROCEDURE	2060	"    if v_fypb <> 9 then
+"
+PRO_ITEM_DO	PROCEDURE	2061	"      out_msg := '未找到fypb=9的处方记录03,mz_cfk1';
+"
+PRO_ITEM_DO	PROCEDURE	2062	"      return;
+"
+PRO_ITEM_DO	PROCEDURE	2063	"    end if;
+"
+PRO_ITEM_DO	PROCEDURE	2064	"  
+"
+PRO_ITEM_DO	PROCEDURE	2065	"    if (v_cfsb > 0 and v_sl_tf = 0) then
+"
+PRO_ITEM_DO	PROCEDURE	2066	"      UPDATE GY_xhb SET dqz = dqz + zz WHERE bm = 'MZ_CFK1';
+"
+PRO_ITEM_DO	PROCEDURE	2067	"      commit;
+"
+PRO_ITEM_DO	PROCEDURE	2068	"    
+"
+PRO_ITEM_DO	PROCEDURE	2069	"      SELECT dqz INTO v_cfk1_new FROM GY_xhb WHERE bm = 'MZ_CFK1';
+"
+PRO_ITEM_DO	PROCEDURE	2070	"    
+"
+PRO_ITEM_DO	PROCEDURE	2071	"      insert into MZ_CFK1
+"
+PRO_ITEM_DO	PROCEDURE	2072	"        (cfsb,
+"
+PRO_ITEM_DO	PROCEDURE	2073	"         jzkh,
+"
+PRO_ITEM_DO	PROCEDURE	2074	"         brxm,
+"
+PRO_ITEM_DO	PROCEDURE	2075	"         brxz,
+"
+PRO_ITEM_DO	PROCEDURE	2076	"         cflx,
+"
+PRO_ITEM_DO	PROCEDURE	2077	"         cfrq,
+"
+PRO_ITEM_DO	PROCEDURE	2078	"         fypb,
+"
+PRO_ITEM_DO	PROCEDURE	2079	"         ysgh,
+"
+PRO_ITEM_DO	PROCEDURE	2080	"         ksdm,
+"
+PRO_ITEM_DO	PROCEDURE	2081	"         cfts,
+"
+PRO_ITEM_DO	PROCEDURE	2082	"         fyks,
+"
+PRO_ITEM_DO	PROCEDURE	2083	"         czgh,
+"
+PRO_ITEM_DO	PROCEDURE	2084	"         jzxh,
+"
+PRO_ITEM_DO	PROCEDURE	2085	"         yjks,
+"
+PRO_ITEM_DO	PROCEDURE	2086	"         ycfsb,
+"
+PRO_ITEM_DO	PROCEDURE	2087	"         fyrq)
+"
+PRO_ITEM_DO	PROCEDURE	2088	"        select v_cfk1_new,
+"
+PRO_ITEM_DO	PROCEDURE	2089	"               jzkh,
+"
+PRO_ITEM_DO	PROCEDURE	2090	"               brxm,
+"
+PRO_ITEM_DO	PROCEDURE	2091	"               brxz,
+"
+PRO_ITEM_DO	PROCEDURE	2092	"               cflx,
+"
+PRO_ITEM_DO	PROCEDURE	2093	"               sysdate,
+"
+PRO_ITEM_DO	PROCEDURE	2094	"               -1,
+"
+PRO_ITEM_DO	PROCEDURE	2095	"               ysgh,
+"
+PRO_ITEM_DO	PROCEDURE	2096	"               ksdm,
+"
+PRO_ITEM_DO	PROCEDURE	2097	"               cfts,
+"
+PRO_ITEM_DO	PROCEDURE	2098	"               fyks,
+"
+PRO_ITEM_DO	PROCEDURE	2099	"               'DBA',
+"
+PRO_ITEM_DO	PROCEDURE	2100	"               jzxh,
+"
+PRO_ITEM_DO	PROCEDURE	2101	"               yjks,
+"
+PRO_ITEM_DO	PROCEDURE	2102	"               v_cfsb,
+"
+PRO_ITEM_DO	PROCEDURE	2103	"               sysdate
+"
+PRO_ITEM_DO	PROCEDURE	2104	"          from MZ_CFK1
+"
+PRO_ITEM_DO	PROCEDURE	2105	"         where cfsb = v_cfsb;
+"
+PRO_ITEM_DO	PROCEDURE	2106	"    
+"
+PRO_ITEM_DO	PROCEDURE	2107	"      insert into MZ_CFK2
+"
+PRO_ITEM_DO	PROCEDURE	2108	"        (cfsb, ypxh, ypcddm, cfxh, dj, sl, fygb, zfbl)
+"
+PRO_ITEM_DO	PROCEDURE	2109	"        select v_cfk1_new, ypxh, ypcddm, cfxh, dj, sl * (-1), fygb, zfbl
+"
+PRO_ITEM_DO	PROCEDURE	2110	"          from MZ_CFK2
+"
+PRO_ITEM_DO	PROCEDURE	2111	"         where cfsb = v_cfsb;
+"
+PRO_ITEM_DO	PROCEDURE	2112	"    
+"
+PRO_ITEM_DO	PROCEDURE	2113	"      commit;
+"
+PRO_ITEM_DO	PROCEDURE	2114	"      out_msg := '放射科退药04，处理成功';
+"
+PRO_ITEM_DO	PROCEDURE	2115	"    
+"
+PRO_ITEM_DO	PROCEDURE	2116	"      return;
+"
+PRO_ITEM_DO	PROCEDURE	2117	"    end if;
+"
+PRO_ITEM_DO	PROCEDURE	2118	"  end if;
+"
+PRO_ITEM_DO	PROCEDURE	2119	"  --放射科手工退药处理 end
+"
+PRO_ITEM_DO	PROCEDURE	2120	"
+"
+PRO_ITEM_DO	PROCEDURE	2121	"  --调整手术执行判别 begin
+"
+PRO_ITEM_DO	PROCEDURE	2122	"  if in_item = '调整手术执行判别' then
+"
+PRO_ITEM_DO	PROCEDURE	2123	"    if 0 = 0 then
+"
+PRO_ITEM_DO	PROCEDURE	2124	"    
+"
+PRO_ITEM_DO	PROCEDURE	2125	"      if v_str1 = '0000' then
+"
+PRO_ITEM_DO	PROCEDURE	2126	"      
+"
+PRO_ITEM_DO	PROCEDURE	2127	"        update gy_charge_interface
+"
+PRO_ITEM_DO	PROCEDURE	2128	"           set infantflag = 0
+"
+PRO_ITEM_DO	PROCEDURE	2129	"         Where sendflag = 0
+"
+PRO_ITEM_DO	PROCEDURE	2130	"           and infantflag is null
+"
+PRO_ITEM_DO	PROCEDURE	2131	"           and chargedate > sysdate - 3;
+"
+PRO_ITEM_DO	PROCEDURE	2132	"        commit;
+"
+PRO_ITEM_DO	PROCEDURE	2133	"        out_msg := 'gy_charge_interface,infantflag = 0 ';
+"
+PRO_ITEM_DO	PROCEDURE	2134	"        return;
+"
+PRO_ITEM_DO	PROCEDURE	2135	"      
+"
+PRO_ITEM_DO	PROCEDURE	2136	"      end if;
+"
+PRO_ITEM_DO	PROCEDURE	2137	"    end if;
+"
+PRO_ITEM_DO	PROCEDURE	2138	"  
+"
+PRO_ITEM_DO	PROCEDURE	2139	"    if 1 = 1 then
+"
+PRO_ITEM_DO	PROCEDURE	2140	"      select length(v_str1) into v_sl from dual;
+"
+PRO_ITEM_DO	PROCEDURE	2141	"      if v_str1 >= '000jsv' and v_str1 <= '991jsv' and v_sl = 6 then
+"
+PRO_ITEM_DO	PROCEDURE	2142	"        v_sl := -1;
+"
+PRO_ITEM_DO	PROCEDURE	2143	"        --select '123jsv',substr('123jsv',1,2),substr('123jsv',3,1),to_number('10') from dual
+"
+PRO_ITEM_DO	PROCEDURE	2144	"        select to_number(substr(v_str1, 1, 2)), substr(v_str1, 3, 1)
+"
+PRO_ITEM_DO	PROCEDURE	2145	"          into v_sl, v_str2
+"
+PRO_ITEM_DO	PROCEDURE	2146	"          from dual;
+"
+PRO_ITEM_DO	PROCEDURE	2147	"        if v_sl >= 0 and v_sl <= 99 then
+"
+PRO_ITEM_DO	PROCEDURE	2148	"          if v_str2 = '1' then
+"
+PRO_ITEM_DO	PROCEDURE	2149	"          
+"
+PRO_ITEM_DO	PROCEDURE	2150	"            update zy_total_fee
+"
+PRO_ITEM_DO	PROCEDURE	2151	"               set fplx = 1
+"
+PRO_ITEM_DO	PROCEDURE	2152	"             where patient_no in
+"
+PRO_ITEM_DO	PROCEDURE	2153	"                   (select patient_No
+"
+PRO_ITEM_DO	PROCEDURE	2154	"                      from (select rownum,
+"
+PRO_ITEM_DO	PROCEDURE	2155	"                                   mod(rownum, 10) mod_flag,
+"
+PRO_ITEM_DO	PROCEDURE	2156	"                                   patient_No
+"
+PRO_ITEM_DO	PROCEDURE	2157	"                              from zy_total_fee x
+"
+PRO_ITEM_DO	PROCEDURE	2158	"                             where op_id like 'L%'
+"
+PRO_ITEM_DO	PROCEDURE	2159	"                               and nvl(fplx, 0) <> 1
+"
+PRO_ITEM_DO	PROCEDURE	2160	"                               and js_no = 1
+"
+PRO_ITEM_DO	PROCEDURE	2161	"                               and trunc(jz_date) = trunc(sysdate - v_sl))
+"
+PRO_ITEM_DO	PROCEDURE	2162	"                     where mod_flag = 1)
+"
+PRO_ITEM_DO	PROCEDURE	2163	"               and op_id like 'L%'
+"
+PRO_ITEM_DO	PROCEDURE	2164	"               and js_no = 1
+"
+PRO_ITEM_DO	PROCEDURE	2165	"               and trunc(jz_date) = trunc(sysdate - v_sl);
+"
+PRO_ITEM_DO	PROCEDURE	2166	"          
+"
+PRO_ITEM_DO	PROCEDURE	2167	"          end if;
+"
+PRO_ITEM_DO	PROCEDURE	2168	"        
+"
+PRO_ITEM_DO	PROCEDURE	2169	"          if v_str2 = '0' then
+"
+PRO_ITEM_DO	PROCEDURE	2170	"            update zy_total_fee
+"
+PRO_ITEM_DO	PROCEDURE	2171	"               set fplx = 2
+"
+PRO_ITEM_DO	PROCEDURE	2172	"             where patient_no in
+"
+PRO_ITEM_DO	PROCEDURE	2173	"                   (select patient_No
+"
+PRO_ITEM_DO	PROCEDURE	2174	"                      from (select rownum,
+"
+PRO_ITEM_DO	PROCEDURE	2175	"                                   mod(rownum, 10) mod_flag,
+"
+PRO_ITEM_DO	PROCEDURE	2176	"                                   patient_No
+"
+PRO_ITEM_DO	PROCEDURE	2177	"                              from zy_total_fee x
+"
+PRO_ITEM_DO	PROCEDURE	2178	"                             where op_id like 'L%'
+"
+PRO_ITEM_DO	PROCEDURE	2179	"                               and nvl(fplx, 0) = 1
+"
+PRO_ITEM_DO	PROCEDURE	2180	"                               and js_no = 1
+"
+PRO_ITEM_DO	PROCEDURE	2181	"                               and trunc(jz_date) = trunc(sysdate - v_sl))
+"
+PRO_ITEM_DO	PROCEDURE	2182	"                     where mod_flag = 1)
+"
+PRO_ITEM_DO	PROCEDURE	2183	"               and op_id like 'L%'
+"
+PRO_ITEM_DO	PROCEDURE	2184	"               and js_no = 1
+"
+PRO_ITEM_DO	PROCEDURE	2185	"               and trunc(jz_date) = trunc(sysdate - v_sl);
+"
+PRO_ITEM_DO	PROCEDURE	2186	"          
+"
+PRO_ITEM_DO	PROCEDURE	2187	"          end if;
+"
+PRO_ITEM_DO	PROCEDURE	2188	"          if sqlcode = 0 then
+"
+PRO_ITEM_DO	PROCEDURE	2189	"            commit;
+"
+PRO_ITEM_DO	PROCEDURE	2190	"          else
+"
+PRO_ITEM_DO	PROCEDURE	2191	"            rollback;
+"
+PRO_ITEM_DO	PROCEDURE	2192	"            out_msg := 'error';
+"
+PRO_ITEM_DO	PROCEDURE	2193	"            return;
+"
+PRO_ITEM_DO	PROCEDURE	2194	"          
+"
+PRO_ITEM_DO	PROCEDURE	2195	"          end if;
+"
+PRO_ITEM_DO	PROCEDURE	2196	"          -- select mc into out_msg from v_temp_191215a;
+"
+PRO_ITEM_DO	PROCEDURE	2197	"          select sysdate - v_sl into v_sysdate from dual;
+"
+PRO_ITEM_DO	PROCEDURE	2198	"        
+"
+PRO_ITEM_DO	PROCEDURE	2199	"          select to_char(v_sysdate, 'mm-dd') || '  ' || wm_concat(mc)
+"
+PRO_ITEM_DO	PROCEDURE	2200	"            into out_msg
+"
+PRO_ITEM_DO	PROCEDURE	2201	"            from (select x.sl || ',' || round(x.sl * 100 / y.sl, 2) mc
+"
+PRO_ITEM_DO	PROCEDURE	2202	"                    from (select count(patient_no) sl
+"
+PRO_ITEM_DO	PROCEDURE	2203	"                            from zy_total_fee a
+"
+PRO_ITEM_DO	PROCEDURE	2204	"                           where op_id like 'L%'
+"
+PRO_ITEM_DO	PROCEDURE	2205	"                             AND js_no > 0
+"
+PRO_ITEM_DO	PROCEDURE	2206	"                             and flag > 0
+"
+PRO_ITEM_DO	PROCEDURE	2207	"                             and trunc(jz_date) = trunc(v_sysdate)) x,
+"
+PRO_ITEM_DO	PROCEDURE	2208	"                         (select count(patient_no) sl
+"
+PRO_ITEM_DO	PROCEDURE	2209	"                            from zy_total_fee
+"
+PRO_ITEM_DO	PROCEDURE	2210	"                           where js_no > 0
+"
+PRO_ITEM_DO	PROCEDURE	2211	"                             and flag > 0
+"
+PRO_ITEM_DO	PROCEDURE	2212	"                             and trunc(jz_date) = trunc(v_sysdate)) y
+"
+PRO_ITEM_DO	PROCEDURE	2213	"                  union all
+"
+PRO_ITEM_DO	PROCEDURE	2214	"                  
+"
+PRO_ITEM_DO	PROCEDURE	2215	"                  select mc
+"
+PRO_ITEM_DO	PROCEDURE	2216	"                    from (select x.lb || round(x.sl * 100 / y.sl, 2) mc
+"
+PRO_ITEM_DO	PROCEDURE	2217	"                            from (select 'zy' zyjs, lb, sum(sl) sl
+"
+PRO_ITEM_DO	PROCEDURE	2218	"                                    from (select '自助机结算' lb,
+"
+PRO_ITEM_DO	PROCEDURE	2219	"                                                 count(patient_no) sl,
+"
+PRO_ITEM_DO	PROCEDURE	2220	"                                                 sum(total_fee)
+"
+PRO_ITEM_DO	PROCEDURE	2221	"                                            from zy_total_fee a
+"
+PRO_ITEM_DO	PROCEDURE	2222	"                                           where op_id = 'JDZZ'
+"
+PRO_ITEM_DO	PROCEDURE	2223	"                                             AND js_no > 0
+"
+PRO_ITEM_DO	PROCEDURE	2224	"                                             and flag > 0
+"
+PRO_ITEM_DO	PROCEDURE	2225	"                                             and trunc(jz_date) =
+"
+PRO_ITEM_DO	PROCEDURE	2226	"                                                 trunc(v_sysdate)
+"
+PRO_ITEM_DO	PROCEDURE	2227	"                                          union all
+"
+PRO_ITEM_DO	PROCEDURE	2228	"                                          select '窗口' lb,
+"
+PRO_ITEM_DO	PROCEDURE	2229	"                                                 count(patient_no),
+"
+PRO_ITEM_DO	PROCEDURE	2230	"                                                 sum(total_fee)
+"
+PRO_ITEM_DO	PROCEDURE	2231	"                                            from zy_total_fee a
+"
+PRO_ITEM_DO	PROCEDURE	2232	"                                           where ((op_id not in
+"
+PRO_ITEM_DO	PROCEDURE	2233	"                                                 ('JDZZ', 'JDZZ2', 'AUTO5',
+"
+PRO_ITEM_DO	PROCEDURE	2234	"                                                  'AUTO3') and
+"
+PRO_ITEM_DO	PROCEDURE	2235	"                                                 nvl(Fplx, 0) <> 1) OR
+"
+PRO_ITEM_DO	PROCEDURE	2236	"                                                 nvl(Fplx, 0) = 2)
+"
+PRO_ITEM_DO	PROCEDURE	2237	"                                             AND js_no > 0
+"
+PRO_ITEM_DO	PROCEDURE	2238	"                                             and flag > 0
+"
+PRO_ITEM_DO	PROCEDURE	2239	"                                             and trunc(jz_date) =
+"
+PRO_ITEM_DO	PROCEDURE	2240	"                                                 trunc(v_sysdate)
+"
+PRO_ITEM_DO	PROCEDURE	2241	"                                          union all
+"
+PRO_ITEM_DO	PROCEDURE	2242	"                                          select '移动端结算' lb,
+"
+PRO_ITEM_DO	PROCEDURE	2243	"                                                 count(patient_no),
+"
+PRO_ITEM_DO	PROCEDURE	2244	"                                                 sum(total_fee)
+"
+PRO_ITEM_DO	PROCEDURE	2245	"                                            from zy_total_fee a
+"
+PRO_ITEM_DO	PROCEDURE	2246	"                                           where op_id = 'AUTO3'
+"
+PRO_ITEM_DO	PROCEDURE	2247	"                                             AND js_no > 0
+"
+PRO_ITEM_DO	PROCEDURE	2248	"                                             and flag > 0
+"
+PRO_ITEM_DO	PROCEDURE	2249	"                                             and trunc(jz_date) =
+"
+PRO_ITEM_DO	PROCEDURE	2250	"                                                 trunc(v_sysdate)
+"
+PRO_ITEM_DO	PROCEDURE	2251	"                                          union all
+"
+PRO_ITEM_DO	PROCEDURE	2252	"                                          select '护士结算' lb,
+"
+PRO_ITEM_DO	PROCEDURE	2253	"                                                 count(patient_no),
+"
+PRO_ITEM_DO	PROCEDURE	2254	"                                                 sum(total_fee)
+"
+PRO_ITEM_DO	PROCEDURE	2255	"                                            from zy_total_fee a
+"
+PRO_ITEM_DO	PROCEDURE	2256	"                                           where ((op_id in ('JDZZ2', 'AUTO5') and
+"
+PRO_ITEM_DO	PROCEDURE	2257	"                                                 nvl(Fplx, 0) <> 2) or
+"
+PRO_ITEM_DO	PROCEDURE	2258	"                                                 nvl(Fplx, 0) = 1)
+"
+PRO_ITEM_DO	PROCEDURE	2259	"                                             AND js_no > 0
+"
+PRO_ITEM_DO	PROCEDURE	2260	"                                             and flag > 0
+"
+PRO_ITEM_DO	PROCEDURE	2261	"                                             and trunc(jz_date) =
+"
+PRO_ITEM_DO	PROCEDURE	2262	"                                                 trunc(v_sysdate))
+"
+PRO_ITEM_DO	PROCEDURE	2263	"                                   group by lb) x,
+"
+PRO_ITEM_DO	PROCEDURE	2264	"                                 (select 'zy' zyjs, sum(sl) sl
+"
+PRO_ITEM_DO	PROCEDURE	2265	"                                    from (select count(patient_no) sl,
+"
+PRO_ITEM_DO	PROCEDURE	2266	"                                                 sum(total_fee)
+"
+PRO_ITEM_DO	PROCEDURE	2267	"                                            from zy_total_fee a
+"
+PRO_ITEM_DO	PROCEDURE	2268	"                                           where js_no > 0
+"
+PRO_ITEM_DO	PROCEDURE	2269	"                                             and flag > 0
+"
+PRO_ITEM_DO	PROCEDURE	2270	"                                             and trunc(jz_date) =
+"
+PRO_ITEM_DO	PROCEDURE	2271	"                                                 trunc(v_sysdate))) y
+"
+PRO_ITEM_DO	PROCEDURE	2272	"                           where x.zyjs = y.zyjs)
+"
+PRO_ITEM_DO	PROCEDURE	2273	"                   where mc like '窗口%');
+"
+PRO_ITEM_DO	PROCEDURE	2274	"        
+"
+PRO_ITEM_DO	PROCEDURE	2275	"          return;
+"
+PRO_ITEM_DO	PROCEDURE	2276	"        end if;
+"
+PRO_ITEM_DO	PROCEDURE	2277	"      
+"
+PRO_ITEM_DO	PROCEDURE	2278	"      end if;
+"
+PRO_ITEM_DO	PROCEDURE	2279	"    
+"
+PRO_ITEM_DO	PROCEDURE	2280	"    end if;
+"
+PRO_ITEM_DO	PROCEDURE	2281	"    -- //bah
+"
+PRO_ITEM_DO	PROCEDURE	2282	"    if v_str1 is null or v_str1 = '' then
+"
+PRO_ITEM_DO	PROCEDURE	2283	"      out_msg := '病案号不能为空';
+"
+PRO_ITEM_DO	PROCEDURE	2284	"      return;
+"
+PRO_ITEM_DO	PROCEDURE	2285	"    end if;
+"
+PRO_ITEM_DO	PROCEDURE	2286	"  
+"
+PRO_ITEM_DO	PROCEDURE	2287	"    select count(bah)
+"
+PRO_ITEM_DO	PROCEDURE	2288	"      into v_sl
+"
+PRO_ITEM_DO	PROCEDURE	2289	"      from zy_patient_information
+"
+PRO_ITEM_DO	PROCEDURE	2290	"     where bah = v_str1
+"
+PRO_ITEM_DO	PROCEDURE	2291	"       and js_no = 0
+"
+PRO_ITEM_DO	PROCEDURE	2292	"       and rownum = 1;
+"
+PRO_ITEM_DO	PROCEDURE	2293	"  
+"
+PRO_ITEM_DO	PROCEDURE	2294	"    if v_sl = 0 then
+"
+PRO_ITEM_DO	PROCEDURE	2295	"      out_msg := '未找到此病案号的未结算的记录,' || v_str1;
+"
+PRO_ITEM_DO	PROCEDURE	2296	"      return;
+"
+PRO_ITEM_DO	PROCEDURE	2297	"    end if;
+"
+PRO_ITEM_DO	PROCEDURE	2298	"  
+"
+PRO_ITEM_DO	PROCEDURE	2299	"    if 1 = 1 then
+"
+PRO_ITEM_DO	PROCEDURE	2300	"    
+"
+PRO_ITEM_DO	PROCEDURE	2301	"      update zy_patient_information
+"
+PRO_ITEM_DO	PROCEDURE	2302	"         set diag_name = '发热<R50.900>'
+"
+PRO_ITEM_DO	PROCEDURE	2303	"       where diag_name is null
+"
+PRO_ITEM_DO	PROCEDURE	2304	"         and bah = v_str1
+"
+PRO_ITEM_DO	PROCEDURE	2305	"         and js_no = 0;
+"
+PRO_ITEM_DO	PROCEDURE	2306	"      commit;
+"
+PRO_ITEM_DO	PROCEDURE	2307	"    
+"
+PRO_ITEM_DO	PROCEDURE	2308	"      update zy_total_fee
+"
+PRO_ITEM_DO	PROCEDURE	2309	"         set flag = 0
+"
+PRO_ITEM_DO	PROCEDURE	2310	"       where patient_no in (SELECT patient_No
+"
+PRO_ITEM_DO	PROCEDURE	2311	"                              fROM zy_patient_information
+"
+PRO_ITEM_DO	PROCEDURE	2312	"                             where bah = v_str1
+"
+PRO_ITEM_DO	PROCEDURE	2313	"                               and js_no = 0);
+"
+PRO_ITEM_DO	PROCEDURE	2314	"    
+"
+PRO_ITEM_DO	PROCEDURE	2315	"      update zy_patient_information
+"
+PRO_ITEM_DO	PROCEDURE	2316	"         set dj_flag = 0
+"
+PRO_ITEM_DO	PROCEDURE	2317	"       where dj_flag is null
+"
+PRO_ITEM_DO	PROCEDURE	2318	"         and bah = v_str1;
+"
+PRO_ITEM_DO	PROCEDURE	2319	"      commit;
+"
+PRO_ITEM_DO	PROCEDURE	2320	"    
+"
+PRO_ITEM_DO	PROCEDURE	2321	"      update zy_patient_information
+"
+PRO_ITEM_DO	PROCEDURE	2322	"         set infant_flag = 0
+"
+PRO_ITEM_DO	PROCEDURE	2323	"       where infant_flag is null
+"
+PRO_ITEM_DO	PROCEDURE	2324	"         and bah = v_str1;
+"
+PRO_ITEM_DO	PROCEDURE	2325	"      commit;
+"
+PRO_ITEM_DO	PROCEDURE	2326	"    
+"
+PRO_ITEM_DO	PROCEDURE	2327	"      update zy_patient_information
+"
+PRO_ITEM_DO	PROCEDURE	2328	"         set jtbf_flag = 0
+"
+PRO_ITEM_DO	PROCEDURE	2329	"       where jtbf_flag is null
+"
+PRO_ITEM_DO	PROCEDURE	2330	"         and bah = v_str1;
+"
+PRO_ITEM_DO	PROCEDURE	2331	"      commit;
+"
+PRO_ITEM_DO	PROCEDURE	2332	"    
+"
+PRO_ITEM_DO	PROCEDURE	2333	"      update zy_detail_charge
+"
+PRO_ITEM_DO	PROCEDURE	2334	"         set fhr = '903'
+"
+PRO_ITEM_DO	PROCEDURE	2335	"       where patient_no in (SELECT patient_No
+"
+PRO_ITEM_DO	PROCEDURE	2336	"                              fROM zy_patient_information
+"
+PRO_ITEM_DO	PROCEDURE	2337	"                             where bah = v_str1
+"
+PRO_ITEM_DO	PROCEDURE	2338	"                               and js_no = 0)
+"
+PRO_ITEM_DO	PROCEDURE	2339	"         and fygl = 9
+"
+PRO_ITEM_DO	PROCEDURE	2340	"            --and js_no = 0
+"
+PRO_ITEM_DO	PROCEDURE	2341	"         and length(nvl(FHR, ' ')) < 2;
+"
+PRO_ITEM_DO	PROCEDURE	2342	"      commit;
+"
+PRO_ITEM_DO	PROCEDURE	2343	"      update zy_detail_charge
+"
+PRO_ITEM_DO	PROCEDURE	2344	"         set fhr = 'DBA'
+"
+PRO_ITEM_DO	PROCEDURE	2345	"       where patient_no in (SELECT patient_No
+"
+PRO_ITEM_DO	PROCEDURE	2346	"                              fROM zy_patient_information
+"
+PRO_ITEM_DO	PROCEDURE	2347	"                             where bah = v_str1
+"
+PRO_ITEM_DO	PROCEDURE	2348	"                               and js_no = 0)
+"
+PRO_ITEM_DO	PROCEDURE	2349	"         and fygl <> 9
+"
+PRO_ITEM_DO	PROCEDURE	2350	"            --and js_no = 0
+"
+PRO_ITEM_DO	PROCEDURE	2351	"         and length(nvl(FHR, ' ')) < 2;
+"
+PRO_ITEM_DO	PROCEDURE	2352	"      commit;
+"
+PRO_ITEM_DO	PROCEDURE	2353	"    
+"
+PRO_ITEM_DO	PROCEDURE	2354	"      update zy_detail_charge
+"
+PRO_ITEM_DO	PROCEDURE	2355	"         set op_Id = '903'
+"
+PRO_ITEM_DO	PROCEDURE	2356	"       where patient_no in (SELECT patient_No
+"
+PRO_ITEM_DO	PROCEDURE	2357	"                              fROM zy_patient_information
+"
+PRO_ITEM_DO	PROCEDURE	2358	"                             where bah = v_str1
+"
+PRO_ITEM_DO	PROCEDURE	2359	"                               and js_no = 0)
+"
+PRO_ITEM_DO	PROCEDURE	2360	"         and fygl = 9
+"
+PRO_ITEM_DO	PROCEDURE	2361	"            --and js_no = 0
+"
+PRO_ITEM_DO	PROCEDURE	2362	"         and length(nvl(op_Id, ' ')) < 2;
+"
+PRO_ITEM_DO	PROCEDURE	2363	"      commit;
+"
+PRO_ITEM_DO	PROCEDURE	2364	"      update zy_detail_charge
+"
+PRO_ITEM_DO	PROCEDURE	2365	"         set op_Id = 'DBA'
+"
+PRO_ITEM_DO	PROCEDURE	2366	"       where patient_no in (SELECT patient_No
+"
+PRO_ITEM_DO	PROCEDURE	2367	"                              fROM zy_patient_information
+"
+PRO_ITEM_DO	PROCEDURE	2368	"                             where bah = v_str1
+"
+PRO_ITEM_DO	PROCEDURE	2369	"                               and js_no = 0)
+"
+PRO_ITEM_DO	PROCEDURE	2370	"         and fygl <> 9
+"
+PRO_ITEM_DO	PROCEDURE	2371	"            -- and js_no = 0
+"
+PRO_ITEM_DO	PROCEDURE	2372	"         and length(nvl(op_Id, ' ')) < 2;
+"
+PRO_ITEM_DO	PROCEDURE	2373	"      commit;
+"
+PRO_ITEM_DO	PROCEDURE	2374	"      --CURR_KS
+"
+PRO_ITEM_DO	PROCEDURE	2375	"      update zy_detail_charge
+"
+PRO_ITEM_DO	PROCEDURE	2376	"         set curr_ks = (select curr_ks
+"
+PRO_ITEM_DO	PROCEDURE	2377	"                          from zy_patient_information
+"
+PRO_ITEM_DO	PROCEDURE	2378	"                         where zy_patient_information.patient_no =
+"
+PRO_ITEM_DO	PROCEDURE	2379	"                               zy_detail_charge.patient_no)
+"
+PRO_ITEM_DO	PROCEDURE	2380	"       where exists (select 1
+"
+PRO_ITEM_DO	PROCEDURE	2381	"                from zy_patient_information
+"
+PRO_ITEM_DO	PROCEDURE	2382	"               where zy_patient_information.patient_no =
+"
+PRO_ITEM_DO	PROCEDURE	2383	"                     zy_detail_charge.patient_no)
+"
+PRO_ITEM_DO	PROCEDURE	2384	"         and patient_no in (SELECT patient_No
+"
+PRO_ITEM_DO	PROCEDURE	2385	"                              fROM zy_patient_information
+"
+PRO_ITEM_DO	PROCEDURE	2386	"                             where bah = v_str1
+"
+PRO_ITEM_DO	PROCEDURE	2387	"                               and js_no = 0)
+"
+PRO_ITEM_DO	PROCEDURE	2388	"         and length(nvl(curr_ks, ' ')) < 3
+"
+PRO_ITEM_DO	PROCEDURE	2389	"      -- and js_no = 0
+"
+PRO_ITEM_DO	PROCEDURE	2390	"      ;
+"
+PRO_ITEM_DO	PROCEDURE	2391	"      commit;
+"
+PRO_ITEM_DO	PROCEDURE	2392	"      --YS_CODE
+"
+PRO_ITEM_DO	PROCEDURE	2393	"      update zy_detail_charge
+"
+PRO_ITEM_DO	PROCEDURE	2394	"         set ys_code = (select zzys
+"
+PRO_ITEM_DO	PROCEDURE	2395	"                          from zy_patient_information
+"
+PRO_ITEM_DO	PROCEDURE	2396	"                         where zy_patient_information.patient_no =
+"
+PRO_ITEM_DO	PROCEDURE	2397	"                               zy_detail_charge.patient_no)
+"
+PRO_ITEM_DO	PROCEDURE	2398	"       where exists (select 1
+"
+PRO_ITEM_DO	PROCEDURE	2399	"                from zy_patient_information
+"
+PRO_ITEM_DO	PROCEDURE	2400	"               where zy_patient_information.patient_no =
+"
+PRO_ITEM_DO	PROCEDURE	2401	"                     zy_detail_charge.patient_no)
+"
+PRO_ITEM_DO	PROCEDURE	2402	"         and patient_no in (SELECT patient_No
+"
+PRO_ITEM_DO	PROCEDURE	2403	"                              fROM zy_patient_information
+"
+PRO_ITEM_DO	PROCEDURE	2404	"                             where bah = v_str1)
+"
+PRO_ITEM_DO	PROCEDURE	2405	"         and length(nvl(ys_code, ' ')) < 3
+"
+PRO_ITEM_DO	PROCEDURE	2406	"      -- and js_no = 0
+"
+PRO_ITEM_DO	PROCEDURE	2407	"      ;
+"
+PRO_ITEM_DO	PROCEDURE	2408	"    
+"
+PRO_ITEM_DO	PROCEDURE	2409	"      commit;
+"
+PRO_ITEM_DO	PROCEDURE	2410	"    
+"
+PRO_ITEM_DO	PROCEDURE	2411	"    end if;
+"
+PRO_ITEM_DO	PROCEDURE	2412	"  
+"
+PRO_ITEM_DO	PROCEDURE	2413	"    --out_msg := '日间病人处理';
+"
+PRO_ITEM_DO	PROCEDURE	2414	"    -- return;
+"
+PRO_ITEM_DO	PROCEDURE	2415	"  
+"
+PRO_ITEM_DO	PROCEDURE	2416	"    if v_str1 is null or v_str1 = '' then
+"
+PRO_ITEM_DO	PROCEDURE	2417	"      out_msg := '病案号不能为空';
+"
+PRO_ITEM_DO	PROCEDURE	2418	"      return;
+"
+PRO_ITEM_DO	PROCEDURE	2419	"    end if;
+"
+PRO_ITEM_DO	PROCEDURE	2420	"  
+"
+PRO_ITEM_DO	PROCEDURE	2421	"    out_msg := '失败';
+"
+PRO_ITEM_DO	PROCEDURE	2422	"    v_str1  := substr('0000' || v_str1, -8);
+"
+PRO_ITEM_DO	PROCEDURE	2423	"    select count(bah)
+"
+PRO_ITEM_DO	PROCEDURE	2424	"      into v_sl
+"
+PRO_ITEM_DO	PROCEDURE	2425	"      from zy_patient_information
+"
+PRO_ITEM_DO	PROCEDURE	2426	"     where bah = v_str1
+"
+PRO_ITEM_DO	PROCEDURE	2427	"       and js_no = 0
+"
+PRO_ITEM_DO	PROCEDURE	2428	"       and rownum = 1;
+"
+PRO_ITEM_DO	PROCEDURE	2429	"  
+"
+PRO_ITEM_DO	PROCEDURE	2430	"    if v_sl = 0 then
+"
+PRO_ITEM_DO	PROCEDURE	2431	"      out_msg := '未找到此病案号的未结算的记录,' || v_str1;
+"
+PRO_ITEM_DO	PROCEDURE	2432	"      return;
+"
+PRO_ITEM_DO	PROCEDURE	2433	"    end if;
+"
+PRO_ITEM_DO	PROCEDURE	2434	"  
+"
+PRO_ITEM_DO	PROCEDURE	2435	"    select count(patient_no)
+"
+PRO_ITEM_DO	PROCEDURE	2436	"      into v_sl
+"
+PRO_ITEM_DO	PROCEDURE	2437	"      From ss_sqd
+"
+PRO_ITEM_DO	PROCEDURE	2438	"     where nvl(ccpb, 0) = 0
+"
+PRO_ITEM_DO	PROCEDURE	2439	"       and patient_no in
+"
+PRO_ITEM_DO	PROCEDURE	2440	"           (select patient_No From zy_patient_information where bah = v_str1)
+"
+PRO_ITEM_DO	PROCEDURE	2441	"       and rownum = 1;
+"
+PRO_ITEM_DO	PROCEDURE	2442	"  
+"
+PRO_ITEM_DO	PROCEDURE	2443	"    if v_sl = 0 then
+"
+PRO_ITEM_DO	PROCEDURE	2444	"      out_msg := '日间病人处理,未找到此病案号的ccpb=0手术申请记录,' || v_str1;
+"
+PRO_ITEM_DO	PROCEDURE	2445	"      return;
+"
+PRO_ITEM_DO	PROCEDURE	2446	"    end if;
+"
+PRO_ITEM_DO	PROCEDURE	2447	"  
+"
+PRO_ITEM_DO	PROCEDURE	2448	"    update ss_sqd
+"
+PRO_ITEM_DO	PROCEDURE	2449	"       set ccpb = 3
+"
+PRO_ITEM_DO	PROCEDURE	2450	"     where nvl(ccpb, 0) = 0
+"
+PRO_ITEM_DO	PROCEDURE	2451	"       and patient_no in
+"
+PRO_ITEM_DO	PROCEDURE	2452	"           (select patient_No From zy_patient_information where bah = v_str1)
+"
+PRO_ITEM_DO	PROCEDURE	2453	"       and rownum = 1;
+"
+PRO_ITEM_DO	PROCEDURE	2454	"  
+"
+PRO_ITEM_DO	PROCEDURE	2455	"    commit;
+"
+PRO_ITEM_DO	PROCEDURE	2456	"  
+"
+PRO_ITEM_DO	PROCEDURE	2457	"    out_msg := '日间病人处理,调整手术执行判别，处理成功,' || v_str1;
+"
+PRO_ITEM_DO	PROCEDURE	2458	"  
+"
+PRO_ITEM_DO	PROCEDURE	2459	"    return;
+"
+PRO_ITEM_DO	PROCEDURE	2460	"  end if;
+"
+PRO_ITEM_DO	PROCEDURE	2461	"  --调整手术执行判别 end
+"
+PRO_ITEM_DO	PROCEDURE	2462	"
+"
+PRO_ITEM_DO	PROCEDURE	2463	"  --日间病人处理 begin
+"
+PRO_ITEM_DO	PROCEDURE	2464	"  if in_item = '日间病人处理' then
+"
+PRO_ITEM_DO	PROCEDURE	2465	"    -- //bah
+"
+PRO_ITEM_DO	PROCEDURE	2466	"    if v_str1 is null or v_str1 = '' then
+"
+PRO_ITEM_DO	PROCEDURE	2467	"      out_msg := '病案号不能为空';
+"
+PRO_ITEM_DO	PROCEDURE	2468	"      return;
+"
+PRO_ITEM_DO	PROCEDURE	2469	"    end if;
+"
+PRO_ITEM_DO	PROCEDURE	2470	"  
+"
+PRO_ITEM_DO	PROCEDURE	2471	"    select count(bah)
+"
+PRO_ITEM_DO	PROCEDURE	2472	"      into v_sl
+"
+PRO_ITEM_DO	PROCEDURE	2473	"      from zy_patient_information
+"
+PRO_ITEM_DO	PROCEDURE	2474	"     where bah = v_str1
+"
+PRO_ITEM_DO	PROCEDURE	2475	"       and js_no = 0
+"
+PRO_ITEM_DO	PROCEDURE	2476	"       and rownum = 1;
+"
+PRO_ITEM_DO	PROCEDURE	2477	"  
+"
+PRO_ITEM_DO	PROCEDURE	2478	"    if v_sl = 0 then
+"
+PRO_ITEM_DO	PROCEDURE	2479	"      out_msg := '未找到此病案号的未结算的记录,' || v_str1;
+"
+PRO_ITEM_DO	PROCEDURE	2480	"      return;
+"
+PRO_ITEM_DO	PROCEDURE	2481	"    end if;
+"
+PRO_ITEM_DO	PROCEDURE	2482	"  
+"
+PRO_ITEM_DO	PROCEDURE	2483	"    if 1 = 1 then
+"
+PRO_ITEM_DO	PROCEDURE	2484	"    
+"
+PRO_ITEM_DO	PROCEDURE	2485	"      update zy_patient_information
+"
+PRO_ITEM_DO	PROCEDURE	2486	"         set dj_flag = 0
+"
+PRO_ITEM_DO	PROCEDURE	2487	"       where dj_flag is null
+"
+PRO_ITEM_DO	PROCEDURE	2488	"         and bah = v_str1;
+"
+PRO_ITEM_DO	PROCEDURE	2489	"      commit;
+"
+PRO_ITEM_DO	PROCEDURE	2490	"    
+"
+PRO_ITEM_DO	PROCEDURE	2491	"      update zy_patient_information
+"
+PRO_ITEM_DO	PROCEDURE	2492	"         set infant_flag = 0
+"
+PRO_ITEM_DO	PROCEDURE	2493	"       where infant_flag is null
+"
+PRO_ITEM_DO	PROCEDURE	2494	"         and bah = v_str1;
+"
+PRO_ITEM_DO	PROCEDURE	2495	"      commit;
+"
+PRO_ITEM_DO	PROCEDURE	2496	"    
+"
+PRO_ITEM_DO	PROCEDURE	2497	"      update zy_patient_information
+"
+PRO_ITEM_DO	PROCEDURE	2498	"         set jtbf_flag = 0
+"
+PRO_ITEM_DO	PROCEDURE	2499	"       where jtbf_flag is null
+"
+PRO_ITEM_DO	PROCEDURE	2500	"         and bah = v_str1;
+"
+PRO_ITEM_DO	PROCEDURE	2501	"      commit;
+"
+PRO_ITEM_DO	PROCEDURE	2502	"    
+"
+PRO_ITEM_DO	PROCEDURE	2503	"      update zy_detail_charge
+"
+PRO_ITEM_DO	PROCEDURE	2504	"         set fhr = '903'
+"
+PRO_ITEM_DO	PROCEDURE	2505	"       where patient_no in (SELECT patient_No
+"
+PRO_ITEM_DO	PROCEDURE	2506	"                              fROM zy_patient_information
+"
+PRO_ITEM_DO	PROCEDURE	2507	"                             where bah = v_str1)
+"
+PRO_ITEM_DO	PROCEDURE	2508	"         and fygl = 9
+"
+PRO_ITEM_DO	PROCEDURE	2509	"            --and js_no = 0
+"
+PRO_ITEM_DO	PROCEDURE	2510	"         and length(nvl(FHR, ' ')) < 2;
+"
+PRO_ITEM_DO	PROCEDURE	2511	"      commit;
+"
+PRO_ITEM_DO	PROCEDURE	2512	"      update zy_detail_charge
+"
+PRO_ITEM_DO	PROCEDURE	2513	"         set fhr = 'DBA'
+"
+PRO_ITEM_DO	PROCEDURE	2514	"       where patient_no in (SELECT patient_No
+"
+PRO_ITEM_DO	PROCEDURE	2515	"                              fROM zy_patient_information
+"
+PRO_ITEM_DO	PROCEDURE	2516	"                             where bah = v_str1)
+"
+PRO_ITEM_DO	PROCEDURE	2517	"         and fygl <> 9
+"
+PRO_ITEM_DO	PROCEDURE	2518	"            --and js_no = 0
+"
+PRO_ITEM_DO	PROCEDURE	2519	"         and length(nvl(FHR, ' ')) < 2;
+"
+PRO_ITEM_DO	PROCEDURE	2520	"      commit;
+"
+PRO_ITEM_DO	PROCEDURE	2521	"    
+"
+PRO_ITEM_DO	PROCEDURE	2522	"      update zy_detail_charge
+"
+PRO_ITEM_DO	PROCEDURE	2523	"         set op_Id = '903'
+"
+PRO_ITEM_DO	PROCEDURE	2524	"       where patient_no in (SELECT patient_No
+"
+PRO_ITEM_DO	PROCEDURE	2525	"                              fROM zy_patient_information
+"
+PRO_ITEM_DO	PROCEDURE	2526	"                             where bah = v_str1)
+"
+PRO_ITEM_DO	PROCEDURE	2527	"         and fygl = 9
+"
+PRO_ITEM_DO	PROCEDURE	2528	"            --and js_no = 0
+"
+PRO_ITEM_DO	PROCEDURE	2529	"         and length(nvl(op_Id, ' ')) < 2;
+"
+PRO_ITEM_DO	PROCEDURE	2530	"      commit;
+"
+PRO_ITEM_DO	PROCEDURE	2531	"      update zy_detail_charge
+"
+PRO_ITEM_DO	PROCEDURE	2532	"         set op_Id = 'DBA'
+"
+PRO_ITEM_DO	PROCEDURE	2533	"       where patient_no in (SELECT patient_No
+"
+PRO_ITEM_DO	PROCEDURE	2534	"                              fROM zy_patient_information
+"
+PRO_ITEM_DO	PROCEDURE	2535	"                             where bah = v_str1)
+"
+PRO_ITEM_DO	PROCEDURE	2536	"         and fygl <> 9
+"
+PRO_ITEM_DO	PROCEDURE	2537	"            -- and js_no = 0
+"
+PRO_ITEM_DO	PROCEDURE	2538	"         and length(nvl(op_Id, ' ')) < 2;
+"
+PRO_ITEM_DO	PROCEDURE	2539	"      commit;
+"
+PRO_ITEM_DO	PROCEDURE	2540	"      --CURR_KS
+"
+PRO_ITEM_DO	PROCEDURE	2541	"      update zy_detail_charge
+"
+PRO_ITEM_DO	PROCEDURE	2542	"         set curr_ks = (select curr_ks
+"
+PRO_ITEM_DO	PROCEDURE	2543	"                          from zy_patient_information
+"
+PRO_ITEM_DO	PROCEDURE	2544	"                         where zy_patient_information.patient_no =
+"
+PRO_ITEM_DO	PROCEDURE	2545	"                               zy_detail_charge.patient_no)
+"
+PRO_ITEM_DO	PROCEDURE	2546	"       where exists (select 1
+"
+PRO_ITEM_DO	PROCEDURE	2547	"                from zy_patient_information
+"
+PRO_ITEM_DO	PROCEDURE	2548	"               where zy_patient_information.patient_no =
+"
+PRO_ITEM_DO	PROCEDURE	2549	"                     zy_detail_charge.patient_no)
+"
+PRO_ITEM_DO	PROCEDURE	2550	"         and patient_no in (SELECT patient_No
+"
+PRO_ITEM_DO	PROCEDURE	2551	"                              fROM zy_patient_information
+"
+PRO_ITEM_DO	PROCEDURE	2552	"                             where bah = v_str1)
+"
+PRO_ITEM_DO	PROCEDURE	2553	"         and length(nvl(curr_ks, ' ')) < 3
+"
+PRO_ITEM_DO	PROCEDURE	2554	"      -- and js_no = 0
+"
+PRO_ITEM_DO	PROCEDURE	2555	"      ;
+"
+PRO_ITEM_DO	PROCEDURE	2556	"      commit;
+"
+PRO_ITEM_DO	PROCEDURE	2557	"      --YS_CODE
+"
+PRO_ITEM_DO	PROCEDURE	2558	"      update zy_detail_charge
+"
+PRO_ITEM_DO	PROCEDURE	2559	"         set ys_code = (select zzys
+"
+PRO_ITEM_DO	PROCEDURE	2560	"                          from zy_patient_information
+"
+PRO_ITEM_DO	PROCEDURE	2561	"                         where zy_patient_information.patient_no =
+"
+PRO_ITEM_DO	PROCEDURE	2562	"                               zy_detail_charge.patient_no)
+"
+PRO_ITEM_DO	PROCEDURE	2563	"       where exists (select 1
+"
+PRO_ITEM_DO	PROCEDURE	2564	"                from zy_patient_information
+"
+PRO_ITEM_DO	PROCEDURE	2565	"               where zy_patient_information.patient_no =
+"
+PRO_ITEM_DO	PROCEDURE	2566	"                     zy_detail_charge.patient_no)
+"
+PRO_ITEM_DO	PROCEDURE	2567	"         and patient_no in (SELECT patient_No
+"
+PRO_ITEM_DO	PROCEDURE	2568	"                              fROM zy_patient_information
+"
+PRO_ITEM_DO	PROCEDURE	2569	"                             where bah = v_str1)
+"
+PRO_ITEM_DO	PROCEDURE	2570	"         and length(nvl(ys_code, ' ')) < 3
+"
+PRO_ITEM_DO	PROCEDURE	2571	"      -- and js_no = 0
+"
+PRO_ITEM_DO	PROCEDURE	2572	"      ;
+"
+PRO_ITEM_DO	PROCEDURE	2573	"    
+"
+PRO_ITEM_DO	PROCEDURE	2574	"      commit;
+"
+PRO_ITEM_DO	PROCEDURE	2575	"    
+"
+PRO_ITEM_DO	PROCEDURE	2576	"    end if;
+"
+PRO_ITEM_DO	PROCEDURE	2577	"  
+"
+PRO_ITEM_DO	PROCEDURE	2578	"    out_msg := '日间病人处理';
+"
+PRO_ITEM_DO	PROCEDURE	2579	"    return;
+"
+PRO_ITEM_DO	PROCEDURE	2580	"  
+"
+PRO_ITEM_DO	PROCEDURE	2581	"    if v_str1 is null or v_str1 = '' then
+"
+PRO_ITEM_DO	PROCEDURE	2582	"      out_msg := '病案号不能为空';
+"
+PRO_ITEM_DO	PROCEDURE	2583	"      return;
+"
+PRO_ITEM_DO	PROCEDURE	2584	"    end if;
+"
+PRO_ITEM_DO	PROCEDURE	2585	"  
+"
+PRO_ITEM_DO	PROCEDURE	2586	"    out_msg := '失败';
+"
+PRO_ITEM_DO	PROCEDURE	2587	"    v_str1  := substr('0000' || v_str1, -8);
+"
+PRO_ITEM_DO	PROCEDURE	2588	"    select count(bah)
+"
+PRO_ITEM_DO	PROCEDURE	2589	"      into v_sl
+"
+PRO_ITEM_DO	PROCEDURE	2590	"      from zy_patient_information
+"
+PRO_ITEM_DO	PROCEDURE	2591	"     where bah = v_str1
+"
+PRO_ITEM_DO	PROCEDURE	2592	"       and js_no = 0
+"
+PRO_ITEM_DO	PROCEDURE	2593	"       and rownum = 1;
+"
+PRO_ITEM_DO	PROCEDURE	2594	"  
+"
+PRO_ITEM_DO	PROCEDURE	2595	"    if v_sl = 0 then
+"
+PRO_ITEM_DO	PROCEDURE	2596	"      out_msg := '未找到此病案号的未结算的记录,' || v_str1;
+"
+PRO_ITEM_DO	PROCEDURE	2597	"      return;
+"
+PRO_ITEM_DO	PROCEDURE	2598	"    end if;
+"
+PRO_ITEM_DO	PROCEDURE	2599	"  
+"
+PRO_ITEM_DO	PROCEDURE	2600	"    select count(patient_no)
+"
+PRO_ITEM_DO	PROCEDURE	2601	"      into v_sl
+"
+PRO_ITEM_DO	PROCEDURE	2602	"      From ss_sqd
+"
+PRO_ITEM_DO	PROCEDURE	2603	"     where nvl(ccpb, 0) = 0
+"
+PRO_ITEM_DO	PROCEDURE	2604	"       and patient_no in
+"
+PRO_ITEM_DO	PROCEDURE	2605	"           (select patient_No From zy_patient_information where bah = v_str1)
+"
+PRO_ITEM_DO	PROCEDURE	2606	"       and rownum = 1;
+"
+PRO_ITEM_DO	PROCEDURE	2607	"  
+"
+PRO_ITEM_DO	PROCEDURE	2608	"    if v_sl = 0 then
+"
+PRO_ITEM_DO	PROCEDURE	2609	"      out_msg := '未找到此病案号的ccpb=0手术申请记录,' || v_str1;
+"
+PRO_ITEM_DO	PROCEDURE	2610	"      return;
+"
+PRO_ITEM_DO	PROCEDURE	2611	"    end if;
+"
+PRO_ITEM_DO	PROCEDURE	2612	"  
+"
+PRO_ITEM_DO	PROCEDURE	2613	"    update ss_sqd
+"
+PRO_ITEM_DO	PROCEDURE	2614	"       set ccpb = 3
+"
+PRO_ITEM_DO	PROCEDURE	2615	"     where nvl(ccpb, 0) = 0
+"
+PRO_ITEM_DO	PROCEDURE	2616	"       and patient_no in
+"
+PRO_ITEM_DO	PROCEDURE	2617	"           (select patient_No From zy_patient_information where bah = v_str1)
+"
+PRO_ITEM_DO	PROCEDURE	2618	"       and rownum = 1;
+"
+PRO_ITEM_DO	PROCEDURE	2619	"  
+"
+PRO_ITEM_DO	PROCEDURE	2620	"    commit;
+"
+PRO_ITEM_DO	PROCEDURE	2621	"  
+"
+PRO_ITEM_DO	PROCEDURE	2622	"    out_msg := '调整手术执行判别，处理成功,' || v_str1;
+"
+PRO_ITEM_DO	PROCEDURE	2623	"  
+"
+PRO_ITEM_DO	PROCEDURE	2624	"    return;
+"
+PRO_ITEM_DO	PROCEDURE	2625	"  end if;
+"
+PRO_ITEM_DO	PROCEDURE	2626	"  --日间病人处理 end
+"
+PRO_ITEM_DO	PROCEDURE	2627	"
+"
+PRO_ITEM_DO	PROCEDURE	2628	"EXCEPTION
+"
+PRO_ITEM_DO	PROCEDURE	2629	"  WHEN OTHERS Then
+"
+PRO_ITEM_DO	PROCEDURE	2630	"    Rollback;
+"
+PRO_ITEM_DO	PROCEDURE	2631	"    out_msg := '处理失败,' || v_str1;
+"
+PRO_ITEM_DO	PROCEDURE	2632	"    return;
+"
+PRO_ITEM_DO	PROCEDURE	2633	"end;
+"
