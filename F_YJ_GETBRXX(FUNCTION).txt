@@ -1,0 +1,39 @@
+F_YJ_GETBRXX	FUNCTION	1	"FUNCTION         ""F_YJ_GETBRXX"" 
+"
+F_YJ_GETBRXX	FUNCTION	2	"(arg_jzkh in varchar2,arg_rq in date,arg_flag in varchar2)
+"
+F_YJ_GETBRXX	FUNCTION	3	"   return varchar2
+"
+F_YJ_GETBRXX	FUNCTION	4	"   is
+"
+F_YJ_GETBRXX	FUNCTION	5	"     ls_return varchar2(60);
+"
+F_YJ_GETBRXX	FUNCTION	6	" 	 begin
+"
+F_YJ_GETBRXX	FUNCTION	7	"   if arg_flag = 'xb' then
+"
+F_YJ_GETBRXX	FUNCTION	8	"       select decode(xb,1,'ÄÐ',2,'Å®','') into ls_return from gy_brjbxxk where jzkh=arg_jzkh and rownum=1;
+"
+F_YJ_GETBRXX	FUNCTION	9	"   elsif arg_flag = 'nl' then
+"
+F_YJ_GETBRXX	FUNCTION	10	"       select decode(csrq,null,'',to_char(to_number(to_char(arg_rq,'yyyy')) - to_number(to_char(csrq,'yyyy')) + 1)) into ls_return from gy_brjbxxk where jzkh=arg_jzkh and rownum=1;
+"
+F_YJ_GETBRXX	FUNCTION	11	"   elsif arg_flag = 'jtzz' then
+"
+F_YJ_GETBRXX	FUNCTION	12	"       select jtzz into ls_return from gy_brjbxxk where jzkh=arg_jzkh and rownum=1;
+"
+F_YJ_GETBRXX	FUNCTION	13	"   elsif arg_flag = 'xm_zy' then
+"
+F_YJ_GETBRXX	FUNCTION	14	"       select name into ls_return from zy_patient_information where patient_no=to_number(arg_jzkh) and rownum=1;
+"
+F_YJ_GETBRXX	FUNCTION	15	"   end if;
+"
+F_YJ_GETBRXX	FUNCTION	16	"   return(ls_return);
+"
+F_YJ_GETBRXX	FUNCTION	17	"
+"
+F_YJ_GETBRXX	FUNCTION	18	"   end;
+"
+F_YJ_GETBRXX	FUNCTION	19	"
+"
+F_YJ_GETBRXX	FUNCTION	20	 

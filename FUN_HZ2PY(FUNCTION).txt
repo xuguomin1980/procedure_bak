@@ -1,0 +1,166 @@
+FUN_HZ2PY	FUNCTION	1	"FUNCTION FUN_HZ2PY (AS_HZ In Varchar2)
+"
+FUN_HZ2PY	FUNCTION	2	"	RETURN Varchar2
+"
+FUN_HZ2PY	FUNCTION	3	"As
+"
+FUN_HZ2PY	FUNCTION	4	"  i Number;
+"
+FUN_HZ2PY	FUNCTION	5	"  ls_hz Varchar2(100);
+"
+FUN_HZ2PY	FUNCTION	6	"  ls_py Varchar2(100);
+"
+FUN_HZ2PY	FUNCTION	7	"  ls_tmp Varchar2(100);
+"
+FUN_HZ2PY	FUNCTION	8	"
+"
+FUN_HZ2PY	FUNCTION	9	"
+"
+FUN_HZ2PY	FUNCTION	10	"
+"
+FUN_HZ2PY	FUNCTION	11	"Begin
+"
+FUN_HZ2PY	FUNCTION	12	"  ls_hz :=Trim(as_hz);
+"
+FUN_HZ2PY	FUNCTION	13	"  FOR i In 1 .. length(ls_hz)
+"
+FUN_HZ2PY	FUNCTION	14	"  Loop
+"
+FUN_HZ2PY	FUNCTION	15	"   ls_tmp := substr(ls_hz,i,1);
+"
+FUN_HZ2PY	FUNCTION	16	"    IF instr('0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz',ls_tmp) > 0 Then
+"
+FUN_HZ2PY	FUNCTION	17	"      ls_py := ls_py || upper(ls_tmp);
+"
+FUN_HZ2PY	FUNCTION	18	"    Else
+"
+FUN_HZ2PY	FUNCTION	19	"      ls_tmp := F_NLSSORT(ls_tmp);
+"
+FUN_HZ2PY	FUNCTION	20	"      ls_tmp :=
+"
+FUN_HZ2PY	FUNCTION	21	"      Case
+"
+FUN_HZ2PY	FUNCTION	22	"        When ls_tmp < F_NLSSORT('ß¹') Then ''
+"
+FUN_HZ2PY	FUNCTION	23	"        When ls_tmp < F_NLSSORT('°Ë') Then 'A'
+"
+FUN_HZ2PY	FUNCTION	24	"        When ls_tmp < F_NLSSORT('àê') Then 'B'
+"
+FUN_HZ2PY	FUNCTION	25	"        When ls_tmp < F_NLSSORT('…ö') Then 'C'
+"
+FUN_HZ2PY	FUNCTION	26	"        When ls_tmp < F_NLSSORT('ŠŠ') Then 'D'
+"
+FUN_HZ2PY	FUNCTION	27	"        When ls_tmp < F_NLSSORT('·¢') Then 'E'
+"
+FUN_HZ2PY	FUNCTION	28	"        When ls_tmp < F_NLSSORT('ê¸') Then 'F'
+"
+FUN_HZ2PY	FUNCTION	29	"        When ls_tmp < F_NLSSORT('Šo') Then 'G'
+"
+FUN_HZ2PY	FUNCTION	30	"        When ls_tmp < F_NLSSORT('Ø¢') Then 'H'
+"
+FUN_HZ2PY	FUNCTION	31	"        --When ls_tmp < F_NLSSORT('°n') Then 'I'
+"
+FUN_HZ2PY	FUNCTION	32	"        When ls_tmp < F_NLSSORT('ßÇ') Then 'J'
+"
+FUN_HZ2PY	FUNCTION	33	"        When ls_tmp < F_NLSSORT('À¬') Then 'K'
+"
+FUN_HZ2PY	FUNCTION	34	"        When ls_tmp < F_NLSSORT('…Þ') Then 'L'
+"
+FUN_HZ2PY	FUNCTION	35	"        When ls_tmp < F_NLSSORT('’‚') Then 'M'
+"
+FUN_HZ2PY	FUNCTION	36	"        When ls_tmp < F_NLSSORT('¹p') Then 'N'
+"
+FUN_HZ2PY	FUNCTION	37	"        When ls_tmp < F_NLSSORT('Šr') Then 'O'
+"
+FUN_HZ2PY	FUNCTION	38	"        When ls_tmp < F_NLSSORT('Æß') Then 'P'
+"
+FUN_HZ2PY	FUNCTION	39	"        When ls_tmp < F_NLSSORT('’') Then 'Q'
+"
+FUN_HZ2PY	FUNCTION	40	"        When ls_tmp < F_NLSSORT('Øí') Then 'R'
+"
+FUN_HZ2PY	FUNCTION	41	"        When ls_tmp < F_NLSSORT('‚@') Then 'S'
+"
+FUN_HZ2PY	FUNCTION	42	"        When ls_tmp < F_NLSSORT('ŒÜ') Then 'T'
+"
+FUN_HZ2PY	FUNCTION	43	"       -- When ls_tmp < F_NLSSORT('àÉ') Then 'U'
+"
+FUN_HZ2PY	FUNCTION	44	"        When ls_tmp < F_NLSSORT('Ï¦') Then 'W'
+"
+FUN_HZ2PY	FUNCTION	45	"        When ls_tmp < F_NLSSORT('Ñ¾') Then 'X'
+"
+FUN_HZ2PY	FUNCTION	46	"        When ls_tmp < F_NLSSORT('Ž‰') Then 'Y'
+"
+FUN_HZ2PY	FUNCTION	47	"        When ls_tmp <= F_NLSSORT('…ø') Then 'Z'
+"
+FUN_HZ2PY	FUNCTION	48	"        When ls_tmp > F_NLSSORT('…ø') Then ''
+"
+FUN_HZ2PY	FUNCTION	49	"
+"
+FUN_HZ2PY	FUNCTION	50	"      /*
+"
+FUN_HZ2PY	FUNCTION	51	"        When ls_tmp < '°¡' Then ''
+"
+FUN_HZ2PY	FUNCTION	52	"        When ls_tmp < '°Å' Then 'A'
+"
+FUN_HZ2PY	FUNCTION	53	"        When ls_tmp < '²Á' Then 'B'
+"
+FUN_HZ2PY	FUNCTION	54	"        When ls_tmp < '´î' Then 'C'
+"
+FUN_HZ2PY	FUNCTION	55	"        When ls_tmp < '¶ê' Then 'D'
+"
+FUN_HZ2PY	FUNCTION	56	"        When ls_tmp < '·¢' Then 'E'
+"
+FUN_HZ2PY	FUNCTION	57	"        When ls_tmp < '¸Á' Then 'F'
+"
+FUN_HZ2PY	FUNCTION	58	"        When ls_tmp < '¹þ' Then 'G'
+"
+FUN_HZ2PY	FUNCTION	59	"        When ls_tmp < '»÷' Then 'H'
+"
+FUN_HZ2PY	FUNCTION	60	"        When ls_tmp < '¿¦' Then 'J'
+"
+FUN_HZ2PY	FUNCTION	61	"        When ls_tmp < 'À¬' Then 'K'
+"
+FUN_HZ2PY	FUNCTION	62	"        When ls_tmp < 'Âè' Then 'L'
+"
+FUN_HZ2PY	FUNCTION	63	"        When ls_tmp < 'ÄÃ' Then 'M'
+"
+FUN_HZ2PY	FUNCTION	64	"        When ls_tmp < 'Å·' Then 'N'
+"
+FUN_HZ2PY	FUNCTION	65	"        When ls_tmp < 'Å¾' Then 'O'
+"
+FUN_HZ2PY	FUNCTION	66	"        When ls_tmp < 'ÆÚ' Then 'P'
+"
+FUN_HZ2PY	FUNCTION	67	"        When ls_tmp < 'È»' Then 'Q'
+"
+FUN_HZ2PY	FUNCTION	68	"        When ls_tmp < 'Èö' Then 'R'
+"
+FUN_HZ2PY	FUNCTION	69	"        When ls_tmp < 'Ëú' Then 'S'
+"
+FUN_HZ2PY	FUNCTION	70	"        When ls_tmp < 'ÍÚ' Then 'T'
+"
+FUN_HZ2PY	FUNCTION	71	"        When ls_tmp < 'Î÷' Then 'W'
+"
+FUN_HZ2PY	FUNCTION	72	"        When ls_tmp < 'Ñ¹' Then 'X'
+"
+FUN_HZ2PY	FUNCTION	73	"        When ls_tmp < 'ÔÑ' Then 'Y'
+"
+FUN_HZ2PY	FUNCTION	74	"        When ls_tmp < '×ö' Then 'Z'
+"
+FUN_HZ2PY	FUNCTION	75	"        When ls_tmp > '×ö' Then ''
+"
+FUN_HZ2PY	FUNCTION	76	"        */
+"
+FUN_HZ2PY	FUNCTION	77	"        Else ''
+"
+FUN_HZ2PY	FUNCTION	78	"      End;
+"
+FUN_HZ2PY	FUNCTION	79	"      ls_py := ls_py || ls_tmp;
+"
+FUN_HZ2PY	FUNCTION	80	"    END If;
+"
+FUN_HZ2PY	FUNCTION	81	"  End Loop;
+"
+FUN_HZ2PY	FUNCTION	82	"  Return ls_py;
+"
+FUN_HZ2PY	FUNCTION	83	"END;
+"

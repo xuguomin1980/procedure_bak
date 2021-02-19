@@ -1,0 +1,58 @@
+YJ_YJK1_JZQJ	PROCEDURE	1	"PROCEDURE ""YJ_YJK1_JZQJ"" as
+"
+YJ_YJK1_JZQJ	PROCEDURE	2	"begin
+"
+YJ_YJK1_JZQJ	PROCEDURE	3	"/*
+"
+YJ_YJK1_JZQJ	PROCEDURE	4	"
+"
+YJ_YJK1_JZQJ	PROCEDURE	5	"UPDATE  yj_yjk1 SET FYBH=5 where kdsj >sysdate -0.1 and zjpb=6 AND NVL(FYBH,0)=0 AND nvl(FENZHENLSH,0) >0;
+"
+YJ_YJK1_JZQJ	PROCEDURE	6	"  if sqlcode<>0 then
+"
+YJ_YJK1_JZQJ	PROCEDURE	7	"        rollback;
+"
+YJ_YJK1_JZQJ	PROCEDURE	8	"        else
+"
+YJ_YJK1_JZQJ	PROCEDURE	9	"       COMMIT;
+"
+YJ_YJK1_JZQJ	PROCEDURE	10	"    end  if;
+"
+YJ_YJK1_JZQJ	PROCEDURE	11	"    */
+"
+YJ_YJK1_JZQJ	PROCEDURE	12	"
+"
+YJ_YJK1_JZQJ	PROCEDURE	13	"update yj_yjk2 set zfbz=1 where spbh= -10  and nvl(zfbz,0)=0 and ylxh=13531  and yjsb in (select yjsb from   yj_yjk1   where kdsj >sysdate -0.1 and sfsb is null);
+"
+YJ_YJK1_JZQJ	PROCEDURE	14	"  if sqlcode<>0 then
+"
+YJ_YJK1_JZQJ	PROCEDURE	15	"        rollback;
+"
+YJ_YJK1_JZQJ	PROCEDURE	16	"        else
+"
+YJ_YJK1_JZQJ	PROCEDURE	17	"       COMMIT;
+"
+YJ_YJK1_JZQJ	PROCEDURE	18	"    end  if;
+"
+YJ_YJK1_JZQJ	PROCEDURE	19	"    
+"
+YJ_YJK1_JZQJ	PROCEDURE	20	"    /*
+"
+YJ_YJK1_JZQJ	PROCEDURE	21	" update     zy_detail_charge set twice_detail_code ='YF' where zx_ks='3070000' and  charge_code in (927086,10331) and jcfx_date>sysdate  -  0.1 and twice_detail_code<>'YF';
+"
+YJ_YJK1_JZQJ	PROCEDURE	22	" if sqlcode<>0 then
+"
+YJ_YJK1_JZQJ	PROCEDURE	23	"        rollback;
+"
+YJ_YJK1_JZQJ	PROCEDURE	24	"        else
+"
+YJ_YJK1_JZQJ	PROCEDURE	25	"       COMMIT;
+"
+YJ_YJK1_JZQJ	PROCEDURE	26	"    end  if;
+"
+YJ_YJK1_JZQJ	PROCEDURE	27	"    */
+"
+YJ_YJK1_JZQJ	PROCEDURE	28	"    
+"
+YJ_YJK1_JZQJ	PROCEDURE	29	"end;
+"

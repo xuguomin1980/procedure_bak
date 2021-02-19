@@ -1,0 +1,90 @@
+GET_GUID	FUNCTION	1	"FUNCTION GET_GUID
+"
+GET_GUID	FUNCTION	2	"   RETURN CHAR
+"
+GET_GUID	FUNCTION	3	"IS
+"
+GET_GUID	FUNCTION	4	"   v_guid              CHAR (38);
+"
+GET_GUID	FUNCTION	5	"   v_guid_part_one     CHAR (8);
+"
+GET_GUID	FUNCTION	6	"   v_guid_part_two     CHAR (4);
+"
+GET_GUID	FUNCTION	7	"   v_guid_part_three   CHAR (4);
+"
+GET_GUID	FUNCTION	8	"   v_guid_part_four    CHAR (4);
+"
+GET_GUID	FUNCTION	9	"   v_guid_part_five    CHAR (12);
+"
+GET_GUID	FUNCTION	10	"BEGIN
+"
+GET_GUID	FUNCTION	11	"   SELECT SYS_GUID ()
+"
+GET_GUID	FUNCTION	12	"     INTO v_guid
+"
+GET_GUID	FUNCTION	13	"     FROM DUAL;
+"
+GET_GUID	FUNCTION	14	"   v_guid_part_one := SUBSTR (v_guid, 0, 8);
+"
+GET_GUID	FUNCTION	15	"   v_guid_part_two := SUBSTR (v_guid, 8, 4);
+"
+GET_GUID	FUNCTION	16	"   v_guid_part_three := SUBSTR (v_guid, 12, 4);
+"
+GET_GUID	FUNCTION	17	"   v_guid_part_four := SUBSTR (v_guid, 16, 4);
+"
+GET_GUID	FUNCTION	18	"   v_guid_part_five := SUBSTR (v_guid, 20, 12);
+"
+GET_GUID	FUNCTION	19	"   v_guid :=
+"
+GET_GUID	FUNCTION	20	"    CONCAT
+"
+GET_GUID	FUNCTION	21	"     (CONCAT
+"
+GET_GUID	FUNCTION	22	"        ('',CONCAT
+"
+GET_GUID	FUNCTION	23	"           (CONCAT
+"
+GET_GUID	FUNCTION	24	"               (CONCAT
+"
+GET_GUID	FUNCTION	25	"                   (CONCAT (CONCAT (CONCAT (CONCAT (CONCAT (v_guid_part_one,
+"
+GET_GUID	FUNCTION	26	"                                                            '-'),
+"
+GET_GUID	FUNCTION	27	"                                                    v_guid_part_two
+"
+GET_GUID	FUNCTION	28	"                                                   ),
+"
+GET_GUID	FUNCTION	29	"                                            '-'
+"
+GET_GUID	FUNCTION	30	"                                           ),
+"
+GET_GUID	FUNCTION	31	"                                    v_guid_part_three
+"
+GET_GUID	FUNCTION	32	"                                   ),
+"
+GET_GUID	FUNCTION	33	"                            '-'
+"
+GET_GUID	FUNCTION	34	"                           ),
+"
+GET_GUID	FUNCTION	35	"                    v_guid_part_four
+"
+GET_GUID	FUNCTION	36	"                   ),
+"
+GET_GUID	FUNCTION	37	"                '-'
+"
+GET_GUID	FUNCTION	38	"               ),
+"
+GET_GUID	FUNCTION	39	"            v_guid_part_five
+"
+GET_GUID	FUNCTION	40	"           )
+"
+GET_GUID	FUNCTION	41	"    ),
+"
+GET_GUID	FUNCTION	42	"   ''
+"
+GET_GUID	FUNCTION	43	"  );
+"
+GET_GUID	FUNCTION	44	"   RETURN (v_guid);
+"
+GET_GUID	FUNCTION	45	"END GET_GUID;
+"

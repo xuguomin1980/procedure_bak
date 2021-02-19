@@ -1,0 +1,27 @@
+F_BF_GETXZGB	FUNCTION	1	"FUNCTION         ""F_BF_GETXZGB"" 
+"
+F_BF_GETXZGB	FUNCTION	2	"(arg_yflb in number,arg_xtxh in number,arg_xzdm in  varchar2)
+"
+F_BF_GETXZGB	FUNCTION	3	"   return varchar2
+"
+F_BF_GETXZGB	FUNCTION	4	"   is
+"
+F_BF_GETXZGB	FUNCTION	5	"     ls_return varchar2(40);
+"
+F_BF_GETXZGB	FUNCTION	6	"   begin
+"
+F_BF_GETXZGB	FUNCTION	7	"    
+"
+F_BF_GETXZGB	FUNCTION	8	"         select xzgb into ls_return from yf_brxz
+"
+F_BF_GETXZGB	FUNCTION	9	"        where xzdm=arg_xzdm ;
+"
+F_BF_GETXZGB	FUNCTION	10	"
+"
+F_BF_GETXZGB	FUNCTION	11	"   return(ls_return);
+"
+F_BF_GETXZGB	FUNCTION	12	"   end;
+"
+F_BF_GETXZGB	FUNCTION	13	"
+"
+F_BF_GETXZGB	FUNCTION	14	 

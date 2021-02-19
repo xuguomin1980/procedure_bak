@@ -1,0 +1,124 @@
+F_GET_FENZENKS	FUNCTION	1	"Function f_Get_Fenzenks(Arg_Indata In Varchar2)
+"
+F_GET_FENZENKS	FUNCTION	2	"  Return Varchar2 Is
+"
+F_GET_FENZENKS	FUNCTION	3	"  Ls_Keshibm     Varchar2(20);
+"
+F_GET_FENZENKS	FUNCTION	4	"  Ls_Fenzhenksbm Varchar2(20);
+"
+F_GET_FENZENKS	FUNCTION	5	"  Ls_Jiuzhenkh   Varchar2(100);
+"
+F_GET_FENZENKS	FUNCTION	6	"  Ls_Indata      Varchar2(500);
+"
+F_GET_FENZENKS	FUNCTION	7	"  Ls_Outdata     Varchar2(500);
+"
+F_GET_FENZENKS	FUNCTION	8	"  Ln_Fenzhenlsh  Number(10);
+"
+F_GET_FENZENKS	FUNCTION	9	"Begin
+"
+F_GET_FENZENKS	FUNCTION	10	"  Ls_Indata    := Arg_Indata || '|';
+"
+F_GET_FENZENKS	FUNCTION	11	"  Ls_Keshibm   := f_Get_Equal(Ls_Indata, '就诊科室=', '|');
+"
+F_GET_FENZENKS	FUNCTION	12	"  Ls_Jiuzhenkh := f_Get_Equal(Ls_Indata, '就诊卡号=', '|');
+"
+F_GET_FENZENKS	FUNCTION	13	"  --FENZHENGHLB为挂号类型判别
+"
+F_GET_FENZENKS	FUNCTION	14	"  Begin
+"
+F_GET_FENZENKS	FUNCTION	15	"    Select Fenzhenksbm, Fenzhenlsh
+"
+F_GET_FENZENKS	FUNCTION	16	"      Into Ls_Fenzhenksbm, Ln_Fenzhenlsh
+"
+F_GET_FENZENKS	FUNCTION	17	"      From Jz_Fenzhenxx
+"
+F_GET_FENZENKS	FUNCTION	18	"     Where Jiuzhenkh = Ls_Jiuzhenkh
+"
+F_GET_FENZENKS	FUNCTION	19	"       And Dengjirq Between Sysdate - 150 And Sysdate
+"
+F_GET_FENZENKS	FUNCTION	20	"       And likaisj is null
+"
+F_GET_FENZENKS	FUNCTION	21	"       And Fenzhenghlb = 1
+"
+F_GET_FENZENKS	FUNCTION	22	"       and rownum = 1
+"
+F_GET_FENZENKS	FUNCTION	23	"       order by dengjirq desc;
+"
+F_GET_FENZENKS	FUNCTION	24	"      -- And Fenzhenksbm = Ls_Keshibm;
+"
+F_GET_FENZENKS	FUNCTION	25	"  Exception
+"
+F_GET_FENZENKS	FUNCTION	26	"    When Others Then
+"
+F_GET_FENZENKS	FUNCTION	27	"      Goto Label_Tishixx;
+"
+F_GET_FENZENKS	FUNCTION	28	"  End;
+"
+F_GET_FENZENKS	FUNCTION	29	"
+"
+F_GET_FENZENKS	FUNCTION	30	"  Ls_Outdata := '返回值=1|科室编码=' || Ls_Keshibm || '|提示信息=|分诊流水号=' ||
+"
+F_GET_FENZENKS	FUNCTION	31	"                To_Char(Ln_Fenzhenlsh);
+"
+F_GET_FENZENKS	FUNCTION	32	"  Return Ls_Outdata;
+"
+F_GET_FENZENKS	FUNCTION	33	"
+"
+F_GET_FENZENKS	FUNCTION	34	"  <<label_Tishixx>>
+"
+F_GET_FENZENKS	FUNCTION	35	"--1.取到当前科室相应的分诊信息时
+"
+F_GET_FENZENKS	FUNCTION	36	"  Begin
+"
+F_GET_FENZENKS	FUNCTION	37	"    Select Fenzhenksbm, Fenzhenlsh
+"
+F_GET_FENZENKS	FUNCTION	38	"      Into Ls_Fenzhenksbm, Ln_Fenzhenlsh
+"
+F_GET_FENZENKS	FUNCTION	39	"      From Jz_Fenzhenxx
+"
+F_GET_FENZENKS	FUNCTION	40	"     Where Jiuzhenkh = Ls_Jiuzhenkh
+"
+F_GET_FENZENKS	FUNCTION	41	"       And Dengjirq Between Sysdate - 150 And Sysdate
+"
+F_GET_FENZENKS	FUNCTION	42	"       And Fenzhenghlb = 1;
+"
+F_GET_FENZENKS	FUNCTION	43	"    Ls_Outdata := '返回值=2|科室编码=' || Ls_Fenzhenksbm ||
+"
+F_GET_FENZENKS	FUNCTION	44	"                  '|提示信息=当前分诊科室与就诊科室不一致|分诊流水号=' || To_Char(Ln_Fenzhenlsh);
+"
+F_GET_FENZENKS	FUNCTION	45	"    Return Ls_Outdata;
+"
+F_GET_FENZENKS	FUNCTION	46	"  Exception
+"
+F_GET_FENZENKS	FUNCTION	47	"    When Others Then
+"
+F_GET_FENZENKS	FUNCTION	48	"      Begin
+"
+F_GET_FENZENKS	FUNCTION	49	"        Select Fenzhenksbm, Fenzhenlsh
+"
+F_GET_FENZENKS	FUNCTION	50	"          Into Ls_Fenzhenksbm, Ln_Fenzhenlsh
+"
+F_GET_FENZENKS	FUNCTION	51	"          From Jz_Fenzhenxx
+"
+F_GET_FENZENKS	FUNCTION	52	"         Where Jiuzhenkh = Ls_Jiuzhenkh
+"
+F_GET_FENZENKS	FUNCTION	53	"           And Dengjirq Between Sysdate - 150 And Sysdate;
+"
+F_GET_FENZENKS	FUNCTION	54	"        Ls_Outdata := '返回值=3|科室编码=' || Ls_Fenzhenksbm ||
+"
+F_GET_FENZENKS	FUNCTION	55	"                      '|提示信息=该病人分诊科室为普通科室|分诊流水号=' || To_Char(Ln_Fenzhenlsh);
+"
+F_GET_FENZENKS	FUNCTION	56	"      Exception
+"
+F_GET_FENZENKS	FUNCTION	57	"        When Others Then
+"
+F_GET_FENZENKS	FUNCTION	58	"          Ls_Outdata := '返回值=-1|科室编码=|提示信息=未找到该病人的分诊信息|分诊流水号=0';
+"
+F_GET_FENZENKS	FUNCTION	59	"          Return Ls_Outdata;
+"
+F_GET_FENZENKS	FUNCTION	60	"      End;
+"
+F_GET_FENZENKS	FUNCTION	61	"  End;
+"
+F_GET_FENZENKS	FUNCTION	62	"End f_Get_Fenzenks;
+"

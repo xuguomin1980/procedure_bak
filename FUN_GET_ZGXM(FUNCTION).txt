@@ -1,0 +1,16 @@
+FUN_GET_ZGXM	FUNCTION	1	"FUNCTION fun_get_zgxm (arg_zgid in varchar2)
+"
+FUN_GET_ZGXM	FUNCTION	2	"return varchar2
+"
+FUN_GET_ZGXM	FUNCTION	3	"   is
+"
+FUN_GET_ZGXM	FUNCTION	4	"     ls_return varchar2(30);
+"
+FUN_GET_ZGXM	FUNCTION	5	"begin
+"
+FUN_GET_ZGXM	FUNCTION	6	"   select xm into ls_return from gy_zgxx where zgid = arg_zgid ;
+"
+FUN_GET_ZGXM	FUNCTION	7	"   return(ls_return);
+"
+FUN_GET_ZGXM	FUNCTION	8	"end;
+"

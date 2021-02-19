@@ -1,0 +1,23 @@
+F_GET_ZY_BRXM	FUNCTION	1	"FUNCTION         ""F_GET_ZY_BRXM"" 
+"
+F_GET_ZY_BRXM	FUNCTION	2	"(an_patient_no in number)
+"
+F_GET_ZY_BRXM	FUNCTION	3	"return varchar2
+"
+F_GET_ZY_BRXM	FUNCTION	4	"is 
+"
+F_GET_ZY_BRXM	FUNCTION	5	"    ls_Return  varchar2(60);
+"
+F_GET_ZY_BRXM	FUNCTION	6	"begin
+"
+F_GET_ZY_BRXM	FUNCTION	7	"   select name into ls_return from zy_patient_information where patient_no=an_patient_no and rownum=1;
+"
+F_GET_ZY_BRXM	FUNCTION	8	"   return(ls_return); 
+"
+F_GET_ZY_BRXM	FUNCTION	9	"end f_get_zy_brxm;
+"
+F_GET_ZY_BRXM	FUNCTION	10	"
+"
+F_GET_ZY_BRXM	FUNCTION	11	"
+"
+F_GET_ZY_BRXM	FUNCTION	12	 

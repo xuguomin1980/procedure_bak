@@ -1,0 +1,23 @@
+F_YF_GETKC	FUNCTION	1	"FUNCTION         ""F_YF_GETKC"" 
+"
+F_YF_GETKC	FUNCTION	2	"   (arg_XTXH in NUMBER,arg_ypxh in number,arg_ypcddm in number)
+"
+F_YF_GETKC	FUNCTION	3	"   return number
+"
+F_YF_GETKC	FUNCTION	4	"   is
+"
+F_YF_GETKC	FUNCTION	5	"     ls_ksdm   varchar2(10);
+"
+F_YF_GETKC	FUNCTION	6	"     ls_return number(11,3);
+"
+F_YF_GETKC	FUNCTION	7	"   begin
+"
+F_YF_GETKC	FUNCTION	8	"     select skc into ls_return from my_ypkcz
+"
+F_YF_GETKC	FUNCTION	9	"        where  ypxh=arg_ypxh and ypcddm=arg_ypcddm AND XTXH=ARG_XTXH;
+"
+F_YF_GETKC	FUNCTION	10	"   return(ls_return);
+"
+F_YF_GETKC	FUNCTION	11	"end;
+"
+F_YF_GETKC	FUNCTION	12	 

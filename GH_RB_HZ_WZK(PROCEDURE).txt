@@ -1,0 +1,177 @@
+GH_RB_HZ_WZK	PROCEDURE	1	"PROCEDURE         ""GH_RB_HZ_WZK"" (vghrq in varchar2)
+"
+GH_RB_HZ_WZK	PROCEDURE	2	"as
+"
+GH_RB_HZ_WZK	PROCEDURE	3	"begin
+"
+GH_RB_HZ_WZK	PROCEDURE	4	"declare
+"
+GH_RB_HZ_WZK	PROCEDURE	5	" mc    varchar2(10) ;
+"
+GH_RB_HZ_WZK	PROCEDURE	6	" ptrc  number;
+"
+GH_RB_HZ_WZK	PROCEDURE	7	" jzrc  number;
+"
+GH_RB_HZ_WZK	PROCEDURE	8	" myrc  number;
+"
+GH_RB_HZ_WZK	PROCEDURE	9	" sjrc  number;
+"
+GH_RB_HZ_WZK	PROCEDURE	10	" gjjrc number;
+"
+GH_RB_HZ_WZK	PROCEDURE	11	" zkrc  number;
+"
+GH_RB_HZ_WZK	PROCEDURE	12	" zxrc  number;
+"
+GH_RB_HZ_WZK	PROCEDURE	13	" vksdm varchar2(10);
+"
+GH_RB_HZ_WZK	PROCEDURE	14	" vghf  number;
+"
+GH_RB_HZ_WZK	PROCEDURE	15	" vzlf  number;
+"
+GH_RB_HZ_WZK	PROCEDURE	16	"cursor hzrbcur is
+"
+GH_RB_HZ_WZK	PROCEDURE	17	"    select ksdm,sum(decode(mzlbxh,1,1,0)) pt,sum(decode(mzlbxh,2,1,0)) jz,
+"
+GH_RB_HZ_WZK	PROCEDURE	18	"            sum(decode(mzlbxh,3,1,0)) zk,sum(decode(mzlbxh,4,1,0)) zx,
+"
+GH_RB_HZ_WZK	PROCEDURE	19	"            sum(decode(mzlbxh,5,1,0)) my,sum(decode(mzlbxh,6,1,0)) sj,
+"
+GH_RB_HZ_WZK	PROCEDURE	20	"            sum(decode(mzlbxh,7,1,0)) gjj,sum(ghf),sum(zlf)
+"
+GH_RB_HZ_WZK	PROCEDURE	21	"     from gh_ghk
+"
+GH_RB_HZ_WZK	PROCEDURE	22	"     where ghrq between to_date(vghrq||'00:00:00','yyyy/mm/ddhh24:mi:ss') and to_date(vghrq||'23:59:59','yyyy/mm/ddhh24:mi:ss') and rbrq is not null and oldjlxh is null and zfpb is null
+"
+GH_RB_HZ_WZK	PROCEDURE	23	"     group by ksdm ;
+"
+GH_RB_HZ_WZK	PROCEDURE	24	"
+"
+GH_RB_HZ_WZK	PROCEDURE	25	" 
+"
+GH_RB_HZ_WZK	PROCEDURE	26	"
+"
+GH_RB_HZ_WZK	PROCEDURE	27	"begin
+"
+GH_RB_HZ_WZK	PROCEDURE	28	"delete from gh_rb_temp where gh='-1';
+"
+GH_RB_HZ_WZK	PROCEDURE	29	"commit;
+"
+GH_RB_HZ_WZK	PROCEDURE	30	"open hzrbcur ;
+"
+GH_RB_HZ_WZK	PROCEDURE	31	"loop
+"
+GH_RB_HZ_WZK	PROCEDURE	32	"fetch hzrbcur into vksdm,ptrc,jzrc,zkrc,zxrc,myrc,sjrc,gjjrc,vghf,vzlf;
+"
+GH_RB_HZ_WZK	PROCEDURE	33	" exit when hzrbcur%notfound ;
+"
+GH_RB_HZ_WZK	PROCEDURE	34	"select count(mzlbmc) into mc from gh_mzlbk where mzlbxh=1;
+"
+GH_RB_HZ_WZK	PROCEDURE	35	"if mc>0 then 
+"
+GH_RB_HZ_WZK	PROCEDURE	36	"insert into gh_rb_temp (ksmc,ksdm,mzlbxh,mzlbmc,rc,gh)
+"
+GH_RB_HZ_WZK	PROCEDURE	37	"select a.ksmc,a.ksdm,b.mzlbxh,b.mzlbmc||'人次',ptrc,'-1' from gy_ksdm a,gh_mzlbk b where a.ksdm=vksdm and b.mzlbxh=1 ;
+"
+GH_RB_HZ_WZK	PROCEDURE	38	"end if ;
+"
+GH_RB_HZ_WZK	PROCEDURE	39	"
+"
+GH_RB_HZ_WZK	PROCEDURE	40	"select count(mzlbmc) into mc from gh_mzlbk where mzlbxh=2;
+"
+GH_RB_HZ_WZK	PROCEDURE	41	"if mc>0 then
+"
+GH_RB_HZ_WZK	PROCEDURE	42	"insert into gh_rb_temp (ksmc,ksdm,mzlbxh,mzlbmc,rc,gh)
+"
+GH_RB_HZ_WZK	PROCEDURE	43	"select a.ksmc,a.ksdm,b.mzlbxh,b.mzlbmc||'人次',jzrc,'-1' from gy_ksdm a,gh_mzlbk b where a.ksdm=vksdm and b.mzlbxh=2 ;
+"
+GH_RB_HZ_WZK	PROCEDURE	44	"end if ;
+"
+GH_RB_HZ_WZK	PROCEDURE	45	"
+"
+GH_RB_HZ_WZK	PROCEDURE	46	"select count(mzlbmc) into mc from gh_mzlbk where mzlbxh=3;
+"
+GH_RB_HZ_WZK	PROCEDURE	47	"if mc>0 then
+"
+GH_RB_HZ_WZK	PROCEDURE	48	"insert into gh_rb_temp (ksmc,ksdm,mzlbxh,mzlbmc,rc,gh)
+"
+GH_RB_HZ_WZK	PROCEDURE	49	"select a.ksmc,a.ksdm,b.mzlbxh,b.mzlbmc||'人次',zkrc,'-1' from gy_ksdm a,gh_mzlbk b where a.ksdm=vksdm and b.mzlbxh=3 ;
+"
+GH_RB_HZ_WZK	PROCEDURE	50	"end if;
+"
+GH_RB_HZ_WZK	PROCEDURE	51	"
+"
+GH_RB_HZ_WZK	PROCEDURE	52	"select count(mzlbmc) into mc from gh_mzlbk where mzlbxh=4;
+"
+GH_RB_HZ_WZK	PROCEDURE	53	"if mc>0 then
+"
+GH_RB_HZ_WZK	PROCEDURE	54	"insert into gh_rb_temp (ksmc,ksdm,mzlbxh,mzlbmc,rc,gh)
+"
+GH_RB_HZ_WZK	PROCEDURE	55	"select a.ksmc,a.ksdm,b.mzlbxh,b.mzlbmc||'人次',zxrc,'-1' from gy_ksdm a,gh_mzlbk b where a.ksdm=vksdm and b.mzlbxh=4 ;
+"
+GH_RB_HZ_WZK	PROCEDURE	56	"end if;
+"
+GH_RB_HZ_WZK	PROCEDURE	57	"
+"
+GH_RB_HZ_WZK	PROCEDURE	58	"select count(mzlbmc) into mc from gh_mzlbk where mzlbxh=5;
+"
+GH_RB_HZ_WZK	PROCEDURE	59	"if mc>0 then
+"
+GH_RB_HZ_WZK	PROCEDURE	60	"insert into gh_rb_temp (ksmc,ksdm,mzlbxh,mzlbmc,rc,gh)
+"
+GH_RB_HZ_WZK	PROCEDURE	61	"select a.ksmc,a.ksdm,b.mzlbxh,b.mzlbmc||'人次',myrc,'-1' from gy_ksdm a,gh_mzlbk b where a.ksdm=vksdm and b.mzlbxh=5 ;
+"
+GH_RB_HZ_WZK	PROCEDURE	62	"end if ;
+"
+GH_RB_HZ_WZK	PROCEDURE	63	"
+"
+GH_RB_HZ_WZK	PROCEDURE	64	"select count(mzlbmc) into mc from gh_mzlbk where mzlbxh=6;
+"
+GH_RB_HZ_WZK	PROCEDURE	65	"if mc>0 then
+"
+GH_RB_HZ_WZK	PROCEDURE	66	"insert into gh_rb_temp (ksmc,ksdm,mzlbxh,mzlbmc,rc,gh)
+"
+GH_RB_HZ_WZK	PROCEDURE	67	"select a.ksmc,a.ksdm,b.mzlbxh,b.mzlbmc||'人次',sjrc,'-1' from gy_ksdm a,gh_mzlbk b where a.ksdm=vksdm and b.mzlbxh=6 ;
+"
+GH_RB_HZ_WZK	PROCEDURE	68	"end if ;
+"
+GH_RB_HZ_WZK	PROCEDURE	69	"
+"
+GH_RB_HZ_WZK	PROCEDURE	70	"select count(mzlbmc) into mc from gh_mzlbk where mzlbxh=7;
+"
+GH_RB_HZ_WZK	PROCEDURE	71	"if mc>0 then
+"
+GH_RB_HZ_WZK	PROCEDURE	72	"insert into gh_rb_temp (ksmc,ksdm,mzlbxh,mzlbmc,rc,gh)
+"
+GH_RB_HZ_WZK	PROCEDURE	73	"select a.ksmc,a.ksdm,b.mzlbxh,b.mzlbmc||'人次',gjjrc,'-1' from gy_ksdm a,gh_mzlbk b where a.ksdm=vksdm and b.mzlbxh=7 ;
+"
+GH_RB_HZ_WZK	PROCEDURE	74	"end if ;
+"
+GH_RB_HZ_WZK	PROCEDURE	75	"
+"
+GH_RB_HZ_WZK	PROCEDURE	76	"
+"
+GH_RB_HZ_WZK	PROCEDURE	77	"insert into gh_rb_temp (ksmc,ksdm,mzlbxh,mzlbmc,rc,gh)
+"
+GH_RB_HZ_WZK	PROCEDURE	78	"select a.ksmc,a.ksdm,8,'挂号费',vghf,'-1' from gy_ksdm a where a.ksdm=vksdm ;
+"
+GH_RB_HZ_WZK	PROCEDURE	79	"insert into gh_rb_temp (ksmc,ksdm,mzlbxh,mzlbmc,rc,gh)
+"
+GH_RB_HZ_WZK	PROCEDURE	80	"select a.ksmc,a.ksdm,9,'诊疗费',vzlf,'-1' from gy_ksdm a where a.ksdm=vksdm;
+"
+GH_RB_HZ_WZK	PROCEDURE	81	"end loop ;
+"
+GH_RB_HZ_WZK	PROCEDURE	82	"    close hzrbcur ;
+"
+GH_RB_HZ_WZK	PROCEDURE	83	"commit;
+"
+GH_RB_HZ_WZK	PROCEDURE	84	"end ;
+"
+GH_RB_HZ_WZK	PROCEDURE	85	"end ;
+"
+GH_RB_HZ_WZK	PROCEDURE	86	"
+"
+GH_RB_HZ_WZK	PROCEDURE	87	"
+"
+GH_RB_HZ_WZK	PROCEDURE	88	"
+"
+GH_RB_HZ_WZK	PROCEDURE	89	 

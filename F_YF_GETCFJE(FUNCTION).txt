@@ -1,0 +1,29 @@
+F_YF_GETCFJE	FUNCTION	1	"FUNCTION         ""F_YF_GETCFJE"" (arg_cfsb in number)
+"
+F_YF_GETCFJE	FUNCTION	2	" return  number 
+"
+F_YF_GETCFJE	FUNCTION	3	" is  
+"
+F_YF_GETCFJE	FUNCTION	4	" ld_return  number(10,2);
+"
+F_YF_GETCFJE	FUNCTION	5	"  begin 
+"
+F_YF_GETCFJE	FUNCTION	6	"    begin 
+"
+F_YF_GETCFJE	FUNCTION	7	"        Select  sum(round(sl*dj,2)) into ld_return  from mz_cfk2 
+"
+F_YF_GETCFJE	FUNCTION	8	"         Where cfsb=arg_cfsb;   
+"
+F_YF_GETCFJE	FUNCTION	9	"         exception  
+"
+F_YF_GETCFJE	FUNCTION	10	"         when  no_data_found then 
+"
+F_YF_GETCFJE	FUNCTION	11	"         ld_return:=0;  
+"
+F_YF_GETCFJE	FUNCTION	12	"    end;
+"
+F_YF_GETCFJE	FUNCTION	13	" return(ld_return);
+"
+F_YF_GETCFJE	FUNCTION	14	" end;
+"
+F_YF_GETCFJE	FUNCTION	15	 

@@ -1,0 +1,52 @@
+F_GY_GET_AGE	FUNCTION	1	"FUNCTION ""F_GY_GET_AGE"" (prm_csrq in date, prm_rq in date) return varchar2 is
+"
+F_GY_GET_AGE	FUNCTION	2	"    ls_return varchar2(50);
+"
+F_GY_GET_AGE	FUNCTION	3	"  begin
+"
+F_GY_GET_AGE	FUNCTION	4	"    ls_return := To_Char(Trunc(MONTHS_BETWEEN(prm_rq, prm_csrq)));
+"
+F_GY_GET_AGE	FUNCTION	5	"    If To_Number(ls_return) >= 12 Then
+"
+F_GY_GET_AGE	FUNCTION	6	"      -- 12个月外显示：***岁
+"
+F_GY_GET_AGE	FUNCTION	7	"      ls_return := To_char(Trunc(To_Number(ls_return) / 12), 'FM990') || '岁';
+"
+F_GY_GET_AGE	FUNCTION	8	"    ElsIf To_Number(ls_return) >= 3 Then
+"
+F_GY_GET_AGE	FUNCTION	9	"      -- ai_isnumber个月外12个月内显示：**个月
+"
+F_GY_GET_AGE	FUNCTION	10	"      ls_return := ls_return || '月';
+"
+F_GY_GET_AGE	FUNCTION	11	"    Else
+"
+F_GY_GET_AGE	FUNCTION	12	"      -- ai_isnumber个月内显示：**个月**天
+"
+F_GY_GET_AGE	FUNCTION	13	"      Select Decode(ls_return, '0', '', ls_return || '月') ||
+"
+F_GY_GET_AGE	FUNCTION	14	"              Decode(To_Char(Trunc(prm_rq -
+"
+F_GY_GET_AGE	FUNCTION	15	"                                   ADD_MONTHS(prm_csrq, To_Number(ls_return)))),
+"
+F_GY_GET_AGE	FUNCTION	16	"                     '0',
+"
+F_GY_GET_AGE	FUNCTION	17	"                     '',
+"
+F_GY_GET_AGE	FUNCTION	18	"                     To_Char(Trunc(prm_rq -
+"
+F_GY_GET_AGE	FUNCTION	19	"                                   ADD_MONTHS(prm_csrq, To_Number(ls_return)))) || '天')
+"
+F_GY_GET_AGE	FUNCTION	20	"        Into ls_return
+"
+F_GY_GET_AGE	FUNCTION	21	"        From Dual;
+"
+F_GY_GET_AGE	FUNCTION	22	"    End If;
+"
+F_GY_GET_AGE	FUNCTION	23	"    return(ls_return);
+"
+F_GY_GET_AGE	FUNCTION	24	"  end;
+"
+F_GY_GET_AGE	FUNCTION	25	"
+"
+F_GY_GET_AGE	FUNCTION	26	" 
+"

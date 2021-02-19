@@ -1,0 +1,37 @@
+F_YJ_GETYPMC	FUNCTION	1	"FUNCTION         ""F_YJ_GETYPMC"" 
+"
+F_YJ_GETYPMC	FUNCTION	2	"(arg_ypxh in number,arg_ypcddm in number,arg_flag in varchar2)
+"
+F_YJ_GETYPMC	FUNCTION	3	"  return varchar2
+"
+F_YJ_GETYPMC	FUNCTION	4	"  is
+"
+F_YJ_GETYPMC	FUNCTION	5	"    ls_return varchar2(60);
+"
+F_YJ_GETYPMC	FUNCTION	6	"  begin
+"
+F_YJ_GETYPMC	FUNCTION	7	"  if arg_flag = 'pmgg' then
+"
+F_YJ_GETYPMC	FUNCTION	8	"      select ypmc||ypgg into ls_return from gy_ypmcggzd where ypxh=arg_ypxh;
+"
+F_YJ_GETYPMC	FUNCTION	9	"  elsif arg_flag = 'dw' then
+"
+F_YJ_GETYPMC	FUNCTION	10	"      select ypbzdw into ls_return from gy_ypmcggzd where ypxh=arg_ypxh;
+"
+F_YJ_GETYPMC	FUNCTION	11	"  elsif arg_flag = 'cd' then
+"
+F_YJ_GETYPMC	FUNCTION	12	"      select cdmc into ls_return from gy_ypcdk where ypcddm=arg_ypcddm;
+"
+F_YJ_GETYPMC	FUNCTION	13	"  elsif arg_flag = 'ypsx' then
+"
+F_YJ_GETYPMC	FUNCTION	14	"      select substr(ypsx,2,2) into ls_return from gy_ypmcggzd where ypxh=arg_ypxh;
+"
+F_YJ_GETYPMC	FUNCTION	15	"  end if;
+"
+F_YJ_GETYPMC	FUNCTION	16	"  return(ls_return);
+"
+F_YJ_GETYPMC	FUNCTION	17	"  end;
+"
+F_YJ_GETYPMC	FUNCTION	18	"
+"
+F_YJ_GETYPMC	FUNCTION	19	 

@@ -1,0 +1,105 @@
+GH_MZPB_TOMORROW	PROCEDURE	1	"PROCEDURE         ""GH_MZPB_TOMORROW"" as
+"
+GH_MZPB_TOMORROW	PROCEDURE	2	"begin
+"
+GH_MZPB_TOMORROW	PROCEDURE	3	"declare 
+"
+GH_MZPB_TOMORROW	PROCEDURE	4	"  vjlxh number ;
+"
+GH_MZPB_TOMORROW	PROCEDURE	5	"  i number ;
+"
+GH_MZPB_TOMORROW	PROCEDURE	6	"  vxq number ;
+"
+GH_MZPB_TOMORROW	PROCEDURE	7	"  vmzlbxh number ;
+"
+GH_MZPB_TOMORROW	PROCEDURE	8	"  vswjsh number ;
+"
+GH_MZPB_TOMORROW	PROCEDURE	9	"  vswzgxh number ;
+"
+GH_MZPB_TOMORROW	PROCEDURE	10	"  vxwjsh number ;
+"
+GH_MZPB_TOMORROW	PROCEDURE	11	"  vxwzgxh number ;
+"
+GH_MZPB_TOMORROW	PROCEDURE	12	"  vksdm varchar2(20) ;
+"
+GH_MZPB_TOMORROW	PROCEDURE	13	"  vysgh varchar2(8) ;
+"
+GH_MZPB_TOMORROW	PROCEDURE	14	"  vysxm varchar2(10) ;
+"
+GH_MZPB_TOMORROW	PROCEDURE	15	"  vswyyxh number ; --上午预约限号
+"
+GH_MZPB_TOMORROW	PROCEDURE	16	"  vxwyyxh number ; --下午预约限号
+"
+GH_MZPB_TOMORROW	PROCEDURE	17	"  vyyf number;	--预约费
+"
+GH_MZPB_TOMORROW	PROCEDURE	18	"  vyyts number ;     --预约时间跨度天数
+"
+GH_MZPB_TOMORROW	PROCEDURE	19	"  vyyrq varchar2(10) ;
+"
+GH_MZPB_TOMORROW	PROCEDURE	20	"
+"
+GH_MZPB_TOMORROW	PROCEDURE	21	"  cursor dtpbcur is
+"
+GH_MZPB_TOMORROW	PROCEDURE	22	"    select ksdm,mzlbxh,swjsh,swzgxh,xwjsh,xwzgxh,ysgh,ysxm,swyyxh,xwyyxh,yyf 
+"
+GH_MZPB_TOMORROW	PROCEDURE	23	"      from gh_yzpbk where xq=vxq ;
+"
+GH_MZPB_TOMORROW	PROCEDURE	24	"begin
+"
+GH_MZPB_TOMORROW	PROCEDURE	25	"  lock table gh_yzpbk in exclusive mode ;      --锁表GH_YZPBK
+"
+GH_MZPB_TOMORROW	PROCEDURE	26	"  --预约挂号时间跨度
+"
+GH_MZPB_TOMORROW	PROCEDURE	27	"  select csz2 into vyyts from gy_xtcs where xtxh=23 and csmc='YYTS';
+"
+GH_MZPB_TOMORROW	PROCEDURE	28	"
+"
+GH_MZPB_TOMORROW	PROCEDURE	29	"    select count(*),to_char(sysdate+vyyts,'D') into i,vxq from gh_mzpbk 
+"
+GH_MZPB_TOMORROW	PROCEDURE	30	"    where to_char(rq,'yyyy/mm/dd')=to_char(sysdate+1+vyyts,'yyyy/mm/dd') ;
+"
+GH_MZPB_TOMORROW	PROCEDURE	31	"    if i>0 then 
+"
+GH_MZPB_TOMORROW	PROCEDURE	32	"      rollback ;
+"
+GH_MZPB_TOMORROW	PROCEDURE	33	"    else
+"
+GH_MZPB_TOMORROW	PROCEDURE	34	"      open dtpbcur ;
+"
+GH_MZPB_TOMORROW	PROCEDURE	35	"      loop 
+"
+GH_MZPB_TOMORROW	PROCEDURE	36	"        fetch dtpbcur into vksdm,vmzlbxh,vswjsh,vswzgxh,vxwjsh,vxwzgxh,vysgh,vysxm,vswyyxh,vxwyyxh,vyyf ;
+"
+GH_MZPB_TOMORROW	PROCEDURE	37	"        exit when dtpbcur%notfound ;
+"
+GH_MZPB_TOMORROW	PROCEDURE	38	"        update gy_xhb set dqz=dqz+1 where bm='GH_MZPBK' ;
+"
+GH_MZPB_TOMORROW	PROCEDURE	39	"        select dqz into vjlxh from gy_xhb where bm='GH_MZPBK' ;
+"
+GH_MZPB_TOMORROW	PROCEDURE	40	"        insert into gh_mzpbk (rq,ksdm,mzlbxh,swjsh,swzgxh,swdqh,swths,xwjsh,
+"
+GH_MZPB_TOMORROW	PROCEDURE	41	"                            xwzgxh,xwdqh,xwths,ysgh,ysxm,jlxh,swyyxh,xwyyxh,swyyyh,xwyyyh,yyf) 
+"
+GH_MZPB_TOMORROW	PROCEDURE	42	"        values (sysdate+1+vyyts,vksdm,vmzlbxh,vswjsh,vswzgxh,0,0,vxwjsh,
+"
+GH_MZPB_TOMORROW	PROCEDURE	43	"              vxwzgxh,0,0,vysgh,vysxm,vjlxh,vswyyxh,vxwyyxh,0,0,vyyf) ;
+"
+GH_MZPB_TOMORROW	PROCEDURE	44	"      end loop ;
+"
+GH_MZPB_TOMORROW	PROCEDURE	45	"      close dtpbcur ;
+"
+GH_MZPB_TOMORROW	PROCEDURE	46	"      commit ;
+"
+GH_MZPB_TOMORROW	PROCEDURE	47	"    end if ;
+"
+GH_MZPB_TOMORROW	PROCEDURE	48	"end ;
+"
+GH_MZPB_TOMORROW	PROCEDURE	49	"end ;
+"
+GH_MZPB_TOMORROW	PROCEDURE	50	"
+"
+GH_MZPB_TOMORROW	PROCEDURE	51	"
+"
+GH_MZPB_TOMORROW	PROCEDURE	52	"
+"
+GH_MZPB_TOMORROW	PROCEDURE	53	 

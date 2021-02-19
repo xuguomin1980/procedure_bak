@@ -1,0 +1,568 @@
+APPOINT_JDZZ_BAK	PROCEDURE	1	"PROCEDURE ""APPOINT_JDZZ_BAK""(plan_id  IN VARCHAR,
+"
+APPOINT_JDZZ_BAK	PROCEDURE	2	"                                               card_no  in VARCHAR,
+"
+APPOINT_JDZZ_BAK	PROCEDURE	3	"                                               name     IN VARCHAR,
+"
+APPOINT_JDZZ_BAK	PROCEDURE	4	"                                               phone    IN VARCHAR,
+"
+APPOINT_JDZZ_BAK	PROCEDURE	5	"                                               idcard   IN VARCHAR,
+"
+APPOINT_JDZZ_BAK	PROCEDURE	6	"                                               yyxh     IN VARCHAR,
+"
+APPOINT_JDZZ_BAK	PROCEDURE	7	"                                               YYSJ     IN NUMBER,
+"
+APPOINT_JDZZ_BAK	PROCEDURE	8	"                                               CZGH     IN VARCHAR,
+"
+APPOINT_JDZZ_BAK	PROCEDURE	9	"                                               ret_code out INTEGER,
+"
+APPOINT_JDZZ_BAK	PROCEDURE	10	"                                               ret_info out VARCHAR,
+"
+APPOINT_JDZZ_BAK	PROCEDURE	11	"                                               reg_id   out VARCHAR) AS
+"
+APPOINT_JDZZ_BAK	PROCEDURE	12	"  v_count  number(5);
+"
+APPOINT_JDZZ_BAK	PROCEDURE	13	"  v_cs     number(5);
+"
+APPOINT_JDZZ_BAK	PROCEDURE	14	"  v_brxx   gy_brjbxxk%rowtype;
+"
+APPOINT_JDZZ_BAK	PROCEDURE	15	"  v_yyxx   gh_mzyyk%rowtype;
+"
+APPOINT_JDZZ_BAK	PROCEDURE	16	"  v_pbxx   gh_yzpbk%rowtype;
+"
+APPOINT_JDZZ_BAK	PROCEDURE	17	"  v_dtpb   gh_mzpbk%rowtype;
+"
+APPOINT_JDZZ_BAK	PROCEDURE	18	"  v_rq_str varchar(50);
+"
+APPOINT_JDZZ_BAK	PROCEDURE	19	"  v_bz     varchar2(80);
+"
+APPOINT_JDZZ_BAK	PROCEDURE	20	"BEGIN
+"
+APPOINT_JDZZ_BAK	PROCEDURE	21	"  -- v_yyxx.pbxh := to_number(substr(plan_id, 1, length(plan_id) - 1));
+"
+APPOINT_JDZZ_BAK	PROCEDURE	22	"  -- v_yyxx.yysj := to_number(substr(plan_id, length(plan_id), 1));
+"
+APPOINT_JDZZ_BAK	PROCEDURE	23	"  v_yyxx.pbxh := to_number(plan_id);
+"
+APPOINT_JDZZ_BAK	PROCEDURE	24	"  v_yyxx.YYSJ := YYSJ;
+"
+APPOINT_JDZZ_BAK	PROCEDURE	25	"  v_yyxx.CZGH := CZGH;
+"
+APPOINT_JDZZ_BAK	PROCEDURE	26	"  --ret_code := -4;
+"
+APPOINT_JDZZ_BAK	PROCEDURE	27	"  --ret_info := '各位市民：因技术原因，本平台预约挂号功能暂时关闭，其他功能不受影响。目前预约挂号烦请使用健康义乌APP，浙江省统一预约平台（电话预约）：12580、85950277，或者医院自助机。给您带来的不便敬请谅解。感谢信任与理解！';
+"
+APPOINT_JDZZ_BAK	PROCEDURE	28	"  ----'该上级要求，暂时关闭此功能！';
+"
+APPOINT_JDZZ_BAK	PROCEDURE	29	"  -- rollback;
+"
+APPOINT_JDZZ_BAK	PROCEDURE	30	"  -- return;
+"
+APPOINT_JDZZ_BAK	PROCEDURE	31	"
+"
+APPOINT_JDZZ_BAK	PROCEDURE	32	"  begin
+"
+APPOINT_JDZZ_BAK	PROCEDURE	33	"    --停诊
+"
+APPOINT_JDZZ_BAK	PROCEDURE	34	"    if 1 = 1 then
+"
+APPOINT_JDZZ_BAK	PROCEDURE	35	"      ret_code := -1;
+"
+APPOINT_JDZZ_BAK	PROCEDURE	36	"      ret_info := '排班停诊';
+"
+APPOINT_JDZZ_BAK	PROCEDURE	37	"      return;
+"
+APPOINT_JDZZ_BAK	PROCEDURE	38	"    end if;
+"
+APPOINT_JDZZ_BAK	PROCEDURE	39	"  
+"
+APPOINT_JDZZ_BAK	PROCEDURE	40	"    select count(*) into v_count from gh_hmdgl where sfzh = idcard;
+"
+APPOINT_JDZZ_BAK	PROCEDURE	41	"    if v_count > 0 then
+"
+APPOINT_JDZZ_BAK	PROCEDURE	42	"      select cs into v_cs from gh_hmdgl where sfzh = idcard;
+"
+APPOINT_JDZZ_BAK	PROCEDURE	43	"      if v_cs > 3 then
+"
+APPOINT_JDZZ_BAK	PROCEDURE	44	"        ret_code := -1;
+"
+APPOINT_JDZZ_BAK	PROCEDURE	45	"        ret_info := '该病人已经爽约3次以上，已经列入黑名单，不能预约';
+"
+APPOINT_JDZZ_BAK	PROCEDURE	46	"        rollback;
+"
+APPOINT_JDZZ_BAK	PROCEDURE	47	"      end if;
+"
+APPOINT_JDZZ_BAK	PROCEDURE	48	"    end if;
+"
+APPOINT_JDZZ_BAK	PROCEDURE	49	"    if card_no is not null then
+"
+APPOINT_JDZZ_BAK	PROCEDURE	50	"      select * into v_brxx from gy_brjbxxk where jzkh = card_no;
+"
+APPOINT_JDZZ_BAK	PROCEDURE	51	"      if length(card_no) = 8 then
+"
+APPOINT_JDZZ_BAK	PROCEDURE	52	"        ret_code := -1;
+"
+APPOINT_JDZZ_BAK	PROCEDURE	53	"        ret_info := '老的就诊卡已停用,请换用新卡';
+"
+APPOINT_JDZZ_BAK	PROCEDURE	54	"        rollback;
+"
+APPOINT_JDZZ_BAK	PROCEDURE	55	"      end if;
+"
+APPOINT_JDZZ_BAK	PROCEDURE	56	"    
+"
+APPOINT_JDZZ_BAK	PROCEDURE	57	"      if v_brxx.xm <> name then
+"
+APPOINT_JDZZ_BAK	PROCEDURE	58	"        ret_code := -1;
+"
+APPOINT_JDZZ_BAK	PROCEDURE	59	"        ret_info := '卡号和信息不匹配';
+"
+APPOINT_JDZZ_BAK	PROCEDURE	60	"        rollback;
+"
+APPOINT_JDZZ_BAK	PROCEDURE	61	"        return;
+"
+APPOINT_JDZZ_BAK	PROCEDURE	62	"      end if;
+"
+APPOINT_JDZZ_BAK	PROCEDURE	63	"    end if;
+"
+APPOINT_JDZZ_BAK	PROCEDURE	64	"    if card_no is null then
+"
+APPOINT_JDZZ_BAK	PROCEDURE	65	"      v_brxx.xm   := name;
+"
+APPOINT_JDZZ_BAK	PROCEDURE	66	"      v_brxx.lxdh := phone;
+"
+APPOINT_JDZZ_BAK	PROCEDURE	67	"      v_brxx.sfzh := idcard;
+"
+APPOINT_JDZZ_BAK	PROCEDURE	68	"    end if;
+"
+APPOINT_JDZZ_BAK	PROCEDURE	69	"  end;
+"
+APPOINT_JDZZ_BAK	PROCEDURE	70	"  /*select * into v_brxx from gy_brjbxxk where jzkh=card_no;
+"
+APPOINT_JDZZ_BAK	PROCEDURE	71	"  exception
+"
+APPOINT_JDZZ_BAK	PROCEDURE	72	"    when others then
+"
+APPOINT_JDZZ_BAK	PROCEDURE	73	"      ret_code:=-1;
+"
+APPOINT_JDZZ_BAK	PROCEDURE	74	"      ret_info:='该病人信息不存在'||sqlerrm;
+"
+APPOINT_JDZZ_BAK	PROCEDURE	75	"      rollback;
+"
+APPOINT_JDZZ_BAK	PROCEDURE	76	"      return;
+"
+APPOINT_JDZZ_BAK	PROCEDURE	77	"  end;
+"
+APPOINT_JDZZ_BAK	PROCEDURE	78	"  if v_brxx.xm<>name then
+"
+APPOINT_JDZZ_BAK	PROCEDURE	79	"    ret_code:=-1;
+"
+APPOINT_JDZZ_BAK	PROCEDURE	80	"    ret_info:='卡号和信息不匹配';
+"
+APPOINT_JDZZ_BAK	PROCEDURE	81	"    rollback;
+"
+APPOINT_JDZZ_BAK	PROCEDURE	82	"    return;
+"
+APPOINT_JDZZ_BAK	PROCEDURE	83	"  end if;*/
+"
+APPOINT_JDZZ_BAK	PROCEDURE	84	"  begin
+"
+APPOINT_JDZZ_BAK	PROCEDURE	85	"  
+"
+APPOINT_JDZZ_BAK	PROCEDURE	86	"    select * into v_pbxx from gh_yzpbk where jlxh = v_yyxx.pbxh;
+"
+APPOINT_JDZZ_BAK	PROCEDURE	87	"  exception
+"
+APPOINT_JDZZ_BAK	PROCEDURE	88	"    when others then
+"
+APPOINT_JDZZ_BAK	PROCEDURE	89	"      ret_code := -4;
+"
+APPOINT_JDZZ_BAK	PROCEDURE	90	"      ret_info := '该排班ID不存在' || sqlerrm;
+"
+APPOINT_JDZZ_BAK	PROCEDURE	91	"      rollback;
+"
+APPOINT_JDZZ_BAK	PROCEDURE	92	"      return;
+"
+APPOINT_JDZZ_BAK	PROCEDURE	93	"  end;
+"
+APPOINT_JDZZ_BAK	PROCEDURE	94	"  begin
+"
+APPOINT_JDZZ_BAK	PROCEDURE	95	"  
+"
+APPOINT_JDZZ_BAK	PROCEDURE	96	"    select yyghxh
+"
+APPOINT_JDZZ_BAK	PROCEDURE	97	"      into v_yyxx.ghxh
+"
+APPOINT_JDZZ_BAK	PROCEDURE	98	"      from gh_yypbmx
+"
+APPOINT_JDZZ_BAK	PROCEDURE	99	"     where pbjlxh = v_yyxx.pbxh
+"
+APPOINT_JDZZ_BAK	PROCEDURE	100	"       and yylxdm = 11
+"
+APPOINT_JDZZ_BAK	PROCEDURE	101	"       and ghsjlb = v_yyxx.yysj
+"
+APPOINT_JDZZ_BAK	PROCEDURE	102	"       and yyghxh = yyxh;
+"
+APPOINT_JDZZ_BAK	PROCEDURE	103	"  exception
+"
+APPOINT_JDZZ_BAK	PROCEDURE	104	"    when others then
+"
+APPOINT_JDZZ_BAK	PROCEDURE	105	"      ret_code := -4;
+"
+APPOINT_JDZZ_BAK	PROCEDURE	106	"      ret_info := '该号码不存在' || sqlerrm;
+"
+APPOINT_JDZZ_BAK	PROCEDURE	107	"      rollback;
+"
+APPOINT_JDZZ_BAK	PROCEDURE	108	"      return;
+"
+APPOINT_JDZZ_BAK	PROCEDURE	109	"  end;
+"
+APPOINT_JDZZ_BAK	PROCEDURE	110	"
+"
+APPOINT_JDZZ_BAK	PROCEDURE	111	"  select count(ksdm)
+"
+APPOINT_JDZZ_BAK	PROCEDURE	112	"    into v_count
+"
+APPOINT_JDZZ_BAK	PROCEDURE	113	"    from v_temp_20200110_ks
+"
+APPOINT_JDZZ_BAK	PROCEDURE	114	"   where ksdm = v_pbxx.ksdm;
+"
+APPOINT_JDZZ_BAK	PROCEDURE	115	"  if v_count >= 1 then
+"
+APPOINT_JDZZ_BAK	PROCEDURE	116	"    v_count := 1;
+"
+APPOINT_JDZZ_BAK	PROCEDURE	117	"  else
+"
+APPOINT_JDZZ_BAK	PROCEDURE	118	"    ret_code := -4;
+"
+APPOINT_JDZZ_BAK	PROCEDURE	119	"    ret_info := '该科室无排班信息 appoint';
+"
+APPOINT_JDZZ_BAK	PROCEDURE	120	"    rollback;
+"
+APPOINT_JDZZ_BAK	PROCEDURE	121	"    return;
+"
+APPOINT_JDZZ_BAK	PROCEDURE	122	"  end if;
+"
+APPOINT_JDZZ_BAK	PROCEDURE	123	"
+"
+APPOINT_JDZZ_BAK	PROCEDURE	124	"  select count(ksdm) into v_count from v_ksdm_ek where ksdm = v_pbxx.ksdm;
+"
+APPOINT_JDZZ_BAK	PROCEDURE	125	"
+"
+APPOINT_JDZZ_BAK	PROCEDURE	126	"  if v_count > 0 then
+"
+APPOINT_JDZZ_BAK	PROCEDURE	127	"    if card_no is not null then
+"
+APPOINT_JDZZ_BAK	PROCEDURE	128	"      select round((sysdate - csrq) / 365, 0)
+"
+APPOINT_JDZZ_BAK	PROCEDURE	129	"        into v_count
+"
+APPOINT_JDZZ_BAK	PROCEDURE	130	"        from gy_brjbxxk
+"
+APPOINT_JDZZ_BAK	PROCEDURE	131	"       where jzkh = card_no;
+"
+APPOINT_JDZZ_BAK	PROCEDURE	132	"    else
+"
+APPOINT_JDZZ_BAK	PROCEDURE	133	"      select round((sysdate - to_date(substr(idcard, 7, 8), 'yyyy-mm-dd')) / 365,
+"
+APPOINT_JDZZ_BAK	PROCEDURE	134	"                   0)
+"
+APPOINT_JDZZ_BAK	PROCEDURE	135	"        into v_count
+"
+APPOINT_JDZZ_BAK	PROCEDURE	136	"        from dual;
+"
+APPOINT_JDZZ_BAK	PROCEDURE	137	"    end if;
+"
+APPOINT_JDZZ_BAK	PROCEDURE	138	"    if v_count > 14 then
+"
+APPOINT_JDZZ_BAK	PROCEDURE	139	"      ret_code := -3;
+"
+APPOINT_JDZZ_BAK	PROCEDURE	140	"      ret_info := '14周岁以上不能挂儿科';
+"
+APPOINT_JDZZ_BAK	PROCEDURE	141	"      rollback;
+"
+APPOINT_JDZZ_BAK	PROCEDURE	142	"      return;
+"
+APPOINT_JDZZ_BAK	PROCEDURE	143	"    end if;
+"
+APPOINT_JDZZ_BAK	PROCEDURE	144	"  end if;
+"
+APPOINT_JDZZ_BAK	PROCEDURE	145	"
+"
+APPOINT_JDZZ_BAK	PROCEDURE	146	"  v_yyxx.yyrq1 := trunc(sysdate) +
+"
+APPOINT_JDZZ_BAK	PROCEDURE	147	"                  mod(v_pbxx.xq + 5 - mod(to_char(sysdate, 'D') + 5, 7), 7) + 1;
+"
+APPOINT_JDZZ_BAK	PROCEDURE	148	"  select count(*)
+"
+APPOINT_JDZZ_BAK	PROCEDURE	149	"    into v_count
+"
+APPOINT_JDZZ_BAK	PROCEDURE	150	"    from gh_mzyyk
+"
+APPOINT_JDZZ_BAK	PROCEDURE	151	"   where mzlbxh = v_pbxx.mzlbxh
+"
+APPOINT_JDZZ_BAK	PROCEDURE	152	"     and ksdm = v_pbxx.ksdm
+"
+APPOINT_JDZZ_BAK	PROCEDURE	153	"     and ysgh = v_pbxx.ysgh
+"
+APPOINT_JDZZ_BAK	PROCEDURE	154	"     and yyrq1 >= trunc(v_yyxx.yyrq1)
+"
+APPOINT_JDZZ_BAK	PROCEDURE	155	"     and yyrq1 < trunc(v_yyxx.yyrq1) + 1
+"
+APPOINT_JDZZ_BAK	PROCEDURE	156	"     and ghxh = v_yyxx.ghxh
+"
+APPOINT_JDZZ_BAK	PROCEDURE	157	"     and yysj = v_yyxx.yysj
+"
+APPOINT_JDZZ_BAK	PROCEDURE	158	"     and nvl(zt, 0) >= 0;
+"
+APPOINT_JDZZ_BAK	PROCEDURE	159	"  if v_count > 0 then
+"
+APPOINT_JDZZ_BAK	PROCEDURE	160	"    ret_code := -3;
+"
+APPOINT_JDZZ_BAK	PROCEDURE	161	"    ret_info := '该号码已被预约';
+"
+APPOINT_JDZZ_BAK	PROCEDURE	162	"    rollback;
+"
+APPOINT_JDZZ_BAK	PROCEDURE	163	"    return;
+"
+APPOINT_JDZZ_BAK	PROCEDURE	164	"  end if;
+"
+APPOINT_JDZZ_BAK	PROCEDURE	165	"  begin
+"
+APPOINT_JDZZ_BAK	PROCEDURE	166	"    select *
+"
+APPOINT_JDZZ_BAK	PROCEDURE	167	"      into v_dtpb
+"
+APPOINT_JDZZ_BAK	PROCEDURE	168	"      from gh_mzpbk
+"
+APPOINT_JDZZ_BAK	PROCEDURE	169	"     where rq >= trunc(v_yyxx.yyrq1)
+"
+APPOINT_JDZZ_BAK	PROCEDURE	170	"       and rq < trunc(v_yyxx.yyrq1) + 1
+"
+APPOINT_JDZZ_BAK	PROCEDURE	171	"       and mzlbxh = v_pbxx.mzlbxh
+"
+APPOINT_JDZZ_BAK	PROCEDURE	172	"       and ksdm = v_pbxx.ksdm
+"
+APPOINT_JDZZ_BAK	PROCEDURE	173	"       and ysgh = v_pbxx.ysgh
+"
+APPOINT_JDZZ_BAK	PROCEDURE	174	"       and rownum = 1;
+"
+APPOINT_JDZZ_BAK	PROCEDURE	175	"  exception
+"
+APPOINT_JDZZ_BAK	PROCEDURE	176	"    when others then
+"
+APPOINT_JDZZ_BAK	PROCEDURE	177	"      v_dtpb.jlxh := 0;
+"
+APPOINT_JDZZ_BAK	PROCEDURE	178	"  end;
+"
+APPOINT_JDZZ_BAK	PROCEDURE	179	"
+"
+APPOINT_JDZZ_BAK	PROCEDURE	180	"  /*   
+"
+APPOINT_JDZZ_BAK	PROCEDURE	181	"  
+"
+APPOINT_JDZZ_BAK	PROCEDURE	182	"  if to_char(gh_mzpbk.rq,'dd')='03' || to_char(gh_mzpbk.rq,'dd')='04' ||to_char(gh_mzpbk.rq,'dd')='05' ||to_char(gh_mzpbk.rq,'dd')='06' ||to_char(gh_mzpbk.rq,'dd')='07' ||to_char(gh_mzpbk.rq,'dd')='08' ||to_char(gh_mzpbk.rq,'dd')='09' ||to_char(gh_mzpbk.rq,'dd')='10'  then */
+"
+APPOINT_JDZZ_BAK	PROCEDURE	183	"
+"
+APPOINT_JDZZ_BAK	PROCEDURE	184	"  select to_char(v_dtpb.rq, 'yyyymmdd') into v_rq_str from dual;
+"
+APPOINT_JDZZ_BAK	PROCEDURE	185	"  if v_rq_str = '20190203' or v_rq_str = '20190204' or
+"
+APPOINT_JDZZ_BAK	PROCEDURE	186	"     v_rq_str = '20190205' or v_rq_str = '20190206' or
+"
+APPOINT_JDZZ_BAK	PROCEDURE	187	"     v_rq_str = '20190207' or v_rq_str = '20190208' or
+"
+APPOINT_JDZZ_BAK	PROCEDURE	188	"     v_rq_str = '20190209' or v_rq_str = '20190210' or
+"
+APPOINT_JDZZ_BAK	PROCEDURE	189	"     v_rq_str = '20200124' or v_rq_str = '20200125' or
+"
+APPOINT_JDZZ_BAK	PROCEDURE	190	"     v_rq_str = '20200126' or v_rq_str = '20200127' or
+"
+APPOINT_JDZZ_BAK	PROCEDURE	191	"     v_rq_str = '20200128' or v_rq_str = '20200129' or
+"
+APPOINT_JDZZ_BAK	PROCEDURE	192	"     v_rq_str = '20200130' then
+"
+APPOINT_JDZZ_BAK	PROCEDURE	193	"    ret_code := -4;
+"
+APPOINT_JDZZ_BAK	PROCEDURE	194	"    ret_info := '该排班已停诊';
+"
+APPOINT_JDZZ_BAK	PROCEDURE	195	"    rollback;
+"
+APPOINT_JDZZ_BAK	PROCEDURE	196	"    return;
+"
+APPOINT_JDZZ_BAK	PROCEDURE	197	"  end if;
+"
+APPOINT_JDZZ_BAK	PROCEDURE	198	"
+"
+APPOINT_JDZZ_BAK	PROCEDURE	199	"  if v_dtpb.jlxh > 0 then
+"
+APPOINT_JDZZ_BAK	PROCEDURE	200	"    if v_yyxx.yysj <> 1 then
+"
+APPOINT_JDZZ_BAK	PROCEDURE	201	"      v_dtpb.swjsh := v_dtpb.xwjsh;
+"
+APPOINT_JDZZ_BAK	PROCEDURE	202	"    end if;
+"
+APPOINT_JDZZ_BAK	PROCEDURE	203	"    if v_dtpb.swjsh < 0 then
+"
+APPOINT_JDZZ_BAK	PROCEDURE	204	"      ret_code := -4;
+"
+APPOINT_JDZZ_BAK	PROCEDURE	205	"      ret_info := '该排班已停诊';
+"
+APPOINT_JDZZ_BAK	PROCEDURE	206	"      rollback;
+"
+APPOINT_JDZZ_BAK	PROCEDURE	207	"      return;
+"
+APPOINT_JDZZ_BAK	PROCEDURE	208	"    end if;
+"
+APPOINT_JDZZ_BAK	PROCEDURE	209	"  end if;
+"
+APPOINT_JDZZ_BAK	PROCEDURE	210	"
+"
+APPOINT_JDZZ_BAK	PROCEDURE	211	"  v_yyxx.xm   := v_brxx.xm;
+"
+APPOINT_JDZZ_BAK	PROCEDURE	212	"  v_yyxx.xb   := v_brxx.xb;
+"
+APPOINT_JDZZ_BAK	PROCEDURE	213	"  v_yyxx.csrq := v_brxx.csrq;
+"
+APPOINT_JDZZ_BAK	PROCEDURE	214	"  v_yyxx.sfzh := v_brxx.sfzh;
+"
+APPOINT_JDZZ_BAK	PROCEDURE	215	"  v_yyxx.lxdh := v_brxx.lxdh;
+"
+APPOINT_JDZZ_BAK	PROCEDURE	216	"  v_yyxx.jtzz := v_brxx.jtzz;
+"
+APPOINT_JDZZ_BAK	PROCEDURE	217	"  v_yyxx.ksdm := v_pbxx.ksdm;
+"
+APPOINT_JDZZ_BAK	PROCEDURE	218	"  v_yyxx.ysgh := v_pbxx.ysgh;
+"
+APPOINT_JDZZ_BAK	PROCEDURE	219	"  v_yyxx.djrq := sysdate;
+"
+APPOINT_JDZZ_BAK	PROCEDURE	220	"  v_yyxx.zt   := 0;
+"
+APPOINT_JDZZ_BAK	PROCEDURE	221	"  --v_yyxx.czgh   := 'ZSYY';
+"
+APPOINT_JDZZ_BAK	PROCEDURE	222	"  v_yyxx.yylb   := 3;
+"
+APPOINT_JDZZ_BAK	PROCEDURE	223	"  v_yyxx.mzlbxh := v_pbxx.mzlbxh;
+"
+APPOINT_JDZZ_BAK	PROCEDURE	224	"  v_yyxx.jzkh   := v_brxx.jzkh;
+"
+APPOINT_JDZZ_BAK	PROCEDURE	225	"
+"
+APPOINT_JDZZ_BAK	PROCEDURE	226	"  --判断停诊通知
+"
+APPOINT_JDZZ_BAK	PROCEDURE	227	"  begin
+"
+APPOINT_JDZZ_BAK	PROCEDURE	228	"    v_count := 0;
+"
+APPOINT_JDZZ_BAK	PROCEDURE	229	"    if v_yyxx.yysj = 1 then
+"
+APPOINT_JDZZ_BAK	PROCEDURE	230	"      select count(*)
+"
+APPOINT_JDZZ_BAK	PROCEDURE	231	"        into v_count
+"
+APPOINT_JDZZ_BAK	PROCEDURE	232	"        From GH_MBZHGL
+"
+APPOINT_JDZZ_BAK	PROCEDURE	233	"       where swjsh = -2
+"
+APPOINT_JDZZ_BAK	PROCEDURE	234	"         and ysgh = v_yyxx.ysgh
+"
+APPOINT_JDZZ_BAK	PROCEDURE	235	"         and ksdm = v_yyxx.ksdm
+"
+APPOINT_JDZZ_BAK	PROCEDURE	236	"         and mzlbxh = v_yyxx.mzlbxh
+"
+APPOINT_JDZZ_BAK	PROCEDURE	237	"         and ksrq <= trunc(v_yyxx.yyrq1)
+"
+APPOINT_JDZZ_BAK	PROCEDURE	238	"         and jsrq >= trunc(v_yyxx.yyrq1);
+"
+APPOINT_JDZZ_BAK	PROCEDURE	239	"    
+"
+APPOINT_JDZZ_BAK	PROCEDURE	240	"    else
+"
+APPOINT_JDZZ_BAK	PROCEDURE	241	"      select count(*)
+"
+APPOINT_JDZZ_BAK	PROCEDURE	242	"        into v_count
+"
+APPOINT_JDZZ_BAK	PROCEDURE	243	"        From GH_MBZHGL
+"
+APPOINT_JDZZ_BAK	PROCEDURE	244	"       where xwjsh = -2
+"
+APPOINT_JDZZ_BAK	PROCEDURE	245	"         and ysgh = v_yyxx.ysgh
+"
+APPOINT_JDZZ_BAK	PROCEDURE	246	"         and ksdm = v_yyxx.ksdm
+"
+APPOINT_JDZZ_BAK	PROCEDURE	247	"         and mzlbxh = v_yyxx.mzlbxh
+"
+APPOINT_JDZZ_BAK	PROCEDURE	248	"         and ksrq <= trunc(v_yyxx.yyrq1)
+"
+APPOINT_JDZZ_BAK	PROCEDURE	249	"         and jsrq >= trunc(v_yyxx.yyrq1);
+"
+APPOINT_JDZZ_BAK	PROCEDURE	250	"    
+"
+APPOINT_JDZZ_BAK	PROCEDURE	251	"    end if;
+"
+APPOINT_JDZZ_BAK	PROCEDURE	252	"  
+"
+APPOINT_JDZZ_BAK	PROCEDURE	253	"    select v_yyxx.yysj || ',' || v_yyxx.ysgh || ',' || v_yyxx.ksdm || ',' ||
+"
+APPOINT_JDZZ_BAK	PROCEDURE	254	"           v_yyxx.mzlbxh || ',' || v_yyxx.yyrq1
+"
+APPOINT_JDZZ_BAK	PROCEDURE	255	"      into v_bz
+"
+APPOINT_JDZZ_BAK	PROCEDURE	256	"      from dual;
+"
+APPOINT_JDZZ_BAK	PROCEDURE	257	"  
+"
+APPOINT_JDZZ_BAK	PROCEDURE	258	"    if v_count > 0 then
+"
+APPOINT_JDZZ_BAK	PROCEDURE	259	"      ret_code := -4;
+"
+APPOINT_JDZZ_BAK	PROCEDURE	260	"      ret_info := '该排班当天停诊';
+"
+APPOINT_JDZZ_BAK	PROCEDURE	261	"      rollback;
+"
+APPOINT_JDZZ_BAK	PROCEDURE	262	"      return;
+"
+APPOINT_JDZZ_BAK	PROCEDURE	263	"    end if;
+"
+APPOINT_JDZZ_BAK	PROCEDURE	264	"  
+"
+APPOINT_JDZZ_BAK	PROCEDURE	265	"  end;
+"
+APPOINT_JDZZ_BAK	PROCEDURE	266	"
+"
+APPOINT_JDZZ_BAK	PROCEDURE	267	"  update gy_xhb set dqz = dqz + zz where bm = 'GH_MZYYK';
+"
+APPOINT_JDZZ_BAK	PROCEDURE	268	"  select dqz into v_yyxx.yyxh from gy_xhb where bm = 'GH_MZYYK';
+"
+APPOINT_JDZZ_BAK	PROCEDURE	269	"
+"
+APPOINT_JDZZ_BAK	PROCEDURE	270	"  insert into gh_mzyyk values v_yyxx;
+"
+APPOINT_JDZZ_BAK	PROCEDURE	271	"  IF SQLCODE = 0 THEN
+"
+APPOINT_JDZZ_BAK	PROCEDURE	272	"    ret_code := 0;
+"
+APPOINT_JDZZ_BAK	PROCEDURE	273	"  END IF;
+"
+APPOINT_JDZZ_BAK	PROCEDURE	274	"  ret_code := 0;
+"
+APPOINT_JDZZ_BAK	PROCEDURE	275	"  ret_info := '预约成功';
+"
+APPOINT_JDZZ_BAK	PROCEDURE	276	"  reg_id   := v_yyxx.yyxh;
+"
+APPOINT_JDZZ_BAK	PROCEDURE	277	"  commit;
+"
+APPOINT_JDZZ_BAK	PROCEDURE	278	"EXCEPTION
+"
+APPOINT_JDZZ_BAK	PROCEDURE	279	"  when others then
+"
+APPOINT_JDZZ_BAK	PROCEDURE	280	"    ret_code := -4;
+"
+APPOINT_JDZZ_BAK	PROCEDURE	281	"    ret_info := '预约失败' || sqlerrm;
+"
+APPOINT_JDZZ_BAK	PROCEDURE	282	"    rollback;
+"
+APPOINT_JDZZ_BAK	PROCEDURE	283	"    return;
+"
+APPOINT_JDZZ_BAK	PROCEDURE	284	"END;
+"

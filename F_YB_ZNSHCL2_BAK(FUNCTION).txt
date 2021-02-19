@@ -1,0 +1,70 @@
+F_YB_ZNSHCL2_BAK	FUNCTION	1	"FUNCTION ""F_YB_ZNSHCL2_BAK""(arg_patient_no Number,
+"
+F_YB_ZNSHCL2_BAK	FUNCTION	2	"                                              arg_syzldm     Varchar2)
+"
+F_YB_ZNSHCL2_BAK	FUNCTION	3	"  return Number Is
+"
+F_YB_ZNSHCL2_BAK	FUNCTION	4	"  ll_count  number;
+"
+F_YB_ZNSHCL2_BAK	FUNCTION	5	"  ll_pos    number;
+"
+F_YB_ZNSHCL2_BAK	FUNCTION	6	"  ls_syzldm varchar2(200);
+"
+F_YB_ZNSHCL2_BAK	FUNCTION	7	"  ls_ybdm   varchar2(50);
+"
+F_YB_ZNSHCL2_BAK	FUNCTION	8	"Begin
+"
+F_YB_ZNSHCL2_BAK	FUNCTION	9	"  ls_syzldm := arg_syzldm;
+"
+F_YB_ZNSHCL2_BAK	FUNCTION	10	"  Loop
+"
+F_YB_ZNSHCL2_BAK	FUNCTION	11	"    ll_pos := instr(ls_syzldm, '¡¢');
+"
+F_YB_ZNSHCL2_BAK	FUNCTION	12	"    if ll_pos > 0 then
+"
+F_YB_ZNSHCL2_BAK	FUNCTION	13	"      ls_ybdm   := substr(ls_syzldm, 1, ll_pos - 1);
+"
+F_YB_ZNSHCL2_BAK	FUNCTION	14	"      ls_syzldm := substr(ls_syzldm, ll_pos + 1);
+"
+F_YB_ZNSHCL2_BAK	FUNCTION	15	"    else
+"
+F_YB_ZNSHCL2_BAK	FUNCTION	16	"      ls_ybdm   := ls_syzldm;
+"
+F_YB_ZNSHCL2_BAK	FUNCTION	17	"      ls_syzldm := null;
+"
+F_YB_ZNSHCL2_BAK	FUNCTION	18	"    end if;
+"
+F_YB_ZNSHCL2_BAK	FUNCTION	19	"    if instr(ls_ybdm, 'f') = 0 then
+"
+F_YB_ZNSHCL2_BAK	FUNCTION	20	"      ls_ybdm := 'f' || ls_ybdm;
+"
+F_YB_ZNSHCL2_BAK	FUNCTION	21	"    end if;
+"
+F_YB_ZNSHCL2_BAK	FUNCTION	22	"    Select Sum(a.sl)
+"
+F_YB_ZNSHCL2_BAK	FUNCTION	23	"      Into ll_count
+"
+F_YB_ZNSHCL2_BAK	FUNCTION	24	"      From zy_detail_charge a, yb_duizhaoml b
+"
+F_YB_ZNSHCL2_BAK	FUNCTION	25	"     Where a.charge_code = b.xiangmuxh
+"
+F_YB_ZNSHCL2_BAK	FUNCTION	26	"       And a.patient_no = arg_patient_no
+"
+F_YB_ZNSHCL2_BAK	FUNCTION	27	"       And b.yaopinpb = 0
+"
+F_YB_ZNSHCL2_BAK	FUNCTION	28	"       And instr(b.yibaodm, ls_ybdm) = 1;
+"
+F_YB_ZNSHCL2_BAK	FUNCTION	29	"    if ll_count > 0 then
+"
+F_YB_ZNSHCL2_BAK	FUNCTION	30	"      return 1;
+"
+F_YB_ZNSHCL2_BAK	FUNCTION	31	"    end if;
+"
+F_YB_ZNSHCL2_BAK	FUNCTION	32	"    Exit When ls_syzldm Is Null;
+"
+F_YB_ZNSHCL2_BAK	FUNCTION	33	"  End Loop;
+"
+F_YB_ZNSHCL2_BAK	FUNCTION	34	"  Return 0;
+"
+F_YB_ZNSHCL2_BAK	FUNCTION	35	"End;
+"

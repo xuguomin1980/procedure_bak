@@ -1,0 +1,39 @@
+GY_SUBMIT	PROCEDURE	1	"PROCEDURE         ""GY_SUBMIT"" 
+"
+GY_SUBMIT	PROCEDURE	2	"( what       IN  VARCHAR2,
+"
+GY_SUBMIT	PROCEDURE	3	"   ls_date  IN  VARCHAR2,
+"
+GY_SUBMIT	PROCEDURE	4	"   interval IN VARCHAR2 DEFAULT 'null')
+"
+GY_SUBMIT	PROCEDURE	5	"as begin
+"
+GY_SUBMIT	PROCEDURE	6	"declare
+"
+GY_SUBMIT	PROCEDURE	7	" job binary_integer ;
+"
+GY_SUBMIT	PROCEDURE	8	" next_date date;
+"
+GY_SUBMIT	PROCEDURE	9	"begin
+"
+GY_SUBMIT	PROCEDURE	10	"  if ls_date='sysdate' then
+"
+GY_SUBMIT	PROCEDURE	11	"    next_date := sysdate;
+"
+GY_SUBMIT	PROCEDURE	12	"  else
+"
+GY_SUBMIT	PROCEDURE	13	"    next_date := to_date(ls_date,'yyyy/mm/dd hh24:mi:ss');
+"
+GY_SUBMIT	PROCEDURE	14	"  end if;
+"
+GY_SUBMIT	PROCEDURE	15	"  dbms_job.submit(job,what,next_date,interval);
+"
+GY_SUBMIT	PROCEDURE	16	"  commit;
+"
+GY_SUBMIT	PROCEDURE	17	"end;
+"
+GY_SUBMIT	PROCEDURE	18	"end;
+"
+GY_SUBMIT	PROCEDURE	19	"
+"
+GY_SUBMIT	PROCEDURE	20	 

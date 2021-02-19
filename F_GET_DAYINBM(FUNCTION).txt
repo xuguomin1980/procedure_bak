@@ -1,0 +1,437 @@
+F_GET_DAYINBM	FUNCTION	1	"FUNCTION         ""F_GET_DAYINBM"" (p_fsrq  IN varchar2,
+"
+F_GET_DAYINBM	FUNCTION	2	"                                          p_ylxh  IN NUMBER,
+"
+F_GET_DAYINBM	FUNCTION	3	"                                          p_jlxh  in number)
+"
+F_GET_DAYINBM	FUNCTION	4	"  RETURN VARCHAR2 IS
+"
+F_GET_DAYINBM	FUNCTION	5	"  v_bmmc varchar2(150);
+"
+F_GET_DAYINBM	FUNCTION	6	"  v_dayinbm VARCHAR2(20) ;
+"
+F_GET_DAYINBM	FUNCTION	7	"  v_xh number;
+"
+F_GET_DAYINBM	FUNCTION	8	"  v_wenjianbm varchar2(20);
+"
+F_GET_DAYINBM	FUNCTION	9	"  v_ksrq varchar2(40);
+"
+F_GET_DAYINBM	FUNCTION	10	"  v_jsrq varchar2(40);
+"
+F_GET_DAYINBM	FUNCTION	11	"  v_sfjkxh number;
+"
+F_GET_DAYINBM	FUNCTION	12	"  v_ylmc varchar2(100);
+"
+F_GET_DAYINBM	FUNCTION	13	"  v_cwglfs number(1) ; --0 按科室,1 按病区
+"
+F_GET_DAYINBM	FUNCTION	14	"  v_curr_ks varchar2(10);
+"
+F_GET_DAYINBM	FUNCTION	15	"  v_curr_bed varchar2(6);
+"
+F_GET_DAYINBM	FUNCTION	16	"  v_curr_bq varchar2(10);
+"
+F_GET_DAYINBM	FUNCTION	17	"  v_zycwf NUMBER;
+"
+F_GET_DAYINBM	FUNCTION	18	"  v_FYGL NUMBER(6);
+"
+F_GET_DAYINBM	FUNCTION	19	"  v_bedylxh number;
+"
+F_GET_DAYINBM	FUNCTION	20	"  i number;
+"
+F_GET_DAYINBM	FUNCTION	21	"  v_jlxh number;
+"
+F_GET_DAYINBM	FUNCTION	22	"
+"
+F_GET_DAYINBM	FUNCTION	23	"  E_cwfNOTFOUND EXCEPTION;
+"
+F_GET_DAYINBM	FUNCTION	24	"
+"
+F_GET_DAYINBM	FUNCTION	25	"  CURSOR cur_dayinbm IS
+"
+F_GET_DAYINBM	FUNCTION	26	"    select xh,wenjianbm,
+"
+F_GET_DAYINBM	FUNCTION	27	"    to_char(ksrq,'yyyy/mm/dd hh24:mi:ss'),
+"
+F_GET_DAYINBM	FUNCTION	28	"    to_char(jsrq,'yyyy/mm/dd hh24:mi:ss'),
+"
+F_GET_DAYINBM	FUNCTION	29	"    dayinbm from gy_ylsf_changelog where ylxh=v_sfjkxh order by ksrq,xh,jsrq;
+"
+F_GET_DAYINBM	FUNCTION	30	"
+"
+F_GET_DAYINBM	FUNCTION	31	"BEGIN
+"
+F_GET_DAYINBM	FUNCTION	32	"  begin --取参数设置中床位费的医疗序号
+"
+F_GET_DAYINBM	FUNCTION	33	"    select nvl(csz2,0) into v_zycwf from gy_xtcs where xtxh=11 and csmc='ZYCWF';
+"
+F_GET_DAYINBM	FUNCTION	34	"  EXCEPTION
+"
+F_GET_DAYINBM	FUNCTION	35	"	  WHEN NO_DATA_FOUND THEN
+"
+F_GET_DAYINBM	FUNCTION	36	"      v_zycwf :=0;
+"
+F_GET_DAYINBM	FUNCTION	37	"  end ;
+"
+F_GET_DAYINBM	FUNCTION	38	"
+"
+F_GET_DAYINBM	FUNCTION	39	"  i := 0;
+"
+F_GET_DAYINBM	FUNCTION	40	"
+"
+F_GET_DAYINBM	FUNCTION	41	"  begin
+"
+F_GET_DAYINBM	FUNCTION	42	"    select sfjkxh into v_sfjkxh from gy_ylsf where ylxh=p_ylxh and rownum=1;
+"
+F_GET_DAYINBM	FUNCTION	43	"  EXCEPTION
+"
+F_GET_DAYINBM	FUNCTION	44	"    WHEN NO_DATA_FOUND THEN
+"
+F_GET_DAYINBM	FUNCTION	45	"      v_sfjkxh :=0;
+"
+F_GET_DAYINBM	FUNCTION	46	"  end;
+"
+F_GET_DAYINBM	FUNCTION	47	"
+"
+F_GET_DAYINBM	FUNCTION	48	"  if v_sfjkxh is null or v_sfjkxh = 0 then
+"
+F_GET_DAYINBM	FUNCTION	49	"    v_ylmc:='';
+"
+F_GET_DAYINBM	FUNCTION	50	"    v_sfjkxh := p_ylxh;
+"
+F_GET_DAYINBM	FUNCTION	51	"  else
+"
+F_GET_DAYINBM	FUNCTION	52	"    begin
+"
+F_GET_DAYINBM	FUNCTION	53	"      select ylmc into v_ylmc from gy_ylsf where ylxh=v_sfjkxh;
+"
+F_GET_DAYINBM	FUNCTION	54	"    EXCEPTION
+"
+F_GET_DAYINBM	FUNCTION	55	"      WHEN NO_DATA_FOUND THEN
+"
+F_GET_DAYINBM	FUNCTION	56	"        v_ylmc :='';
+"
+F_GET_DAYINBM	FUNCTION	57	"    end;
+"
+F_GET_DAYINBM	FUNCTION	58	"  end if;
+"
+F_GET_DAYINBM	FUNCTION	59	"
+"
+F_GET_DAYINBM	FUNCTION	60	"  begin
+"
+F_GET_DAYINBM	FUNCTION	61	"     select fygl into v_fygl from zy_detail_charge where jlxh=p_jlxh;
+"
+F_GET_DAYINBM	FUNCTION	62	"  EXCEPTION
+"
+F_GET_DAYINBM	FUNCTION	63	"	   WHEN NO_DATA_FOUND THEN
+"
+F_GET_DAYINBM	FUNCTION	64	"        v_fygl :=0;
+"
+F_GET_DAYINBM	FUNCTION	65	"  end ;
+"
+F_GET_DAYINBM	FUNCTION	66	"
+"
+F_GET_DAYINBM	FUNCTION	67	"   if v_fygl <> v_zycwf then
+"
+F_GET_DAYINBM	FUNCTION	68	"      v_jlxh := 0;
+"
+F_GET_DAYINBM	FUNCTION	69	"   else
+"
+F_GET_DAYINBM	FUNCTION	70	"      v_jlxh := 999;
+"
+F_GET_DAYINBM	FUNCTION	71	"   end if;
+"
+F_GET_DAYINBM	FUNCTION	72	"
+"
+F_GET_DAYINBM	FUNCTION	73	"  if v_jlxh <> 0 then       --床位费的处理
+"
+F_GET_DAYINBM	FUNCTION	74	"  begin      --取床位的管理模式
+"
+F_GET_DAYINBM	FUNCTION	75	"    begin
+"
+F_GET_DAYINBM	FUNCTION	76	"     select nvl(csz2,0) into v_cwglfs from gy_xtcs where xtxh=12 and csmc='CWGLFS';
+"
+F_GET_DAYINBM	FUNCTION	77	"     EXCEPTION
+"
+F_GET_DAYINBM	FUNCTION	78	"	      WHEN NO_DATA_FOUND THEN
+"
+F_GET_DAYINBM	FUNCTION	79	"        v_cwglfs :=0;
+"
+F_GET_DAYINBM	FUNCTION	80	"    end ;
+"
+F_GET_DAYINBM	FUNCTION	81	"
+"
+F_GET_DAYINBM	FUNCTION	82	"    if v_cwglfs = 0 then   --根据科室、床位号
+"
+F_GET_DAYINBM	FUNCTION	83	"       begin
+"
+F_GET_DAYINBM	FUNCTION	84	"       select curr_ks,curr_bq,curr_bed,fygl into v_curr_ks,v_curr_bq,v_curr_bed,v_fygl from zy_detail_charge where jlxh=p_jlxh;
+"
+F_GET_DAYINBM	FUNCTION	85	"       EXCEPTION
+"
+F_GET_DAYINBM	FUNCTION	86	"	      WHEN NO_DATA_FOUND THEN
+"
+F_GET_DAYINBM	FUNCTION	87	"        v_curr_ks :='';
+"
+F_GET_DAYINBM	FUNCTION	88	"        v_curr_bq :='';
+"
+F_GET_DAYINBM	FUNCTION	89	"        v_curr_bed:='';
+"
+F_GET_DAYINBM	FUNCTION	90	"        v_fygl :=0;
+"
+F_GET_DAYINBM	FUNCTION	91	"       end;
+"
+F_GET_DAYINBM	FUNCTION	92	"
+"
+F_GET_DAYINBM	FUNCTION	93	"       if v_fygl<>v_zycwf then
+"
+F_GET_DAYINBM	FUNCTION	94	"        begin
+"
+F_GET_DAYINBM	FUNCTION	95	"	       RAISE E_cwfNOTFOUND;
+"
+F_GET_DAYINBM	FUNCTION	96	"        end;
+"
+F_GET_DAYINBM	FUNCTION	97	"      else
+"
+F_GET_DAYINBM	FUNCTION	98	"       begin
+"
+F_GET_DAYINBM	FUNCTION	99	"        select sfjkxh into v_bedylxh from zy_bed where DEPT_CODE=v_curr_ks and bed_no=v_curr_bed;
+"
+F_GET_DAYINBM	FUNCTION	100	"        exception
+"
+F_GET_DAYINBM	FUNCTION	101	"        when no_data_found then
+"
+F_GET_DAYINBM	FUNCTION	102	"        v_bedylxh:=0;
+"
+F_GET_DAYINBM	FUNCTION	103	"       end;
+"
+F_GET_DAYINBM	FUNCTION	104	"
+"
+F_GET_DAYINBM	FUNCTION	105	"       if v_bedylxh<>0  then
+"
+F_GET_DAYINBM	FUNCTION	106	"
+"
+F_GET_DAYINBM	FUNCTION	107	"         if p_ylxh>100 and p_ylxh<>v_bedylxh then
+"
+F_GET_DAYINBM	FUNCTION	108	"            v_ylmc:='';
+"
+F_GET_DAYINBM	FUNCTION	109	"         else
+"
+F_GET_DAYINBM	FUNCTION	110	"           v_sfjkxh := v_bedylxh;
+"
+F_GET_DAYINBM	FUNCTION	111	"           begin
+"
+F_GET_DAYINBM	FUNCTION	112	"             select ylmc into v_ylmc from gy_ylsf where ylxh=v_bedylxh;
+"
+F_GET_DAYINBM	FUNCTION	113	"             exception
+"
+F_GET_DAYINBM	FUNCTION	114	"             when no_data_found then
+"
+F_GET_DAYINBM	FUNCTION	115	"             v_ylmc:='';
+"
+F_GET_DAYINBM	FUNCTION	116	"           end ;
+"
+F_GET_DAYINBM	FUNCTION	117	"          end if;
+"
+F_GET_DAYINBM	FUNCTION	118	"       end if;
+"
+F_GET_DAYINBM	FUNCTION	119	"      end if;
+"
+F_GET_DAYINBM	FUNCTION	120	"    elsif v_cwglfs = 1 then   --根据病区、床位号
+"
+F_GET_DAYINBM	FUNCTION	121	"      begin
+"
+F_GET_DAYINBM	FUNCTION	122	"       select curr_ks,curr_bq,curr_bed,fygl into v_curr_ks,v_curr_bq,v_curr_bed,v_fygl from zy_detail_charge where jlxh=p_jlxh;
+"
+F_GET_DAYINBM	FUNCTION	123	"       EXCEPTION
+"
+F_GET_DAYINBM	FUNCTION	124	"	      WHEN NO_DATA_FOUND THEN
+"
+F_GET_DAYINBM	FUNCTION	125	"        v_curr_ks :='';
+"
+F_GET_DAYINBM	FUNCTION	126	"        v_curr_bq :='';
+"
+F_GET_DAYINBM	FUNCTION	127	"        v_curr_bed:='';
+"
+F_GET_DAYINBM	FUNCTION	128	"        v_fygl :=0;
+"
+F_GET_DAYINBM	FUNCTION	129	"       end;
+"
+F_GET_DAYINBM	FUNCTION	130	"
+"
+F_GET_DAYINBM	FUNCTION	131	"       if v_fygl<>v_zycwf then
+"
+F_GET_DAYINBM	FUNCTION	132	"       begin
+"
+F_GET_DAYINBM	FUNCTION	133	"	      RAISE E_cwfNOTFOUND;
+"
+F_GET_DAYINBM	FUNCTION	134	"       end ;
+"
+F_GET_DAYINBM	FUNCTION	135	"      else
+"
+F_GET_DAYINBM	FUNCTION	136	"       begin
+"
+F_GET_DAYINBM	FUNCTION	137	"        select sfjkxh into v_bedylxh from zy_bed where curr_bq=v_curr_bq and DEPT_CODE=v_curr_ks and bed_no=v_curr_bed;
+"
+F_GET_DAYINBM	FUNCTION	138	"        exception
+"
+F_GET_DAYINBM	FUNCTION	139	"        when no_data_found then
+"
+F_GET_DAYINBM	FUNCTION	140	"        v_bedylxh:=0;
+"
+F_GET_DAYINBM	FUNCTION	141	"       end;
+"
+F_GET_DAYINBM	FUNCTION	142	"
+"
+F_GET_DAYINBM	FUNCTION	143	"       if v_bedylxh<>0  then
+"
+F_GET_DAYINBM	FUNCTION	144	"
+"
+F_GET_DAYINBM	FUNCTION	145	"         if p_ylxh>100 and p_ylxh<>v_bedylxh then
+"
+F_GET_DAYINBM	FUNCTION	146	"            v_ylmc:='';
+"
+F_GET_DAYINBM	FUNCTION	147	"         else
+"
+F_GET_DAYINBM	FUNCTION	148	"         v_sfjkxh := v_bedylxh;
+"
+F_GET_DAYINBM	FUNCTION	149	"          begin
+"
+F_GET_DAYINBM	FUNCTION	150	"            select ylmc into v_ylmc from gy_ylsf where ylxh=v_bedylxh;
+"
+F_GET_DAYINBM	FUNCTION	151	"            exception
+"
+F_GET_DAYINBM	FUNCTION	152	"            when no_data_found then
+"
+F_GET_DAYINBM	FUNCTION	153	"            v_ylmc:='';
+"
+F_GET_DAYINBM	FUNCTION	154	"          end;
+"
+F_GET_DAYINBM	FUNCTION	155	"         end if;
+"
+F_GET_DAYINBM	FUNCTION	156	"       end if;
+"
+F_GET_DAYINBM	FUNCTION	157	"      end if;
+"
+F_GET_DAYINBM	FUNCTION	158	"    end if;
+"
+F_GET_DAYINBM	FUNCTION	159	"
+"
+F_GET_DAYINBM	FUNCTION	160	"  end;
+"
+F_GET_DAYINBM	FUNCTION	161	"  end if;
+"
+F_GET_DAYINBM	FUNCTION	162	"
+"
+F_GET_DAYINBM	FUNCTION	163	"
+"
+F_GET_DAYINBM	FUNCTION	164	"  ---- START
+"
+F_GET_DAYINBM	FUNCTION	165	"  OPEN cur_dayinbm;
+"
+F_GET_DAYINBM	FUNCTION	166	"  LOOP
+"
+F_GET_DAYINBM	FUNCTION	167	"    FETCH cur_dayinbm
+"
+F_GET_DAYINBM	FUNCTION	168	"      INTO v_xh,v_wenjianbm,v_ksrq,v_jsrq,v_dayinbm;
+"
+F_GET_DAYINBM	FUNCTION	169	"    EXIT WHEN cur_dayinbm%NOTFOUND;
+"
+F_GET_DAYINBM	FUNCTION	170	"
+"
+F_GET_DAYINBM	FUNCTION	171	"     if (p_fsrq>=v_ksrq and p_fsrq<=v_jsrq) or (p_fsrq>=v_ksrq and v_jsrq is null) then
+"
+F_GET_DAYINBM	FUNCTION	172	"        exit;
+"
+F_GET_DAYINBM	FUNCTION	173	"     end if;
+"
+F_GET_DAYINBM	FUNCTION	174	"
+"
+F_GET_DAYINBM	FUNCTION	175	"     v_dayinbm :='';
+"
+F_GET_DAYINBM	FUNCTION	176	"     i:=i+1;
+"
+F_GET_DAYINBM	FUNCTION	177	"  END LOOP;
+"
+F_GET_DAYINBM	FUNCTION	178	"  CLOSE cur_dayinbm;
+"
+F_GET_DAYINBM	FUNCTION	179	"
+"
+F_GET_DAYINBM	FUNCTION	180	"
+"
+F_GET_DAYINBM	FUNCTION	181	"   if (v_dayinbm is Null Or length(v_dayinbm) = 0)   then
+"
+F_GET_DAYINBM	FUNCTION	182	"    if i > 0 then
+"
+F_GET_DAYINBM	FUNCTION	183	"      begin
+"
+F_GET_DAYINBM	FUNCTION	184	"      select charge_name into v_ylmc from zy_detail_charge where jlxh=p_jlxh;
+"
+F_GET_DAYINBM	FUNCTION	185	"      EXCEPTION
+"
+F_GET_DAYINBM	FUNCTION	186	"      WHEN NO_DATA_FOUND THEN
+"
+F_GET_DAYINBM	FUNCTION	187	"       v_ylmc :='';
+"
+F_GET_DAYINBM	FUNCTION	188	"     end;
+"
+F_GET_DAYINBM	FUNCTION	189	"    else
+"
+F_GET_DAYINBM	FUNCTION	190	"     begin
+"
+F_GET_DAYINBM	FUNCTION	191	"      select dayinbm into v_dayinbm from gy_ylsf where ylxh=v_sfjkxh and rownum=1;
+"
+F_GET_DAYINBM	FUNCTION	192	"      EXCEPTION
+"
+F_GET_DAYINBM	FUNCTION	193	"	    WHEN NO_DATA_FOUND THEN
+"
+F_GET_DAYINBM	FUNCTION	194	"       v_DAYINBM := '';
+"
+F_GET_DAYINBM	FUNCTION	195	"      end ;
+"
+F_GET_DAYINBM	FUNCTION	196	"     end if;
+"
+F_GET_DAYINBM	FUNCTION	197	"   end if;
+"
+F_GET_DAYINBM	FUNCTION	198	"
+"
+F_GET_DAYINBM	FUNCTION	199	"
+"
+F_GET_DAYINBM	FUNCTION	200	"   if (v_ylmc is Null Or length(v_ylmc) = 0) then
+"
+F_GET_DAYINBM	FUNCTION	201	"      begin
+"
+F_GET_DAYINBM	FUNCTION	202	"         select charge_name into v_ylmc from zy_detail_charge where jlxh=p_jlxh;
+"
+F_GET_DAYINBM	FUNCTION	203	"         EXCEPTION
+"
+F_GET_DAYINBM	FUNCTION	204	"         WHEN NO_DATA_FOUND THEN
+"
+F_GET_DAYINBM	FUNCTION	205	"          v_ylmc :='';
+"
+F_GET_DAYINBM	FUNCTION	206	"      end;
+"
+F_GET_DAYINBM	FUNCTION	207	"   end if;
+"
+F_GET_DAYINBM	FUNCTION	208	"
+"
+F_GET_DAYINBM	FUNCTION	209	"
+"
+F_GET_DAYINBM	FUNCTION	210	"  v_bmmc := v_ylmc||'^'||v_dayinbm;
+"
+F_GET_DAYINBM	FUNCTION	211	"  return(v_bmmc);
+"
+F_GET_DAYINBM	FUNCTION	212	"  --p_bmmc := bmmc;
+"
+F_GET_DAYINBM	FUNCTION	213	"
+"
+F_GET_DAYINBM	FUNCTION	214	"  EXCEPTION  -- exception handlers begin
+"
+F_GET_DAYINBM	FUNCTION	215	"   WHEN E_cwfNOTFOUND THEN
+"
+F_GET_DAYINBM	FUNCTION	216	"	RAISE_APPLICATION_ERROR(-20801,'传入的床位费序号和参数设置中的床位费序号不一致,请核对!');
+"
+F_GET_DAYINBM	FUNCTION	217	"
+"
+F_GET_DAYINBM	FUNCTION	218	"  END;
+"
+F_GET_DAYINBM	FUNCTION	219	 

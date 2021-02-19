@@ -1,0 +1,2246 @@
+PKG_ZBFX	PACKAGE BODY	1	"PACKAGE BODY         ""PKG_ZBFX"" Is
+"
+PKG_ZBFX	PACKAGE BODY	2	"is_jmdd   Varchar2(50);
+"
+PKG_ZBFX	PACKAGE BODY	3	"ii_xkjywqybz number(1);
+"
+PKG_ZBFX	PACKAGE BODY	4	"ii_mzrctjfs  number(1);
+"
+PKG_ZBFX	PACKAGE BODY	5	"ii_xyfxh     number(1);
+"
+PKG_ZBFX	PACKAGE BODY	6	"ii_zyfxh     number(1);
+"
+PKG_ZBFX	PACKAGE BODY	7	"ii_cyfxh     number(1);
+"
+PKG_ZBFX	PACKAGE BODY	8	"ii_wswsjxh     number(5);
+"
+PKG_ZBFX	PACKAGE BODY	9	"function f_ypfx_getypxx
+"
+PKG_ZBFX	PACKAGE BODY	10	"(arg_ypxh in number,arg_ypcddm in number,arg_flag in varchar2)
+"
+PKG_ZBFX	PACKAGE BODY	11	"  return varchar2
+"
+PKG_ZBFX	PACKAGE BODY	12	"  is
+"
+PKG_ZBFX	PACKAGE BODY	13	"    ls_return varchar2(60);
+"
+PKG_ZBFX	PACKAGE BODY	14	"    ls_ypsx   varchar2(11);
+"
+PKG_ZBFX	PACKAGE BODY	15	"    ls_ypsx2  varchar2(11);
+"
+PKG_ZBFX	PACKAGE BODY	16	"    ll_ypbzl  number(4);
+"
+PKG_ZBFX	PACKAGE BODY	17	"    ll_fzfl   number(6);
+"
+PKG_ZBFX	PACKAGE BODY	18	"    ll_zdxl   number(6);
+"
+PKG_ZBFX	PACKAGE BODY	19	"    ls_ypsx4  varchar2(11);
+"
+PKG_ZBFX	PACKAGE BODY	20	"    li_fybh   number(2);
+"
+PKG_ZBFX	PACKAGE BODY	21	"    li_xkjywqybz number(1);
+"
+PKG_ZBFX	PACKAGE BODY	22	"  begin
+"
+PKG_ZBFX	PACKAGE BODY	23	"
+"
+PKG_ZBFX	PACKAGE BODY	24	"  begin
+"
+PKG_ZBFX	PACKAGE BODY	25	"  if arg_flag = 'pmgg' then
+"
+PKG_ZBFX	PACKAGE BODY	26	"      select ypmc||ypgg into ls_return from gy_ypmcggzd where ypxh=arg_ypxh;
+"
+PKG_ZBFX	PACKAGE BODY	27	"  elsif arg_flag = 'dw' then
+"
+PKG_ZBFX	PACKAGE BODY	28	"      select ypbzdw into ls_return from gy_ypmcggzd where ypxh=arg_ypxh;
+"
+PKG_ZBFX	PACKAGE BODY	29	"  elsif arg_flag = 'cd' then
+"
+PKG_ZBFX	PACKAGE BODY	30	"      select cdmc into ls_return from gy_ypcdk where ypcddm=arg_ypcddm;
+"
+PKG_ZBFX	PACKAGE BODY	31	"  elsif arg_flag = 'ypsx' then
+"
+PKG_ZBFX	PACKAGE BODY	32	"      select ypsx into ls_return from gy_ypmcggzd where ypxh=arg_ypxh;
+"
+PKG_ZBFX	PACKAGE BODY	33	"  elsif arg_flag = 'ypbzl' then
+"
+PKG_ZBFX	PACKAGE BODY	34	"      select to_char(ypbzl) into ls_return from gy_ypmcggzd where ypxh=arg_ypxh;
+"
+PKG_ZBFX	PACKAGE BODY	35	"  elsif arg_flag = 'yplx' then
+"
+PKG_ZBFX	PACKAGE BODY	36	"      select ypsx into ls_ypsx from gy_ypmcggzd where ypxh=arg_ypxh;
+"
+PKG_ZBFX	PACKAGE BODY	37	"       if instr(substr(ls_ypsx,2,3),'1')>0 then
+"
+PKG_ZBFX	PACKAGE BODY	38	"           ls_return:='1';
+"
+PKG_ZBFX	PACKAGE BODY	39	"       elsif  instr(substr(ls_ypsx,5,3),'1')>0 then
+"
+PKG_ZBFX	PACKAGE BODY	40	"           ls_return:='2' ;
+"
+PKG_ZBFX	PACKAGE BODY	41	"       elsif  instr(substr(ls_ypsx,8,2),'1')>0  then
+"
+PKG_ZBFX	PACKAGE BODY	42	"           ls_return:='4' ;
+"
+PKG_ZBFX	PACKAGE BODY	43	"       end if ;
+"
+PKG_ZBFX	PACKAGE BODY	44	"  elsif arg_flag='zblb' then
+"
+PKG_ZBFX	PACKAGE BODY	45	"     select to_char(zblb) into ls_return from gy_ypmcggzd where ypxh=arg_ypxh;
+"
+PKG_ZBFX	PACKAGE BODY	46	"  elsif arg_flag='ypmc'  then
+"
+PKG_ZBFX	PACKAGE BODY	47	"     select ypmc into ls_return from gy_ypmcggzd where ypxh=arg_ypxh;
+"
+PKG_ZBFX	PACKAGE BODY	48	"  elsif arg_flag='ypgg' then
+"
+PKG_ZBFX	PACKAGE BODY	49	"     select ypgg into ls_return from gy_ypmcggzd where ypxh=arg_ypxh;
+"
+PKG_ZBFX	PACKAGE BODY	50	"  elsif arg_flag='tsypyb' then
+"
+PKG_ZBFX	PACKAGE BODY	51	"     select to_char(mod(tsypyb,10)) into ls_return from gy_ypmcggzd where ypxh=arg_ypxh;
+"
+PKG_ZBFX	PACKAGE BODY	52	"  elsif arg_flag='ypyb' then
+"
+PKG_ZBFX	PACKAGE BODY	53	"     select to_char(tsypyb) into ls_return from gy_ypmcggzd where ypxh=arg_ypxh;
+"
+PKG_ZBFX	PACKAGE BODY	54	"  elsif arg_flag='glmc' then   --add by xiefuling 2006-2-21
+"
+PKG_ZBFX	PACKAGE BODY	55	"     select rtrim(ltrim(glmc)) into ls_return from gy_ypmcggzd where ypxh=arg_ypxh;
+"
+PKG_ZBFX	PACKAGE BODY	56	"  elsif arg_flag='ykxh' then
+"
+PKG_ZBFX	PACKAGE BODY	57	"     select  fzfl,ypbzl into ll_fzfl,ll_ypbzl from gy_ypmcggzd   where ypxh=arg_ypxh;
+"
+PKG_ZBFX	PACKAGE BODY	58	"     if  ll_fzfl>0 then --已撤过
+"
+PKG_ZBFX	PACKAGE BODY	59	"        if ll_ypbzl=1 then --已撤过是取小规格
+"
+PKG_ZBFX	PACKAGE BODY	60	"           ls_return:=to_char(ll_fzfl);
+"
+PKG_ZBFX	PACKAGE BODY	61	"        elsif ll_ypbzl>1 then --已撤过是中间规格
+"
+PKG_ZBFX	PACKAGE BODY	62	"           select  fzfl into ll_fzfl from gy_ypmcggzd  where ypxh=ll_fzfl;
+"
+PKG_ZBFX	PACKAGE BODY	63	"           ls_return:=to_char(ll_fzfl);
+"
+PKG_ZBFX	PACKAGE BODY	64	"        end if;
+"
+PKG_ZBFX	PACKAGE BODY	65	"     elsif ll_fzfl is null then  --没撤过
+"
+PKG_ZBFX	PACKAGE BODY	66	"           ls_return:=to_char(arg_ypxh);
+"
+PKG_ZBFX	PACKAGE BODY	67	"     end if;
+"
+PKG_ZBFX	PACKAGE BODY	68	"  elsif arg_flag='bzbm' then
+"
+PKG_ZBFX	PACKAGE BODY	69	"     select bzbm into ls_return from gy_ypmcggzd where ypxh=arg_ypxh;
+"
+PKG_ZBFX	PACKAGE BODY	70	"  elsif arg_flag='zdxl'  then --2004/05/21 取最大限量
+"
+PKG_ZBFX	PACKAGE BODY	71	"      Select  ypbzl,nvl(zdxl,0) into ll_ypbzl,ll_zdxl from gy_ypmcggzd where ypxh= arg_ypxh;
+"
+PKG_ZBFX	PACKAGE BODY	72	"       If ll_ypbzl=0 Or ll_ypbzl is null Then
+"
+PKG_ZBFX	PACKAGE BODY	73	"          ll_ypbzl:=1;
+"
+PKG_ZBFX	PACKAGE BODY	74	"       End If;
+"
+PKG_ZBFX	PACKAGE BODY	75	"       ls_return:=to_char(ll_zdxl/ll_ypbzl);
+"
+PKG_ZBFX	PACKAGE BODY	76	"  elsif arg_flag='zjlx' then
+"
+PKG_ZBFX	PACKAGE BODY	77	"      Select to_char(zjlx) Into ls_return From gy_ypmcggzd Where ypxh=arg_ypxh;
+"
+PKG_ZBFX	PACKAGE BODY	78	"  elsif arg_flag='fjpb' then
+"
+PKG_ZBFX	PACKAGE BODY	79	"      Select fjpb Into ls_return From gy_ypmcggzd Where ypxh=arg_ypxh;
+"
+PKG_ZBFX	PACKAGE BODY	80	"  elsif  substr(arg_flag,1,4) = 'jgxh' then
+"
+PKG_ZBFX	PACKAGE BODY	81	"    begin
+"
+PKG_ZBFX	PACKAGE BODY	82	"        select   nvl(ypmc,'')||nvl(ypgg,'')   into  ls_return
+"
+PKG_ZBFX	PACKAGE BODY	83	"        from gy_ypcdjg
+"
+PKG_ZBFX	PACKAGE BODY	84	"        where xh=to_number(substr(arg_flag,5))  and substr(ypsx,10,1)='0' and rownum=1  ;  --  substr(arg_flag,5) jgxh
+"
+PKG_ZBFX	PACKAGE BODY	85	"        exception
+"
+PKG_ZBFX	PACKAGE BODY	86	"           when no_data_found then
+"
+PKG_ZBFX	PACKAGE BODY	87	"           begin
+"
+PKG_ZBFX	PACKAGE BODY	88	"             select  nvl(ypmc,'')||nvl(ypgg,'') into  ls_return
+"
+PKG_ZBFX	PACKAGE BODY	89	"             from gy_ypcdjg where ypxh=arg_ypxh  and ypcddm=arg_ypcddm  and bmxh =
+"
+PKG_ZBFX	PACKAGE BODY	90	"             (select  max(bmxh) from gy_ypcdjg  where ypxh=arg_ypxh  and ypcddm=arg_ypcddm and bmxh>0 and rownum=1 and
+"
+PKG_ZBFX	PACKAGE BODY	91	"             substr(ypsx,10,1)='0') and  substr(ypsx,10,1)='0' and rownum=1;
+"
+PKG_ZBFX	PACKAGE BODY	92	"             EXCEPTION
+"
+PKG_ZBFX	PACKAGE BODY	93	"              when NO_DATA_FOUND THEN
+"
+PKG_ZBFX	PACKAGE BODY	94	"               Select nvl(ypmc,'')||nvl(ypgg,'')        Into ls_return
+"
+PKG_ZBFX	PACKAGE BODY	95	"              From gy_ypcdjg                Where ypxh=arg_ypxh
+"
+PKG_ZBFX	PACKAGE BODY	96	"              And  ypcddm=arg_ypcddm             And  bmxh is null
+"
+PKG_ZBFX	PACKAGE BODY	97	"              And substr(ypsx,10,1)='0';
+"
+PKG_ZBFX	PACKAGE BODY	98	"           end ;
+"
+PKG_ZBFX	PACKAGE BODY	99	"      End ;
+"
+PKG_ZBFX	PACKAGE BODY	100	"  elsif arg_flag = 'glxh' then
+"
+PKG_ZBFX	PACKAGE BODY	101	"      select to_char(glxh) into ls_return from gy_ypmcggzd where ypxh=arg_ypxh;
+"
+PKG_ZBFX	PACKAGE BODY	102	"  elsif arg_flag = 'flxh' then
+"
+PKG_ZBFX	PACKAGE BODY	103	"      select To_char(b.flxh) into ls_return from gy_ypmcggzd a,gy_ypflzd b where a.flxh=b.xh and ypxh=arg_ypxh;
+"
+PKG_ZBFX	PACKAGE BODY	104	"  elsif arg_flag ='gwyppb' then --高危药品判别
+"
+PKG_ZBFX	PACKAGE BODY	105	"       select  To_char(nvl(gwyppb,0)) into  ls_return  from gy_ypmcggzd where ypxh =arg_ypxh;
+"
+PKG_ZBFX	PACKAGE BODY	106	"  elsif arg_flag='jbywbz' then --基本药物标志,有些医院是jbywbs
+"
+PKG_ZBFX	PACKAGE BODY	107	"      Select   nvl(trim(substr(ypszpb,26,1)),'0')
+"
+PKG_ZBFX	PACKAGE BODY	108	"        Into   ls_return
+"
+PKG_ZBFX	PACKAGE BODY	109	"        From   gy_ypcdjg
+"
+PKG_ZBFX	PACKAGE BODY	110	"        Where  ypxh=arg_ypxh
+"
+PKG_ZBFX	PACKAGE BODY	111	"          and  ypcddm=arg_ypcddm
+"
+PKG_ZBFX	PACKAGE BODY	112	"          and  bmxh is  null
+"
+PKG_ZBFX	PACKAGE BODY	113	"          and  rownum<=1;
+"
+PKG_ZBFX	PACKAGE BODY	114	"  elsif arg_flag='tybz' then --药品停用标志
+"
+PKG_ZBFX	PACKAGE BODY	115	"        SELECT substr(BZ,1,1)
+"
+PKG_ZBFX	PACKAGE BODY	116	"           into ls_return
+"
+PKG_ZBFX	PACKAGE BODY	117	"           FROM GY_YPCDJG
+"
+PKG_ZBFX	PACKAGE BODY	118	"           WHERE  BMXH IS NULL
+"
+PKG_ZBFX	PACKAGE BODY	119	"           AND  ypxh=arg_ypxh
+"
+PKG_ZBFX	PACKAGE BODY	120	"           AND  ypcddm=arg_ypcddm
+"
+PKG_ZBFX	PACKAGE BODY	121	"           AND  FZFL IS NULL
+"
+PKG_ZBFX	PACKAGE BODY	122	"           AND  ( substr(YPSX,10,1) <> '1' and substr(YPSX,10,1) <> '2' ) AND ROWNUM = 1;
+"
+PKG_ZBFX	PACKAGE BODY	123	"  elsif arg_flag='ypszpb' then --药品设置判别
+"
+PKG_ZBFX	PACKAGE BODY	124	"      Select   ypszpb
+"
+PKG_ZBFX	PACKAGE BODY	125	"        Into   ls_return
+"
+PKG_ZBFX	PACKAGE BODY	126	"        From   gy_ypcdjg
+"
+PKG_ZBFX	PACKAGE BODY	127	"        Where  ypxh=arg_ypxh
+"
+PKG_ZBFX	PACKAGE BODY	128	"          and  ypcddm=arg_ypcddm
+"
+PKG_ZBFX	PACKAGE BODY	129	"          and  bmxh is  null
+"
+PKG_ZBFX	PACKAGE BODY	130	"          and  rownum<=1;
+"
+PKG_ZBFX	PACKAGE BODY	131	"   elsif arg_flag='kjywbz' then --抗菌药物标志
+"
+PKG_ZBFX	PACKAGE BODY	132	"          IF ii_xkjywqybz = 0 THEN
+"
+PKG_ZBFX	PACKAGE BODY	133	"             -- 0 默认 1 是
+"
+PKG_ZBFX	PACKAGE BODY	134	"             Select nvl(SUBSTR(fjpb,9,1),'0') Into ls_return From gy_ypmcggzd Where ypxh=arg_ypxh;
+"
+PKG_ZBFX	PACKAGE BODY	135	"          ELSE
+"
+PKG_ZBFX	PACKAGE BODY	136	"             --0 默认 1 非限制使用级 2 限制使用级 3 特殊使用级'
+"
+PKG_ZBFX	PACKAGE BODY	137	"             Select to_char(nvl(xkjywxj,0))  Into ls_return From gy_ypmcggzd Where ypxh=arg_ypxh;
+"
+PKG_ZBFX	PACKAGE BODY	138	"          END IF;
+"
+PKG_ZBFX	PACKAGE BODY	139	"   elsif arg_flag='dddz' then --dddz
+"
+PKG_ZBFX	PACKAGE BODY	140	"        Select   to_char(nvl(dddz,0))
+"
+PKG_ZBFX	PACKAGE BODY	141	"        Into   ls_return
+"
+PKG_ZBFX	PACKAGE BODY	142	"        From   gy_ypcdjg
+"
+PKG_ZBFX	PACKAGE BODY	143	"        Where  ypxh=arg_ypxh
+"
+PKG_ZBFX	PACKAGE BODY	144	"          and  ypcddm=arg_ypcddm
+"
+PKG_ZBFX	PACKAGE BODY	145	"          and  bmxh is  null
+"
+PKG_ZBFX	PACKAGE BODY	146	"          and  rownum<=1;
+"
+PKG_ZBFX	PACKAGE BODY	147	"   elsif arg_flag='zxbzks' then
+"
+PKG_ZBFX	PACKAGE BODY	148	"        Select   to_char(nvl(zxbzks,0))
+"
+PKG_ZBFX	PACKAGE BODY	149	"        Into   ls_return
+"
+PKG_ZBFX	PACKAGE BODY	150	"        From   gy_ypcdjg
+"
+PKG_ZBFX	PACKAGE BODY	151	"        Where  ypxh=arg_ypxh
+"
+PKG_ZBFX	PACKAGE BODY	152	"          and  ypcddm=arg_ypcddm
+"
+PKG_ZBFX	PACKAGE BODY	153	"          and  bmxh is  null
+"
+PKG_ZBFX	PACKAGE BODY	154	"          and  rownum<=1;
+"
+PKG_ZBFX	PACKAGE BODY	155	"   elsif arg_flag='ypxh' then
+"
+PKG_ZBFX	PACKAGE BODY	156	"        Select   to_char(ypxh)
+"
+PKG_ZBFX	PACKAGE BODY	157	"        Into   ls_return
+"
+PKG_ZBFX	PACKAGE BODY	158	"        From   gy_ypcdjg
+"
+PKG_ZBFX	PACKAGE BODY	159	"        Where  xh=arg_ypxh
+"
+PKG_ZBFX	PACKAGE BODY	160	"          and  bmxh is null
+"
+PKG_ZBFX	PACKAGE BODY	161	"          and  rownum<=1;
+"
+PKG_ZBFX	PACKAGE BODY	162	"  end if;
+"
+PKG_ZBFX	PACKAGE BODY	163	"  exception
+"
+PKG_ZBFX	PACKAGE BODY	164	"      when others then
+"
+PKG_ZBFX	PACKAGE BODY	165	"           ls_return:='';
+"
+PKG_ZBFX	PACKAGE BODY	166	"       End ;
+"
+PKG_ZBFX	PACKAGE BODY	167	"  return(ls_return);
+"
+PKG_ZBFX	PACKAGE BODY	168	"  end;
+"
+PKG_ZBFX	PACKAGE BODY	169	"procedure prc_zbfx_xtcs
+"
+PKG_ZBFX	PACKAGE BODY	170	"Is
+"
+PKG_ZBFX	PACKAGE BODY	171	"BEGIN
+"
+PKG_ZBFX	PACKAGE BODY	172	"     Begin
+"
+PKG_ZBFX	PACKAGE BODY	173	"    --取参数  静脉处方参数
+"
+PKG_ZBFX	PACKAGE BODY	174	"       select nvl(csz1,'0') into is_jmdd
+"
+PKG_ZBFX	PACKAGE BODY	175	"       from gy_xtcs
+"
+PKG_ZBFX	PACKAGE BODY	176	"       where xtxh = 95
+"
+PKG_ZBFX	PACKAGE BODY	177	"       and CSMC = 'JMDDCF';
+"
+PKG_ZBFX	PACKAGE BODY	178	"     Exception
+"
+PKG_ZBFX	PACKAGE BODY	179	"          When  no_data_found Then
+"
+PKG_ZBFX	PACKAGE BODY	180	"                is_jmdd :='0';
+"
+PKG_ZBFX	PACKAGE BODY	181	"     End;
+"
+PKG_ZBFX	PACKAGE BODY	182	"     Begin
+"
+PKG_ZBFX	PACKAGE BODY	183	"      --取参数 门诊人次统计方式
+"
+PKG_ZBFX	PACKAGE BODY	184	"         select nvl(csz2,0) into ii_mzrctjfs
+"
+PKG_ZBFX	PACKAGE BODY	185	"         from gy_xtcs
+"
+PKG_ZBFX	PACKAGE BODY	186	"         where xtxh = 95
+"
+PKG_ZBFX	PACKAGE BODY	187	"         and CSMC = 'MZRCTJFS';
+"
+PKG_ZBFX	PACKAGE BODY	188	"      Exception
+"
+PKG_ZBFX	PACKAGE BODY	189	"            When  no_data_found Then
+"
+PKG_ZBFX	PACKAGE BODY	190	"                  ii_mzrctjfs :=0;
+"
+PKG_ZBFX	PACKAGE BODY	191	"      End;
+"
+PKG_ZBFX	PACKAGE BODY	192	"      Begin
+"
+PKG_ZBFX	PACKAGE BODY	193	"      --取参数 新抗菌药物启用标志
+"
+PKG_ZBFX	PACKAGE BODY	194	"         select nvl(csz2,0) into ii_xkjywqybz
+"
+PKG_ZBFX	PACKAGE BODY	195	"         from gy_xtcs
+"
+PKG_ZBFX	PACKAGE BODY	196	"         where xtxh = 95
+"
+PKG_ZBFX	PACKAGE BODY	197	"         and CSMC = 'XKJYWQYBZ';
+"
+PKG_ZBFX	PACKAGE BODY	198	"      Exception
+"
+PKG_ZBFX	PACKAGE BODY	199	"            When  no_data_found Then
+"
+PKG_ZBFX	PACKAGE BODY	200	"                  ii_xkjywqybz :=0;
+"
+PKG_ZBFX	PACKAGE BODY	201	"      End;
+"
+PKG_ZBFX	PACKAGE BODY	202	"      Begin
+"
+PKG_ZBFX	PACKAGE BODY	203	"      --取参数 西药费医疗序号
+"
+PKG_ZBFX	PACKAGE BODY	204	"         select nvl(csz2,0) into ii_xyfxh
+"
+PKG_ZBFX	PACKAGE BODY	205	"         from gy_xtcs
+"
+PKG_ZBFX	PACKAGE BODY	206	"         where xtxh = 95
+"
+PKG_ZBFX	PACKAGE BODY	207	"         and CSMC = 'XYFXH';
+"
+PKG_ZBFX	PACKAGE BODY	208	"      Exception
+"
+PKG_ZBFX	PACKAGE BODY	209	"            When  no_data_found Then
+"
+PKG_ZBFX	PACKAGE BODY	210	"                  ii_xyfxh :=0;
+"
+PKG_ZBFX	PACKAGE BODY	211	"      End;
+"
+PKG_ZBFX	PACKAGE BODY	212	"      Begin
+"
+PKG_ZBFX	PACKAGE BODY	213	"      --取参数 中成药费医疗序号ii_cyfxh
+"
+PKG_ZBFX	PACKAGE BODY	214	"         select nvl(csz2,0) into ii_zyfxh
+"
+PKG_ZBFX	PACKAGE BODY	215	"         from gy_xtcs
+"
+PKG_ZBFX	PACKAGE BODY	216	"         where xtxh = 95
+"
+PKG_ZBFX	PACKAGE BODY	217	"         and CSMC = 'ZYFXH';
+"
+PKG_ZBFX	PACKAGE BODY	218	"      Exception
+"
+PKG_ZBFX	PACKAGE BODY	219	"            When  no_data_found Then
+"
+PKG_ZBFX	PACKAGE BODY	220	"                  ii_zyfxh :=0;
+"
+PKG_ZBFX	PACKAGE BODY	221	"      End;
+"
+PKG_ZBFX	PACKAGE BODY	222	"      Begin
+"
+PKG_ZBFX	PACKAGE BODY	223	"      --取参数 中草药费医疗序号
+"
+PKG_ZBFX	PACKAGE BODY	224	"         select nvl(csz2,0) into ii_cyfxh
+"
+PKG_ZBFX	PACKAGE BODY	225	"         from gy_xtcs
+"
+PKG_ZBFX	PACKAGE BODY	226	"         where xtxh = 95
+"
+PKG_ZBFX	PACKAGE BODY	227	"         and CSMC = 'CYFXH';
+"
+PKG_ZBFX	PACKAGE BODY	228	"      Exception
+"
+PKG_ZBFX	PACKAGE BODY	229	"            When  no_data_found Then
+"
+PKG_ZBFX	PACKAGE BODY	230	"                  ii_cyfxh :=0;
+"
+PKG_ZBFX	PACKAGE BODY	231	"      End;
+"
+PKG_ZBFX	PACKAGE BODY	232	"      Begin
+"
+PKG_ZBFX	PACKAGE BODY	233	"      --取参数 微生物送检序号
+"
+PKG_ZBFX	PACKAGE BODY	234	"         select nvl(csz2,0) into ii_wswsjxh
+"
+PKG_ZBFX	PACKAGE BODY	235	"         from gy_xtcs
+"
+PKG_ZBFX	PACKAGE BODY	236	"         where xtxh = 95
+"
+PKG_ZBFX	PACKAGE BODY	237	"         and CSMC = 'WSWSJXH';
+"
+PKG_ZBFX	PACKAGE BODY	238	"      Exception
+"
+PKG_ZBFX	PACKAGE BODY	239	"            When  no_data_found Then
+"
+PKG_ZBFX	PACKAGE BODY	240	"                  ii_cyfxh :=0;
+"
+PKG_ZBFX	PACKAGE BODY	241	"      End;
+"
+PKG_ZBFX	PACKAGE BODY	242	"END prc_zbfx_xtcs;
+"
+PKG_ZBFX	PACKAGE BODY	243	"
+"
+PKG_ZBFX	PACKAGE BODY	244	"procedure prc_zbfx_sjcj1--( in_ypfx_id   In    NUMBER,
+"
+PKG_ZBFX	PACKAGE BODY	245	"                        -- on_code      Out   NUMBER,
+"
+PKG_ZBFX	PACKAGE BODY	246	"                         --os_mess      Out   VARCHAR2 )
+"
+PKG_ZBFX	PACKAGE BODY	247	"
+"
+PKG_ZBFX	PACKAGE BODY	248	"
+"
+PKG_ZBFX	PACKAGE BODY	249	"Is
+"
+PKG_ZBFX	PACKAGE BODY	250	"
+"
+PKG_ZBFX	PACKAGE BODY	251	"BEGIN
+"
+PKG_ZBFX	PACKAGE BODY	252	"
+"
+PKG_ZBFX	PACKAGE BODY	253	"
+"
+PKG_ZBFX	PACKAGE BODY	254	"
+"
+PKG_ZBFX	PACKAGE BODY	255	"  DECLARE
+"
+PKG_ZBFX	PACKAGE BODY	256	"    e_input         EXCEPTION;
+"
+PKG_ZBFX	PACKAGE BODY	257	"    ln_count        NUMBER;
+"
+PKG_ZBFX	PACKAGE BODY	258	"    ln_jls          NUMBER;
+"
+PKG_ZBFX	PACKAGE BODY	259	"    ln_je           NUMBER;
+"
+PKG_ZBFX	PACKAGE BODY	260	"    ln_zybz         NUMBER;
+"
+PKG_ZBFX	PACKAGE BODY	261	"    ln_sfsb_begin   NUMBER;
+"
+PKG_ZBFX	PACKAGE BODY	262	"    ln_sfsb_end     NUMBER;
+"
+PKG_ZBFX	PACKAGE BODY	263	"    in_ypfx_id number;
+"
+PKG_ZBFX	PACKAGE BODY	264	"    ldt_ypfx_min     Date;
+"
+PKG_ZBFX	PACKAGE BODY	265	"    ldt_ypfx_max     Date;
+"
+PKG_ZBFX	PACKAGE BODY	266	"    ls_jmdd         Varchar2(50);
+"
+PKG_ZBFX	PACKAGE BODY	267	"    on_code        NUMBER;
+"
+PKG_ZBFX	PACKAGE BODY	268	"    os_mess        VARCHAR2(200);
+"
+PKG_ZBFX	PACKAGE BODY	269	"
+"
+PKG_ZBFX	PACKAGE BODY	270	"  BEGIN
+"
+PKG_ZBFX	PACKAGE BODY	271	"   on_code := 1;--成功
+"
+PKG_ZBFX	PACKAGE BODY	272	"    os_mess := '数据采集成功!';
+"
+PKG_ZBFX	PACKAGE BODY	273	"
+"
+PKG_ZBFX	PACKAGE BODY	274	"  
+"
+PKG_ZBFX	PACKAGE BODY	275	"
+"
+PKG_ZBFX	PACKAGE BODY	276	"
+"
+PKG_ZBFX	PACKAGE BODY	277	"
+"
+PKG_ZBFX	PACKAGE BODY	278	"    -- 设置起始时间和结束时间（HONGER）
+"
+PKG_ZBFX	PACKAGE BODY	279	"     --获取时间
+"
+PKG_ZBFX	PACKAGE BODY	280	"    in_ypfx_id :=to_number(to_char(func_get_date(),'yyyymmdd'));
+"
+PKG_ZBFX	PACKAGE BODY	281	"    ldt_ypfx_min :=  to_date(in_ypfx_id, 'yyyy/mm/dd'); --起始时间
+"
+PKG_ZBFX	PACKAGE BODY	282	"    ldt_ypfx_max :=  ldt_ypfx_min + 86399/86400;                 --结束时间
+"
+PKG_ZBFX	PACKAGE BODY	283	"    --检查时间
+"
+PKG_ZBFX	PACKAGE BODY	284	"      IF func_get_date()>sysdate-1 THEN
+"
+PKG_ZBFX	PACKAGE BODY	285	"     raise e_input ;
+"
+PKG_ZBFX	PACKAGE BODY	286	"    END IF;
+"
+PKG_ZBFX	PACKAGE BODY	287	"
+"
+PKG_ZBFX	PACKAGE BODY	288	"    --检查日志，采集是否已经执行过
+"
+PKG_ZBFX	PACKAGE BODY	289	"    SELECT COUNT(*)
+"
+PKG_ZBFX	PACKAGE BODY	290	"      INTO ln_count
+"
+PKG_ZBFX	PACKAGE BODY	291	"      FROM YPFX_TASK_LOG
+"
+PKG_ZBFX	PACKAGE BODY	292	"     WHERE ypfx_id = in_ypfx_id
+"
+PKG_ZBFX	PACKAGE BODY	293	"       AND task_lx = 'zbfx_SJCJ_D1';
+"
+PKG_ZBFX	PACKAGE BODY	294	"
+"
+PKG_ZBFX	PACKAGE BODY	295	"    -- 删除旧的作业日志和数据
+"
+PKG_ZBFX	PACKAGE BODY	296	"    IF ln_count > 0 THEN
+"
+PKG_ZBFX	PACKAGE BODY	297	"      DELETE FROM ypfx_task_log
+"
+PKG_ZBFX	PACKAGE BODY	298	"       WHERE ypfx_id = in_ypfx_id
+"
+PKG_ZBFX	PACKAGE BODY	299	"         AND task_lx = 'zbfx_SJCJ_D1';
+"
+PKG_ZBFX	PACKAGE BODY	300	"
+"
+PKG_ZBFX	PACKAGE BODY	301	"      DELETE FROM zbfx_data_d1            --删除已有记录
+"
+PKG_ZBFX	PACKAGE BODY	302	"       WHERE id = in_ypfx_id ;
+"
+PKG_ZBFX	PACKAGE BODY	303	"    END IF;
+"
+PKG_ZBFX	PACKAGE BODY	304	"
+"
+PKG_ZBFX	PACKAGE BODY	305	"
+"
+PKG_ZBFX	PACKAGE BODY	306	"    -- 插入新的作业日志
+"
+PKG_ZBFX	PACKAGE BODY	307	"   INSERT INTO ypfx_task_log (ypfx_id, task_lx)        --药品分析标识，作业类型
+"
+PKG_ZBFX	PACKAGE BODY	308	"    VALUES (in_ypfx_id, 'zbfx_SJCJ_D1');             --插入作业日志
+"
+PKG_ZBFX	PACKAGE BODY	309	"
+"
+PKG_ZBFX	PACKAGE BODY	310	"
+"
+PKG_ZBFX	PACKAGE BODY	311	" --type 1 挂费库费用
+"
+PKG_ZBFX	PACKAGE BODY	312	"  insert into ZBFX_DATA_D1
+"
+PKG_ZBFX	PACKAGE BODY	313	"   SELECT in_ypfx_id, ysgh ,nvl(f_bf_getzgxx(ysgh,'xm'),'未知医生'),ksdm,nvl(f_gy_getksmc(ksdm),'未知科室'), Nvl(Sum(ghf +zlf), 0),1
+"
+PKG_ZBFX	PACKAGE BODY	314	"      FROM gh_ghk
+"
+PKG_ZBFX	PACKAGE BODY	315	"     WHERE ghrq BETWEEN ldt_ypfx_min AND ldt_ypfx_max
+"
+PKG_ZBFX	PACKAGE BODY	316	"       AND thbz = 0
+"
+PKG_ZBFX	PACKAGE BODY	317	"       AND zfpb is null
+"
+PKG_ZBFX	PACKAGE BODY	318	"       group by  ysgh ,nvl(f_bf_getzgxx(ysgh,'xm'),'未知医生'),ksdm,nvl(f_gy_getksmc(ksdm),'未知科室');
+"
+PKG_ZBFX	PACKAGE BODY	319	" --type 2 门诊药品处方数
+"
+PKG_ZBFX	PACKAGE BODY	320	"  insert into ZBFX_DATA_D1
+"
+PKG_ZBFX	PACKAGE BODY	321	"    select in_ypfx_id,b.ysgh ,f_bf_getzgxx(b.ysgh,'xm'),b.ksdm,f_gy_getksmc(b.ksdm) ,Nvl(Count(Distinct b.cfsb),0),2
+"
+PKG_ZBFX	PACKAGE BODY	322	"    from mz_mzsfk1 a,
+"
+PKG_ZBFX	PACKAGE BODY	323	"         mz_cfk1 b,
+"
+PKG_ZBFX	PACKAGE BODY	324	"         mz_cfk2 c
+"
+PKG_ZBFX	PACKAGE BODY	325	"    where a.sfsb = b.sfsb
+"
+PKG_ZBFX	PACKAGE BODY	326	"      and b.cfsb = c.cfsb
+"
+PKG_ZBFX	PACKAGE BODY	327	"      and a.sfrq BETWEEN ldt_ypfx_min AND ldt_ypfx_max
+"
+PKG_ZBFX	PACKAGE BODY	328	"    group by b.ysgh ,f_bf_getzgxx(b.ysgh,'xm'),b.ksdm,f_gy_getksmc(b.ksdm);
+"
+PKG_ZBFX	PACKAGE BODY	329	"
+"
+PKG_ZBFX	PACKAGE BODY	330	" --type 3 门诊抗菌处方数
+"
+PKG_ZBFX	PACKAGE BODY	331	" insert into ZBFX_DATA_D1
+"
+PKG_ZBFX	PACKAGE BODY	332	"    select in_ypfx_id, b.ysgh ,f_bf_getzgxx(b.ysgh,'xm'),b.ksdm,f_gy_getksmc(b.ksdm),Nvl(Count(Distinct decode(substring(f_ypfx_getypxx(c.ypxh,c.ypcddm,'fjpb'),9,1),'1',b.cfsb)),0),3
+"
+PKG_ZBFX	PACKAGE BODY	333	"    from mz_mzsfk1 a,
+"
+PKG_ZBFX	PACKAGE BODY	334	"         mz_cfk1 b,
+"
+PKG_ZBFX	PACKAGE BODY	335	"         mz_cfk2 c
+"
+PKG_ZBFX	PACKAGE BODY	336	"    where a.sfsb = b.sfsb
+"
+PKG_ZBFX	PACKAGE BODY	337	"      and b.cfsb = c.cfsb
+"
+PKG_ZBFX	PACKAGE BODY	338	"      and a.sfrq BETWEEN ldt_ypfx_min AND ldt_ypfx_max
+"
+PKG_ZBFX	PACKAGE BODY	339	"    group by b.ysgh ,f_bf_getzgxx(b.ysgh,'xm'),b.ksdm,f_gy_getksmc(b.ksdm);
+"
+PKG_ZBFX	PACKAGE BODY	340	"--type 4 门诊医技处方数
+"
+PKG_ZBFX	PACKAGE BODY	341	" insert into ZBFX_DATA_D1
+"
+PKG_ZBFX	PACKAGE BODY	342	"    select in_ypfx_id, b.sjysgh ,f_bf_getzgxx(b.sjysgh,'xm'),b.sjksdm,f_gy_getksmc(b.sjksdm), Nvl(Count(Distinct b.yjsb),0),4
+"
+PKG_ZBFX	PACKAGE BODY	343	"    from mz_mzsfk1 a,
+"
+PKG_ZBFX	PACKAGE BODY	344	"         yj_yjk1 b,
+"
+PKG_ZBFX	PACKAGE BODY	345	"         yj_yjk2 c
+"
+PKG_ZBFX	PACKAGE BODY	346	"    where a.sfsb = b.sfsb
+"
+PKG_ZBFX	PACKAGE BODY	347	"      and b.yjsb = c.yjsb
+"
+PKG_ZBFX	PACKAGE BODY	348	"      and a.sfrq BETWEEN ldt_ypfx_min AND ldt_ypfx_max
+"
+PKG_ZBFX	PACKAGE BODY	349	"      group by b.sjysgh ,f_bf_getzgxx(b.sjysgh,'xm'),b.sjksdm,f_gy_getksmc(b.sjksdm);
+"
+PKG_ZBFX	PACKAGE BODY	350	"--type 5 门诊静脉处方数
+"
+PKG_ZBFX	PACKAGE BODY	351	"insert into ZBFX_DATA_D1
+"
+PKG_ZBFX	PACKAGE BODY	352	"    select in_ypfx_id, b.ysgh ,f_bf_getzgxx(b.ysgh,'xm'),b.ksdm,f_gy_getksmc(b.ksdm),Nvl(Count(Distinct decode(substring(f_ypfx_getypxx(c.ypxh,c.ypcddm,'fjpb'),3,1),'1',b.cfsb)),0),5
+"
+PKG_ZBFX	PACKAGE BODY	353	"    from mz_mzsfk1 a,
+"
+PKG_ZBFX	PACKAGE BODY	354	"         mz_cfk1 b,
+"
+PKG_ZBFX	PACKAGE BODY	355	"         mz_cfk2 c
+"
+PKG_ZBFX	PACKAGE BODY	356	"    where a.sfsb = b.sfsb
+"
+PKG_ZBFX	PACKAGE BODY	357	"      and b.cfsb = c.cfsb
+"
+PKG_ZBFX	PACKAGE BODY	358	"      and a.sfrq BETWEEN ldt_ypfx_min AND ldt_ypfx_max
+"
+PKG_ZBFX	PACKAGE BODY	359	"    group by b.ysgh ,f_bf_getzgxx(b.ysgh,'xm'),b.ksdm,f_gy_getksmc(b.ksdm);
+"
+PKG_ZBFX	PACKAGE BODY	360	" --type 6 急诊药品处方数
+"
+PKG_ZBFX	PACKAGE BODY	361	" insert into ZBFX_DATA_D1
+"
+PKG_ZBFX	PACKAGE BODY	362	"    select in_ypfx_id,b.ysgh ,f_bf_getzgxx(b.ysgh,'xm'),b.ksdm,f_gy_getksmc(b.ksdm), Nvl(Count(Distinct b.cfsb),0),6
+"
+PKG_ZBFX	PACKAGE BODY	363	"    from mz_mzsfk1 a,
+"
+PKG_ZBFX	PACKAGE BODY	364	"         mz_cfk1 b,
+"
+PKG_ZBFX	PACKAGE BODY	365	"         mz_cfk2 c,
+"
+PKG_ZBFX	PACKAGE BODY	366	"         zj_jzxx d
+"
+PKG_ZBFX	PACKAGE BODY	367	"    where a.sfsb = b.sfsb
+"
+PKG_ZBFX	PACKAGE BODY	368	"      and b.cfsb = c.cfsb
+"
+PKG_ZBFX	PACKAGE BODY	369	"      and b.jzxh = d.jzxh
+"
+PKG_ZBFX	PACKAGE BODY	370	"      and a.sfrq BETWEEN ldt_ypfx_min AND ldt_ypfx_max
+"
+PKG_ZBFX	PACKAGE BODY	371	"      and d.sfjz = 1
+"
+PKG_ZBFX	PACKAGE BODY	372	"      group by b.ysgh ,f_bf_getzgxx(b.ysgh,'xm'),b.ksdm,f_gy_getksmc(b.ksdm);
+"
+PKG_ZBFX	PACKAGE BODY	373	"
+"
+PKG_ZBFX	PACKAGE BODY	374	" --type 7 抗菌急诊处方数
+"
+PKG_ZBFX	PACKAGE BODY	375	" insert into ZBFX_DATA_D1
+"
+PKG_ZBFX	PACKAGE BODY	376	"    select in_ypfx_id,b.ysgh ,f_bf_getzgxx(b.ysgh,'xm'),b.ksdm,f_gy_getksmc(b.ksdm), Nvl(Count(Distinct decode(substring(f_ypfx_getypxx(c.ypxh,c.ypcddm,'fjpb'),9,1),'1',b.cfsb)),0),7
+"
+PKG_ZBFX	PACKAGE BODY	377	"    from mz_mzsfk1 a,
+"
+PKG_ZBFX	PACKAGE BODY	378	"         mz_cfk1 b,
+"
+PKG_ZBFX	PACKAGE BODY	379	"         mz_cfk2 c,
+"
+PKG_ZBFX	PACKAGE BODY	380	"         zj_jzxx d
+"
+PKG_ZBFX	PACKAGE BODY	381	"    where a.sfsb = b.sfsb
+"
+PKG_ZBFX	PACKAGE BODY	382	"      and b.cfsb = c.cfsb
+"
+PKG_ZBFX	PACKAGE BODY	383	"      and b.jzxh = d.jzxh
+"
+PKG_ZBFX	PACKAGE BODY	384	"      and a.sfrq BETWEEN ldt_ypfx_min AND ldt_ypfx_max
+"
+PKG_ZBFX	PACKAGE BODY	385	"      and d.sfjz = 1
+"
+PKG_ZBFX	PACKAGE BODY	386	"      group by b.ysgh ,f_bf_getzgxx(b.ysgh,'xm'),b.ksdm,f_gy_getksmc(b.ksdm);
+"
+PKG_ZBFX	PACKAGE BODY	387	" --type 8 门诊草药处方数
+"
+PKG_ZBFX	PACKAGE BODY	388	" insert into ZBFX_DATA_D1
+"
+PKG_ZBFX	PACKAGE BODY	389	"    select in_ypfx_id,b.ysgh ,f_bf_getzgxx(b.ysgh,'xm'),b.ksdm,f_gy_getksmc(b.ksdm),  Nvl(Count(Distinct b.cfsb),0),8
+"
+PKG_ZBFX	PACKAGE BODY	390	"    from mz_mzsfk1 a,
+"
+PKG_ZBFX	PACKAGE BODY	391	"         mz_cfk1 b,
+"
+PKG_ZBFX	PACKAGE BODY	392	"         mz_cfk2 c
+"
+PKG_ZBFX	PACKAGE BODY	393	"    where a.sfsb = b.sfsb
+"
+PKG_ZBFX	PACKAGE BODY	394	"      and b.cfsb = c.cfsb
+"
+PKG_ZBFX	PACKAGE BODY	395	"      and a.sfrq BETWEEN ldt_ypfx_min AND ldt_ypfx_max
+"
+PKG_ZBFX	PACKAGE BODY	396	"      and b.cflx = 4
+"
+PKG_ZBFX	PACKAGE BODY	397	"    group by b.ysgh ,f_bf_getzgxx(b.ysgh,'xm'),b.ksdm,f_gy_getksmc(b.ksdm);
+"
+PKG_ZBFX	PACKAGE BODY	398	" --type 9 中药钦片处方数
+"
+PKG_ZBFX	PACKAGE BODY	399	"insert into ZBFX_DATA_D1
+"
+PKG_ZBFX	PACKAGE BODY	400	"    select in_ypfx_id,b.ysgh ,f_bf_getzgxx(b.ysgh,'xm'),b.ksdm,f_gy_getksmc(b.ksdm) , Nvl(Count(Distinct b.cfsb),0),9
+"
+PKG_ZBFX	PACKAGE BODY	401	"    from mz_mzsfk1 a,
+"
+PKG_ZBFX	PACKAGE BODY	402	"         mz_cfk1 b,
+"
+PKG_ZBFX	PACKAGE BODY	403	"         mz_cfk2 c
+"
+PKG_ZBFX	PACKAGE BODY	404	"    where a.sfsb = b.sfsb
+"
+PKG_ZBFX	PACKAGE BODY	405	"      and b.cfsb = c.cfsb
+"
+PKG_ZBFX	PACKAGE BODY	406	"      and a.sfrq BETWEEN ldt_ypfx_min AND ldt_ypfx_max
+"
+PKG_ZBFX	PACKAGE BODY	407	"      and b.cflx = 4
+"
+PKG_ZBFX	PACKAGE BODY	408	"    group by b.ysgh ,f_bf_getzgxx(b.ysgh,'xm'),b.ksdm,f_gy_getksmc(b.ksdm);
+"
+PKG_ZBFX	PACKAGE BODY	409	" --type 10 门诊人次数
+"
+PKG_ZBFX	PACKAGE BODY	410	" insert into ZBFX_DATA_D1
+"
+PKG_ZBFX	PACKAGE BODY	411	"  (select  in_ypfx_id,ysgh,ysmc,ksdm,ksmc,nvl(count(distinct rc),0) rc,10
+"
+PKG_ZBFX	PACKAGE BODY	412	"from (
+"
+PKG_ZBFX	PACKAGE BODY	413	"select distinct a.ysgh ysgh,nvl(f_bf_getzgxx(a.ysgh,'xm'),'未知医生') ysmc,a.ksdm ksdm,nvl(f_gy_getksmc(a.ksdm),'未知科室')  ksmc, a.jzkh rc
+"
+PKG_ZBFX	PACKAGE BODY	414	"from mz_cfk1 a
+"
+PKG_ZBFX	PACKAGE BODY	415	"where a.cfrq BETWEEN ldt_ypfx_min AND ldt_ypfx_max
+"
+PKG_ZBFX	PACKAGE BODY	416	"union all
+"
+PKG_ZBFX	PACKAGE BODY	417	"select distinct b.sjysgh ysgh,nvl(f_bf_getzgxx(b.sjysgh,'xm'),'未知医生') ysmc,b.sjksdm ksdm,nvl(f_gy_getksmc(b.sjksdm),'未知科室') ksmc, b.jzkh rc
+"
+PKG_ZBFX	PACKAGE BODY	418	"from yj_yjk1 b
+"
+PKG_ZBFX	PACKAGE BODY	419	"where b.kdsj   BETWEEN ldt_ypfx_min AND ldt_ypfx_max
+"
+PKG_ZBFX	PACKAGE BODY	420	")
+"
+PKG_ZBFX	PACKAGE BODY	421	"group by  ysgh,ysmc,ksdm,ksmc);
+"
+PKG_ZBFX	PACKAGE BODY	422	"--type 11 门诊初诊人次
+"
+PKG_ZBFX	PACKAGE BODY	423	" insert into ZBFX_DATA_D1
+"
+PKG_ZBFX	PACKAGE BODY	424	"    select in_ypfx_id,jzys ,nvl(f_bf_getzgxx(jzys,'xm'),'未知医生'),ksdm,nvl(f_gy_getksmc(ksdm),'未知科室'),Nvl(count(distinct jzkh),0),11
+"
+PKG_ZBFX	PACKAGE BODY	425	"    from zj_jzxx a
+"
+PKG_ZBFX	PACKAGE BODY	426	"    where  a.jzrq BETWEEN ldt_ypfx_min AND ldt_ypfx_max
+"
+PKG_ZBFX	PACKAGE BODY	427	"          and czfz = 0
+"
+PKG_ZBFX	PACKAGE BODY	428	"    group by jzys ,nvl(f_bf_getzgxx(jzys,'xm'),'未知医生'),ksdm,nvl(f_gy_getksmc(ksdm),'未知科室');
+"
+PKG_ZBFX	PACKAGE BODY	429	"
+"
+PKG_ZBFX	PACKAGE BODY	430	" --type 12 门诊复诊人次
+"
+PKG_ZBFX	PACKAGE BODY	431	" insert into ZBFX_DATA_D1
+"
+PKG_ZBFX	PACKAGE BODY	432	"    select in_ypfx_id,jzys ,nvl(f_bf_getzgxx(jzys,'xm'),'未知医生'),ksdm,nvl(f_gy_getksmc(ksdm),'未知科室'),Nvl(count(distinct jzkh),0),12
+"
+PKG_ZBFX	PACKAGE BODY	433	"    from zj_jzxx a
+"
+PKG_ZBFX	PACKAGE BODY	434	"    where  a.jzrq BETWEEN ldt_ypfx_min AND ldt_ypfx_max
+"
+PKG_ZBFX	PACKAGE BODY	435	"          and czfz = 1
+"
+PKG_ZBFX	PACKAGE BODY	436	"    group by jzys ,nvl(f_bf_getzgxx(jzys,'xm'),'未知医生'),ksdm,nvl(f_gy_getksmc(ksdm),'未知科室');
+"
+PKG_ZBFX	PACKAGE BODY	437	"
+"
+PKG_ZBFX	PACKAGE BODY	438	" --type 13 医保病人初诊人次
+"
+PKG_ZBFX	PACKAGE BODY	439	" insert into ZBFX_DATA_D1
+"
+PKG_ZBFX	PACKAGE BODY	440	"    select in_ypfx_id,jzys ,nvl(f_bf_getzgxx(jzys,'xm'),'未知医生'),ksdm,nvl(f_gy_getksmc(ksdm),'未知科室'),Nvl(count(distinct a.jzkh),0),13
+"
+PKG_ZBFX	PACKAGE BODY	441	"    from zj_jzxx a,gy_brjbxxk b
+"
+PKG_ZBFX	PACKAGE BODY	442	"    where a.jzkh = b.jzkh and  a.jzrq BETWEEN ldt_ypfx_min AND ldt_ypfx_max
+"
+PKG_ZBFX	PACKAGE BODY	443	"          and czfz = 0 and b.brlb = 27
+"
+PKG_ZBFX	PACKAGE BODY	444	"    group by jzys ,nvl(f_bf_getzgxx(jzys,'xm'),'未知医生'),ksdm,nvl(f_gy_getksmc(ksdm),'未知科室');
+"
+PKG_ZBFX	PACKAGE BODY	445	" --type 14 医保病人复诊人次
+"
+PKG_ZBFX	PACKAGE BODY	446	" insert into ZBFX_DATA_D1
+"
+PKG_ZBFX	PACKAGE BODY	447	"    select in_ypfx_id,jzys ,nvl(f_bf_getzgxx(jzys,'xm'),'未知医生'),ksdm,nvl(f_gy_getksmc(ksdm),'未知科室'),Nvl(count(distinct a.jzkh),0),14
+"
+PKG_ZBFX	PACKAGE BODY	448	"    from zj_jzxx a,gy_brjbxxk b
+"
+PKG_ZBFX	PACKAGE BODY	449	"    where a.jzkh = b.jzkh and  a.jzrq BETWEEN ldt_ypfx_min AND ldt_ypfx_max
+"
+PKG_ZBFX	PACKAGE BODY	450	"          and czfz = 1 and b.brlb = 27
+"
+PKG_ZBFX	PACKAGE BODY	451	"    group by jzys ,nvl(f_bf_getzgxx(jzys,'xm'),'未知医生'),ksdm,nvl(f_gy_getksmc(ksdm),'未知科室');
+"
+PKG_ZBFX	PACKAGE BODY	452	" --type 15 专家号人次
+"
+PKG_ZBFX	PACKAGE BODY	453	"  insert into ZBFX_DATA_D1
+"
+PKG_ZBFX	PACKAGE BODY	454	"    select in_ypfx_id,ysgh, f_bf_getzgxx(ysgh,'xm') ,f_bf_getzgxx(ysgh,'ksdm') ,f_bf_getzgxx(ysgh,'ksmc'),count(*),15
+"
+PKG_ZBFX	PACKAGE BODY	455	"    from gh_ghk
+"
+PKG_ZBFX	PACKAGE BODY	456	"    where ysgh is not null and mzlbxh >3
+"
+PKG_ZBFX	PACKAGE BODY	457	"    and ghrq BETWEEN ldt_ypfx_min AND ldt_ypfx_max
+"
+PKG_ZBFX	PACKAGE BODY	458	"    group by ysgh, f_bf_getzgxx(ysgh,'xm') ,f_bf_getzgxx(ysgh,'ksdm') ,f_bf_getzgxx(ysgh,'ksmc');
+"
+PKG_ZBFX	PACKAGE BODY	459	" --type 16 出院人次数
+"
+PKG_ZBFX	PACKAGE BODY	460	"
+"
+PKG_ZBFX	PACKAGE BODY	461	" insert into ZBFX_DATA_D1
+"
+PKG_ZBFX	PACKAGE BODY	462	"    select in_ypfx_id,b.zzys,f_bf_getzgxx(b.zzys,'xm'),b.curr_bq,f_yf_getbqmc(b.curr_bq), Nvl(count(distinct a.patient_no), 0),16
+"
+PKG_ZBFX	PACKAGE BODY	463	"    from zy_total_fee a,
+"
+PKG_ZBFX	PACKAGE BODY	464	"         zy_patient_information b
+"
+PKG_ZBFX	PACKAGE BODY	465	"    where a.patient_no = b.patient_no
+"
+PKG_ZBFX	PACKAGE BODY	466	"       and a.js_no = b.js_no
+"
+PKG_ZBFX	PACKAGE BODY	467	"      and a.infant_flag = 0
+"
+PKG_ZBFX	PACKAGE BODY	468	"      and a.js_no >0
+"
+PKG_ZBFX	PACKAGE BODY	469	"      and a.flag  not in (6,-2,-8)
+"
+PKG_ZBFX	PACKAGE BODY	470	"      and a.jz_date BETWEEN ldt_ypfx_min AND ldt_ypfx_max
+"
+PKG_ZBFX	PACKAGE BODY	471	"      group by  b.zzys,f_bf_getzgxx(b.zzys,'xm'),b.curr_bq,f_yf_getbqmc(b.curr_bq);
+"
+PKG_ZBFX	PACKAGE BODY	472	"
+"
+PKG_ZBFX	PACKAGE BODY	473	" --type 17 出院诊断和入院诊断一致出院人次
+"
+PKG_ZBFX	PACKAGE BODY	474	" insert into ZBFX_DATA_D1
+"
+PKG_ZBFX	PACKAGE BODY	475	"    select in_ypfx_id,b.zzys,f_bf_getzgxx(b.zzys,'xm'),b.curr_bq,f_yf_getbqmc(b.curr_bq), Nvl(count(distinct a.patient_no), 0),17
+"
+PKG_ZBFX	PACKAGE BODY	476	"    from zy_total_fee a,
+"
+PKG_ZBFX	PACKAGE BODY	477	"         zy_patient_information b
+"
+PKG_ZBFX	PACKAGE BODY	478	"    where a.patient_no = b.patient_no
+"
+PKG_ZBFX	PACKAGE BODY	479	"      and a.js_no = b.js_no
+"
+PKG_ZBFX	PACKAGE BODY	480	"      and a.infant_flag = 0
+"
+PKG_ZBFX	PACKAGE BODY	481	"      and a.js_no >0
+"
+PKG_ZBFX	PACKAGE BODY	482	"      and a.flag  not in (6,-2,-8)
+"
+PKG_ZBFX	PACKAGE BODY	483	"      and a.jz_date BETWEEN ldt_ypfx_min AND ldt_ypfx_max
+"
+PKG_ZBFX	PACKAGE BODY	484	"      and b.out_diag_name = b.diag_name
+"
+PKG_ZBFX	PACKAGE BODY	485	"      group by b.zzys,f_bf_getzgxx(b.zzys,'xm'),b.curr_bq,f_yf_getbqmc(b.curr_bq);
+"
+PKG_ZBFX	PACKAGE BODY	486	" --type 18 抗菌门诊人次
+"
+PKG_ZBFX	PACKAGE BODY	487	"   insert into zbfx_data_d1
+"
+PKG_ZBFX	PACKAGE BODY	488	"    select in_ypfx_id,b.ysgh,f_bf_getzgxx(b.ysgh,'xm'),b.ksdm,nvl(f_gy_getksmc(b.ksdm),'未知科室'), Nvl(count(distinct a.jzkh), 0),18
+"
+PKG_ZBFX	PACKAGE BODY	489	"    from mz_mzsfk1 a,
+"
+PKG_ZBFX	PACKAGE BODY	490	"         mz_cfk1 b,
+"
+PKG_ZBFX	PACKAGE BODY	491	"         mz_cfk2 c
+"
+PKG_ZBFX	PACKAGE BODY	492	"    where a.sfsb = b.sfsb
+"
+PKG_ZBFX	PACKAGE BODY	493	"      and b.cfsb = c.cfsb
+"
+PKG_ZBFX	PACKAGE BODY	494	"      and a.sfrq BETWEEN ldt_ypfx_min AND ldt_ypfx_max
+"
+PKG_ZBFX	PACKAGE BODY	495	"      and substr(f_ypfx_getypxx(c.ypxh,c.ypcddm,'fjpb'),9,1) <> '0'
+"
+PKG_ZBFX	PACKAGE BODY	496	"      group by b.ysgh,f_bf_getzgxx(b.ysgh,'xm'),b.ksdm,nvl(f_gy_getksmc(b.ksdm),'未知科室');
+"
+PKG_ZBFX	PACKAGE BODY	497	" --type 19 抗菌急诊人次
+"
+PKG_ZBFX	PACKAGE BODY	498	" insert into zbfx_data_d1
+"
+PKG_ZBFX	PACKAGE BODY	499	"    select in_ypfx_id,b.ysgh,f_bf_getzgxx(b.ysgh,'xm'),b.ksdm,nvl(f_gy_getksmc(b.ksdm),'未知科室'), Nvl(count(distinct a.jzkh), 0),19
+"
+PKG_ZBFX	PACKAGE BODY	500	"    from mz_mzsfk1 a,
+"
+PKG_ZBFX	PACKAGE BODY	501	"         mz_cfk1 b,
+"
+PKG_ZBFX	PACKAGE BODY	502	"         mz_cfk2 c
+"
+PKG_ZBFX	PACKAGE BODY	503	"    where a.sfsb = b.sfsb
+"
+PKG_ZBFX	PACKAGE BODY	504	"      and b.cfsb = c.cfsb
+"
+PKG_ZBFX	PACKAGE BODY	505	"      and a.sfrq BETWEEN ldt_ypfx_min AND ldt_ypfx_max
+"
+PKG_ZBFX	PACKAGE BODY	506	"      and substr(f_ypfx_getypxx(c.ypxh,c.ypcddm,'fjpb'),9,1) <> '0'
+"
+PKG_ZBFX	PACKAGE BODY	507	"      and nvl(a.jzbz,0) = 1
+"
+PKG_ZBFX	PACKAGE BODY	508	"      group by b.ysgh,f_bf_getzgxx(b.ysgh,'xm'),b.ksdm,nvl(f_gy_getksmc(b.ksdm),'未知科室');
+"
+PKG_ZBFX	PACKAGE BODY	509	" --type 20 门诊静脉输液人次
+"
+PKG_ZBFX	PACKAGE BODY	510	" insert into zbfx_data_d1
+"
+PKG_ZBFX	PACKAGE BODY	511	"    select in_ypfx_id,b.ysgh,f_bf_getzgxx(b.ysgh,'xm'),b.ksdm,nvl(f_gy_getksmc(b.ksdm),'未知科室'), Nvl(count(distinct a.jzkh), 0),20
+"
+PKG_ZBFX	PACKAGE BODY	512	"    from mz_mzsfk1 a,
+"
+PKG_ZBFX	PACKAGE BODY	513	"         mz_cfk1 b,
+"
+PKG_ZBFX	PACKAGE BODY	514	"         mz_cfk2 c
+"
+PKG_ZBFX	PACKAGE BODY	515	"    where a.sfsb = b.sfsb
+"
+PKG_ZBFX	PACKAGE BODY	516	"      and b.cfsb = c.cfsb
+"
+PKG_ZBFX	PACKAGE BODY	517	"      and a.sfrq BETWEEN ldt_ypfx_min AND ldt_ypfx_max
+"
+PKG_ZBFX	PACKAGE BODY	518	"      and substr(f_ypfx_getypxx(c.ypxh,c.ypcddm,'fjpb'),3,1) <> '0'
+"
+PKG_ZBFX	PACKAGE BODY	519	"      group by b.ysgh,f_bf_getzgxx(b.ysgh,'xm'),b.ksdm,nvl(f_gy_getksmc(b.ksdm),'未知科室');
+"
+PKG_ZBFX	PACKAGE BODY	520	" --type 21 抗菌出院人次
+"
+PKG_ZBFX	PACKAGE BODY	521	" insert into zbfx_data_d1
+"
+PKG_ZBFX	PACKAGE BODY	522	"    select in_ypfx_id,ysgh,ysmc,ksdm,ksmc ,Nvl(count(distinct patient_no), 0),21
+"
+PKG_ZBFX	PACKAGE BODY	523	"    from
+"
+PKG_ZBFX	PACKAGE BODY	524	"    (
+"
+PKG_ZBFX	PACKAGE BODY	525	"    select nvl(c.zzys,'none') ysgh,
+"
+PKG_ZBFX	PACKAGE BODY	526	"           f_bf_getzgxx(c.zzys,'xm') ysmc,
+"
+PKG_ZBFX	PACKAGE BODY	527	"           nvl(c.curr_ks,'none') ksdm,
+"
+PKG_ZBFX	PACKAGE BODY	528	"           nvl(f_gy_getksmc(c.curr_ks),'未知科室') ksmc,
+"
+PKG_ZBFX	PACKAGE BODY	529	"           a.patient_no patient_no,
+"
+PKG_ZBFX	PACKAGE BODY	530	"           substr(f_ypfx_getypxx(substr(twice_detail_id,1,10),substr(twice_detail_id,11,10),'fjpb'),3,1) kjywbz
+"
+PKG_ZBFX	PACKAGE BODY	531	"    from zy_total_fee a,
+"
+PKG_ZBFX	PACKAGE BODY	532	"         zy_detail_charge b,
+"
+PKG_ZBFX	PACKAGE BODY	533	"         zy_patient_information c
+"
+PKG_ZBFX	PACKAGE BODY	534	"    where a.patient_no = b.patient_no
+"
+PKG_ZBFX	PACKAGE BODY	535	"      and a.js_no = b.js_no
+"
+PKG_ZBFX	PACKAGE BODY	536	"      and a.infant_flag = 0
+"
+PKG_ZBFX	PACKAGE BODY	537	"      and a.patient_no = c.patient_no
+"
+PKG_ZBFX	PACKAGE BODY	538	"      and a.js_no = c.js_no
+"
+PKG_ZBFX	PACKAGE BODY	539	"      and a.js_no >0
+"
+PKG_ZBFX	PACKAGE BODY	540	"      and a.flag  not in (6,-2,-8)
+"
+PKG_ZBFX	PACKAGE BODY	541	"      and b.fygl in(1,2,3)
+"
+PKG_ZBFX	PACKAGE BODY	542	"      and c.jz_date BETWEEN ldt_ypfx_min AND ldt_ypfx_max
+"
+PKG_ZBFX	PACKAGE BODY	543	"      ) where kjywbz <> '0'
+"
+PKG_ZBFX	PACKAGE BODY	544	"      group by ysgh,ysmc,ksdm,ksmc;
+"
+PKG_ZBFX	PACKAGE BODY	545	" --type 22 草药门诊人次
+"
+PKG_ZBFX	PACKAGE BODY	546	" insert into ZBFX_DATA_D1
+"
+PKG_ZBFX	PACKAGE BODY	547	"  select in_ypfx_id,ysgh,ysmc,ksdm,ksmc,rc,22
+"
+PKG_ZBFX	PACKAGE BODY	548	"from (
+"
+PKG_ZBFX	PACKAGE BODY	549	"select  a.ysgh ysgh,nvl(f_bf_getzgxx(a.ysgh,'xm'),'未知医生') ysmc,a.ksdm ksdm,nvl(f_gy_getksmc(a.ksdm),'未知科室')  ksmc,nvl(count(distinct a.jzkh),0) rc
+"
+PKG_ZBFX	PACKAGE BODY	550	"from mz_cfk1 a
+"
+PKG_ZBFX	PACKAGE BODY	551	"where a.cfrq  BETWEEN ldt_ypfx_min AND ldt_ypfx_max
+"
+PKG_ZBFX	PACKAGE BODY	552	"and a.cflx = 4 and a.sfsb is not null
+"
+PKG_ZBFX	PACKAGE BODY	553	"group by  a.ysgh ,nvl(f_bf_getzgxx(a.ysgh,'xm'),'未知医生') ,a.ksdm ,nvl(f_gy_getksmc(a.ksdm),'未知科室')
+"
+PKG_ZBFX	PACKAGE BODY	554	");
+"
+PKG_ZBFX	PACKAGE BODY	555	" --type 23 草药出院人次
+"
+PKG_ZBFX	PACKAGE BODY	556	" insert into ZBFX_DATA_D1
+"
+PKG_ZBFX	PACKAGE BODY	557	"    select in_ypfx_id,b.zzys,f_bf_getzgxx(b.zzys,'xm'),b.curr_bq,f_yf_getbqmc(b.curr_bq), Nvl(count(distinct a.patient_no), 0),23
+"
+PKG_ZBFX	PACKAGE BODY	558	"    from zy_total_fee a,
+"
+PKG_ZBFX	PACKAGE BODY	559	"         zy_patient_information b,
+"
+PKG_ZBFX	PACKAGE BODY	560	"         zy_detail_charge c
+"
+PKG_ZBFX	PACKAGE BODY	561	"    where a.patient_no = b.patient_no
+"
+PKG_ZBFX	PACKAGE BODY	562	"       and a.js_no = b.js_no
+"
+PKG_ZBFX	PACKAGE BODY	563	"       and b.patient_no = c.patient_no
+"
+PKG_ZBFX	PACKAGE BODY	564	"       and c.js_no = b.js_no
+"
+PKG_ZBFX	PACKAGE BODY	565	"      and a.infant_flag = 0
+"
+PKG_ZBFX	PACKAGE BODY	566	"      and a.js_no >0
+"
+PKG_ZBFX	PACKAGE BODY	567	"      and a.flag  not in (6,-2,-8)
+"
+PKG_ZBFX	PACKAGE BODY	568	"      and c.charge_code = 3
+"
+PKG_ZBFX	PACKAGE BODY	569	"      and a.jz_date BETWEEN ldt_ypfx_min AND ldt_ypfx_max
+"
+PKG_ZBFX	PACKAGE BODY	570	"      group by b.zzys,f_bf_getzgxx(b.zzys,'xm'),b.curr_bq,f_yf_getbqmc(b.curr_bq);
+"
+PKG_ZBFX	PACKAGE BODY	571	"
+"
+PKG_ZBFX	PACKAGE BODY	572	" --type 24 I类切口出院人次
+"
+PKG_ZBFX	PACKAGE BODY	573	"   insert into ZBFX_DATA_D1
+"
+PKG_ZBFX	PACKAGE BODY	574	"    select in_ypfx_id, a.zzys,f_bf_getzgxx(a.zzys,'xm'),a.curr_bq,f_yf_getbqmc(a.curr_bq), Nvl(count(distinct a.patient_no), 0),24
+"
+PKG_ZBFX	PACKAGE BODY	575	"    from  zy_patient_information a,
+"
+PKG_ZBFX	PACKAGE BODY	576	"          zy_total_fee c,
+"
+PKG_ZBFX	PACKAGE BODY	577	"          ss_sqd b
+"
+PKG_ZBFX	PACKAGE BODY	578	"    where  a.patient_no = b.patient_no
+"
+PKG_ZBFX	PACKAGE BODY	579	"      and a.patient_no = c.patient_no and a.js_no = c.js_no
+"
+PKG_ZBFX	PACKAGE BODY	580	"      and a.infant_flag = 0
+"
+PKG_ZBFX	PACKAGE BODY	581	"      and c.js_no >0
+"
+PKG_ZBFX	PACKAGE BODY	582	"      and c.flag  not in (6,-2,-8)
+"
+PKG_ZBFX	PACKAGE BODY	583	"      and  b.cklx = 1
+"
+PKG_ZBFX	PACKAGE BODY	584	"      and  c.jz_date BETWEEN ldt_ypfx_min AND ldt_ypfx_max
+"
+PKG_ZBFX	PACKAGE BODY	585	"      group by a.zzys,f_bf_getzgxx(a.zzys,'xm'),a.curr_bq,f_yf_getbqmc(a.curr_bq);
+"
+PKG_ZBFX	PACKAGE BODY	586	" --type 25 I类切口抗菌药物出院人次
+"
+PKG_ZBFX	PACKAGE BODY	587	"insert into zbfx_data_d1
+"
+PKG_ZBFX	PACKAGE BODY	588	"    select in_ypfx_id,ysgh,ysmc,ksdm,ksmc ,Nvl(count(distinct patient_no), 0),25
+"
+PKG_ZBFX	PACKAGE BODY	589	"    from
+"
+PKG_ZBFX	PACKAGE BODY	590	"    (
+"
+PKG_ZBFX	PACKAGE BODY	591	"    select nvl(c.zzys,'none') ysgh,
+"
+PKG_ZBFX	PACKAGE BODY	592	"           f_bf_getzgxx(c.zzys,'xm') ysmc,
+"
+PKG_ZBFX	PACKAGE BODY	593	"           nvl(c.curr_ks,'none') ksdm,
+"
+PKG_ZBFX	PACKAGE BODY	594	"           nvl(f_gy_getksmc(c.curr_ks),'未知科室') ksmc,
+"
+PKG_ZBFX	PACKAGE BODY	595	"           a.patient_no patient_no,
+"
+PKG_ZBFX	PACKAGE BODY	596	"           substr(f_ypfx_getypxx(substr(twice_detail_id,1,10),substr(twice_detail_id,11,10),'fjpb'),3,1) kjywbz
+"
+PKG_ZBFX	PACKAGE BODY	597	"    from zy_total_fee a,
+"
+PKG_ZBFX	PACKAGE BODY	598	"         zy_detail_charge b,
+"
+PKG_ZBFX	PACKAGE BODY	599	"         zy_patient_information c,
+"
+PKG_ZBFX	PACKAGE BODY	600	"         ss_sqd d
+"
+PKG_ZBFX	PACKAGE BODY	601	"    where a.patient_no = b.patient_no
+"
+PKG_ZBFX	PACKAGE BODY	602	"      and a.js_no = b.js_no
+"
+PKG_ZBFX	PACKAGE BODY	603	"      and a.infant_flag = 0
+"
+PKG_ZBFX	PACKAGE BODY	604	"      and a.patient_no = c.patient_no
+"
+PKG_ZBFX	PACKAGE BODY	605	"      and a.js_no = c.js_no and a.patient_no = d.patient_no
+"
+PKG_ZBFX	PACKAGE BODY	606	"      and a.js_no >0 and    d.cklx = 1
+"
+PKG_ZBFX	PACKAGE BODY	607	"      and a.flag  not in (6,-2,-8)
+"
+PKG_ZBFX	PACKAGE BODY	608	"      and b.fygl in(1,2,3)
+"
+PKG_ZBFX	PACKAGE BODY	609	"      and c.jz_date BETWEEN ldt_ypfx_min AND ldt_ypfx_max
+"
+PKG_ZBFX	PACKAGE BODY	610	"      ) where kjywbz <> '0'
+"
+PKG_ZBFX	PACKAGE BODY	611	"      group by ysgh,ysmc,ksdm,ksmc;
+"
+PKG_ZBFX	PACKAGE BODY	612	" --type 26 急诊人次数
+"
+PKG_ZBFX	PACKAGE BODY	613	"insert into ZBFX_DATA_D1
+"
+PKG_ZBFX	PACKAGE BODY	614	"    select in_ypfx_id,jzys ,nvl(f_bf_getzgxx(jzys,'xm'),'未知医生'),ksdm,nvl(f_gy_getksmc(ksdm),'未知科室'),Nvl(count(distinct a.jzkh),0),26
+"
+PKG_ZBFX	PACKAGE BODY	615	"    from zj_jzxx a
+"
+PKG_ZBFX	PACKAGE BODY	616	"    where  a.jzrq BETWEEN ldt_ypfx_min AND ldt_ypfx_max
+"
+PKG_ZBFX	PACKAGE BODY	617	"          and a.czfz = 0 and a.sfjz = 1
+"
+PKG_ZBFX	PACKAGE BODY	618	"    group by jzys ,nvl(f_bf_getzgxx(jzys,'xm'),'未知医生'),ksdm,nvl(f_gy_getksmc(ksdm),'未知科室');
+"
+PKG_ZBFX	PACKAGE BODY	619	" --type 27 出院住院日
+"
+PKG_ZBFX	PACKAGE BODY	620	" insert into ZBFX_DATA_D1
+"
+PKG_ZBFX	PACKAGE BODY	621	"    select in_ypfx_id,b.zzys,f_bf_getzgxx(b.zzys,'xm'),b.curr_bq,f_yf_getbqmc(b.curr_bq), Nvl(sum(trunc(b.out_date)-trunc(b.admiss_date)), 0),27
+"
+PKG_ZBFX	PACKAGE BODY	622	"    from zy_total_fee a,
+"
+PKG_ZBFX	PACKAGE BODY	623	"         zy_patient_information b
+"
+PKG_ZBFX	PACKAGE BODY	624	"    where a.patient_no = b.patient_no and a.js_no = b.js_no
+"
+PKG_ZBFX	PACKAGE BODY	625	"      and a.infant_flag = 0
+"
+PKG_ZBFX	PACKAGE BODY	626	"      and a.js_no >0
+"
+PKG_ZBFX	PACKAGE BODY	627	"      and a.flag  not in (6,-2,-8)
+"
+PKG_ZBFX	PACKAGE BODY	628	"      and a.jz_date BETWEEN ldt_ypfx_min AND ldt_ypfx_max
+"
+PKG_ZBFX	PACKAGE BODY	629	"      group by b.zzys,f_bf_getzgxx(b.zzys,'xm'),b.curr_bq,f_yf_getbqmc(b.curr_bq) ;
+"
+PKG_ZBFX	PACKAGE BODY	630	"
+"
+PKG_ZBFX	PACKAGE BODY	631	" --type 28 当天床位使用数
+"
+PKG_ZBFX	PACKAGE BODY	632	"  insert into ZBFX_DATA_D1
+"
+PKG_ZBFX	PACKAGE BODY	633	" select in_ypfx_id, a.zzys,f_bf_getzgxx(a.zzys,'xm'),a.curr_bq,f_yf_getbqmc(a.curr_bq), Nvl(count(distinct a.patient_no), 0),28
+"
+PKG_ZBFX	PACKAGE BODY	634	" from zy_patient_information a
+"
+PKG_ZBFX	PACKAGE BODY	635	"where (a.preout_date >ldt_ypfx_max and a.admiss_date <ldt_ypfx_min)
+"
+PKG_ZBFX	PACKAGE BODY	636	"    or (a.preout_date is null and a.admiss_date <ldt_ypfx_min)
+"
+PKG_ZBFX	PACKAGE BODY	637	"    group by a.zzys,f_bf_getzgxx(a.zzys,'xm'),a.curr_bq,f_yf_getbqmc(a.curr_bq);
+"
+PKG_ZBFX	PACKAGE BODY	638	"
+"
+PKG_ZBFX	PACKAGE BODY	639	"
+"
+PKG_ZBFX	PACKAGE BODY	640	" --type 29 当天床位数
+"
+PKG_ZBFX	PACKAGE BODY	641	" insert into ZBFX_DATA_D1
+"
+PKG_ZBFX	PACKAGE BODY	642	" select in_ypfx_id, '','',a.curr_bq,f_yf_getbqmc(a.curr_bq), Nvl(count(*), 0),29
+"
+PKG_ZBFX	PACKAGE BODY	643	" from zy_bed a
+"
+PKG_ZBFX	PACKAGE BODY	644	" where a.bed_status <>2
+"
+PKG_ZBFX	PACKAGE BODY	645	" group by a.curr_bq,f_yf_getbqmc(a.curr_bq);
+"
+PKG_ZBFX	PACKAGE BODY	646	"
+"
+PKG_ZBFX	PACKAGE BODY	647	" --type 30 当天三、四类手术次数
+"
+PKG_ZBFX	PACKAGE BODY	648	"  insert into ZBFX_DATA_D1
+"
+PKG_ZBFX	PACKAGE BODY	649	" select in_ypfx_id,a.zzys,f_bf_getzgxx(a.zzys,'xm'),a.curr_bq,f_yf_getbqmc(a.curr_bq),count(*) ,30
+"
+PKG_ZBFX	PACKAGE BODY	650	" from zy_patient_information a,ss_sqd b
+"
+PKG_ZBFX	PACKAGE BODY	651	" where a.patient_no = b.patient_no and
+"
+PKG_ZBFX	PACKAGE BODY	652	" b.SSSSSJ between ldt_ypfx_min and ldt_ypfx_max and b.cklx in (3,4)
+"
+PKG_ZBFX	PACKAGE BODY	653	" group by a.zzys,f_bf_getzgxx(a.zzys,'xm'),a.curr_bq,f_yf_getbqmc(a.curr_bq);
+"
+PKG_ZBFX	PACKAGE BODY	654	"
+"
+PKG_ZBFX	PACKAGE BODY	655	"
+"
+PKG_ZBFX	PACKAGE BODY	656	" --type 31 当天手术次数
+"
+PKG_ZBFX	PACKAGE BODY	657	"   insert into ZBFX_DATA_D1
+"
+PKG_ZBFX	PACKAGE BODY	658	" select in_ypfx_id,a.zzys,f_bf_getzgxx(a.zzys,'xm'),a.curr_bq,f_yf_getbqmc(a.curr_bq),count(*) ,31
+"
+PKG_ZBFX	PACKAGE BODY	659	" from zy_patient_information a,ss_sqd b
+"
+PKG_ZBFX	PACKAGE BODY	660	" where a.patient_no = b.patient_no and
+"
+PKG_ZBFX	PACKAGE BODY	661	" b.SSSSSJ between ldt_ypfx_min and ldt_ypfx_max
+"
+PKG_ZBFX	PACKAGE BODY	662	" group by a.zzys,f_bf_getzgxx(a.zzys,'xm'),a.curr_bq,f_yf_getbqmc(a.curr_bq);
+"
+PKG_ZBFX	PACKAGE BODY	663	"
+"
+PKG_ZBFX	PACKAGE BODY	664	"
+"
+PKG_ZBFX	PACKAGE BODY	665	" --type 32 医保病人门诊总现金
+"
+PKG_ZBFX	PACKAGE BODY	666	" insert into ZBFX_DATA_D1
+"
+PKG_ZBFX	PACKAGE BODY	667	"    select in_ypfx_id,'','','','', Nvl(Sum(a.xj+a.qtsfje), 0),32
+"
+PKG_ZBFX	PACKAGE BODY	668	"    from mz_mzsfk1 a
+"
+PKG_ZBFX	PACKAGE BODY	669	"    where  a.brlb = 27 and  a.sfrq BETWEEN ldt_ypfx_min AND ldt_ypfx_max;
+"
+PKG_ZBFX	PACKAGE BODY	670	" --type 33 医保病人住院总现金
+"
+PKG_ZBFX	PACKAGE BODY	671	" insert into ZBFX_DATA_D1
+"
+PKG_ZBFX	PACKAGE BODY	672	"   select in_ypfx_id,b.zzys,f_bf_getzgxx(b.zzys,'xm'),b.curr_bq,f_yf_getbqmc(b.curr_bq), Nvl(Sum(a.deposit_xj   + a.pay_xj- a.return_xj), 0),33
+"
+PKG_ZBFX	PACKAGE BODY	673	"    from zy_total_fee a ,zy_patient_information b
+"
+PKG_ZBFX	PACKAGE BODY	674	"    where a.patient_no = b.patient_no and a.js_no = b.js_no and b.js_no >0
+"
+PKG_ZBFX	PACKAGE BODY	675	"    and   a.brlb = 27 and  a.jz_date BETWEEN ldt_ypfx_min AND ldt_ypfx_max
+"
+PKG_ZBFX	PACKAGE BODY	676	"    group by b.zzys,f_bf_getzgxx(b.zzys,'xm'),b.curr_bq,f_yf_getbqmc(b.curr_bq);
+"
+PKG_ZBFX	PACKAGE BODY	677	" --type 34 医保病人门诊总费用
+"
+PKG_ZBFX	PACKAGE BODY	678	" insert into ZBFX_DATA_D1
+"
+PKG_ZBFX	PACKAGE BODY	679	"    select in_ypfx_id,'','','','', Nvl(Sum(b.fyhj), 0),34
+"
+PKG_ZBFX	PACKAGE BODY	680	"    from mz_mzsfk1 a ,mz_mzsfk2 b
+"
+PKG_ZBFX	PACKAGE BODY	681	"    where  a.sfsb = b.sfsb and a.brlb = 27 and  a.sfrq BETWEEN ldt_ypfx_min AND ldt_ypfx_max
+"
+PKG_ZBFX	PACKAGE BODY	682	"    ;
+"
+PKG_ZBFX	PACKAGE BODY	683	" --type 35 医保病人住院总费用
+"
+PKG_ZBFX	PACKAGE BODY	684	" insert into ZBFX_DATA_D1
+"
+PKG_ZBFX	PACKAGE BODY	685	"   select in_ypfx_id,b.zzys,f_bf_getzgxx(b.zzys,'xm'),b.curr_bq,f_yf_getbqmc(b.curr_bq), Nvl(Sum(a.total_fee), 0),35
+"
+PKG_ZBFX	PACKAGE BODY	686	"    from zy_total_fee a ,zy_patient_information b
+"
+PKG_ZBFX	PACKAGE BODY	687	"    where a.patient_no = b.patient_no and a.js_no = b.js_no and b.js_no >0
+"
+PKG_ZBFX	PACKAGE BODY	688	"    and   a.brlb = 27 and  a.jz_date BETWEEN ldt_ypfx_min AND ldt_ypfx_max
+"
+PKG_ZBFX	PACKAGE BODY	689	"    group by b.zzys,f_bf_getzgxx(b.zzys,'xm'),b.curr_bq,f_yf_getbqmc(b.curr_bq);
+"
+PKG_ZBFX	PACKAGE BODY	690	" --type 36 门诊医保诊疗金额
+"
+PKG_ZBFX	PACKAGE BODY	691	"  insert into ZBFX_DATA_D1
+"
+PKG_ZBFX	PACKAGE BODY	692	"    select in_ypfx_id, b.sjysgh ,f_bf_getzgxx(b.sjysgh,'xm'),b.sjksdm,f_gy_getksmc(b.sjksdm), Nvl(Sum(c.dj*c.sl), 0),36
+"
+PKG_ZBFX	PACKAGE BODY	693	"    from mz_mzsfk1 a,
+"
+PKG_ZBFX	PACKAGE BODY	694	"         yj_yjk1 b,
+"
+PKG_ZBFX	PACKAGE BODY	695	"         yj_yjk2 c
+"
+PKG_ZBFX	PACKAGE BODY	696	"    where a.sfsb = b.sfsb
+"
+PKG_ZBFX	PACKAGE BODY	697	"      and b.yjsb = c.yjsb and a.brlb = 27
+"
+PKG_ZBFX	PACKAGE BODY	698	"      and a.sfrq BETWEEN ldt_ypfx_min AND ldt_ypfx_max
+"
+PKG_ZBFX	PACKAGE BODY	699	"      group by  b.sjysgh ,f_bf_getzgxx(b.sjysgh,'xm'),b.sjksdm,f_gy_getksmc(b.sjksdm);
+"
+PKG_ZBFX	PACKAGE BODY	700	" --type 37 住院医保诊疗金额
+"
+PKG_ZBFX	PACKAGE BODY	701	"  insert into ZBFX_DATA_D1
+"
+PKG_ZBFX	PACKAGE BODY	702	"    select in_ypfx_id,c.zzys,f_bf_getzgxx(c.zzys,'xm'),c.curr_bq,f_yf_getbqmc(c.curr_bq), Nvl(Sum(b.dj*b.sl), 0),37
+"
+PKG_ZBFX	PACKAGE BODY	703	"    from zy_total_fee a,
+"
+PKG_ZBFX	PACKAGE BODY	704	"         zy_detail_charge b,
+"
+PKG_ZBFX	PACKAGE BODY	705	"         zy_patient_information c
+"
+PKG_ZBFX	PACKAGE BODY	706	"    where a.patient_no = b.patient_no
+"
+PKG_ZBFX	PACKAGE BODY	707	"      and a.js_no = b.js_no
+"
+PKG_ZBFX	PACKAGE BODY	708	"      and a.infant_flag = 0
+"
+PKG_ZBFX	PACKAGE BODY	709	"      and a.patient_no = c.patient_no
+"
+PKG_ZBFX	PACKAGE BODY	710	"      and a.js_no >0
+"
+PKG_ZBFX	PACKAGE BODY	711	"      and a.flag not in (6,-2,-8)
+"
+PKG_ZBFX	PACKAGE BODY	712	"      and b.fygl not in(1,2,3)
+"
+PKG_ZBFX	PACKAGE BODY	713	"      and c.out_date BETWEEN ldt_ypfx_min AND ldt_ypfx_max
+"
+PKG_ZBFX	PACKAGE BODY	714	"      group by c.zzys,f_bf_getzgxx(c.zzys,'xm'),c.curr_bq,f_yf_getbqmc(c.curr_bq);
+"
+PKG_ZBFX	PACKAGE BODY	715	" --type 38 门诊医保药品金额
+"
+PKG_ZBFX	PACKAGE BODY	716	" insert into ZBFX_DATA_D1
+"
+PKG_ZBFX	PACKAGE BODY	717	"    select in_ypfx_id,b.ysgh ,f_bf_getzgxx(b.ysgh,'xm'),b.ksdm,f_gy_getksmc(b.ksdm), Nvl(Sum(c.dj*c.sl), 0),38
+"
+PKG_ZBFX	PACKAGE BODY	718	"    from mz_mzsfk1 a,
+"
+PKG_ZBFX	PACKAGE BODY	719	"         mz_cfk1 b,
+"
+PKG_ZBFX	PACKAGE BODY	720	"         mz_cfk2 c
+"
+PKG_ZBFX	PACKAGE BODY	721	"    where a.sfsb = b.sfsb
+"
+PKG_ZBFX	PACKAGE BODY	722	"      and b.cfsb = c.cfsb and a.brlb = 27
+"
+PKG_ZBFX	PACKAGE BODY	723	"      and a.sfrq BETWEEN ldt_ypfx_min AND ldt_ypfx_max
+"
+PKG_ZBFX	PACKAGE BODY	724	"      group by b.ysgh ,f_bf_getzgxx(b.ysgh,'xm'),b.ksdm,f_gy_getksmc(b.ksdm);
+"
+PKG_ZBFX	PACKAGE BODY	725	" --type 39 门诊药品费用
+"
+PKG_ZBFX	PACKAGE BODY	726	" insert into ZBFX_DATA_D1
+"
+PKG_ZBFX	PACKAGE BODY	727	"    select in_ypfx_id,b.ysgh ,f_bf_getzgxx(b.ysgh,'xm'),b.ksdm,f_gy_getksmc(b.ksdm), Nvl(Sum(c.dj*c.sl), 0),39
+"
+PKG_ZBFX	PACKAGE BODY	728	"    from mz_mzsfk1 a,
+"
+PKG_ZBFX	PACKAGE BODY	729	"         mz_cfk1 b,
+"
+PKG_ZBFX	PACKAGE BODY	730	"         mz_cfk2 c
+"
+PKG_ZBFX	PACKAGE BODY	731	"    where a.sfsb = b.sfsb
+"
+PKG_ZBFX	PACKAGE BODY	732	"      and b.cfsb = c.cfsb
+"
+PKG_ZBFX	PACKAGE BODY	733	"      and a.sfrq BETWEEN ldt_ypfx_min AND ldt_ypfx_max
+"
+PKG_ZBFX	PACKAGE BODY	734	"      group by b.ysgh ,f_bf_getzgxx(b.ysgh,'xm'),b.ksdm,f_gy_getksmc(b.ksdm);
+"
+PKG_ZBFX	PACKAGE BODY	735	"
+"
+PKG_ZBFX	PACKAGE BODY	736	" --type 40 住院医保药品金额
+"
+PKG_ZBFX	PACKAGE BODY	737	"  insert into ZBFX_DATA_D1
+"
+PKG_ZBFX	PACKAGE BODY	738	"    select in_ypfx_id,c.zzys,f_bf_getzgxx(c.zzys,'xm'),c.curr_bq,f_yf_getbqmc(c.curr_bq), Nvl(Sum(b.dj*b.sl), 0),40
+"
+PKG_ZBFX	PACKAGE BODY	739	"    from zy_total_fee a,
+"
+PKG_ZBFX	PACKAGE BODY	740	"         zy_detail_charge b,
+"
+PKG_ZBFX	PACKAGE BODY	741	"         zy_patient_information c
+"
+PKG_ZBFX	PACKAGE BODY	742	"    where a.patient_no = b.patient_no
+"
+PKG_ZBFX	PACKAGE BODY	743	"      and a.js_no = b.js_no
+"
+PKG_ZBFX	PACKAGE BODY	744	"      and a.infant_flag = 0
+"
+PKG_ZBFX	PACKAGE BODY	745	"      and a.patient_no = c.patient_no
+"
+PKG_ZBFX	PACKAGE BODY	746	"      and a.js_no >0
+"
+PKG_ZBFX	PACKAGE BODY	747	"      and a.flag not in (6,-2,-8)
+"
+PKG_ZBFX	PACKAGE BODY	748	"      and b.fygl   in(1,2,3)
+"
+PKG_ZBFX	PACKAGE BODY	749	"      and c.out_date BETWEEN ldt_ypfx_min AND ldt_ypfx_max
+"
+PKG_ZBFX	PACKAGE BODY	750	"      group by c.zzys,f_bf_getzgxx(c.zzys,'xm'),c.curr_bq,f_yf_getbqmc(c.curr_bq);
+"
+PKG_ZBFX	PACKAGE BODY	751	" --type 41 门诊西药费
+"
+PKG_ZBFX	PACKAGE BODY	752	" insert into ZBFX_DATA_D1
+"
+PKG_ZBFX	PACKAGE BODY	753	"    select in_ypfx_id,b.ysgh ,f_bf_getzgxx(b.ysgh,'xm'),b.ksdm,f_gy_getksmc(b.ksdm), Nvl(Sum(c.dj*c.sl), 0),41
+"
+PKG_ZBFX	PACKAGE BODY	754	"    from mz_mzsfk1 a,
+"
+PKG_ZBFX	PACKAGE BODY	755	"         mz_cfk1 b,
+"
+PKG_ZBFX	PACKAGE BODY	756	"         mz_cfk2 c
+"
+PKG_ZBFX	PACKAGE BODY	757	"    where a.sfsb = b.sfsb
+"
+PKG_ZBFX	PACKAGE BODY	758	"      and b.cfsb = c.cfsb
+"
+PKG_ZBFX	PACKAGE BODY	759	"      and c.fygb  = 1
+"
+PKG_ZBFX	PACKAGE BODY	760	"      and a.sfrq BETWEEN ldt_ypfx_min AND ldt_ypfx_max
+"
+PKG_ZBFX	PACKAGE BODY	761	"      group by b.ysgh ,f_bf_getzgxx(b.ysgh,'xm'),b.ksdm,f_gy_getksmc(b.ksdm);
+"
+PKG_ZBFX	PACKAGE BODY	762	" --type 42 住院西药费
+"
+PKG_ZBFX	PACKAGE BODY	763	" insert into ZBFX_DATA_D1
+"
+PKG_ZBFX	PACKAGE BODY	764	"    select in_ypfx_id,c.zzys,f_bf_getzgxx(c.zzys,'xm'),c.curr_bq,f_yf_getbqmc(c.curr_bq), Nvl(Sum(b.dj*b.sl), 0),42
+"
+PKG_ZBFX	PACKAGE BODY	765	"    from zy_total_fee a,
+"
+PKG_ZBFX	PACKAGE BODY	766	"         zy_detail_charge b,
+"
+PKG_ZBFX	PACKAGE BODY	767	"         zy_patient_information c
+"
+PKG_ZBFX	PACKAGE BODY	768	"    where a.patient_no = b.patient_no
+"
+PKG_ZBFX	PACKAGE BODY	769	"      and a.js_no = b.js_no
+"
+PKG_ZBFX	PACKAGE BODY	770	"      and a.infant_flag = 0
+"
+PKG_ZBFX	PACKAGE BODY	771	"      and a.patient_no = c.patient_no
+"
+PKG_ZBFX	PACKAGE BODY	772	"      and a.js_no = c.js_no
+"
+PKG_ZBFX	PACKAGE BODY	773	"      and a.js_no >0
+"
+PKG_ZBFX	PACKAGE BODY	774	"      and a.flag  not in (6,-2,-8)
+"
+PKG_ZBFX	PACKAGE BODY	775	"      and b.fygl =1
+"
+PKG_ZBFX	PACKAGE BODY	776	"      and c.jz_date BETWEEN ldt_ypfx_min AND ldt_ypfx_max
+"
+PKG_ZBFX	PACKAGE BODY	777	"      group  by c.zzys,f_bf_getzgxx(c.zzys,'xm'),c.curr_bq,f_yf_getbqmc(c.curr_bq) ;
+"
+PKG_ZBFX	PACKAGE BODY	778	" --type 43 门诊中药费
+"
+PKG_ZBFX	PACKAGE BODY	779	" insert into ZBFX_DATA_D1
+"
+PKG_ZBFX	PACKAGE BODY	780	"    select in_ypfx_id,b.ysgh ,f_bf_getzgxx(b.ysgh,'xm'),b.ksdm,f_gy_getksmc(b.ksdm), Nvl(Sum(c.dj*c.sl), 0),43
+"
+PKG_ZBFX	PACKAGE BODY	781	"    from mz_mzsfk1 a,
+"
+PKG_ZBFX	PACKAGE BODY	782	"         mz_cfk1 b,
+"
+PKG_ZBFX	PACKAGE BODY	783	"         mz_cfk2 c
+"
+PKG_ZBFX	PACKAGE BODY	784	"    where a.sfsb = b.sfsb
+"
+PKG_ZBFX	PACKAGE BODY	785	"      and b.cfsb = c.cfsb
+"
+PKG_ZBFX	PACKAGE BODY	786	"      and c.fygb = 2
+"
+PKG_ZBFX	PACKAGE BODY	787	"      and a.sfrq BETWEEN ldt_ypfx_min AND ldt_ypfx_max
+"
+PKG_ZBFX	PACKAGE BODY	788	"      group by b.ysgh ,f_bf_getzgxx(b.ysgh,'xm'),b.ksdm,f_gy_getksmc(b.ksdm);
+"
+PKG_ZBFX	PACKAGE BODY	789	" --type 44 住院中药费
+"
+PKG_ZBFX	PACKAGE BODY	790	" insert into ZBFX_DATA_D1
+"
+PKG_ZBFX	PACKAGE BODY	791	"    select in_ypfx_id,c.zzys,f_bf_getzgxx(c.zzys,'xm'),c.curr_bq,f_yf_getbqmc(c.curr_bq), Nvl(Sum(b.dj*b.sl), 0),44
+"
+PKG_ZBFX	PACKAGE BODY	792	"    from zy_total_fee a,
+"
+PKG_ZBFX	PACKAGE BODY	793	"         zy_detail_charge b,
+"
+PKG_ZBFX	PACKAGE BODY	794	"         zy_patient_information c
+"
+PKG_ZBFX	PACKAGE BODY	795	"    where a.patient_no = b.patient_no
+"
+PKG_ZBFX	PACKAGE BODY	796	"      and a.js_no = b.js_no
+"
+PKG_ZBFX	PACKAGE BODY	797	"      and a.infant_flag = 0
+"
+PKG_ZBFX	PACKAGE BODY	798	"      and a.patient_no = c.patient_no
+"
+PKG_ZBFX	PACKAGE BODY	799	"      and a.js_no = c.js_no
+"
+PKG_ZBFX	PACKAGE BODY	800	"      and a.js_no >0
+"
+PKG_ZBFX	PACKAGE BODY	801	"      and a.flag  not in (6,-2,-8)
+"
+PKG_ZBFX	PACKAGE BODY	802	"      and b.fygl =2
+"
+PKG_ZBFX	PACKAGE BODY	803	"      and c.jz_date BETWEEN ldt_ypfx_min AND ldt_ypfx_max
+"
+PKG_ZBFX	PACKAGE BODY	804	"      group  by c.zzys,f_bf_getzgxx(c.zzys,'xm'),c.curr_bq,f_yf_getbqmc(c.curr_bq) ;
+"
+PKG_ZBFX	PACKAGE BODY	805	" --type 45 门诊草药费
+"
+PKG_ZBFX	PACKAGE BODY	806	" insert into ZBFX_DATA_D1
+"
+PKG_ZBFX	PACKAGE BODY	807	"    select in_ypfx_id,b.ysgh ,f_bf_getzgxx(b.ysgh,'xm'),b.ksdm,f_gy_getksmc(b.ksdm), Nvl(Sum(c.dj*c.sl), 0),45
+"
+PKG_ZBFX	PACKAGE BODY	808	"    from mz_mzsfk1 a,
+"
+PKG_ZBFX	PACKAGE BODY	809	"         mz_cfk1 b,
+"
+PKG_ZBFX	PACKAGE BODY	810	"         mz_cfk2 c
+"
+PKG_ZBFX	PACKAGE BODY	811	"    where a.sfsb = b.sfsb
+"
+PKG_ZBFX	PACKAGE BODY	812	"      and b.cfsb = c.cfsb
+"
+PKG_ZBFX	PACKAGE BODY	813	"      and c.fygb = 3
+"
+PKG_ZBFX	PACKAGE BODY	814	"      and a.sfrq BETWEEN ldt_ypfx_min AND ldt_ypfx_max
+"
+PKG_ZBFX	PACKAGE BODY	815	"      group by b.ysgh ,f_bf_getzgxx(b.ysgh,'xm'),b.ksdm,f_gy_getksmc(b.ksdm);
+"
+PKG_ZBFX	PACKAGE BODY	816	" --type 46 住院草药费
+"
+PKG_ZBFX	PACKAGE BODY	817	" insert into ZBFX_DATA_D1
+"
+PKG_ZBFX	PACKAGE BODY	818	"    select in_ypfx_id,c.zzys,f_bf_getzgxx(c.zzys,'xm'),c.curr_bq,f_yf_getbqmc(c.curr_bq), Nvl(Sum(b.dj*b.sl), 0),46
+"
+PKG_ZBFX	PACKAGE BODY	819	"    from zy_total_fee a,
+"
+PKG_ZBFX	PACKAGE BODY	820	"         zy_detail_charge b,
+"
+PKG_ZBFX	PACKAGE BODY	821	"         zy_patient_information c
+"
+PKG_ZBFX	PACKAGE BODY	822	"    where a.patient_no = b.patient_no
+"
+PKG_ZBFX	PACKAGE BODY	823	"      and a.js_no = b.js_no
+"
+PKG_ZBFX	PACKAGE BODY	824	"      and a.infant_flag = 0
+"
+PKG_ZBFX	PACKAGE BODY	825	"      and a.patient_no = c.patient_no
+"
+PKG_ZBFX	PACKAGE BODY	826	"      and a.js_no = c.js_no
+"
+PKG_ZBFX	PACKAGE BODY	827	"      and a.js_no >0
+"
+PKG_ZBFX	PACKAGE BODY	828	"      and a.flag  not in (6,-2,-8)
+"
+PKG_ZBFX	PACKAGE BODY	829	"      and b.fygl =3
+"
+PKG_ZBFX	PACKAGE BODY	830	"      and c.jz_date BETWEEN ldt_ypfx_min AND ldt_ypfx_max
+"
+PKG_ZBFX	PACKAGE BODY	831	"      group  by c.zzys,f_bf_getzgxx(c.zzys,'xm'),c.curr_bq,f_yf_getbqmc(c.curr_bq) ;
+"
+PKG_ZBFX	PACKAGE BODY	832	" --type 47 中药饮片费用
+"
+PKG_ZBFX	PACKAGE BODY	833	" insert into ZBFX_DATA_D1
+"
+PKG_ZBFX	PACKAGE BODY	834	"    select in_ypfx_id,b.ysgh ,f_bf_getzgxx(b.ysgh,'xm'),b.ksdm,f_gy_getksmc(b.ksdm), Nvl(Sum(c.dj*c.sl), 0),47
+"
+PKG_ZBFX	PACKAGE BODY	835	"    from mz_mzsfk1 a,
+"
+PKG_ZBFX	PACKAGE BODY	836	"         mz_cfk1 b,
+"
+PKG_ZBFX	PACKAGE BODY	837	"         mz_cfk2 c
+"
+PKG_ZBFX	PACKAGE BODY	838	"    where a.sfsb = b.sfsb
+"
+PKG_ZBFX	PACKAGE BODY	839	"      and b.cfsb = c.cfsb and c.fygb = 3
+"
+PKG_ZBFX	PACKAGE BODY	840	"      and a.sfrq BETWEEN ldt_ypfx_min AND ldt_ypfx_max
+"
+PKG_ZBFX	PACKAGE BODY	841	"      group by b.ysgh ,f_bf_getzgxx(b.ysgh,'xm'),b.ksdm,f_gy_getksmc(b.ksdm);
+"
+PKG_ZBFX	PACKAGE BODY	842	" --type 48 门诊诊疗费用
+"
+PKG_ZBFX	PACKAGE BODY	843	"  insert into ZBFX_DATA_D1
+"
+PKG_ZBFX	PACKAGE BODY	844	"    select in_ypfx_id,b.sjysgh ,f_bf_getzgxx(b.sjysgh,'xm'),b.sjksdm,f_gy_getksmc(b.sjksdm), Nvl(Sum(c.dj*c.sl), 0),48
+"
+PKG_ZBFX	PACKAGE BODY	845	"    from mz_mzsfk1 a,
+"
+PKG_ZBFX	PACKAGE BODY	846	"         yj_yjk1 b,
+"
+PKG_ZBFX	PACKAGE BODY	847	"         yj_yjk2 c
+"
+PKG_ZBFX	PACKAGE BODY	848	"    where a.sfsb = b.sfsb
+"
+PKG_ZBFX	PACKAGE BODY	849	"      and b.yjsb = c.yjsb
+"
+PKG_ZBFX	PACKAGE BODY	850	"      and a.sfrq BETWEEN ldt_ypfx_min AND ldt_ypfx_max
+"
+PKG_ZBFX	PACKAGE BODY	851	"      group by b.sjysgh ,f_bf_getzgxx(b.sjysgh,'xm'),b.sjksdm,f_gy_getksmc(b.sjksdm);
+"
+PKG_ZBFX	PACKAGE BODY	852	"
+"
+PKG_ZBFX	PACKAGE BODY	853	"  --type 49 累计DDD数
+"
+PKG_ZBFX	PACKAGE BODY	854	"
+"
+PKG_ZBFX	PACKAGE BODY	855	"
+"
+PKG_ZBFX	PACKAGE BODY	856	"  --type 50 住院药品费用
+"
+PKG_ZBFX	PACKAGE BODY	857	"  insert into ZBFX_DATA_D1
+"
+PKG_ZBFX	PACKAGE BODY	858	"    select in_ypfx_id, c.zzys,f_bf_getzgxx(c.zzys,'xm'),c.curr_bq,f_yf_getbqmc(c.curr_bq),Nvl(Sum(b.dj*b.sl), 0),50
+"
+PKG_ZBFX	PACKAGE BODY	859	"    from zy_total_fee a,
+"
+PKG_ZBFX	PACKAGE BODY	860	"         zy_detail_charge b,
+"
+PKG_ZBFX	PACKAGE BODY	861	"         zy_patient_information c
+"
+PKG_ZBFX	PACKAGE BODY	862	"    where a.patient_no = b.patient_no
+"
+PKG_ZBFX	PACKAGE BODY	863	"      and a.js_no = b.js_no
+"
+PKG_ZBFX	PACKAGE BODY	864	"      and a.infant_flag = 0
+"
+PKG_ZBFX	PACKAGE BODY	865	"      and a.patient_no = c.patient_no
+"
+PKG_ZBFX	PACKAGE BODY	866	"      and a.js_no >0
+"
+PKG_ZBFX	PACKAGE BODY	867	"      and a.flag  not in (6,-2,-8)
+"
+PKG_ZBFX	PACKAGE BODY	868	"      and b.fygl in(1,2,3)
+"
+PKG_ZBFX	PACKAGE BODY	869	"      and c.out_date BETWEEN ldt_ypfx_min AND ldt_ypfx_max
+"
+PKG_ZBFX	PACKAGE BODY	870	"      group by c.zzys,f_bf_getzgxx(c.zzys,'xm'),c.curr_bq,f_yf_getbqmc(c.curr_bq) ;
+"
+PKG_ZBFX	PACKAGE BODY	871	"
+"
+PKG_ZBFX	PACKAGE BODY	872	"  --type 51 门诊基药费用(国家基本药物)
+"
+PKG_ZBFX	PACKAGE BODY	873	"insert into ZBFX_DATA_D1
+"
+PKG_ZBFX	PACKAGE BODY	874	"    select in_ypfx_id,b.ysgh ,f_bf_getzgxx(b.ysgh,'xm'),b.ksdm,f_gy_getksmc(b.ksdm),Nvl(Sum(decode(f_ypfx_getypxx(c.ypxh,c.ypcddm,'jbywbz'),'1',c.dj*c.sl,0)), 0),51
+"
+PKG_ZBFX	PACKAGE BODY	875	"    from mz_mzsfk1 a,
+"
+PKG_ZBFX	PACKAGE BODY	876	"         mz_cfk1 b,
+"
+PKG_ZBFX	PACKAGE BODY	877	"         mz_cfk2 c
+"
+PKG_ZBFX	PACKAGE BODY	878	"    where a.sfsb = b.sfsb
+"
+PKG_ZBFX	PACKAGE BODY	879	"      and b.cfsb = c.cfsb
+"
+PKG_ZBFX	PACKAGE BODY	880	"      and a.sfrq BETWEEN ldt_ypfx_min AND ldt_ypfx_max
+"
+PKG_ZBFX	PACKAGE BODY	881	"      group by b.ysgh ,f_bf_getzgxx(b.ysgh,'xm'),b.ksdm,f_gy_getksmc(b.ksdm);
+"
+PKG_ZBFX	PACKAGE BODY	882	"  --type 52 门诊基药费用(省增补)
+"
+PKG_ZBFX	PACKAGE BODY	883	"insert into ZBFX_DATA_D1
+"
+PKG_ZBFX	PACKAGE BODY	884	"    select in_ypfx_id,b.ysgh ,f_bf_getzgxx(b.ysgh,'xm'),b.ksdm,f_gy_getksmc(b.ksdm),Nvl(Sum(decode(f_ypfx_getypxx(c.ypxh,c.ypcddm,'jbywbz'),'2',c.dj*c.sl,0)), 0),52
+"
+PKG_ZBFX	PACKAGE BODY	885	"    from mz_mzsfk1 a,
+"
+PKG_ZBFX	PACKAGE BODY	886	"         mz_cfk1 b,
+"
+PKG_ZBFX	PACKAGE BODY	887	"         mz_cfk2 c
+"
+PKG_ZBFX	PACKAGE BODY	888	"    where a.sfsb = b.sfsb
+"
+PKG_ZBFX	PACKAGE BODY	889	"      and b.cfsb = c.cfsb
+"
+PKG_ZBFX	PACKAGE BODY	890	"      and a.sfrq BETWEEN ldt_ypfx_min AND ldt_ypfx_max
+"
+PKG_ZBFX	PACKAGE BODY	891	"      group by b.ysgh ,f_bf_getzgxx(b.ysgh,'xm'),b.ksdm,f_gy_getksmc(b.ksdm);
+"
+PKG_ZBFX	PACKAGE BODY	892	"  --type 53 住院诊疗费用
+"
+PKG_ZBFX	PACKAGE BODY	893	"  insert into ZBFX_DATA_D1
+"
+PKG_ZBFX	PACKAGE BODY	894	"    select in_ypfx_id,c.zzys,f_bf_getzgxx(c.zzys,'xm'),c.curr_bq,f_yf_getbqmc(c.curr_bq), Nvl(Sum(b.dj*b.sl), 0),53
+"
+PKG_ZBFX	PACKAGE BODY	895	"    from zy_total_fee a,
+"
+PKG_ZBFX	PACKAGE BODY	896	"         zy_detail_charge b,
+"
+PKG_ZBFX	PACKAGE BODY	897	"         zy_patient_information c
+"
+PKG_ZBFX	PACKAGE BODY	898	"    where a.patient_no = b.patient_no
+"
+PKG_ZBFX	PACKAGE BODY	899	"      and a.js_no = b.js_no
+"
+PKG_ZBFX	PACKAGE BODY	900	"      and a.infant_flag = 0
+"
+PKG_ZBFX	PACKAGE BODY	901	"      and a.patient_no = c.patient_no
+"
+PKG_ZBFX	PACKAGE BODY	902	"      and a.js_no >0
+"
+PKG_ZBFX	PACKAGE BODY	903	"      and a.flag not in (6,-2,-8)
+"
+PKG_ZBFX	PACKAGE BODY	904	"      and b.fygl not in(1,2,3)
+"
+PKG_ZBFX	PACKAGE BODY	905	"      and c.out_date BETWEEN ldt_ypfx_min AND ldt_ypfx_max
+"
+PKG_ZBFX	PACKAGE BODY	906	"      group by c.zzys,f_bf_getzgxx(c.zzys,'xm'),c.curr_bq,f_yf_getbqmc(c.curr_bq);
+"
+PKG_ZBFX	PACKAGE BODY	907	"
+"
+PKG_ZBFX	PACKAGE BODY	908	" --type 54 住院基药费用(国家基本药物)
+"
+PKG_ZBFX	PACKAGE BODY	909	"  insert into ZBFX_DATA_D1
+"
+PKG_ZBFX	PACKAGE BODY	910	"    select in_ypfx_id, c.zzys,f_bf_getzgxx(c.zzys,'xm'),c.curr_bq,    f_yf_getbqmc(c.curr_bq),
+"
+PKG_ZBFX	PACKAGE BODY	911	"    Nvl(Sum(decode(f_ypfx_getypxx(substr(b.twice_detail_id,1,10),substr(b.twice_detail_id,11,10),'jbywbz'),'1',b.dj*b.sl,0)), 0),54
+"
+PKG_ZBFX	PACKAGE BODY	912	"    from zy_total_fee a,
+"
+PKG_ZBFX	PACKAGE BODY	913	"         zy_detail_charge b,
+"
+PKG_ZBFX	PACKAGE BODY	914	"         zy_patient_information c
+"
+PKG_ZBFX	PACKAGE BODY	915	"    where a.patient_no = b.patient_no
+"
+PKG_ZBFX	PACKAGE BODY	916	"      and a.js_no = b.js_no
+"
+PKG_ZBFX	PACKAGE BODY	917	"      and a.infant_flag = 0
+"
+PKG_ZBFX	PACKAGE BODY	918	"      and a.patient_no = c.patient_no
+"
+PKG_ZBFX	PACKAGE BODY	919	"      and a.js_no >0
+"
+PKG_ZBFX	PACKAGE BODY	920	"      and a.flag  not in (6,-2,-8)
+"
+PKG_ZBFX	PACKAGE BODY	921	"      and b.fygl in(1,2,3)
+"
+PKG_ZBFX	PACKAGE BODY	922	"      and c.out_date BETWEEN ldt_ypfx_min AND ldt_ypfx_max
+"
+PKG_ZBFX	PACKAGE BODY	923	"      group by c.zzys,f_bf_getzgxx(c.zzys,'xm'),c.curr_bq,f_yf_getbqmc(c.curr_bq) ;
+"
+PKG_ZBFX	PACKAGE BODY	924	" --type 55 住院基药费用(省增补)
+"
+PKG_ZBFX	PACKAGE BODY	925	"  insert into ZBFX_DATA_D1
+"
+PKG_ZBFX	PACKAGE BODY	926	"    select in_ypfx_id, c.zzys,f_bf_getzgxx(c.zzys,'xm'),c.curr_bq,    f_yf_getbqmc(c.curr_bq),
+"
+PKG_ZBFX	PACKAGE BODY	927	"    Nvl(Sum(decode(f_ypfx_getypxx(substr(b.twice_detail_id,1,10),substr(b.twice_detail_id,11,10),'jbywbz'),'2',b.dj*b.sl,0)), 0),55
+"
+PKG_ZBFX	PACKAGE BODY	928	"    from zy_total_fee a,
+"
+PKG_ZBFX	PACKAGE BODY	929	"         zy_detail_charge b,
+"
+PKG_ZBFX	PACKAGE BODY	930	"         zy_patient_information c
+"
+PKG_ZBFX	PACKAGE BODY	931	"    where a.patient_no = b.patient_no
+"
+PKG_ZBFX	PACKAGE BODY	932	"      and a.js_no = b.js_no
+"
+PKG_ZBFX	PACKAGE BODY	933	"      and a.infant_flag = 0
+"
+PKG_ZBFX	PACKAGE BODY	934	"      and a.patient_no = c.patient_no
+"
+PKG_ZBFX	PACKAGE BODY	935	"      and a.js_no >0
+"
+PKG_ZBFX	PACKAGE BODY	936	"      and a.flag  not in (6,-2,-8)
+"
+PKG_ZBFX	PACKAGE BODY	937	"      and b.fygl in(1,2,3)
+"
+PKG_ZBFX	PACKAGE BODY	938	"      and c.out_date BETWEEN ldt_ypfx_min AND ldt_ypfx_max
+"
+PKG_ZBFX	PACKAGE BODY	939	"      group by c.zzys,f_bf_getzgxx(c.zzys,'xm'),c.curr_bq,f_yf_getbqmc(c.curr_bq) ;
+"
+PKG_ZBFX	PACKAGE BODY	940	" --type 56 门诊基药费用
+"
+PKG_ZBFX	PACKAGE BODY	941	"insert into ZBFX_DATA_D1
+"
+PKG_ZBFX	PACKAGE BODY	942	"    select in_ypfx_id,b.ysgh ,f_bf_getzgxx(b.ysgh,'xm'),b.ksdm,f_gy_getksmc(b.ksdm),Nvl(Sum(decode(f_ypfx_getypxx(c.ypxh,c.ypcddm,'jbywbz'),'0',0,c.dj*c.sl)), 0),56
+"
+PKG_ZBFX	PACKAGE BODY	943	"    from mz_mzsfk1 a,
+"
+PKG_ZBFX	PACKAGE BODY	944	"         mz_cfk1 b,
+"
+PKG_ZBFX	PACKAGE BODY	945	"         mz_cfk2 c
+"
+PKG_ZBFX	PACKAGE BODY	946	"    where a.sfsb = b.sfsb
+"
+PKG_ZBFX	PACKAGE BODY	947	"      and b.cfsb = c.cfsb
+"
+PKG_ZBFX	PACKAGE BODY	948	"      and a.sfrq BETWEEN ldt_ypfx_min AND ldt_ypfx_max
+"
+PKG_ZBFX	PACKAGE BODY	949	"      group by b.ysgh ,f_bf_getzgxx(b.ysgh,'xm'),b.ksdm,f_gy_getksmc(b.ksdm);
+"
+PKG_ZBFX	PACKAGE BODY	950	" --type 57 住院基药费用
+"
+PKG_ZBFX	PACKAGE BODY	951	"  insert into ZBFX_DATA_D1
+"
+PKG_ZBFX	PACKAGE BODY	952	"    select in_ypfx_id, c.zzys,f_bf_getzgxx(c.zzys,'xm'),c.curr_bq,    f_yf_getbqmc(c.curr_bq),
+"
+PKG_ZBFX	PACKAGE BODY	953	"    Nvl(Sum(decode(f_ypfx_getypxx(substr(b.twice_detail_id,1,10),substr(b.twice_detail_id,11,10),'jbywbz'),'0',0,b.dj*b.sl)), 0),57
+"
+PKG_ZBFX	PACKAGE BODY	954	"    from zy_total_fee a,
+"
+PKG_ZBFX	PACKAGE BODY	955	"         zy_detail_charge b,
+"
+PKG_ZBFX	PACKAGE BODY	956	"         zy_patient_information c
+"
+PKG_ZBFX	PACKAGE BODY	957	"    where a.patient_no = b.patient_no
+"
+PKG_ZBFX	PACKAGE BODY	958	"      and a.js_no = b.js_no
+"
+PKG_ZBFX	PACKAGE BODY	959	"      and a.infant_flag = 0
+"
+PKG_ZBFX	PACKAGE BODY	960	"      and a.patient_no = c.patient_no
+"
+PKG_ZBFX	PACKAGE BODY	961	"      and a.js_no >0
+"
+PKG_ZBFX	PACKAGE BODY	962	"      and a.flag  not in (6,-2,-8)
+"
+PKG_ZBFX	PACKAGE BODY	963	"      and b.fygl in(1,2,3)
+"
+PKG_ZBFX	PACKAGE BODY	964	"      and c.out_date BETWEEN ldt_ypfx_min AND ldt_ypfx_max
+"
+PKG_ZBFX	PACKAGE BODY	965	"      group by c.zzys,f_bf_getzgxx(c.zzys,'xm'),c.curr_bq,f_yf_getbqmc(c.curr_bq) ;
+"
+PKG_ZBFX	PACKAGE BODY	966	" --type 58 门诊抗菌费用
+"
+PKG_ZBFX	PACKAGE BODY	967	" insert into ZBFX_DATA_D1
+"
+PKG_ZBFX	PACKAGE BODY	968	"    select in_ypfx_id,b.ysgh ,f_bf_getzgxx(b.ysgh,'xm'),b.ksdm,f_gy_getksmc(b.ksdm), Nvl(Sum(decode(substring(f_ypfx_getypxx(c.ypxh,c.ypcddm,'fjpb'),9,1),'0',0,c.dj*c.sl)), 0),58
+"
+PKG_ZBFX	PACKAGE BODY	969	"    from mz_mzsfk1 a,
+"
+PKG_ZBFX	PACKAGE BODY	970	"         mz_cfk1 b,
+"
+PKG_ZBFX	PACKAGE BODY	971	"         mz_cfk2 c
+"
+PKG_ZBFX	PACKAGE BODY	972	"    where a.sfsb = b.sfsb
+"
+PKG_ZBFX	PACKAGE BODY	973	"      and b.cfsb = c.cfsb
+"
+PKG_ZBFX	PACKAGE BODY	974	"      and a.sfrq BETWEEN ldt_ypfx_min AND ldt_ypfx_max
+"
+PKG_ZBFX	PACKAGE BODY	975	"      group by b.ysgh ,f_bf_getzgxx(b.ysgh,'xm'),b.ksdm,f_gy_getksmc(b.ksdm);
+"
+PKG_ZBFX	PACKAGE BODY	976	" --type 59 住院抗菌费用
+"
+PKG_ZBFX	PACKAGE BODY	977	"   insert into ZBFX_DATA_D1
+"
+PKG_ZBFX	PACKAGE BODY	978	"    select in_ypfx_id, c.zzys,f_bf_getzgxx(c.zzys,'xm'),c.curr_bq,    f_yf_getbqmc(c.curr_bq),
+"
+PKG_ZBFX	PACKAGE BODY	979	"    Nvl(Sum(decode(substring(f_ypfx_getypxx(substr(twice_detail_id,1,10),substr(twice_detail_id,11,10),'fjpb'),9,1),'0',0,b.dj*b.sl)), 0),59
+"
+PKG_ZBFX	PACKAGE BODY	980	"    from zy_total_fee a,
+"
+PKG_ZBFX	PACKAGE BODY	981	"         zy_detail_charge b,
+"
+PKG_ZBFX	PACKAGE BODY	982	"         zy_patient_information c
+"
+PKG_ZBFX	PACKAGE BODY	983	"    where a.patient_no = b.patient_no
+"
+PKG_ZBFX	PACKAGE BODY	984	"      and a.js_no = b.js_no
+"
+PKG_ZBFX	PACKAGE BODY	985	"      and a.infant_flag = 0
+"
+PKG_ZBFX	PACKAGE BODY	986	"      and a.patient_no = c.patient_no
+"
+PKG_ZBFX	PACKAGE BODY	987	"      and a.js_no >0
+"
+PKG_ZBFX	PACKAGE BODY	988	"      and a.flag  not in (6,-2,-8)
+"
+PKG_ZBFX	PACKAGE BODY	989	"      and b.fygl in(1,2,3)
+"
+PKG_ZBFX	PACKAGE BODY	990	"      and c.out_date BETWEEN ldt_ypfx_min AND ldt_ypfx_max
+"
+PKG_ZBFX	PACKAGE BODY	991	"      group by c.zzys,f_bf_getzgxx(c.zzys,'xm'),c.curr_bq,    f_yf_getbqmc(c.curr_bq);
+"
+PKG_ZBFX	PACKAGE BODY	992	"
+"
+PKG_ZBFX	PACKAGE BODY	993	" --type 58 单纯性阑尾炎单病种例均费用
+"
+PKG_ZBFX	PACKAGE BODY	994	"
+"
+PKG_ZBFX	PACKAGE BODY	995	" --type 58 腹股沟疝气单病种例均费用
+"
+PKG_ZBFX	PACKAGE BODY	996	"
+"
+PKG_ZBFX	PACKAGE BODY	997	" --type 58 剖宫产单病种例均费用
+"
+PKG_ZBFX	PACKAGE BODY	998	"
+"
+PKG_ZBFX	PACKAGE BODY	999	"
+"
+PKG_ZBFX	PACKAGE BODY	1000	"
+"
+PKG_ZBFX	PACKAGE BODY	1001	"
+"
+PKG_ZBFX	PACKAGE BODY	1002	"
+"
+PKG_ZBFX	PACKAGE BODY	1003	"
+"
+PKG_ZBFX	PACKAGE BODY	1004	"     select  count(*) into ln_jls
+"
+PKG_ZBFX	PACKAGE BODY	1005	"     from zbfx_data_d1
+"
+PKG_ZBFX	PACKAGE BODY	1006	"     where  id = in_ypfx_id;
+"
+PKG_ZBFX	PACKAGE BODY	1007	"
+"
+PKG_ZBFX	PACKAGE BODY	1008	"
+"
+PKG_ZBFX	PACKAGE BODY	1009	"--修改成功标志,结束时间,记录数,金额
+"
+PKG_ZBFX	PACKAGE BODY	1010	"    UPDATE ypfx_task_log
+"
+PKG_ZBFX	PACKAGE BODY	1011	"       SET success_flag = 1,
+"
+PKG_ZBFX	PACKAGE BODY	1012	"           jssj         = sysdate,
+"
+PKG_ZBFX	PACKAGE BODY	1013	"           jls          = ln_jls,
+"
+PKG_ZBFX	PACKAGE BODY	1014	"           value        = 0
+"
+PKG_ZBFX	PACKAGE BODY	1015	"     WHERE ypfx_id = in_ypfx_id
+"
+PKG_ZBFX	PACKAGE BODY	1016	"       AND task_lx = 'zbfx_SJCJ_D1';
+"
+PKG_ZBFX	PACKAGE BODY	1017	"
+"
+PKG_ZBFX	PACKAGE BODY	1018	" --修改时间
+"
+PKG_ZBFX	PACKAGE BODY	1019	" update zbfx_data set time=time+1;
+"
+PKG_ZBFX	PACKAGE BODY	1020	"
+"
+PKG_ZBFX	PACKAGE BODY	1021	"    -- 提交数据
+"
+PKG_ZBFX	PACKAGE BODY	1022	"    COMMIT;
+"
+PKG_ZBFX	PACKAGE BODY	1023	"
+"
+PKG_ZBFX	PACKAGE BODY	1024	"  EXCEPTION
+"
+PKG_ZBFX	PACKAGE BODY	1025	"    WHEN e_input THEN
+"
+PKG_ZBFX	PACKAGE BODY	1026	"      on_code :=  0;
+"
+PKG_ZBFX	PACKAGE BODY	1027	"      os_mess := '输入参数错误!';
+"
+PKG_ZBFX	PACKAGE BODY	1028	"    WHEN others THEN
+"
+PKG_ZBFX	PACKAGE BODY	1029	"      ROLLBACK;
+"
+PKG_ZBFX	PACKAGE BODY	1030	"      on_code := -1;
+"
+PKG_ZBFX	PACKAGE BODY	1031	"      os_mess := 'prc_zbfx_sjcj1数据采集失败！原因：'||SQLErrm;
+"
+PKG_ZBFX	PACKAGE BODY	1032	"      -- 返回SQL错误信息
+"
+PKG_ZBFX	PACKAGE BODY	1033	"  END;
+"
+PKG_ZBFX	PACKAGE BODY	1034	"END prc_zbfx_sjcj1;
+"
+PKG_ZBFX	PACKAGE BODY	1035	"
+"
+PKG_ZBFX	PACKAGE BODY	1036	"
+"
+PKG_ZBFX	PACKAGE BODY	1037	"
+"
+PKG_ZBFX	PACKAGE BODY	1038	"Procedure prc_sjcj    ( in_start_id   In    NUMBER,
+"
+PKG_ZBFX	PACKAGE BODY	1039	"                        in_day        In    NUMBER   default   1,
+"
+PKG_ZBFX	PACKAGE BODY	1040	"                        on_code       Out   NUMBER,
+"
+PKG_ZBFX	PACKAGE BODY	1041	"                        os_mess       Out   Varchar2)
+"
+PKG_ZBFX	PACKAGE BODY	1042	"
+"
+PKG_ZBFX	PACKAGE BODY	1043	"Is
+"
+PKG_ZBFX	PACKAGE BODY	1044	"
+"
+PKG_ZBFX	PACKAGE BODY	1045	"
+"
+PKG_ZBFX	PACKAGE BODY	1046	"BEGIN
+"
+PKG_ZBFX	PACKAGE BODY	1047	"
+"
+PKG_ZBFX	PACKAGE BODY	1048	"  DECLARE
+"
+PKG_ZBFX	PACKAGE BODY	1049	"    ldt_ypfx_id       DATE;
+"
+PKG_ZBFX	PACKAGE BODY	1050	"    ldt_ypfx_id_max   DATE;
+"
+PKG_ZBFX	PACKAGE BODY	1051	"    ldt_ypfx_id_yes   DATE;
+"
+PKG_ZBFX	PACKAGE BODY	1052	"    ln_ypfx_id_yes    NUMBER;
+"
+PKG_ZBFX	PACKAGE BODY	1053	"    ln_ypfx_id_max    NUMBER;
+"
+PKG_ZBFX	PACKAGE BODY	1054	"    ln_ypfx_id        NUMBER;
+"
+PKG_ZBFX	PACKAGE BODY	1055	"    ln_day            NUMBER;
+"
+PKG_ZBFX	PACKAGE BODY	1056	"    ln_code           NUMBER;
+"
+PKG_ZBFX	PACKAGE BODY	1057	"    ls_mess           VARCHAR2(50);
+"
+PKG_ZBFX	PACKAGE BODY	1058	"    e_error           EXCEPTION;
+"
+PKG_ZBFX	PACKAGE BODY	1059	"    e_input           EXCEPTION;
+"
+PKG_ZBFX	PACKAGE BODY	1060	"
+"
+PKG_ZBFX	PACKAGE BODY	1061	"  BEGIN
+"
+PKG_ZBFX	PACKAGE BODY	1062	"
+"
+PKG_ZBFX	PACKAGE BODY	1063	"    IF Nvl(in_day,0) = 0 THEN
+"
+PKG_ZBFX	PACKAGE BODY	1064	"      raise e_input;
+"
+PKG_ZBFX	PACKAGE BODY	1065	"    END IF;
+"
+PKG_ZBFX	PACKAGE BODY	1066	"
+"
+PKG_ZBFX	PACKAGE BODY	1067	"    on_code := 1;
+"
+PKG_ZBFX	PACKAGE BODY	1068	"    os_mess := '数据采集成功';
+"
+PKG_ZBFX	PACKAGE BODY	1069	"    ldt_ypfx_id := to_date(to_char(in_start_id),'yyyymmdd')  ;
+"
+PKG_ZBFX	PACKAGE BODY	1070	"
+"
+PKG_ZBFX	PACKAGE BODY	1071	"    -- 最大执行天数为31天（HONGER）
+"
+PKG_ZBFX	PACKAGE BODY	1072	"    IF in_day > 31 THEN
+"
+PKG_ZBFX	PACKAGE BODY	1073	"      ln_day := 31 ;
+"
+PKG_ZBFX	PACKAGE BODY	1074	"    ELSE
+"
+PKG_ZBFX	PACKAGE BODY	1075	"      ln_day := in_day;
+"
+PKG_ZBFX	PACKAGE BODY	1076	"    END IF;
+"
+PKG_ZBFX	PACKAGE BODY	1077	"
+"
+PKG_ZBFX	PACKAGE BODY	1078	"    -- 设置结束日期（HONGER）
+"
+PKG_ZBFX	PACKAGE BODY	1079	"    IF trunc(sysdate)  <= ldt_ypfx_id + ln_day THEN
+"
+PKG_ZBFX	PACKAGE BODY	1080	"      ldt_ypfx_id_max := trunc(sysdate);
+"
+PKG_ZBFX	PACKAGE BODY	1081	"    ELSE
+"
+PKG_ZBFX	PACKAGE BODY	1082	"      ldt_ypfx_id_max := ldt_ypfx_id + ln_day;
+"
+PKG_ZBFX	PACKAGE BODY	1083	"    END IF;
+"
+PKG_ZBFX	PACKAGE BODY	1084	"
+"
+PKG_ZBFX	PACKAGE BODY	1085	"    -- 循环采集数据（HONGER）
+"
+PKG_ZBFX	PACKAGE BODY	1086	"    ldt_ypfx_id := to_date(to_char(in_start_id),'yyyy-mm-dd');
+"
+PKG_ZBFX	PACKAGE BODY	1087	"    WHILE ldt_ypfx_id < ldt_ypfx_id_max LOOP
+"
+PKG_ZBFX	PACKAGE BODY	1088	"      ln_ypfx_id  := to_number(to_char(ldt_ypfx_id,'yyyymmdd'));
+"
+PKG_ZBFX	PACKAGE BODY	1089	"
+"
+PKG_ZBFX	PACKAGE BODY	1090	"      prc_zbfx_xtcs;
+"
+PKG_ZBFX	PACKAGE BODY	1091	"
+"
+PKG_ZBFX	PACKAGE BODY	1092	"     -- prc_zbfx_sjcj1(ln_ypfx_id,ln_code,ls_mess);
+"
+PKG_ZBFX	PACKAGE BODY	1093	"
+"
+PKG_ZBFX	PACKAGE BODY	1094	"      IF ln_code <> 1 THEN
+"
+PKG_ZBFX	PACKAGE BODY	1095	"        on_code := ln_code;
+"
+PKG_ZBFX	PACKAGE BODY	1096	"        os_mess := ls_mess;
+"
+PKG_ZBFX	PACKAGE BODY	1097	"        RAISE e_error;
+"
+PKG_ZBFX	PACKAGE BODY	1098	"      END IF;
+"
+PKG_ZBFX	PACKAGE BODY	1099	"
+"
+PKG_ZBFX	PACKAGE BODY	1100	"
+"
+PKG_ZBFX	PACKAGE BODY	1101	"      -- 采集当天门诊数据 （HONGER）<<<
+"
+PKG_ZBFX	PACKAGE BODY	1102	"
+"
+PKG_ZBFX	PACKAGE BODY	1103	"      -- 循环前进一步（HONGER）
+"
+PKG_ZBFX	PACKAGE BODY	1104	"      ldt_ypfx_id := ldt_ypfx_id + 1;
+"
+PKG_ZBFX	PACKAGE BODY	1105	"    END LOOP;
+"
+PKG_ZBFX	PACKAGE BODY	1106	"
+"
+PKG_ZBFX	PACKAGE BODY	1107	"  EXCEPTION
+"
+PKG_ZBFX	PACKAGE BODY	1108	"    WHEN e_input THEN
+"
+PKG_ZBFX	PACKAGE BODY	1109	"      on_code :=  0;
+"
+PKG_ZBFX	PACKAGE BODY	1110	"      os_mess := '输入参数错误!';
+"
+PKG_ZBFX	PACKAGE BODY	1111	"    WHEN e_error THEN
+"
+PKG_ZBFX	PACKAGE BODY	1112	"      ROLLBACK;
+"
+PKG_ZBFX	PACKAGE BODY	1113	"    WHEN others THEN
+"
+PKG_ZBFX	PACKAGE BODY	1114	"      ROLLBACK;
+"
+PKG_ZBFX	PACKAGE BODY	1115	"      on_code := -1;
+"
+PKG_ZBFX	PACKAGE BODY	1116	"      os_mess := 'prc_sjcj数据采集失败！原因：'||SQLErrm;
+"
+PKG_ZBFX	PACKAGE BODY	1117	"      -- 返回SQL错误信息（MODIFY 2002-10-17 HONGER）
+"
+PKG_ZBFX	PACKAGE BODY	1118	"  END;
+"
+PKG_ZBFX	PACKAGE BODY	1119	"END prc_sjcj;
+"
+PKG_ZBFX	PACKAGE BODY	1120	"
+"
+PKG_ZBFX	PACKAGE BODY	1121	"
+"
+PKG_ZBFX	PACKAGE BODY	1122	"
+"
+PKG_ZBFX	PACKAGE BODY	1123	"END Pkg_zbfx;
+"

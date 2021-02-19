@@ -1,0 +1,8 @@
+FORM_URL_ENCODE	FUNCTION	1	"FUNCTION form_url_encode(data    IN VARCHAR2,charset IN VARCHAR2) RETURN VARCHAR2 AS
+"
+FORM_URL_ENCODE	FUNCTION	2	"    BEGIN
+"
+FORM_URL_ENCODE	FUNCTION	3	"      RETURN utl_url.escape(data, TRUE, charset); -- note use of TURE
+"
+FORM_URL_ENCODE	FUNCTION	4	"    END;
+"

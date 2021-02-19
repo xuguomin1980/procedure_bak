@@ -1,0 +1,186 @@
+PRC_VTE_YZKD	PROCEDURE	1	"procedure prc_vte_yzkd (al_patient_no in number,as_mc in varchar2,al_dcjl in number,as_pl in varchar2,aS_gyfs in varchar2,al_yppb number,
+"
+PRC_VTE_YZKD	PROCEDURE	2	"as_ysgh in varchar2,al_code out number,as_Msg out varchar2) as
+"
+PRC_VTE_YZKD	PROCEDURE	3	"begin
+"
+PRC_VTE_YZKD	PROCEDURE	4	"Declare
+"
+PRC_VTE_YZKD	PROCEDURE	5	"/*=============================================================================
+"
+PRC_VTE_YZKD	PROCEDURE	6	"||  过程名称 ：院前门诊医嘱转住院 医嘱 prc_rjbf_zjxm2yz
+"
+PRC_VTE_YZKD	PROCEDURE	7	"||-----------------------------------------------------------------------------
+"
+PRC_VTE_YZKD	PROCEDURE	8	"||  功能说明 ：根据医技库项目转医嘱项目；
+"
+PRC_VTE_YZKD	PROCEDURE	9	"||       大概思路：1、取到检验，检查项目，2、根据检验检查项目，找到医嘱项目对应表获取到医嘱order_code
+"
+PRC_VTE_YZKD	PROCEDURE	10	"||       3、根据order_code 插入到医嘱表中（yz_inpatient_order）
+"
+PRC_VTE_YZKD	PROCEDURE	11	"||       4、zj_zysqd 增加标志 yscyz 已生成医嘱信息标志 1，2 已计费
+"
+PRC_VTE_YZKD	PROCEDURE	12	"||-----------------------------------------------------------------------------
+"
+PRC_VTE_YZKD	PROCEDURE	13	"||  参数描述 ：参数标识       输入/输出  类型      名称
+"
+PRC_VTE_YZKD	PROCEDURE	14	"||            -----------------------------------------------------------------
+"
+PRC_VTE_YZKD	PROCEDURE	15	"||             al_patient_no  IN         NUMBER  住院号
+"
+PRC_VTE_YZKD	PROCEDURE	16	"||             al_jzxh        IN         NUMBER    就诊序号
+"
+PRC_VTE_YZKD	PROCEDURE	17	"||             as_jzkh        IN         varchar2    就诊卡号
+"
+PRC_VTE_YZKD	PROCEDURE	18	"||             al_brxh        IN         NUMBER    病人序号
+"
+PRC_VTE_YZKD	PROCEDURE	19	"||             al_code        OUT        NUMBER  返回信息编码
+"
+PRC_VTE_YZKD	PROCEDURE	20	"||             as_Msg         OUT        VARCHAR2  返回信息
+"
+PRC_VTE_YZKD	PROCEDURE	21	"||-----------------------------------------------------------------------------
+"
+PRC_VTE_YZKD	PROCEDURE	22	"||  作    者 ：赵月南     完成日期 ：2019-08-05
+"
+PRC_VTE_YZKD	PROCEDURE	23	"||-----------------------------------------------------------------------------
+"
+PRC_VTE_YZKD	PROCEDURE	24	"||  修改记录 ：
+"
+PRC_VTE_YZKD	PROCEDURE	25	"=============================================================================*/
+"
+PRC_VTE_YZKD	PROCEDURE	26	"  ai_lx number(1);
+"
+PRC_VTE_YZKD	PROCEDURE	27	"  ai_sqxh number(10);
+"
+PRC_VTE_YZKD	PROCEDURE	28	"  al_tcylxh number;
+"
+PRC_VTE_YZKD	PROCEDURE	29	"  as_xmmc varchar2(100);
+"
+PRC_VTE_YZKD	PROCEDURE	30	"  adt_kdsj date;
+"
+PRC_VTE_YZKD	PROCEDURE	31	"  al_order_code number;
+"
+PRC_VTE_YZKD	PROCEDURE	32	"  al_order_no number;
+"
+PRC_VTE_YZKD	PROCEDURE	33	"  AS_YSXM VARCHAR2(50);
+"
+PRC_VTE_YZKD	PROCEDURE	34	"  --AS_YSGH VARCHAR2(50);
+"
+PRC_VTE_YZKD	PROCEDURE	35	"  as_zzys VARCHAR2(50);
+"
+PRC_VTE_YZKD	PROCEDURE	36	"  AS_ZXR VARCHAR2(50);
+"
+PRC_VTE_YZKD	PROCEDURE	37	"  ldt_zxsj date;
+"
+PRC_VTE_YZKD	PROCEDURE	38	"  AL_SUPPLY_CODE number;
+"
+PRC_VTE_YZKD	PROCEDURE	39	"  AL_SUPPLY_TYPE  number;
+"
+PRC_VTE_YZKD	PROCEDURE	40	"  AS_SUPPLY_NAME VARCHAR2(20);
+"
+PRC_VTE_YZKD	PROCEDURE	41	"  AL_ORDER_FLAG number;
+"
+PRC_VTE_YZKD	PROCEDURE	42	"  al_ypxh  number;
+"
+PRC_VTE_YZKD	PROCEDURE	43	"  al_ypcddm  number;
+"
+PRC_VTE_YZKD	PROCEDURE	44	"  as_ypzxdw VARCHAR2(20);
+"
+PRC_VTE_YZKD	PROCEDURE	45	"  AS_YZLX VARCHAR2(50);
+"
+PRC_VTE_YZKD	PROCEDURE	46	"  AS_KSDM VARCHAR2(50);
+"
+PRC_VTE_YZKD	PROCEDURE	47	"  AL_RETURN NUMBER;
+"
+PRC_VTE_YZKD	PROCEDURE	48	"  al_sfsb number;
+"
+PRC_VTE_YZKD	PROCEDURE	49	"  ldt_zysj date;
+"
+PRC_VTE_YZKD	PROCEDURE	50	"  ls_jzkh varchar2(50);
+"
+PRC_VTE_YZKD	PROCEDURE	51	"  ldt_kssj date;
+"
+PRC_VTE_YZKD	PROCEDURE	52	"  AL_XH  number;
+"
+PRC_VTE_YZKD	PROCEDURE	53	"  AL_JX number;
+"
+PRC_VTE_YZKD	PROCEDURE	54	"  AS_YPGG VARCHAR2(50);
+"
+PRC_VTE_YZKD	PROCEDURE	55	"begin
+"
+PRC_VTE_YZKD	PROCEDURE	56	"
+"
+PRC_VTE_YZKD	PROCEDURE	57	"            /* SELECT SUPPLY_NAME INTO AS_SUPPLY_NAME FROM YZ_SUPPLY_TYPE WHERE SUPPLY_CODE=AL_SUPPLY_CODE;*/
+"
+PRC_VTE_YZKD	PROCEDURE	58	"       SELECT XM INTO AS_YSXM FROM GY_ZGXX WHERE ZGID=as_ysgh;
+"
+PRC_VTE_YZKD	PROCEDURE	59	"       select curr_bq,zzys into AS_KSDM,as_zzys from zy_patient_information where patient_no=al_patient_no;
+"
+PRC_VTE_YZKD	PROCEDURE	60	"       if al_yppb =1 then
+"
+PRC_VTE_YZKD	PROCEDURE	61	"       select A.XH,a.ypxh,a.ypcddm,a.ypmc,a.ypzxdw,'',2,A.YPGG,A.ZJLX into AL_XH,al_ypxh,al_ypcddm,as_xmmc,as_ypzxdw,al_order_code,AL_ORDER_FLAG,AS_YPGG,AL_JX  from gy_ypcdjg a,by_ypkcz b where ypmc = as_mc and a.ypxh=b.ypxh and a.ypcddm=b.ypcddm and b.skc >0;
+"
+PRC_VTE_YZKD	PROCEDURE	62	"       else
+"
+PRC_VTE_YZKD	PROCEDURE	63	"       select '','',order_code,1,'','','','' into AL_XH,al_ypxh,al_order_code,AL_ORDER_FLAG,as_ypzxdw,AS_YPGG,AL_JX,al_ypcddm  from yz_order_item where order_name=as_mc;
+"
+PRC_VTE_YZKD	PROCEDURE	64	"       end if;
+"
+PRC_VTE_YZKD	PROCEDURE	65	"       select supply_code,SUPPLY_TYPE into AL_SUPPLY_CODE,al_SUPPLY_TYPE from yz_supply_type where supply_name=aS_gyfs;
+"
+PRC_VTE_YZKD	PROCEDURE	66	"       SELECT SYSDATE INTO ldt_kssj FROM DUAL;
+"
+PRC_VTE_YZKD	PROCEDURE	67	"       begin      
+"
+PRC_VTE_YZKD	PROCEDURE	68	"         update yz_init set yz_act_xh=yz_act_xh+1;
+"
+PRC_VTE_YZKD	PROCEDURE	69	"         select yz_act_xh into al_order_no from yz_init;
+"
+PRC_VTE_YZKD	PROCEDURE	70	"         commit;
+"
+PRC_VTE_YZKD	PROCEDURE	71	"       Exception
+"
+PRC_VTE_YZKD	PROCEDURE	72	"       When Others Then
+"
+PRC_VTE_YZKD	PROCEDURE	73	"            --DBMS_OUTPUT.PUT_LINE('获取医嘱号失败!');
+"
+PRC_VTE_YZKD	PROCEDURE	74	"            al_code:=-1;
+"
+PRC_VTE_YZKD	PROCEDURE	75	"            as_Msg:='获取医嘱号失败!';
+"
+PRC_VTE_YZKD	PROCEDURE	76	"end;
+"
+PRC_VTE_YZKD	PROCEDURE	77	"         Insert Into yz_Inpatient_Order (DJXH,ORDER_CODE,  ORDER_NAME,     FREQU_CODE,
+"
+PRC_VTE_YZKD	PROCEDURE	78	"                  ENTER_OPER_CODE,  INFANT_FLAG, ORDER_FLAG,     SUPPLY_CODE,
+"
+PRC_VTE_YZKD	PROCEDURE	79	"                  SUPPLY_TYPE,      SUPPLY_NAME, PHYSICIAN_CODE, PHYSICIAN_NAME,
+"
+PRC_VTE_YZKD	PROCEDURE	80	"                  CONFIRM_OPER_CODE,STATUS_FLAG, DYJL,           PERFORMANCE_OPER_CODE,
+"
+PRC_VTE_YZKD	PROCEDURE	81	"                  DRUG_QUAN,        INSTRUCTION, KSDM,           STATUS,print_flag,zxr1,zxsj,
+"
+PRC_VTE_YZKD	PROCEDURE	82	"                  GROUP_NO,        Order_No,                     yzlx,enter_time,order_time,start_time,end_time,stop_time,XH,YPXH,DRUG_OCC,YPMC,YPGG,JX,YPDW)Values
+"
+PRC_VTE_YZKD	PROCEDURE	83	"                  (al_patient_no,al_order_code,as_xmmc,'ONCE',
+"
+PRC_VTE_YZKD	PROCEDURE	84	"                  AS_YSGH,  0, AL_ORDER_FLAG,     AL_SUPPLY_CODE,
+"
+PRC_VTE_YZKD	PROCEDURE	85	"                  AL_SUPPLY_TYPE,      aS_gyfs, AS_YSGH, AS_YSXM,
+"
+PRC_VTE_YZKD	PROCEDURE	86	"                  AS_YSGH,2, TO_CHAR(al_dcjl),           AS_YSGH,
+"
+PRC_VTE_YZKD	PROCEDURE	87	"                  al_dcjl,        AS_YZLX, AS_KSDM,                     2,1,as_zxr,ldt_zxsj,
+"
+PRC_VTE_YZKD	PROCEDURE	88	"                  al_order_no  , al_order_no,                     '',ldt_kssj,sysdate,ldt_kssj,'','',AL_XH,al_ypxh,al_dcjl,as_xmmc,AS_YPGG,AL_JX,as_ypzxdw);
+"
+PRC_VTE_YZKD	PROCEDURE	89	"
+"
+PRC_VTE_YZKD	PROCEDURE	90	"      AL_RETURN :=1;
+"
+PRC_VTE_YZKD	PROCEDURE	91	"
+"
+PRC_VTE_YZKD	PROCEDURE	92	"  end ;
+"
+PRC_VTE_YZKD	PROCEDURE	93	"end ;
+"

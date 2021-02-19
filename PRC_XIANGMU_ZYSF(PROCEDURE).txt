@@ -1,0 +1,190 @@
+PRC_XIANGMU_ZYSF	PROCEDURE	1	"procedure prc_xiangmu_zysf(in_jiaoyilx   in varchar2, --交易类型
+"
+PRC_XIANGMU_ZYSF	PROCEDURE	2	"                                             in_patient_no in number,
+"
+PRC_XIANGMU_ZYSF	PROCEDURE	3	"                                             in_caozuogh   in varchar2, --操作工号
+"
+PRC_XIANGMU_ZYSF	PROCEDURE	4	"                                             in_jylsh      in varchar2, --其它参数
+"
+PRC_XIANGMU_ZYSF	PROCEDURE	5	"                                             out_code      out INTEGER, -- 返回结果 0为执行成功
+"
+PRC_XIANGMU_ZYSF	PROCEDURE	6	"                                             out_msg       out varchar2) Is
+"
+PRC_XIANGMU_ZYSF	PROCEDURE	7	"
+"
+PRC_XIANGMU_ZYSF	PROCEDURE	8	"  ll_count  number;
+"
+PRC_XIANGMU_ZYSF	PROCEDURE	9	"  ll_count2 number;
+"
+PRC_XIANGMU_ZYSF	PROCEDURE	10	"  ll_brlb   number;
+"
+PRC_XIANGMU_ZYSF	PROCEDURE	11	"  ls_show   varchar2(1500);
+"
+PRC_XIANGMU_ZYSF	PROCEDURE	12	"  ls_time   varchar2(20);
+"
+PRC_XIANGMU_ZYSF	PROCEDURE	13	"  v_jzkh    varchar2(50);
+"
+PRC_XIANGMU_ZYSF	PROCEDURE	14	"  v_jzxh    number;
+"
+PRC_XIANGMU_ZYSF	PROCEDURE	15	"
+"
+PRC_XIANGMU_ZYSF	PROCEDURE	16	"  ls_jbdm       varchar2(100);
+"
+PRC_XIANGMU_ZYSF	PROCEDURE	17	"  v_length1     number;
+"
+PRC_XIANGMU_ZYSF	PROCEDURE	18	"  v_length2     number;
+"
+PRC_XIANGMU_ZYSF	PROCEDURE	19	"  v_temp        varchar2(800);
+"
+PRC_XIANGMU_ZYSF	PROCEDURE	20	"  v_data        varchar2(800);
+"
+PRC_XIANGMU_ZYSF	PROCEDURE	21	"  ll_patient_no number;
+"
+PRC_XIANGMU_ZYSF	PROCEDURE	22	"  v_sqlcode_sum number;
+"
+PRC_XIANGMU_ZYSF	PROCEDURE	23	"  v_sl_use      number;
+"
+PRC_XIANGMU_ZYSF	PROCEDURE	24	"  v_count       number;
+"
+PRC_XIANGMU_ZYSF	PROCEDURE	25	"  v_je          number;
+"
+PRC_XIANGMU_ZYSF	PROCEDURE	26	"  v_ylxh_ct_sum number;
+"
+PRC_XIANGMU_ZYSF	PROCEDURE	27	"
+"
+PRC_XIANGMU_ZYSF	PROCEDURE	28	"  v_ylxh_ct_sum_tcylxh number;
+"
+PRC_XIANGMU_ZYSF	PROCEDURE	29	"  v_ylxh_ct_sum_dj     number;
+"
+PRC_XIANGMU_ZYSF	PROCEDURE	30	"  v_ylmc_ct            varchar2(100);
+"
+PRC_XIANGMU_ZYSF	PROCEDURE	31	"
+"
+PRC_XIANGMU_ZYSF	PROCEDURE	32	"  v_temp2   varchar2(50);
+"
+PRC_XIANGMU_ZYSF	PROCEDURE	33	"  v_temp3   varchar2(50);
+"
+PRC_XIANGMU_ZYSF	PROCEDURE	34	"  v_temp4   varchar2(50);
+"
+PRC_XIANGMU_ZYSF	PROCEDURE	35	"  v_temp5   varchar2(50);
+"
+PRC_XIANGMU_ZYSF	PROCEDURE	36	"  v_curr_ks varchar2(50);
+"
+PRC_XIANGMU_ZYSF	PROCEDURE	37	"begin
+"
+PRC_XIANGMU_ZYSF	PROCEDURE	38	"
+"
+PRC_XIANGMU_ZYSF	PROCEDURE	39	"  --不启用存储过程控制 1=1
+"
+PRC_XIANGMU_ZYSF	PROCEDURE	40	"  --不启用存储过程 1=1
+"
+PRC_XIANGMU_ZYSF	PROCEDURE	41	"  if 1 = 0 then
+"
+PRC_XIANGMU_ZYSF	PROCEDURE	42	"    out_code := 1;
+"
+PRC_XIANGMU_ZYSF	PROCEDURE	43	"    out_msg  := '';
+"
+PRC_XIANGMU_ZYSF	PROCEDURE	44	"    return;
+"
+PRC_XIANGMU_ZYSF	PROCEDURE	45	"  end if;
+"
+PRC_XIANGMU_ZYSF	PROCEDURE	46	"
+"
+PRC_XIANGMU_ZYSF	PROCEDURE	47	"  insert into zy_jiaoyi_v1
+"
+PRC_XIANGMU_ZYSF	PROCEDURE	48	"    (jiaoyilx, caozuogh, jylsh, bz, patient_no)
+"
+PRC_XIANGMU_ZYSF	PROCEDURE	49	"  values
+"
+PRC_XIANGMU_ZYSF	PROCEDURE	50	"    (in_jiaoyilx, in_caozuogh, in_jylsh, 'prc_xiangmu_zysf', in_patient_no);
+"
+PRC_XIANGMU_ZYSF	PROCEDURE	51	"  if sqlcode = 0 then
+"
+PRC_XIANGMU_ZYSF	PROCEDURE	52	"    commit;
+"
+PRC_XIANGMU_ZYSF	PROCEDURE	53	"  else
+"
+PRC_XIANGMU_ZYSF	PROCEDURE	54	"    rollback;
+"
+PRC_XIANGMU_ZYSF	PROCEDURE	55	"  end if;
+"
+PRC_XIANGMU_ZYSF	PROCEDURE	56	"
+"
+PRC_XIANGMU_ZYSF	PROCEDURE	57	"  if in_jiaoyilx = '收费日报' then
+"
+PRC_XIANGMU_ZYSF	PROCEDURE	58	"  
+"
+PRC_XIANGMU_ZYSF	PROCEDURE	59	"    select count(jlxh)
+"
+PRC_XIANGMU_ZYSF	PROCEDURE	60	"      into v_count
+"
+PRC_XIANGMU_ZYSF	PROCEDURE	61	"      from zy_deposit_file
+"
+PRC_XIANGMU_ZYSF	PROCEDURE	62	"     where rb_date is null
+"
+PRC_XIANGMU_ZYSF	PROCEDURE	63	"       and depo_type in (18, 19)
+"
+PRC_XIANGMU_ZYSF	PROCEDURE	64	"       and status = 3
+"
+PRC_XIANGMU_ZYSF	PROCEDURE	65	"       and op_id = in_caozuogh
+"
+PRC_XIANGMU_ZYSF	PROCEDURE	66	"       and depo_date > sysdate - 30;
+"
+PRC_XIANGMU_ZYSF	PROCEDURE	67	"    if v_count > 0 then
+"
+PRC_XIANGMU_ZYSF	PROCEDURE	68	"      update zy_deposit_file
+"
+PRC_XIANGMU_ZYSF	PROCEDURE	69	"         set status = 2
+"
+PRC_XIANGMU_ZYSF	PROCEDURE	70	"       where jlxh in (select jlxh
+"
+PRC_XIANGMU_ZYSF	PROCEDURE	71	"                        from zy_deposit_file
+"
+PRC_XIANGMU_ZYSF	PROCEDURE	72	"                       where rb_date is null
+"
+PRC_XIANGMU_ZYSF	PROCEDURE	73	"                         and depo_type in (18, 19)
+"
+PRC_XIANGMU_ZYSF	PROCEDURE	74	"                         and status = 3
+"
+PRC_XIANGMU_ZYSF	PROCEDURE	75	"                         and op_id = in_caozuogh
+"
+PRC_XIANGMU_ZYSF	PROCEDURE	76	"                         and depo_date > sysdate - 30);
+"
+PRC_XIANGMU_ZYSF	PROCEDURE	77	"      if sqlcode = 0 then
+"
+PRC_XIANGMU_ZYSF	PROCEDURE	78	"        commit;
+"
+PRC_XIANGMU_ZYSF	PROCEDURE	79	"      else
+"
+PRC_XIANGMU_ZYSF	PROCEDURE	80	"        rollback;
+"
+PRC_XIANGMU_ZYSF	PROCEDURE	81	"        out_code := -1;
+"
+PRC_XIANGMU_ZYSF	PROCEDURE	82	"        out_msg  := '更新预交款信息失败zy_deposit_file[status=3][prc_xiangmu_zysf]';
+"
+PRC_XIANGMU_ZYSF	PROCEDURE	83	"        return;
+"
+PRC_XIANGMU_ZYSF	PROCEDURE	84	"      end if;
+"
+PRC_XIANGMU_ZYSF	PROCEDURE	85	"    
+"
+PRC_XIANGMU_ZYSF	PROCEDURE	86	"    end if;
+"
+PRC_XIANGMU_ZYSF	PROCEDURE	87	"  
+"
+PRC_XIANGMU_ZYSF	PROCEDURE	88	"  end if;
+"
+PRC_XIANGMU_ZYSF	PROCEDURE	89	"  --  end in_jiaoyilx ='预出院' 
+"
+PRC_XIANGMU_ZYSF	PROCEDURE	90	"
+"
+PRC_XIANGMU_ZYSF	PROCEDURE	91	"  out_code := 1;
+"
+PRC_XIANGMU_ZYSF	PROCEDURE	92	"  out_msg  := '';
+"
+PRC_XIANGMU_ZYSF	PROCEDURE	93	"  return;
+"
+PRC_XIANGMU_ZYSF	PROCEDURE	94	"
+"
+PRC_XIANGMU_ZYSF	PROCEDURE	95	"End;
+"

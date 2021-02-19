@@ -1,0 +1,144 @@
+F_GY_GETYBDJ	FUNCTION	1	"function f_gy_getybdj(p_brlb in number,
+"
+F_GY_GETYBDJ	FUNCTION	2	"                                        p_brxz in varchar2,
+"
+F_GY_GETYBDJ	FUNCTION	3	"                                        p_ypzl in number,
+"
+F_GY_GETYBDJ	FUNCTION	4	"                                        p_xmxh in number,
+"
+F_GY_GETYBDJ	FUNCTION	5	"                                        p_xmcd in number)
+"
+F_GY_GETYBDJ	FUNCTION	6	"  return varchar2
+"
+F_GY_GETYBDJ	FUNCTION	7	"is
+"
+F_GY_GETYBDJ	FUNCTION	8	"  ll_ypxh number(10);
+"
+F_GY_GETYBDJ	FUNCTION	9	"  ls_ybdm varchar2(30);
+"
+F_GY_GETYBDJ	FUNCTION	10	"  ls_yblx varchar2(10);
+"
+F_GY_GETYBDJ	FUNCTION	11	"  ls_Ret  Varchar2(30);
+"
+F_GY_GETYBDJ	FUNCTION	12	"  --医保取等级及比例 用于门诊发票打印及住院费用清单项目等级及比例显示
+"
+F_GY_GETYBDJ	FUNCTION	13	"begin
+"
+F_GY_GETYBDJ	FUNCTION	14	"  If p_Brlb = -11 Then
+"
+F_GY_GETYBDJ	FUNCTION	15	"     Return null;
+"
+F_GY_GETYBDJ	FUNCTION	16	"  ElsIf p_Brlb = 99 Then
+"
+F_GY_GETYBDJ	FUNCTION	17	"     ls_Yblx:='9999';
+"
+F_GY_GETYBDJ	FUNCTION	18	"  Else
+"
+F_GY_GETYBDJ	FUNCTION	19	"     ls_yblx:='0403';
+"
+F_GY_GETYBDJ	FUNCTION	20	"  End If;
+"
+F_GY_GETYBDJ	FUNCTION	21	"
+"
+F_GY_GETYBDJ	FUNCTION	22	"  If p_Ypzl = 1 Then --药品
+"
+F_GY_GETYBDJ	FUNCTION	23	"     Select to_number(f_bf_getypxx(p_xmxh,9999,'ykxh')) into ll_ypxh from dual;
+"
+F_GY_GETYBDJ	FUNCTION	24	"     Begin
+"
+F_GY_GETYBDJ	FUNCTION	25	"       Select Nvl(Yibaodm,'')
+"
+F_GY_GETYBDJ	FUNCTION	26	"       Into ls_Ybdm
+"
+F_GY_GETYBDJ	FUNCTION	27	"       From Yb_Duizhaoml
+"
+F_GY_GETYBDJ	FUNCTION	28	"       Where Yibaolx = ls_Yblx
+"
+F_GY_GETYBDJ	FUNCTION	29	"           And XiangMuxh = ll_Ypxh
+"
+F_GY_GETYBDJ	FUNCTION	30	"           And Xiangmucd = p_Xmcd
+"
+F_GY_GETYBDJ	FUNCTION	31	"           And Yaopinpb = 1
+"
+F_GY_GETYBDJ	FUNCTION	32	"           And Rownum = 1;
+"
+F_GY_GETYBDJ	FUNCTION	33	"       Exception
+"
+F_GY_GETYBDJ	FUNCTION	34	"       When NO_DATA_FOUND Then
+"
+F_GY_GETYBDJ	FUNCTION	35	"          Select Nvl(Yibaodm,'')
+"
+F_GY_GETYBDJ	FUNCTION	36	"          Into ls_Ybdm
+"
+F_GY_GETYBDJ	FUNCTION	37	"          From Yb_Duizhaoml
+"
+F_GY_GETYBDJ	FUNCTION	38	"          Where Yibaolx = ls_Yblx
+"
+F_GY_GETYBDJ	FUNCTION	39	"             And XiangMuxh = ll_Ypxh
+"
+F_GY_GETYBDJ	FUNCTION	40	"             And Yaopinpb = 1
+"
+F_GY_GETYBDJ	FUNCTION	41	"             And Rownum = 1;
+"
+F_GY_GETYBDJ	FUNCTION	42	"     End;
+"
+F_GY_GETYBDJ	FUNCTION	43	"     Select to_Char(Yibaodj)||'|'||to_Char(Zifubl)
+"
+F_GY_GETYBDJ	FUNCTION	44	"     Into ls_Ret
+"
+F_GY_GETYBDJ	FUNCTION	45	"     From Yb_Yaopinml
+"
+F_GY_GETYBDJ	FUNCTION	46	"     Where Yibaolx = ls_Yblx
+"
+F_GY_GETYBDJ	FUNCTION	47	"        And Yibaodm = ls_Ybdm
+"
+F_GY_GETYBDJ	FUNCTION	48	"        And Rownum = 1;
+"
+F_GY_GETYBDJ	FUNCTION	49	"
+"
+F_GY_GETYBDJ	FUNCTION	50	"  Else --诊疗
+"
+F_GY_GETYBDJ	FUNCTION	51	"     Begin
+"
+F_GY_GETYBDJ	FUNCTION	52	"       Select Nvl(Yibaodm,'') Into ls_Ybdm
+"
+F_GY_GETYBDJ	FUNCTION	53	"       From Yb_Duizhaoml
+"
+F_GY_GETYBDJ	FUNCTION	54	"       Where Yibaolx = ls_Yblx
+"
+F_GY_GETYBDJ	FUNCTION	55	"         And XiangMuxh = p_Xmxh
+"
+F_GY_GETYBDJ	FUNCTION	56	"      --   And Xiangmucd = p_Xmcd
+"
+F_GY_GETYBDJ	FUNCTION	57	"         And Yaopinpb = 0
+"
+F_GY_GETYBDJ	FUNCTION	58	"         And Rownum = 1;
+"
+F_GY_GETYBDJ	FUNCTION	59	"      Exception
+"
+F_GY_GETYBDJ	FUNCTION	60	"      When No_Data_Found Then
+"
+F_GY_GETYBDJ	FUNCTION	61	"         ls_Ybdm :='';
+"
+F_GY_GETYBDJ	FUNCTION	62	"      End;
+"
+F_GY_GETYBDJ	FUNCTION	63	"
+"
+F_GY_GETYBDJ	FUNCTION	64	"      Select to_Char(Yibaodj)||'|'||to_Char(Zifubl)
+"
+F_GY_GETYBDJ	FUNCTION	65	"      Into ls_Ret
+"
+F_GY_GETYBDJ	FUNCTION	66	"      From Yb_Zhenliaoml
+"
+F_GY_GETYBDJ	FUNCTION	67	"      Where Yibaolx = ls_Yblx
+"
+F_GY_GETYBDJ	FUNCTION	68	"         And Yibaodm = ls_Ybdm
+"
+F_GY_GETYBDJ	FUNCTION	69	"         And Rownum = 1;
+"
+F_GY_GETYBDJ	FUNCTION	70	"  End If;
+"
+F_GY_GETYBDJ	FUNCTION	71	"  Return ls_Ret;
+"
+F_GY_GETYBDJ	FUNCTION	72	"End f_gy_getybdj;
+"

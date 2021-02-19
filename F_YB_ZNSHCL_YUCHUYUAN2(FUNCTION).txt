@@ -1,0 +1,612 @@
+F_YB_ZNSHCL_YUCHUYUAN2	FUNCTION	1	"FUNCTION ""F_YB_ZNSHCL_YUCHUYUAN2""(arg_patient_no Number)
+"
+F_YB_ZNSHCL_YUCHUYUAN2	FUNCTION	2	"  return varchar2 Is
+"
+F_YB_ZNSHCL_YUCHUYUAN2	FUNCTION	3	"  ll_count  number;
+"
+F_YB_ZNSHCL_YUCHUYUAN2	FUNCTION	4	"  ll_count2 number;
+"
+F_YB_ZNSHCL_YUCHUYUAN2	FUNCTION	5	"  ll_brlb   number;
+"
+F_YB_ZNSHCL_YUCHUYUAN2	FUNCTION	6	"  ls_show   varchar2(500);
+"
+F_YB_ZNSHCL_YUCHUYUAN2	FUNCTION	7	"  ls_time   varchar2(20);
+"
+F_YB_ZNSHCL_YUCHUYUAN2	FUNCTION	8	"  ls_jbdm   varchar2(100);
+"
+F_YB_ZNSHCL_YUCHUYUAN2	FUNCTION	9	"  --  ll_pos         number;
+"
+F_YB_ZNSHCL_YUCHUYUAN2	FUNCTION	10	"  --ls_syzldm      varchar2(200);
+"
+F_YB_ZNSHCL_YUCHUYUAN2	FUNCTION	11	"  -- ls_ybdm        varchar2(50);
+"
+F_YB_ZNSHCL_YUCHUYUAN2	FUNCTION	12	"Begin
+"
+F_YB_ZNSHCL_YUCHUYUAN2	FUNCTION	13	"
+"
+F_YB_ZNSHCL_YUCHUYUAN2	FUNCTION	14	"  ----气垫床加收 14433--
+"
+F_YB_ZNSHCL_YUCHUYUAN2	FUNCTION	15	"
+"
+F_YB_ZNSHCL_YUCHUYUAN2	FUNCTION	16	"  --insert into zy_jiaoyi_v1(jiaoyilx,jylsh) values ('医保病人当天加收费用处理', to_char(arg_patient_no));
+"
+F_YB_ZNSHCL_YUCHUYUAN2	FUNCTION	17	"  --commit;
+"
+F_YB_ZNSHCL_YUCHUYUAN2	FUNCTION	18	"  select count(*)
+"
+F_YB_ZNSHCL_YUCHUYUAN2	FUNCTION	19	"    into ll_count
+"
+F_YB_ZNSHCL_YUCHUYUAN2	FUNCTION	20	"    From gy_charge_interface
+"
+F_YB_ZNSHCL_YUCHUYUAN2	FUNCTION	21	"   where bingrenzyid = (select bah
+"
+F_YB_ZNSHCL_YUCHUYUAN2	FUNCTION	22	"                          from zy_patient_information
+"
+F_YB_ZNSHCL_YUCHUYUAN2	FUNCTION	23	"                         where patient_no = arg_patient_no
+"
+F_YB_ZNSHCL_YUCHUYUAN2	FUNCTION	24	"                           and nvl(sendflag, 0) = 0);
+"
+F_YB_ZNSHCL_YUCHUYUAN2	FUNCTION	25	"
+"
+F_YB_ZNSHCL_YUCHUYUAN2	FUNCTION	26	"  if ll_count > 0 then
+"
+F_YB_ZNSHCL_YUCHUYUAN2	FUNCTION	27	"    return '有费用未记账上传,gy_charge_interface!';
+"
+F_YB_ZNSHCL_YUCHUYUAN2	FUNCTION	28	"  end if;
+"
+F_YB_ZNSHCL_YUCHUYUAN2	FUNCTION	29	"
+"
+F_YB_ZNSHCL_YUCHUYUAN2	FUNCTION	30	"  Select Sum(sl)
+"
+F_YB_ZNSHCL_YUCHUYUAN2	FUNCTION	31	"    Into ll_count
+"
+F_YB_ZNSHCL_YUCHUYUAN2	FUNCTION	32	"    From zy_detail_charge
+"
+F_YB_ZNSHCL_YUCHUYUAN2	FUNCTION	33	"   Where charge_code in (14433)
+"
+F_YB_ZNSHCL_YUCHUYUAN2	FUNCTION	34	"     and charge_date >= trunc(sysdate)
+"
+F_YB_ZNSHCL_YUCHUYUAN2	FUNCTION	35	"     and patient_no = arg_patient_no;
+"
+F_YB_ZNSHCL_YUCHUYUAN2	FUNCTION	36	"
+"
+F_YB_ZNSHCL_YUCHUYUAN2	FUNCTION	37	"  if ll_count > 0 then
+"
+F_YB_ZNSHCL_YUCHUYUAN2	FUNCTION	38	"  
+"
+F_YB_ZNSHCL_YUCHUYUAN2	FUNCTION	39	"    return '预出院当天不能收气垫床加收,已收:' || to_char(ll_count);
+"
+F_YB_ZNSHCL_YUCHUYUAN2	FUNCTION	40	"  end if;
+"
+F_YB_ZNSHCL_YUCHUYUAN2	FUNCTION	41	"
+"
+F_YB_ZNSHCL_YUCHUYUAN2	FUNCTION	42	"  ------
+"
+F_YB_ZNSHCL_YUCHUYUAN2	FUNCTION	43	"
+"
+F_YB_ZNSHCL_YUCHUYUAN2	FUNCTION	44	"  Select Sum(sl)
+"
+F_YB_ZNSHCL_YUCHUYUAN2	FUNCTION	45	"    Into ll_count
+"
+F_YB_ZNSHCL_YUCHUYUAN2	FUNCTION	46	"    From zy_detail_charge
+"
+F_YB_ZNSHCL_YUCHUYUAN2	FUNCTION	47	"   Where charge_code in (22479)
+"
+F_YB_ZNSHCL_YUCHUYUAN2	FUNCTION	48	"     and charge_date >= trunc(sysdate)
+"
+F_YB_ZNSHCL_YUCHUYUAN2	FUNCTION	49	"     and patient_no = arg_patient_no;
+"
+F_YB_ZNSHCL_YUCHUYUAN2	FUNCTION	50	"
+"
+F_YB_ZNSHCL_YUCHUYUAN2	FUNCTION	51	"  if ll_count > 0 then
+"
+F_YB_ZNSHCL_YUCHUYUAN2	FUNCTION	52	"  
+"
+F_YB_ZNSHCL_YUCHUYUAN2	FUNCTION	53	"    return '预出院当天不能收高危压疮防范护理,已收:' || to_char(ll_count);
+"
+F_YB_ZNSHCL_YUCHUYUAN2	FUNCTION	54	"  end if;
+"
+F_YB_ZNSHCL_YUCHUYUAN2	FUNCTION	55	"
+"
+F_YB_ZNSHCL_YUCHUYUAN2	FUNCTION	56	"  --当天不能同时收
+"
+F_YB_ZNSHCL_YUCHUYUAN2	FUNCTION	57	"  -- 拆线 13012,15423,15424,15422
+"
+F_YB_ZNSHCL_YUCHUYUAN2	FUNCTION	58	"  --换药 11310,11311,13470,13825,11309,18442,20188,22522,22523,22524
+"
+F_YB_ZNSHCL_YUCHUYUAN2	FUNCTION	59	"
+"
+F_YB_ZNSHCL_YUCHUYUAN2	FUNCTION	60	"  Select Sum(sl)
+"
+F_YB_ZNSHCL_YUCHUYUAN2	FUNCTION	61	"    Into ll_count
+"
+F_YB_ZNSHCL_YUCHUYUAN2	FUNCTION	62	"    From zy_detail_charge
+"
+F_YB_ZNSHCL_YUCHUYUAN2	FUNCTION	63	"   Where charge_code in (15423, 15424, 15422)
+"
+F_YB_ZNSHCL_YUCHUYUAN2	FUNCTION	64	"     and charge_date >= trunc(sysdate)
+"
+F_YB_ZNSHCL_YUCHUYUAN2	FUNCTION	65	"     and patient_no = arg_patient_no;
+"
+F_YB_ZNSHCL_YUCHUYUAN2	FUNCTION	66	"
+"
+F_YB_ZNSHCL_YUCHUYUAN2	FUNCTION	67	"  if ll_count > 0 then
+"
+F_YB_ZNSHCL_YUCHUYUAN2	FUNCTION	68	"    Select Sum(sl)
+"
+F_YB_ZNSHCL_YUCHUYUAN2	FUNCTION	69	"      Into ll_count2
+"
+F_YB_ZNSHCL_YUCHUYUAN2	FUNCTION	70	"      From zy_detail_charge
+"
+F_YB_ZNSHCL_YUCHUYUAN2	FUNCTION	71	"     Where charge_code in (11310, 11311, 11309)
+"
+F_YB_ZNSHCL_YUCHUYUAN2	FUNCTION	72	"       and charge_date >= trunc(sysdate)
+"
+F_YB_ZNSHCL_YUCHUYUAN2	FUNCTION	73	"       and patient_no = arg_patient_no;
+"
+F_YB_ZNSHCL_YUCHUYUAN2	FUNCTION	74	"  
+"
+F_YB_ZNSHCL_YUCHUYUAN2	FUNCTION	75	"    if ll_count2 > 0 then
+"
+F_YB_ZNSHCL_YUCHUYUAN2	FUNCTION	76	"      return '预出院当天不能同时收,已收拆线:' || to_char(ll_count) || ',换药:' || to_char(ll_count2);
+"
+F_YB_ZNSHCL_YUCHUYUAN2	FUNCTION	77	"    end if;
+"
+F_YB_ZNSHCL_YUCHUYUAN2	FUNCTION	78	"  
+"
+F_YB_ZNSHCL_YUCHUYUAN2	FUNCTION	79	"  end if;
+"
+F_YB_ZNSHCL_YUCHUYUAN2	FUNCTION	80	"
+"
+F_YB_ZNSHCL_YUCHUYUAN2	FUNCTION	81	"  --几个科室不能收 高危压疮防范护理
+"
+F_YB_ZNSHCL_YUCHUYUAN2	FUNCTION	82	"
+"
+F_YB_ZNSHCL_YUCHUYUAN2	FUNCTION	83	"  Select Sum(sl)
+"
+F_YB_ZNSHCL_YUCHUYUAN2	FUNCTION	84	"    Into ll_count
+"
+F_YB_ZNSHCL_YUCHUYUAN2	FUNCTION	85	"    From zy_detail_charge
+"
+F_YB_ZNSHCL_YUCHUYUAN2	FUNCTION	86	"   Where zx_ks in ('2250012', '2250011')
+"
+F_YB_ZNSHCL_YUCHUYUAN2	FUNCTION	87	"     and charge_code in (22479)
+"
+F_YB_ZNSHCL_YUCHUYUAN2	FUNCTION	88	"     and patient_no = arg_patient_no;
+"
+F_YB_ZNSHCL_YUCHUYUAN2	FUNCTION	89	"
+"
+F_YB_ZNSHCL_YUCHUYUAN2	FUNCTION	90	"  if ll_count > 0 then
+"
+F_YB_ZNSHCL_YUCHUYUAN2	FUNCTION	91	"  
+"
+F_YB_ZNSHCL_YUCHUYUAN2	FUNCTION	92	"    Select WM_CONCAT(to_char(charge_date, 'yyyy-mm-dd') || ' 收费数量:' ||
+"
+F_YB_ZNSHCL_YUCHUYUAN2	FUNCTION	93	"                     sum(sl) || ' ;')
+"
+F_YB_ZNSHCL_YUCHUYUAN2	FUNCTION	94	"      into ls_show
+"
+F_YB_ZNSHCL_YUCHUYUAN2	FUNCTION	95	"      From zy_detail_charge
+"
+F_YB_ZNSHCL_YUCHUYUAN2	FUNCTION	96	"     Where zx_ks in ('2250012', '2250011')
+"
+F_YB_ZNSHCL_YUCHUYUAN2	FUNCTION	97	"       and charge_code in (22479)
+"
+F_YB_ZNSHCL_YUCHUYUAN2	FUNCTION	98	"       and patient_no = arg_patient_no
+"
+F_YB_ZNSHCL_YUCHUYUAN2	FUNCTION	99	"     group by to_char(charge_date, 'yyyy-mm-dd');
+"
+F_YB_ZNSHCL_YUCHUYUAN2	FUNCTION	100	"  
+"
+F_YB_ZNSHCL_YUCHUYUAN2	FUNCTION	101	"    --return '心内一,心内二,眼科,耳鼻喉科 不能收高危压疮防范护理,已收:'||to_char(ll_count)||' 请退费';
+"
+F_YB_ZNSHCL_YUCHUYUAN2	FUNCTION	102	"    return ls_show;
+"
+F_YB_ZNSHCL_YUCHUYUAN2	FUNCTION	103	"  
+"
+F_YB_ZNSHCL_YUCHUYUAN2	FUNCTION	104	"  end if;
+"
+F_YB_ZNSHCL_YUCHUYUAN2	FUNCTION	105	"  select to_char(sysdate, 'hh24') into ls_time from dual;
+"
+F_YB_ZNSHCL_YUCHUYUAN2	FUNCTION	106	"
+"
+F_YB_ZNSHCL_YUCHUYUAN2	FUNCTION	107	"  --'08' - '17' 上班时间进行控制
+"
+F_YB_ZNSHCL_YUCHUYUAN2	FUNCTION	108	"  if ls_time >= '07' and ls_time <= '17' then
+"
+F_YB_ZNSHCL_YUCHUYUAN2	FUNCTION	109	"  
+"
+F_YB_ZNSHCL_YUCHUYUAN2	FUNCTION	110	"    select brlb
+"
+F_YB_ZNSHCL_YUCHUYUAN2	FUNCTION	111	"      into ll_brlb
+"
+F_YB_ZNSHCL_YUCHUYUAN2	FUNCTION	112	"      from zy_patient_information
+"
+F_YB_ZNSHCL_YUCHUYUAN2	FUNCTION	113	"     where patient_no = arg_patient_no;
+"
+F_YB_ZNSHCL_YUCHUYUAN2	FUNCTION	114	"  
+"
+F_YB_ZNSHCL_YUCHUYUAN2	FUNCTION	115	"    -- 异地医保 gfbz调整
+"
+F_YB_ZNSHCL_YUCHUYUAN2	FUNCTION	116	"    if ll_brlb = 99 then
+"
+F_YB_ZNSHCL_YUCHUYUAN2	FUNCTION	117	"      update zy_detail_charge
+"
+F_YB_ZNSHCL_YUCHUYUAN2	FUNCTION	118	"         set gfbz = 0
+"
+F_YB_ZNSHCL_YUCHUYUAN2	FUNCTION	119	"       where scrq < sysdate - 30
+"
+F_YB_ZNSHCL_YUCHUYUAN2	FUNCTION	120	"         and gfbz = 1
+"
+F_YB_ZNSHCL_YUCHUYUAN2	FUNCTION	121	"         and patient_No = arg_patient_no;
+"
+F_YB_ZNSHCL_YUCHUYUAN2	FUNCTION	122	"      commit;
+"
+F_YB_ZNSHCL_YUCHUYUAN2	FUNCTION	123	"    end if;
+"
+F_YB_ZNSHCL_YUCHUYUAN2	FUNCTION	124	"    -- 病人icd10诊断必须录入
+"
+F_YB_ZNSHCL_YUCHUYUAN2	FUNCTION	125	"    if 1 = 1 then
+"
+F_YB_ZNSHCL_YUCHUYUAN2	FUNCTION	126	"    
+"
+F_YB_ZNSHCL_YUCHUYUAN2	FUNCTION	127	"      SELECT count(*)
+"
+F_YB_ZNSHCL_YUCHUYUAN2	FUNCTION	128	"        into ll_count
+"
+F_YB_ZNSHCL_YUCHUYUAN2	FUNCTION	129	"        From v_yb_jbml_9997
+"
+F_YB_ZNSHCL_YUCHUYUAN2	FUNCTION	130	"       Where substr(icd10, 1, 4) in
+"
+F_YB_ZNSHCL_YUCHUYUAN2	FUNCTION	131	"             (SELECT substr(icd10, 1, 4)
+"
+F_YB_ZNSHCL_YUCHUYUAN2	FUNCTION	132	"                From v_bl_bingrenzdqk
+"
+F_YB_ZNSHCL_YUCHUYUAN2	FUNCTION	133	"               Where bingrenid = arg_patient_no
+"
+F_YB_ZNSHCL_YUCHUYUAN2	FUNCTION	134	"                 And zhenduanlx In (2, 3, 4)
+"
+F_YB_ZNSHCL_YUCHUYUAN2	FUNCTION	135	"                 And icd10 Is Not Null);
+"
+F_YB_ZNSHCL_YUCHUYUAN2	FUNCTION	136	"      if ll_count > 0 then
+"
+F_YB_ZNSHCL_YUCHUYUAN2	FUNCTION	137	"        SELECT jbmc || '<' || jbdm || '>'
+"
+F_YB_ZNSHCL_YUCHUYUAN2	FUNCTION	138	"          into ls_jbdm
+"
+F_YB_ZNSHCL_YUCHUYUAN2	FUNCTION	139	"          From v_yb_jbml_9997
+"
+F_YB_ZNSHCL_YUCHUYUAN2	FUNCTION	140	"         Where substr(icd10, 1, 4) in
+"
+F_YB_ZNSHCL_YUCHUYUAN2	FUNCTION	141	"               (SELECT substr(icd10, 1, 4)
+"
+F_YB_ZNSHCL_YUCHUYUAN2	FUNCTION	142	"                  From v_bl_bingrenzdqk
+"
+F_YB_ZNSHCL_YUCHUYUAN2	FUNCTION	143	"                 Where bingrenid = arg_patient_no
+"
+F_YB_ZNSHCL_YUCHUYUAN2	FUNCTION	144	"                   And zhenduanlx In (2)
+"
+F_YB_ZNSHCL_YUCHUYUAN2	FUNCTION	145	"                   And icd10 Is Not Null)
+"
+F_YB_ZNSHCL_YUCHUYUAN2	FUNCTION	146	"           and rownum = 1;
+"
+F_YB_ZNSHCL_YUCHUYUAN2	FUNCTION	147	"        update zy_patient_information
+"
+F_YB_ZNSHCL_YUCHUYUAN2	FUNCTION	148	"           set out_diag_name = ls_jbdm
+"
+F_YB_ZNSHCL_YUCHUYUAN2	FUNCTION	149	"         where patient_no = arg_patient_no
+"
+F_YB_ZNSHCL_YUCHUYUAN2	FUNCTION	150	"           and js_No = 0;
+"
+F_YB_ZNSHCL_YUCHUYUAN2	FUNCTION	151	"        commit;
+"
+F_YB_ZNSHCL_YUCHUYUAN2	FUNCTION	152	"        ll_count := 0;
+"
+F_YB_ZNSHCL_YUCHUYUAN2	FUNCTION	153	"      else
+"
+F_YB_ZNSHCL_YUCHUYUAN2	FUNCTION	154	"        return '医保病人  出院诊断(icd10) 不能为空，请联系出院科室，填写完整诊断!';
+"
+F_YB_ZNSHCL_YUCHUYUAN2	FUNCTION	155	"      end if;
+"
+F_YB_ZNSHCL_YUCHUYUAN2	FUNCTION	156	"    end if;
+"
+F_YB_ZNSHCL_YUCHUYUAN2	FUNCTION	157	"  
+"
+F_YB_ZNSHCL_YUCHUYUAN2	FUNCTION	158	"    -- 医保病人上传明细必须全部上传
+"
+F_YB_ZNSHCL_YUCHUYUAN2	FUNCTION	159	"  
+"
+F_YB_ZNSHCL_YUCHUYUAN2	FUNCTION	160	"    Select nvl(count(b.patient_No), 0)
+"
+F_YB_ZNSHCL_YUCHUYUAN2	FUNCTION	161	"      Into ll_count
+"
+F_YB_ZNSHCL_YUCHUYUAN2	FUNCTION	162	"      From zy_detail_charge a, zy_patient_information b
+"
+F_YB_ZNSHCL_YUCHUYUAN2	FUNCTION	163	"     Where a.patient_No = b.patient_No
+"
+F_YB_ZNSHCL_YUCHUYUAN2	FUNCTION	164	"       and a.js_No = b.js_No
+"
+F_YB_ZNSHCL_YUCHUYUAN2	FUNCTION	165	"       and a.scrq < sysdate - 200
+"
+F_YB_ZNSHCL_YUCHUYUAN2	FUNCTION	166	"       and b.brlb = 97
+"
+F_YB_ZNSHCL_YUCHUYUAN2	FUNCTION	167	"       and a.patient_no = arg_patient_no;
+"
+F_YB_ZNSHCL_YUCHUYUAN2	FUNCTION	168	"  
+"
+F_YB_ZNSHCL_YUCHUYUAN2	FUNCTION	169	"    if ll_count > 0 then
+"
+F_YB_ZNSHCL_YUCHUYUAN2	FUNCTION	170	"      -- Return '';
+"
+F_YB_ZNSHCL_YUCHUYUAN2	FUNCTION	171	"      return '该医保病人费用明细还未全部上传';
+"
+F_YB_ZNSHCL_YUCHUYUAN2	FUNCTION	172	"    end if;
+"
+F_YB_ZNSHCL_YUCHUYUAN2	FUNCTION	173	"  
+"
+F_YB_ZNSHCL_YUCHUYUAN2	FUNCTION	174	"    --判断 用血记录
+"
+F_YB_ZNSHCL_YUCHUYUAN2	FUNCTION	175	"    select COUNT(*)
+"
+F_YB_ZNSHCL_YUCHUYUAN2	FUNCTION	176	"      INTO ll_count
+"
+F_YB_ZNSHCL_YUCHUYUAN2	FUNCTION	177	"      from zy_detail_charge
+"
+F_YB_ZNSHCL_YUCHUYUAN2	FUNCTION	178	"     where patient_no = arg_patient_no
+"
+F_YB_ZNSHCL_YUCHUYUAN2	FUNCTION	179	"       and fygl = 11;
+"
+F_YB_ZNSHCL_YUCHUYUAN2	FUNCTION	180	"  
+"
+F_YB_ZNSHCL_YUCHUYUAN2	FUNCTION	181	"    IF ll_count > 0 then
+"
+F_YB_ZNSHCL_YUCHUYUAN2	FUNCTION	182	"    
+"
+F_YB_ZNSHCL_YUCHUYUAN2	FUNCTION	183	"      select COUNT(*)
+"
+F_YB_ZNSHCL_YUCHUYUAN2	FUNCTION	184	"        INTO ll_count
+"
+F_YB_ZNSHCL_YUCHUYUAN2	FUNCTION	185	"        from temp_sfzh_xianxue20191010
+"
+F_YB_ZNSHCL_YUCHUYUAN2	FUNCTION	186	"       where s2 in (select social_id
+"
+F_YB_ZNSHCL_YUCHUYUAN2	FUNCTION	187	"                      From zy_patient_information
+"
+F_YB_ZNSHCL_YUCHUYUAN2	FUNCTION	188	"                     where patient_no = arg_patient_no);
+"
+F_YB_ZNSHCL_YUCHUYUAN2	FUNCTION	189	"    
+"
+F_YB_ZNSHCL_YUCHUYUAN2	FUNCTION	190	"      IF ll_count > 0 then
+"
+F_YB_ZNSHCL_YUCHUYUAN2	FUNCTION	191	"      
+"
+F_YB_ZNSHCL_YUCHUYUAN2	FUNCTION	192	"        return ' 该病人有用血记录,同时有献血证,告知病人去收费窗口报销';
+"
+F_YB_ZNSHCL_YUCHUYUAN2	FUNCTION	193	"      end if;
+"
+F_YB_ZNSHCL_YUCHUYUAN2	FUNCTION	194	"      return ' 该病人有用血记录,核实是否符合用血直免,告知病人去收费窗口核实';
+"
+F_YB_ZNSHCL_YUCHUYUAN2	FUNCTION	195	"    end if;
+"
+F_YB_ZNSHCL_YUCHUYUAN2	FUNCTION	196	"  
+"
+F_YB_ZNSHCL_YUCHUYUAN2	FUNCTION	197	"    --判断献血着
+"
+F_YB_ZNSHCL_YUCHUYUAN2	FUNCTION	198	"    select COUNT(*)
+"
+F_YB_ZNSHCL_YUCHUYUAN2	FUNCTION	199	"      INTO ll_count
+"
+F_YB_ZNSHCL_YUCHUYUAN2	FUNCTION	200	"      from temp_sfzh_xianxue20191010
+"
+F_YB_ZNSHCL_YUCHUYUAN2	FUNCTION	201	"     where s2 in (select social_id
+"
+F_YB_ZNSHCL_YUCHUYUAN2	FUNCTION	202	"                    From zy_patient_information
+"
+F_YB_ZNSHCL_YUCHUYUAN2	FUNCTION	203	"                   where patient_no = arg_patient_no);
+"
+F_YB_ZNSHCL_YUCHUYUAN2	FUNCTION	204	"  
+"
+F_YB_ZNSHCL_YUCHUYUAN2	FUNCTION	205	"    IF ll_count > 0 then
+"
+F_YB_ZNSHCL_YUCHUYUAN2	FUNCTION	206	"    
+"
+F_YB_ZNSHCL_YUCHUYUAN2	FUNCTION	207	"      return ' 该病人有献血证';
+"
+F_YB_ZNSHCL_YUCHUYUAN2	FUNCTION	208	"    end if;
+"
+F_YB_ZNSHCL_YUCHUYUAN2	FUNCTION	209	"  end if;
+"
+F_YB_ZNSHCL_YUCHUYUAN2	FUNCTION	210	"  --预出院当天对部分项目进行退费v_ylsf_curr_cut
+"
+F_YB_ZNSHCL_YUCHUYUAN2	FUNCTION	211	"  insert into zy_detail_charge
+"
+F_YB_ZNSHCL_YUCHUYUAN2	FUNCTION	212	"    (jlxh,
+"
+F_YB_ZNSHCL_YUCHUYUAN2	FUNCTION	213	"     patient_no,
+"
+F_YB_ZNSHCL_YUCHUYUAN2	FUNCTION	214	"     js_no,
+"
+F_YB_ZNSHCL_YUCHUYUAN2	FUNCTION	215	"     infant_flag,
+"
+F_YB_ZNSHCL_YUCHUYUAN2	FUNCTION	216	"     charge_code,
+"
+F_YB_ZNSHCL_YUCHUYUAN2	FUNCTION	217	"     charge_name,
+"
+F_YB_ZNSHCL_YUCHUYUAN2	FUNCTION	218	"     fygl,
+"
+F_YB_ZNSHCL_YUCHUYUAN2	FUNCTION	219	"     twice_detail_code,
+"
+F_YB_ZNSHCL_YUCHUYUAN2	FUNCTION	220	"     twice_detail_id,
+"
+F_YB_ZNSHCL_YUCHUYUAN2	FUNCTION	221	"     charge_date,
+"
+F_YB_ZNSHCL_YUCHUYUAN2	FUNCTION	222	"     sl,
+"
+F_YB_ZNSHCL_YUCHUYUAN2	FUNCTION	223	"     dj,
+"
+F_YB_ZNSHCL_YUCHUYUAN2	FUNCTION	224	"     self_percent,
+"
+F_YB_ZNSHCL_YUCHUYUAN2	FUNCTION	225	"     ys_code,
+"
+F_YB_ZNSHCL_YUCHUYUAN2	FUNCTION	226	"     zx_ks,
+"
+F_YB_ZNSHCL_YUCHUYUAN2	FUNCTION	227	"     curr_ks,
+"
+F_YB_ZNSHCL_YUCHUYUAN2	FUNCTION	228	"     curr_bed,
+"
+F_YB_ZNSHCL_YUCHUYUAN2	FUNCTION	229	"     borrow_flag,
+"
+F_YB_ZNSHCL_YUCHUYUAN2	FUNCTION	230	"     borrow_ks,
+"
+F_YB_ZNSHCL_YUCHUYUAN2	FUNCTION	231	"     borrow_percent,
+"
+F_YB_ZNSHCL_YUCHUYUAN2	FUNCTION	232	"     op_id,
+"
+F_YB_ZNSHCL_YUCHUYUAN2	FUNCTION	233	"     fhr,
+"
+F_YB_ZNSHCL_YUCHUYUAN2	FUNCTION	234	"     ypkz,
+"
+F_YB_ZNSHCL_YUCHUYUAN2	FUNCTION	235	"     gfbz,
+"
+F_YB_ZNSHCL_YUCHUYUAN2	FUNCTION	236	"     curr_bq,
+"
+F_YB_ZNSHCL_YUCHUYUAN2	FUNCTION	237	"     group_code,
+"
+F_YB_ZNSHCL_YUCHUYUAN2	FUNCTION	238	"     start_date,
+"
+F_YB_ZNSHCL_YUCHUYUAN2	FUNCTION	239	"     jtbf_flag,
+"
+F_YB_ZNSHCL_YUCHUYUAN2	FUNCTION	240	"     bqdm,
+"
+F_YB_ZNSHCL_YUCHUYUAN2	FUNCTION	241	"     jzxh,
+"
+F_YB_ZNSHCL_YUCHUYUAN2	FUNCTION	242	"     jcfx_date,
+"
+F_YB_ZNSHCL_YUCHUYUAN2	FUNCTION	243	"     jcfx_id,
+"
+F_YB_ZNSHCL_YUCHUYUAN2	FUNCTION	244	"     scrq,
+"
+F_YB_ZNSHCL_YUCHUYUAN2	FUNCTION	245	"     zzys,
+"
+F_YB_ZNSHCL_YUCHUYUAN2	FUNCTION	246	"     zlyppb,
+"
+F_YB_ZNSHCL_YUCHUYUAN2	FUNCTION	247	"     tcdm,
+"
+F_YB_ZNSHCL_YUCHUYUAN2	FUNCTION	248	"     je,
+"
+F_YB_ZNSHCL_YUCHUYUAN2	FUNCTION	249	"     zlje,
+"
+F_YB_ZNSHCL_YUCHUYUAN2	FUNCTION	250	"     zfje,
+"
+F_YB_ZNSHCL_YUCHUYUAN2	FUNCTION	251	"     csbz,
+"
+F_YB_ZNSHCL_YUCHUYUAN2	FUNCTION	252	"     jiagelb,
+"
+F_YB_ZNSHCL_YUCHUYUAN2	FUNCTION	253	"     yibaoysxmxh
+"
+F_YB_ZNSHCL_YUCHUYUAN2	FUNCTION	254	"     
+"
+F_YB_ZNSHCL_YUCHUYUAN2	FUNCTION	255	"     )
+"
+F_YB_ZNSHCL_YUCHUYUAN2	FUNCTION	256	"    select zy_detail_charge_jlxh.nextval,
+"
+F_YB_ZNSHCL_YUCHUYUAN2	FUNCTION	257	"           patient_no,
+"
+F_YB_ZNSHCL_YUCHUYUAN2	FUNCTION	258	"           js_no,
+"
+F_YB_ZNSHCL_YUCHUYUAN2	FUNCTION	259	"           infant_flag,
+"
+F_YB_ZNSHCL_YUCHUYUAN2	FUNCTION	260	"           charge_code,
+"
+F_YB_ZNSHCL_YUCHUYUAN2	FUNCTION	261	"           charge_name,
+"
+F_YB_ZNSHCL_YUCHUYUAN2	FUNCTION	262	"           fygl,
+"
+F_YB_ZNSHCL_YUCHUYUAN2	FUNCTION	263	"           twice_detail_code,
+"
+F_YB_ZNSHCL_YUCHUYUAN2	FUNCTION	264	"           twice_detail_id,
+"
+F_YB_ZNSHCL_YUCHUYUAN2	FUNCTION	265	"           sysdate,
+"
+F_YB_ZNSHCL_YUCHUYUAN2	FUNCTION	266	"           sl * -1,
+"
+F_YB_ZNSHCL_YUCHUYUAN2	FUNCTION	267	"           dj * -1,
+"
+F_YB_ZNSHCL_YUCHUYUAN2	FUNCTION	268	"           self_percent,
+"
+F_YB_ZNSHCL_YUCHUYUAN2	FUNCTION	269	"           ys_code,
+"
+F_YB_ZNSHCL_YUCHUYUAN2	FUNCTION	270	"           zx_ks,
+"
+F_YB_ZNSHCL_YUCHUYUAN2	FUNCTION	271	"           curr_ks,
+"
+F_YB_ZNSHCL_YUCHUYUAN2	FUNCTION	272	"           curr_bed,
+"
+F_YB_ZNSHCL_YUCHUYUAN2	FUNCTION	273	"           borrow_flag,
+"
+F_YB_ZNSHCL_YUCHUYUAN2	FUNCTION	274	"           borrow_ks,
+"
+F_YB_ZNSHCL_YUCHUYUAN2	FUNCTION	275	"           borrow_percent,
+"
+F_YB_ZNSHCL_YUCHUYUAN2	FUNCTION	276	"           'DBA',
+"
+F_YB_ZNSHCL_YUCHUYUAN2	FUNCTION	277	"           'DBA',
+"
+F_YB_ZNSHCL_YUCHUYUAN2	FUNCTION	278	"           ypkz,
+"
+F_YB_ZNSHCL_YUCHUYUAN2	FUNCTION	279	"           gfbz,
+"
+F_YB_ZNSHCL_YUCHUYUAN2	FUNCTION	280	"           curr_bq,
+"
+F_YB_ZNSHCL_YUCHUYUAN2	FUNCTION	281	"           group_code,
+"
+F_YB_ZNSHCL_YUCHUYUAN2	FUNCTION	282	"           start_date,
+"
+F_YB_ZNSHCL_YUCHUYUAN2	FUNCTION	283	"           jtbf_flag,
+"
+F_YB_ZNSHCL_YUCHUYUAN2	FUNCTION	284	"           bqdm,
+"
+F_YB_ZNSHCL_YUCHUYUAN2	FUNCTION	285	"           jzxh,
+"
+F_YB_ZNSHCL_YUCHUYUAN2	FUNCTION	286	"           jcfx_date,
+"
+F_YB_ZNSHCL_YUCHUYUAN2	FUNCTION	287	"           jcfx_id,
+"
+F_YB_ZNSHCL_YUCHUYUAN2	FUNCTION	288	"           scrq,
+"
+F_YB_ZNSHCL_YUCHUYUAN2	FUNCTION	289	"           zzys,
+"
+F_YB_ZNSHCL_YUCHUYUAN2	FUNCTION	290	"           zlyppb,
+"
+F_YB_ZNSHCL_YUCHUYUAN2	FUNCTION	291	"           tcdm,
+"
+F_YB_ZNSHCL_YUCHUYUAN2	FUNCTION	292	"           je * -1,
+"
+F_YB_ZNSHCL_YUCHUYUAN2	FUNCTION	293	"           zlje * -1,
+"
+F_YB_ZNSHCL_YUCHUYUAN2	FUNCTION	294	"           zfje * -1,
+"
+F_YB_ZNSHCL_YUCHUYUAN2	FUNCTION	295	"           csbz,
+"
+F_YB_ZNSHCL_YUCHUYUAN2	FUNCTION	296	"           jiagelb,
+"
+F_YB_ZNSHCL_YUCHUYUAN2	FUNCTION	297	"           yibaoysxmxh
+"
+F_YB_ZNSHCL_YUCHUYUAN2	FUNCTION	298	"      from zy_detail_charge
+"
+F_YB_ZNSHCL_YUCHUYUAN2	FUNCTION	299	"     where charge_code in (select ylxh from v_ylsf_curr_cut)
+"
+F_YB_ZNSHCL_YUCHUYUAN2	FUNCTION	300	"       and charge_date >= trunc(sysdate)
+"
+F_YB_ZNSHCL_YUCHUYUAN2	FUNCTION	301	"       and js_no = 0
+"
+F_YB_ZNSHCL_YUCHUYUAN2	FUNCTION	302	"       and patient_no = arg_patient_no;
+"
+F_YB_ZNSHCL_YUCHUYUAN2	FUNCTION	303	"  COMMIT;
+"
+F_YB_ZNSHCL_YUCHUYUAN2	FUNCTION	304	"  Return '';
+"
+F_YB_ZNSHCL_YUCHUYUAN2	FUNCTION	305	"
+"
+F_YB_ZNSHCL_YUCHUYUAN2	FUNCTION	306	"End;
+"

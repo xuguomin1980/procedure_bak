@@ -1,0 +1,19 @@
+SUBSTRING	FUNCTION	1	"FUNCTION         ""SUBSTRING"" (field_name in varchar2,n_start in number,n_length in number)
+"
+SUBSTRING	FUNCTION	2	"return varchar2
+"
+SUBSTRING	FUNCTION	3	"as
+"
+SUBSTRING	FUNCTION	4	"begin
+"
+SUBSTRING	FUNCTION	5	"   return (substr(field_name,n_start,n_length));
+"
+SUBSTRING	FUNCTION	6	"end;
+"
+SUBSTRING	FUNCTION	7	"
+"
+SUBSTRING	FUNCTION	8	"
+"
+SUBSTRING	FUNCTION	9	"
+"
+SUBSTRING	FUNCTION	10	 

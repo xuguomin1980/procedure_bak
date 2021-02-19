@@ -1,0 +1,67 @@
+PRC_YZ_BBS	PROCEDURE	1	"PROCEDURE         ""PRC_YZ_BBS"" ( ls_bt in varchar2, ls_nr in varchar2 , ls_fbrgh in varchar2  , ls_bqdm in
+"
+PRC_YZ_BBS	PROCEDURE	2	"
+"
+PRC_YZ_BBS	PROCEDURE	3	"varchar2 , ll_lb number ,on_code    Out NUMBER,os_mess  Out VARCHAR2) is
+"
+PRC_YZ_BBS	PROCEDURE	4	"begin
+"
+PRC_YZ_BBS	PROCEDURE	5	"  DECLARE
+"
+PRC_YZ_BBS	PROCEDURE	6	"  ll_count   number;
+"
+PRC_YZ_BBS	PROCEDURE	7	"  ll_value     number;
+"
+PRC_YZ_BBS	PROCEDURE	8	"
+"
+PRC_YZ_BBS	PROCEDURE	9	"  begin
+"
+PRC_YZ_BBS	PROCEDURE	10	"   --  取序列
+"
+PRC_YZ_BBS	PROCEDURE	11	"  select count(*) into ll_count from  GY_xhb  WHERE  bm  like 'YZ_BBS' ;
+"
+PRC_YZ_BBS	PROCEDURE	12	"  if ll_count  >  0 then
+"
+PRC_YZ_BBS	PROCEDURE	13	"     UPDATE GY_xhb SET dqz = dqz + zz WHERE  bm like 'YZ_BBS';
+"
+PRC_YZ_BBS	PROCEDURE	14	"  else
+"
+PRC_YZ_BBS	PROCEDURE	15	"    insert into gy_xhb(bm,dqz,zz) values('YZ_BBS',1,1);
+"
+PRC_YZ_BBS	PROCEDURE	16	"  end if;
+"
+PRC_YZ_BBS	PROCEDURE	17	"  commit;
+"
+PRC_YZ_BBS	PROCEDURE	18	"  SELECT dqz INTO ll_value FROM GY_xhb
+"
+PRC_YZ_BBS	PROCEDURE	19	"			WHERE  bm = 'YZ_BBS';
+"
+PRC_YZ_BBS	PROCEDURE	20	"
+"
+PRC_YZ_BBS	PROCEDURE	21	"
+"
+PRC_YZ_BBS	PROCEDURE	22	"
+"
+PRC_YZ_BBS	PROCEDURE	23	" insert into yz_bbs(xh,bt,nr,fbrgh,rq,bqdm,xxlb) values(ll_value,ls_bt,ls_nr,ls_fbrgh,sysdate,ls_bqdm,ll_lb);
+"
+PRC_YZ_BBS	PROCEDURE	24	"  commit ;
+"
+PRC_YZ_BBS	PROCEDURE	25	"     EXCEPTION
+"
+PRC_YZ_BBS	PROCEDURE	26	"   WHEN others THEN
+"
+PRC_YZ_BBS	PROCEDURE	27	"    ROLLBACK;
+"
+PRC_YZ_BBS	PROCEDURE	28	"      on_code := -1;
+"
+PRC_YZ_BBS	PROCEDURE	29	"      os_mess := '数据插入yz_bbs失败!';
+"
+PRC_YZ_BBS	PROCEDURE	30	"     end ;
+"
+PRC_YZ_BBS	PROCEDURE	31	"end PRC_YZ_BBS;
+"
+PRC_YZ_BBS	PROCEDURE	32	"
+"
+PRC_YZ_BBS	PROCEDURE	33	"
+"
+PRC_YZ_BBS	PROCEDURE	34	 

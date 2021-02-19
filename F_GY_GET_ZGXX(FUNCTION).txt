@@ -1,0 +1,22 @@
+F_GY_GET_ZGXX	FUNCTION	1	"FUNCTION f_gy_get_zgxx
+"
+F_GY_GET_ZGXX	FUNCTION	2	"(arg_zgid in varchar2,arg_flag in varchar)
+"
+F_GY_GET_ZGXX	FUNCTION	3	"return varchar2
+"
+F_GY_GET_ZGXX	FUNCTION	4	"  is
+"
+F_GY_GET_ZGXX	FUNCTION	5	"     ls_return varchar2(30);
+"
+F_GY_GET_ZGXX	FUNCTION	6	"begin
+"
+F_GY_GET_ZGXX	FUNCTION	7	"  select decode(arg_flag,'xm',xm,'ksdm',ksdm) into ls_return from gy_zgxx where zgid =
+"
+F_GY_GET_ZGXX	FUNCTION	8	" arg_zgid;
+"
+F_GY_GET_ZGXX	FUNCTION	9	"
+"
+F_GY_GET_ZGXX	FUNCTION	10	"   return(ls_return);
+"
+F_GY_GET_ZGXX	FUNCTION	11	"end;
+"

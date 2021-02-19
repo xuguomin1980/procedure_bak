@@ -1,0 +1,6204 @@
+PKG_JCFX	PACKAGE BODY	1	"PACKAGE BODY         ""PKG_JCFX"" Is
+"
+PKG_JCFX	PACKAGE BODY	2	"
+"
+PKG_JCFX	PACKAGE BODY	3	"/*=============================================================================
+"
+PKG_JCFX	PACKAGE BODY	4	"|| 过程名称 ： 决策分析数据采集Pkg_Jcfx
+"
+PKG_JCFX	PACKAGE BODY	5	"||-----------------------------------------------------------------------------
+"
+PKG_JCFX	PACKAGE BODY	6	"|| 功能说明 ： 把挂号、门诊、住院的数据采集成决策分析的数据、包含的子过程有：
+"
+PKG_JCFX	PACKAGE BODY	7	"||             prc_mz_sjcj_jy、prc_gh_sjcj1、prc_mz_sjcj1、prc_mz_sjcj2、
+"
+PKG_JCFX	PACKAGE BODY	8	"||             prc_mz_sjcj3、prc_mz_sjcj4、prc_mz_sjcj5、prc_mz_sjcj、
+"
+PKG_JCFX	PACKAGE BODY	9	"||             prc_zy_zhxx、prc_zy_au_sjcj1、prc_zy_au_sjcj2、prc_zy_au_sjcj、
+"
+PKG_JCFX	PACKAGE BODY	10	"||             prc_zy_sjcj1、prc_zy_sjcj2、prc_zy_sjcj3、prc_zy_sjcj4、
+"
+PKG_JCFX	PACKAGE BODY	11	"||             prc_zy_sjcj5、prc_zy_sjcj7、prc_zy_sjcj_au、prc_zy_sjcj、
+"
+PKG_JCFX	PACKAGE BODY	12	"||-----------------------------------------------------------------------------
+"
+PKG_JCFX	PACKAGE BODY	13	"|| 注意事项 ： 无
+"
+PKG_JCFX	PACKAGE BODY	14	"||-----------------------------------------------------------------------------
+"
+PKG_JCFX	PACKAGE BODY	15	"|| 作    者 ： 陈联      完成日期 ： 2001-04
+"
+PKG_JCFX	PACKAGE BODY	16	"||-----------------------------------------------------------------------------
+"
+PKG_JCFX	PACKAGE BODY	17	"|| 修改记录 ： 陈联 @ 2001-06-01
+"
+PKG_JCFX	PACKAGE BODY	18	"||             修改prc_zy_sjcj5
+"
+PKG_JCFX	PACKAGE BODY	19	"||            -----------------------------------------------------------------
+"
+PKG_JCFX	PACKAGE BODY	20	"||             陈联 @ 2001-06-02
+"
+PKG_JCFX	PACKAGE BODY	21	"||             修改prc_zy_zhxx
+"
+PKG_JCFX	PACKAGE BODY	22	"||            -----------------------------------------------------------------
+"
+PKG_JCFX	PACKAGE BODY	23	"||             陈联 @ 2001-10-23
+"
+PKG_JCFX	PACKAGE BODY	24	"||             修改prc_zy_sjcj05
+"
+PKG_JCFX	PACKAGE BODY	25	"||            -----------------------------------------------------------------
+"
+PKG_JCFX	PACKAGE BODY	26	"||             陈联 @ 2001-11-16
+"
+PKG_JCFX	PACKAGE BODY	27	"||             修改prc_zy_zhxx
+"
+PKG_JCFX	PACKAGE BODY	28	"||            -----------------------------------------------------------------
+"
+PKG_JCFX	PACKAGE BODY	29	"||             陈联 @ 2002-01-03
+"
+PKG_JCFX	PACKAGE BODY	30	"||             修改prc_zy_zhxx
+"
+PKG_JCFX	PACKAGE BODY	31	"||            -----------------------------------------------------------------
+"
+PKG_JCFX	PACKAGE BODY	32	"||             陈联 @ 2002-01-09
+"
+PKG_JCFX	PACKAGE BODY	33	"||             修改prc_zy_sjcj05
+"
+PKG_JCFX	PACKAGE BODY	34	"||            -----------------------------------------------------------------
+"
+PKG_JCFX	PACKAGE BODY	35	"||             陈智鸿 @ 2002-07-11
+"
+PKG_JCFX	PACKAGE BODY	36	"||             修改prc_zy_sjcj05
+"
+PKG_JCFX	PACKAGE BODY	37	"||            -----------------------------------------------------------------
+"
+PKG_JCFX	PACKAGE BODY	38	"||             陈智鸿 @ 2002-08-01
+"
+PKG_JCFX	PACKAGE BODY	39	"||             修改prc_zy_zhxx
+"
+PKG_JCFX	PACKAGE BODY	40	"||            -----------------------------------------------------------------
+"
+PKG_JCFX	PACKAGE BODY	41	"||             陈智鸿 @ 2002-08-05
+"
+PKG_JCFX	PACKAGE BODY	42	"||             修改prc_mz_sjcj
+"
+PKG_JCFX	PACKAGE BODY	43	"||            -----------------------------------------------------------------
+"
+PKG_JCFX	PACKAGE BODY	44	"||             陈智鸿 @ 2002-08-23
+"
+PKG_JCFX	PACKAGE BODY	45	"||             修改prc_zy_au_sjcj2、prc_zy_au_sjcj3、prc_zy_sjcj2、prc_zy_sjcj2
+"
+PKG_JCFX	PACKAGE BODY	46	"||            -----------------------------------------------------------------
+"
+PKG_JCFX	PACKAGE BODY	47	"||             陈智鸿 @ 2002-10-17
+"
+PKG_JCFX	PACKAGE BODY	48	"||             整理代码，加强各个子过程的反馈信息
+"
+PKG_JCFX	PACKAGE BODY	49	"||            -----------------------------------------------------------------
+"
+PKG_JCFX	PACKAGE BODY	50	"||             陈智鸿 @ 2002-10-18
+"
+PKG_JCFX	PACKAGE BODY	51	"||             整理代码，加强各个子过程的反馈信息
+"
+PKG_JCFX	PACKAGE BODY	52	"||            -----------------------------------------------------------------
+"
+PKG_JCFX	PACKAGE BODY	53	"||             陈智鸿 @ 2002-10-21
+"
+PKG_JCFX	PACKAGE BODY	54	"||             修改prc_zy_sjcj7
+"
+PKG_JCFX	PACKAGE BODY	55	"||            -----------------------------------------------------------------
+"
+PKG_JCFX	PACKAGE BODY	56	"||             陈智鸿 @ 2002-10-28
+"
+PKG_JCFX	PACKAGE BODY	57	"||             修改prc_zy_sjcj3
+"
+PKG_JCFX	PACKAGE BODY	58	"=============================================================================*/
+"
+PKG_JCFX	PACKAGE BODY	59	"
+"
+PKG_JCFX	PACKAGE BODY	60	"
+"
+PKG_JCFX	PACKAGE BODY	61	"
+"
+PKG_JCFX	PACKAGE BODY	62	"Procedure prc_mz_sjcj_jy ( in_jcfx_id   In    NUMBER,
+"
+PKG_JCFX	PACKAGE BODY	63	"                           on_code      Out   NUMBER,
+"
+PKG_JCFX	PACKAGE BODY	64	"                           os_mess      Out   VARCHAR2 )
+"
+PKG_JCFX	PACKAGE BODY	65	"Is
+"
+PKG_JCFX	PACKAGE BODY	66	"
+"
+PKG_JCFX	PACKAGE BODY	67	"/*=============================================================================
+"
+PKG_JCFX	PACKAGE BODY	68	"|| 过程名称 ： 门诊数据采集（简要信息）prc_mz_sjcj_jy
+"
+PKG_JCFX	PACKAGE BODY	69	"||-----------------------------------------------------------------------------
+"
+PKG_JCFX	PACKAGE BODY	70	"|| 功能说明 ： 采集门诊的简要信息，数据写入表JCFX_MZ_JY，作业类型MZ_SJCJ_JY，采
+"
+PKG_JCFX	PACKAGE BODY	71	"||             集内容：日期、最大收费识别、最小收费识别、记录数、人次、金额
+"
+PKG_JCFX	PACKAGE BODY	72	"||-----------------------------------------------------------------------------
+"
+PKG_JCFX	PACKAGE BODY	73	"|| 参数描述 ： 参数标识       输入/输出     类型         名称
+"
+PKG_JCFX	PACKAGE BODY	74	"||            -----------------------------------------------------------------
+"
+PKG_JCFX	PACKAGE BODY	75	"||             in_jcfx_id     IN            Number       采集日期
+"
+PKG_JCFX	PACKAGE BODY	76	"||             on_code        OUT           Number       执行结果
+"
+PKG_JCFX	PACKAGE BODY	77	"||             os_mess        OUT           Varchar2     返回信息
+"
+PKG_JCFX	PACKAGE BODY	78	"||-----------------------------------------------------------------------------
+"
+PKG_JCFX	PACKAGE BODY	79	"|| 注意事项 ： 暂时不处理数据转移到HISBAK库的数据
+"
+PKG_JCFX	PACKAGE BODY	80	"||-----------------------------------------------------------------------------
+"
+PKG_JCFX	PACKAGE BODY	81	"|| 作    者 ： 陈联      完成日期 ： 2001-04
+"
+PKG_JCFX	PACKAGE BODY	82	"||-----------------------------------------------------------------------------
+"
+PKG_JCFX	PACKAGE BODY	83	"|| 修改记录 ： 陈联 @ 2001-10-23
+"
+PKG_JCFX	PACKAGE BODY	84	"||             金额计算公式变动（原只有前三种）
+"
+PKG_JCFX	PACKAGE BODY	85	"||             金额 = 现金 + 支票金额 + 其它方式金额 + ICK金额(本年帐户金额) +
+"
+PKG_JCFX	PACKAGE BODY	86	"||             历年帐户金额 + 公务员补助金额 + 统筹基金金额 + 重病补助金额
+"
+PKG_JCFX	PACKAGE BODY	87	"||            -----------------------------------------------------------------
+"
+PKG_JCFX	PACKAGE BODY	88	"||             陈联 @ 2002-01-25
+"
+PKG_JCFX	PACKAGE BODY	89	"||             增加收费识别混乱现象的处理
+"
+PKG_JCFX	PACKAGE BODY	90	"||            -----------------------------------------------------------------
+"
+PKG_JCFX	PACKAGE BODY	91	"||             陈智鸿 @ 2002-10-17
+"
+PKG_JCFX	PACKAGE BODY	92	"||             整理代码，加强反馈信息
+"
+PKG_JCFX	PACKAGE BODY	93	"=============================================================================*/
+"
+PKG_JCFX	PACKAGE BODY	94	"
+"
+PKG_JCFX	PACKAGE BODY	95	"BEGIN
+"
+PKG_JCFX	PACKAGE BODY	96	"
+"
+PKG_JCFX	PACKAGE BODY	97	"-- Delete Begin ------------------------------------
+"
+PKG_JCFX	PACKAGE BODY	98	"--GRANT SELECT ON ""HISBAK"".""MZ_MZSFK1"" TO ""ZJHIS"";
+"
+PKG_JCFX	PACKAGE BODY	99	"--GRANT SELECT ON ""HISBAK"".""MZ_MZSFK2"" TO ""ZJHIS"";
+"
+PKG_JCFX	PACKAGE BODY	100	"--GRANT SELECT ON ""HISBAK"".""MZ_CFK1"" TO ""ZJHIS"";
+"
+PKG_JCFX	PACKAGE BODY	101	"--GRANT SELECT ON ""HISBAK"".""MZ_CFK2"" TO ""ZJHIS"";
+"
+PKG_JCFX	PACKAGE BODY	102	"--GRANT SELECT ON ""HISBAK"".""YJ_YJK1"" TO ""ZJHIS"";
+"
+PKG_JCFX	PACKAGE BODY	103	"--GRANT SELECT ON ""HISBAK"".""YJ_YJK2"" TO ""ZJHIS"";
+"
+PKG_JCFX	PACKAGE BODY	104	"-- Delete End --------------------------------------
+"
+PKG_JCFX	PACKAGE BODY	105	"
+"
+PKG_JCFX	PACKAGE BODY	106	"  DECLARE
+"
+PKG_JCFX	PACKAGE BODY	107	"    e_input         EXCEPTION ;
+"
+PKG_JCFX	PACKAGE BODY	108	"    ln_count        NUMBER;
+"
+PKG_JCFX	PACKAGE BODY	109	"    ln_jls          NUMBER;
+"
+PKG_JCFX	PACKAGE BODY	110	"    ln_je           NUMBER;
+"
+PKG_JCFX	PACKAGE BODY	111	"    ldt_begin       DATE;
+"
+PKG_JCFX	PACKAGE BODY	112	"    ldt_end         DATE;
+"
+PKG_JCFX	PACKAGE BODY	113	"    ldt_sfrq_min    DATE;
+"
+PKG_JCFX	PACKAGE BODY	114	"    ln_sfsb1        NUMBER;
+"
+PKG_JCFX	PACKAGE BODY	115	"    ln_sfsb2        NUMBER;
+"
+PKG_JCFX	PACKAGE BODY	116	"    ln_rc           NUMBER;
+"
+PKG_JCFX	PACKAGE BODY	117	"    ln_rc_invalid   NUMBER;
+"
+PKG_JCFX	PACKAGE BODY	118	"    ln_zybz         Number;
+"
+PKG_JCFX	PACKAGE BODY	119	"    ln_jcfx_id      Number;
+"
+PKG_JCFX	PACKAGE BODY	120	"    ln_sfsb         Number;
+"
+PKG_JCFX	PACKAGE BODY	121	"
+"
+PKG_JCFX	PACKAGE BODY	122	"  BEGIN
+"
+PKG_JCFX	PACKAGE BODY	123	"    on_code := 1;--成功
+"
+PKG_JCFX	PACKAGE BODY	124	"    os_mess := '数据采集成功!';
+"
+PKG_JCFX	PACKAGE BODY	125	"
+"
+PKG_JCFX	PACKAGE BODY	126	"    IF Nvl(in_jcfx_id,0) = 0 THEN
+"
+PKG_JCFX	PACKAGE BODY	127	"      raise e_input ;
+"
+PKG_JCFX	PACKAGE BODY	128	"    END IF;
+"
+PKG_JCFX	PACKAGE BODY	129	"
+"
+PKG_JCFX	PACKAGE BODY	130	"    -- 时间范围为一天（HONGER）
+"
+PKG_JCFX	PACKAGE BODY	131	"    ldt_begin := To_date(To_char(in_jcfx_id),'yyyy-mm-dd');
+"
+PKG_JCFX	PACKAGE BODY	132	"    ldt_end   := ldt_begin + 86399/86400;
+"
+PKG_JCFX	PACKAGE BODY	133	"
+"
+PKG_JCFX	PACKAGE BODY	134	"    -- 取最小收费日期（HONGER）
+"
+PKG_JCFX	PACKAGE BODY	135	"    SELECT Min(sfrq)
+"
+PKG_JCFX	PACKAGE BODY	136	"      INTO ldt_sfrq_min
+"
+PKG_JCFX	PACKAGE BODY	137	"      FROM mz_mzsfk1;
+"
+PKG_JCFX	PACKAGE BODY	138	"
+"
+PKG_JCFX	PACKAGE BODY	139	"    ln_jcfx_id := To_number(To_char(ldt_begin - 1,'yyyymmdd' ));-- 前一天
+"
+PKG_JCFX	PACKAGE BODY	140	"
+"
+PKG_JCFX	PACKAGE BODY	141	"    IF ldt_begin < Trunc(ldt_sfrq_min) THEN --开始日期小于最小日期，采集数据取Hisbak用户
+"
+PKG_JCFX	PACKAGE BODY	142	"      ln_zybz := 1;
+"
+PKG_JCFX	PACKAGE BODY	143	"    ELSE
+"
+PKG_JCFX	PACKAGE BODY	144	"      ln_zybz := 0;
+"
+PKG_JCFX	PACKAGE BODY	145	"    END IF;
+"
+PKG_JCFX	PACKAGE BODY	146	"
+"
+PKG_JCFX	PACKAGE BODY	147	"    --检查日志，采集是否已经执行过
+"
+PKG_JCFX	PACKAGE BODY	148	"    SELECT COUNT(*)
+"
+PKG_JCFX	PACKAGE BODY	149	"      INTO ln_count
+"
+PKG_JCFX	PACKAGE BODY	150	"      FROM jcfx_task_log
+"
+PKG_JCFX	PACKAGE BODY	151	"     WHERE jcfx_id = in_jcfx_id
+"
+PKG_JCFX	PACKAGE BODY	152	"       AND task_lx = 'MZ_SJCJ_JY';
+"
+PKG_JCFX	PACKAGE BODY	153	"
+"
+PKG_JCFX	PACKAGE BODY	154	"    -- 删除旧的作业日志和数据（HONGER）
+"
+PKG_JCFX	PACKAGE BODY	155	"    IF ln_count > 0 THEN
+"
+PKG_JCFX	PACKAGE BODY	156	"      DELETE FROM jcfx_task_log
+"
+PKG_JCFX	PACKAGE BODY	157	"       WHERE jcfx_id = in_jcfx_id
+"
+PKG_JCFX	PACKAGE BODY	158	"         AND task_lx = 'MZ_SJCJ_JY';
+"
+PKG_JCFX	PACKAGE BODY	159	"
+"
+PKG_JCFX	PACKAGE BODY	160	"      DELETE FROM jcfx_mz_jy            --删除已有记录
+"
+PKG_JCFX	PACKAGE BODY	161	"       WHERE id = in_jcfx_id ;
+"
+PKG_JCFX	PACKAGE BODY	162	"    END IF;
+"
+PKG_JCFX	PACKAGE BODY	163	"
+"
+PKG_JCFX	PACKAGE BODY	164	"    -- 插入作业日志（HONGER）
+"
+PKG_JCFX	PACKAGE BODY	165	"    INSERT INTO jcfx_task_log (jcfx_id,task_lx)        --决策分析标识，作业类型
+"
+PKG_JCFX	PACKAGE BODY	166	"    VALUES (in_jcfx_id,'MZ_SJCJ_JY');             --插入作业日志
+"
+PKG_JCFX	PACKAGE BODY	167	"
+"
+PKG_JCFX	PACKAGE BODY	168	"    --金额 = 现金 + 支票金额 + 其它方式金额 + ICK金额(本年帐户金额) +
+"
+PKG_JCFX	PACKAGE BODY	169	"    --       历年帐户金额 + 公务员补助金额 + 统筹基金金额 + 重病补助金额
+"
+PKG_JCFX	PACKAGE BODY	170	"    --（备注：各地区计算公式不同）
+"
+PKG_JCFX	PACKAGE BODY	171	"
+"
+PKG_JCFX	PACKAGE BODY	172	"    IF ln_zybz = 0 THEN
+"
+PKG_JCFX	PACKAGE BODY	173	"      -- 数据未转移（HONGER）
+"
+PKG_JCFX	PACKAGE BODY	174	"      -- 从WZ_MZSFK1中取最小收费识别、最大收费识别、记录数、金额（HONGER）
+"
+PKG_JCFX	PACKAGE BODY	175	"      SELECT Nvl(Min(sfsb),0),
+"
+PKG_JCFX	PACKAGE BODY	176	"             Nvl(Max(sfsb),0),
+"
+PKG_JCFX	PACKAGE BODY	177	"             Nvl(COUNT(sfsb), 0),
+"
+PKG_JCFX	PACKAGE BODY	178	"             Nvl(SUM( Nvl(xj,0) + Nvl(zpje,0) + Nvl(qtsfje,0) + Nvl(ickje,0)
+"
+PKG_JCFX	PACKAGE BODY	179	"                  + Nvl(lnzhje,0) + Nvl(jzje,0) + Nvl(tcjjje,0) + Nvl(zbbzje,0)), 0)
+"
+PKG_JCFX	PACKAGE BODY	180	"        INTO ln_sfsb1,
+"
+PKG_JCFX	PACKAGE BODY	181	"             ln_sfsb2,
+"
+PKG_JCFX	PACKAGE BODY	182	"             ln_jls,
+"
+PKG_JCFX	PACKAGE BODY	183	"             ln_je
+"
+PKG_JCFX	PACKAGE BODY	184	"        FROM mz_mzsfk1
+"
+PKG_JCFX	PACKAGE BODY	185	"       WHERE sfrq BETWEEN ldt_begin AND ldt_end
+"
+PKG_JCFX	PACKAGE BODY	186	"         AND sfsb > 1; -- 收费系统取序号存在重复取1的情况；
+"
+PKG_JCFX	PACKAGE BODY	187	"
+"
+PKG_JCFX	PACKAGE BODY	188	"      -- 取前一天最大收费识别
+"
+PKG_JCFX	PACKAGE BODY	189	"      Begin
+"
+PKG_JCFX	PACKAGE BODY	190	"        SELECT sfsb2
+"
+PKG_JCFX	PACKAGE BODY	191	"          INTO ln_sfsb
+"
+PKG_JCFX	PACKAGE BODY	192	"          FROM jcfx_mz_jy
+"
+PKG_JCFX	PACKAGE BODY	193	"         WHERE id = ln_jcfx_id;
+"
+PKG_JCFX	PACKAGE BODY	194	"
+"
+PKG_JCFX	PACKAGE BODY	195	"        If ln_sfsb1 < ln_sfsb  Then
+"
+PKG_JCFX	PACKAGE BODY	196	"          -- 保证收费识别的连续性（HONGER）
+"
+PKG_JCFX	PACKAGE BODY	197	"          ln_sfsb1 := ln_sfsb + 1;
+"
+PKG_JCFX	PACKAGE BODY	198	"        End If;
+"
+PKG_JCFX	PACKAGE BODY	199	"
+"
+PKG_JCFX	PACKAGE BODY	200	"      Exception
+"
+PKG_JCFX	PACKAGE BODY	201	"        When Others Then
+"
+PKG_JCFX	PACKAGE BODY	202	"          Null;
+"
+PKG_JCFX	PACKAGE BODY	203	"      End;
+"
+PKG_JCFX	PACKAGE BODY	204	"
+"
+PKG_JCFX	PACKAGE BODY	205	"      -- 取作废记录数（HONGER）
+"
+PKG_JCFX	PACKAGE BODY	206	"      SELECT Nvl(Count(sfsb),0)
+"
+PKG_JCFX	PACKAGE BODY	207	"        INTO ln_rc_invalid
+"
+PKG_JCFX	PACKAGE BODY	208	"        FROM mz_mzsfk1
+"
+PKG_JCFX	PACKAGE BODY	209	"       WHERE sfrq BETWEEN ldt_begin AND ldt_end
+"
+PKG_JCFX	PACKAGE BODY	210	"         AND zfgh is not null;
+"
+PKG_JCFX	PACKAGE BODY	211	"-- Delete Begin ----------------------------------------------------------------------------------
+"
+PKG_JCFX	PACKAGE BODY	212	"	/*
+"
+PKG_JCFX	PACKAGE BODY	213	"    ELSE
+"
+PKG_JCFX	PACKAGE BODY	214	"      -- 数据已转移（HONGER）
+"
+PKG_JCFX	PACKAGE BODY	215	"      SELECT Min(sfsb),Max(sfsb),COUNT(sfsb),Nvl(SUM(xj+zpje+qtsfje),0) --+ickje+jzje+lnzhje),0)
+"
+PKG_JCFX	PACKAGE BODY	216	"      INTO ln_sfsb1,ln_sfsb2,ln_jls,ln_je
+"
+PKG_JCFX	PACKAGE BODY	217	"      FROM Hisbak.mz_mzsfk1
+"
+PKG_JCFX	PACKAGE BODY	218	"      WHERE sfrq BETWEEN ldt_begin AND ldt_end;
+"
+PKG_JCFX	PACKAGE BODY	219	"
+"
+PKG_JCFX	PACKAGE BODY	220	"      SELECT Nvl(Count(sfsb),0)
+"
+PKG_JCFX	PACKAGE BODY	221	"      INTO ln_rc_invalid
+"
+PKG_JCFX	PACKAGE BODY	222	"      FROM Hisbak.mz_mzsfk1
+"
+PKG_JCFX	PACKAGE BODY	223	"      WHERE sfrq BETWEEN ldt_begin AND ldt_end
+"
+PKG_JCFX	PACKAGE BODY	224	"      AND zfgh is not null;
+"
+PKG_JCFX	PACKAGE BODY	225	"	*/
+"
+PKG_JCFX	PACKAGE BODY	226	"-- Delete End ------------------------------------------------------------------------------------
+"
+PKG_JCFX	PACKAGE BODY	227	"    END IF;
+"
+PKG_JCFX	PACKAGE BODY	228	"
+"
+PKG_JCFX	PACKAGE BODY	229	"    --有效人次 = 记录数 - 作废记录*2
+"
+PKG_JCFX	PACKAGE BODY	230	"    ln_rc := ln_jls - ln_rc_invalid * 2 ;
+"
+PKG_JCFX	PACKAGE BODY	231	"
+"
+PKG_JCFX	PACKAGE BODY	232	"    -- 插入新记录（HONGER）
+"
+PKG_JCFX	PACKAGE BODY	233	"    INSERT INTO jcfx_mz_jy( id, sfsb1, sfsb2,
+"
+PKG_JCFX	PACKAGE BODY	234	"                            jls, rc, je,
+"
+PKG_JCFX	PACKAGE BODY	235	"                            zybz )
+"
+PKG_JCFX	PACKAGE BODY	236	"    VALUES ( in_jcfx_id, ln_sfsb1, ln_sfsb2,
+"
+PKG_JCFX	PACKAGE BODY	237	"             ln_jls, ln_rc, ln_je,
+"
+PKG_JCFX	PACKAGE BODY	238	"             ln_zybz );
+"
+PKG_JCFX	PACKAGE BODY	239	"
+"
+PKG_JCFX	PACKAGE BODY	240	"    --修改成功标志,结束时间,记录数,金额
+"
+PKG_JCFX	PACKAGE BODY	241	"    UPDATE jcfx_task_log
+"
+PKG_JCFX	PACKAGE BODY	242	"       SET success_flag = 1 ,
+"
+PKG_JCFX	PACKAGE BODY	243	"           jssj         = sysdate,
+"
+PKG_JCFX	PACKAGE BODY	244	"           jls          = ln_jls,
+"
+PKG_JCFX	PACKAGE BODY	245	"           value        = ln_je
+"
+PKG_JCFX	PACKAGE BODY	246	"     WHERE jcfx_id = in_jcfx_id
+"
+PKG_JCFX	PACKAGE BODY	247	"       AND task_lx = 'MZ_SJCJ_JY';
+"
+PKG_JCFX	PACKAGE BODY	248	"
+"
+PKG_JCFX	PACKAGE BODY	249	"    -- 提交数据（HONGER）
+"
+PKG_JCFX	PACKAGE BODY	250	"    COMMIT;
+"
+PKG_JCFX	PACKAGE BODY	251	"
+"
+PKG_JCFX	PACKAGE BODY	252	"    on_code := 1;--成功
+"
+PKG_JCFX	PACKAGE BODY	253	"    os_mess := '数据采集成功!';
+"
+PKG_JCFX	PACKAGE BODY	254	"
+"
+PKG_JCFX	PACKAGE BODY	255	"  EXCEPTION
+"
+PKG_JCFX	PACKAGE BODY	256	"
+"
+PKG_JCFX	PACKAGE BODY	257	"    WHEN e_input THEN
+"
+PKG_JCFX	PACKAGE BODY	258	"      on_code :=  0;
+"
+PKG_JCFX	PACKAGE BODY	259	"      os_mess := '输入参数错误!';
+"
+PKG_JCFX	PACKAGE BODY	260	"    WHEN others THEN
+"
+PKG_JCFX	PACKAGE BODY	261	"      ROLLBACK;
+"
+PKG_JCFX	PACKAGE BODY	262	"      on_code := -1;
+"
+PKG_JCFX	PACKAGE BODY	263	"      os_mess := 'prc_mz_sjcj_jy数据采集失败！原因：'||SQLErrm;
+"
+PKG_JCFX	PACKAGE BODY	264	"      -- 返回SQL错误信息（MODIFY 2002-10-17 HONGER）
+"
+PKG_JCFX	PACKAGE BODY	265	"  END;
+"
+PKG_JCFX	PACKAGE BODY	266	"END prc_mz_sjcj_jy;
+"
+PKG_JCFX	PACKAGE BODY	267	"
+"
+PKG_JCFX	PACKAGE BODY	268	"
+"
+PKG_JCFX	PACKAGE BODY	269	"
+"
+PKG_JCFX	PACKAGE BODY	270	"Procedure prc_gh_sjcj1 ( in_jcfx_id   In    NUMBER,
+"
+PKG_JCFX	PACKAGE BODY	271	"                         on_code      out   NUMBER,
+"
+PKG_JCFX	PACKAGE BODY	272	"                         os_mess      out   VARCHAR2 )
+"
+PKG_JCFX	PACKAGE BODY	273	"Is
+"
+PKG_JCFX	PACKAGE BODY	274	"
+"
+PKG_JCFX	PACKAGE BODY	275	"/*=============================================================================
+"
+PKG_JCFX	PACKAGE BODY	276	"|| 过程名称 ： 挂号数据采集（1：按科室、医生、病人类别汇总）prc_gh_sjcj1
+"
+PKG_JCFX	PACKAGE BODY	277	"||-----------------------------------------------------------------------------
+"
+PKG_JCFX	PACKAGE BODY	278	"|| 功能说明 ： 采集挂号数据，数据写入表JCFX_GH_DATA_D1中，作业类型GH_SJCJ_D1，
+"
+PKG_JCFX	PACKAGE BODY	279	"||             采集内容：日期、科室、医生、病人类别、人次、挂号费、诊疗费,分院编号
+"
+PKG_JCFX	PACKAGE BODY	280	"||-----------------------------------------------------------------------------
+"
+PKG_JCFX	PACKAGE BODY	281	"|| 参数描述 ： 参数标识       输入/输出     类型         名称
+"
+PKG_JCFX	PACKAGE BODY	282	"||            -----------------------------------------------------------------
+"
+PKG_JCFX	PACKAGE BODY	283	"||             in_jcfx_id     IN            Number       采集日期
+"
+PKG_JCFX	PACKAGE BODY	284	"||             on_code        OUT           Number       执行结果
+"
+PKG_JCFX	PACKAGE BODY	285	"||             os_mess        OUT           Varchar2     返回信息
+"
+PKG_JCFX	PACKAGE BODY	286	"||-----------------------------------------------------------------------------
+"
+PKG_JCFX	PACKAGE BODY	287	"|| 注意事项 ： 科室代码为空时值为'NONE'
+"
+PKG_JCFX	PACKAGE BODY	288	"||            -----------------------------------------------------------------
+"
+PKG_JCFX	PACKAGE BODY	289	"||             医生工号为空时值为'NONE'
+"
+PKG_JCFX	PACKAGE BODY	290	"||            -----------------------------------------------------------------
+"
+PKG_JCFX	PACKAGE BODY	291	"||             病人类别为空时值为0
+"
+PKG_JCFX	PACKAGE BODY	292	"||-----------------------------------------------------------------------------
+"
+PKG_JCFX	PACKAGE BODY	293	"|| 作    者 ： 陈联      完成日期 ： 2001-04
+"
+PKG_JCFX	PACKAGE BODY	294	"||-----------------------------------------------------------------------------
+"
+PKG_JCFX	PACKAGE BODY	295	"|| 修改记录 ： 陈智鸿 @ 2002-10-17
+"
+PKG_JCFX	PACKAGE BODY	296	"||             整理代码，加强反馈信息
+"
+PKG_JCFX	PACKAGE BODY	297	"=============================================================================*/
+"
+PKG_JCFX	PACKAGE BODY	298	"
+"
+PKG_JCFX	PACKAGE BODY	299	"BEGIN
+"
+PKG_JCFX	PACKAGE BODY	300	"
+"
+PKG_JCFX	PACKAGE BODY	301	"  DECLARE
+"
+PKG_JCFX	PACKAGE BODY	302	"    e_input     EXCEPTION ;
+"
+PKG_JCFX	PACKAGE BODY	303	"    ln_count    NUMBER;
+"
+PKG_JCFX	PACKAGE BODY	304	"    ln_jls      NUMBER;
+"
+PKG_JCFX	PACKAGE BODY	305	"    ln_je       NUMBER;
+"
+PKG_JCFX	PACKAGE BODY	306	"    ldt_begin   DATE;
+"
+PKG_JCFX	PACKAGE BODY	307	"    ldt_end     DATE;
+"
+PKG_JCFX	PACKAGE BODY	308	"
+"
+PKG_JCFX	PACKAGE BODY	309	"  BEGIN
+"
+PKG_JCFX	PACKAGE BODY	310	"    on_code := 1;--成功
+"
+PKG_JCFX	PACKAGE BODY	311	"    os_mess := '数据采集成功!';
+"
+PKG_JCFX	PACKAGE BODY	312	"
+"
+PKG_JCFX	PACKAGE BODY	313	"    IF Nvl(in_jcfx_id,0) = 0 THEN
+"
+PKG_JCFX	PACKAGE BODY	314	"      raise e_input ;
+"
+PKG_JCFX	PACKAGE BODY	315	"    END IF;
+"
+PKG_JCFX	PACKAGE BODY	316	"
+"
+PKG_JCFX	PACKAGE BODY	317	"    -- 时间范围为一天（HONGER）
+"
+PKG_JCFX	PACKAGE BODY	318	"    ldt_begin := To_date(To_char(in_jcfx_id),'yyyy-mm-dd');
+"
+PKG_JCFX	PACKAGE BODY	319	"    ldt_end   := ldt_begin + 86399/86400;
+"
+PKG_JCFX	PACKAGE BODY	320	"
+"
+PKG_JCFX	PACKAGE BODY	321	"    --检查日志，采集是否已经执行过
+"
+PKG_JCFX	PACKAGE BODY	322	"    SELECT COUNT(*)
+"
+PKG_JCFX	PACKAGE BODY	323	"      INTO ln_count
+"
+PKG_JCFX	PACKAGE BODY	324	"      FROM jcfx_task_log
+"
+PKG_JCFX	PACKAGE BODY	325	"     WHERE jcfx_id = in_jcfx_id
+"
+PKG_JCFX	PACKAGE BODY	326	"       AND task_lx = 'GH_SJCJ_D1';
+"
+PKG_JCFX	PACKAGE BODY	327	"
+"
+PKG_JCFX	PACKAGE BODY	328	"    -- 删除旧的作业日志和数据（HONGER）
+"
+PKG_JCFX	PACKAGE BODY	329	"    IF ln_count > 0 THEN
+"
+PKG_JCFX	PACKAGE BODY	330	"      DELETE FROM jcfx_task_log
+"
+PKG_JCFX	PACKAGE BODY	331	"       WHERE jcfx_id = in_jcfx_id
+"
+PKG_JCFX	PACKAGE BODY	332	"         AND task_lx = 'GH_SJCJ_D1';
+"
+PKG_JCFX	PACKAGE BODY	333	"
+"
+PKG_JCFX	PACKAGE BODY	334	"      DELETE FROM jcfx_gh_data_d1            --删除已有记录
+"
+PKG_JCFX	PACKAGE BODY	335	"       WHERE id = in_jcfx_id ;
+"
+PKG_JCFX	PACKAGE BODY	336	"    END IF;
+"
+PKG_JCFX	PACKAGE BODY	337	"
+"
+PKG_JCFX	PACKAGE BODY	338	"    -- 插入新的作业日志（HONGER）
+"
+PKG_JCFX	PACKAGE BODY	339	"    INSERT INTO jcfx_task_log (jcfx_id, task_lx)        --决策分析标识，作业类型
+"
+PKG_JCFX	PACKAGE BODY	340	"    VALUES (in_jcfx_id, 'GH_SJCJ_D1');             --插入作业日志
+"
+PKG_JCFX	PACKAGE BODY	341	"
+"
+PKG_JCFX	PACKAGE BODY	342	"    -- 插入新的记录（HONGER）
+"
+PKG_JCFX	PACKAGE BODY	343	"    -- ID、科室代码、医生工号、病人类别、记录数、挂号费、诊疗费,分院编号(HONGER）
+"
+PKG_JCFX	PACKAGE BODY	344	"    INSERT INTO jcfx_gh_data_d1( id, col1, col2, col3,
+"
+PKG_JCFX	PACKAGE BODY	345	"                                 col4, col5, col6,fybh)
+"
+PKG_JCFX	PACKAGE BODY	346	"    SELECT in_jcfx_id, Nvl(ksdm, 'NONE'), Nvl(ysgh, 'NONE'), Nvl(mzlbxh, 0),
+"
+PKG_JCFX	PACKAGE BODY	347	"           Nvl(Count(jlxh), 0), Nvl(Sum(ghf), 0), Nvl(Sum(zlf), 0),Nvl(fybh,0)
+"
+PKG_JCFX	PACKAGE BODY	348	"      FROM gh_ghk
+"
+PKG_JCFX	PACKAGE BODY	349	"     WHERE ghrq BETWEEN ldt_begin AND ldt_end
+"
+PKG_JCFX	PACKAGE BODY	350	"       AND thbz = 0
+"
+PKG_JCFX	PACKAGE BODY	351	"       AND zfpb is null
+"
+PKG_JCFX	PACKAGE BODY	352	"     GROUP BY ksdm,
+"
+PKG_JCFX	PACKAGE BODY	353	"              ysgh,
+"
+PKG_JCFX	PACKAGE BODY	354	"              mzlbxh,
+"
+PKG_JCFX	PACKAGE BODY	355	"              fybh;
+"
+PKG_JCFX	PACKAGE BODY	356	"
+"
+PKG_JCFX	PACKAGE BODY	357	"    -- 计算总记录数和总费用（HONGER）
+"
+PKG_JCFX	PACKAGE BODY	358	"    SELECT Nvl(Sum(col4), 0),
+"
+PKG_JCFX	PACKAGE BODY	359	"           Nvl(Sum(col5 + col6), 0)
+"
+PKG_JCFX	PACKAGE BODY	360	"      INTO ln_jls,
+"
+PKG_JCFX	PACKAGE BODY	361	"           ln_je
+"
+PKG_JCFX	PACKAGE BODY	362	"      FROM jcfx_gh_data_d1
+"
+PKG_JCFX	PACKAGE BODY	363	"     WHERE id = in_jcfx_id;
+"
+PKG_JCFX	PACKAGE BODY	364	"
+"
+PKG_JCFX	PACKAGE BODY	365	"    --修改成功标志,结束时间,记录数,金额
+"
+PKG_JCFX	PACKAGE BODY	366	"    UPDATE jcfx_task_log
+"
+PKG_JCFX	PACKAGE BODY	367	"       SET success_flag = 1 ,
+"
+PKG_JCFX	PACKAGE BODY	368	"           jssj         = sysdate   ,
+"
+PKG_JCFX	PACKAGE BODY	369	"           jls          = ln_jls    ,
+"
+PKG_JCFX	PACKAGE BODY	370	"           value        = ln_je
+"
+PKG_JCFX	PACKAGE BODY	371	"     WHERE jcfx_id = in_jcfx_id
+"
+PKG_JCFX	PACKAGE BODY	372	"       AND task_lx = 'GH_SJCJ_D1';
+"
+PKG_JCFX	PACKAGE BODY	373	"
+"
+PKG_JCFX	PACKAGE BODY	374	"    -- 提交数据（HONGER）
+"
+PKG_JCFX	PACKAGE BODY	375	"    COMMIT;
+"
+PKG_JCFX	PACKAGE BODY	376	"
+"
+PKG_JCFX	PACKAGE BODY	377	"  EXCEPTION
+"
+PKG_JCFX	PACKAGE BODY	378	"    WHEN e_input THEN
+"
+PKG_JCFX	PACKAGE BODY	379	"      on_code :=  0;
+"
+PKG_JCFX	PACKAGE BODY	380	"      os_mess := '输入参数错误!';
+"
+PKG_JCFX	PACKAGE BODY	381	"    WHEN others THEN
+"
+PKG_JCFX	PACKAGE BODY	382	"      ROLLBACK;
+"
+PKG_JCFX	PACKAGE BODY	383	"      on_code := -1;
+"
+PKG_JCFX	PACKAGE BODY	384	"      os_mess := 'prc_gh_sjcj1数据采集失败！原因：'||SQLErrm;
+"
+PKG_JCFX	PACKAGE BODY	385	"      -- 返回SQL错误信息（MODIFY 2002-10-17 HONGER）
+"
+PKG_JCFX	PACKAGE BODY	386	"  END;
+"
+PKG_JCFX	PACKAGE BODY	387	"END prc_gh_sjcj1;
+"
+PKG_JCFX	PACKAGE BODY	388	"
+"
+PKG_JCFX	PACKAGE BODY	389	"
+"
+PKG_JCFX	PACKAGE BODY	390	"
+"
+PKG_JCFX	PACKAGE BODY	391	"Procedure prc_mz_sjcj1 ( in_jcfx_id   In    NUMBER,
+"
+PKG_JCFX	PACKAGE BODY	392	"                         on_code      Out   NUMBER,
+"
+PKG_JCFX	PACKAGE BODY	393	"                         os_mess      Out   VARCHAR2 )
+"
+PKG_JCFX	PACKAGE BODY	394	"Is
+"
+PKG_JCFX	PACKAGE BODY	395	"
+"
+PKG_JCFX	PACKAGE BODY	396	"/*=============================================================================
+"
+PKG_JCFX	PACKAGE BODY	397	"|| 过程名称 ： 门诊数据采集（1：费用按病人类别、费用归类汇总）prc_mz_sjcj1
+"
+PKG_JCFX	PACKAGE BODY	398	"||-----------------------------------------------------------------------------
+"
+PKG_JCFX	PACKAGE BODY	399	"|| 功能说明 ： 采集门诊数据，数据写入表JCFX_MZ_DATA_D1中，作业类型MZ_SJCJ_D1，
+"
+PKG_JCFX	PACKAGE BODY	400	"||             采集内容：日期、病人类别、费用归类、记录数、金额,分院编号
+"
+PKG_JCFX	PACKAGE BODY	401	"||-----------------------------------------------------------------------------
+"
+PKG_JCFX	PACKAGE BODY	402	"|| 参数描述 ： 参数标识       输入/输出     类型         名称
+"
+PKG_JCFX	PACKAGE BODY	403	"||            -----------------------------------------------------------------
+"
+PKG_JCFX	PACKAGE BODY	404	"||             in_jcfx_id     IN            Number       采集日期
+"
+PKG_JCFX	PACKAGE BODY	405	"||             on_code        OUT           Number       执行结果
+"
+PKG_JCFX	PACKAGE BODY	406	"||             os_mess        OUT           Varchar2     返回信息
+"
+PKG_JCFX	PACKAGE BODY	407	"||-----------------------------------------------------------------------------
+"
+PKG_JCFX	PACKAGE BODY	408	"|| 注意事项 ： 病人类别为空时值为99
+"
+PKG_JCFX	PACKAGE BODY	409	"||            -----------------------------------------------------------------
+"
+PKG_JCFX	PACKAGE BODY	410	"||             费用归类为空时值为0
+"
+PKG_JCFX	PACKAGE BODY	411	"||-----------------------------------------------------------------------------
+"
+PKG_JCFX	PACKAGE BODY	412	"|| 作    者 ： 陈联      完成日期 ：2001-04
+"
+PKG_JCFX	PACKAGE BODY	413	"||-----------------------------------------------------------------------------
+"
+PKG_JCFX	PACKAGE BODY	414	"|| 修改记录 ： 陈智鸿 @ 2002-10-17
+"
+PKG_JCFX	PACKAGE BODY	415	"||             整理代码，加强反馈信息
+"
+PKG_JCFX	PACKAGE BODY	416	"=============================================================================*/
+"
+PKG_JCFX	PACKAGE BODY	417	"
+"
+PKG_JCFX	PACKAGE BODY	418	"BEGIN
+"
+PKG_JCFX	PACKAGE BODY	419	"
+"
+PKG_JCFX	PACKAGE BODY	420	"  DECLARE
+"
+PKG_JCFX	PACKAGE BODY	421	"    e_input         EXCEPTION;
+"
+PKG_JCFX	PACKAGE BODY	422	"    ln_count        NUMBER;
+"
+PKG_JCFX	PACKAGE BODY	423	"    ln_jls          NUMBER;
+"
+PKG_JCFX	PACKAGE BODY	424	"    ln_je           NUMBER;
+"
+PKG_JCFX	PACKAGE BODY	425	"    ln_zybz         NUMBER;
+"
+PKG_JCFX	PACKAGE BODY	426	"    ln_sfsb_begin   NUMBER;
+"
+PKG_JCFX	PACKAGE BODY	427	"    ln_sfsb_end     NUMBER;
+"
+PKG_JCFX	PACKAGE BODY	428	"
+"
+PKG_JCFX	PACKAGE BODY	429	"  BEGIN
+"
+PKG_JCFX	PACKAGE BODY	430	"    on_code := 1;--成功
+"
+PKG_JCFX	PACKAGE BODY	431	"    os_mess := '数据采集成功!';
+"
+PKG_JCFX	PACKAGE BODY	432	"
+"
+PKG_JCFX	PACKAGE BODY	433	"    IF Nvl(in_jcfx_id,0) = 0 THEN
+"
+PKG_JCFX	PACKAGE BODY	434	"      raise e_input ;
+"
+PKG_JCFX	PACKAGE BODY	435	"    END IF;
+"
+PKG_JCFX	PACKAGE BODY	436	"
+"
+PKG_JCFX	PACKAGE BODY	437	"    --检查日志，采集是否已经执行过
+"
+PKG_JCFX	PACKAGE BODY	438	"    SELECT COUNT(*)
+"
+PKG_JCFX	PACKAGE BODY	439	"      INTO ln_count
+"
+PKG_JCFX	PACKAGE BODY	440	"      FROM jcfx_task_log
+"
+PKG_JCFX	PACKAGE BODY	441	"     WHERE jcfx_id = in_jcfx_id
+"
+PKG_JCFX	PACKAGE BODY	442	"       AND task_lx = 'MZ_SJCJ_D1';
+"
+PKG_JCFX	PACKAGE BODY	443	"
+"
+PKG_JCFX	PACKAGE BODY	444	"    -- 删除旧的作业日志和数据（HONGER）
+"
+PKG_JCFX	PACKAGE BODY	445	"    IF ln_count > 0 THEN
+"
+PKG_JCFX	PACKAGE BODY	446	"      DELETE FROM jcfx_task_log
+"
+PKG_JCFX	PACKAGE BODY	447	"       WHERE jcfx_id = in_jcfx_id
+"
+PKG_JCFX	PACKAGE BODY	448	"         AND task_lx = 'MZ_SJCJ_D1';
+"
+PKG_JCFX	PACKAGE BODY	449	"
+"
+PKG_JCFX	PACKAGE BODY	450	"      DELETE FROM jcfx_mz_data_d1            --删除已有记录
+"
+PKG_JCFX	PACKAGE BODY	451	"       WHERE id = in_jcfx_id ;
+"
+PKG_JCFX	PACKAGE BODY	452	"    END IF;
+"
+PKG_JCFX	PACKAGE BODY	453	"
+"
+PKG_JCFX	PACKAGE BODY	454	"    --取收费识别区间
+"
+PKG_JCFX	PACKAGE BODY	455	"    SELECT sfsb1,
+"
+PKG_JCFX	PACKAGE BODY	456	"           sfsb2,
+"
+PKG_JCFX	PACKAGE BODY	457	"           zybz
+"
+PKG_JCFX	PACKAGE BODY	458	"      INTO ln_sfsb_begin,
+"
+PKG_JCFX	PACKAGE BODY	459	"           ln_sfsb_end,
+"
+PKG_JCFX	PACKAGE BODY	460	"           ln_zybz
+"
+PKG_JCFX	PACKAGE BODY	461	"      FROM jcfx_mz_jy
+"
+PKG_JCFX	PACKAGE BODY	462	"     WHERE id = in_jcfx_id;
+"
+PKG_JCFX	PACKAGE BODY	463	"
+"
+PKG_JCFX	PACKAGE BODY	464	"    -- 插入新的作业日志（HONGER）
+"
+PKG_JCFX	PACKAGE BODY	465	"    INSERT INTO jcfx_task_log (jcfx_id, task_lx)        --决策分析标识，作业类型
+"
+PKG_JCFX	PACKAGE BODY	466	"    VALUES (in_jcfx_id, 'MZ_SJCJ_D1');             --插入作业日志
+"
+PKG_JCFX	PACKAGE BODY	467	"
+"
+PKG_JCFX	PACKAGE BODY	468	"    IF ln_zybz = 0 THEN
+"
+PKG_JCFX	PACKAGE BODY	469	"      -- 数据未转移（HONGER）
+"
+PKG_JCFX	PACKAGE BODY	470	"      -- 插入新的记录（HONGER）
+"
+PKG_JCFX	PACKAGE BODY	471	"      -- 日期、病人类别、费用归类、记录数、金额（HONGER）,分院编号
+"
+PKG_JCFX	PACKAGE BODY	472	"      INSERT INTO jcfx_mz_data_d1( id, col1, col3,
+"
+PKG_JCFX	PACKAGE BODY	473	"                                   col4, col6, fybh)
+"
+PKG_JCFX	PACKAGE BODY	474	"      SELECT in_jcfx_id, Nvl(a.brlb, 99), Nvl(b.sfxm, 0) ,
+"
+PKG_JCFX	PACKAGE BODY	475	"             Nvl(Count(*), 0), Nvl(Sum(b.fyhj), 0),Nvl(a.fybh,0)
+"
+PKG_JCFX	PACKAGE BODY	476	"        FROM mz_mzsfk1 a,
+"
+PKG_JCFX	PACKAGE BODY	477	"             mz_mzsfk2 b
+"
+PKG_JCFX	PACKAGE BODY	478	"       WHERE a.sfsb >= ln_sfsb_begin
+"
+PKG_JCFX	PACKAGE BODY	479	"         AND a.sfsb <= ln_sfsb_end
+"
+PKG_JCFX	PACKAGE BODY	480	"         AND a.sfsb = b.sfsb
+"
+PKG_JCFX	PACKAGE BODY	481	"       GROUP BY a.brlb,
+"
+PKG_JCFX	PACKAGE BODY	482	"                b.sfxm,
+"
+PKG_JCFX	PACKAGE BODY	483	"                a.fybh;
+"
+PKG_JCFX	PACKAGE BODY	484	"-- Delete Begin ---------------------------------------------------------------------------------
+"
+PKG_JCFX	PACKAGE BODY	485	"/*
+"
+PKG_JCFX	PACKAGE BODY	486	"    ELSE
+"
+PKG_JCFX	PACKAGE BODY	487	"      -- 数据已转移（HONGER）
+"
+PKG_JCFX	PACKAGE BODY	488	"      INSERT INTO jcfx_mz_data_d1     --插入新记录
+"
+PKG_JCFX	PACKAGE BODY	489	"      ( id,col1,col3,col4,col6)  --病人类别，费用归类，记录数，金额
+"
+PKG_JCFX	PACKAGE BODY	490	"      ( SELECT in_jcfx_id,Nvl(a.brlb,'99'),Nvl(b.sfxm,0) ,Nvl(Count(*),0),Nvl(Sum(b.fyhj),0)
+"
+PKG_JCFX	PACKAGE BODY	491	"      FROM Hisbak.mz_mzsfk1 a,Hisbak.mz_mzsfk2 b
+"
+PKG_JCFX	PACKAGE BODY	492	"      WHERE a.sfsb >= ln_sfsb_begin AND a.sfsb <= ln_sfsb_end --收费识别
+"
+PKG_JCFX	PACKAGE BODY	493	"      AND a.sfsb = b.sfsb
+"
+PKG_JCFX	PACKAGE BODY	494	"      GROUP BY a.brlb,b.sfxm);
+"
+PKG_JCFX	PACKAGE BODY	495	"*/
+"
+PKG_JCFX	PACKAGE BODY	496	"-- Delete End -----------------------------------------------------------------------------------
+"
+PKG_JCFX	PACKAGE BODY	497	"    END IF;
+"
+PKG_JCFX	PACKAGE BODY	498	"
+"
+PKG_JCFX	PACKAGE BODY	499	"    -- 计算总费用和总记录数（HONGER）
+"
+PKG_JCFX	PACKAGE BODY	500	"    SELECT Nvl(Sum(col4), 0),
+"
+PKG_JCFX	PACKAGE BODY	501	"           Nvl(Sum(col6), 0)
+"
+PKG_JCFX	PACKAGE BODY	502	"      INTO ln_jls,
+"
+PKG_JCFX	PACKAGE BODY	503	"           ln_je
+"
+PKG_JCFX	PACKAGE BODY	504	"      FROM jcfx_mz_data_d1
+"
+PKG_JCFX	PACKAGE BODY	505	"     WHERE id = in_jcfx_id;
+"
+PKG_JCFX	PACKAGE BODY	506	"
+"
+PKG_JCFX	PACKAGE BODY	507	"    --修改成功标志,结束时间,记录数,金额
+"
+PKG_JCFX	PACKAGE BODY	508	"    UPDATE jcfx_task_log
+"
+PKG_JCFX	PACKAGE BODY	509	"       SET success_flag = 1,
+"
+PKG_JCFX	PACKAGE BODY	510	"           jssj         = sysdate,
+"
+PKG_JCFX	PACKAGE BODY	511	"           jls          = ln_jls,
+"
+PKG_JCFX	PACKAGE BODY	512	"           value        = ln_je
+"
+PKG_JCFX	PACKAGE BODY	513	"     WHERE jcfx_id = in_jcfx_id
+"
+PKG_JCFX	PACKAGE BODY	514	"       AND task_lx = 'MZ_SJCJ_D1';
+"
+PKG_JCFX	PACKAGE BODY	515	"
+"
+PKG_JCFX	PACKAGE BODY	516	"    -- 提交数据（HONGER）
+"
+PKG_JCFX	PACKAGE BODY	517	"    COMMIT;
+"
+PKG_JCFX	PACKAGE BODY	518	"
+"
+PKG_JCFX	PACKAGE BODY	519	"  EXCEPTION
+"
+PKG_JCFX	PACKAGE BODY	520	"    WHEN e_input THEN
+"
+PKG_JCFX	PACKAGE BODY	521	"      on_code :=  0;
+"
+PKG_JCFX	PACKAGE BODY	522	"      os_mess := '输入参数错误!';
+"
+PKG_JCFX	PACKAGE BODY	523	"    WHEN others THEN
+"
+PKG_JCFX	PACKAGE BODY	524	"      ROLLBACK;
+"
+PKG_JCFX	PACKAGE BODY	525	"      on_code := -1;
+"
+PKG_JCFX	PACKAGE BODY	526	"      os_mess := 'prc_mz_sjcj1数据采集失败！原因：'||SQLErrm;
+"
+PKG_JCFX	PACKAGE BODY	527	"      -- 返回SQL错误信息（MODIFY 2002-10-17 HONGER）
+"
+PKG_JCFX	PACKAGE BODY	528	"  END;
+"
+PKG_JCFX	PACKAGE BODY	529	"END prc_mz_sjcj1;
+"
+PKG_JCFX	PACKAGE BODY	530	"
+"
+PKG_JCFX	PACKAGE BODY	531	"
+"
+PKG_JCFX	PACKAGE BODY	532	"
+"
+PKG_JCFX	PACKAGE BODY	533	"Procedure prc_mz_sjcj2 ( in_jcfx_id   In    NUMBER,
+"
+PKG_JCFX	PACKAGE BODY	534	"                         on_code      Out   NUMBER,
+"
+PKG_JCFX	PACKAGE BODY	535	"                         os_mess      Out   VARCHAR2 )
+"
+PKG_JCFX	PACKAGE BODY	536	"Is
+"
+PKG_JCFX	PACKAGE BODY	537	"
+"
+PKG_JCFX	PACKAGE BODY	538	"/*=============================================================================
+"
+PKG_JCFX	PACKAGE BODY	539	"|| 过程名称 ： 门诊数据采集（2：处方按科室、医生、费用归类汇总）prc_mz_sjcj2
+"
+PKG_JCFX	PACKAGE BODY	540	"||-----------------------------------------------------------------------------
+"
+PKG_JCFX	PACKAGE BODY	541	"|| 功能说明 ： 采集门诊数据，数据写入表JCFX_MZ_DATA_D2中，作业类型MZ_SJCJ_D2，
+"
+PKG_JCFX	PACKAGE BODY	542	"||             采集内容：日期、科室、医生、费用归类、处方数、人次、金额,分院编号
+"
+PKG_JCFX	PACKAGE BODY	543	"||-----------------------------------------------------------------------------
+"
+PKG_JCFX	PACKAGE BODY	544	"|| 参数描述 ： 参数标识       输入/输出     类型         名称
+"
+PKG_JCFX	PACKAGE BODY	545	"||            -----------------------------------------------------------------
+"
+PKG_JCFX	PACKAGE BODY	546	"||             in_jcfx_id     IN            Number       采集日期
+"
+PKG_JCFX	PACKAGE BODY	547	"||             on_code        OUT           Number       执行结果
+"
+PKG_JCFX	PACKAGE BODY	548	"||             os_mess        OUT           Varchar2     返回信息
+"
+PKG_JCFX	PACKAGE BODY	549	"||-----------------------------------------------------------------------------
+"
+PKG_JCFX	PACKAGE BODY	550	"|| 注意事项 ： 科室代码为空时值为'NONE'
+"
+PKG_JCFX	PACKAGE BODY	551	"||            -----------------------------------------------------------------
+"
+PKG_JCFX	PACKAGE BODY	552	"||             医生工号为空时值为'NONE'
+"
+PKG_JCFX	PACKAGE BODY	553	"||            -----------------------------------------------------------------
+"
+PKG_JCFX	PACKAGE BODY	554	"||             病人类别为空时值为0
+"
+PKG_JCFX	PACKAGE BODY	555	"||-----------------------------------------------------------------------------
+"
+PKG_JCFX	PACKAGE BODY	556	"|| 作    者 ： 陈联      完成日期 ：2001-04
+"
+PKG_JCFX	PACKAGE BODY	557	"||-----------------------------------------------------------------------------
+"
+PKG_JCFX	PACKAGE BODY	558	"|| 修改记录 ： 陈智鸿 @ 2002-10-17
+"
+PKG_JCFX	PACKAGE BODY	559	"||             整理代码，加强反馈信息
+"
+PKG_JCFX	PACKAGE BODY	560	"=============================================================================*/
+"
+PKG_JCFX	PACKAGE BODY	561	"
+"
+PKG_JCFX	PACKAGE BODY	562	"BEGIN
+"
+PKG_JCFX	PACKAGE BODY	563	"
+"
+PKG_JCFX	PACKAGE BODY	564	"  DECLARE
+"
+PKG_JCFX	PACKAGE BODY	565	"    e_input         EXCEPTION;
+"
+PKG_JCFX	PACKAGE BODY	566	"    ln_count        NUMBER;
+"
+PKG_JCFX	PACKAGE BODY	567	"    ln_jls          NUMBER;
+"
+PKG_JCFX	PACKAGE BODY	568	"    ln_je           NUMBER;
+"
+PKG_JCFX	PACKAGE BODY	569	"    ln_zybz         NUMBER;
+"
+PKG_JCFX	PACKAGE BODY	570	"    ln_sfsb_begin   NUMBER;
+"
+PKG_JCFX	PACKAGE BODY	571	"    ln_sfsb_end     NUMBER;
+"
+PKG_JCFX	PACKAGE BODY	572	"
+"
+PKG_JCFX	PACKAGE BODY	573	"  BEGIN
+"
+PKG_JCFX	PACKAGE BODY	574	"    on_code := 1;--成功
+"
+PKG_JCFX	PACKAGE BODY	575	"    os_mess := '数据采集成功!';
+"
+PKG_JCFX	PACKAGE BODY	576	"
+"
+PKG_JCFX	PACKAGE BODY	577	"    IF Nvl(in_jcfx_id,0) = 0 THEN
+"
+PKG_JCFX	PACKAGE BODY	578	"      raise e_input ;
+"
+PKG_JCFX	PACKAGE BODY	579	"    END IF;
+"
+PKG_JCFX	PACKAGE BODY	580	"
+"
+PKG_JCFX	PACKAGE BODY	581	"    --检查日志，采集是否已经执行过
+"
+PKG_JCFX	PACKAGE BODY	582	"    SELECT COUNT(*)
+"
+PKG_JCFX	PACKAGE BODY	583	"      INTO ln_count
+"
+PKG_JCFX	PACKAGE BODY	584	"      FROM jcfx_task_log
+"
+PKG_JCFX	PACKAGE BODY	585	"     WHERE jcfx_id = in_jcfx_id
+"
+PKG_JCFX	PACKAGE BODY	586	"       AND task_lx = 'MZ_SJCJ_D2';
+"
+PKG_JCFX	PACKAGE BODY	587	"
+"
+PKG_JCFX	PACKAGE BODY	588	"    -- 删除旧的作业日志和数据（HONGER)
+"
+PKG_JCFX	PACKAGE BODY	589	"    IF ln_count > 0 THEN
+"
+PKG_JCFX	PACKAGE BODY	590	"      DELETE FROM jcfx_task_log
+"
+PKG_JCFX	PACKAGE BODY	591	"       WHERE jcfx_id = in_jcfx_id
+"
+PKG_JCFX	PACKAGE BODY	592	"         AND task_lx = 'MZ_SJCJ_D2';
+"
+PKG_JCFX	PACKAGE BODY	593	"
+"
+PKG_JCFX	PACKAGE BODY	594	"      DELETE FROM jcfx_mz_data_d2            --删除已有记录
+"
+PKG_JCFX	PACKAGE BODY	595	"       WHERE id = in_jcfx_id ;
+"
+PKG_JCFX	PACKAGE BODY	596	"    END IF;
+"
+PKG_JCFX	PACKAGE BODY	597	"
+"
+PKG_JCFX	PACKAGE BODY	598	"    --取收费识别区间
+"
+PKG_JCFX	PACKAGE BODY	599	"    SELECT sfsb1,
+"
+PKG_JCFX	PACKAGE BODY	600	"           sfsb2,
+"
+PKG_JCFX	PACKAGE BODY	601	"           zybz
+"
+PKG_JCFX	PACKAGE BODY	602	"      INTO ln_sfsb_begin,
+"
+PKG_JCFX	PACKAGE BODY	603	"           ln_sfsb_end,
+"
+PKG_JCFX	PACKAGE BODY	604	"           ln_zybz
+"
+PKG_JCFX	PACKAGE BODY	605	"      FROM jcfx_mz_jy
+"
+PKG_JCFX	PACKAGE BODY	606	"     WHERE id = in_jcfx_id;
+"
+PKG_JCFX	PACKAGE BODY	607	"
+"
+PKG_JCFX	PACKAGE BODY	608	"     -- 插入新的作业日志（HONGER)
+"
+PKG_JCFX	PACKAGE BODY	609	"     INSERT INTO jcfx_task_log (jcfx_id, task_lx)        --决策分析标识，作业类型
+"
+PKG_JCFX	PACKAGE BODY	610	"     VALUES (in_jcfx_id, 'MZ_SJCJ_D2');             --插入作业日志
+"
+PKG_JCFX	PACKAGE BODY	611	"
+"
+PKG_JCFX	PACKAGE BODY	612	"     IF ln_zybz = 0 THEN
+"
+PKG_JCFX	PACKAGE BODY	613	"       -- 数据未转移（HONGER)
+"
+PKG_JCFX	PACKAGE BODY	614	"       -- 插入新的数据（HONGER)
+"
+PKG_JCFX	PACKAGE BODY	615	"       -- ID、科室、医生、费用归类、处方数、人次、金额，分院编号（HONGER)
+"
+PKG_JCFX	PACKAGE BODY	616	"       INSERT INTO jcfx_mz_data_d2( id, col1, col2,
+"
+PKG_JCFX	PACKAGE BODY	617	"                                    col3, col4, col5,
+"
+PKG_JCFX	PACKAGE BODY	618	"                                    col6, fybh)
+"
+PKG_JCFX	PACKAGE BODY	619	"       SELECT in_jcfx_id, Nvl(a.ksdm, 'NONE'), Nvl(a.ysgh, 'NONE'),
+"
+PKG_JCFX	PACKAGE BODY	620	"              Nvl(b.fygb, 0), Nvl(Count(Distinct a.cfsb),0), Nvl(Count(Distinct a.sfsb),0),
+"
+PKG_JCFX	PACKAGE BODY	621	"              Nvl(Sum(Round(b.dj*b.sl, 2)), 0), Nvl(a.fybh,0)
+"
+PKG_JCFX	PACKAGE BODY	622	"         FROM mz_cfk1 a,
+"
+PKG_JCFX	PACKAGE BODY	623	"              mz_cfk2 b
+"
+PKG_JCFX	PACKAGE BODY	624	"        WHERE a.sfsb >= ln_sfsb_begin
+"
+PKG_JCFX	PACKAGE BODY	625	"          AND a.sfsb <= ln_sfsb_end
+"
+PKG_JCFX	PACKAGE BODY	626	"          AND a.cfsb = b.cfsb
+"
+PKG_JCFX	PACKAGE BODY	627	"        GROUP BY a.ksdm,
+"
+PKG_JCFX	PACKAGE BODY	628	"                 a.ysgh,
+"
+PKG_JCFX	PACKAGE BODY	629	"                 b.fygb,
+"
+PKG_JCFX	PACKAGE BODY	630	"                 a.fybh;
+"
+PKG_JCFX	PACKAGE BODY	631	"-- Delete Begin ---------------------------------------------------------------------------------
+"
+PKG_JCFX	PACKAGE BODY	632	"/*
+"
+PKG_JCFX	PACKAGE BODY	633	"    ELSE
+"
+PKG_JCFX	PACKAGE BODY	634	"    -- 数据已转移（HONGER)
+"
+PKG_JCFX	PACKAGE BODY	635	"      INSERT INTO jcfx_mz_data_d2            --插入新记录
+"
+PKG_JCFX	PACKAGE BODY	636	"      ( id,col1,col2,col3,col4,col5,col6)  --科室，医生，费用归类，处方数，人次，金额
+"
+PKG_JCFX	PACKAGE BODY	637	"      ( SELECT in_jcfx_id,Nvl(a.ksdm,'NONE'),Nvl(a.ysgh,'NONE'),Nvl(b.fygb,0),
+"
+PKG_JCFX	PACKAGE BODY	638	"      Nvl(Count(Distinct a.cfsb),0),Nvl(Count(Distinct a.sfsb),0),
+"
+PKG_JCFX	PACKAGE BODY	639	"      Nvl(Sum(Round(b.dj*b.sl,2)),0)
+"
+PKG_JCFX	PACKAGE BODY	640	"      FROM Hisbak.mz_cfk1 a,Hisbak.mz_cfk2 b
+"
+PKG_JCFX	PACKAGE BODY	641	"      WHERE a.sfsb >= ln_sfsb_begin AND a.sfsb <= ln_sfsb_end --收费识别
+"
+PKG_JCFX	PACKAGE BODY	642	"      AND a.cfsb = b.cfsb--              AND a.fypb < 3
+"
+PKG_JCFX	PACKAGE BODY	643	"      GROUP BY a.ksdm,a.ysgh,b.fygb);
+"
+PKG_JCFX	PACKAGE BODY	644	"*/
+"
+PKG_JCFX	PACKAGE BODY	645	"-- Delete End ------------------------------------------------------------------------------------
+"
+PKG_JCFX	PACKAGE BODY	646	"    END IF;
+"
+PKG_JCFX	PACKAGE BODY	647	"
+"
+PKG_JCFX	PACKAGE BODY	648	"    -- 计算总处方数和总金额（HONGER）
+"
+PKG_JCFX	PACKAGE BODY	649	"    SELECT Nvl(Sum(col4), 0),
+"
+PKG_JCFX	PACKAGE BODY	650	"           Nvl(Sum(col6), 0)
+"
+PKG_JCFX	PACKAGE BODY	651	"      INTO ln_jls,ln_je
+"
+PKG_JCFX	PACKAGE BODY	652	"      FROM jcfx_mz_data_d2
+"
+PKG_JCFX	PACKAGE BODY	653	"     WHERE id = in_jcfx_id;
+"
+PKG_JCFX	PACKAGE BODY	654	"
+"
+PKG_JCFX	PACKAGE BODY	655	"    --修改成功标志,结束时间,记录数,金额
+"
+PKG_JCFX	PACKAGE BODY	656	"    UPDATE jcfx_task_log
+"
+PKG_JCFX	PACKAGE BODY	657	"       SET success_flag = 1,
+"
+PKG_JCFX	PACKAGE BODY	658	"           jssj         = sysdate,
+"
+PKG_JCFX	PACKAGE BODY	659	"           jls          = ln_jls,
+"
+PKG_JCFX	PACKAGE BODY	660	"           value        = ln_je
+"
+PKG_JCFX	PACKAGE BODY	661	"     WHERE jcfx_id = in_jcfx_id
+"
+PKG_JCFX	PACKAGE BODY	662	"       AND task_lx = 'MZ_SJCJ_D2';
+"
+PKG_JCFX	PACKAGE BODY	663	"
+"
+PKG_JCFX	PACKAGE BODY	664	"    -- 提交数据（HONGER）
+"
+PKG_JCFX	PACKAGE BODY	665	"    COMMIT;
+"
+PKG_JCFX	PACKAGE BODY	666	"
+"
+PKG_JCFX	PACKAGE BODY	667	"  EXCEPTION
+"
+PKG_JCFX	PACKAGE BODY	668	"    WHEN e_input THEN
+"
+PKG_JCFX	PACKAGE BODY	669	"      on_code :=  0;
+"
+PKG_JCFX	PACKAGE BODY	670	"      os_mess := '输入参数错误!';
+"
+PKG_JCFX	PACKAGE BODY	671	"    WHEN others THEN
+"
+PKG_JCFX	PACKAGE BODY	672	"      ROLLBACK;
+"
+PKG_JCFX	PACKAGE BODY	673	"      on_code := -1;
+"
+PKG_JCFX	PACKAGE BODY	674	"      os_mess := 'prc_mz_sjcj2数据采集失败！原因：'||SQLErrm;
+"
+PKG_JCFX	PACKAGE BODY	675	"      -- 返回SQL错误信息（MODIFY 2002-10-17 HONGER）
+"
+PKG_JCFX	PACKAGE BODY	676	"  END;
+"
+PKG_JCFX	PACKAGE BODY	677	"END prc_mz_sjcj2;
+"
+PKG_JCFX	PACKAGE BODY	678	"
+"
+PKG_JCFX	PACKAGE BODY	679	"
+"
+PKG_JCFX	PACKAGE BODY	680	"
+"
+PKG_JCFX	PACKAGE BODY	681	"Procedure prc_mz_sjcj3 ( in_jcfx_id   In    NUMBER,
+"
+PKG_JCFX	PACKAGE BODY	682	"                         on_code      Out   NUMBER,
+"
+PKG_JCFX	PACKAGE BODY	683	"                         os_mess      Out   VARCHAR2)
+"
+PKG_JCFX	PACKAGE BODY	684	"Is
+"
+PKG_JCFX	PACKAGE BODY	685	"
+"
+PKG_JCFX	PACKAGE BODY	686	"/*=============================================================================
+"
+PKG_JCFX	PACKAGE BODY	687	"|| 过程名称 ： 门诊数据采集（3：医技按开单科室、开单医生、费用归类汇总）
+"
+PKG_JCFX	PACKAGE BODY	688	"||             prc_mz_sjcj3
+"
+PKG_JCFX	PACKAGE BODY	689	"||-----------------------------------------------------------------------------
+"
+PKG_JCFX	PACKAGE BODY	690	"|| 功能说明 ： 采集门诊数据，数据写入表JCFX_MZ_DATA_D3中，作业类型MZ_SJCJ_D3，
+"
+PKG_JCFX	PACKAGE BODY	691	"||             采集内容：日期、开单科室、开单医生、费用归类、处方数、人次、金额、
+"
+PKG_JCFX	PACKAGE BODY	692	"||                       分院编号
+"
+PKG_JCFX	PACKAGE BODY	693	"||-----------------------------------------------------------------------------
+"
+PKG_JCFX	PACKAGE BODY	694	"|| 参数描述 ： 参数标识       输入/输出     类型         名称
+"
+PKG_JCFX	PACKAGE BODY	695	"||            -----------------------------------------------------------------
+"
+PKG_JCFX	PACKAGE BODY	696	"||             in_jcfx_id     IN            Number       采集日期
+"
+PKG_JCFX	PACKAGE BODY	697	"||             on_code        OUT           Number       执行结果
+"
+PKG_JCFX	PACKAGE BODY	698	"||             os_mess        OUT           Varchar2     返回信息
+"
+PKG_JCFX	PACKAGE BODY	699	"||-----------------------------------------------------------------------------
+"
+PKG_JCFX	PACKAGE BODY	700	"|| 注意事项 ： 科室代码为空时值为'NONE'
+"
+PKG_JCFX	PACKAGE BODY	701	"||            -----------------------------------------------------------------
+"
+PKG_JCFX	PACKAGE BODY	702	"||             医生工号为空时值为'NONE'
+"
+PKG_JCFX	PACKAGE BODY	703	"||            -----------------------------------------------------------------
+"
+PKG_JCFX	PACKAGE BODY	704	"||             病人类别为空时值为0
+"
+PKG_JCFX	PACKAGE BODY	705	"||-----------------------------------------------------------------------------
+"
+PKG_JCFX	PACKAGE BODY	706	"|| 作    者 ： 陈联      完成日期 ：2001-04
+"
+PKG_JCFX	PACKAGE BODY	707	"||-----------------------------------------------------------------------------
+"
+PKG_JCFX	PACKAGE BODY	708	"|| 修改记录 ： 陈智鸿 @ 2002-10-17
+"
+PKG_JCFX	PACKAGE BODY	709	"||             整理代码，加强反馈信息
+"
+PKG_JCFX	PACKAGE BODY	710	"=============================================================================*/
+"
+PKG_JCFX	PACKAGE BODY	711	"
+"
+PKG_JCFX	PACKAGE BODY	712	"BEGIN
+"
+PKG_JCFX	PACKAGE BODY	713	"
+"
+PKG_JCFX	PACKAGE BODY	714	"  DECLARE
+"
+PKG_JCFX	PACKAGE BODY	715	"    e_input         EXCEPTION;
+"
+PKG_JCFX	PACKAGE BODY	716	"    ln_count        NUMBER;
+"
+PKG_JCFX	PACKAGE BODY	717	"    ln_jls          NUMBER;
+"
+PKG_JCFX	PACKAGE BODY	718	"    ln_je           NUMBER;
+"
+PKG_JCFX	PACKAGE BODY	719	"    ln_zybz         NUMBER;
+"
+PKG_JCFX	PACKAGE BODY	720	"    ln_sfsb_begin   NUMBER;
+"
+PKG_JCFX	PACKAGE BODY	721	"    ln_sfsb_end     NUMBER;
+"
+PKG_JCFX	PACKAGE BODY	722	"
+"
+PKG_JCFX	PACKAGE BODY	723	"  BEGIN
+"
+PKG_JCFX	PACKAGE BODY	724	"    on_code := 1;--成功
+"
+PKG_JCFX	PACKAGE BODY	725	"    os_mess := '数据采集成功!';
+"
+PKG_JCFX	PACKAGE BODY	726	"
+"
+PKG_JCFX	PACKAGE BODY	727	"    IF Nvl(in_jcfx_id,0) = 0 THEN
+"
+PKG_JCFX	PACKAGE BODY	728	"      raise e_input ;
+"
+PKG_JCFX	PACKAGE BODY	729	"    END IF;
+"
+PKG_JCFX	PACKAGE BODY	730	"
+"
+PKG_JCFX	PACKAGE BODY	731	"    --检查日志，采集是否已经执行过
+"
+PKG_JCFX	PACKAGE BODY	732	"    SELECT COUNT(*)
+"
+PKG_JCFX	PACKAGE BODY	733	"      INTO ln_count
+"
+PKG_JCFX	PACKAGE BODY	734	"      FROM jcfx_task_log
+"
+PKG_JCFX	PACKAGE BODY	735	"     WHERE jcfx_id = in_jcfx_id
+"
+PKG_JCFX	PACKAGE BODY	736	"       AND task_lx = 'MZ_SJCJ_D3';
+"
+PKG_JCFX	PACKAGE BODY	737	"
+"
+PKG_JCFX	PACKAGE BODY	738	"     -- 删除旧的作业日志和数据（HONGER）
+"
+PKG_JCFX	PACKAGE BODY	739	"     IF ln_count > 0 THEN
+"
+PKG_JCFX	PACKAGE BODY	740	"       DELETE FROM jcfx_task_log
+"
+PKG_JCFX	PACKAGE BODY	741	"        WHERE jcfx_id = in_jcfx_id
+"
+PKG_JCFX	PACKAGE BODY	742	"          AND task_lx = 'MZ_SJCJ_D3';
+"
+PKG_JCFX	PACKAGE BODY	743	"
+"
+PKG_JCFX	PACKAGE BODY	744	"       DELETE FROM jcfx_mz_data_d3            --删除已有记录
+"
+PKG_JCFX	PACKAGE BODY	745	"         WHERE id = in_jcfx_id ;
+"
+PKG_JCFX	PACKAGE BODY	746	"     END IF;
+"
+PKG_JCFX	PACKAGE BODY	747	"
+"
+PKG_JCFX	PACKAGE BODY	748	"     --取收费识别区间
+"
+PKG_JCFX	PACKAGE BODY	749	"     SELECT sfsb1,
+"
+PKG_JCFX	PACKAGE BODY	750	"            sfsb2,
+"
+PKG_JCFX	PACKAGE BODY	751	"            zybz
+"
+PKG_JCFX	PACKAGE BODY	752	"       INTO ln_sfsb_begin,
+"
+PKG_JCFX	PACKAGE BODY	753	"            ln_sfsb_end,
+"
+PKG_JCFX	PACKAGE BODY	754	"            ln_zybz
+"
+PKG_JCFX	PACKAGE BODY	755	"       FROM jcfx_mz_jy
+"
+PKG_JCFX	PACKAGE BODY	756	"      WHERE id = in_jcfx_id;
+"
+PKG_JCFX	PACKAGE BODY	757	"
+"
+PKG_JCFX	PACKAGE BODY	758	"     -- 插入新的作业日志（HONGER）
+"
+PKG_JCFX	PACKAGE BODY	759	"     INSERT INTO jcfx_task_log( jcfx_id, task_lx )        --决策分析标识，作业类型
+"
+PKG_JCFX	PACKAGE BODY	760	"     VALUES (in_jcfx_id,'MZ_SJCJ_D3');             --插入作业日志
+"
+PKG_JCFX	PACKAGE BODY	761	"
+"
+PKG_JCFX	PACKAGE BODY	762	"     IF ln_zybz = 0 THEN
+"
+PKG_JCFX	PACKAGE BODY	763	"       -- 数据未转移（HONGER）
+"
+PKG_JCFX	PACKAGE BODY	764	"       -- 插入新的数据（HONGER）
+"
+PKG_JCFX	PACKAGE BODY	765	"       -- ID、开单科室、开单医生、费用归类、处方数、人次、金额（HONGER）
+"
+PKG_JCFX	PACKAGE BODY	766	"       INSERT INTO jcfx_mz_data_d3( id, col1, col2,
+"
+PKG_JCFX	PACKAGE BODY	767	"                                    col3, col4, col5,
+"
+PKG_JCFX	PACKAGE BODY	768	"                                    col6, fybh)
+"
+PKG_JCFX	PACKAGE BODY	769	"       SELECT in_jcfx_id, Nvl(a.sjksdm, 'NONE'), Nvl(a.sjysgh, 'NONE'),
+"
+PKG_JCFX	PACKAGE BODY	770	"              Nvl(b.fygb, 0), Nvl(Count(Distinct a.yjsb), 0), Nvl(Count(Distinct a.sfsb), 0),
+"
+PKG_JCFX	PACKAGE BODY	771	"              Nvl(Sum(Round(b.dj*b.sl,2)), 0), Nvl(a.fybh,0)
+"
+PKG_JCFX	PACKAGE BODY	772	"         FROM yj_yjk1 a,
+"
+PKG_JCFX	PACKAGE BODY	773	"              yj_yjk2 b
+"
+PKG_JCFX	PACKAGE BODY	774	"        WHERE a.sfsb >= ln_sfsb_begin
+"
+PKG_JCFX	PACKAGE BODY	775	"          AND a.sfsb <= ln_sfsb_end
+"
+PKG_JCFX	PACKAGE BODY	776	"          AND a.yjsb = b.yjsb
+"
+PKG_JCFX	PACKAGE BODY	777	"        GROUP BY a.sjksdm,
+"
+PKG_JCFX	PACKAGE BODY	778	"                 a.sjysgh,
+"
+PKG_JCFX	PACKAGE BODY	779	"                 b.fygb,
+"
+PKG_JCFX	PACKAGE BODY	780	"                 a.fybh;
+"
+PKG_JCFX	PACKAGE BODY	781	"-- Delete Begin ---------------------------------------------------------------------------------
+"
+PKG_JCFX	PACKAGE BODY	782	"/*
+"
+PKG_JCFX	PACKAGE BODY	783	"    ELSE
+"
+PKG_JCFX	PACKAGE BODY	784	"      -- 数据已转移（HONGER）
+"
+PKG_JCFX	PACKAGE BODY	785	"      INSERT INTO jcfx_mz_data_d3          --插入新记录
+"
+PKG_JCFX	PACKAGE BODY	786	"	    ( id,col1,col2,col3,col4,col5,col6)  --申检科室，申检医生，费用归类，处方数，人次，金额
+"
+PKG_JCFX	PACKAGE BODY	787	"	    ( SELECT in_jcfx_id,Nvl(a.sjksdm,'NONE'),Nvl(a.sjysgh,'NONE'),Nvl(b.fygb,0),
+"
+PKG_JCFX	PACKAGE BODY	788	"	    Nvl(Count(Distinct a.yjsb),0),Nvl(Count(Distinct a.sfsb),0),Nvl(Sum(Round(b.dj*b.sl,2)),0)
+"
+PKG_JCFX	PACKAGE BODY	789	"	    FROM Hisbak.yj_yjk1 a,Hisbak.yj_yjk2 b
+"
+PKG_JCFX	PACKAGE BODY	790	"	    WHERE a.sfsb >= ln_sfsb_begin AND a.sfsb <= ln_sfsb_end --收费识别
+"
+PKG_JCFX	PACKAGE BODY	791	"	    AND a.yjsb = b.yjsb
+"
+PKG_JCFX	PACKAGE BODY	792	"	    GROUP BY a.sjksdm,a.sjysgh,b.fygb);
+"
+PKG_JCFX	PACKAGE BODY	793	"*/
+"
+PKG_JCFX	PACKAGE BODY	794	"-- Delete End -----------------------------------------------------------------------------------
+"
+PKG_JCFX	PACKAGE BODY	795	"    END IF;
+"
+PKG_JCFX	PACKAGE BODY	796	"
+"
+PKG_JCFX	PACKAGE BODY	797	"    -- 计算总处方数和金额（HONGER）
+"
+PKG_JCFX	PACKAGE BODY	798	"    SELECT Nvl(Sum(col4), 0),
+"
+PKG_JCFX	PACKAGE BODY	799	"           Nvl(Sum(col6), 0)
+"
+PKG_JCFX	PACKAGE BODY	800	"      INTO ln_jls,
+"
+PKG_JCFX	PACKAGE BODY	801	"           ln_je
+"
+PKG_JCFX	PACKAGE BODY	802	"      FROM jcfx_mz_data_d3
+"
+PKG_JCFX	PACKAGE BODY	803	"     WHERE id = in_jcfx_id;
+"
+PKG_JCFX	PACKAGE BODY	804	"
+"
+PKG_JCFX	PACKAGE BODY	805	"    --修改成功标志,结束时间,记录数,金额
+"
+PKG_JCFX	PACKAGE BODY	806	"    UPDATE jcfx_task_log
+"
+PKG_JCFX	PACKAGE BODY	807	"       SET success_flag = 1,
+"
+PKG_JCFX	PACKAGE BODY	808	"           jssj         = sysdate,
+"
+PKG_JCFX	PACKAGE BODY	809	"           jls          = ln_jls,
+"
+PKG_JCFX	PACKAGE BODY	810	"           value        = ln_je
+"
+PKG_JCFX	PACKAGE BODY	811	"     WHERE jcfx_id = in_jcfx_id
+"
+PKG_JCFX	PACKAGE BODY	812	"       AND task_lx = 'MZ_SJCJ_D3';
+"
+PKG_JCFX	PACKAGE BODY	813	"
+"
+PKG_JCFX	PACKAGE BODY	814	"     -- 提交数据（HONGER）
+"
+PKG_JCFX	PACKAGE BODY	815	"	   COMMIT;
+"
+PKG_JCFX	PACKAGE BODY	816	"
+"
+PKG_JCFX	PACKAGE BODY	817	"  EXCEPTION
+"
+PKG_JCFX	PACKAGE BODY	818	"    WHEN e_input THEN
+"
+PKG_JCFX	PACKAGE BODY	819	"      on_code :=  0;
+"
+PKG_JCFX	PACKAGE BODY	820	"      os_mess := '输入参数错误!';
+"
+PKG_JCFX	PACKAGE BODY	821	"    WHEN others THEN
+"
+PKG_JCFX	PACKAGE BODY	822	"      ROLLBACK;
+"
+PKG_JCFX	PACKAGE BODY	823	"      on_code := -1;
+"
+PKG_JCFX	PACKAGE BODY	824	"      os_mess := 'prc_mz_sjcj3数据采集失败！原因：'||SQLErrm;
+"
+PKG_JCFX	PACKAGE BODY	825	"      -- 返回SQL错误信息（MODIFY 2002-10-17 HONGER）
+"
+PKG_JCFX	PACKAGE BODY	826	"  END;
+"
+PKG_JCFX	PACKAGE BODY	827	"END prc_mz_sjcj3;
+"
+PKG_JCFX	PACKAGE BODY	828	"
+"
+PKG_JCFX	PACKAGE BODY	829	"
+"
+PKG_JCFX	PACKAGE BODY	830	"
+"
+PKG_JCFX	PACKAGE BODY	831	"Procedure prc_mz_sjcj4 ( in_jcfx_id   In    NUMBER,
+"
+PKG_JCFX	PACKAGE BODY	832	"                         on_code      Out   NUMBER,
+"
+PKG_JCFX	PACKAGE BODY	833	"                         os_mess      Out   VARCHAR2)
+"
+PKG_JCFX	PACKAGE BODY	834	"Is
+"
+PKG_JCFX	PACKAGE BODY	835	"
+"
+PKG_JCFX	PACKAGE BODY	836	"/*=============================================================================
+"
+PKG_JCFX	PACKAGE BODY	837	"|| 过程名称 ： 门诊数据采集（4：医技按执行科室、执行医生、费用归类汇总）
+"
+PKG_JCFX	PACKAGE BODY	838	"||             prc_mz_sjcj4
+"
+PKG_JCFX	PACKAGE BODY	839	"||-----------------------------------------------------------------------------
+"
+PKG_JCFX	PACKAGE BODY	840	"|| 功能说明 ： 采集门诊数据，数据写入表JCFX_MZ_DATA_D4中，作业类型MZ_SJCJ_D4，
+"
+PKG_JCFX	PACKAGE BODY	841	"||             采集内容：日期、执行科室、执行医生、费用归类、处方数、人次、金额、
+"
+PKG_JCFX	PACKAGE BODY	842	"||                       分院编号
+"
+PKG_JCFX	PACKAGE BODY	843	"||-----------------------------------------------------------------------------
+"
+PKG_JCFX	PACKAGE BODY	844	"|| 参数描述 ： 参数标识       输入/输出     类型         名称
+"
+PKG_JCFX	PACKAGE BODY	845	"||            -----------------------------------------------------------------
+"
+PKG_JCFX	PACKAGE BODY	846	"||             in_jcfx_id     IN            Number       采集日期
+"
+PKG_JCFX	PACKAGE BODY	847	"||             on_code        OUT           Number       执行结果
+"
+PKG_JCFX	PACKAGE BODY	848	"||             os_mess        OUT           Varchar2     返回信息
+"
+PKG_JCFX	PACKAGE BODY	849	"||-----------------------------------------------------------------------------
+"
+PKG_JCFX	PACKAGE BODY	850	"|| 注意事项 ： 科室代码为空时值为'NONE'
+"
+PKG_JCFX	PACKAGE BODY	851	"||            -----------------------------------------------------------------
+"
+PKG_JCFX	PACKAGE BODY	852	"||             医生工号为空时值为'NONE'
+"
+PKG_JCFX	PACKAGE BODY	853	"||            -----------------------------------------------------------------
+"
+PKG_JCFX	PACKAGE BODY	854	"||             病人类别为空时值为0
+"
+PKG_JCFX	PACKAGE BODY	855	"||-----------------------------------------------------------------------------
+"
+PKG_JCFX	PACKAGE BODY	856	"|| 作    者 ： 陈联      完成日期 ：2001-04
+"
+PKG_JCFX	PACKAGE BODY	857	"||-----------------------------------------------------------------------------
+"
+PKG_JCFX	PACKAGE BODY	858	"|| 修改记录 ： 陈智鸿 @ 2002-10-17
+"
+PKG_JCFX	PACKAGE BODY	859	"||             整理代码，加强反馈信息
+"
+PKG_JCFX	PACKAGE BODY	860	"=============================================================================*/
+"
+PKG_JCFX	PACKAGE BODY	861	"
+"
+PKG_JCFX	PACKAGE BODY	862	"BEGIN
+"
+PKG_JCFX	PACKAGE BODY	863	"
+"
+PKG_JCFX	PACKAGE BODY	864	"  DECLARE
+"
+PKG_JCFX	PACKAGE BODY	865	"    e_input         EXCEPTION;
+"
+PKG_JCFX	PACKAGE BODY	866	"    ln_count        NUMBER;
+"
+PKG_JCFX	PACKAGE BODY	867	"    ln_jls          NUMBER;
+"
+PKG_JCFX	PACKAGE BODY	868	"    ln_je           NUMBER;
+"
+PKG_JCFX	PACKAGE BODY	869	"    ln_zybz         NUMBER;
+"
+PKG_JCFX	PACKAGE BODY	870	"    ln_sfsb_begin   NUMBER;
+"
+PKG_JCFX	PACKAGE BODY	871	"    ln_sfsb_end     NUMBER;
+"
+PKG_JCFX	PACKAGE BODY	872	"
+"
+PKG_JCFX	PACKAGE BODY	873	"  BEGIN
+"
+PKG_JCFX	PACKAGE BODY	874	"    on_code := 1;--成功
+"
+PKG_JCFX	PACKAGE BODY	875	"    os_mess := '数据采集成功!';
+"
+PKG_JCFX	PACKAGE BODY	876	"
+"
+PKG_JCFX	PACKAGE BODY	877	"    IF Nvl(in_jcfx_id,0) = 0 THEN
+"
+PKG_JCFX	PACKAGE BODY	878	"      raise e_input;
+"
+PKG_JCFX	PACKAGE BODY	879	"    END IF;
+"
+PKG_JCFX	PACKAGE BODY	880	"
+"
+PKG_JCFX	PACKAGE BODY	881	"    --检查日志，采集是否已经执行过
+"
+PKG_JCFX	PACKAGE BODY	882	"    SELECT COUNT(*)
+"
+PKG_JCFX	PACKAGE BODY	883	"      INTO ln_count
+"
+PKG_JCFX	PACKAGE BODY	884	"      FROM jcfx_task_log
+"
+PKG_JCFX	PACKAGE BODY	885	"     WHERE jcfx_id = in_jcfx_id
+"
+PKG_JCFX	PACKAGE BODY	886	"       AND task_lx = 'MZ_SJCJ_D4';
+"
+PKG_JCFX	PACKAGE BODY	887	"
+"
+PKG_JCFX	PACKAGE BODY	888	"    -- 删除旧的作业日志和数据（HONGER）
+"
+PKG_JCFX	PACKAGE BODY	889	"    IF ln_count > 0 THEN
+"
+PKG_JCFX	PACKAGE BODY	890	"      DELETE FROM jcfx_task_log
+"
+PKG_JCFX	PACKAGE BODY	891	"       WHERE jcfx_id = in_jcfx_id
+"
+PKG_JCFX	PACKAGE BODY	892	"         AND task_lx = 'MZ_SJCJ_D4';
+"
+PKG_JCFX	PACKAGE BODY	893	"
+"
+PKG_JCFX	PACKAGE BODY	894	"      DELETE FROM jcfx_mz_data_d4            --删除已有记录
+"
+PKG_JCFX	PACKAGE BODY	895	"       WHERE id = in_jcfx_id ;
+"
+PKG_JCFX	PACKAGE BODY	896	"    END IF;
+"
+PKG_JCFX	PACKAGE BODY	897	"
+"
+PKG_JCFX	PACKAGE BODY	898	"    --取收费识别区间
+"
+PKG_JCFX	PACKAGE BODY	899	"    SELECT sfsb1,
+"
+PKG_JCFX	PACKAGE BODY	900	"           sfsb2,
+"
+PKG_JCFX	PACKAGE BODY	901	"           zybz
+"
+PKG_JCFX	PACKAGE BODY	902	"      INTO ln_sfsb_begin,
+"
+PKG_JCFX	PACKAGE BODY	903	"           ln_sfsb_end,
+"
+PKG_JCFX	PACKAGE BODY	904	"           ln_zybz
+"
+PKG_JCFX	PACKAGE BODY	905	"      FROM jcfx_mz_jy
+"
+PKG_JCFX	PACKAGE BODY	906	"     WHERE id = in_jcfx_id;
+"
+PKG_JCFX	PACKAGE BODY	907	"
+"
+PKG_JCFX	PACKAGE BODY	908	"   -- 插入新的作业日志（HONGER）
+"
+PKG_JCFX	PACKAGE BODY	909	"   INSERT INTO jcfx_task_log (jcfx_id, task_lx)        --决策分析标识，作业类型
+"
+PKG_JCFX	PACKAGE BODY	910	"   VALUES (in_jcfx_id,'MZ_SJCJ_D4');             --插入作业日志
+"
+PKG_JCFX	PACKAGE BODY	911	"
+"
+PKG_JCFX	PACKAGE BODY	912	"   IF ln_zybz = 0 THEN
+"
+PKG_JCFX	PACKAGE BODY	913	"     -- 数据未转移（HONGER）
+"
+PKG_JCFX	PACKAGE BODY	914	"     -- 插入新的数据（HONGER）
+"
+PKG_JCFX	PACKAGE BODY	915	"     -- ID、科室、医生、费用归类、处方数、人次、金额（HONGER）
+"
+PKG_JCFX	PACKAGE BODY	916	"     INSERT INTO jcfx_mz_data_d4( id, col1, col2,
+"
+PKG_JCFX	PACKAGE BODY	917	"                                  col3, col4, col5,
+"
+PKG_JCFX	PACKAGE BODY	918	"                                  col6, fybh)
+"
+PKG_JCFX	PACKAGE BODY	919	"     SELECT in_jcfx_id, Nvl(b.zxksdm, 'NONE'), Nvl(b.zxysgh, 'NONE'),
+"
+PKG_JCFX	PACKAGE BODY	920	"            Nvl(b.fygb, 0), Nvl(Count(a.yjsb), 0), Nvl(Sum(b.sl), 0),
+"
+PKG_JCFX	PACKAGE BODY	921	"            Nvl(Sum(Round(b.dj*b.sl, 2)), 0), Nvl(a.fybh,0)
+"
+PKG_JCFX	PACKAGE BODY	922	"       FROM yj_yjk1 a,
+"
+PKG_JCFX	PACKAGE BODY	923	"            yj_yjk2 b
+"
+PKG_JCFX	PACKAGE BODY	924	"      WHERE a.sfsb >= ln_sfsb_begin
+"
+PKG_JCFX	PACKAGE BODY	925	"        AND a.sfsb <= ln_sfsb_end
+"
+PKG_JCFX	PACKAGE BODY	926	"        AND a.yjsb = b.yjsb
+"
+PKG_JCFX	PACKAGE BODY	927	"      GROUP BY b.zxksdm,
+"
+PKG_JCFX	PACKAGE BODY	928	"               b.zxysgh,
+"
+PKG_JCFX	PACKAGE BODY	929	"               b.fygb,
+"
+PKG_JCFX	PACKAGE BODY	930	"               a.fybh;
+"
+PKG_JCFX	PACKAGE BODY	931	"-- Delete Begin ---------------------------------------------------------------------------------
+"
+PKG_JCFX	PACKAGE BODY	932	"/*
+"
+PKG_JCFX	PACKAGE BODY	933	"    ELSE
+"
+PKG_JCFX	PACKAGE BODY	934	"    -- 数据已转移（HONGER）
+"
+PKG_JCFX	PACKAGE BODY	935	"    INSERT INTO jcfx_mz_data_d4               --插入新记录
+"
+PKG_JCFX	PACKAGE BODY	936	"    ( id,col1,col2,col3,col4,col5,col6)  --执行科室，执行医生，费用归类，人次，金额
+"
+PKG_JCFX	PACKAGE BODY	937	"    ( SELECT in_jcfx_id,Nvl(b.zxksdm,'NONE'),Nvl(b.zxysgh,'NONE'),Nvl(b.fygb,0),
+"
+PKG_JCFX	PACKAGE BODY	938	"    Nvl(Count(a.yjsb),0),Nvl(Sum(b.sl),0),Nvl(Sum(Round(b.dj*b.sl,2)),0)
+"
+PKG_JCFX	PACKAGE BODY	939	"    FROM Hisbak.yj_yjk1 a,Hisbak.yj_yjk2 b
+"
+PKG_JCFX	PACKAGE BODY	940	"    WHERE a.sfsb >= ln_sfsb_begin AND a.sfsb <= ln_sfsb_end --收费识别
+"
+PKG_JCFX	PACKAGE BODY	941	"    AND a.yjsb = b.yjsb
+"
+PKG_JCFX	PACKAGE BODY	942	"    GROUP BY b.zxksdm,b.zxysgh,b.fygb);
+"
+PKG_JCFX	PACKAGE BODY	943	"*/
+"
+PKG_JCFX	PACKAGE BODY	944	"-- Delete End -----------------------------------------------------------------------------------
+"
+PKG_JCFX	PACKAGE BODY	945	"    END IF;
+"
+PKG_JCFX	PACKAGE BODY	946	"
+"
+PKG_JCFX	PACKAGE BODY	947	"    -- 计算总处方数和总金额（HONGER）
+"
+PKG_JCFX	PACKAGE BODY	948	"    SELECT Nvl(Sum(col5), 0),
+"
+PKG_JCFX	PACKAGE BODY	949	"           Nvl(Sum(col6), 0)
+"
+PKG_JCFX	PACKAGE BODY	950	"      INTO ln_jls,
+"
+PKG_JCFX	PACKAGE BODY	951	"           ln_je
+"
+PKG_JCFX	PACKAGE BODY	952	"      FROM jcfx_mz_data_d4
+"
+PKG_JCFX	PACKAGE BODY	953	"     WHERE id = in_jcfx_id;
+"
+PKG_JCFX	PACKAGE BODY	954	"
+"
+PKG_JCFX	PACKAGE BODY	955	"     --修改成功标志,结束时间,记录数,金额
+"
+PKG_JCFX	PACKAGE BODY	956	"	   UPDATE jcfx_task_log
+"
+PKG_JCFX	PACKAGE BODY	957	"        SET success_flag = 1,
+"
+PKG_JCFX	PACKAGE BODY	958	"            jssj         = sysdate,
+"
+PKG_JCFX	PACKAGE BODY	959	"            jls          = ln_jls,
+"
+PKG_JCFX	PACKAGE BODY	960	"            value        = ln_je
+"
+PKG_JCFX	PACKAGE BODY	961	"      WHERE jcfx_id = in_jcfx_id
+"
+PKG_JCFX	PACKAGE BODY	962	"        AND task_lx = 'MZ_SJCJ_D4';
+"
+PKG_JCFX	PACKAGE BODY	963	"
+"
+PKG_JCFX	PACKAGE BODY	964	"    -- 提交数据（HONGER）
+"
+PKG_JCFX	PACKAGE BODY	965	"    COMMIT;
+"
+PKG_JCFX	PACKAGE BODY	966	"
+"
+PKG_JCFX	PACKAGE BODY	967	"  EXCEPTION
+"
+PKG_JCFX	PACKAGE BODY	968	"    WHEN e_input THEN
+"
+PKG_JCFX	PACKAGE BODY	969	"      on_code :=  0;
+"
+PKG_JCFX	PACKAGE BODY	970	"      os_mess := '输入参数错误!';
+"
+PKG_JCFX	PACKAGE BODY	971	"    WHEN others THEN
+"
+PKG_JCFX	PACKAGE BODY	972	"      ROLLBACK;
+"
+PKG_JCFX	PACKAGE BODY	973	"      on_code := -1;
+"
+PKG_JCFX	PACKAGE BODY	974	"      os_mess := 'prc_mz_sjcj4数据采集失败！原因：'||SQLErrm;
+"
+PKG_JCFX	PACKAGE BODY	975	"      -- 返回SQL错误信息（MODIFY 2002-10-17 HONGER）
+"
+PKG_JCFX	PACKAGE BODY	976	"  END;
+"
+PKG_JCFX	PACKAGE BODY	977	"END prc_mz_sjcj4;
+"
+PKG_JCFX	PACKAGE BODY	978	"
+"
+PKG_JCFX	PACKAGE BODY	979	"
+"
+PKG_JCFX	PACKAGE BODY	980	"
+"
+PKG_JCFX	PACKAGE BODY	981	"Procedure prc_mz_sjcj5 ( in_jcfx_id   In    NUMBER,
+"
+PKG_JCFX	PACKAGE BODY	982	"                         on_code      Out   NUMBER,
+"
+PKG_JCFX	PACKAGE BODY	983	"                         os_mess      Out   VARCHAR2)
+"
+PKG_JCFX	PACKAGE BODY	984	"Is
+"
+PKG_JCFX	PACKAGE BODY	985	"
+"
+PKG_JCFX	PACKAGE BODY	986	"/*=============================================================================
+"
+PKG_JCFX	PACKAGE BODY	987	"|| 过程名称 ： 门诊数据采集（5：医技按开单科室、开单医生、执行科室、执行医生
+"
+PKG_JCFX	PACKAGE BODY	988	"||             汇总）prc_mz_sjcj5
+"
+PKG_JCFX	PACKAGE BODY	989	"||-----------------------------------------------------------------------------
+"
+PKG_JCFX	PACKAGE BODY	990	"|| 功能说明 ： 采集门诊数据，数据写入表JCFX_MZ_DATA_D5中，作业类型MZ_SJCJ_D5，
+"
+PKG_JCFX	PACKAGE BODY	991	"||             采集内容：日期、开单科室、开单医生、执行科室、执行医生、人次、金额、
+"
+PKG_JCFX	PACKAGE BODY	992	"||                       分院编号
+"
+PKG_JCFX	PACKAGE BODY	993	"||-----------------------------------------------------------------------------
+"
+PKG_JCFX	PACKAGE BODY	994	"|| 参数描述 ： 参数标识       输入/输出     类型         名称
+"
+PKG_JCFX	PACKAGE BODY	995	"||            -----------------------------------------------------------------
+"
+PKG_JCFX	PACKAGE BODY	996	"||             in_jcfx_id     IN            Number       采集日期
+"
+PKG_JCFX	PACKAGE BODY	997	"||             on_code        OUT           Number       执行结果
+"
+PKG_JCFX	PACKAGE BODY	998	"||             os_mess        OUT           Varchar2     返回信息
+"
+PKG_JCFX	PACKAGE BODY	999	"||-----------------------------------------------------------------------------
+"
+PKG_JCFX	PACKAGE BODY	1000	"|| 注意事项 ： 科室代码为空时值为'NONE'
+"
+PKG_JCFX	PACKAGE BODY	1001	"||            -----------------------------------------------------------------
+"
+PKG_JCFX	PACKAGE BODY	1002	"||             医生工号为空时值为'NONE'
+"
+PKG_JCFX	PACKAGE BODY	1003	"||-----------------------------------------------------------------------------
+"
+PKG_JCFX	PACKAGE BODY	1004	"|| 作    者 ： 陈联      完成日期 ：2001-06
+"
+PKG_JCFX	PACKAGE BODY	1005	"||-----------------------------------------------------------------------------
+"
+PKG_JCFX	PACKAGE BODY	1006	"|| 修改记录 ： 陈智鸿 @ 2002-10-17
+"
+PKG_JCFX	PACKAGE BODY	1007	"||             整理代码，加强反馈信息
+"
+PKG_JCFX	PACKAGE BODY	1008	"=============================================================================*/
+"
+PKG_JCFX	PACKAGE BODY	1009	"
+"
+PKG_JCFX	PACKAGE BODY	1010	"BEGIN
+"
+PKG_JCFX	PACKAGE BODY	1011	"
+"
+PKG_JCFX	PACKAGE BODY	1012	"  DECLARE
+"
+PKG_JCFX	PACKAGE BODY	1013	"    e_input         EXCEPTION;
+"
+PKG_JCFX	PACKAGE BODY	1014	"    ln_count        NUMBER;
+"
+PKG_JCFX	PACKAGE BODY	1015	"    ln_jls          NUMBER;
+"
+PKG_JCFX	PACKAGE BODY	1016	"    ln_je           NUMBER;
+"
+PKG_JCFX	PACKAGE BODY	1017	"    ln_zybz         NUMBER;
+"
+PKG_JCFX	PACKAGE BODY	1018	"    ln_sfsb_begin   NUMBER;
+"
+PKG_JCFX	PACKAGE BODY	1019	"    ln_sfsb_end     NUMBER;
+"
+PKG_JCFX	PACKAGE BODY	1020	"
+"
+PKG_JCFX	PACKAGE BODY	1021	"  BEGIN
+"
+PKG_JCFX	PACKAGE BODY	1022	"    on_code := 1;--成功
+"
+PKG_JCFX	PACKAGE BODY	1023	"    os_mess := '数据采集成功!';
+"
+PKG_JCFX	PACKAGE BODY	1024	"
+"
+PKG_JCFX	PACKAGE BODY	1025	"    IF Nvl(in_jcfx_id,0) = 0 THEN
+"
+PKG_JCFX	PACKAGE BODY	1026	"      raise e_input;
+"
+PKG_JCFX	PACKAGE BODY	1027	"    END IF;
+"
+PKG_JCFX	PACKAGE BODY	1028	"
+"
+PKG_JCFX	PACKAGE BODY	1029	"    --检查日志，采集是否已经执行过
+"
+PKG_JCFX	PACKAGE BODY	1030	"    SELECT COUNT(*)
+"
+PKG_JCFX	PACKAGE BODY	1031	"      INTO ln_count
+"
+PKG_JCFX	PACKAGE BODY	1032	"      FROM jcfx_task_log
+"
+PKG_JCFX	PACKAGE BODY	1033	"     WHERE jcfx_id = in_jcfx_id
+"
+PKG_JCFX	PACKAGE BODY	1034	"       AND task_lx = 'MZ_SJCJ_D5';
+"
+PKG_JCFX	PACKAGE BODY	1035	"
+"
+PKG_JCFX	PACKAGE BODY	1036	"    -- 删除旧的工作日志和数据（HONGER）
+"
+PKG_JCFX	PACKAGE BODY	1037	"    IF ln_count > 0 THEN
+"
+PKG_JCFX	PACKAGE BODY	1038	"      DELETE FROM jcfx_task_log
+"
+PKG_JCFX	PACKAGE BODY	1039	"       WHERE jcfx_id = in_jcfx_id
+"
+PKG_JCFX	PACKAGE BODY	1040	"         AND task_lx = 'MZ_SJCJ_D5';
+"
+PKG_JCFX	PACKAGE BODY	1041	"
+"
+PKG_JCFX	PACKAGE BODY	1042	"      DELETE FROM jcfx_mz_data_d5            --删除已有记录
+"
+PKG_JCFX	PACKAGE BODY	1043	"       WHERE id = in_jcfx_id ;
+"
+PKG_JCFX	PACKAGE BODY	1044	"    END IF;
+"
+PKG_JCFX	PACKAGE BODY	1045	"
+"
+PKG_JCFX	PACKAGE BODY	1046	"    --取收费识别区间
+"
+PKG_JCFX	PACKAGE BODY	1047	"    SELECT sfsb1,
+"
+PKG_JCFX	PACKAGE BODY	1048	"           sfsb2,
+"
+PKG_JCFX	PACKAGE BODY	1049	"           zybz
+"
+PKG_JCFX	PACKAGE BODY	1050	"      INTO ln_sfsb_begin,
+"
+PKG_JCFX	PACKAGE BODY	1051	"           ln_sfsb_end,
+"
+PKG_JCFX	PACKAGE BODY	1052	"           ln_zybz
+"
+PKG_JCFX	PACKAGE BODY	1053	"      FROM jcfx_mz_jy
+"
+PKG_JCFX	PACKAGE BODY	1054	"     WHERE id = in_jcfx_id;
+"
+PKG_JCFX	PACKAGE BODY	1055	"
+"
+PKG_JCFX	PACKAGE BODY	1056	"    -- 插入新的作业日志（HONGER）
+"
+PKG_JCFX	PACKAGE BODY	1057	"    INSERT INTO jcfx_task_log (jcfx_id,task_lx)        --决策分析标识，作业类型
+"
+PKG_JCFX	PACKAGE BODY	1058	"    VALUES (in_jcfx_id,'MZ_SJCJ_D5');             --插入作业日志
+"
+PKG_JCFX	PACKAGE BODY	1059	"
+"
+PKG_JCFX	PACKAGE BODY	1060	"    IF ln_zybz = 0 THEN
+"
+PKG_JCFX	PACKAGE BODY	1061	"      -- 数据未转移（HONGER）
+"
+PKG_JCFX	PACKAGE BODY	1062	"      -- 插入新的记录（HONGER）
+"
+PKG_JCFX	PACKAGE BODY	1063	"      -- ID、开单科室、开单医生、执行科室、执行医生、人次、处方数、分院编号（HONGER）
+"
+PKG_JCFX	PACKAGE BODY	1064	"      INSERT INTO jcfx_mz_data_d5( id, col1, col2,
+"
+PKG_JCFX	PACKAGE BODY	1065	"                                   col3, col4, col5,
+"
+PKG_JCFX	PACKAGE BODY	1066	"                                   col6, fybh)
+"
+PKG_JCFX	PACKAGE BODY	1067	"      SELECT in_jcfx_id, Nvl(a.sjksdm, 'NONE'), Nvl(a.sjysgh, 'NONE'),
+"
+PKG_JCFX	PACKAGE BODY	1068	"             Nvl(b.zxksdm, 'NONE'), Nvl(b.zxysgh, 'NONE'), Nvl(Sum(b.sl), 0),
+"
+PKG_JCFX	PACKAGE BODY	1069	"             Nvl(Sum(Round(b.dj*b.sl,2)),0), Nvl(a.fybh,0)
+"
+PKG_JCFX	PACKAGE BODY	1070	"        FROM yj_yjk1 a,
+"
+PKG_JCFX	PACKAGE BODY	1071	"             yj_yjk2 b
+"
+PKG_JCFX	PACKAGE BODY	1072	"       WHERE a.sfsb >= ln_sfsb_begin
+"
+PKG_JCFX	PACKAGE BODY	1073	"         AND a.sfsb <= ln_sfsb_end
+"
+PKG_JCFX	PACKAGE BODY	1074	"         AND a.yjsb = b.yjsb
+"
+PKG_JCFX	PACKAGE BODY	1075	"       GROUP BY a.sjksdm,
+"
+PKG_JCFX	PACKAGE BODY	1076	"                a.sjysgh,
+"
+PKG_JCFX	PACKAGE BODY	1077	"                b.zxksdm,
+"
+PKG_JCFX	PACKAGE BODY	1078	"                b.zxysgh,
+"
+PKG_JCFX	PACKAGE BODY	1079	"                a.fybh;
+"
+PKG_JCFX	PACKAGE BODY	1080	"-- Delete Begin ---------------------------------------------------------------------------------
+"
+PKG_JCFX	PACKAGE BODY	1081	"/*
+"
+PKG_JCFX	PACKAGE BODY	1082	"    ELSE
+"
+PKG_JCFX	PACKAGE BODY	1083	"      -- 数据已转移（HONGER）
+"
+PKG_JCFX	PACKAGE BODY	1084	"      INSERT INTO jcfx_mz_data_d5               --插入新记录
+"
+PKG_JCFX	PACKAGE BODY	1085	"      ( id,col1,col2,col3,col4,col5,col6)  --执行科室，执行医生，费用归类，人次，金额
+"
+PKG_JCFX	PACKAGE BODY	1086	"      ( SELECT in_jcfx_id,Nvl(a.sjksdm,'NONE'),Nvl(a.sjysgh,'NONE'),Nvl(b.zxksdm,'NONE'),
+"
+PKG_JCFX	PACKAGE BODY	1087	"      Nvl(b.zxysgh,'NONE'),Nvl(Sum(b.sl),0),Nvl(Sum(Round(b.dj*b.sl,2)),0)
+"
+PKG_JCFX	PACKAGE BODY	1088	"      FROM Hisbak.yj_yjk1 a,Hisbak.yj_yjk2 b
+"
+PKG_JCFX	PACKAGE BODY	1089	"      WHERE a.sfsb >= ln_sfsb_begin AND a.sfsb <= ln_sfsb_end --收费识别
+"
+PKG_JCFX	PACKAGE BODY	1090	"      AND a.yjsb = b.yjsb
+"
+PKG_JCFX	PACKAGE BODY	1091	"      GROUP BY a.sjksdm,a.sjysgh,b.zxksdm,b.zxysgh);
+"
+PKG_JCFX	PACKAGE BODY	1092	"*/
+"
+PKG_JCFX	PACKAGE BODY	1093	"-- Delete End -----------------------------------------------------------------------------------
+"
+PKG_JCFX	PACKAGE BODY	1094	"    END IF;
+"
+PKG_JCFX	PACKAGE BODY	1095	"
+"
+PKG_JCFX	PACKAGE BODY	1096	"    -- 计算总人数和总金额（HONGER）
+"
+PKG_JCFX	PACKAGE BODY	1097	"    SELECT Nvl(Sum(col5), 0),
+"
+PKG_JCFX	PACKAGE BODY	1098	"           Nvl(Sum(col6), 0)
+"
+PKG_JCFX	PACKAGE BODY	1099	"      INTO ln_jls,
+"
+PKG_JCFX	PACKAGE BODY	1100	"           ln_je
+"
+PKG_JCFX	PACKAGE BODY	1101	"      FROM jcfx_mz_data_d5
+"
+PKG_JCFX	PACKAGE BODY	1102	"     WHERE id = in_jcfx_id;
+"
+PKG_JCFX	PACKAGE BODY	1103	"
+"
+PKG_JCFX	PACKAGE BODY	1104	"     --修改成功标志,结束时间,记录数,金额
+"
+PKG_JCFX	PACKAGE BODY	1105	"     UPDATE jcfx_task_log
+"
+PKG_JCFX	PACKAGE BODY	1106	"        SET success_flag = 1,
+"
+PKG_JCFX	PACKAGE BODY	1107	"            jssj         = sysdate,
+"
+PKG_JCFX	PACKAGE BODY	1108	"            jls          = ln_jls,
+"
+PKG_JCFX	PACKAGE BODY	1109	"            value        = ln_je
+"
+PKG_JCFX	PACKAGE BODY	1110	"      WHERE jcfx_id = in_jcfx_id
+"
+PKG_JCFX	PACKAGE BODY	1111	"        AND task_lx = 'MZ_SJCJ_D5';
+"
+PKG_JCFX	PACKAGE BODY	1112	"
+"
+PKG_JCFX	PACKAGE BODY	1113	"     -- 提交数据（HONGER）
+"
+PKG_JCFX	PACKAGE BODY	1114	"     COMMIT;
+"
+PKG_JCFX	PACKAGE BODY	1115	"
+"
+PKG_JCFX	PACKAGE BODY	1116	"  EXCEPTION
+"
+PKG_JCFX	PACKAGE BODY	1117	"    WHEN e_input THEN
+"
+PKG_JCFX	PACKAGE BODY	1118	"      on_code :=  0;
+"
+PKG_JCFX	PACKAGE BODY	1119	"      os_mess := '输入参数错误!';
+"
+PKG_JCFX	PACKAGE BODY	1120	"    WHEN others THEN
+"
+PKG_JCFX	PACKAGE BODY	1121	"      ROLLBACK;
+"
+PKG_JCFX	PACKAGE BODY	1122	"      on_code := -1;
+"
+PKG_JCFX	PACKAGE BODY	1123	"      os_mess := 'prc_mz_sjcj5数据采集失败！原因：'||SQLErrm;
+"
+PKG_JCFX	PACKAGE BODY	1124	"      -- 返回SQL错误信息（MODIFY 2002-10-17 HONGER）
+"
+PKG_JCFX	PACKAGE BODY	1125	"  END;
+"
+PKG_JCFX	PACKAGE BODY	1126	"END prc_mz_sjcj5;
+"
+PKG_JCFX	PACKAGE BODY	1127	"
+"
+PKG_JCFX	PACKAGE BODY	1128	"Procedure prc_mz_sjcj ( in_start_id   In    NUMBER,
+"
+PKG_JCFX	PACKAGE BODY	1129	"                        in_day        In    NUMBER   default   1,
+"
+PKG_JCFX	PACKAGE BODY	1130	"                        on_code       Out   NUMBER,
+"
+PKG_JCFX	PACKAGE BODY	1131	"                        os_mess       Out   Varchar2)
+"
+PKG_JCFX	PACKAGE BODY	1132	"
+"
+PKG_JCFX	PACKAGE BODY	1133	"Is
+"
+PKG_JCFX	PACKAGE BODY	1134	"
+"
+PKG_JCFX	PACKAGE BODY	1135	"/*=============================================================================
+"
+PKG_JCFX	PACKAGE BODY	1136	"|| 过程名称 ： 门诊数据采集（总）prc_mz_sjcj
+"
+PKG_JCFX	PACKAGE BODY	1137	"||-----------------------------------------------------------------------------
+"
+PKG_JCFX	PACKAGE BODY	1138	"|| 功能说明 ： 执行各个门诊数据采集的子过程，执行顺序为prc_gh_sjcj1
+"
+PKG_JCFX	PACKAGE BODY	1139	"||             prc_mz_sjcj_jy、prc_mz_sjcj1、prc_mz_sjcj2、prc_mz_sjcj3
+"
+PKG_JCFX	PACKAGE BODY	1140	"||             prc_mz_sjcj4、prc_mz_sjcj5
+"
+PKG_JCFX	PACKAGE BODY	1141	"||-----------------------------------------------------------------------------
+"
+PKG_JCFX	PACKAGE BODY	1142	"|| 参数描述 ： 参数标识        输入/输出     类型         名称
+"
+PKG_JCFX	PACKAGE BODY	1143	"||            -----------------------------------------------------------------
+"
+PKG_JCFX	PACKAGE BODY	1144	"||             in_start_id     IN            Number       开始采集日期
+"
+PKG_JCFX	PACKAGE BODY	1145	"||             in_day          IN            Number       采集天数
+"
+PKG_JCFX	PACKAGE BODY	1146	"||             on_code         OUT           Number       执行结果
+"
+PKG_JCFX	PACKAGE BODY	1147	"||             os_mess         OUT           Varchar2     返回信息
+"
+PKG_JCFX	PACKAGE BODY	1148	"||-----------------------------------------------------------------------------
+"
+PKG_JCFX	PACKAGE BODY	1149	"|| 注意事项 ： 建议每天凌晨自动执行，采集日期 = 当前日期 - 1
+"
+PKG_JCFX	PACKAGE BODY	1150	"||-----------------------------------------------------------------------------
+"
+PKG_JCFX	PACKAGE BODY	1151	"|| 作    者 ： 陈联      完成日期 ：2001-06
+"
+PKG_JCFX	PACKAGE BODY	1152	"||-----------------------------------------------------------------------------
+"
+PKG_JCFX	PACKAGE BODY	1153	"|| 修改记录 ： 陈智鸿 @ 2002-08-05
+"
+PKG_JCFX	PACKAGE BODY	1154	"||             因为上一次采集时少采集了凌晨0点到挂号排班分割时间的数据
+"
+PKG_JCFX	PACKAGE BODY	1155	"||             所以挂号数据每次重新采集一下前一天的数据
+"
+PKG_JCFX	PACKAGE BODY	1156	"||            -----------------------------------------------------------------
+"
+PKG_JCFX	PACKAGE BODY	1157	"||             陈智鸿 @ 2002-10-17
+"
+PKG_JCFX	PACKAGE BODY	1158	"||             整理代码，加强反馈信息
+"
+PKG_JCFX	PACKAGE BODY	1159	"=============================================================================*/
+"
+PKG_JCFX	PACKAGE BODY	1160	"
+"
+PKG_JCFX	PACKAGE BODY	1161	"BEGIN
+"
+PKG_JCFX	PACKAGE BODY	1162	"
+"
+PKG_JCFX	PACKAGE BODY	1163	"  DECLARE
+"
+PKG_JCFX	PACKAGE BODY	1164	"    ldt_jcfx_id       DATE;
+"
+PKG_JCFX	PACKAGE BODY	1165	"    ldt_jcfx_id_max   DATE;
+"
+PKG_JCFX	PACKAGE BODY	1166	"    ldt_jcfx_id_yes   DATE;
+"
+PKG_JCFX	PACKAGE BODY	1167	"    ln_jcfx_id_yes    NUMBER;
+"
+PKG_JCFX	PACKAGE BODY	1168	"    ln_jcfx_id        NUMBER;
+"
+PKG_JCFX	PACKAGE BODY	1169	"    ln_day            NUMBER;
+"
+PKG_JCFX	PACKAGE BODY	1170	"    ln_code           NUMBER;
+"
+PKG_JCFX	PACKAGE BODY	1171	"    ls_mess           VARCHAR2(50);
+"
+PKG_JCFX	PACKAGE BODY	1172	"    e_error           EXCEPTION;
+"
+PKG_JCFX	PACKAGE BODY	1173	"    e_input           EXCEPTION;
+"
+PKG_JCFX	PACKAGE BODY	1174	"
+"
+PKG_JCFX	PACKAGE BODY	1175	"  BEGIN
+"
+PKG_JCFX	PACKAGE BODY	1176	"
+"
+PKG_JCFX	PACKAGE BODY	1177	"    IF Nvl(in_day,0) = 0 THEN
+"
+PKG_JCFX	PACKAGE BODY	1178	"      raise e_input;
+"
+PKG_JCFX	PACKAGE BODY	1179	"    END IF;
+"
+PKG_JCFX	PACKAGE BODY	1180	"
+"
+PKG_JCFX	PACKAGE BODY	1181	"    on_code := 1;
+"
+PKG_JCFX	PACKAGE BODY	1182	"    os_mess := '数据采集成功';
+"
+PKG_JCFX	PACKAGE BODY	1183	"    ldt_jcfx_id := to_date(to_char(in_start_id),'yyyymmdd')  ;
+"
+PKG_JCFX	PACKAGE BODY	1184	"
+"
+PKG_JCFX	PACKAGE BODY	1185	"    -- 最大执行天数为31天（HONGER）
+"
+PKG_JCFX	PACKAGE BODY	1186	"    IF in_day > 31 THEN
+"
+PKG_JCFX	PACKAGE BODY	1187	"      ln_day := 31 ;
+"
+PKG_JCFX	PACKAGE BODY	1188	"    ELSE
+"
+PKG_JCFX	PACKAGE BODY	1189	"      ln_day := in_day;
+"
+PKG_JCFX	PACKAGE BODY	1190	"    END IF;
+"
+PKG_JCFX	PACKAGE BODY	1191	"
+"
+PKG_JCFX	PACKAGE BODY	1192	"    -- 设置结束日期（HONGER）
+"
+PKG_JCFX	PACKAGE BODY	1193	"    IF trunc(sysdate)  <= ldt_jcfx_id + ln_day THEN
+"
+PKG_JCFX	PACKAGE BODY	1194	"      ldt_jcfx_id_max := trunc(sysdate);
+"
+PKG_JCFX	PACKAGE BODY	1195	"    ELSE
+"
+PKG_JCFX	PACKAGE BODY	1196	"      ldt_jcfx_id_max := ldt_jcfx_id + ln_day;
+"
+PKG_JCFX	PACKAGE BODY	1197	"    END IF;
+"
+PKG_JCFX	PACKAGE BODY	1198	"
+"
+PKG_JCFX	PACKAGE BODY	1199	"    -- 循环采集数据（HONGER）
+"
+PKG_JCFX	PACKAGE BODY	1200	"    ldt_jcfx_id := to_date(to_char(in_start_id),'yyyy-mm-dd');
+"
+PKG_JCFX	PACKAGE BODY	1201	"    WHILE ldt_jcfx_id < ldt_jcfx_id_max LOOP
+"
+PKG_JCFX	PACKAGE BODY	1202	"      ln_jcfx_id  := to_number(to_char(ldt_jcfx_id,'yyyymmdd'));
+"
+PKG_JCFX	PACKAGE BODY	1203	"      ldt_jcfx_id_yes := ldt_jcfx_id - 1;
+"
+PKG_JCFX	PACKAGE BODY	1204	"      ln_jcfx_id_yes  := To_Number(To_Char(ldt_jcfx_id_yes, 'yyyymmdd'));
+"
+PKG_JCFX	PACKAGE BODY	1205	"
+"
+PKG_JCFX	PACKAGE BODY	1206	"      -- 采集前一天的挂号数据 （HONGER）
+"
+PKG_JCFX	PACKAGE BODY	1207	"      -- 因为上一次采集时少采集了凌晨0点到挂号排班分割时间的数据 （HONGER）
+"
+PKG_JCFX	PACKAGE BODY	1208	"      prc_gh_sjcj1(ln_jcfx_id_yes,ln_code,ls_mess);
+"
+PKG_JCFX	PACKAGE BODY	1209	"      IF ln_code <> 1 THEN
+"
+PKG_JCFX	PACKAGE BODY	1210	"        on_code := ln_code;
+"
+PKG_JCFX	PACKAGE BODY	1211	"        os_mess := ls_mess;
+"
+PKG_JCFX	PACKAGE BODY	1212	"        RAISE e_error;
+"
+PKG_JCFX	PACKAGE BODY	1213	"      END IF;
+"
+PKG_JCFX	PACKAGE BODY	1214	"
+"
+PKG_JCFX	PACKAGE BODY	1215	"      -- 采集当天门诊数据 （HONGER）>>>
+"
+PKG_JCFX	PACKAGE BODY	1216	"      prc_mz_sjcj_jy(ln_jcfx_id,ln_code,ls_mess);
+"
+PKG_JCFX	PACKAGE BODY	1217	"      IF ln_code <> 1 THEN
+"
+PKG_JCFX	PACKAGE BODY	1218	"        on_code := ln_code;
+"
+PKG_JCFX	PACKAGE BODY	1219	"        os_mess := ls_mess;
+"
+PKG_JCFX	PACKAGE BODY	1220	"        RAISE e_error;
+"
+PKG_JCFX	PACKAGE BODY	1221	"      END IF;
+"
+PKG_JCFX	PACKAGE BODY	1222	"
+"
+PKG_JCFX	PACKAGE BODY	1223	"      prc_mz_sjcj1(ln_jcfx_id,ln_code,ls_mess);
+"
+PKG_JCFX	PACKAGE BODY	1224	"      IF ln_code <> 1 THEN
+"
+PKG_JCFX	PACKAGE BODY	1225	"        on_code := ln_code;
+"
+PKG_JCFX	PACKAGE BODY	1226	"        os_mess := ls_mess;
+"
+PKG_JCFX	PACKAGE BODY	1227	"        RAISE e_error;
+"
+PKG_JCFX	PACKAGE BODY	1228	"      END IF;
+"
+PKG_JCFX	PACKAGE BODY	1229	"
+"
+PKG_JCFX	PACKAGE BODY	1230	"      prc_mz_sjcj2(ln_jcfx_id,ln_code,ls_mess);
+"
+PKG_JCFX	PACKAGE BODY	1231	"      IF ln_code <> 1 THEN
+"
+PKG_JCFX	PACKAGE BODY	1232	"        on_code := ln_code;
+"
+PKG_JCFX	PACKAGE BODY	1233	"        os_mess := ls_mess;
+"
+PKG_JCFX	PACKAGE BODY	1234	"        RAISE e_error;
+"
+PKG_JCFX	PACKAGE BODY	1235	"      END IF;
+"
+PKG_JCFX	PACKAGE BODY	1236	"
+"
+PKG_JCFX	PACKAGE BODY	1237	"      prc_mz_sjcj3(ln_jcfx_id,ln_code,ls_mess);
+"
+PKG_JCFX	PACKAGE BODY	1238	"      IF ln_code <> 1 THEN
+"
+PKG_JCFX	PACKAGE BODY	1239	"        on_code := ln_code;
+"
+PKG_JCFX	PACKAGE BODY	1240	"        os_mess := ls_mess;
+"
+PKG_JCFX	PACKAGE BODY	1241	"        RAISE e_error;
+"
+PKG_JCFX	PACKAGE BODY	1242	"      END IF;
+"
+PKG_JCFX	PACKAGE BODY	1243	"
+"
+PKG_JCFX	PACKAGE BODY	1244	"      prc_mz_sjcj4(ln_jcfx_id,ln_code,ls_mess);
+"
+PKG_JCFX	PACKAGE BODY	1245	"      IF ln_code <> 1 THEN
+"
+PKG_JCFX	PACKAGE BODY	1246	"        on_code := ln_code;
+"
+PKG_JCFX	PACKAGE BODY	1247	"        os_mess := ls_mess;
+"
+PKG_JCFX	PACKAGE BODY	1248	"        RAISE e_error;
+"
+PKG_JCFX	PACKAGE BODY	1249	"      END IF;
+"
+PKG_JCFX	PACKAGE BODY	1250	"
+"
+PKG_JCFX	PACKAGE BODY	1251	"      prc_mz_sjcj5(ln_jcfx_id,ln_code,ls_mess);
+"
+PKG_JCFX	PACKAGE BODY	1252	"      IF ln_code <> 1 THEN
+"
+PKG_JCFX	PACKAGE BODY	1253	"        on_code := ln_code;
+"
+PKG_JCFX	PACKAGE BODY	1254	"        os_mess := ls_mess;
+"
+PKG_JCFX	PACKAGE BODY	1255	"        RAISE e_error;
+"
+PKG_JCFX	PACKAGE BODY	1256	"      END IF;
+"
+PKG_JCFX	PACKAGE BODY	1257	"
+"
+PKG_JCFX	PACKAGE BODY	1258	"
+"
+PKG_JCFX	PACKAGE BODY	1259	"      -- 采集当天门诊数据 （HONGER）<<<
+"
+PKG_JCFX	PACKAGE BODY	1260	"
+"
+PKG_JCFX	PACKAGE BODY	1261	"      -- 循环前进一步（HONGER）
+"
+PKG_JCFX	PACKAGE BODY	1262	"      ldt_jcfx_id := ldt_jcfx_id + 1;
+"
+PKG_JCFX	PACKAGE BODY	1263	"    END LOOP;
+"
+PKG_JCFX	PACKAGE BODY	1264	"
+"
+PKG_JCFX	PACKAGE BODY	1265	"  EXCEPTION
+"
+PKG_JCFX	PACKAGE BODY	1266	"    WHEN e_input THEN
+"
+PKG_JCFX	PACKAGE BODY	1267	"      on_code :=  0;
+"
+PKG_JCFX	PACKAGE BODY	1268	"      os_mess := '输入参数错误!';
+"
+PKG_JCFX	PACKAGE BODY	1269	"    WHEN e_error THEN
+"
+PKG_JCFX	PACKAGE BODY	1270	"      ROLLBACK;
+"
+PKG_JCFX	PACKAGE BODY	1271	"    WHEN others THEN
+"
+PKG_JCFX	PACKAGE BODY	1272	"      ROLLBACK;
+"
+PKG_JCFX	PACKAGE BODY	1273	"      on_code := -1;
+"
+PKG_JCFX	PACKAGE BODY	1274	"      os_mess := 'prc_mz_sjcj数据采集失败！原因：'||SQLErrm;
+"
+PKG_JCFX	PACKAGE BODY	1275	"      -- 返回SQL错误信息（MODIFY 2002-10-17 HONGER）
+"
+PKG_JCFX	PACKAGE BODY	1276	"  END;
+"
+PKG_JCFX	PACKAGE BODY	1277	"END prc_mz_sjcj;
+"
+PKG_JCFX	PACKAGE BODY	1278	"
+"
+PKG_JCFX	PACKAGE BODY	1279	"
+"
+PKG_JCFX	PACKAGE BODY	1280	"
+"
+PKG_JCFX	PACKAGE BODY	1281	"Procedure prc_zy_zhxx ( in_jcfx_id   In    Number,
+"
+PKG_JCFX	PACKAGE BODY	1282	"                        on_code      Out   Number,
+"
+PKG_JCFX	PACKAGE BODY	1283	"                        os_mess      Out   Varchar2)
+"
+PKG_JCFX	PACKAGE BODY	1284	"Is
+"
+PKG_JCFX	PACKAGE BODY	1285	"
+"
+PKG_JCFX	PACKAGE BODY	1286	"/*=============================================================================
+"
+PKG_JCFX	PACKAGE BODY	1287	"|| 过程名称 ： 住院数据采集（综合信息）prc_zy_zhxx
+"
+PKG_JCFX	PACKAGE BODY	1288	"||-----------------------------------------------------------------------------
+"
+PKG_JCFX	PACKAGE BODY	1289	"|| 功能说明 ： 采集住院综合信息，数据写入表JCFX_ZY_ZHXX中，作业类型ZY_SJCJ_ZHXX，
+"
+PKG_JCFX	PACKAGE BODY	1290	"||             采集内容：日期、科室代码、额定床位、其他床位、使用床位、入院人数、
+"
+PKG_JCFX	PACKAGE BODY	1291	"||             出院人数、转入人数、转出人数、在院人数、预出院人数
+"
+PKG_JCFX	PACKAGE BODY	1292	"||-----------------------------------------------------------------------------
+"
+PKG_JCFX	PACKAGE BODY	1293	"|| 参数描述 ： 参数标识       输入/输出     类型         名称
+"
+PKG_JCFX	PACKAGE BODY	1294	"||            -----------------------------------------------------------------
+"
+PKG_JCFX	PACKAGE BODY	1295	"||             in_jcfx_id     IN            Number       采集日期
+"
+PKG_JCFX	PACKAGE BODY	1296	"||             on_code        OUT           Number       执行结果
+"
+PKG_JCFX	PACKAGE BODY	1297	"||             os_mess        OUT           Varchar2     返回信息
+"
+PKG_JCFX	PACKAGE BODY	1298	"||-----------------------------------------------------------------------------
+"
+PKG_JCFX	PACKAGE BODY	1299	"|| 注意事项 ： 计算指标
+"
+PKG_JCFX	PACKAGE BODY	1300	"||             1、平均病床工作日       ＝ 实际占用总床日数／平均开放床位数
+"
+PKG_JCFX	PACKAGE BODY	1301	"||             2、实际床位使用率       ＝ 实际占用总床日数／实际开放总床日数
+"
+PKG_JCFX	PACKAGE BODY	1302	"||             3、病床周转次数         ＝ 出院人数／平均开放床位数
+"
+PKG_JCFX	PACKAGE BODY	1303	"||             4、手术前平均占用病床日 ＝ 手术前占用病床总天数／手术病人数
+"
+PKG_JCFX	PACKAGE BODY	1304	"||            -----------------------------------------------------------------
+"
+PKG_JCFX	PACKAGE BODY	1305	"||             定义
+"
+PKG_JCFX	PACKAGE BODY	1306	"||             1、实际占用总床日数是指报告期内医院各科每晚12点钟病人实际占用的
+"
+PKG_JCFX	PACKAGE BODY	1307	"||             床位数（即每晚12点留院病人数）的总和，包括临时加床的病人。
+"
+PKG_JCFX	PACKAGE BODY	1308	"||             2、平均开放床位数是指实际开放总床日数被同期内日历日数除所得的商
+"
+PKG_JCFX	PACKAGE BODY	1309	"||             数。
+"
+PKG_JCFX	PACKAGE BODY	1310	"||             3、实际开放总床日数县指报告期内每日12点钟医院实际开放床位的总和，
+"
+PKG_JCFX	PACKAGE BODY	1311	"||             不论该床是否被人占用，都应统计在内，但不包括临时加床和医院因扩建
+"
+PKG_JCFX	PACKAGE BODY	1312	"||             或大修理而停用的床位。
+"
+PKG_JCFX	PACKAGE BODY	1313	"||-----------------------------------------------------------------------------
+"
+PKG_JCFX	PACKAGE BODY	1314	"|| 作    者 ： 陈联      完成日期 ： 2001-03-30
+"
+PKG_JCFX	PACKAGE BODY	1315	"||-----------------------------------------------------------------------------
+"
+PKG_JCFX	PACKAGE BODY	1316	"|| 修改记录 ： 陈联 @ 2001-06-02
+"
+PKG_JCFX	PACKAGE BODY	1317	"||             作业完成插入作业日志ZY_SJCJ_ZHXX
+"
+PKG_JCFX	PACKAGE BODY	1318	"||            -----------------------------------------------------------------
+"
+PKG_JCFX	PACKAGE BODY	1319	"||             陈联 @ 2001-11-16
+"
+PKG_JCFX	PACKAGE BODY	1320	"||             增加对mpatient_no的判断，其中Nvl(mpatient_no, 0)＝0表示是母亲
+"
+PKG_JCFX	PACKAGE BODY	1321	"||            -----------------------------------------------------------------
+"
+PKG_JCFX	PACKAGE BODY	1322	"||             陈联 @ 2002-01-23
+"
+PKG_JCFX	PACKAGE BODY	1323	"||             取在床病人分别按不同的床位管理模式
+"
+PKG_JCFX	PACKAGE BODY	1324	"||            -----------------------------------------------------------------
+"
+PKG_JCFX	PACKAGE BODY	1325	"||             陈智鸿 @ 2002-08-01
+"
+PKG_JCFX	PACKAGE BODY	1326	"||             游标科室代码从GY_KSDM中获取
+"
+PKG_JCFX	PACKAGE BODY	1327	"||            -----------------------------------------------------------------
+"
+PKG_JCFX	PACKAGE BODY	1328	"||             陈智鸿 @ 2002-10-18
+"
+PKG_JCFX	PACKAGE BODY	1329	"||             整理代码，加强反馈信息
+"
+PKG_JCFX	PACKAGE BODY	1330	"=============================================================================*/
+"
+PKG_JCFX	PACKAGE BODY	1331	"
+"
+PKG_JCFX	PACKAGE BODY	1332	"BEGIN
+"
+PKG_JCFX	PACKAGE BODY	1333	"
+"
+PKG_JCFX	PACKAGE BODY	1334	"  DECLARE
+"
+PKG_JCFX	PACKAGE BODY	1335	"    ln_jcfx_id     Number;
+"
+PKG_JCFX	PACKAGE BODY	1336	"    ln_ryrs        Number;
+"
+PKG_JCFX	PACKAGE BODY	1337	"    ln_cyrs        Number;
+"
+PKG_JCFX	PACKAGE BODY	1338	"    ln_zrrs        Number;
+"
+PKG_JCFX	PACKAGE BODY	1339	"    ln_zcrs        Number;
+"
+PKG_JCFX	PACKAGE BODY	1340	"    ln_zyrs        Number;
+"
+PKG_JCFX	PACKAGE BODY	1341	"    ln_edcw        Number;
+"
+PKG_JCFX	PACKAGE BODY	1342	"    ln_qtcw        Number;
+"
+PKG_JCFX	PACKAGE BODY	1343	"    ln_sycw        Number;
+"
+PKG_JCFX	PACKAGE BODY	1344	"    ln_ycybr       Number;
+"
+PKG_JCFX	PACKAGE BODY	1345	"    ls_ksdm        Varchar2(10);
+"
+PKG_JCFX	PACKAGE BODY	1346	"    ldt_jcfx_min   Date;
+"
+PKG_JCFX	PACKAGE BODY	1347	"    ldt_jcfx_max   Date;
+"
+PKG_JCFX	PACKAGE BODY	1348	"    ln_count       Number;
+"
+PKG_JCFX	PACKAGE BODY	1349	"    ln_csz2        Number;
+"
+PKG_JCFX	PACKAGE BODY	1350	"    ln_jls         Number;      -- 记录数 ADD 2002-10-18 HONGER
+"
+PKG_JCFX	PACKAGE BODY	1351	"    e_input        EXCEPTION;   -- 输入错误 ADD 2002-10-18 HONGER
+"
+PKG_JCFX	PACKAGE BODY	1352	"-- Delete Begin 可能会有某些科室（没有床位，有病人）的数据采集不到 ------------------------------
+"
+PKG_JCFX	PACKAGE BODY	1353	"/*
+"
+PKG_JCFX	PACKAGE BODY	1354	"    CURSOR cur_ksdm IS                    --有床位的科室
+"
+PKG_JCFX	PACKAGE BODY	1355	"    SELECT dept_code
+"
+PKG_JCFX	PACKAGE BODY	1356	"    FROM zy_bed
+"
+PKG_JCFX	PACKAGE BODY	1357	"    GROUP BY dept_code;
+"
+PKG_JCFX	PACKAGE BODY	1358	"*/
+"
+PKG_JCFX	PACKAGE BODY	1359	"-- Delete End 可能会有某些科室（没有床位，有病人）的数据采集不到 --------------------------------
+"
+PKG_JCFX	PACKAGE BODY	1360	"    -- 科室从GY_KSDM中获取（HONGER）
+"
+PKG_JCFX	PACKAGE BODY	1361	"    Cursor cur_ksdm Is
+"
+PKG_JCFX	PACKAGE BODY	1362	"    Select ksdm
+"
+PKG_JCFX	PACKAGE BODY	1363	"      From gy_ksdm
+"
+PKG_JCFX	PACKAGE BODY	1364	"     Where Nvl(bfpb, 0) = 1
+"
+PKG_JCFX	PACKAGE BODY	1365	"       And Nvl(mjpb, 0) = 1
+"
+PKG_JCFX	PACKAGE BODY	1366	"       And Nvl(zfpb, 0) = 0;
+"
+PKG_JCFX	PACKAGE BODY	1367	"
+"
+PKG_JCFX	PACKAGE BODY	1368	"  BEGIN
+"
+PKG_JCFX	PACKAGE BODY	1369	"
+"
+PKG_JCFX	PACKAGE BODY	1370	"    IF Nvl(in_jcfx_id,0) = 0 THEN
+"
+PKG_JCFX	PACKAGE BODY	1371	"      raise e_input;   -- ADD 2002-10-18 HONGER
+"
+PKG_JCFX	PACKAGE BODY	1372	"    END IF;
+"
+PKG_JCFX	PACKAGE BODY	1373	"
+"
+PKG_JCFX	PACKAGE BODY	1374	"    on_code    := 1;
+"
+PKG_JCFX	PACKAGE BODY	1375	"    os_mess    :='数据采集成功!';
+"
+PKG_JCFX	PACKAGE BODY	1376	"    ln_jcfx_id :=  in_jcfx_id;
+"
+PKG_JCFX	PACKAGE BODY	1377	"    ldt_jcfx_min:=  to_date(to_char(ln_jcfx_id),'yyyy/mm/dd');
+"
+PKG_JCFX	PACKAGE BODY	1378	"    ldt_jcfx_max:=  ldt_jcfx_min + 86399/86400;
+"
+PKG_JCFX	PACKAGE BODY	1379	"
+"
+PKG_JCFX	PACKAGE BODY	1380	"    SELECT COUNT(*)               --检查日志，采集是否已经执行过
+"
+PKG_JCFX	PACKAGE BODY	1381	"      INTO ln_count
+"
+PKG_JCFX	PACKAGE BODY	1382	"      FROM jcfx_task_log
+"
+PKG_JCFX	PACKAGE BODY	1383	"     WHERE jcfx_id = in_jcfx_id
+"
+PKG_JCFX	PACKAGE BODY	1384	"       AND task_lx = 'ZY_SJCJ_ZHXX';
+"
+PKG_JCFX	PACKAGE BODY	1385	"
+"
+PKG_JCFX	PACKAGE BODY	1386	"    -- 删除旧的作业日志和数据（HONGER）
+"
+PKG_JCFX	PACKAGE BODY	1387	"    IF ln_count > 0 THEN
+"
+PKG_JCFX	PACKAGE BODY	1388	"      DELETE FROM jcfx_task_log  --删除日志
+"
+PKG_JCFX	PACKAGE BODY	1389	"       WHERE jcfx_id = in_jcfx_id
+"
+PKG_JCFX	PACKAGE BODY	1390	"         AND task_lx = 'ZY_SJCJ_ZHXX';
+"
+PKG_JCFX	PACKAGE BODY	1391	"
+"
+PKG_JCFX	PACKAGE BODY	1392	"      DELETE FROM jcfx_zy_zhxx   --删除已有记录
+"
+PKG_JCFX	PACKAGE BODY	1393	"       WHERE jcfx_id = in_jcfx_id ;
+"
+PKG_JCFX	PACKAGE BODY	1394	"    END IF;
+"
+PKG_JCFX	PACKAGE BODY	1395	"
+"
+PKG_JCFX	PACKAGE BODY	1396	"    -- 插入新的作业日志（HONGER）
+"
+PKG_JCFX	PACKAGE BODY	1397	"    INSERT INTO jcfx_task_log (jcfx_id, task_lx)        --决策分析标识，作业类型
+"
+PKG_JCFX	PACKAGE BODY	1398	"    VALUES (in_jcfx_id, 'ZY_SJCJ_ZHXX');           --插入作业日志
+"
+PKG_JCFX	PACKAGE BODY	1399	"
+"
+PKG_JCFX	PACKAGE BODY	1400	"    -- 打开游标（HONGER）
+"
+PKG_JCFX	PACKAGE BODY	1401	"    OPEN cur_ksdm;
+"
+PKG_JCFX	PACKAGE BODY	1402	"
+"
+PKG_JCFX	PACKAGE BODY	1403	"    -- 循环处理每个科室的数据（HONGER）
+"
+PKG_JCFX	PACKAGE BODY	1404	"    LOOP
+"
+PKG_JCFX	PACKAGE BODY	1405	"      FETCH cur_ksdm
+"
+PKG_JCFX	PACKAGE BODY	1406	"       INTO ls_ksdm;
+"
+PKG_JCFX	PACKAGE BODY	1407	"
+"
+PKG_JCFX	PACKAGE BODY	1408	"      EXIT WHEN cur_ksdm %NOTFOUND;
+"
+PKG_JCFX	PACKAGE BODY	1409	"
+"
+PKG_JCFX	PACKAGE BODY	1410	"      -- 1、取额定床位（HONGER）
+"
+PKG_JCFX	PACKAGE BODY	1411	"      --固定额定床位，从JCFX_ZY_EDCW
+"
+PKG_JCFX	PACKAGE BODY	1412	"      BEGIN
+"
+PKG_JCFX	PACKAGE BODY	1413	"        SELECT NVL(edcw, 0)                    --额定床位 = 开放床位
+"
+PKG_JCFX	PACKAGE BODY	1414	"          INTO ln_edcw
+"
+PKG_JCFX	PACKAGE BODY	1415	"          FROM jcfx_zy_edcw
+"
+PKG_JCFX	PACKAGE BODY	1416	"         WHERE ksdm = ls_ksdm;
+"
+PKG_JCFX	PACKAGE BODY	1417	"
+"
+PKG_JCFX	PACKAGE BODY	1418	"      EXCEPTION
+"
+PKG_JCFX	PACKAGE BODY	1419	"        WHEN others THEN --根据zy_bed计算出额定床位
+"
+PKG_JCFX	PACKAGE BODY	1420	"          BEGIN
+"
+PKG_JCFX	PACKAGE BODY	1421	"            SELECT NVL(Count(*),0)                    --额定床位 = 开放床位
+"
+PKG_JCFX	PACKAGE BODY	1422	"              INTO ln_edcw
+"
+PKG_JCFX	PACKAGE BODY	1423	"              FROM zy_bed
+"
+PKG_JCFX	PACKAGE BODY	1424	"             WHERE bed_status <> 2                    --没有删除
+"
+PKG_JCFX	PACKAGE BODY	1425	"               AND type = 1
+"
+PKG_JCFX	PACKAGE BODY	1426	"               AND dept_code = ls_ksdm;
+"
+PKG_JCFX	PACKAGE BODY	1427	"
+"
+PKG_JCFX	PACKAGE BODY	1428	"          EXCEPTION
+"
+PKG_JCFX	PACKAGE BODY	1429	"            WHEN Others THEN
+"
+PKG_JCFX	PACKAGE BODY	1430	"              ln_edcw := 0;
+"
+PKG_JCFX	PACKAGE BODY	1431	"          END;
+"
+PKG_JCFX	PACKAGE BODY	1432	"      END;
+"
+PKG_JCFX	PACKAGE BODY	1433	"
+"
+PKG_JCFX	PACKAGE BODY	1434	"      -- 2、其他床位（HONGER）
+"
+PKG_JCFX	PACKAGE BODY	1435	"      SELECT NVL(Count(*), 0)                    --其它床位 = 加床 + 家庭 + 走廊
+"
+PKG_JCFX	PACKAGE BODY	1436	"        INTO ln_qtcw
+"
+PKG_JCFX	PACKAGE BODY	1437	"        FROM zy_bed
+"
+PKG_JCFX	PACKAGE BODY	1438	"       WHERE bed_status <> 2
+"
+PKG_JCFX	PACKAGE BODY	1439	"         AND type       <> 1
+"
+PKG_JCFX	PACKAGE BODY	1440	"         AND dept_code   = ls_ksdm;
+"
+PKG_JCFX	PACKAGE BODY	1441	"
+"
+PKG_JCFX	PACKAGE BODY	1442	"      --实际开放床位 = 额定床位 + 其它床位
+"
+PKG_JCFX	PACKAGE BODY	1443	"
+"
+PKG_JCFX	PACKAGE BODY	1444	"      -- 3、使用床位（HONGER）
+"
+PKG_JCFX	PACKAGE BODY	1445	"      -- 取床位管理模式（HONGER）
+"
+PKG_JCFX	PACKAGE BODY	1446	"      Begin
+"
+PKG_JCFX	PACKAGE BODY	1447	"        SELECT csz2
+"
+PKG_JCFX	PACKAGE BODY	1448	"          INTO ln_csz2
+"
+PKG_JCFX	PACKAGE BODY	1449	"          FROM Gy_xtcs
+"
+PKG_JCFX	PACKAGE BODY	1450	"         WHERE xtxh = 11
+"
+PKG_JCFX	PACKAGE BODY	1451	"           AND csmc = 'ZYBED';
+"
+PKG_JCFX	PACKAGE BODY	1452	"
+"
+PKG_JCFX	PACKAGE BODY	1453	"      EXCEPTION
+"
+PKG_JCFX	PACKAGE BODY	1454	"        When Others Then
+"
+PKG_JCFX	PACKAGE BODY	1455	"          ln_csz2 := 0;
+"
+PKG_JCFX	PACKAGE BODY	1456	"      End;
+"
+PKG_JCFX	PACKAGE BODY	1457	"
+"
+PKG_JCFX	PACKAGE BODY	1458	"      If ln_csz2 = 0 Then  -- 床位按科室管理
+"
+PKG_JCFX	PACKAGE BODY	1459	"        SELECT NVL(Count(*), 0)                    --使用床位(在床病人)
+"
+PKG_JCFX	PACKAGE BODY	1460	"          INTO ln_sycw
+"
+PKG_JCFX	PACKAGE BODY	1461	"          FROM zy_patient_information a,
+"
+PKG_JCFX	PACKAGE BODY	1462	"               zy_bed b
+"
+PKG_JCFX	PACKAGE BODY	1463	"         WHERE a.curr_ks  = b.dept_code
+"
+PKG_JCFX	PACKAGE BODY	1464	"           AND a.curr_bed = b.bed_no
+"
+PKG_JCFX	PACKAGE BODY	1465	"           AND a.curr_ks  = ls_ksdm
+"
+PKG_JCFX	PACKAGE BODY	1466	"           AND admiss_date <= ldt_jcfx_max
+"
+PKG_JCFX	PACKAGE BODY	1467	"           AND ( out_date > ldt_jcfx_max
+"
+PKG_JCFX	PACKAGE BODY	1468	"            OR ( out_date IS NULL AND preout_date IS NULL ))
+"
+PKG_JCFX	PACKAGE BODY	1469	"           AND Nvl(mpatient_no, 0) = 0;
+"
+PKG_JCFX	PACKAGE BODY	1470	"
+"
+PKG_JCFX	PACKAGE BODY	1471	"      Else -- 床位按病区管理
+"
+PKG_JCFX	PACKAGE BODY	1472	"        SELECT NVL(Count(*),0)                    --使用床位(在床病人)
+"
+PKG_JCFX	PACKAGE BODY	1473	"          INTO ln_sycw
+"
+PKG_JCFX	PACKAGE BODY	1474	"          FROM zy_patient_information a,
+"
+PKG_JCFX	PACKAGE BODY	1475	"               zy_bed b
+"
+PKG_JCFX	PACKAGE BODY	1476	"         WHERE a.curr_bq  = b.curr_bq
+"
+PKG_JCFX	PACKAGE BODY	1477	"           AND a.curr_bed = b.bed_no
+"
+PKG_JCFX	PACKAGE BODY	1478	"           AND a.curr_ks  = ls_ksdm
+"
+PKG_JCFX	PACKAGE BODY	1479	"           AND admiss_date <= ldt_jcfx_max
+"
+PKG_JCFX	PACKAGE BODY	1480	"           AND ( out_date >ldt_jcfx_max
+"
+PKG_JCFX	PACKAGE BODY	1481	"            OR ( out_date IS NULL AND preout_date IS NULL ))
+"
+PKG_JCFX	PACKAGE BODY	1482	"           AND Nvl(mpatient_no, 0) = 0;
+"
+PKG_JCFX	PACKAGE BODY	1483	"      End If;
+"
+PKG_JCFX	PACKAGE BODY	1484	"
+"
+PKG_JCFX	PACKAGE BODY	1485	"      -- 4、预出院病人（HONGER）
+"
+PKG_JCFX	PACKAGE BODY	1486	"      SELECT NVL(Count(*), 0)                    --预出院病人
+"
+PKG_JCFX	PACKAGE BODY	1487	"        INTO ln_ycybr
+"
+PKG_JCFX	PACKAGE BODY	1488	"        FROM zy_patient_information a
+"
+PKG_JCFX	PACKAGE BODY	1489	"       WHERE a.curr_ks  = ls_ksdm
+"
+PKG_JCFX	PACKAGE BODY	1490	"         AND admiss_date <= ldt_jcfx_max
+"
+PKG_JCFX	PACKAGE BODY	1491	"         AND ( out_date IS NULL
+"
+PKG_JCFX	PACKAGE BODY	1492	"          OR out_date > ldt_jcfx_max )
+"
+PKG_JCFX	PACKAGE BODY	1493	"         AND preout_date <= ldt_jcfx_max
+"
+PKG_JCFX	PACKAGE BODY	1494	"         AND Nvl(mpatient_no, 0) = 0 ;           -- 是母亲
+"
+PKG_JCFX	PACKAGE BODY	1495	"
+"
+PKG_JCFX	PACKAGE BODY	1496	"      -- 5、在院人数（HONGER）
+"
+PKG_JCFX	PACKAGE BODY	1497	"      SELECT NVL(Count(*), 0)                    --在院人数(不包括预出院病人)
+"
+PKG_JCFX	PACKAGE BODY	1498	"        INTO ln_zyrs
+"
+PKG_JCFX	PACKAGE BODY	1499	"        FROM zy_patient_information
+"
+PKG_JCFX	PACKAGE BODY	1500	"       WHERE curr_ks = ls_ksdm
+"
+PKG_JCFX	PACKAGE BODY	1501	"         AND admiss_date <= ldt_jcfx_max
+"
+PKG_JCFX	PACKAGE BODY	1502	"         AND ( out_date > ldt_jcfx_max OR out_date IS NULL )
+"
+PKG_JCFX	PACKAGE BODY	1503	"         AND ( preout_date > ldt_jcfx_max OR preout_date IS NULL )
+"
+PKG_JCFX	PACKAGE BODY	1504	"         AND Nvl(mpatient_no, 0) = 0 ;           -- 是母亲;
+"
+PKG_JCFX	PACKAGE BODY	1505	"
+"
+PKG_JCFX	PACKAGE BODY	1506	"      -- 6、入院人数（HONGER）
+"
+PKG_JCFX	PACKAGE BODY	1507	"      SELECT NVL(Count(*), 0)                    --入院人数
+"
+PKG_JCFX	PACKAGE BODY	1508	"        INTO ln_ryrs
+"
+PKG_JCFX	PACKAGE BODY	1509	"        FROM zy_patient_information
+"
+PKG_JCFX	PACKAGE BODY	1510	"       WHERE curr_ks = ls_ksdm
+"
+PKG_JCFX	PACKAGE BODY	1511	"         AND admiss_date BETWEEN ldt_jcfx_min AND ldt_jcfx_max
+"
+PKG_JCFX	PACKAGE BODY	1512	"         AND Nvl(mpatient_no, 0) = 0 ;           -- 是母亲;
+"
+PKG_JCFX	PACKAGE BODY	1513	"
+"
+PKG_JCFX	PACKAGE BODY	1514	"      -- 7、出院人数（HONGER）
+"
+PKG_JCFX	PACKAGE BODY	1515	"      SELECT NVL(Count(*), 0)                    --出院人数
+"
+PKG_JCFX	PACKAGE BODY	1516	"        INTO ln_cyrs
+"
+PKG_JCFX	PACKAGE BODY	1517	"        FROM zy_patient_information
+"
+PKG_JCFX	PACKAGE BODY	1518	"       WHERE curr_ks = ls_ksdm
+"
+PKG_JCFX	PACKAGE BODY	1519	"         AND out_date BETWEEN ldt_jcfx_min AND ldt_jcfx_max
+"
+PKG_JCFX	PACKAGE BODY	1520	"         AND Nvl(mpatient_no,0) = 0 ;           -- 是母亲;
+"
+PKG_JCFX	PACKAGE BODY	1521	"
+"
+PKG_JCFX	PACKAGE BODY	1522	"      -- 8、转入人数（HONGER）
+"
+PKG_JCFX	PACKAGE BODY	1523	"      SELECT NVL(COUNT(DISTINCT PATIENT_NO), 0)  --转入人数
+"
+PKG_JCFX	PACKAGE BODY	1524	"        INTO ln_zrrs
+"
+PKG_JCFX	PACKAGE BODY	1525	"        FROM zy_dynamic
+"
+PKG_JCFX	PACKAGE BODY	1526	"       WHERE old_depa <> ls_ksdm
+"
+PKG_JCFX	PACKAGE BODY	1527	"         AND curr_depa = ls_ksdm
+"
+PKG_JCFX	PACKAGE BODY	1528	"         AND trans_date BETWEEN ldt_jcfx_min AND ldt_jcfx_max
+"
+PKG_JCFX	PACKAGE BODY	1529	"       ORDER BY trans_date DESC;
+"
+PKG_JCFX	PACKAGE BODY	1530	"
+"
+PKG_JCFX	PACKAGE BODY	1531	"      -- 9、转出人数（HONGER）
+"
+PKG_JCFX	PACKAGE BODY	1532	"      SELECT NVL(COUNT(DISTINCT PATIENT_NO), 0)  --转出人数
+"
+PKG_JCFX	PACKAGE BODY	1533	"        INTO ln_zcrs
+"
+PKG_JCFX	PACKAGE BODY	1534	"        FROM zy_dynamic
+"
+PKG_JCFX	PACKAGE BODY	1535	"       WHERE old_depa = ls_ksdm
+"
+PKG_JCFX	PACKAGE BODY	1536	"         AND curr_depa <> ls_ksdm
+"
+PKG_JCFX	PACKAGE BODY	1537	"         AND trans_date BETWEEN ldt_jcfx_min AND ldt_jcfx_max
+"
+PKG_JCFX	PACKAGE BODY	1538	"       ORDER BY trans_date DESC;
+"
+PKG_JCFX	PACKAGE BODY	1539	"
+"
+PKG_JCFX	PACKAGE BODY	1540	"      -- 插入新的记录（HONGER）
+"
+PKG_JCFX	PACKAGE BODY	1541	"      -- 日期、科室、额定床位、其他床位、使用床位、入院人数、出院人数（HONGER）
+"
+PKG_JCFX	PACKAGE BODY	1542	"      -- 转入人数、 转出人数、在院人数、预出院病人（HONGER）
+"
+PKG_JCFX	PACKAGE BODY	1543	"      INSERT INTO jcfx_zy_zhxx ( jcfx_id, ksdm, edcw,
+"
+PKG_JCFX	PACKAGE BODY	1544	"                                 qtcw, sycw, ryrs,
+"
+PKG_JCFX	PACKAGE BODY	1545	"                                 cyrs, zrrs, zcrs,
+"
+PKG_JCFX	PACKAGE BODY	1546	"                                 zyrs, ycybr )
+"
+PKG_JCFX	PACKAGE BODY	1547	"      VALUES ( ln_jcfx_id, ls_ksdm, ln_edcw,
+"
+PKG_JCFX	PACKAGE BODY	1548	"               ln_qtcw, ln_sycw, ln_ryrs,
+"
+PKG_JCFX	PACKAGE BODY	1549	"               ln_cyrs, ln_zrrs, ln_zcrs,
+"
+PKG_JCFX	PACKAGE BODY	1550	"               ln_zyrs, ln_ycybr);
+"
+PKG_JCFX	PACKAGE BODY	1551	"    END LOOP;
+"
+PKG_JCFX	PACKAGE BODY	1552	"
+"
+PKG_JCFX	PACKAGE BODY	1553	"    -- 关闭游标（HONGER）
+"
+PKG_JCFX	PACKAGE BODY	1554	"    CLOSE cur_ksdm;
+"
+PKG_JCFX	PACKAGE BODY	1555	"
+"
+PKG_JCFX	PACKAGE BODY	1556	"    -- 取记录数（HONGER）
+"
+PKG_JCFX	PACKAGE BODY	1557	"    Select Nvl(Count(*), 0)
+"
+PKG_JCFX	PACKAGE BODY	1558	"      Into ln_jls
+"
+PKG_JCFX	PACKAGE BODY	1559	"      From gy_ksdm
+"
+PKG_JCFX	PACKAGE BODY	1560	"     Where Nvl(bfpb, 0) = 1
+"
+PKG_JCFX	PACKAGE BODY	1561	"       And Nvl(mjpb, 0) = 1
+"
+PKG_JCFX	PACKAGE BODY	1562	"       And Nvl(zfpb, 0) = 0;
+"
+PKG_JCFX	PACKAGE BODY	1563	"
+"
+PKG_JCFX	PACKAGE BODY	1564	"    --修改成功标志,结束时间
+"
+PKG_JCFX	PACKAGE BODY	1565	"    UPDATE jcfx_task_log
+"
+PKG_JCFX	PACKAGE BODY	1566	"       SET success_flag = 1,
+"
+PKG_JCFX	PACKAGE BODY	1567	"           jssj         = sysdate,
+"
+PKG_JCFX	PACKAGE BODY	1568	"           jls          = ln_jls
+"
+PKG_JCFX	PACKAGE BODY	1569	"     WHERE jcfx_id = in_jcfx_id
+"
+PKG_JCFX	PACKAGE BODY	1570	"       AND task_lx = 'ZY_SJCJ_ZHXX';
+"
+PKG_JCFX	PACKAGE BODY	1571	"
+"
+PKG_JCFX	PACKAGE BODY	1572	"    -- 提交数据（HONGER）
+"
+PKG_JCFX	PACKAGE BODY	1573	"    Commit;
+"
+PKG_JCFX	PACKAGE BODY	1574	"
+"
+PKG_JCFX	PACKAGE BODY	1575	"  EXCEPTION
+"
+PKG_JCFX	PACKAGE BODY	1576	"    WHEN e_input THEN
+"
+PKG_JCFX	PACKAGE BODY	1577	"      on_code :=  0;
+"
+PKG_JCFX	PACKAGE BODY	1578	"      os_mess := '输入参数错误!';
+"
+PKG_JCFX	PACKAGE BODY	1579	"    WHEN others THEN
+"
+PKG_JCFX	PACKAGE BODY	1580	"      ROLLBACK;
+"
+PKG_JCFX	PACKAGE BODY	1581	"      on_code := -1;
+"
+PKG_JCFX	PACKAGE BODY	1582	"      os_mess := 'prc_zy_zhxx数据采集失败！原因：'||SQLErrm;
+"
+PKG_JCFX	PACKAGE BODY	1583	"      -- 返回SQL错误信息（MODIFY 2002-10-18 HONGER）
+"
+PKG_JCFX	PACKAGE BODY	1584	"
+"
+PKG_JCFX	PACKAGE BODY	1585	"      -- 关闭游标（HONGER）
+"
+PKG_JCFX	PACKAGE BODY	1586	"      IF cur_ksdm %isopen THEN
+"
+PKG_JCFX	PACKAGE BODY	1587	"        CLOSE cur_ksdm;
+"
+PKG_JCFX	PACKAGE BODY	1588	"      END IF;
+"
+PKG_JCFX	PACKAGE BODY	1589	"  END;
+"
+PKG_JCFX	PACKAGE BODY	1590	"END prc_zy_zhxx;
+"
+PKG_JCFX	PACKAGE BODY	1591	"
+"
+PKG_JCFX	PACKAGE BODY	1592	"
+"
+PKG_JCFX	PACKAGE BODY	1593	"
+"
+PKG_JCFX	PACKAGE BODY	1594	"Procedure prc_zy_au_sjcj1 ( in_jcfx_id   In    NUMBER,
+"
+PKG_JCFX	PACKAGE BODY	1595	"                            on_code      Out   NUMBER,
+"
+PKG_JCFX	PACKAGE BODY	1596	"                            os_mess      Out   Varchar2)
+"
+PKG_JCFX	PACKAGE BODY	1597	"Is
+"
+PKG_JCFX	PACKAGE BODY	1598	"
+"
+PKG_JCFX	PACKAGE BODY	1599	"/*=============================================================================
+"
+PKG_JCFX	PACKAGE BODY	1600	"|| 过程名称 ： 住院数据采集（1AU：自动记帐费用按病区、科室、费用归类汇总）
+"
+PKG_JCFX	PACKAGE BODY	1601	"||             prc_zy_au_sjcj1
+"
+PKG_JCFX	PACKAGE BODY	1602	"||-----------------------------------------------------------------------------
+"
+PKG_JCFX	PACKAGE BODY	1603	"|| 功能说明 ： 采集住院自动记帐数据，数据写入表JCFX_ZY_DATA_D1中，作业类型
+"
+PKG_JCFX	PACKAGE BODY	1604	"||             ZY_AU_SJCJ_D1，采集内容：日期、病区、科室、费用归类、记录数、
+"
+PKG_JCFX	PACKAGE BODY	1605	"||             数量、金额、标志
+"
+PKG_JCFX	PACKAGE BODY	1606	"||-----------------------------------------------------------------------------
+"
+PKG_JCFX	PACKAGE BODY	1607	"|| 参数描述 ： 参数标识       输入/输出     类型         名称
+"
+PKG_JCFX	PACKAGE BODY	1608	"||            -----------------------------------------------------------------
+"
+PKG_JCFX	PACKAGE BODY	1609	"||             in_jcfx_id     IN            Number       采集日期
+"
+PKG_JCFX	PACKAGE BODY	1610	"||             on_code        OUT           Number       执行结果
+"
+PKG_JCFX	PACKAGE BODY	1611	"||             os_mess        OUT           Varchar2     返回信息
+"
+PKG_JCFX	PACKAGE BODY	1612	"||-----------------------------------------------------------------------------
+"
+PKG_JCFX	PACKAGE BODY	1613	"|| 注意事项 ： 病区为空时值为'NONE'
+"
+PKG_JCFX	PACKAGE BODY	1614	"||            -----------------------------------------------------------------
+"
+PKG_JCFX	PACKAGE BODY	1615	"||             科室为空时值为'NONE'
+"
+PKG_JCFX	PACKAGE BODY	1616	"||            -----------------------------------------------------------------
+"
+PKG_JCFX	PACKAGE BODY	1617	"||             费用归类为空时值为0
+"
+PKG_JCFX	PACKAGE BODY	1618	"||-----------------------------------------------------------------------------
+"
+PKG_JCFX	PACKAGE BODY	1619	"|| 作    者 ： 陈联      完成日期 ：2001-03
+"
+PKG_JCFX	PACKAGE BODY	1620	"||-----------------------------------------------------------------------------
+"
+PKG_JCFX	PACKAGE BODY	1621	"|| 修改记录 ： 陈智鸿 @ 2002-10-18
+"
+PKG_JCFX	PACKAGE BODY	1622	"||             加强对非法数据项目的处理
+"
+PKG_JCFX	PACKAGE BODY	1623	"||             为了和子系统统一，金额先ROUND2再SUM；
+"
+PKG_JCFX	PACKAGE BODY	1624	"||             整理代码，加强反馈信息
+"
+PKG_JCFX	PACKAGE BODY	1625	"=============================================================================*/
+"
+PKG_JCFX	PACKAGE BODY	1626	"
+"
+PKG_JCFX	PACKAGE BODY	1627	"BEGIN
+"
+PKG_JCFX	PACKAGE BODY	1628	"
+"
+PKG_JCFX	PACKAGE BODY	1629	"  DECLARE
+"
+PKG_JCFX	PACKAGE BODY	1630	"    e_input    EXCEPTION;
+"
+PKG_JCFX	PACKAGE BODY	1631	"    ln_count   NUMBER;
+"
+PKG_JCFX	PACKAGE BODY	1632	"    ln_jls     NUMBER;
+"
+PKG_JCFX	PACKAGE BODY	1633	"    ln_je      NUMBER;
+"
+PKG_JCFX	PACKAGE BODY	1634	"    ldt_rq     DATE;
+"
+PKG_JCFX	PACKAGE BODY	1635	"
+"
+PKG_JCFX	PACKAGE BODY	1636	"  BEGIN
+"
+PKG_JCFX	PACKAGE BODY	1637	"
+"
+PKG_JCFX	PACKAGE BODY	1638	"    IF in_jcfx_id = 0 THEN
+"
+PKG_JCFX	PACKAGE BODY	1639	"      raise e_input;
+"
+PKG_JCFX	PACKAGE BODY	1640	"    END IF;
+"
+PKG_JCFX	PACKAGE BODY	1641	"
+"
+PKG_JCFX	PACKAGE BODY	1642	"    on_code := 1;
+"
+PKG_JCFX	PACKAGE BODY	1643	"    os_mess :='数据采集成功!';
+"
+PKG_JCFX	PACKAGE BODY	1644	"
+"
+PKG_JCFX	PACKAGE BODY	1645	"    SELECT COUNT(*)               --检查日志，采集是否已经执行过
+"
+PKG_JCFX	PACKAGE BODY	1646	"      INTO ln_count
+"
+PKG_JCFX	PACKAGE BODY	1647	"      FROM jcfx_task_log
+"
+PKG_JCFX	PACKAGE BODY	1648	"     WHERE jcfx_id = in_jcfx_id
+"
+PKG_JCFX	PACKAGE BODY	1649	"       AND task_lx = 'ZY_AU_SJCJ_D1';
+"
+PKG_JCFX	PACKAGE BODY	1650	"
+"
+PKG_JCFX	PACKAGE BODY	1651	"    -- 删除旧的作业日志和数据（HONGER）
+"
+PKG_JCFX	PACKAGE BODY	1652	"    IF ln_count > 0 THEN
+"
+PKG_JCFX	PACKAGE BODY	1653	"      DELETE FROM jcfx_task_log  --删除日志
+"
+PKG_JCFX	PACKAGE BODY	1654	"       WHERE jcfx_id = in_jcfx_id
+"
+PKG_JCFX	PACKAGE BODY	1655	"         AND task_lx = 'ZY_AU_SJCJ_D1';
+"
+PKG_JCFX	PACKAGE BODY	1656	"
+"
+PKG_JCFX	PACKAGE BODY	1657	"      DELETE FROM jcfx_zy_data_d1 --删除已有记录
+"
+PKG_JCFX	PACKAGE BODY	1658	"       WHERE id = in_jcfx_id
+"
+PKG_JCFX	PACKAGE BODY	1659	"         AND flag1   = 2;
+"
+PKG_JCFX	PACKAGE BODY	1660	"   END IF;
+"
+PKG_JCFX	PACKAGE BODY	1661	"
+"
+PKG_JCFX	PACKAGE BODY	1662	"    -- 插入新的作业日志（HONGER）
+"
+PKG_JCFX	PACKAGE BODY	1663	"    INSERT INTO jcfx_task_log (jcfx_id, task_lx)     --决策分析标识，作业类型
+"
+PKG_JCFX	PACKAGE BODY	1664	"    VALUES (in_jcfx_id,'ZY_AU_SJCJ_D1');         --插入作业日志
+"
+PKG_JCFX	PACKAGE BODY	1665	"
+"
+PKG_JCFX	PACKAGE BODY	1666	"    -- 统计日期（HONGER）
+"
+PKG_JCFX	PACKAGE BODY	1667	"    ldt_rq := to_date(to_char(in_jcfx_id),'yyyymmdd') + 1/86400;
+"
+PKG_JCFX	PACKAGE BODY	1668	"
+"
+PKG_JCFX	PACKAGE BODY	1669	"    -- 插入新的数据（HONGER）
+"
+PKG_JCFX	PACKAGE BODY	1670	"    -- ID、病区、科室、费用归类、记录数、数量、金额、标志（HONGER）
+"
+PKG_JCFX	PACKAGE BODY	1671	"    -- 加强对非法数据项目的处理 （MODIFY 2002-10-18 HONGER）
+"
+PKG_JCFX	PACKAGE BODY	1672	"    -- 为了和子系统统一，金额先ROUND2再SUM （MODIFY 2002-10-18 HONGER）
+"
+PKG_JCFX	PACKAGE BODY	1673	"    -- 有借床情况 RuanMa 2003-08-06
+"
+PKG_JCFX	PACKAGE BODY	1674	"    INSERT INTO jcfx_zy_data_d1( id, col1, col2,
+"
+PKG_JCFX	PACKAGE BODY	1675	"                                 col3, col4, col5,
+"
+PKG_JCFX	PACKAGE BODY	1676	"                                 col6, flag1 )
+"
+PKG_JCFX	PACKAGE BODY	1677	"    SELECT in_jcfx_id, Nvl(curr_bq, 'NONE'), Nvl(TRIM(borrow_ks), curr_ks),
+"
+PKG_JCFX	PACKAGE BODY	1678	"           Nvl(fygl, 0), Nvl(COUNT(*), 0), Nvl(COUNT(*), 0),
+"
+PKG_JCFX	PACKAGE BODY	1679	"           Nvl(SUM(Round(dj, 2)), 0), 2
+"
+PKG_JCFX	PACKAGE BODY	1680	"      FROM zy_detail_charge
+"
+PKG_JCFX	PACKAGE BODY	1681	"     WHERE twice_detail_code||'' = 'AU'
+"
+PKG_JCFX	PACKAGE BODY	1682	"       AND ldt_rq BETWEEN start_date AND charge_date
+"
+PKG_JCFX	PACKAGE BODY	1683	"--       AND borrow_flag = 1
+"
+PKG_JCFX	PACKAGE BODY	1684	"     GROUP BY curr_bq,
+"
+PKG_JCFX	PACKAGE BODY	1685	"              Nvl(TRIM(borrow_ks), curr_ks),
+"
+PKG_JCFX	PACKAGE BODY	1686	"              fygl;
+"
+PKG_JCFX	PACKAGE BODY	1687	"              /*
+"
+PKG_JCFX	PACKAGE BODY	1688	"     --没有借床，正常情况
+"
+PKG_JCFX	PACKAGE BODY	1689	"    INSERT INTO jcfx_zy_data_d1( id, col1, col2,
+"
+PKG_JCFX	PACKAGE BODY	1690	"                                 col3, col4, col5,
+"
+PKG_JCFX	PACKAGE BODY	1691	"                                 col6, flag1 )
+"
+PKG_JCFX	PACKAGE BODY	1692	"    SELECT in_jcfx_id, Nvl(curr_bq, 'NONE'), Nvl(curr_ks, 'NONE'),
+"
+PKG_JCFX	PACKAGE BODY	1693	"           Nvl(fygl, 0), Nvl(COUNT(*), 0), Nvl(COUNT(*), 0),
+"
+PKG_JCFX	PACKAGE BODY	1694	"           Nvl(SUM(Round(dj, 2)), 0), 2
+"
+PKG_JCFX	PACKAGE BODY	1695	"      FROM zy_detail_charge
+"
+PKG_JCFX	PACKAGE BODY	1696	"     WHERE twice_detail_code = 'AU'
+"
+PKG_JCFX	PACKAGE BODY	1697	"       AND ldt_rq BETWEEN start_date AND charge_date
+"
+PKG_JCFX	PACKAGE BODY	1698	"       AND borrow_flag <> 1
+"
+PKG_JCFX	PACKAGE BODY	1699	"     GROUP BY curr_bq,
+"
+PKG_JCFX	PACKAGE BODY	1700	"              curr_ks,
+"
+PKG_JCFX	PACKAGE BODY	1701	"              fygl;
+"
+PKG_JCFX	PACKAGE BODY	1702	"               */
+"
+PKG_JCFX	PACKAGE BODY	1703	"    --计算采集结果
+"
+PKG_JCFX	PACKAGE BODY	1704	"    SELECT NVL(SUM(col4), 0),
+"
+PKG_JCFX	PACKAGE BODY	1705	"           NVL(SUM(col6), 0)
+"
+PKG_JCFX	PACKAGE BODY	1706	"      INTO ln_jls,
+"
+PKG_JCFX	PACKAGE BODY	1707	"           ln_je
+"
+PKG_JCFX	PACKAGE BODY	1708	"      FROM jcfx_zy_data_d1
+"
+PKG_JCFX	PACKAGE BODY	1709	"     WHERE id    = in_jcfx_id
+"
+PKG_JCFX	PACKAGE BODY	1710	"       AND flag1 = 2;
+"
+PKG_JCFX	PACKAGE BODY	1711	"
+"
+PKG_JCFX	PACKAGE BODY	1712	"    --修改成功标志,结束时间,记录数,金额
+"
+PKG_JCFX	PACKAGE BODY	1713	"    UPDATE jcfx_task_log
+"
+PKG_JCFX	PACKAGE BODY	1714	"       SET success_flag = 1,
+"
+PKG_JCFX	PACKAGE BODY	1715	"           jssj        = sysdate,
+"
+PKG_JCFX	PACKAGE BODY	1716	"           jls         = ln_jls,
+"
+PKG_JCFX	PACKAGE BODY	1717	"           value       = ln_je
+"
+PKG_JCFX	PACKAGE BODY	1718	"     WHERE jcfx_id = in_jcfx_id
+"
+PKG_JCFX	PACKAGE BODY	1719	"       AND task_lx = 'ZY_AU_SJCJ_D1';
+"
+PKG_JCFX	PACKAGE BODY	1720	"
+"
+PKG_JCFX	PACKAGE BODY	1721	"    -- 提交数据（HONGER）
+"
+PKG_JCFX	PACKAGE BODY	1722	"    COMMIT;
+"
+PKG_JCFX	PACKAGE BODY	1723	"
+"
+PKG_JCFX	PACKAGE BODY	1724	"  EXCEPTION
+"
+PKG_JCFX	PACKAGE BODY	1725	"    WHEN e_input THEN
+"
+PKG_JCFX	PACKAGE BODY	1726	"      on_code :=  0;
+"
+PKG_JCFX	PACKAGE BODY	1727	"      os_mess := '输入参数错误!';
+"
+PKG_JCFX	PACKAGE BODY	1728	"    WHEN others THEN
+"
+PKG_JCFX	PACKAGE BODY	1729	"      ROLLBACK;
+"
+PKG_JCFX	PACKAGE BODY	1730	"      on_code := -1;
+"
+PKG_JCFX	PACKAGE BODY	1731	"      os_mess := 'prc_zy_au_sjcj1数据采集失败！原因：'||SQLErrm;
+"
+PKG_JCFX	PACKAGE BODY	1732	"      -- 返回SQL错误信息（MODIFY 2002-10-18 HONGER）
+"
+PKG_JCFX	PACKAGE BODY	1733	"  END;
+"
+PKG_JCFX	PACKAGE BODY	1734	"END prc_zy_au_sjcj1;
+"
+PKG_JCFX	PACKAGE BODY	1735	"
+"
+PKG_JCFX	PACKAGE BODY	1736	"
+"
+PKG_JCFX	PACKAGE BODY	1737	"Procedure prc_zy_au_sjcj2 ( in_jcfx_id   In    NUMBER,
+"
+PKG_JCFX	PACKAGE BODY	1738	"                            on_code      Out   NUMBER,
+"
+PKG_JCFX	PACKAGE BODY	1739	"                            os_mess      Out   Varchar2 )
+"
+PKG_JCFX	PACKAGE BODY	1740	"Is
+"
+PKG_JCFX	PACKAGE BODY	1741	"
+"
+PKG_JCFX	PACKAGE BODY	1742	"/*=============================================================================
+"
+PKG_JCFX	PACKAGE BODY	1743	"|| 过程名称 ： 住院数据采集（2AU：自动记帐费用按科室、组、费用归类汇总）
+"
+PKG_JCFX	PACKAGE BODY	1744	"||             prc_zy_au_sjcj2
+"
+PKG_JCFX	PACKAGE BODY	1745	"||-----------------------------------------------------------------------------
+"
+PKG_JCFX	PACKAGE BODY	1746	"|| 功能说明 ： 采集住院自动记帐数据，数据写入表JCFX_ZY_DATA_D2中，作业类型
+"
+PKG_JCFX	PACKAGE BODY	1747	"||             ZY_AU_SJCJ_D2，采集内容：日期、科室、组、费用归类、记录数、数量、
+"
+PKG_JCFX	PACKAGE BODY	1748	"||             金额、标志
+"
+PKG_JCFX	PACKAGE BODY	1749	"||-----------------------------------------------------------------------------
+"
+PKG_JCFX	PACKAGE BODY	1750	"|| 参数描述 ： 参数标识       输入/输出     类型         名称
+"
+PKG_JCFX	PACKAGE BODY	1751	"||            -----------------------------------------------------------------
+"
+PKG_JCFX	PACKAGE BODY	1752	"||             in_jcfx_id     IN            Number       采集日期
+"
+PKG_JCFX	PACKAGE BODY	1753	"||             on_code        OUT           Number       执行结果
+"
+PKG_JCFX	PACKAGE BODY	1754	"||             os_mess        OUT           Varchar2     返回信息
+"
+PKG_JCFX	PACKAGE BODY	1755	"||-----------------------------------------------------------------------------
+"
+PKG_JCFX	PACKAGE BODY	1756	"|| 注意事项 ： 科室为空时值为'NONE'
+"
+PKG_JCFX	PACKAGE BODY	1757	"||            -----------------------------------------------------------------
+"
+PKG_JCFX	PACKAGE BODY	1758	"||             组为空时值为'NONE'
+"
+PKG_JCFX	PACKAGE BODY	1759	"||            -----------------------------------------------------------------
+"
+PKG_JCFX	PACKAGE BODY	1760	"||             费用归类为空时值为0
+"
+PKG_JCFX	PACKAGE BODY	1761	"||-----------------------------------------------------------------------------
+"
+PKG_JCFX	PACKAGE BODY	1762	"|| 作    者 ： 陈联      完成日期 ：2001-03
+"
+PKG_JCFX	PACKAGE BODY	1763	"||-----------------------------------------------------------------------------
+"
+PKG_JCFX	PACKAGE BODY	1764	"|| 修改记录 ： 陈智鸿 @ 2002-08-23
+"
+PKG_JCFX	PACKAGE BODY	1765	"||             改group_code为yszh
+"
+PKG_JCFX	PACKAGE BODY	1766	"||            -----------------------------------------------------------------
+"
+PKG_JCFX	PACKAGE BODY	1767	"||             陈智鸿 @ 2002-10-18
+"
+PKG_JCFX	PACKAGE BODY	1768	"||             为了和子系统统一，金额先ROUND2再SUM；
+"
+PKG_JCFX	PACKAGE BODY	1769	"||             整理代码，加强反馈信息
+"
+PKG_JCFX	PACKAGE BODY	1770	"=============================================================================*/
+"
+PKG_JCFX	PACKAGE BODY	1771	"
+"
+PKG_JCFX	PACKAGE BODY	1772	"BEGIN
+"
+PKG_JCFX	PACKAGE BODY	1773	"
+"
+PKG_JCFX	PACKAGE BODY	1774	"  DECLARE
+"
+PKG_JCFX	PACKAGE BODY	1775	"    e_input    EXCEPTION ;
+"
+PKG_JCFX	PACKAGE BODY	1776	"    ln_count   NUMBER;
+"
+PKG_JCFX	PACKAGE BODY	1777	"    ln_jls     NUMBER;
+"
+PKG_JCFX	PACKAGE BODY	1778	"    ln_je      NUMBER;
+"
+PKG_JCFX	PACKAGE BODY	1779	"    ldt_rq     DATE;
+"
+PKG_JCFX	PACKAGE BODY	1780	"
+"
+PKG_JCFX	PACKAGE BODY	1781	"	BEGIN
+"
+PKG_JCFX	PACKAGE BODY	1782	"    IF in_jcfx_id = 0 THEN
+"
+PKG_JCFX	PACKAGE BODY	1783	"      raise e_input ;
+"
+PKG_JCFX	PACKAGE BODY	1784	"    END IF;
+"
+PKG_JCFX	PACKAGE BODY	1785	"
+"
+PKG_JCFX	PACKAGE BODY	1786	"    on_code := 1;
+"
+PKG_JCFX	PACKAGE BODY	1787	"    os_mess :='数据采集成功!';
+"
+PKG_JCFX	PACKAGE BODY	1788	"
+"
+PKG_JCFX	PACKAGE BODY	1789	"    SELECT COUNT(*)               --检查日志，采集是否已经执行过
+"
+PKG_JCFX	PACKAGE BODY	1790	"      INTO ln_count
+"
+PKG_JCFX	PACKAGE BODY	1791	"      FROM jcfx_task_log
+"
+PKG_JCFX	PACKAGE BODY	1792	"     WHERE jcfx_id = in_jcfx_id
+"
+PKG_JCFX	PACKAGE BODY	1793	"       AND task_lx = 'ZY_AU_SJCJ_D2';
+"
+PKG_JCFX	PACKAGE BODY	1794	"
+"
+PKG_JCFX	PACKAGE BODY	1795	"    -- 删除旧的作业日志和数据（HONGER）
+"
+PKG_JCFX	PACKAGE BODY	1796	"    IF ln_count > 0  THEN
+"
+PKG_JCFX	PACKAGE BODY	1797	"      DELETE FROM jcfx_task_log  --删除日志
+"
+PKG_JCFX	PACKAGE BODY	1798	"       WHERE jcfx_id = in_jcfx_id
+"
+PKG_JCFX	PACKAGE BODY	1799	"         AND task_lx = 'ZY_AU_SJCJ_D2';
+"
+PKG_JCFX	PACKAGE BODY	1800	"
+"
+PKG_JCFX	PACKAGE BODY	1801	"      DELETE FROM jcfx_zy_data_d2 --删除已有记录
+"
+PKG_JCFX	PACKAGE BODY	1802	"       WHERE id      = in_jcfx_id
+"
+PKG_JCFX	PACKAGE BODY	1803	"         AND flag1   = 2;
+"
+PKG_JCFX	PACKAGE BODY	1804	"    END IF;
+"
+PKG_JCFX	PACKAGE BODY	1805	"
+"
+PKG_JCFX	PACKAGE BODY	1806	"    -- 插入新的作业日志（HONGER）
+"
+PKG_JCFX	PACKAGE BODY	1807	"    INSERT INTO jcfx_task_log (jcfx_id, task_lx)     --决策分析标识，作业类型
+"
+PKG_JCFX	PACKAGE BODY	1808	"    VALUES (in_jcfx_id, 'ZY_AU_SJCJ_D2');         --插入作业日志
+"
+PKG_JCFX	PACKAGE BODY	1809	"
+"
+PKG_JCFX	PACKAGE BODY	1810	"    -- 统计日期（HONGER）
+"
+PKG_JCFX	PACKAGE BODY	1811	"    ldt_rq := to_date(to_char(in_jcfx_id),'yyyymmdd') + 1/86400;
+"
+PKG_JCFX	PACKAGE BODY	1812	"
+"
+PKG_JCFX	PACKAGE BODY	1813	"    -- 插入新的数据（HONGER）
+"
+PKG_JCFX	PACKAGE BODY	1814	"    -- ID、科室、组、费用归类、记录数、数量、金额、标志（HONGER）
+"
+PKG_JCFX	PACKAGE BODY	1815	"    -- 为了和子系统统一，金额先ROUND2再SUM （MODIFY 2002-10-18 HONGER）
+"
+PKG_JCFX	PACKAGE BODY	1816	"    INSERT INTO jcfx_zy_data_d2 ( id, col1, col2,
+"
+PKG_JCFX	PACKAGE BODY	1817	"                                  col3, col4, col5,
+"
+PKG_JCFX	PACKAGE BODY	1818	"                                  col6, flag1)
+"
+PKG_JCFX	PACKAGE BODY	1819	"    SELECT in_jcfx_id, nvl(curr_ks,'NONE'), nvl(yszh,'NONE'),
+"
+PKG_JCFX	PACKAGE BODY	1820	"           nvl(fygl,0), Nvl(COUNT(*), 0), Nvl(COUNT(*), 0),
+"
+PKG_JCFX	PACKAGE BODY	1821	"           Nvl(SUM(Round(dj, 2)), 0), 2
+"
+PKG_JCFX	PACKAGE BODY	1822	"      FROM zy_detail_charge
+"
+PKG_JCFX	PACKAGE BODY	1823	"     WHERE twice_detail_code = 'AU'
+"
+PKG_JCFX	PACKAGE BODY	1824	"       AND ldt_rq BETWEEN start_date AND charge_date
+"
+PKG_JCFX	PACKAGE BODY	1825	"     GROUP BY curr_ks,
+"
+PKG_JCFX	PACKAGE BODY	1826	"              yszh,
+"
+PKG_JCFX	PACKAGE BODY	1827	"              fygl;
+"
+PKG_JCFX	PACKAGE BODY	1828	"
+"
+PKG_JCFX	PACKAGE BODY	1829	"    --计算采集结果
+"
+PKG_JCFX	PACKAGE BODY	1830	"    SELECT NVL(SUM(col4),0),
+"
+PKG_JCFX	PACKAGE BODY	1831	"           NVL(SUM(col6),0)
+"
+PKG_JCFX	PACKAGE BODY	1832	"      INTO ln_jls,
+"
+PKG_JCFX	PACKAGE BODY	1833	"           ln_je
+"
+PKG_JCFX	PACKAGE BODY	1834	"      FROM jcfx_zy_data_d2
+"
+PKG_JCFX	PACKAGE BODY	1835	"     WHERE id = in_jcfx_id
+"
+PKG_JCFX	PACKAGE BODY	1836	"       AND flag1 = 2;
+"
+PKG_JCFX	PACKAGE BODY	1837	"
+"
+PKG_JCFX	PACKAGE BODY	1838	"    --修改成功标志,结束时间,记录数,金额
+"
+PKG_JCFX	PACKAGE BODY	1839	"    UPDATE jcfx_task_log
+"
+PKG_JCFX	PACKAGE BODY	1840	"       SET success_flag = 1,
+"
+PKG_JCFX	PACKAGE BODY	1841	"           jssj         = sysdate,
+"
+PKG_JCFX	PACKAGE BODY	1842	"           jls          = ln_jls,
+"
+PKG_JCFX	PACKAGE BODY	1843	"           value        = ln_je
+"
+PKG_JCFX	PACKAGE BODY	1844	"     WHERE jcfx_id = in_jcfx_id
+"
+PKG_JCFX	PACKAGE BODY	1845	"       AND task_lx = 'ZY_AU_SJCJ_D2';
+"
+PKG_JCFX	PACKAGE BODY	1846	"
+"
+PKG_JCFX	PACKAGE BODY	1847	"    -- 提交数据（HONGER）
+"
+PKG_JCFX	PACKAGE BODY	1848	"    COMMIT;
+"
+PKG_JCFX	PACKAGE BODY	1849	"
+"
+PKG_JCFX	PACKAGE BODY	1850	"  EXCEPTION
+"
+PKG_JCFX	PACKAGE BODY	1851	"    WHEN e_input THEN
+"
+PKG_JCFX	PACKAGE BODY	1852	"      on_code :=  0;
+"
+PKG_JCFX	PACKAGE BODY	1853	"      os_mess := '输入参数错误!';
+"
+PKG_JCFX	PACKAGE BODY	1854	"    WHEN others THEN
+"
+PKG_JCFX	PACKAGE BODY	1855	"      ROLLBACK;
+"
+PKG_JCFX	PACKAGE BODY	1856	"      on_code := -1;
+"
+PKG_JCFX	PACKAGE BODY	1857	"      os_mess := 'prc_zy_au_sjcj2数据采集失败！原因：'||SQLErrm;
+"
+PKG_JCFX	PACKAGE BODY	1858	"      -- 返回SQL错误信息（MODIFY 2002-10-18 HONGER）
+"
+PKG_JCFX	PACKAGE BODY	1859	"  END;
+"
+PKG_JCFX	PACKAGE BODY	1860	"END prc_zy_au_sjcj2;
+"
+PKG_JCFX	PACKAGE BODY	1861	"
+"
+PKG_JCFX	PACKAGE BODY	1862	"
+"
+PKG_JCFX	PACKAGE BODY	1863	"
+"
+PKG_JCFX	PACKAGE BODY	1864	"Procedure prc_zy_au_sjcj3 ( in_jcfx_id   In    NUMBER,
+"
+PKG_JCFX	PACKAGE BODY	1865	"                            on_code      Out   NUMBER,
+"
+PKG_JCFX	PACKAGE BODY	1866	"                            os_mess      Out   Varchar2 )
+"
+PKG_JCFX	PACKAGE BODY	1867	"Is
+"
+PKG_JCFX	PACKAGE BODY	1868	"
+"
+PKG_JCFX	PACKAGE BODY	1869	"/*=============================================================================
+"
+PKG_JCFX	PACKAGE BODY	1870	"|| 过程名称 ： 住院数据采集（3AU：自动记帐费用按组、医生、费用归类汇总）
+"
+PKG_JCFX	PACKAGE BODY	1871	"||             prc_zy_au_sjcj3
+"
+PKG_JCFX	PACKAGE BODY	1872	"||-----------------------------------------------------------------------------
+"
+PKG_JCFX	PACKAGE BODY	1873	"|| 功能说明 ： 采集住院自动记帐数据，数据写入表JCFX_ZY_DATA_D3中，作业类型
+"
+PKG_JCFX	PACKAGE BODY	1874	"||             ZY_AU_SJCJ_D3，采集内容：日期、组、医生、费用归类、记录数、数量、
+"
+PKG_JCFX	PACKAGE BODY	1875	"||             金额、标志
+"
+PKG_JCFX	PACKAGE BODY	1876	"||-----------------------------------------------------------------------------
+"
+PKG_JCFX	PACKAGE BODY	1877	"|| 参数描述 ： 参数标识       输入/输出     类型         名称
+"
+PKG_JCFX	PACKAGE BODY	1878	"||            -----------------------------------------------------------------
+"
+PKG_JCFX	PACKAGE BODY	1879	"||             in_jcfx_id     IN            Number       采集日期
+"
+PKG_JCFX	PACKAGE BODY	1880	"||             on_code        OUT           Number       执行结果
+"
+PKG_JCFX	PACKAGE BODY	1881	"||             os_mess        OUT           Varchar2     返回信息
+"
+PKG_JCFX	PACKAGE BODY	1882	"||-----------------------------------------------------------------------------
+"
+PKG_JCFX	PACKAGE BODY	1883	"|| 注意事项 ： 组为空时值为'NONE'
+"
+PKG_JCFX	PACKAGE BODY	1884	"||            -----------------------------------------------------------------
+"
+PKG_JCFX	PACKAGE BODY	1885	"||             医生为空时值为'NONE'
+"
+PKG_JCFX	PACKAGE BODY	1886	"||            -----------------------------------------------------------------
+"
+PKG_JCFX	PACKAGE BODY	1887	"||             费用归类为空时值为0
+"
+PKG_JCFX	PACKAGE BODY	1888	"||-----------------------------------------------------------------------------
+"
+PKG_JCFX	PACKAGE BODY	1889	"|| 作    者 ： 陈联      完成日期 ：2001-03
+"
+PKG_JCFX	PACKAGE BODY	1890	"||-----------------------------------------------------------------------------
+"
+PKG_JCFX	PACKAGE BODY	1891	"|| 修改记录 ： 陈智鸿 @ 2002-08-23
+"
+PKG_JCFX	PACKAGE BODY	1892	"||             改group_code为yszh
+"
+PKG_JCFX	PACKAGE BODY	1893	"||            -----------------------------------------------------------------
+"
+PKG_JCFX	PACKAGE BODY	1894	"||             陈智鸿 @ 2002-10-18
+"
+PKG_JCFX	PACKAGE BODY	1895	"||             为了和子系统统一，金额先ROUND2再SUM；
+"
+PKG_JCFX	PACKAGE BODY	1896	"||             整理代码，加强反馈信息
+"
+PKG_JCFX	PACKAGE BODY	1897	"=============================================================================*/
+"
+PKG_JCFX	PACKAGE BODY	1898	"
+"
+PKG_JCFX	PACKAGE BODY	1899	"BEGIN
+"
+PKG_JCFX	PACKAGE BODY	1900	"
+"
+PKG_JCFX	PACKAGE BODY	1901	"  DECLARE
+"
+PKG_JCFX	PACKAGE BODY	1902	"    e_input    EXCEPTION;
+"
+PKG_JCFX	PACKAGE BODY	1903	"    ln_count   NUMBER;
+"
+PKG_JCFX	PACKAGE BODY	1904	"    ln_jls     NUMBER;
+"
+PKG_JCFX	PACKAGE BODY	1905	"    ln_je      NUMBER;
+"
+PKG_JCFX	PACKAGE BODY	1906	"    ldt_rq     DATE;
+"
+PKG_JCFX	PACKAGE BODY	1907	"
+"
+PKG_JCFX	PACKAGE BODY	1908	"  BEGIN
+"
+PKG_JCFX	PACKAGE BODY	1909	"    IF in_jcfx_id = 0 THEN
+"
+PKG_JCFX	PACKAGE BODY	1910	"      raise e_input ;
+"
+PKG_JCFX	PACKAGE BODY	1911	"    END IF;
+"
+PKG_JCFX	PACKAGE BODY	1912	"
+"
+PKG_JCFX	PACKAGE BODY	1913	"    on_code := 1;
+"
+PKG_JCFX	PACKAGE BODY	1914	"    os_mess :='数据采集成功!';
+"
+PKG_JCFX	PACKAGE BODY	1915	"
+"
+PKG_JCFX	PACKAGE BODY	1916	"    SELECT COUNT(*)               --检查日志，采集是否已经执行过
+"
+PKG_JCFX	PACKAGE BODY	1917	"      INTO ln_count
+"
+PKG_JCFX	PACKAGE BODY	1918	"      FROM jcfx_task_log
+"
+PKG_JCFX	PACKAGE BODY	1919	"     WHERE jcfx_id = in_jcfx_id
+"
+PKG_JCFX	PACKAGE BODY	1920	"       AND task_lx = 'ZY_AU_SJCJ_D3';
+"
+PKG_JCFX	PACKAGE BODY	1921	"
+"
+PKG_JCFX	PACKAGE BODY	1922	"    -- 删除旧的作业日志和数据（HONGER）
+"
+PKG_JCFX	PACKAGE BODY	1923	"    IF ln_count > 0 THEN
+"
+PKG_JCFX	PACKAGE BODY	1924	"      DELETE FROM jcfx_task_log  --删除日志
+"
+PKG_JCFX	PACKAGE BODY	1925	"       WHERE jcfx_id = in_jcfx_id
+"
+PKG_JCFX	PACKAGE BODY	1926	"         AND task_lx = 'ZY_AU_SJCJ_D3';
+"
+PKG_JCFX	PACKAGE BODY	1927	"
+"
+PKG_JCFX	PACKAGE BODY	1928	"      DELETE FROM jcfx_zy_data_d3 --删除已有记录
+"
+PKG_JCFX	PACKAGE BODY	1929	"       WHERE id      = in_jcfx_id
+"
+PKG_JCFX	PACKAGE BODY	1930	"         AND flag1   = 2;
+"
+PKG_JCFX	PACKAGE BODY	1931	"    END IF;
+"
+PKG_JCFX	PACKAGE BODY	1932	"
+"
+PKG_JCFX	PACKAGE BODY	1933	"    -- 插入新的作业日志（HONGER）
+"
+PKG_JCFX	PACKAGE BODY	1934	"    INSERT INTO jcfx_task_log (jcfx_id, task_lx)     --决策分析标识，作业类型
+"
+PKG_JCFX	PACKAGE BODY	1935	"    VALUES (in_jcfx_id, 'ZY_AU_SJCJ_D3');         --插入作业日志
+"
+PKG_JCFX	PACKAGE BODY	1936	"
+"
+PKG_JCFX	PACKAGE BODY	1937	"    -- 统计日期（HONGER）
+"
+PKG_JCFX	PACKAGE BODY	1938	"    ldt_rq := to_date(to_char(in_jcfx_id),'yyyymmdd') + 1/86400;
+"
+PKG_JCFX	PACKAGE BODY	1939	"
+"
+PKG_JCFX	PACKAGE BODY	1940	"    -- 插入新的数据（HONGER）
+"
+PKG_JCFX	PACKAGE BODY	1941	"    -- ID、组、医生、费用归类、记录数、数量、金额、标志（HONGER）
+"
+PKG_JCFX	PACKAGE BODY	1942	"    -- 为了和子系统统一，金额先ROUND2再SUM （MODIFY 2002-10-18 HONGER）
+"
+PKG_JCFX	PACKAGE BODY	1943	"    INSERT INTO jcfx_zy_data_d3 ( id, col1, col2,
+"
+PKG_JCFX	PACKAGE BODY	1944	"                                  col3, col4, col5,
+"
+PKG_JCFX	PACKAGE BODY	1945	"                                  col6, flag1)
+"
+PKG_JCFX	PACKAGE BODY	1946	"    SELECT in_jcfx_id, nvl(yszh,'NONE'), nvl(ys_code,'NONE'),
+"
+PKG_JCFX	PACKAGE BODY	1947	"           nvl(fygl,0), Nvl(COUNT(*), 0), Nvl(COUNT(*), 0),
+"
+PKG_JCFX	PACKAGE BODY	1948	"           Nvl(SUM(Round(dj, 2)), 0), 2
+"
+PKG_JCFX	PACKAGE BODY	1949	"      FROM zy_detail_charge
+"
+PKG_JCFX	PACKAGE BODY	1950	"     WHERE twice_detail_code = 'AU'
+"
+PKG_JCFX	PACKAGE BODY	1951	"       AND ldt_rq BETWEEN start_date AND charge_date
+"
+PKG_JCFX	PACKAGE BODY	1952	"     GROUP BY yszh,
+"
+PKG_JCFX	PACKAGE BODY	1953	"              ys_code,
+"
+PKG_JCFX	PACKAGE BODY	1954	"              fygl;
+"
+PKG_JCFX	PACKAGE BODY	1955	"
+"
+PKG_JCFX	PACKAGE BODY	1956	"    --计算采集结果
+"
+PKG_JCFX	PACKAGE BODY	1957	"    SELECT NVL(SUM(col4), 0),
+"
+PKG_JCFX	PACKAGE BODY	1958	"           NVL(SUM(col6), 0)
+"
+PKG_JCFX	PACKAGE BODY	1959	"      INTO ln_jls,
+"
+PKG_JCFX	PACKAGE BODY	1960	"           ln_je
+"
+PKG_JCFX	PACKAGE BODY	1961	"      FROM jcfx_zy_data_d3
+"
+PKG_JCFX	PACKAGE BODY	1962	"     WHERE id    = in_jcfx_id
+"
+PKG_JCFX	PACKAGE BODY	1963	"       AND flag1 = 2;
+"
+PKG_JCFX	PACKAGE BODY	1964	"
+"
+PKG_JCFX	PACKAGE BODY	1965	"    --修改成功标志,结束时间,记录数,金额
+"
+PKG_JCFX	PACKAGE BODY	1966	"    UPDATE jcfx_task_log
+"
+PKG_JCFX	PACKAGE BODY	1967	"       SET success_flag = 1,
+"
+PKG_JCFX	PACKAGE BODY	1968	"           jssj         = sysdate,
+"
+PKG_JCFX	PACKAGE BODY	1969	"           jls          = ln_jls,
+"
+PKG_JCFX	PACKAGE BODY	1970	"           value        = ln_je
+"
+PKG_JCFX	PACKAGE BODY	1971	"     WHERE jcfx_id = in_jcfx_id
+"
+PKG_JCFX	PACKAGE BODY	1972	"       AND task_lx = 'ZY_AU_SJCJ_D3';
+"
+PKG_JCFX	PACKAGE BODY	1973	"
+"
+PKG_JCFX	PACKAGE BODY	1974	"    -- 提交结果
+"
+PKG_JCFX	PACKAGE BODY	1975	"    COMMIT;
+"
+PKG_JCFX	PACKAGE BODY	1976	"
+"
+PKG_JCFX	PACKAGE BODY	1977	"  EXCEPTION
+"
+PKG_JCFX	PACKAGE BODY	1978	"    WHEN e_input THEN
+"
+PKG_JCFX	PACKAGE BODY	1979	"      on_code :=  0;
+"
+PKG_JCFX	PACKAGE BODY	1980	"      os_mess := '输入参数错误!';
+"
+PKG_JCFX	PACKAGE BODY	1981	"    WHEN others THEN
+"
+PKG_JCFX	PACKAGE BODY	1982	"      ROLLBACK;
+"
+PKG_JCFX	PACKAGE BODY	1983	"      on_code := -1;
+"
+PKG_JCFX	PACKAGE BODY	1984	"      os_mess := 'prc_zy_au_sjcj3数据采集失败！原因：'||SQLErrm;
+"
+PKG_JCFX	PACKAGE BODY	1985	"      -- 返回SQL错误信息（MODIFY 2002-10-18 HONGER）
+"
+PKG_JCFX	PACKAGE BODY	1986	"  END;
+"
+PKG_JCFX	PACKAGE BODY	1987	"END prc_zy_au_sjcj3;
+"
+PKG_JCFX	PACKAGE BODY	1988	"
+"
+PKG_JCFX	PACKAGE BODY	1989	"
+"
+PKG_JCFX	PACKAGE BODY	1990	"Procedure prc_zy_sjcj1 ( in_jcfx_id   In    NUMBER,
+"
+PKG_JCFX	PACKAGE BODY	1991	"                         on_code      Out   NUMBER,
+"
+PKG_JCFX	PACKAGE BODY	1992	"                         os_mess      Out   Varchar2)
+"
+PKG_JCFX	PACKAGE BODY	1993	"Is
+"
+PKG_JCFX	PACKAGE BODY	1994	"
+"
+PKG_JCFX	PACKAGE BODY	1995	"/*=============================================================================
+"
+PKG_JCFX	PACKAGE BODY	1996	"|| 过程名称 ： 住院数据采集（1：非自动记帐费用按病区、科室、费用归类汇总）
+"
+PKG_JCFX	PACKAGE BODY	1997	"||             prc_zy_sjcj1
+"
+PKG_JCFX	PACKAGE BODY	1998	"||-----------------------------------------------------------------------------
+"
+PKG_JCFX	PACKAGE BODY	1999	"|| 功能说明 ： 采集住院非自动记帐数据，数据写入表JCFX_ZY_DATA_D1中，作业类型
+"
+PKG_JCFX	PACKAGE BODY	2000	"||             ZY_SJCJ_D1，采集内容：日期、病区、科室、费用归类、记录数、数量、
+"
+PKG_JCFX	PACKAGE BODY	2001	"||             金额、标志
+"
+PKG_JCFX	PACKAGE BODY	2002	"||-----------------------------------------------------------------------------
+"
+PKG_JCFX	PACKAGE BODY	2003	"|| 参数描述 ： 参数标识       输入/输出     类型         名称
+"
+PKG_JCFX	PACKAGE BODY	2004	"||            -----------------------------------------------------------------
+"
+PKG_JCFX	PACKAGE BODY	2005	"||             in_jcfx_id     IN            Number       采集日期
+"
+PKG_JCFX	PACKAGE BODY	2006	"||             on_code        OUT           Number       执行结果
+"
+PKG_JCFX	PACKAGE BODY	2007	"||             os_mess        OUT           Varchar2     返回信息
+"
+PKG_JCFX	PACKAGE BODY	2008	"||-----------------------------------------------------------------------------
+"
+PKG_JCFX	PACKAGE BODY	2009	"|| 注意事项 ： 病区为空时值为'NONE'
+"
+PKG_JCFX	PACKAGE BODY	2010	"||            -----------------------------------------------------------------
+"
+PKG_JCFX	PACKAGE BODY	2011	"||             科室为空时值为'NONE'
+"
+PKG_JCFX	PACKAGE BODY	2012	"||            -----------------------------------------------------------------
+"
+PKG_JCFX	PACKAGE BODY	2013	"||             费用归类为空时值为0
+"
+PKG_JCFX	PACKAGE BODY	2014	"||-----------------------------------------------------------------------------
+"
+PKG_JCFX	PACKAGE BODY	2015	"|| 作    者 ： 陈联      完成日期 ：2001-03
+"
+PKG_JCFX	PACKAGE BODY	2016	"||-----------------------------------------------------------------------------
+"
+PKG_JCFX	PACKAGE BODY	2017	"|| 修改记录 ： 陈智鸿 @ 2002-10-18
+"
+PKG_JCFX	PACKAGE BODY	2018	"||             为了和子系统统一，金额先ROUND2再SUM；
+"
+PKG_JCFX	PACKAGE BODY	2019	"||             整理代码，加强反馈信息
+"
+PKG_JCFX	PACKAGE BODY	2020	"=============================================================================*/
+"
+PKG_JCFX	PACKAGE BODY	2021	"
+"
+PKG_JCFX	PACKAGE BODY	2022	"BEGIN
+"
+PKG_JCFX	PACKAGE BODY	2023	"
+"
+PKG_JCFX	PACKAGE BODY	2024	"  DECLARE
+"
+PKG_JCFX	PACKAGE BODY	2025	"    e_input    EXCEPTION;
+"
+PKG_JCFX	PACKAGE BODY	2026	"    ln_count   NUMBER;
+"
+PKG_JCFX	PACKAGE BODY	2027	"    ln_jls     NUMBER;
+"
+PKG_JCFX	PACKAGE BODY	2028	"    ln_je      NUMBER;
+"
+PKG_JCFX	PACKAGE BODY	2029	"    ln_jcfx_id NUMBER;
+"
+PKG_JCFX	PACKAGE BODY	2030	"    ldt_jcfx_min DATE;
+"
+PKG_JCFX	PACKAGE BODY	2031	"    ldt_jcfx_max DATE;
+"
+PKG_JCFX	PACKAGE BODY	2032	"  BEGIN
+"
+PKG_JCFX	PACKAGE BODY	2033	"    IF in_jcfx_id = 0 THEN
+"
+PKG_JCFX	PACKAGE BODY	2034	"      raise e_input;
+"
+PKG_JCFX	PACKAGE BODY	2035	"    END IF;
+"
+PKG_JCFX	PACKAGE BODY	2036	"
+"
+PKG_JCFX	PACKAGE BODY	2037	"    on_code := 1;
+"
+PKG_JCFX	PACKAGE BODY	2038	"    os_mess :='数据采集成功!';
+"
+PKG_JCFX	PACKAGE BODY	2039	"    ln_jcfx_id := in_jcfx_id;
+"
+PKG_JCFX	PACKAGE BODY	2040	"    ldt_jcfx_min :=  to_date(to_char(ln_jcfx_id), 'yyyy/mm/dd'); --起始时间
+"
+PKG_JCFX	PACKAGE BODY	2041	"    ldt_jcfx_max :=  ldt_jcfx_min + 86399/86400;                 --结束时间
+"
+PKG_JCFX	PACKAGE BODY	2042	"    --检查日志，采集是否已经执行过
+"
+PKG_JCFX	PACKAGE BODY	2043	"    SELECT COUNT(*)
+"
+PKG_JCFX	PACKAGE BODY	2044	"      INTO ln_count
+"
+PKG_JCFX	PACKAGE BODY	2045	"      FROM jcfx_task_log
+"
+PKG_JCFX	PACKAGE BODY	2046	"     WHERE jcfx_id = in_jcfx_id
+"
+PKG_JCFX	PACKAGE BODY	2047	"       AND task_lx = 'ZY_SJCJ_D1';
+"
+PKG_JCFX	PACKAGE BODY	2048	"
+"
+PKG_JCFX	PACKAGE BODY	2049	"    -- 删除旧的作业日志和数据（HONGER）
+"
+PKG_JCFX	PACKAGE BODY	2050	"    IF ln_count > 0 THEN
+"
+PKG_JCFX	PACKAGE BODY	2051	"      DELETE FROM jcfx_task_log
+"
+PKG_JCFX	PACKAGE BODY	2052	"       WHERE jcfx_id = in_jcfx_id
+"
+PKG_JCFX	PACKAGE BODY	2053	"         AND task_lx = 'ZY_SJCJ_D1';
+"
+PKG_JCFX	PACKAGE BODY	2054	"
+"
+PKG_JCFX	PACKAGE BODY	2055	"      DELETE FROM jcfx_zy_data_d1 --删除已有记录
+"
+PKG_JCFX	PACKAGE BODY	2056	"       WHERE id      = in_jcfx_id
+"
+PKG_JCFX	PACKAGE BODY	2057	"         AND flag1   = 1;
+"
+PKG_JCFX	PACKAGE BODY	2058	"    END IF;
+"
+PKG_JCFX	PACKAGE BODY	2059	"
+"
+PKG_JCFX	PACKAGE BODY	2060	"    -- 插入新的作业日志（HONGER）
+"
+PKG_JCFX	PACKAGE BODY	2061	"    INSERT INTO jcfx_task_log (jcfx_id, task_lx)        --决策分析标识，作业类型
+"
+PKG_JCFX	PACKAGE BODY	2062	"    VALUES (in_jcfx_id, 'ZY_SJCJ_D1');               --插入作业日志
+"
+PKG_JCFX	PACKAGE BODY	2063	"
+"
+PKG_JCFX	PACKAGE BODY	2064	"    -- 插入新的数据（HONGER）
+"
+PKG_JCFX	PACKAGE BODY	2065	"    -- ID、病区、科室、费用归类、记录数、数量、金额、标志（HONGER）
+"
+PKG_JCFX	PACKAGE BODY	2066	"    -- 为了和子系统统一，金额先ROUND2再SUM （MODIFY 2002-10-18 HONGER）
+"
+PKG_JCFX	PACKAGE BODY	2067	"    -- 有借床情况 RuanMa 2003-08-06
+"
+PKG_JCFX	PACKAGE BODY	2068	"
+"
+PKG_JCFX	PACKAGE BODY	2069	"    INSERT INTO jcfx_zy_data_d1( id, col1, col2,
+"
+PKG_JCFX	PACKAGE BODY	2070	"                                 col3, col4, col5,
+"
+PKG_JCFX	PACKAGE BODY	2071	"                                 col6, flag1)
+"
+PKG_JCFX	PACKAGE BODY	2072	"    SELECT in_jcfx_id, nvl(curr_bq,'NONE'), nvl(TRIM(borrow_ks),curr_ks),
+"
+PKG_JCFX	PACKAGE BODY	2073	"           nvl(fygl,0), Nvl(COUNT(*), 0), Nvl(SUM(sl), 0),
+"
+PKG_JCFX	PACKAGE BODY	2074	"           Nvl(SUM(Round(sl*dj, 2)), 0), 1
+"
+PKG_JCFX	PACKAGE BODY	2075	"      FROM zy_detail_charge
+"
+PKG_JCFX	PACKAGE BODY	2076	"     WHERE twice_detail_code <> 'AU'
+"
+PKG_JCFX	PACKAGE BODY	2077	"       AND jcfx_date between ldt_jcfx_min and ldt_jcfx_max
+"
+PKG_JCFX	PACKAGE BODY	2078	"--       AND jcfx_id = in_jcfx_id
+"
+PKG_JCFX	PACKAGE BODY	2079	"--       AND borrow_flag = 1
+"
+PKG_JCFX	PACKAGE BODY	2080	"     GROUP BY curr_bq,
+"
+PKG_JCFX	PACKAGE BODY	2081	"              nvl(TRIM(borrow_ks),curr_ks),
+"
+PKG_JCFX	PACKAGE BODY	2082	"              fygl;
+"
+PKG_JCFX	PACKAGE BODY	2083	"              /*
+"
+PKG_JCFX	PACKAGE BODY	2084	"    --没有借床，正常情况 RuanMa 2003-08-06
+"
+PKG_JCFX	PACKAGE BODY	2085	"    INSERT INTO jcfx_zy_data_d1( id, col1, col2,
+"
+PKG_JCFX	PACKAGE BODY	2086	"                                 col3, col4, col5,
+"
+PKG_JCFX	PACKAGE BODY	2087	"                                 col6, flag1)
+"
+PKG_JCFX	PACKAGE BODY	2088	"    SELECT in_jcfx_id, nvl(curr_bq,'NONE'), nvl(curr_ks,'NONE'),
+"
+PKG_JCFX	PACKAGE BODY	2089	"           nvl(fygl,0), Nvl(COUNT(*), 0), Nvl(SUM(sl), 0),
+"
+PKG_JCFX	PACKAGE BODY	2090	"           Nvl(SUM(Round(sl*dj, 2)), 0), 1
+"
+PKG_JCFX	PACKAGE BODY	2091	"      FROM zy_detail_charge
+"
+PKG_JCFX	PACKAGE BODY	2092	"     WHERE twice_detail_code <> 'AU'
+"
+PKG_JCFX	PACKAGE BODY	2093	"       AND jcfx_id = in_jcfx_id
+"
+PKG_JCFX	PACKAGE BODY	2094	"       AND borrow_flag <> 1
+"
+PKG_JCFX	PACKAGE BODY	2095	"     GROUP BY curr_bq,
+"
+PKG_JCFX	PACKAGE BODY	2096	"              curr_ks,
+"
+PKG_JCFX	PACKAGE BODY	2097	"              fygl;
+"
+PKG_JCFX	PACKAGE BODY	2098	"              */
+"
+PKG_JCFX	PACKAGE BODY	2099	"    --计算采集结果
+"
+PKG_JCFX	PACKAGE BODY	2100	"	  SELECT NVL(SUM(col4), 0),
+"
+PKG_JCFX	PACKAGE BODY	2101	"           NVL(SUM(col6), 0)
+"
+PKG_JCFX	PACKAGE BODY	2102	"      INTO ln_jls,
+"
+PKG_JCFX	PACKAGE BODY	2103	"           ln_je
+"
+PKG_JCFX	PACKAGE BODY	2104	"      FROM jcfx_zy_data_d1
+"
+PKG_JCFX	PACKAGE BODY	2105	"     WHERE id    = in_jcfx_id
+"
+PKG_JCFX	PACKAGE BODY	2106	"       AND flag1 = 1;
+"
+PKG_JCFX	PACKAGE BODY	2107	"
+"
+PKG_JCFX	PACKAGE BODY	2108	"    --修改成功标志,结束时间,记录数,金额
+"
+PKG_JCFX	PACKAGE BODY	2109	"    UPDATE jcfx_task_log
+"
+PKG_JCFX	PACKAGE BODY	2110	"	      SET success_flag = 1,
+"
+PKG_JCFX	PACKAGE BODY	2111	"            jssj         = sysdate,
+"
+PKG_JCFX	PACKAGE BODY	2112	"            jls          = ln_jls,
+"
+PKG_JCFX	PACKAGE BODY	2113	"            value        = ln_je
+"
+PKG_JCFX	PACKAGE BODY	2114	"      WHERE jcfx_id = in_jcfx_id
+"
+PKG_JCFX	PACKAGE BODY	2115	"        AND task_lx = 'ZY_SJCJ_D1';
+"
+PKG_JCFX	PACKAGE BODY	2116	"
+"
+PKG_JCFX	PACKAGE BODY	2117	"    -- 提交数据（HONGER）
+"
+PKG_JCFX	PACKAGE BODY	2118	"    COMMIT;
+"
+PKG_JCFX	PACKAGE BODY	2119	"
+"
+PKG_JCFX	PACKAGE BODY	2120	"  EXCEPTION
+"
+PKG_JCFX	PACKAGE BODY	2121	"    WHEN e_input THEN
+"
+PKG_JCFX	PACKAGE BODY	2122	"      on_code :=  0;
+"
+PKG_JCFX	PACKAGE BODY	2123	"      os_mess := '输入参数错误!';
+"
+PKG_JCFX	PACKAGE BODY	2124	"    WHEN others THEN
+"
+PKG_JCFX	PACKAGE BODY	2125	"      ROLLBACK;
+"
+PKG_JCFX	PACKAGE BODY	2126	"      on_code := -1;
+"
+PKG_JCFX	PACKAGE BODY	2127	"      os_mess := 'prc_zy_sjcj1数据采集失败！原因：'||SQLErrm;
+"
+PKG_JCFX	PACKAGE BODY	2128	"      -- 返回SQL错误信息（MODIFY 2002-10-18 HONGER）
+"
+PKG_JCFX	PACKAGE BODY	2129	"  END;
+"
+PKG_JCFX	PACKAGE BODY	2130	"END prc_zy_sjcj1;
+"
+PKG_JCFX	PACKAGE BODY	2131	"
+"
+PKG_JCFX	PACKAGE BODY	2132	"
+"
+PKG_JCFX	PACKAGE BODY	2133	"
+"
+PKG_JCFX	PACKAGE BODY	2134	"Procedure prc_zy_sjcj2 ( in_jcfx_id   In    NUMBER,
+"
+PKG_JCFX	PACKAGE BODY	2135	"                         on_code      Out   NUMBER,
+"
+PKG_JCFX	PACKAGE BODY	2136	"                         os_mess      Out   Varchar2 )
+"
+PKG_JCFX	PACKAGE BODY	2137	"Is
+"
+PKG_JCFX	PACKAGE BODY	2138	"
+"
+PKG_JCFX	PACKAGE BODY	2139	"/*=============================================================================
+"
+PKG_JCFX	PACKAGE BODY	2140	"|| 过程名称 ： 住院数据采集（2：非自动记帐费用按科室、组、费用归类汇总）
+"
+PKG_JCFX	PACKAGE BODY	2141	"||             prc_zy_sjcj2
+"
+PKG_JCFX	PACKAGE BODY	2142	"||-----------------------------------------------------------------------------
+"
+PKG_JCFX	PACKAGE BODY	2143	"|| 功能说明 ： 采集住院非自动记帐数据，数据写入表JCFX_ZY_DATA_D2中，作业类型
+"
+PKG_JCFX	PACKAGE BODY	2144	"||             ZY_SJCJ_D2，采集内容：日期、科室、组、费用归类、记录数、数量、
+"
+PKG_JCFX	PACKAGE BODY	2145	"||             金额、标志
+"
+PKG_JCFX	PACKAGE BODY	2146	"||-----------------------------------------------------------------------------
+"
+PKG_JCFX	PACKAGE BODY	2147	"|| 参数描述 ： 参数标识       输入/输出     类型         名称
+"
+PKG_JCFX	PACKAGE BODY	2148	"||            -----------------------------------------------------------------
+"
+PKG_JCFX	PACKAGE BODY	2149	"||             in_jcfx_id     IN            Number       采集日期
+"
+PKG_JCFX	PACKAGE BODY	2150	"||             on_code        OUT           Number       执行结果
+"
+PKG_JCFX	PACKAGE BODY	2151	"||             os_mess        OUT           Varchar2     返回信息
+"
+PKG_JCFX	PACKAGE BODY	2152	"||-----------------------------------------------------------------------------
+"
+PKG_JCFX	PACKAGE BODY	2153	"|| 注意事项 ： 科室为空时值为'NONE'
+"
+PKG_JCFX	PACKAGE BODY	2154	"||            -----------------------------------------------------------------
+"
+PKG_JCFX	PACKAGE BODY	2155	"||             组为空时值为'NONE'
+"
+PKG_JCFX	PACKAGE BODY	2156	"||            -----------------------------------------------------------------
+"
+PKG_JCFX	PACKAGE BODY	2157	"||             费用归类为空时值为0
+"
+PKG_JCFX	PACKAGE BODY	2158	"||-----------------------------------------------------------------------------
+"
+PKG_JCFX	PACKAGE BODY	2159	"|| 作    者 ： 陈联      完成日期 ：2001-03
+"
+PKG_JCFX	PACKAGE BODY	2160	"||-----------------------------------------------------------------------------
+"
+PKG_JCFX	PACKAGE BODY	2161	"|| 修改记录 ： 陈智鸿 @ 2002-08-23
+"
+PKG_JCFX	PACKAGE BODY	2162	"||             改group_code为yszh
+"
+PKG_JCFX	PACKAGE BODY	2163	"||            -----------------------------------------------------------------
+"
+PKG_JCFX	PACKAGE BODY	2164	"||             陈智鸿 @ 2002-10-18
+"
+PKG_JCFX	PACKAGE BODY	2165	"||             为了和子系统统一，金额先ROUND2再SUM；
+"
+PKG_JCFX	PACKAGE BODY	2166	"||             整理代码，加强反馈信息
+"
+PKG_JCFX	PACKAGE BODY	2167	"=============================================================================*/
+"
+PKG_JCFX	PACKAGE BODY	2168	"
+"
+PKG_JCFX	PACKAGE BODY	2169	"BEGIN
+"
+PKG_JCFX	PACKAGE BODY	2170	"
+"
+PKG_JCFX	PACKAGE BODY	2171	"  DECLARE
+"
+PKG_JCFX	PACKAGE BODY	2172	"    e_input    EXCEPTION ;
+"
+PKG_JCFX	PACKAGE BODY	2173	"    ln_count   NUMBER;
+"
+PKG_JCFX	PACKAGE BODY	2174	"    ln_jls     NUMBER;
+"
+PKG_JCFX	PACKAGE BODY	2175	"    ln_je      NUMBER;
+"
+PKG_JCFX	PACKAGE BODY	2176	"    ln_jcfx_id NUMBER;
+"
+PKG_JCFX	PACKAGE BODY	2177	"    ldt_jcfx_min DATE;
+"
+PKG_JCFX	PACKAGE BODY	2178	"    ldt_jcfx_max DATE;
+"
+PKG_JCFX	PACKAGE BODY	2179	"
+"
+PKG_JCFX	PACKAGE BODY	2180	"	BEGIN
+"
+PKG_JCFX	PACKAGE BODY	2181	"    IF in_jcfx_id = 0 THEN
+"
+PKG_JCFX	PACKAGE BODY	2182	"      raise e_input ;
+"
+PKG_JCFX	PACKAGE BODY	2183	"    END IF;
+"
+PKG_JCFX	PACKAGE BODY	2184	"
+"
+PKG_JCFX	PACKAGE BODY	2185	"    on_code := 1;
+"
+PKG_JCFX	PACKAGE BODY	2186	"    os_mess :='数据采集成功!';
+"
+PKG_JCFX	PACKAGE BODY	2187	"    ln_jcfx_id := in_jcfx_id;
+"
+PKG_JCFX	PACKAGE BODY	2188	"    ldt_jcfx_min :=  to_date(to_char(ln_jcfx_id), 'yyyy/mm/dd'); --起始时间
+"
+PKG_JCFX	PACKAGE BODY	2189	"    ldt_jcfx_max :=  ldt_jcfx_min + 86399/86400;                 --结束时间
+"
+PKG_JCFX	PACKAGE BODY	2190	"
+"
+PKG_JCFX	PACKAGE BODY	2191	"    SELECT COUNT(*)               --检查日志，采集是否已经执行过
+"
+PKG_JCFX	PACKAGE BODY	2192	"      INTO ln_count
+"
+PKG_JCFX	PACKAGE BODY	2193	"      FROM jcfx_task_log
+"
+PKG_JCFX	PACKAGE BODY	2194	"     WHERE jcfx_id = in_jcfx_id
+"
+PKG_JCFX	PACKAGE BODY	2195	"       AND task_lx = 'ZY_SJCJ_D2';
+"
+PKG_JCFX	PACKAGE BODY	2196	"
+"
+PKG_JCFX	PACKAGE BODY	2197	"    -- 删除旧的作业日志和数据（HONGER）
+"
+PKG_JCFX	PACKAGE BODY	2198	"    IF ln_count > 0 THEN
+"
+PKG_JCFX	PACKAGE BODY	2199	"      DELETE FROM jcfx_task_log  --删除日志
+"
+PKG_JCFX	PACKAGE BODY	2200	"       WHERE jcfx_id = in_jcfx_id
+"
+PKG_JCFX	PACKAGE BODY	2201	"         AND task_lx = 'ZY_SJCJ_D2';
+"
+PKG_JCFX	PACKAGE BODY	2202	"
+"
+PKG_JCFX	PACKAGE BODY	2203	"      DELETE FROM jcfx_zy_data_D2 --删除已有记录
+"
+PKG_JCFX	PACKAGE BODY	2204	"       WHERE id      = in_jcfx_id
+"
+PKG_JCFX	PACKAGE BODY	2205	"         AND flag1   = 1;
+"
+PKG_JCFX	PACKAGE BODY	2206	"    END IF;
+"
+PKG_JCFX	PACKAGE BODY	2207	"
+"
+PKG_JCFX	PACKAGE BODY	2208	"    -- 插入新的作业日志（HONGER）
+"
+PKG_JCFX	PACKAGE BODY	2209	"    INSERT INTO jcfx_task_log (jcfx_id, task_lx)        --决策分析标识，作业类型
+"
+PKG_JCFX	PACKAGE BODY	2210	"    VALUES (in_jcfx_id, 'ZY_SJCJ_D2');             --插入作业日志
+"
+PKG_JCFX	PACKAGE BODY	2211	"
+"
+PKG_JCFX	PACKAGE BODY	2212	"    -- 插入新的数据（HONGER）
+"
+PKG_JCFX	PACKAGE BODY	2213	"    -- ID、科室、组、费用归类、记录数、数量、金额、标志（HONGER）
+"
+PKG_JCFX	PACKAGE BODY	2214	"    -- 为了和子系统统一，金额先ROUND2再SUM （MODIFY 2002-10-18 HONGER）
+"
+PKG_JCFX	PACKAGE BODY	2215	"    INSERT INTO jcfx_zy_data_d2( id, col1, col2,
+"
+PKG_JCFX	PACKAGE BODY	2216	"                                 col3, col4, col5,
+"
+PKG_JCFX	PACKAGE BODY	2217	"                                 col6, flag1 )
+"
+PKG_JCFX	PACKAGE BODY	2218	"    SELECT in_jcfx_id, nvl(curr_ks, 'NONE'), nvl(yszh, 'NONE'),
+"
+PKG_JCFX	PACKAGE BODY	2219	"           nvl(fygl, 0), Nvl(COUNT(*), 0), Nvl(SUM(sl), 0),
+"
+PKG_JCFX	PACKAGE BODY	2220	"           Nvl(SUM(Round(sl*dj, 2)), 0), 1
+"
+PKG_JCFX	PACKAGE BODY	2221	"      FROM zy_detail_charge
+"
+PKG_JCFX	PACKAGE BODY	2222	"     WHERE twice_detail_code <> 'AU'
+"
+PKG_JCFX	PACKAGE BODY	2223	"       AND jcfx_date between ldt_jcfx_min and ldt_jcfx_max
+"
+PKG_JCFX	PACKAGE BODY	2224	"     GROUP BY curr_ks,
+"
+PKG_JCFX	PACKAGE BODY	2225	"              yszh,
+"
+PKG_JCFX	PACKAGE BODY	2226	"              fygl;
+"
+PKG_JCFX	PACKAGE BODY	2227	"
+"
+PKG_JCFX	PACKAGE BODY	2228	"    --计算采集结果
+"
+PKG_JCFX	PACKAGE BODY	2229	"    SELECT NVL(SUM(col4), 0),
+"
+PKG_JCFX	PACKAGE BODY	2230	"           NVL(SUM(col6), 0)
+"
+PKG_JCFX	PACKAGE BODY	2231	"      INTO ln_jls,
+"
+PKG_JCFX	PACKAGE BODY	2232	"           ln_je
+"
+PKG_JCFX	PACKAGE BODY	2233	"      FROM jcfx_zy_data_d2
+"
+PKG_JCFX	PACKAGE BODY	2234	"     WHERE id    = in_jcfx_id
+"
+PKG_JCFX	PACKAGE BODY	2235	"       AND flag1 = 1;
+"
+PKG_JCFX	PACKAGE BODY	2236	"
+"
+PKG_JCFX	PACKAGE BODY	2237	"    --修改成功标志,结束时间,记录数,金额
+"
+PKG_JCFX	PACKAGE BODY	2238	"    UPDATE jcfx_task_log
+"
+PKG_JCFX	PACKAGE BODY	2239	"       SET success_flag = 1,
+"
+PKG_JCFX	PACKAGE BODY	2240	"           jssj         = sysdate,
+"
+PKG_JCFX	PACKAGE BODY	2241	"           jls          = ln_jls,
+"
+PKG_JCFX	PACKAGE BODY	2242	"           value        = ln_je
+"
+PKG_JCFX	PACKAGE BODY	2243	"     WHERE jcfx_id = in_jcfx_id
+"
+PKG_JCFX	PACKAGE BODY	2244	"       AND task_lx = 'ZY_SJCJ_D2';
+"
+PKG_JCFX	PACKAGE BODY	2245	"
+"
+PKG_JCFX	PACKAGE BODY	2246	"    -- 提交数据（HONGER）
+"
+PKG_JCFX	PACKAGE BODY	2247	"    COMMIT;
+"
+PKG_JCFX	PACKAGE BODY	2248	"
+"
+PKG_JCFX	PACKAGE BODY	2249	"  EXCEPTION
+"
+PKG_JCFX	PACKAGE BODY	2250	"    WHEN e_input THEN
+"
+PKG_JCFX	PACKAGE BODY	2251	"      on_code :=  0;
+"
+PKG_JCFX	PACKAGE BODY	2252	"      os_mess := '输入参数错误!';
+"
+PKG_JCFX	PACKAGE BODY	2253	"    WHEN others THEN
+"
+PKG_JCFX	PACKAGE BODY	2254	"      ROLLBACK;
+"
+PKG_JCFX	PACKAGE BODY	2255	"      on_code := -1;
+"
+PKG_JCFX	PACKAGE BODY	2256	"      os_mess := 'prc_zy_sjcj2数据采集失败！原因：'||SQLErrm;
+"
+PKG_JCFX	PACKAGE BODY	2257	"      -- 返回SQL错误信息（MODIFY 2002-10-18 HONGER）
+"
+PKG_JCFX	PACKAGE BODY	2258	"  END;
+"
+PKG_JCFX	PACKAGE BODY	2259	"END prc_zy_sjcj2;
+"
+PKG_JCFX	PACKAGE BODY	2260	"
+"
+PKG_JCFX	PACKAGE BODY	2261	"
+"
+PKG_JCFX	PACKAGE BODY	2262	"
+"
+PKG_JCFX	PACKAGE BODY	2263	"Procedure prc_zy_sjcj3 ( in_jcfx_id   In    NUMBER,
+"
+PKG_JCFX	PACKAGE BODY	2264	"                         on_code      Out   NUMBER,
+"
+PKG_JCFX	PACKAGE BODY	2265	"                         os_mess      Out   Varchar2 )
+"
+PKG_JCFX	PACKAGE BODY	2266	"Is
+"
+PKG_JCFX	PACKAGE BODY	2267	"
+"
+PKG_JCFX	PACKAGE BODY	2268	"/*=============================================================================
+"
+PKG_JCFX	PACKAGE BODY	2269	"|| 过程名称 ： 住院数据采集（3：非自动记帐费用按组、医生、费用归类汇总）
+"
+PKG_JCFX	PACKAGE BODY	2270	"||             prc_zy_sjcj3
+"
+PKG_JCFX	PACKAGE BODY	2271	"||-----------------------------------------------------------------------------
+"
+PKG_JCFX	PACKAGE BODY	2272	"|| 功能说明 ： 采集住院非自动记帐数据，数据写入表JCFX_ZY_DATA_D3中，作业类型
+"
+PKG_JCFX	PACKAGE BODY	2273	"||             ZY_SJCJ_D3，采集内容：日期、组、医生、费用归类、记录数、数量、
+"
+PKG_JCFX	PACKAGE BODY	2274	"||             金额、标志
+"
+PKG_JCFX	PACKAGE BODY	2275	"||-----------------------------------------------------------------------------
+"
+PKG_JCFX	PACKAGE BODY	2276	"|| 参数描述 ： 参数标识       输入/输出     类型         名称
+"
+PKG_JCFX	PACKAGE BODY	2277	"||            -----------------------------------------------------------------
+"
+PKG_JCFX	PACKAGE BODY	2278	"||             in_jcfx_id     IN            Number       采集日期
+"
+PKG_JCFX	PACKAGE BODY	2279	"||             on_code        OUT           Number       执行结果
+"
+PKG_JCFX	PACKAGE BODY	2280	"||             os_mess        OUT           Varchar2     返回信息
+"
+PKG_JCFX	PACKAGE BODY	2281	"||-----------------------------------------------------------------------------
+"
+PKG_JCFX	PACKAGE BODY	2282	"|| 注意事项 ： 组为空时值为'NONE'
+"
+PKG_JCFX	PACKAGE BODY	2283	"||            -----------------------------------------------------------------
+"
+PKG_JCFX	PACKAGE BODY	2284	"||             医生为空时值为'NONE'
+"
+PKG_JCFX	PACKAGE BODY	2285	"||            -----------------------------------------------------------------
+"
+PKG_JCFX	PACKAGE BODY	2286	"||             费用归类为空时值为0
+"
+PKG_JCFX	PACKAGE BODY	2287	"||-----------------------------------------------------------------------------
+"
+PKG_JCFX	PACKAGE BODY	2288	"|| 作    者 ： 陈联      完成日期 ：2001-03
+"
+PKG_JCFX	PACKAGE BODY	2289	"||-----------------------------------------------------------------------------
+"
+PKG_JCFX	PACKAGE BODY	2290	"|| 修改记录 ： 陈智鸿 @ 2002-08-23
+"
+PKG_JCFX	PACKAGE BODY	2291	"||             改group_code为yszh
+"
+PKG_JCFX	PACKAGE BODY	2292	"||            -----------------------------------------------------------------
+"
+PKG_JCFX	PACKAGE BODY	2293	"||             陈智鸿 @ 2002-10-18
+"
+PKG_JCFX	PACKAGE BODY	2294	"||             为了和子系统统一，金额先ROUND2再SUM；
+"
+PKG_JCFX	PACKAGE BODY	2295	"||             整理代码，加强反馈信息
+"
+PKG_JCFX	PACKAGE BODY	2296	"||            -----------------------------------------------------------------
+"
+PKG_JCFX	PACKAGE BODY	2297	"||             陈智鸿 @ 2002-10-28
+"
+PKG_JCFX	PACKAGE BODY	2298	"||             INSERT INTO jcfx_zy_data_d3语句错误
+"
+PKG_JCFX	PACKAGE BODY	2299	"=============================================================================*/
+"
+PKG_JCFX	PACKAGE BODY	2300	"
+"
+PKG_JCFX	PACKAGE BODY	2301	"BEGIN
+"
+PKG_JCFX	PACKAGE BODY	2302	"
+"
+PKG_JCFX	PACKAGE BODY	2303	"  DECLARE
+"
+PKG_JCFX	PACKAGE BODY	2304	"    e_input    EXCEPTION;
+"
+PKG_JCFX	PACKAGE BODY	2305	"    ln_count   NUMBER;
+"
+PKG_JCFX	PACKAGE BODY	2306	"    ln_jls     NUMBER;
+"
+PKG_JCFX	PACKAGE BODY	2307	"    ln_je      NUMBER;
+"
+PKG_JCFX	PACKAGE BODY	2308	"    ln_jcfx_id NUMBER;
+"
+PKG_JCFX	PACKAGE BODY	2309	"    ldt_jcfx_min DATE;
+"
+PKG_JCFX	PACKAGE BODY	2310	"    ldt_jcfx_max DATE;
+"
+PKG_JCFX	PACKAGE BODY	2311	"  BEGIN
+"
+PKG_JCFX	PACKAGE BODY	2312	"    IF in_jcfx_id = 0 THEN
+"
+PKG_JCFX	PACKAGE BODY	2313	"      raise e_input ;
+"
+PKG_JCFX	PACKAGE BODY	2314	"    END IF;
+"
+PKG_JCFX	PACKAGE BODY	2315	"
+"
+PKG_JCFX	PACKAGE BODY	2316	"    on_code := 1;
+"
+PKG_JCFX	PACKAGE BODY	2317	"    os_mess :='数据采集成功!';
+"
+PKG_JCFX	PACKAGE BODY	2318	"
+"
+PKG_JCFX	PACKAGE BODY	2319	"    ln_jcfx_id := in_jcfx_id;
+"
+PKG_JCFX	PACKAGE BODY	2320	"    ldt_jcfx_min :=  to_date(to_char(ln_jcfx_id), 'yyyy/mm/dd'); --起始时间
+"
+PKG_JCFX	PACKAGE BODY	2321	"    ldt_jcfx_max :=  ldt_jcfx_min + 86399/86400;                 --结束时间
+"
+PKG_JCFX	PACKAGE BODY	2322	"    SELECT COUNT(*)               --检查日志，采集是否已经执行过
+"
+PKG_JCFX	PACKAGE BODY	2323	"      INTO ln_count
+"
+PKG_JCFX	PACKAGE BODY	2324	"      FROM jcfx_task_log
+"
+PKG_JCFX	PACKAGE BODY	2325	"     WHERE jcfx_id = in_jcfx_id
+"
+PKG_JCFX	PACKAGE BODY	2326	"       AND task_lx = 'ZY_SJCJ_D3';
+"
+PKG_JCFX	PACKAGE BODY	2327	"
+"
+PKG_JCFX	PACKAGE BODY	2328	"    -- 删除旧的作业日志和数据（HONGER）
+"
+PKG_JCFX	PACKAGE BODY	2329	"    IF ln_count > 0 THEN
+"
+PKG_JCFX	PACKAGE BODY	2330	"      DELETE FROM jcfx_task_log  --删除日志
+"
+PKG_JCFX	PACKAGE BODY	2331	"       WHERE jcfx_id = in_jcfx_id
+"
+PKG_JCFX	PACKAGE BODY	2332	"         AND task_lx = 'ZY_SJCJ_D3';
+"
+PKG_JCFX	PACKAGE BODY	2333	"
+"
+PKG_JCFX	PACKAGE BODY	2334	"      DELETE FROM jcfx_zy_data_d3 --删除已有记录
+"
+PKG_JCFX	PACKAGE BODY	2335	"       WHERE id      = in_jcfx_id
+"
+PKG_JCFX	PACKAGE BODY	2336	"         AND flag1   = 1;
+"
+PKG_JCFX	PACKAGE BODY	2337	"    END IF;
+"
+PKG_JCFX	PACKAGE BODY	2338	"
+"
+PKG_JCFX	PACKAGE BODY	2339	"    -- 插入新的作业日志（HONGER）
+"
+PKG_JCFX	PACKAGE BODY	2340	"    INSERT INTO jcfx_task_log ( jcfx_id, task_lx )        --决策分析标识，作业类型
+"
+PKG_JCFX	PACKAGE BODY	2341	"    VALUES ( in_jcfx_id, 'ZY_SJCJ_D3' );               --插入作业日志
+"
+PKG_JCFX	PACKAGE BODY	2342	"
+"
+PKG_JCFX	PACKAGE BODY	2343	"    -- 插入新的数据（HONGER）
+"
+PKG_JCFX	PACKAGE BODY	2344	"    -- ID、组、医生、费用归类、记录数、数量、金额、标志（HONGER）
+"
+PKG_JCFX	PACKAGE BODY	2345	"    -- 为了和子系统统一，金额先ROUND2再SUM （MODIFY 2002-10-18 HONGER）
+"
+PKG_JCFX	PACKAGE BODY	2346	"    INSERT INTO jcfx_zy_data_d3 ( id, col1, col2,
+"
+PKG_JCFX	PACKAGE BODY	2347	"                                  col3, col4, col5,
+"
+PKG_JCFX	PACKAGE BODY	2348	"                                  col6, flag1 )
+"
+PKG_JCFX	PACKAGE BODY	2349	"    SELECT in_jcfx_id, nvl(yszh, 'NONE'), nvl(ys_code, 'NONE'),
+"
+PKG_JCFX	PACKAGE BODY	2350	"           nvl(fygl,0),Nvl(COUNT(*), 0), Nvl(SUM(sl), 0),
+"
+PKG_JCFX	PACKAGE BODY	2351	"           Nvl(SUM(Round(sl*dj,2)), 0), 1
+"
+PKG_JCFX	PACKAGE BODY	2352	"      FROM zy_detail_charge
+"
+PKG_JCFX	PACKAGE BODY	2353	"     WHERE twice_detail_code <> 'AU'
+"
+PKG_JCFX	PACKAGE BODY	2354	"       AND jcfx_date between ldt_jcfx_min and ldt_jcfx_max
+"
+PKG_JCFX	PACKAGE BODY	2355	"     GROUP BY yszh,
+"
+PKG_JCFX	PACKAGE BODY	2356	"              ys_code,
+"
+PKG_JCFX	PACKAGE BODY	2357	"              fygl;
+"
+PKG_JCFX	PACKAGE BODY	2358	"
+"
+PKG_JCFX	PACKAGE BODY	2359	"    --计算采集结果
+"
+PKG_JCFX	PACKAGE BODY	2360	"    SELECT nvl(SUM(col4), 0),
+"
+PKG_JCFX	PACKAGE BODY	2361	"           nvl(SUM(col6), 0)
+"
+PKG_JCFX	PACKAGE BODY	2362	"      INTO ln_jls,
+"
+PKG_JCFX	PACKAGE BODY	2363	"           ln_je
+"
+PKG_JCFX	PACKAGE BODY	2364	"      FROM jcfx_zy_data_d3
+"
+PKG_JCFX	PACKAGE BODY	2365	"     WHERE id    = in_jcfx_id
+"
+PKG_JCFX	PACKAGE BODY	2366	"       AND flag1 = 1;
+"
+PKG_JCFX	PACKAGE BODY	2367	"
+"
+PKG_JCFX	PACKAGE BODY	2368	"    --修改成功标志,结束时间,记录数,金额
+"
+PKG_JCFX	PACKAGE BODY	2369	"    UPDATE jcfx_task_log
+"
+PKG_JCFX	PACKAGE BODY	2370	"       SET success_flag = 1,
+"
+PKG_JCFX	PACKAGE BODY	2371	"           jssj         = sysdate,
+"
+PKG_JCFX	PACKAGE BODY	2372	"           jls          = ln_jls,
+"
+PKG_JCFX	PACKAGE BODY	2373	"           value        = ln_je
+"
+PKG_JCFX	PACKAGE BODY	2374	"     WHERE jcfx_id = in_jcfx_id
+"
+PKG_JCFX	PACKAGE BODY	2375	"       AND task_lx = 'ZY_SJCJ_D3';
+"
+PKG_JCFX	PACKAGE BODY	2376	"
+"
+PKG_JCFX	PACKAGE BODY	2377	"    -- 提交结果
+"
+PKG_JCFX	PACKAGE BODY	2378	"    COMMIT;
+"
+PKG_JCFX	PACKAGE BODY	2379	"
+"
+PKG_JCFX	PACKAGE BODY	2380	"  EXCEPTION
+"
+PKG_JCFX	PACKAGE BODY	2381	"    WHEN e_input THEN
+"
+PKG_JCFX	PACKAGE BODY	2382	"      on_code :=  0;
+"
+PKG_JCFX	PACKAGE BODY	2383	"      os_mess := '输入参数错误!';
+"
+PKG_JCFX	PACKAGE BODY	2384	"    WHEN others THEN
+"
+PKG_JCFX	PACKAGE BODY	2385	"      ROLLBACK;
+"
+PKG_JCFX	PACKAGE BODY	2386	"      on_code := -1;
+"
+PKG_JCFX	PACKAGE BODY	2387	"      os_mess := 'prc_zy_sjcj3数据采集失败！原因：'||SQLErrm;
+"
+PKG_JCFX	PACKAGE BODY	2388	"      -- 返回SQL错误信息（MODIFY 2002-10-18 HONGER）
+"
+PKG_JCFX	PACKAGE BODY	2389	"  END;
+"
+PKG_JCFX	PACKAGE BODY	2390	"END prc_zy_sjcj3;
+"
+PKG_JCFX	PACKAGE BODY	2391	"
+"
+PKG_JCFX	PACKAGE BODY	2392	"
+"
+PKG_JCFX	PACKAGE BODY	2393	"
+"
+PKG_JCFX	PACKAGE BODY	2394	"Procedure prc_zy_sjcj4 ( in_jcfx_id   In    NUMBER,
+"
+PKG_JCFX	PACKAGE BODY	2395	"                         on_code      Out   NUMBER,
+"
+PKG_JCFX	PACKAGE BODY	2396	"                         os_mess      Out   Varchar2 )
+"
+PKG_JCFX	PACKAGE BODY	2397	"Is
+"
+PKG_JCFX	PACKAGE BODY	2398	"
+"
+PKG_JCFX	PACKAGE BODY	2399	"/*=============================================================================
+"
+PKG_JCFX	PACKAGE BODY	2400	"|| 过程名称 ： 住院数据采集（4：非自动记帐费用按科室、执行科室、费用归类汇总）
+"
+PKG_JCFX	PACKAGE BODY	2401	"||             prc_zy_sjcj4
+"
+PKG_JCFX	PACKAGE BODY	2402	"||-----------------------------------------------------------------------------
+"
+PKG_JCFX	PACKAGE BODY	2403	"|| 功能说明 ： 采集住院非自动记帐数据，数据写入表JCFX_ZY_DATA_D4中，作业类型
+"
+PKG_JCFX	PACKAGE BODY	2404	"||             ZY_SJCJ_D4，采集内容：日期、科室、执行科室、费用归类、记录数、
+"
+PKG_JCFX	PACKAGE BODY	2405	"||             数量、金额、标志
+"
+PKG_JCFX	PACKAGE BODY	2406	"||-----------------------------------------------------------------------------
+"
+PKG_JCFX	PACKAGE BODY	2407	"|| 参数描述 ： 参数标识       输入/输出     类型         名称
+"
+PKG_JCFX	PACKAGE BODY	2408	"||            -----------------------------------------------------------------
+"
+PKG_JCFX	PACKAGE BODY	2409	"||             in_jcfx_id     IN            Number       采集日期
+"
+PKG_JCFX	PACKAGE BODY	2410	"||             on_code        OUT           Number       执行结果
+"
+PKG_JCFX	PACKAGE BODY	2411	"||             os_mess        OUT           Varchar2     返回信息
+"
+PKG_JCFX	PACKAGE BODY	2412	"||-----------------------------------------------------------------------------
+"
+PKG_JCFX	PACKAGE BODY	2413	"|| 注意事项 ： 科室为空时值为'NONE'
+"
+PKG_JCFX	PACKAGE BODY	2414	"||            -----------------------------------------------------------------
+"
+PKG_JCFX	PACKAGE BODY	2415	"||             费用归类为空时值为0
+"
+PKG_JCFX	PACKAGE BODY	2416	"||-----------------------------------------------------------------------------
+"
+PKG_JCFX	PACKAGE BODY	2417	"|| 作    者 ： 陈联      完成日期 ：2001-03
+"
+PKG_JCFX	PACKAGE BODY	2418	"||-----------------------------------------------------------------------------
+"
+PKG_JCFX	PACKAGE BODY	2419	"|| 修改记录 ： 陈智鸿 @ 2002-10-18
+"
+PKG_JCFX	PACKAGE BODY	2420	"||             为了和子系统统一，金额先ROUND2再SUM；
+"
+PKG_JCFX	PACKAGE BODY	2421	"||             整理代码，加强反馈信息
+"
+PKG_JCFX	PACKAGE BODY	2422	"=============================================================================*/
+"
+PKG_JCFX	PACKAGE BODY	2423	"
+"
+PKG_JCFX	PACKAGE BODY	2424	"BEGIN
+"
+PKG_JCFX	PACKAGE BODY	2425	"
+"
+PKG_JCFX	PACKAGE BODY	2426	"  DECLARE
+"
+PKG_JCFX	PACKAGE BODY	2427	"    e_input    EXCEPTION;
+"
+PKG_JCFX	PACKAGE BODY	2428	"    ln_count   NUMBER;
+"
+PKG_JCFX	PACKAGE BODY	2429	"    ln_jls     NUMBER;
+"
+PKG_JCFX	PACKAGE BODY	2430	"    ln_je      NUMBER;
+"
+PKG_JCFX	PACKAGE BODY	2431	"    ln_jcfx_id NUMBER;
+"
+PKG_JCFX	PACKAGE BODY	2432	"    ldt_jcfx_min DATE;
+"
+PKG_JCFX	PACKAGE BODY	2433	"    ldt_jcfx_max DATE;
+"
+PKG_JCFX	PACKAGE BODY	2434	"  BEGIN
+"
+PKG_JCFX	PACKAGE BODY	2435	"    IF in_jcfx_id = 0 THEN
+"
+PKG_JCFX	PACKAGE BODY	2436	"      raise e_input ;
+"
+PKG_JCFX	PACKAGE BODY	2437	"    END IF;
+"
+PKG_JCFX	PACKAGE BODY	2438	"
+"
+PKG_JCFX	PACKAGE BODY	2439	"    on_code := 1;
+"
+PKG_JCFX	PACKAGE BODY	2440	"    os_mess :='数据采集成功!';
+"
+PKG_JCFX	PACKAGE BODY	2441	"
+"
+PKG_JCFX	PACKAGE BODY	2442	"    ln_jcfx_id := in_jcfx_id;
+"
+PKG_JCFX	PACKAGE BODY	2443	"    ldt_jcfx_min :=  to_date(to_char(ln_jcfx_id), 'yyyy/mm/dd'); --起始时间
+"
+PKG_JCFX	PACKAGE BODY	2444	"    ldt_jcfx_max :=  ldt_jcfx_min + 86399/86400;                 --结束时间
+"
+PKG_JCFX	PACKAGE BODY	2445	"    SELECT COUNT(*)               --检查日志，采集是否已经执行过
+"
+PKG_JCFX	PACKAGE BODY	2446	"      INTO ln_count
+"
+PKG_JCFX	PACKAGE BODY	2447	"      FROM jcfx_task_log
+"
+PKG_JCFX	PACKAGE BODY	2448	"     WHERE jcfx_id = in_jcfx_id
+"
+PKG_JCFX	PACKAGE BODY	2449	"       AND task_lx = 'ZY_SJCJ_D4';
+"
+PKG_JCFX	PACKAGE BODY	2450	"
+"
+PKG_JCFX	PACKAGE BODY	2451	"    -- 删除旧的作业日志和数据（HONGER）
+"
+PKG_JCFX	PACKAGE BODY	2452	"    IF ln_count > 0 THEN
+"
+PKG_JCFX	PACKAGE BODY	2453	"      DELETE FROM jcfx_task_log  --删除日志
+"
+PKG_JCFX	PACKAGE BODY	2454	"       WHERE jcfx_id = in_jcfx_id
+"
+PKG_JCFX	PACKAGE BODY	2455	"         AND task_lx = 'ZY_SJCJ_D4';
+"
+PKG_JCFX	PACKAGE BODY	2456	"
+"
+PKG_JCFX	PACKAGE BODY	2457	"      DELETE FROM jcfx_zy_data_d4 --删除已有记录
+"
+PKG_JCFX	PACKAGE BODY	2458	"       WHERE id      = in_jcfx_id
+"
+PKG_JCFX	PACKAGE BODY	2459	"         AND flag1   = 1;
+"
+PKG_JCFX	PACKAGE BODY	2460	"    END IF;
+"
+PKG_JCFX	PACKAGE BODY	2461	"
+"
+PKG_JCFX	PACKAGE BODY	2462	"    -- 插入新的作业日志（HONGER）
+"
+PKG_JCFX	PACKAGE BODY	2463	"    INSERT INTO jcfx_task_log ( jcfx_id, task_lx )        --决策分析标识，作业类型
+"
+PKG_JCFX	PACKAGE BODY	2464	"    VALUES ( in_jcfx_id, 'ZY_SJCJ_D4' );               --插入作业日志
+"
+PKG_JCFX	PACKAGE BODY	2465	"
+"
+PKG_JCFX	PACKAGE BODY	2466	"    -- 插入新的数据（HONGER）
+"
+PKG_JCFX	PACKAGE BODY	2467	"    -- ID、科室、执行科室、费用归类、记录数、数量、金额、标志（HONGER）
+"
+PKG_JCFX	PACKAGE BODY	2468	"    -- 为了和子系统统一，金额先ROUND2再SUM （MODIFY 2002-10-18 HONGER）
+"
+PKG_JCFX	PACKAGE BODY	2469	"    INSERT INTO jcfx_zy_data_d4 ( id, col1, col2,
+"
+PKG_JCFX	PACKAGE BODY	2470	"                                  col3, col4, col5,
+"
+PKG_JCFX	PACKAGE BODY	2471	"                                  col6, flag1 )
+"
+PKG_JCFX	PACKAGE BODY	2472	"    SELECT in_jcfx_id, nvl(curr_ks, 'NONE'), nvl(zx_ks, 'NONE'),
+"
+PKG_JCFX	PACKAGE BODY	2473	"           nvl(fygl, 0), Nvl(COUNT(*), 0), Nvl(SUM(sl), 0),
+"
+PKG_JCFX	PACKAGE BODY	2474	"           Nvl(SUM(Round(sl*dj, 2)), 0), 1
+"
+PKG_JCFX	PACKAGE BODY	2475	"      FROM zy_detail_charge
+"
+PKG_JCFX	PACKAGE BODY	2476	"     WHERE twice_detail_code <> 'AU'
+"
+PKG_JCFX	PACKAGE BODY	2477	"       AND jcfx_date between ldt_jcfx_min and ldt_jcfx_max
+"
+PKG_JCFX	PACKAGE BODY	2478	"     GROUP BY curr_ks,
+"
+PKG_JCFX	PACKAGE BODY	2479	"              zx_ks,
+"
+PKG_JCFX	PACKAGE BODY	2480	"              fygl;
+"
+PKG_JCFX	PACKAGE BODY	2481	"
+"
+PKG_JCFX	PACKAGE BODY	2482	"     --计算采集结果
+"
+PKG_JCFX	PACKAGE BODY	2483	"     SELECT NVL(SUM(col4), 0),
+"
+PKG_JCFX	PACKAGE BODY	2484	"            NVL(SUM(col6) ,0)
+"
+PKG_JCFX	PACKAGE BODY	2485	"       INTO ln_jls,
+"
+PKG_JCFX	PACKAGE BODY	2486	"            ln_je
+"
+PKG_JCFX	PACKAGE BODY	2487	"       FROM jcfx_zy_data_d4
+"
+PKG_JCFX	PACKAGE BODY	2488	"      WHERE id = in_jcfx_id;
+"
+PKG_JCFX	PACKAGE BODY	2489	"
+"
+PKG_JCFX	PACKAGE BODY	2490	"     --修改成功标志,结束时间,记录数,金额
+"
+PKG_JCFX	PACKAGE BODY	2491	"     UPDATE jcfx_task_log
+"
+PKG_JCFX	PACKAGE BODY	2492	"        SET success_flag = 1,
+"
+PKG_JCFX	PACKAGE BODY	2493	"            jssj = sysdate,
+"
+PKG_JCFX	PACKAGE BODY	2494	"            jls  = ln_jls,
+"
+PKG_JCFX	PACKAGE BODY	2495	"            value= ln_je
+"
+PKG_JCFX	PACKAGE BODY	2496	"      WHERE jcfx_id = in_jcfx_id
+"
+PKG_JCFX	PACKAGE BODY	2497	"        AND task_lx = 'ZY_SJCJ_D4';
+"
+PKG_JCFX	PACKAGE BODY	2498	"
+"
+PKG_JCFX	PACKAGE BODY	2499	"    -- 提交结果
+"
+PKG_JCFX	PACKAGE BODY	2500	"    COMMIT;
+"
+PKG_JCFX	PACKAGE BODY	2501	"
+"
+PKG_JCFX	PACKAGE BODY	2502	"  EXCEPTION
+"
+PKG_JCFX	PACKAGE BODY	2503	"    WHEN e_input THEN
+"
+PKG_JCFX	PACKAGE BODY	2504	"      on_code :=  0;
+"
+PKG_JCFX	PACKAGE BODY	2505	"      os_mess := '输入参数错误!';
+"
+PKG_JCFX	PACKAGE BODY	2506	"    WHEN others THEN
+"
+PKG_JCFX	PACKAGE BODY	2507	"      ROLLBACK;
+"
+PKG_JCFX	PACKAGE BODY	2508	"      on_code := -1;
+"
+PKG_JCFX	PACKAGE BODY	2509	"      os_mess := 'prc_zy_sjcj4数据采集失败！原因：'||SQLErrm;
+"
+PKG_JCFX	PACKAGE BODY	2510	"      -- 返回SQL错误信息（MODIFY 2002-10-18 HONGER）
+"
+PKG_JCFX	PACKAGE BODY	2511	"  END;
+"
+PKG_JCFX	PACKAGE BODY	2512	"END prc_zy_sjcj4;
+"
+PKG_JCFX	PACKAGE BODY	2513	"
+"
+PKG_JCFX	PACKAGE BODY	2514	"
+"
+PKG_JCFX	PACKAGE BODY	2515	"
+"
+PKG_JCFX	PACKAGE BODY	2516	"Procedure Prc_zy_sjcj5 ( in_jcfx_id   In    number,
+"
+PKG_JCFX	PACKAGE BODY	2517	"                         on_code      Out   number,
+"
+PKG_JCFX	PACKAGE BODY	2518	"                         os_mess      Out   varchar2)
+"
+PKG_JCFX	PACKAGE BODY	2519	"Is
+"
+PKG_JCFX	PACKAGE BODY	2520	"
+"
+PKG_JCFX	PACKAGE BODY	2521	"/*=============================================================================
+"
+PKG_JCFX	PACKAGE BODY	2522	"|| 过程名称 ： 住院数据采集（5：出院病人费用分析）prc_zy_sjcj5
+"
+PKG_JCFX	PACKAGE BODY	2523	"||-----------------------------------------------------------------------------
+"
+PKG_JCFX	PACKAGE BODY	2524	"|| 功能说明 ： 采集出院病人数据，数据写入表JCFX_ZY_DATA_D5和JCFX_ZY_DATA_D6中，
+"
+PKG_JCFX	PACKAGE BODY	2525	"||             作业类型ZY_SJCJ_D5D6，采集内容：日期、科室、费用归类、病人类别、
+"
+PKG_JCFX	PACKAGE BODY	2526	"||             病人性质、住院天数、出院人数
+"
+PKG_JCFX	PACKAGE BODY	2527	"||-----------------------------------------------------------------------------
+"
+PKG_JCFX	PACKAGE BODY	2528	"|| 参数描述 ： 参数标识       输入/输出     类型         名称
+"
+PKG_JCFX	PACKAGE BODY	2529	"||            -----------------------------------------------------------------
+"
+PKG_JCFX	PACKAGE BODY	2530	"||             in_jcfx_id     IN            Number       采集日期
+"
+PKG_JCFX	PACKAGE BODY	2531	"||             on_code        OUT           Number       执行结果
+"
+PKG_JCFX	PACKAGE BODY	2532	"||             os_mess        OUT           Varchar2     返回信息
+"
+PKG_JCFX	PACKAGE BODY	2533	"||-----------------------------------------------------------------------------
+"
+PKG_JCFX	PACKAGE BODY	2534	"|| 注意事项 ： 科室为空时值为'NONE'
+"
+PKG_JCFX	PACKAGE BODY	2535	"||-----------------------------------------------------------------------------
+"
+PKG_JCFX	PACKAGE BODY	2536	"|| 作    者 ： 陈联      完成日期 ：2001-03-30
+"
+PKG_JCFX	PACKAGE BODY	2537	"||-----------------------------------------------------------------------------
+"
+PKG_JCFX	PACKAGE BODY	2538	"|| 修改记录 ： 陈联 @ 2001-06-01
+"
+PKG_JCFX	PACKAGE BODY	2539	"||             插入日志ZY_SJCJ_D5D6
+"
+PKG_JCFX	PACKAGE BODY	2540	"||            -----------------------------------------------------------------
+"
+PKG_JCFX	PACKAGE BODY	2541	"||             陈联 @ 2001-10-23
+"
+PKG_JCFX	PACKAGE BODY	2542	"||             JCFX_ZY_DATA_D5,JCFX_ZY_DATA_D6增加病人类别归并项目(市二)
+"
+PKG_JCFX	PACKAGE BODY	2543	"||            -----------------------------------------------------------------
+"
+PKG_JCFX	PACKAGE BODY	2544	"||             陈联 @ 2002-01-09
+"
+PKG_JCFX	PACKAGE BODY	2545	"||             修改JCFX_ZY_DATA_D5出院病人费用分析采集条件
+"
+PKG_JCFX	PACKAGE BODY	2546	"||            -----------------------------------------------------------------
+"
+PKG_JCFX	PACKAGE BODY	2547	"||             陈智鸿 @ 2002-07-11
+"
+PKG_JCFX	PACKAGE BODY	2548	"||             修改采集JCFX_ZY_DATA_D6的错误
+"
+PKG_JCFX	PACKAGE BODY	2549	"||            -----------------------------------------------------------------
+"
+PKG_JCFX	PACKAGE BODY	2550	"||             陈智鸿 @ 2002-10-18
+"
+PKG_JCFX	PACKAGE BODY	2551	"||             加强对非法数据项目的处理
+"
+PKG_JCFX	PACKAGE BODY	2552	"||             整理代码，加强反馈信息
+"
+PKG_JCFX	PACKAGE BODY	2553	"=============================================================================*/
+"
+PKG_JCFX	PACKAGE BODY	2554	"
+"
+PKG_JCFX	PACKAGE BODY	2555	"BEGIN
+"
+PKG_JCFX	PACKAGE BODY	2556	"
+"
+PKG_JCFX	PACKAGE BODY	2557	"  DECLARE
+"
+PKG_JCFX	PACKAGE BODY	2558	"    ln_jcfx_id       Number;
+"
+PKG_JCFX	PACKAGE BODY	2559	"    ln_count         Number;
+"
+PKG_JCFX	PACKAGE BODY	2560	"    ldt_jcfx_min     Date;
+"
+PKG_JCFX	PACKAGE BODY	2561	"    ldt_jcfx_max     Date;
+"
+PKG_JCFX	PACKAGE BODY	2562	"    ln_je            Number;
+"
+PKG_JCFX	PACKAGE BODY	2563	"    ln_Jls           Number;
+"
+PKG_JCFX	PACKAGE BODY	2564	"    e_input          EXCEPTION;
+"
+PKG_JCFX	PACKAGE BODY	2565	"
+"
+PKG_JCFX	PACKAGE BODY	2566	"  BEGIN
+"
+PKG_JCFX	PACKAGE BODY	2567	"    IF Nvl(in_jcfx_id,0) = 0 THEN
+"
+PKG_JCFX	PACKAGE BODY	2568	"      raise e_input;
+"
+PKG_JCFX	PACKAGE BODY	2569	"    END IF;
+"
+PKG_JCFX	PACKAGE BODY	2570	"
+"
+PKG_JCFX	PACKAGE BODY	2571	"    on_code := 1;
+"
+PKG_JCFX	PACKAGE BODY	2572	"    os_mess :='数据采集成功!';
+"
+PKG_JCFX	PACKAGE BODY	2573	"
+"
+PKG_JCFX	PACKAGE BODY	2574	"    -- 设置起始时间和结束时间（HONGER）
+"
+PKG_JCFX	PACKAGE BODY	2575	"    ln_jcfx_id   :=  in_jcfx_id;
+"
+PKG_JCFX	PACKAGE BODY	2576	"    ldt_jcfx_min :=  to_date(to_char(ln_jcfx_id), 'yyyy/mm/dd'); --起始时间
+"
+PKG_JCFX	PACKAGE BODY	2577	"    ldt_jcfx_max :=  ldt_jcfx_min + 86399/86400;                 --结束时间
+"
+PKG_JCFX	PACKAGE BODY	2578	"
+"
+PKG_JCFX	PACKAGE BODY	2579	"    SELECT COUNT(*)               --检查日志，采集是否已经执行过
+"
+PKG_JCFX	PACKAGE BODY	2580	"      INTO ln_count
+"
+PKG_JCFX	PACKAGE BODY	2581	"      FROM jcfx_task_log
+"
+PKG_JCFX	PACKAGE BODY	2582	"     WHERE jcfx_id = in_jcfx_id
+"
+PKG_JCFX	PACKAGE BODY	2583	"       AND task_lx = 'ZY_SJCJ_D5D6';
+"
+PKG_JCFX	PACKAGE BODY	2584	"
+"
+PKG_JCFX	PACKAGE BODY	2585	"    -- 删除旧的作业日志和数据（HONGER）
+"
+PKG_JCFX	PACKAGE BODY	2586	"    IF ln_count > 0 THEN
+"
+PKG_JCFX	PACKAGE BODY	2587	"      DELETE FROM jcfx_task_log  --删除日志
+"
+PKG_JCFX	PACKAGE BODY	2588	"       WHERE jcfx_id = in_jcfx_id
+"
+PKG_JCFX	PACKAGE BODY	2589	"         AND task_lx = 'ZY_SJCJ_D5D6';
+"
+PKG_JCFX	PACKAGE BODY	2590	"
+"
+PKG_JCFX	PACKAGE BODY	2591	"      DELETE FROM jcfx_zy_data_d5 --删除已有记录
+"
+PKG_JCFX	PACKAGE BODY	2592	"       WHERE id = in_jcfx_id;
+"
+PKG_JCFX	PACKAGE BODY	2593	"
+"
+PKG_JCFX	PACKAGE BODY	2594	"      DELETE FROM jcfx_zy_data_d6 --删除已有记录
+"
+PKG_JCFX	PACKAGE BODY	2595	"       WHERE id = in_jcfx_id;
+"
+PKG_JCFX	PACKAGE BODY	2596	"    END IF;
+"
+PKG_JCFX	PACKAGE BODY	2597	"
+"
+PKG_JCFX	PACKAGE BODY	2598	"    -- 插入新的作业日志（HONGER）
+"
+PKG_JCFX	PACKAGE BODY	2599	"    INSERT INTO jcfx_task_log ( jcfx_id, task_lx )        --决策分析标识，作业类型
+"
+PKG_JCFX	PACKAGE BODY	2600	"    VALUES (in_jcfx_id, 'ZY_SJCJ_D5D6');               --插入作业日志
+"
+PKG_JCFX	PACKAGE BODY	2601	"
+"
+PKG_JCFX	PACKAGE BODY	2602	"-----------------------------------------------------------------------------------------------
+"
+PKG_JCFX	PACKAGE BODY	2603	"    -- 修改：陈联 2002-01-09
+"
+PKG_JCFX	PACKAGE BODY	2604	"    -- 增加对立欠病人费用的汇总
+"
+PKG_JCFX	PACKAGE BODY	2605	"    -- 原为Zy_Patient_Information改为Zy_Total_Fee
+"
+PKG_JCFX	PACKAGE BODY	2606	"    -- 增加对当前结算的病人费用的汇总，
+"
+PKG_JCFX	PACKAGE BODY	2607	"    -- 原影响：将2001年经过多次结算，且在2002年出院的病人费用都汇总为2002年，导致影响财务报表
+"
+PKG_JCFX	PACKAGE BODY	2608	"-- Delete Begin -------------------------------------------------------------------------------
+"
+PKG_JCFX	PACKAGE BODY	2609	"/*
+"
+PKG_JCFX	PACKAGE BODY	2610	"    INSERT INTO jcfx_zy_data_d5 -- 日期，科室代码，费用归类，金额，病人类别
+"
+PKG_JCFX	PACKAGE BODY	2611	"    ( id,brlb,ksdm,fygl,je)
+"
+PKG_JCFX	PACKAGE BODY	2612	"    ( SELECT ln_jcfx_id id,b.brlb,b.curr_ks ksdm,
+"
+PKG_JCFX	PACKAGE BODY	2613	"    a.sfxm_code fygl,SUM(NVL(a.je,0)) je
+"
+PKG_JCFX	PACKAGE BODY	2614	"    FROM zy_bill_fee  a,
+"
+PKG_JCFX	PACKAGE BODY	2615	"    zy_total_fee b
+"
+PKG_JCFX	PACKAGE BODY	2616	"    WHERE nvl(b.account_date,b.lq_date) BETWEEN ldt_jcfx_min AND ldt_jcfx_max
+"
+PKG_JCFX	PACKAGE BODY	2617	"    AND b.patient_no = a.patient_no
+"
+PKG_JCFX	PACKAGE BODY	2618	"    AND b.js_no = a.js_no
+"
+PKG_JCFX	PACKAGE BODY	2619	"    AND b.infant_flag = a.infant_flag
+"
+PKG_JCFX	PACKAGE BODY	2620	"    GROUP BY  b.brlb,b.curr_ks,a.sfxm_code);
+"
+PKG_JCFX	PACKAGE BODY	2621	"*/
+"
+PKG_JCFX	PACKAGE BODY	2622	"-- Delete End ---------------------------------------------------------------------------------
+"
+PKG_JCFX	PACKAGE BODY	2623	"  -- 原SQL影响正确的出院人数2002-01-30
+"
+PKG_JCFX	PACKAGE BODY	2624	"  -- 出院病人：出院日期不为空，结算日期为采集日期，将包括该病人的所有婴儿
+"
+PKG_JCFX	PACKAGE BODY	2625	"  -- 但为考虑大人与婴儿病人类别不同的情况
+"
+PKG_JCFX	PACKAGE BODY	2626	"-----------------------------------------------------------------------------------------------
+"
+PKG_JCFX	PACKAGE BODY	2627	"    -- 插入新记录（HONGER）
+"
+PKG_JCFX	PACKAGE BODY	2628	"    -- ID、病人类别、科室、费用归类、金额（HONGER）
+"
+PKG_JCFX	PACKAGE BODY	2629	"    INSERT INTO jcfx_zy_data_d5 ( id, brlb, ksdm,
+"
+PKG_JCFX	PACKAGE BODY	2630	"                                  fygl, je )
+"
+PKG_JCFX	PACKAGE BODY	2631	"    SELECT ln_jcfx_id, c.brlb, Nvl(c.curr_ks, 'NONE'),
+"
+PKG_JCFX	PACKAGE BODY	2632	"           Nvl(a.sfxm_code, 0), Nvl(sum(Nvl(a.je,0)), 0)
+"
+PKG_JCFX	PACKAGE BODY	2633	"      FROM zy_bill_fee a,
+"
+PKG_JCFX	PACKAGE BODY	2634	"           zy_total_fee c
+"
+PKG_JCFX	PACKAGE BODY	2635	"     WHERE a.patient_no = c.patient_no
+"
+PKG_JCFX	PACKAGE BODY	2636	"       and a.js_no = c.js_no
+"
+PKG_JCFX	PACKAGE BODY	2637	"       and a.infant_flag = c.infant_flag
+"
+PKG_JCFX	PACKAGE BODY	2638	"       and EXISTS ( SELECT *
+"
+PKG_JCFX	PACKAGE BODY	2639	"                      FROM zy_total_fee b,
+"
+PKG_JCFX	PACKAGE BODY	2640	"                           zy_patient_information d
+"
+PKG_JCFX	PACKAGE BODY	2641	"                     WHERE a.patient_no = b.patient_no
+"
+PKG_JCFX	PACKAGE BODY	2642	"                       AND b.patient_no = d.patient_no
+"
+PKG_JCFX	PACKAGE BODY	2643	"                       AND a.js_no      = b.js_no
+"
+PKG_JCFX	PACKAGE BODY	2644	"                       AND b.jz_date BETWEEN ldt_jcfx_min AND ldt_jcfx_max
+"
+PKG_JCFX	PACKAGE BODY	2645	"                       AND d.out_date IS NOT NUll )
+"
+PKG_JCFX	PACKAGE BODY	2646	"     GROUP BY c.brlb,
+"
+PKG_JCFX	PACKAGE BODY	2647	"              c.curr_ks,
+"
+PKG_JCFX	PACKAGE BODY	2648	"              a.sfxm_code;
+"
+PKG_JCFX	PACKAGE BODY	2649	"
+"
+PKG_JCFX	PACKAGE BODY	2650	"-- Delete Begin -------------------------------------------------------------------------------
+"
+PKG_JCFX	PACKAGE BODY	2651	"/*
+"
+PKG_JCFX	PACKAGE BODY	2652	"    INSERT INTO jcfx_zy_data_d6
+"
+PKG_JCFX	PACKAGE BODY	2653	"    ( id,brlb,ksdm,zyts,cyrs) -- 日期，科室代码，住院天数，出院人数，病人类别
+"
+PKG_JCFX	PACKAGE BODY	2654	"    ( SELECT ln_jcfx_id,brlb,curr_ks,
+"
+PKG_JCFX	PACKAGE BODY	2655	"    SUM(TRUNC(out_date) - TRUNC(admiss_date) + 1) zyts, --住院天数
+"
+PKG_JCFX	PACKAGE BODY	2656	"    COUNT(patient_no) cyrs                              --出院人数
+"
+PKG_JCFX	PACKAGE BODY	2657	"    FROM zy_patient_information
+"
+PKG_JCFX	PACKAGE BODY	2658	"    WHERE out_date BETWEEN ldt_jcfx_min AND ldt_jcfx_max
+"
+PKG_JCFX	PACKAGE BODY	2659	"    AND mpatient_no IS NULL
+"
+PKG_JCFX	PACKAGE BODY	2660	"    GROUP BY brlb,curr_ks );
+"
+PKG_JCFX	PACKAGE BODY	2661	"*/
+"
+PKG_JCFX	PACKAGE BODY	2662	"-- Delete End ---------------------------------------------------------------------------------
+"
+PKG_JCFX	PACKAGE BODY	2663	"    -- 插入新记录（HONGER）
+"
+PKG_JCFX	PACKAGE BODY	2664	"    -- ID、病人类别、科室、在用天数、出院人数（HONGER）
+"
+PKG_JCFX	PACKAGE BODY	2665	"	   INSERT INTO jcfx_zy_data_d6 ( id, brlb, ksdm,
+"
+PKG_JCFX	PACKAGE BODY	2666	"                                   zyts,cyrs)
+"
+PKG_JCFX	PACKAGE BODY	2667	"     SELECT ln_jcfx_id, brlb, Nvl(curr_ks, 'NONE'),
+"
+PKG_JCFX	PACKAGE BODY	2668	"            Nvl(SUM(TRUNC(out_date) - TRUNC(admiss_date) + 1), 0), Nvl(COUNT(patient_no), 0)
+"
+PKG_JCFX	PACKAGE BODY	2669	"       FROM zy_patient_information a
+"
+PKG_JCFX	PACKAGE BODY	2670	"      WHERE a.out_date IS NOT NULL
+"
+PKG_JCFX	PACKAGE BODY	2671	"        AND EXISTS ( SELECT *
+"
+PKG_JCFX	PACKAGE BODY	2672	"                       FROM zy_total_fee b
+"
+PKG_JCFX	PACKAGE BODY	2673	"                      WHERE a.patient_no = b.patient_no
+"
+PKG_JCFX	PACKAGE BODY	2674	"                        AND a.js_no = b.js_no   -- ADD 2002-07-11 HONGER
+"
+PKG_JCFX	PACKAGE BODY	2675	"                        AND b.jz_date BETWEEN ldt_jcfx_min AND ldt_jcfx_max )
+"
+PKG_JCFX	PACKAGE BODY	2676	"      GROUP BY brlb,
+"
+PKG_JCFX	PACKAGE BODY	2677	"               curr_ks;
+"
+PKG_JCFX	PACKAGE BODY	2678	"
+"
+PKG_JCFX	PACKAGE BODY	2679	"    -- 计算总金额（HONGER）
+"
+PKG_JCFX	PACKAGE BODY	2680	"    SELECT NVL(SUM(je), 0)
+"
+PKG_JCFX	PACKAGE BODY	2681	"      INTO ln_je
+"
+PKG_JCFX	PACKAGE BODY	2682	"      FROM jcfx_zy_data_d5
+"
+PKG_JCFX	PACKAGE BODY	2683	"     WHERE id = in_jcfx_id;
+"
+PKG_JCFX	PACKAGE BODY	2684	"
+"
+PKG_JCFX	PACKAGE BODY	2685	"    -- 计算出院总人数（HONGER）
+"
+PKG_JCFX	PACKAGE BODY	2686	"    Select Nvl(Sum(cyrs), 0)
+"
+PKG_JCFX	PACKAGE BODY	2687	"      Into ln_Jls
+"
+PKG_JCFX	PACKAGE BODY	2688	"      From jcfx_zy_data_d6
+"
+PKG_JCFX	PACKAGE BODY	2689	"     Where id = in_jcfx_id;
+"
+PKG_JCFX	PACKAGE BODY	2690	"
+"
+PKG_JCFX	PACKAGE BODY	2691	"    --修改成功标志,结束时间,记录数,金额
+"
+PKG_JCFX	PACKAGE BODY	2692	"    UPDATE jcfx_task_log
+"
+PKG_JCFX	PACKAGE BODY	2693	"       SET success_flag = 1,
+"
+PKG_JCFX	PACKAGE BODY	2694	"           jssj         = sysdate,
+"
+PKG_JCFX	PACKAGE BODY	2695	"           jls          = ln_Jls,
+"
+PKG_JCFX	PACKAGE BODY	2696	"           value        = ln_je
+"
+PKG_JCFX	PACKAGE BODY	2697	"     WHERE jcfx_id = in_jcfx_id
+"
+PKG_JCFX	PACKAGE BODY	2698	"       AND task_lx = 'ZY_SJCJ_D5D6';
+"
+PKG_JCFX	PACKAGE BODY	2699	"
+"
+PKG_JCFX	PACKAGE BODY	2700	"    -- 提交数据（HONGER）
+"
+PKG_JCFX	PACKAGE BODY	2701	"    COMMIT;
+"
+PKG_JCFX	PACKAGE BODY	2702	"
+"
+PKG_JCFX	PACKAGE BODY	2703	"  EXCEPTION
+"
+PKG_JCFX	PACKAGE BODY	2704	"    WHEN e_input THEN
+"
+PKG_JCFX	PACKAGE BODY	2705	"      on_code :=  0;
+"
+PKG_JCFX	PACKAGE BODY	2706	"      os_mess := '输入参数错误!';
+"
+PKG_JCFX	PACKAGE BODY	2707	"    WHEN others THEN
+"
+PKG_JCFX	PACKAGE BODY	2708	"      ROLLBACK;
+"
+PKG_JCFX	PACKAGE BODY	2709	"      on_code := -1;
+"
+PKG_JCFX	PACKAGE BODY	2710	"      os_mess := 'prc_zy_sjcj5数据采集失败！原因：'||SQLErrm;
+"
+PKG_JCFX	PACKAGE BODY	2711	"      -- 返回SQL错误信息（MODIFY 2002-10-18 HONGER）
+"
+PKG_JCFX	PACKAGE BODY	2712	"  END;
+"
+PKG_JCFX	PACKAGE BODY	2713	"END prc_zy_sjcj5;
+"
+PKG_JCFX	PACKAGE BODY	2714	"Procedure prc_zy_sjcj_au ( in_start_id   In    NUMBER,
+"
+PKG_JCFX	PACKAGE BODY	2715	"                           in_day        In    NUMBER   DEFAULT   1,
+"
+PKG_JCFX	PACKAGE BODY	2716	"                           on_code       Out   NUMBER,
+"
+PKG_JCFX	PACKAGE BODY	2717	"                           os_mess       Out   Varchar2)
+"
+PKG_JCFX	PACKAGE BODY	2718	"Is
+"
+PKG_JCFX	PACKAGE BODY	2719	"
+"
+PKG_JCFX	PACKAGE BODY	2720	"/*=============================================================================
+"
+PKG_JCFX	PACKAGE BODY	2721	"|| 过程名称 ： 住院数据采集（总AU）prc_zy_sjcj_au
+"
+PKG_JCFX	PACKAGE BODY	2722	"||-----------------------------------------------------------------------------
+"
+PKG_JCFX	PACKAGE BODY	2723	"|| 功能说明 ： 执行各个住院数据采集的子过程，执行顺序为prc_zy_au_sjcj1、
+"
+PKG_JCFX	PACKAGE BODY	2724	"||             prc_zy_au_sjcj2、prc_zy_au_sjcj3
+"
+PKG_JCFX	PACKAGE BODY	2725	"||-----------------------------------------------------------------------------
+"
+PKG_JCFX	PACKAGE BODY	2726	"|| 参数描述 ： 参数标识        输入/输出     类型         名称
+"
+PKG_JCFX	PACKAGE BODY	2727	"||            -----------------------------------------------------------------
+"
+PKG_JCFX	PACKAGE BODY	2728	"||             in_start_id     IN            Number       开始采集日期
+"
+PKG_JCFX	PACKAGE BODY	2729	"||             in_day          IN            Number       采集天数
+"
+PKG_JCFX	PACKAGE BODY	2730	"||             on_code         OUT           Number       执行结果
+"
+PKG_JCFX	PACKAGE BODY	2731	"||             os_mess         OUT           Varchar2     返回信息
+"
+PKG_JCFX	PACKAGE BODY	2732	"||-----------------------------------------------------------------------------
+"
+PKG_JCFX	PACKAGE BODY	2733	"|| 注意事项 ： 建议每天中午自动执行，采集日期 = 当前日期 - 1
+"
+PKG_JCFX	PACKAGE BODY	2734	"||-----------------------------------------------------------------------------
+"
+PKG_JCFX	PACKAGE BODY	2735	"|| 作    者 ： 陈联      完成日期 ：2001-06
+"
+PKG_JCFX	PACKAGE BODY	2736	"||-----------------------------------------------------------------------------
+"
+PKG_JCFX	PACKAGE BODY	2737	"|| 修改记录 ： 陈智鸿 @ 2002-10-18
+"
+PKG_JCFX	PACKAGE BODY	2738	"||             整理代码，加强反馈信息
+"
+PKG_JCFX	PACKAGE BODY	2739	"=============================================================================*/
+"
+PKG_JCFX	PACKAGE BODY	2740	"
+"
+PKG_JCFX	PACKAGE BODY	2741	"BEGIN
+"
+PKG_JCFX	PACKAGE BODY	2742	"
+"
+PKG_JCFX	PACKAGE BODY	2743	"  DECLARE
+"
+PKG_JCFX	PACKAGE BODY	2744	"    ldt_jcfx_id       DATE;
+"
+PKG_JCFX	PACKAGE BODY	2745	"    ldt_jcfx_id_max   DATE;
+"
+PKG_JCFX	PACKAGE BODY	2746	"    ln_jcfx_id        NUMBER;
+"
+PKG_JCFX	PACKAGE BODY	2747	"    ln_day            NUMBER;
+"
+PKG_JCFX	PACKAGE BODY	2748	"    ln_code           NUMBER;
+"
+PKG_JCFX	PACKAGE BODY	2749	"    ls_mess           VARCHAR2(50);
+"
+PKG_JCFX	PACKAGE BODY	2750	"    e_error           EXCEPTION;
+"
+PKG_JCFX	PACKAGE BODY	2751	"    e_input           EXCEPTION;
+"
+PKG_JCFX	PACKAGE BODY	2752	"
+"
+PKG_JCFX	PACKAGE BODY	2753	"	BEGIN
+"
+PKG_JCFX	PACKAGE BODY	2754	"    IF Nvl(in_day,0) = 0 THEN
+"
+PKG_JCFX	PACKAGE BODY	2755	"      raise e_input;
+"
+PKG_JCFX	PACKAGE BODY	2756	"    END IF;
+"
+PKG_JCFX	PACKAGE BODY	2757	"
+"
+PKG_JCFX	PACKAGE BODY	2758	"    on_code := 1;
+"
+PKG_JCFX	PACKAGE BODY	2759	"    os_mess := '数据采集成功';
+"
+PKG_JCFX	PACKAGE BODY	2760	"
+"
+PKG_JCFX	PACKAGE BODY	2761	"    ldt_jcfx_id := to_date(to_char(in_start_id),'yyyymmdd');
+"
+PKG_JCFX	PACKAGE BODY	2762	"
+"
+PKG_JCFX	PACKAGE BODY	2763	"    -- 最大采集天数为31天（HONGER）
+"
+PKG_JCFX	PACKAGE BODY	2764	"    IF in_day > 31 THEN
+"
+PKG_JCFX	PACKAGE BODY	2765	"      ln_day := 31;
+"
+PKG_JCFX	PACKAGE BODY	2766	"    ELSE
+"
+PKG_JCFX	PACKAGE BODY	2767	"      ln_day := in_day;
+"
+PKG_JCFX	PACKAGE BODY	2768	"    END IF;
+"
+PKG_JCFX	PACKAGE BODY	2769	"
+"
+PKG_JCFX	PACKAGE BODY	2770	"    -- 设置结束日期（HONGER）
+"
+PKG_JCFX	PACKAGE BODY	2771	"    IF trunc(sysdate)  <= ldt_jcfx_id + ln_day THEN
+"
+PKG_JCFX	PACKAGE BODY	2772	"      ldt_jcfx_id_max := trunc(sysdate);
+"
+PKG_JCFX	PACKAGE BODY	2773	"    ELSE
+"
+PKG_JCFX	PACKAGE BODY	2774	"      ldt_jcfx_id_max := ldt_jcfx_id + ln_day;
+"
+PKG_JCFX	PACKAGE BODY	2775	"    END IF;
+"
+PKG_JCFX	PACKAGE BODY	2776	"
+"
+PKG_JCFX	PACKAGE BODY	2777	"    ldt_jcfx_id := to_date(to_char(in_start_id),'yyyy-mm-dd');
+"
+PKG_JCFX	PACKAGE BODY	2778	"    -- 循环处理每天数据（HONGER）
+"
+PKG_JCFX	PACKAGE BODY	2779	"    WHILE ldt_jcfx_id < ldt_jcfx_id_max LOOP
+"
+PKG_JCFX	PACKAGE BODY	2780	"      ln_jcfx_id  := to_number(to_char(ldt_jcfx_id,'yyyymmdd'));
+"
+PKG_JCFX	PACKAGE BODY	2781	"
+"
+PKG_JCFX	PACKAGE BODY	2782	"      -- 采集住院自动记帐部分数据（HONGER） >>>
+"
+PKG_JCFX	PACKAGE BODY	2783	"      prc_zy_au_sjcj1(ln_jcfx_id, ln_code, ls_mess);
+"
+PKG_JCFX	PACKAGE BODY	2784	"      IF ln_code <> 1 THEN
+"
+PKG_JCFX	PACKAGE BODY	2785	"        on_code := ln_code;
+"
+PKG_JCFX	PACKAGE BODY	2786	"        os_mess := ls_mess;
+"
+PKG_JCFX	PACKAGE BODY	2787	"        RAISE e_error;
+"
+PKG_JCFX	PACKAGE BODY	2788	"      END IF;
+"
+PKG_JCFX	PACKAGE BODY	2789	"
+"
+PKG_JCFX	PACKAGE BODY	2790	"      prc_zy_au_sjcj2(ln_jcfx_id, ln_code, ls_mess);
+"
+PKG_JCFX	PACKAGE BODY	2791	"      IF ln_code <> 1 THEN
+"
+PKG_JCFX	PACKAGE BODY	2792	"        on_code := ln_code;
+"
+PKG_JCFX	PACKAGE BODY	2793	"        os_mess := ls_mess;
+"
+PKG_JCFX	PACKAGE BODY	2794	"        RAISE e_error;
+"
+PKG_JCFX	PACKAGE BODY	2795	"      END IF;
+"
+PKG_JCFX	PACKAGE BODY	2796	"
+"
+PKG_JCFX	PACKAGE BODY	2797	"      prc_zy_au_sjcj3(ln_jcfx_id, ln_code, ls_mess);
+"
+PKG_JCFX	PACKAGE BODY	2798	"      IF ln_code <> 1 THEN
+"
+PKG_JCFX	PACKAGE BODY	2799	"        on_code := ln_code;
+"
+PKG_JCFX	PACKAGE BODY	2800	"        os_mess := ls_mess;
+"
+PKG_JCFX	PACKAGE BODY	2801	"        RAISE e_error;
+"
+PKG_JCFX	PACKAGE BODY	2802	"      END IF;
+"
+PKG_JCFX	PACKAGE BODY	2803	"
+"
+PKG_JCFX	PACKAGE BODY	2804	"      -- 采集住院自动记帐部分数据（HONGER） <<<
+"
+PKG_JCFX	PACKAGE BODY	2805	"
+"
+PKG_JCFX	PACKAGE BODY	2806	"      -- 循环前进一步
+"
+PKG_JCFX	PACKAGE BODY	2807	"      ldt_jcfx_id := ldt_jcfx_id + 1;      --当前日期 + 1
+"
+PKG_JCFX	PACKAGE BODY	2808	"    END LOOP;
+"
+PKG_JCFX	PACKAGE BODY	2809	"
+"
+PKG_JCFX	PACKAGE BODY	2810	"  EXCEPTION
+"
+PKG_JCFX	PACKAGE BODY	2811	"    WHEN e_input THEN
+"
+PKG_JCFX	PACKAGE BODY	2812	"      on_code :=  0;
+"
+PKG_JCFX	PACKAGE BODY	2813	"      os_mess := '输入参数错误!';
+"
+PKG_JCFX	PACKAGE BODY	2814	"    WHEN e_error THEN
+"
+PKG_JCFX	PACKAGE BODY	2815	"      ROLLBACK;
+"
+PKG_JCFX	PACKAGE BODY	2816	"    WHEN others THEN
+"
+PKG_JCFX	PACKAGE BODY	2817	"      ROLLBACK;
+"
+PKG_JCFX	PACKAGE BODY	2818	"      on_code := -1;
+"
+PKG_JCFX	PACKAGE BODY	2819	"      os_mess := 'prc_zu_sjcj_au数据采集失败！原因：'||SQLErrm;
+"
+PKG_JCFX	PACKAGE BODY	2820	"      -- 返回SQL错误信息（MODIFY 2002-10-18 HONGER）
+"
+PKG_JCFX	PACKAGE BODY	2821	"  END;
+"
+PKG_JCFX	PACKAGE BODY	2822	"END prc_zy_sjcj_au;
+"
+PKG_JCFX	PACKAGE BODY	2823	"
+"
+PKG_JCFX	PACKAGE BODY	2824	"
+"
+PKG_JCFX	PACKAGE BODY	2825	"
+"
+PKG_JCFX	PACKAGE BODY	2826	"Procedure prc_zy_sjcj ( in_start_id   In    NUMBER,
+"
+PKG_JCFX	PACKAGE BODY	2827	"                        in_day        In    NUMBER   DEFAULT   1,
+"
+PKG_JCFX	PACKAGE BODY	2828	"                        on_code       Out   NUMBER,
+"
+PKG_JCFX	PACKAGE BODY	2829	"                        os_mess       Out   Varchar2 )
+"
+PKG_JCFX	PACKAGE BODY	2830	"Is
+"
+PKG_JCFX	PACKAGE BODY	2831	"
+"
+PKG_JCFX	PACKAGE BODY	2832	"/*=============================================================================
+"
+PKG_JCFX	PACKAGE BODY	2833	"|| 过程名称 ： 住院数据采集（总）prc_zy_sjcj
+"
+PKG_JCFX	PACKAGE BODY	2834	"||-----------------------------------------------------------------------------
+"
+PKG_JCFX	PACKAGE BODY	2835	"|| 功能说明 ： 执行各个住院数据采集的子过程，执行顺序为prc_zy_sjcj1、
+"
+PKG_JCFX	PACKAGE BODY	2836	"||             prc_zy_sjcj2、prc_zy_sjcj3、prc_zy_sjcj4、prc_zy_sjcj5、
+"
+PKG_JCFX	PACKAGE BODY	2837	"||             prc_zy_sjcj7、prc_zy_zhxx
+"
+PKG_JCFX	PACKAGE BODY	2838	"||-----------------------------------------------------------------------------
+"
+PKG_JCFX	PACKAGE BODY	2839	"|| 参数描述 ： 参数标识        输入/输出     类型         名称
+"
+PKG_JCFX	PACKAGE BODY	2840	"||            -----------------------------------------------------------------
+"
+PKG_JCFX	PACKAGE BODY	2841	"||             in_start_id     IN            Number       开始采集日期
+"
+PKG_JCFX	PACKAGE BODY	2842	"||             in_day          IN            Number       采集天数
+"
+PKG_JCFX	PACKAGE BODY	2843	"||             on_code         OUT           Number       执行结果
+"
+PKG_JCFX	PACKAGE BODY	2844	"||             os_mess         OUT           Varchar2     返回信息
+"
+PKG_JCFX	PACKAGE BODY	2845	"||-----------------------------------------------------------------------------
+"
+PKG_JCFX	PACKAGE BODY	2846	"|| 注意事项 ： 建议每天凌晨自动执行，采集日期 = 当前日期 - 1
+"
+PKG_JCFX	PACKAGE BODY	2847	"||-----------------------------------------------------------------------------
+"
+PKG_JCFX	PACKAGE BODY	2848	"|| 作    者 ： 陈联      完成日期 ：2001-06
+"
+PKG_JCFX	PACKAGE BODY	2849	"||-----------------------------------------------------------------------------
+"
+PKG_JCFX	PACKAGE BODY	2850	"|| 修改记录 ： 陈智鸿 @ 2002-10-18
+"
+PKG_JCFX	PACKAGE BODY	2851	"||             整理代码，加强反馈信息
+"
+PKG_JCFX	PACKAGE BODY	2852	"=============================================================================*/
+"
+PKG_JCFX	PACKAGE BODY	2853	"
+"
+PKG_JCFX	PACKAGE BODY	2854	"BEGIN
+"
+PKG_JCFX	PACKAGE BODY	2855	"
+"
+PKG_JCFX	PACKAGE BODY	2856	"  DECLARE
+"
+PKG_JCFX	PACKAGE BODY	2857	"    ldt_jcfx_id       DATE;
+"
+PKG_JCFX	PACKAGE BODY	2858	"    ldt_jcfx_id_max   DATE;
+"
+PKG_JCFX	PACKAGE BODY	2859	"    ln_jcfx_id        NUMBER;
+"
+PKG_JCFX	PACKAGE BODY	2860	"    ln_day            NUMBER;
+"
+PKG_JCFX	PACKAGE BODY	2861	"    ln_code           NUMBER;
+"
+PKG_JCFX	PACKAGE BODY	2862	"    ls_mess           VARCHAR2(50);
+"
+PKG_JCFX	PACKAGE BODY	2863	"    e_error           EXCEPTION;
+"
+PKG_JCFX	PACKAGE BODY	2864	"    e_input           EXCEPTION;
+"
+PKG_JCFX	PACKAGE BODY	2865	"
+"
+PKG_JCFX	PACKAGE BODY	2866	"  BEGIN
+"
+PKG_JCFX	PACKAGE BODY	2867	"    IF Nvl(in_day,0) = 0 THEN
+"
+PKG_JCFX	PACKAGE BODY	2868	"      raise e_input;
+"
+PKG_JCFX	PACKAGE BODY	2869	"    END IF;
+"
+PKG_JCFX	PACKAGE BODY	2870	"
+"
+PKG_JCFX	PACKAGE BODY	2871	"    on_code := 1;
+"
+PKG_JCFX	PACKAGE BODY	2872	"    os_mess := '数据采集成功';
+"
+PKG_JCFX	PACKAGE BODY	2873	"
+"
+PKG_JCFX	PACKAGE BODY	2874	"    ldt_jcfx_id := to_date(to_char(in_start_id),'yyyymmdd');
+"
+PKG_JCFX	PACKAGE BODY	2875	"
+"
+PKG_JCFX	PACKAGE BODY	2876	"    -- 最大采集天数为31天（HONGER）
+"
+PKG_JCFX	PACKAGE BODY	2877	"    IF in_day > 31 THEN
+"
+PKG_JCFX	PACKAGE BODY	2878	"      ln_day := 31;
+"
+PKG_JCFX	PACKAGE BODY	2879	"    ELSE
+"
+PKG_JCFX	PACKAGE BODY	2880	"      ln_day := in_day;
+"
+PKG_JCFX	PACKAGE BODY	2881	"    END IF;
+"
+PKG_JCFX	PACKAGE BODY	2882	"
+"
+PKG_JCFX	PACKAGE BODY	2883	"    -- 设置结束日期（HONGER）
+"
+PKG_JCFX	PACKAGE BODY	2884	"    IF trunc(sysdate)  <= ldt_jcfx_id + ln_day THEN
+"
+PKG_JCFX	PACKAGE BODY	2885	"      ldt_jcfx_id_max := trunc(sysdate);
+"
+PKG_JCFX	PACKAGE BODY	2886	"    ELSE
+"
+PKG_JCFX	PACKAGE BODY	2887	"      ldt_jcfx_id_max := ldt_jcfx_id + ln_day;
+"
+PKG_JCFX	PACKAGE BODY	2888	"    END IF;
+"
+PKG_JCFX	PACKAGE BODY	2889	"
+"
+PKG_JCFX	PACKAGE BODY	2890	"    ldt_jcfx_id := to_date(to_char(in_start_id),'yyyy-mm-dd');
+"
+PKG_JCFX	PACKAGE BODY	2891	"    -- 循环处理每天数据（HONGER）
+"
+PKG_JCFX	PACKAGE BODY	2892	"    WHILE ldt_jcfx_id < ldt_jcfx_id_max LOOP
+"
+PKG_JCFX	PACKAGE BODY	2893	"      ln_jcfx_id  := to_number(to_char(ldt_jcfx_id,'yyyymmdd'));
+"
+PKG_JCFX	PACKAGE BODY	2894	"
+"
+PKG_JCFX	PACKAGE BODY	2895	"      -- 采集住院非自动记帐部分数据（HONGER） >>>
+"
+PKG_JCFX	PACKAGE BODY	2896	"      prc_zy_sjcj1(ln_jcfx_id, ln_code, ls_mess);
+"
+PKG_JCFX	PACKAGE BODY	2897	"      IF ln_code <> 1 THEN
+"
+PKG_JCFX	PACKAGE BODY	2898	"        on_code := ln_code;
+"
+PKG_JCFX	PACKAGE BODY	2899	"        os_mess := ls_mess;
+"
+PKG_JCFX	PACKAGE BODY	2900	"        RAISE e_error;
+"
+PKG_JCFX	PACKAGE BODY	2901	"      END IF;
+"
+PKG_JCFX	PACKAGE BODY	2902	"
+"
+PKG_JCFX	PACKAGE BODY	2903	"      prc_zy_sjcj2(ln_jcfx_id, ln_code, ls_mess);
+"
+PKG_JCFX	PACKAGE BODY	2904	"      IF ln_code <> 1 THEN
+"
+PKG_JCFX	PACKAGE BODY	2905	"        on_code := ln_code;
+"
+PKG_JCFX	PACKAGE BODY	2906	"        os_mess := ls_mess;
+"
+PKG_JCFX	PACKAGE BODY	2907	"        RAISE e_error;
+"
+PKG_JCFX	PACKAGE BODY	2908	"      END IF;
+"
+PKG_JCFX	PACKAGE BODY	2909	"
+"
+PKG_JCFX	PACKAGE BODY	2910	"      prc_zy_sjcj3(ln_jcfx_id, ln_code, ls_mess);
+"
+PKG_JCFX	PACKAGE BODY	2911	"      IF ln_code <> 1 THEN
+"
+PKG_JCFX	PACKAGE BODY	2912	"        on_code := ln_code;
+"
+PKG_JCFX	PACKAGE BODY	2913	"        os_mess := ls_mess;
+"
+PKG_JCFX	PACKAGE BODY	2914	"        RAISE e_error;
+"
+PKG_JCFX	PACKAGE BODY	2915	"      END IF;
+"
+PKG_JCFX	PACKAGE BODY	2916	"
+"
+PKG_JCFX	PACKAGE BODY	2917	"      prc_zy_sjcj4(ln_jcfx_id, ln_code, ls_mess);
+"
+PKG_JCFX	PACKAGE BODY	2918	"      IF ln_code <> 1 THEN
+"
+PKG_JCFX	PACKAGE BODY	2919	"        on_code := ln_code;
+"
+PKG_JCFX	PACKAGE BODY	2920	"        os_mess := ls_mess;
+"
+PKG_JCFX	PACKAGE BODY	2921	"        RAISE e_error;
+"
+PKG_JCFX	PACKAGE BODY	2922	"      END IF;
+"
+PKG_JCFX	PACKAGE BODY	2923	"
+"
+PKG_JCFX	PACKAGE BODY	2924	"      prc_zy_sjcj5(ln_jcfx_id, ln_code, ls_mess);
+"
+PKG_JCFX	PACKAGE BODY	2925	"      IF ln_code <> 1 THEN
+"
+PKG_JCFX	PACKAGE BODY	2926	"        on_code := ln_code;
+"
+PKG_JCFX	PACKAGE BODY	2927	"        os_mess := ls_mess;
+"
+PKG_JCFX	PACKAGE BODY	2928	"        RAISE e_error;
+"
+PKG_JCFX	PACKAGE BODY	2929	"      END IF;
+"
+PKG_JCFX	PACKAGE BODY	2930	"
+"
+PKG_JCFX	PACKAGE BODY	2931	"
+"
+PKG_JCFX	PACKAGE BODY	2932	"      prc_zy_zhxx(ln_jcfx_id, ln_code, ls_mess);
+"
+PKG_JCFX	PACKAGE BODY	2933	"      IF ln_code <> 1 THEN
+"
+PKG_JCFX	PACKAGE BODY	2934	"        on_code := ln_code;
+"
+PKG_JCFX	PACKAGE BODY	2935	"        os_mess := ls_mess;
+"
+PKG_JCFX	PACKAGE BODY	2936	"        RAISE e_error;
+"
+PKG_JCFX	PACKAGE BODY	2937	"      END IF;
+"
+PKG_JCFX	PACKAGE BODY	2938	"
+"
+PKG_JCFX	PACKAGE BODY	2939	"--      prc_zy_sjcj11(ln_jcfx_id, ln_code, ls_mess);
+"
+PKG_JCFX	PACKAGE BODY	2940	"--      IF ln_code <> 1 THEN
+"
+PKG_JCFX	PACKAGE BODY	2941	"--        on_code := ln_code;
+"
+PKG_JCFX	PACKAGE BODY	2942	"--        os_mess := ls_mess;
+"
+PKG_JCFX	PACKAGE BODY	2943	"--        RAISE e_error;
+"
+PKG_JCFX	PACKAGE BODY	2944	"--      END IF;
+"
+PKG_JCFX	PACKAGE BODY	2945	"
+"
+PKG_JCFX	PACKAGE BODY	2946	"      -- 循环前进一步
+"
+PKG_JCFX	PACKAGE BODY	2947	"      ldt_jcfx_id := ldt_jcfx_id + 1;      --当前日期 + 1
+"
+PKG_JCFX	PACKAGE BODY	2948	"    END LOOP;
+"
+PKG_JCFX	PACKAGE BODY	2949	"  EXCEPTION
+"
+PKG_JCFX	PACKAGE BODY	2950	"    WHEN e_input THEN
+"
+PKG_JCFX	PACKAGE BODY	2951	"      on_code :=  0;
+"
+PKG_JCFX	PACKAGE BODY	2952	"      os_mess := '输入参数错误!';
+"
+PKG_JCFX	PACKAGE BODY	2953	"    WHEN e_error THEN
+"
+PKG_JCFX	PACKAGE BODY	2954	"      ROLLBACK;
+"
+PKG_JCFX	PACKAGE BODY	2955	"    WHEN others THEN
+"
+PKG_JCFX	PACKAGE BODY	2956	"      ROLLBACK;
+"
+PKG_JCFX	PACKAGE BODY	2957	"      on_code := -1;
+"
+PKG_JCFX	PACKAGE BODY	2958	"      os_mess := 'prc_zu_sjcj数据采集失败！原因：'||SQLErrm;
+"
+PKG_JCFX	PACKAGE BODY	2959	"      -- 返回SQL错误信息（MODIFY 2002-10-18 HONGER）
+"
+PKG_JCFX	PACKAGE BODY	2960	"  END;
+"
+PKG_JCFX	PACKAGE BODY	2961	"END prc_zy_sjcj;
+"
+PKG_JCFX	PACKAGE BODY	2962	"
+"
+PKG_JCFX	PACKAGE BODY	2963	"Procedure Prc_zy_sjcj11 ( in_jcfx_id   In    number,
+"
+PKG_JCFX	PACKAGE BODY	2964	"                         on_code      Out   number,
+"
+PKG_JCFX	PACKAGE BODY	2965	"                         os_mess      Out   varchar2)
+"
+PKG_JCFX	PACKAGE BODY	2966	"Is
+"
+PKG_JCFX	PACKAGE BODY	2967	"
+"
+PKG_JCFX	PACKAGE BODY	2968	"/*=============================================================================
+"
+PKG_JCFX	PACKAGE BODY	2969	"|| 过程名称 ： 住院数据采集（5：出院病人费用分析）prc_zy_sjcj11
+"
+PKG_JCFX	PACKAGE BODY	2970	"||-----------------------------------------------------------------------------
+"
+PKG_JCFX	PACKAGE BODY	2971	"|| 功能说明 ： 采集出院病人数据，数据写入表JCFX_ZY_DATA_D11和JCFX_ZY_DATA_D12中，
+"
+PKG_JCFX	PACKAGE BODY	2972	"||             作业类型ZY_SJCJ_D11D12，
+"
+PKG_JCFX	PACKAGE BODY	2973	"||采集内容：   (ZY_SJCJ_D11)日期、主治医生、费用归类、金额
+"
+PKG_JCFX	PACKAGE BODY	2974	"||             (ZY_SJCJ_D12)日期、主治医生、出院人数
+"
+PKG_JCFX	PACKAGE BODY	2975	"||-----------------------------------------------------------------------------
+"
+PKG_JCFX	PACKAGE BODY	2976	"|| 参数描述 ： 参数标识       输入/输出     类型         名称
+"
+PKG_JCFX	PACKAGE BODY	2977	"||            -----------------------------------------------------------------
+"
+PKG_JCFX	PACKAGE BODY	2978	"||             in_jcfx_id     IN            Number       采集日期
+"
+PKG_JCFX	PACKAGE BODY	2979	"||             on_code        OUT           Number       执行结果
+"
+PKG_JCFX	PACKAGE BODY	2980	"||             os_mess        OUT           Varchar2     返回信息
+"
+PKG_JCFX	PACKAGE BODY	2981	"||-----------------------------------------------------------------------------
+"
+PKG_JCFX	PACKAGE BODY	2982	"|| 注意事项 ： 主治医生空时值为'NONE'
+"
+PKG_JCFX	PACKAGE BODY	2983	"||-----------------------------------------------------------------------------
+"
+PKG_JCFX	PACKAGE BODY	2984	"|| 作    者 ： 许顺生      完成日期 ：2004-06-08
+"
+PKG_JCFX	PACKAGE BODY	2985	"||-----------------------------------------------------------------------------
+"
+PKG_JCFX	PACKAGE BODY	2986	"|| 修改记录 ：
+"
+PKG_JCFX	PACKAGE BODY	2987	"=============================================================================*/
+"
+PKG_JCFX	PACKAGE BODY	2988	"
+"
+PKG_JCFX	PACKAGE BODY	2989	"BEGIN
+"
+PKG_JCFX	PACKAGE BODY	2990	"
+"
+PKG_JCFX	PACKAGE BODY	2991	"  DECLARE
+"
+PKG_JCFX	PACKAGE BODY	2992	"    ln_jcfx_id       Number;
+"
+PKG_JCFX	PACKAGE BODY	2993	"    ln_count         Number;
+"
+PKG_JCFX	PACKAGE BODY	2994	"    ldt_jcfx_min     Date;
+"
+PKG_JCFX	PACKAGE BODY	2995	"    ldt_jcfx_max     Date;
+"
+PKG_JCFX	PACKAGE BODY	2996	"    ln_je            Number;
+"
+PKG_JCFX	PACKAGE BODY	2997	"    ln_Jls           Number;
+"
+PKG_JCFX	PACKAGE BODY	2998	"    e_input          EXCEPTION;
+"
+PKG_JCFX	PACKAGE BODY	2999	"
+"
+PKG_JCFX	PACKAGE BODY	3000	"  BEGIN
+"
+PKG_JCFX	PACKAGE BODY	3001	"    IF Nvl(in_jcfx_id,0) = 0 THEN
+"
+PKG_JCFX	PACKAGE BODY	3002	"      raise e_input;
+"
+PKG_JCFX	PACKAGE BODY	3003	"    END IF;
+"
+PKG_JCFX	PACKAGE BODY	3004	"
+"
+PKG_JCFX	PACKAGE BODY	3005	"    on_code := 1;
+"
+PKG_JCFX	PACKAGE BODY	3006	"    os_mess :='数据采集成功!';
+"
+PKG_JCFX	PACKAGE BODY	3007	"
+"
+PKG_JCFX	PACKAGE BODY	3008	"    -- 设置起始时间和结束时间（HONGER）
+"
+PKG_JCFX	PACKAGE BODY	3009	"    ln_jcfx_id   :=  in_jcfx_id;
+"
+PKG_JCFX	PACKAGE BODY	3010	"    ldt_jcfx_min :=  to_date(to_char(ln_jcfx_id), 'yyyy/mm/dd'); --起始时间
+"
+PKG_JCFX	PACKAGE BODY	3011	"    ldt_jcfx_max :=  ldt_jcfx_min + 86399/86400;                 --结束时间
+"
+PKG_JCFX	PACKAGE BODY	3012	"
+"
+PKG_JCFX	PACKAGE BODY	3013	"    SELECT COUNT(*)               --检查日志，采集是否已经执行过
+"
+PKG_JCFX	PACKAGE BODY	3014	"      INTO ln_count
+"
+PKG_JCFX	PACKAGE BODY	3015	"      FROM jcfx_task_log
+"
+PKG_JCFX	PACKAGE BODY	3016	"     WHERE jcfx_id = in_jcfx_id
+"
+PKG_JCFX	PACKAGE BODY	3017	"       AND task_lx = 'ZY_SJCJ_D11D12';
+"
+PKG_JCFX	PACKAGE BODY	3018	"
+"
+PKG_JCFX	PACKAGE BODY	3019	"    -- 删除旧的作业日志和数据（HONGER）
+"
+PKG_JCFX	PACKAGE BODY	3020	"    IF ln_count > 0 THEN
+"
+PKG_JCFX	PACKAGE BODY	3021	"      DELETE FROM jcfx_task_log  --删除日志
+"
+PKG_JCFX	PACKAGE BODY	3022	"       WHERE jcfx_id = in_jcfx_id
+"
+PKG_JCFX	PACKAGE BODY	3023	"         AND task_lx = 'ZY_SJCJ_D11D12';
+"
+PKG_JCFX	PACKAGE BODY	3024	"
+"
+PKG_JCFX	PACKAGE BODY	3025	"      DELETE FROM jcfx_zy_data_d11 --删除已有记录
+"
+PKG_JCFX	PACKAGE BODY	3026	"       WHERE id = in_jcfx_id;
+"
+PKG_JCFX	PACKAGE BODY	3027	"
+"
+PKG_JCFX	PACKAGE BODY	3028	"      DELETE FROM jcfx_zy_data_d12 --删除已有记录
+"
+PKG_JCFX	PACKAGE BODY	3029	"       WHERE id = in_jcfx_id;
+"
+PKG_JCFX	PACKAGE BODY	3030	"    END IF;
+"
+PKG_JCFX	PACKAGE BODY	3031	"
+"
+PKG_JCFX	PACKAGE BODY	3032	"    -- 插入新的作业日志（HONGER）
+"
+PKG_JCFX	PACKAGE BODY	3033	"    INSERT INTO jcfx_task_log ( jcfx_id, task_lx )        --决策分析标识，作业类型
+"
+PKG_JCFX	PACKAGE BODY	3034	"    VALUES (in_jcfx_id, 'ZY_SJCJ_D11D12');               --插入作业日志
+"
+PKG_JCFX	PACKAGE BODY	3035	"
+"
+PKG_JCFX	PACKAGE BODY	3036	"    -- 插入新记录（HONGER）
+"
+PKG_JCFX	PACKAGE BODY	3037	"    -- ID、医生组号、费用归类、金额（HONGER）
+"
+PKG_JCFX	PACKAGE BODY	3038	"    INSERT INTO jcfx_zy_data_d11 ( id, yszh, fygl, je )
+"
+PKG_JCFX	PACKAGE BODY	3039	"    SELECT ln_jcfx_id, Nvl(a.yszh,'NONE'), Nvl(a.fygl, 0), Nvl(SUM(Round(a.sl * a.dj, 2)), 0)
+"
+PKG_JCFX	PACKAGE BODY	3040	"      FROM zy_detail_charge a
+"
+PKG_JCFX	PACKAGE BODY	3041	"     WHERE  EXISTS ( SELECT *
+"
+PKG_JCFX	PACKAGE BODY	3042	"                      FROM zy_total_fee b,
+"
+PKG_JCFX	PACKAGE BODY	3043	"                           zy_patient_information d
+"
+PKG_JCFX	PACKAGE BODY	3044	"                     WHERE a.patient_no = b.patient_no
+"
+PKG_JCFX	PACKAGE BODY	3045	"                       AND a.js_no      = b.js_no
+"
+PKG_JCFX	PACKAGE BODY	3046	"                       AND b.patient_no = d.patient_no
+"
+PKG_JCFX	PACKAGE BODY	3047	"                       AND b.jz_date BETWEEN ldt_jcfx_min AND ldt_jcfx_max
+"
+PKG_JCFX	PACKAGE BODY	3048	"                       AND d.out_date IS NOT NUll )
+"
+PKG_JCFX	PACKAGE BODY	3049	"     GROUP BY a.yszh,a.fygl;
+"
+PKG_JCFX	PACKAGE BODY	3050	"
+"
+PKG_JCFX	PACKAGE BODY	3051	"    -- 插入新记录（HONGER）
+"
+PKG_JCFX	PACKAGE BODY	3052	"    -- ID、病人类别、科室、在用天数、出院人数（HONGER）
+"
+PKG_JCFX	PACKAGE BODY	3053	"
+"
+PKG_JCFX	PACKAGE BODY	3054	"    INSERT INTO jcfx_zy_data_d12 ( id, yszh, cyrs )
+"
+PKG_JCFX	PACKAGE BODY	3055	"    SELECT ln_jcfx_id, Nvl(a.yszh,'NONE'), Nvl(Count(distinct Patient_no),0)
+"
+PKG_JCFX	PACKAGE BODY	3056	"      FROM zy_detail_charge a
+"
+PKG_JCFX	PACKAGE BODY	3057	"     WHERE  EXISTS ( SELECT *
+"
+PKG_JCFX	PACKAGE BODY	3058	"                      FROM zy_total_fee b,
+"
+PKG_JCFX	PACKAGE BODY	3059	"                           zy_patient_information d
+"
+PKG_JCFX	PACKAGE BODY	3060	"                     WHERE a.patient_no = b.patient_no
+"
+PKG_JCFX	PACKAGE BODY	3061	"                       AND a.js_no      = b.js_no
+"
+PKG_JCFX	PACKAGE BODY	3062	"                       AND b.patient_no = d.patient_no
+"
+PKG_JCFX	PACKAGE BODY	3063	"                       AND b.jz_date BETWEEN ldt_jcfx_min AND ldt_jcfx_max
+"
+PKG_JCFX	PACKAGE BODY	3064	"                       AND d.out_date IS NOT NUll )
+"
+PKG_JCFX	PACKAGE BODY	3065	"     GROUP BY a.yszh;
+"
+PKG_JCFX	PACKAGE BODY	3066	"    -- 计算总金额（HONGER）
+"
+PKG_JCFX	PACKAGE BODY	3067	"    SELECT NVL(SUM(je), 0)
+"
+PKG_JCFX	PACKAGE BODY	3068	"      INTO ln_je
+"
+PKG_JCFX	PACKAGE BODY	3069	"      FROM jcfx_zy_data_d11
+"
+PKG_JCFX	PACKAGE BODY	3070	"     WHERE id = in_jcfx_id;
+"
+PKG_JCFX	PACKAGE BODY	3071	"
+"
+PKG_JCFX	PACKAGE BODY	3072	"    -- 计算出院总人数（HONGER）
+"
+PKG_JCFX	PACKAGE BODY	3073	"    Select Nvl(Sum(cyrs), 0)
+"
+PKG_JCFX	PACKAGE BODY	3074	"      Into ln_Jls
+"
+PKG_JCFX	PACKAGE BODY	3075	"      From jcfx_zy_data_d12
+"
+PKG_JCFX	PACKAGE BODY	3076	"     Where id = in_jcfx_id;
+"
+PKG_JCFX	PACKAGE BODY	3077	"
+"
+PKG_JCFX	PACKAGE BODY	3078	"    --修改成功标志,结束时间,记录数,金额
+"
+PKG_JCFX	PACKAGE BODY	3079	"    UPDATE jcfx_task_log
+"
+PKG_JCFX	PACKAGE BODY	3080	"       SET success_flag = 1,
+"
+PKG_JCFX	PACKAGE BODY	3081	"           jssj         = sysdate,
+"
+PKG_JCFX	PACKAGE BODY	3082	"           jls          = ln_Jls,
+"
+PKG_JCFX	PACKAGE BODY	3083	"           value        = ln_je
+"
+PKG_JCFX	PACKAGE BODY	3084	"     WHERE jcfx_id = in_jcfx_id
+"
+PKG_JCFX	PACKAGE BODY	3085	"       AND task_lx = 'ZY_SJCJ_D11D12';
+"
+PKG_JCFX	PACKAGE BODY	3086	"
+"
+PKG_JCFX	PACKAGE BODY	3087	"    -- 提交数据（HONGER）
+"
+PKG_JCFX	PACKAGE BODY	3088	"    COMMIT;
+"
+PKG_JCFX	PACKAGE BODY	3089	"
+"
+PKG_JCFX	PACKAGE BODY	3090	"  EXCEPTION
+"
+PKG_JCFX	PACKAGE BODY	3091	"    WHEN e_input THEN
+"
+PKG_JCFX	PACKAGE BODY	3092	"      on_code :=  0;
+"
+PKG_JCFX	PACKAGE BODY	3093	"      os_mess := '输入参数错误!';
+"
+PKG_JCFX	PACKAGE BODY	3094	"    WHEN others THEN
+"
+PKG_JCFX	PACKAGE BODY	3095	"      ROLLBACK;
+"
+PKG_JCFX	PACKAGE BODY	3096	"      on_code := -1;
+"
+PKG_JCFX	PACKAGE BODY	3097	"      os_mess := 'prc_zy_sjcj5数据采集失败！原因：'||SQLErrm;
+"
+PKG_JCFX	PACKAGE BODY	3098	"      -- 返回SQL错误信息（MODIFY 2002-10-18 HONGER）
+"
+PKG_JCFX	PACKAGE BODY	3099	"  END;
+"
+PKG_JCFX	PACKAGE BODY	3100	"END prc_zy_sjcj11;
+"
+PKG_JCFX	PACKAGE BODY	3101	"
+"
+PKG_JCFX	PACKAGE BODY	3102	"END Pkg_Jcfx;
+"

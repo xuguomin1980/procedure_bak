@@ -1,0 +1,17 @@
+GET_AGE	FUNCTION	1	"FUNCTION         ""GET_AGE"" (birthday in date)
+"
+GET_AGE	FUNCTION	2	"return number
+"
+GET_AGE	FUNCTION	3	"as
+"
+GET_AGE	FUNCTION	4	"begin
+"
+GET_AGE	FUNCTION	5	"   return ((sysdate-birthday)/365);
+"
+GET_AGE	FUNCTION	6	"end;
+"
+GET_AGE	FUNCTION	7	"
+"
+GET_AGE	FUNCTION	8	"
+"
+GET_AGE	FUNCTION	9	 

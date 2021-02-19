@@ -1,0 +1,10 @@
+GY_YLSF_TJ1231_2019	PROCEDURE	1	"PROCEDURE ""GY_YLSF_TJ1231_2019"" as
+"
+GY_YLSF_TJ1231_2019	PROCEDURE	2	"begin
+"
+GY_YLSF_TJ1231_2019	PROCEDURE	3	"update gy_ylsf a set a.dj=(select xdj from gy_ylsf_tj1231 where ylxh=a.ylxh) where ylxh in(select ylxh from gy_ylsf_tj1231);
+"
+GY_YLSF_TJ1231_2019	PROCEDURE	4	"COMMIT;
+"
+GY_YLSF_TJ1231_2019	PROCEDURE	5	"end;
+"

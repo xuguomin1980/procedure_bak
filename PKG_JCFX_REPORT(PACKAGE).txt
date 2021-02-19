@@ -1,0 +1,93 @@
+PKG_JCFX_REPORT	PACKAGE	1	"PACKAGE         ""PKG_JCFX_REPORT"" 
+"
+PKG_JCFX_REPORT	PACKAGE	2	"Is
+"
+PKG_JCFX_REPORT	PACKAGE	3	"
+"
+PKG_JCFX_REPORT	PACKAGE	4	"/*=============================================================================
+"
+PKG_JCFX_REPORT	PACKAGE	5	"|| 包头名称 ： 决策分析报表数据采集Pkg_Jcfx_Report
+"
+PKG_JCFX_REPORT	PACKAGE	6	"||-----------------------------------------------------------------------------
+"
+PKG_JCFX_REPORT	PACKAGE	7	"|| 功能说明 ： 把门诊、住院的数据采集成决策分析报表的数据、包含的子过程有：
+"
+PKG_JCFX_REPORT	PACKAGE	8	"||             Prc_Zy_Report_01、Prc_Zy_Report_02、Prc_Mz_Report_01
+"
+PKG_JCFX_REPORT	PACKAGE	9	"||-----------------------------------------------------------------------------
+"
+PKG_JCFX_REPORT	PACKAGE	10	"|| 注意事项 ： 无
+"
+PKG_JCFX_REPORT	PACKAGE	11	"||-----------------------------------------------------------------------------
+"
+PKG_JCFX_REPORT	PACKAGE	12	"|| 作    者 ： 陈联      完成日期 ： 2001-12-18
+"
+PKG_JCFX_REPORT	PACKAGE	13	"||-----------------------------------------------------------------------------
+"
+PKG_JCFX_REPORT	PACKAGE	14	"|| 修改记录 ： 陈智鸿 @ 2002-10-21
+"
+PKG_JCFX_REPORT	PACKAGE	15	"||             整理
+"
+PKG_JCFX_REPORT	PACKAGE	16	"||            -----------------------------------------------------------------
+"
+PKG_JCFX_REPORT	PACKAGE	17	"||             陈智鸿 @ 2002-12-10
+"
+PKG_JCFX_REPORT	PACKAGE	18	"||             修改Prc_Mz_Report_01
+"
+PKG_JCFX_REPORT	PACKAGE	19	"=============================================================================*/
+"
+PKG_JCFX_REPORT	PACKAGE	20	"
+"
+PKG_JCFX_REPORT	PACKAGE	21	"  -- 按月份、病人类别、病人单位统计入院人数、出院人数、在院人数、出院、金额、在院天数
+"
+PKG_JCFX_REPORT	PACKAGE	22	"  Procedure Prc_Zy_Report_01 ( prm_Start_Id   In    NUMBER,
+"
+PKG_JCFX_REPORT	PACKAGE	23	"                               prm_End_Id     In    NUMBER,
+"
+PKG_JCFX_REPORT	PACKAGE	24	"                               prm_Brlb       In    gy_brlb.xh%Type,
+"
+PKG_JCFX_REPORT	PACKAGE	25	"                               prm_AppCode    Out   NUMBER,
+"
+PKG_JCFX_REPORT	PACKAGE	26	"                               prm_ErrMsg     Out   VARCHAR2 );
+"
+PKG_JCFX_REPORT	PACKAGE	27	"  
+"
+PKG_JCFX_REPORT	PACKAGE	28	"  -- 按病人类别、科室统计原有人数、入院人数、出院人数、在院天数、出院金额、出院总金额
+"
+PKG_JCFX_REPORT	PACKAGE	29	"  -- 入院总人数、出院总人数
+"
+PKG_JCFX_REPORT	PACKAGE	30	"  Procedure Prc_Zy_Report_02 ( prm_Start_Id   In    NUMBER,
+"
+PKG_JCFX_REPORT	PACKAGE	31	"                               prm_End_Id     In    NUMBER,
+"
+PKG_JCFX_REPORT	PACKAGE	32	"                               prm_Brlb       In    gy_brlb.xh%Type,
+"
+PKG_JCFX_REPORT	PACKAGE	33	"                               prm_AppCode    Out   NUMBER,
+"
+PKG_JCFX_REPORT	PACKAGE	34	"                               prm_ErrMsg     Out   VARCHAR2 );
+"
+PKG_JCFX_REPORT	PACKAGE	35	"                               
+"
+PKG_JCFX_REPORT	PACKAGE	36	"  -- 按病人类别、病人单位门诊人次、金额
+"
+PKG_JCFX_REPORT	PACKAGE	37	"  Procedure Prc_Mz_Report_01 ( prm_Start_Id   In    NUMBER, 
+"
+PKG_JCFX_REPORT	PACKAGE	38	"                               prm_End_Id     In    NUMBER,
+"
+PKG_JCFX_REPORT	PACKAGE	39	"                               prm_Brlb       In    gy_brlb.xh%Type,
+"
+PKG_JCFX_REPORT	PACKAGE	40	"                               prm_AppCode    Out   NUMBER,
+"
+PKG_JCFX_REPORT	PACKAGE	41	"                               prm_ErrMsg     Out   VARCHAR2);
+"
+PKG_JCFX_REPORT	PACKAGE	42	"End Pkg_Jcfx_Report;
+"
+PKG_JCFX_REPORT	PACKAGE	43	"
+"
+PKG_JCFX_REPORT	PACKAGE	44	"
+"
+PKG_JCFX_REPORT	PACKAGE	45	"
+"
+PKG_JCFX_REPORT	PACKAGE	46	"
+"
+PKG_JCFX_REPORT	PACKAGE	47	 

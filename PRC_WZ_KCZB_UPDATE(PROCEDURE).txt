@@ -1,0 +1,405 @@
+PRC_WZ_KCZB_UPDATE	PROCEDURE	1	"PROCEDURE         ""PRC_WZ_KCZB_UPDATE"" (in_Xtxh In NUMBER,
+"
+PRC_WZ_KCZB_UPDATE	PROCEDURE	2	"                                               in_Kjqj In NUMBER,
+"
+PRC_WZ_KCZB_UPDATE	PROCEDURE	3	"                                               in_zblx In Number)
+"
+PRC_WZ_KCZB_UPDATE	PROCEDURE	4	"/*=============================================================================
+"
+PRC_WZ_KCZB_UPDATE	PROCEDURE	5	"  ||  名称：重新生成物资库存帐簿的某一会计期间的上期结存 prc_wz_kczb_update
+"
+PRC_WZ_KCZB_UPDATE	PROCEDURE	6	"  ||-----------------------------------------------------------------------------
+"
+PRC_WZ_KCZB_UPDATE	PROCEDURE	7	"  ||  说明：由于某种原因，WZ_KCZB的某一会计期间的上期结存有错。
+"
+PRC_WZ_KCZB_UPDATE	PROCEDURE	8	"  ||        重新生成WZ_KCZB的某一会计期间的上期结存。
+"
+PRC_WZ_KCZB_UPDATE	PROCEDURE	9	"  ||-----------------------------------------------------------------------------
+"
+PRC_WZ_KCZB_UPDATE	PROCEDURE	10	"  ||  参数：in_Xtxh   In   Number   -- 系统序号
+"
+PRC_WZ_KCZB_UPDATE	PROCEDURE	11	"  ||        in_Kjqj   In   Number   -- 会计期间
+"
+PRC_WZ_KCZB_UPDATE	PROCEDURE	12	"  ||-----------------------------------------------------------------------------
+"
+PRC_WZ_KCZB_UPDATE	PROCEDURE	13	"  ||  创建：陈智鸿 @ 2002-09-03
+"
+PRC_WZ_KCZB_UPDATE	PROCEDURE	14	"  ||-----------------------------------------------------------------------------
+"
+PRC_WZ_KCZB_UPDATE	PROCEDURE	15	"  ||  修改：无
+"
+PRC_WZ_KCZB_UPDATE	PROCEDURE	16	"  =============================================================================*/
+"
+PRC_WZ_KCZB_UPDATE	PROCEDURE	17	" Is
+"
+PRC_WZ_KCZB_UPDATE	PROCEDURE	18	"
+"
+PRC_WZ_KCZB_UPDATE	PROCEDURE	19	"  ln_OldDataCount Number; -- 旧数据个数
+"
+PRC_WZ_KCZB_UPDATE	PROCEDURE	20	"  ln_SqKjqj       Number; -- 上期会计期间
+"
+PRC_WZ_KCZB_UPDATE	PROCEDURE	21	"  lstr_Zy         VarChar2(50); -- 摘要
+"
+PRC_WZ_KCZB_UPDATE	PROCEDURE	22	"  ld_Jzrq         Date; -- 记帐日期
+"
+PRC_WZ_KCZB_UPDATE	PROCEDURE	23	"
+"
+PRC_WZ_KCZB_UPDATE	PROCEDURE	24	"  ln_Wzxh   Number; -- 物资序号
+"
+PRC_WZ_KCZB_UPDATE	PROCEDURE	25	"  ln_Jfsl   Number(14, 4); -- 借方数量
+"
+PRC_WZ_KCZB_UPDATE	PROCEDURE	26	"  ln_Jfje   Number(14, 4); -- 借方金额
+"
+PRC_WZ_KCZB_UPDATE	PROCEDURE	27	"  ln_Dfsl   Number(14, 4); -- 贷方数量
+"
+PRC_WZ_KCZB_UPDATE	PROCEDURE	28	"  ln_Dfje   Number(14, 4); -- 贷方金额
+"
+PRC_WZ_KCZB_UPDATE	PROCEDURE	29	"  ln_Jcsl   Number(14, 4); -- 结存数量
+"
+PRC_WZ_KCZB_UPDATE	PROCEDURE	30	"  ln_Jcje   Number(14, 4); -- 结存金额
+"
+PRC_WZ_KCZB_UPDATE	PROCEDURE	31	"  ln_Jcdj   Number(14, 4); -- 结存单价
+"
+PRC_WZ_KCZB_UPDATE	PROCEDURE	32	"  lstr_Ggxh VarChar2(30); -- 规格型号
+"
+PRC_WZ_KCZB_UPDATE	PROCEDURE	33	"  lstr_Wzbm VarChar2(10); -- 物资编码
+"
+PRC_WZ_KCZB_UPDATE	PROCEDURE	34	"  ln_KczbXh Number; -- 库存帐簿序号
+"
+PRC_WZ_KCZB_UPDATE	PROCEDURE	35	"  le_Err Exception; -- 错误退出
+"
+PRC_WZ_KCZB_UPDATE	PROCEDURE	36	"
+"
+PRC_WZ_KCZB_UPDATE	PROCEDURE	37	"  -- 定义库存帐簿期末结转游标
+"
+PRC_WZ_KCZB_UPDATE	PROCEDURE	38	"  Cursor lcur_Kczb Is
+"
+PRC_WZ_KCZB_UPDATE	PROCEDURE	39	"    Select wzxh, Sum(jfsl), Sum(jfje), Sum(dfsl), Sum(dfje)
+"
+PRC_WZ_KCZB_UPDATE	PROCEDURE	40	"      From wz_kczb
+"
+PRC_WZ_KCZB_UPDATE	PROCEDURE	41	"     Where xtxh = in_Xtxh
+"
+PRC_WZ_KCZB_UPDATE	PROCEDURE	42	"       And kjqj = ln_SqKjqj
+"
+PRC_WZ_KCZB_UPDATE	PROCEDURE	43	"       And zblx = in_zblx
+"
+PRC_WZ_KCZB_UPDATE	PROCEDURE	44	"     Group by wzxh;
+"
+PRC_WZ_KCZB_UPDATE	PROCEDURE	45	"
+"
+PRC_WZ_KCZB_UPDATE	PROCEDURE	46	"Begin
+"
+PRC_WZ_KCZB_UPDATE	PROCEDURE	47	"
+"
+PRC_WZ_KCZB_UPDATE	PROCEDURE	48	"  -- 参数判断
+"
+PRC_WZ_KCZB_UPDATE	PROCEDURE	49	"  If in_Xtxh <> 28 And in_Xtxh <> 29 Then
+"
+PRC_WZ_KCZB_UPDATE	PROCEDURE	50	"    Raise le_Err;
+"
+PRC_WZ_KCZB_UPDATE	PROCEDURE	51	"  End If;
+"
+PRC_WZ_KCZB_UPDATE	PROCEDURE	52	"
+"
+PRC_WZ_KCZB_UPDATE	PROCEDURE	53	"  If Mod(in_Kjqj, 100) < 1 Or Mod(in_Kjqj, 100) > 12 Then
+"
+PRC_WZ_KCZB_UPDATE	PROCEDURE	54	"    Raise le_Err;
+"
+PRC_WZ_KCZB_UPDATE	PROCEDURE	55	"  End If;
+"
+PRC_WZ_KCZB_UPDATE	PROCEDURE	56	"
+"
+PRC_WZ_KCZB_UPDATE	PROCEDURE	57	"  -- 设置上期会计期间、记帐日期和摘要
+"
+PRC_WZ_KCZB_UPDATE	PROCEDURE	58	"  If Mod(in_Kjqj, 100) = 1 Then
+"
+PRC_WZ_KCZB_UPDATE	PROCEDURE	59	"    ln_SqKjqj := (Trunc(in_Kjqj / 100) - 1) * 100 + 12;
+"
+PRC_WZ_KCZB_UPDATE	PROCEDURE	60	"  Else
+"
+PRC_WZ_KCZB_UPDATE	PROCEDURE	61	"    ln_SqKjqj := in_Kjqj - 1;
+"
+PRC_WZ_KCZB_UPDATE	PROCEDURE	62	"  End If;
+"
+PRC_WZ_KCZB_UPDATE	PROCEDURE	63	"
+"
+PRC_WZ_KCZB_UPDATE	PROCEDURE	64	"  Select jsrq
+"
+PRC_WZ_KCZB_UPDATE	PROCEDURE	65	"    Into ld_Jzrq
+"
+PRC_WZ_KCZB_UPDATE	PROCEDURE	66	"    From wz_kjrl
+"
+PRC_WZ_KCZB_UPDATE	PROCEDURE	67	"   Where xtxh = in_Xtxh
+"
+PRC_WZ_KCZB_UPDATE	PROCEDURE	68	"     And kjqj = ln_SqKjqj;
+"
+PRC_WZ_KCZB_UPDATE	PROCEDURE	69	"
+"
+PRC_WZ_KCZB_UPDATE	PROCEDURE	70	"  If SQL%RowCount <> 1 Then
+"
+PRC_WZ_KCZB_UPDATE	PROCEDURE	71	"    DBMS_OutPut.Put_Line('执行结果：取记帐时间失败！');
+"
+PRC_WZ_KCZB_UPDATE	PROCEDURE	72	"    Raise le_Err;
+"
+PRC_WZ_KCZB_UPDATE	PROCEDURE	73	"  End If;
+"
+PRC_WZ_KCZB_UPDATE	PROCEDURE	74	"
+"
+PRC_WZ_KCZB_UPDATE	PROCEDURE	75	"  lstr_Zy := '※上期结转※';
+"
+PRC_WZ_KCZB_UPDATE	PROCEDURE	76	"
+"
+PRC_WZ_KCZB_UPDATE	PROCEDURE	77	"   -- 判断是否有期初数据
+"
+PRC_WZ_KCZB_UPDATE	PROCEDURE	78	"    Select Count(*)
+"
+PRC_WZ_KCZB_UPDATE	PROCEDURE	79	"      Into ln_OldDataCount
+"
+PRC_WZ_KCZB_UPDATE	PROCEDURE	80	"      From wz_kczb
+"
+PRC_WZ_KCZB_UPDATE	PROCEDURE	81	"     Where xtxh = in_Xtxh
+"
+PRC_WZ_KCZB_UPDATE	PROCEDURE	82	"       And kjqj = in_Kjqj
+"
+PRC_WZ_KCZB_UPDATE	PROCEDURE	83	"       And zblx = in_Zblx
+"
+PRC_WZ_KCZB_UPDATE	PROCEDURE	84	"       And xz = 0;
+"
+PRC_WZ_KCZB_UPDATE	PROCEDURE	85	"
+"
+PRC_WZ_KCZB_UPDATE	PROCEDURE	86	"    -- 有旧数据
+"
+PRC_WZ_KCZB_UPDATE	PROCEDURE	87	"    If ln_OldDataCount <> 0 Then
+"
+PRC_WZ_KCZB_UPDATE	PROCEDURE	88	"
+"
+PRC_WZ_KCZB_UPDATE	PROCEDURE	89	"      -- 删除旧数据
+"
+PRC_WZ_KCZB_UPDATE	PROCEDURE	90	"      Delete From wz_kczb
+"
+PRC_WZ_KCZB_UPDATE	PROCEDURE	91	"       Where xtxh = in_Xtxh
+"
+PRC_WZ_KCZB_UPDATE	PROCEDURE	92	"         And kjqj = in_Kjqj
+"
+PRC_WZ_KCZB_UPDATE	PROCEDURE	93	"         And zblx = in_Zblx
+"
+PRC_WZ_KCZB_UPDATE	PROCEDURE	94	"         And xz = 0;
+"
+PRC_WZ_KCZB_UPDATE	PROCEDURE	95	"
+"
+PRC_WZ_KCZB_UPDATE	PROCEDURE	96	"      If SQL%RowCount <= 0 Then
+"
+PRC_WZ_KCZB_UPDATE	PROCEDURE	97	"        DBMS_OutPut.Put_Line('执行结果：删除 wz_kczb 上期结存数据失败！');
+"
+PRC_WZ_KCZB_UPDATE	PROCEDURE	98	"        Raise le_Err;
+"
+PRC_WZ_KCZB_UPDATE	PROCEDURE	99	"      End If;
+"
+PRC_WZ_KCZB_UPDATE	PROCEDURE	100	"     End If;
+"
+PRC_WZ_KCZB_UPDATE	PROCEDURE	101	"    -- 打开库存帐簿期初数据游标
+"
+PRC_WZ_KCZB_UPDATE	PROCEDURE	102	"    Open lcur_Kczb;
+"
+PRC_WZ_KCZB_UPDATE	PROCEDURE	103	"    Loop
+"
+PRC_WZ_KCZB_UPDATE	PROCEDURE	104	"      -- 得到上期库存信息
+"
+PRC_WZ_KCZB_UPDATE	PROCEDURE	105	"      Fetch lcur_Kczb
+"
+PRC_WZ_KCZB_UPDATE	PROCEDURE	106	"        Into ln_Wzxh, ln_Jfsl, ln_Jfje, ln_Dfsl, ln_Dfje;
+"
+PRC_WZ_KCZB_UPDATE	PROCEDURE	107	"      Exit When lcur_Kczb%NotFound;
+"
+PRC_WZ_KCZB_UPDATE	PROCEDURE	108	"
+"
+PRC_WZ_KCZB_UPDATE	PROCEDURE	109	"      -- 通过WZXH得到GGXH和WZBM
+"
+PRC_WZ_KCZB_UPDATE	PROCEDURE	110	"      Select ggxh, wzbm
+"
+PRC_WZ_KCZB_UPDATE	PROCEDURE	111	"        Into lstr_Ggxh, lstr_Wzbm
+"
+PRC_WZ_KCZB_UPDATE	PROCEDURE	112	"        From wz_mcgg
+"
+PRC_WZ_KCZB_UPDATE	PROCEDURE	113	"       Where xtxh = in_Xtxh
+"
+PRC_WZ_KCZB_UPDATE	PROCEDURE	114	"         And xh = ln_Wzxh;
+"
+PRC_WZ_KCZB_UPDATE	PROCEDURE	115	"
+"
+PRC_WZ_KCZB_UPDATE	PROCEDURE	116	"      If SQL%RowCount <> 1 Then
+"
+PRC_WZ_KCZB_UPDATE	PROCEDURE	117	"        DBMS_OutPut.Put_Line('执行结果：取 wz_mcgg 规格型号和物资编码失败！');
+"
+PRC_WZ_KCZB_UPDATE	PROCEDURE	118	"        Raise le_Err;
+"
+PRC_WZ_KCZB_UPDATE	PROCEDURE	119	"      End If;
+"
+PRC_WZ_KCZB_UPDATE	PROCEDURE	120	"
+"
+PRC_WZ_KCZB_UPDATE	PROCEDURE	121	"      -- 计算JCSL,JCJE,JCDJ
+"
+PRC_WZ_KCZB_UPDATE	PROCEDURE	122	"      ln_Jcsl := ln_Jfsl - ln_Dfsl;
+"
+PRC_WZ_KCZB_UPDATE	PROCEDURE	123	"      ln_Jcje := ln_Jfje - ln_Dfje;
+"
+PRC_WZ_KCZB_UPDATE	PROCEDURE	124	"
+"
+PRC_WZ_KCZB_UPDATE	PROCEDURE	125	"      If ln_Jcsl <> 0 Then
+"
+PRC_WZ_KCZB_UPDATE	PROCEDURE	126	"
+"
+PRC_WZ_KCZB_UPDATE	PROCEDURE	127	"        ln_Jcdj := Round(ln_Jcje / ln_Jcsl, 4);
+"
+PRC_WZ_KCZB_UPDATE	PROCEDURE	128	"
+"
+PRC_WZ_KCZB_UPDATE	PROCEDURE	129	"        -- 取库存帐簿序号
+"
+PRC_WZ_KCZB_UPDATE	PROCEDURE	130	"        Update wz_xh
+"
+PRC_WZ_KCZB_UPDATE	PROCEDURE	131	"           Set dqz = dqz + 1
+"
+PRC_WZ_KCZB_UPDATE	PROCEDURE	132	"         Where xtxh = in_Xtxh
+"
+PRC_WZ_KCZB_UPDATE	PROCEDURE	133	"           And bm = 'WZ_KCZB';
+"
+PRC_WZ_KCZB_UPDATE	PROCEDURE	134	"
+"
+PRC_WZ_KCZB_UPDATE	PROCEDURE	135	"        Select dqz
+"
+PRC_WZ_KCZB_UPDATE	PROCEDURE	136	"          Into ln_KczbXh
+"
+PRC_WZ_KCZB_UPDATE	PROCEDURE	137	"          From wz_xh
+"
+PRC_WZ_KCZB_UPDATE	PROCEDURE	138	"         Where xtxh = in_Xtxh
+"
+PRC_WZ_KCZB_UPDATE	PROCEDURE	139	"           And bm = 'WZ_KCZB';
+"
+PRC_WZ_KCZB_UPDATE	PROCEDURE	140	"
+"
+PRC_WZ_KCZB_UPDATE	PROCEDURE	141	"        If SQL%RowCount <> 1 Then
+"
+PRC_WZ_KCZB_UPDATE	PROCEDURE	142	"          DBMS_OutPut.Put_Line('执行结果：取序号失败！');
+"
+PRC_WZ_KCZB_UPDATE	PROCEDURE	143	"          Raise le_Err;
+"
+PRC_WZ_KCZB_UPDATE	PROCEDURE	144	"        End If;
+"
+PRC_WZ_KCZB_UPDATE	PROCEDURE	145	"
+"
+PRC_WZ_KCZB_UPDATE	PROCEDURE	146	"        -- 向WZ_KCZB中插入数据
+"
+PRC_WZ_KCZB_UPDATE	PROCEDURE	147	"        Insert Into wz_kczb
+"
+PRC_WZ_KCZB_UPDATE	PROCEDURE	148	"          (xtxh,
+"
+PRC_WZ_KCZB_UPDATE	PROCEDURE	149	"           xh,
+"
+PRC_WZ_KCZB_UPDATE	PROCEDURE	150	"           zblx,
+"
+PRC_WZ_KCZB_UPDATE	PROCEDURE	151	"           wzxh,
+"
+PRC_WZ_KCZB_UPDATE	PROCEDURE	152	"           wzbm,
+"
+PRC_WZ_KCZB_UPDATE	PROCEDURE	153	"           ggxh,
+"
+PRC_WZ_KCZB_UPDATE	PROCEDURE	154	"           jzrq,
+"
+PRC_WZ_KCZB_UPDATE	PROCEDURE	155	"           jfsl,
+"
+PRC_WZ_KCZB_UPDATE	PROCEDURE	156	"           jfdj,
+"
+PRC_WZ_KCZB_UPDATE	PROCEDURE	157	"           jfje,
+"
+PRC_WZ_KCZB_UPDATE	PROCEDURE	158	"           dfsl,
+"
+PRC_WZ_KCZB_UPDATE	PROCEDURE	159	"           dfdj,
+"
+PRC_WZ_KCZB_UPDATE	PROCEDURE	160	"           dfje,
+"
+PRC_WZ_KCZB_UPDATE	PROCEDURE	161	"           jcsl,
+"
+PRC_WZ_KCZB_UPDATE	PROCEDURE	162	"           jcje,
+"
+PRC_WZ_KCZB_UPDATE	PROCEDURE	163	"           kjqj,
+"
+PRC_WZ_KCZB_UPDATE	PROCEDURE	164	"           zy,
+"
+PRC_WZ_KCZB_UPDATE	PROCEDURE	165	"           xz)
+"
+PRC_WZ_KCZB_UPDATE	PROCEDURE	166	"        Values
+"
+PRC_WZ_KCZB_UPDATE	PROCEDURE	167	"          (in_Xtxh,
+"
+PRC_WZ_KCZB_UPDATE	PROCEDURE	168	"           ln_KczbXh,
+"
+PRC_WZ_KCZB_UPDATE	PROCEDURE	169	"           in_Zblx,
+"
+PRC_WZ_KCZB_UPDATE	PROCEDURE	170	"           ln_Wzxh,
+"
+PRC_WZ_KCZB_UPDATE	PROCEDURE	171	"           lstr_Wzbm,
+"
+PRC_WZ_KCZB_UPDATE	PROCEDURE	172	"           lstr_Ggxh,
+"
+PRC_WZ_KCZB_UPDATE	PROCEDURE	173	"           ld_Jzrq,
+"
+PRC_WZ_KCZB_UPDATE	PROCEDURE	174	"           ln_Jcsl,
+"
+PRC_WZ_KCZB_UPDATE	PROCEDURE	175	"           ln_Jcdj,
+"
+PRC_WZ_KCZB_UPDATE	PROCEDURE	176	"           ln_Jcje,
+"
+PRC_WZ_KCZB_UPDATE	PROCEDURE	177	"           0,
+"
+PRC_WZ_KCZB_UPDATE	PROCEDURE	178	"           0,
+"
+PRC_WZ_KCZB_UPDATE	PROCEDURE	179	"           0,
+"
+PRC_WZ_KCZB_UPDATE	PROCEDURE	180	"           ln_Jcsl,
+"
+PRC_WZ_KCZB_UPDATE	PROCEDURE	181	"           ln_Jcje,
+"
+PRC_WZ_KCZB_UPDATE	PROCEDURE	182	"           in_Kjqj,
+"
+PRC_WZ_KCZB_UPDATE	PROCEDURE	183	"           lstr_Zy,
+"
+PRC_WZ_KCZB_UPDATE	PROCEDURE	184	"           0);
+"
+PRC_WZ_KCZB_UPDATE	PROCEDURE	185	"      Else
+"
+PRC_WZ_KCZB_UPDATE	PROCEDURE	186	"        ln_Jcdj := 0;
+"
+PRC_WZ_KCZB_UPDATE	PROCEDURE	187	"      End If;
+"
+PRC_WZ_KCZB_UPDATE	PROCEDURE	188	"
+"
+PRC_WZ_KCZB_UPDATE	PROCEDURE	189	"    End Loop;
+"
+PRC_WZ_KCZB_UPDATE	PROCEDURE	190	"    Close lcur_Kczb;
+"
+PRC_WZ_KCZB_UPDATE	PROCEDURE	191	"
+"
+PRC_WZ_KCZB_UPDATE	PROCEDURE	192	"  --提交结果
+"
+PRC_WZ_KCZB_UPDATE	PROCEDURE	193	"COMMIT; DBMS_OutPut.Put_line('执行结果：重新生成WZ_KCZB！' || To_Char(in_kjqj) || '成功！');
+"
+PRC_WZ_KCZB_UPDATE	PROCEDURE	194	"
+"
+PRC_WZ_KCZB_UPDATE	PROCEDURE	195	"Exception
+"
+PRC_WZ_KCZB_UPDATE	PROCEDURE	196	"
+"
+PRC_WZ_KCZB_UPDATE	PROCEDURE	197	"When le_Err Then Rollback;
+"
+PRC_WZ_KCZB_UPDATE	PROCEDURE	198	"
+"
+PRC_WZ_KCZB_UPDATE	PROCEDURE	199	"When OTHERS Then Rollback; DBMS_OutPut.Put_Line('执行结果：失败！' || SQLErrm);
+"
+PRC_WZ_KCZB_UPDATE	PROCEDURE	200	"
+"
+PRC_WZ_KCZB_UPDATE	PROCEDURE	201	"End prc_wz_kczb_update;
+"
+PRC_WZ_KCZB_UPDATE	PROCEDURE	202	"
+"
+PRC_WZ_KCZB_UPDATE	PROCEDURE	203	 

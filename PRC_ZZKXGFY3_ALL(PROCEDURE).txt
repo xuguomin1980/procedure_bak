@@ -1,0 +1,538 @@
+PRC_ZZKXGFY3_ALL	PROCEDURE	1	"PROCEDURE ""PRC_ZZKXGFY3_ALL""(sctmid   in VARCHAR,
+"
+PRC_ZZKXGFY3_ALL	PROCEDURE	2	"                                               sctmxm   in VARCHAR,
+"
+PRC_ZZKXGFY3_ALL	PROCEDURE	3	"                                               ret_code out INTEGER,
+"
+PRC_ZZKXGFY3_ALL	PROCEDURE	4	"                                               ret_info out VARCHAR) AS
+"
+PRC_ZZKXGFY3_ALL	PROCEDURE	5	"  ----自助机开立新冠
+"
+PRC_ZZKXGFY3_ALL	PROCEDURE	6	"  v_yjsb      number(10);
+"
+PRC_ZZKXGFY3_ALL	PROCEDURE	7	"  v_count     number(10);
+"
+PRC_ZZKXGFY3_ALL	PROCEDURE	8	"  v_jlxh      number(12);
+"
+PRC_ZZKXGFY3_ALL	PROCEDURE	9	"  v_csrq_max  varchar2(20);
+"
+PRC_ZZKXGFY3_ALL	PROCEDURE	10	"  v_csrq_min  varchar2(20);
+"
+PRC_ZZKXGFY3_ALL	PROCEDURE	11	"  v_pbjlxh    number(20);
+"
+PRC_ZZKXGFY3_ALL	PROCEDURE	12	"  v_rq_sj     varchar2(20);
+"
+PRC_ZZKXGFY3_ALL	PROCEDURE	13	"  v_sjlb      number(3);
+"
+PRC_ZZKXGFY3_ALL	PROCEDURE	14	"  sysdate_now date;
+"
+PRC_ZZKXGFY3_ALL	PROCEDURE	15	"BEGIN
+"
+PRC_ZZKXGFY3_ALL	PROCEDURE	16	"
+"
+PRC_ZZKXGFY3_ALL	PROCEDURE	17	"  select sysdate into sysdate_now from dual;
+"
+PRC_ZZKXGFY3_ALL	PROCEDURE	18	"
+"
+PRC_ZZKXGFY3_ALL	PROCEDURE	19	"  insert into zy_jiaoyi_v1
+"
+PRC_ZZKXGFY3_ALL	PROCEDURE	20	"    (jiaoyilx, bz)
+"
+PRC_ZZKXGFY3_ALL	PROCEDURE	21	"    select '本院职工排查', 'PRC_ZZKXGFY3_ALL' from dual;
+"
+PRC_ZZKXGFY3_ALL	PROCEDURE	22	"  commit;
+"
+PRC_ZZKXGFY3_ALL	PROCEDURE	23	"
+"
+PRC_ZZKXGFY3_ALL	PROCEDURE	24	"  merge into gy_brjbxxk t
+"
+PRC_ZZKXGFY3_ALL	PROCEDURE	25	"  using (select zgid,
+"
+PRC_ZZKXGFY3_ALL	PROCEDURE	26	"                xm,
+"
+PRC_ZZKXGFY3_ALL	PROCEDURE	27	"                decode(trim(xb), '女', 2, 1) xb,
+"
+PRC_ZZKXGFY3_ALL	PROCEDURE	28	"                XZZ,
+"
+PRC_ZZKXGFY3_ALL	PROCEDURE	29	"                lxdh,
+"
+PRC_ZZKXGFY3_ALL	PROCEDURE	30	"                substr(sfzh, 1, 18) sfzh,
+"
+PRC_ZZKXGFY3_ALL	PROCEDURE	31	"                row_number() over(partition by zgid order by zgcrsj DESC) rn
+"
+PRC_ZZKXGFY3_ALL	PROCEDURE	32	"           from ywzxyy_zgxx_oa
+"
+PRC_ZZKXGFY3_ALL	PROCEDURE	33	"          where nvl(flag, 0) = 0
+"
+PRC_ZZKXGFY3_ALL	PROCEDURE	34	"            and zgid = '622010') np
+"
+PRC_ZZKXGFY3_ALL	PROCEDURE	35	"  on (t.jzkh = 'BY' || np.ZGID and t.jzkh like 'BY%')
+"
+PRC_ZZKXGFY3_ALL	PROCEDURE	36	"  when matched then
+"
+PRC_ZZKXGFY3_ALL	PROCEDURE	37	"    update
+"
+PRC_ZZKXGFY3_ALL	PROCEDURE	38	"       set t.xm   = np.xm,
+"
+PRC_ZZKXGFY3_ALL	PROCEDURE	39	"           t.xb   = np.xb,
+"
+PRC_ZZKXGFY3_ALL	PROCEDURE	40	"           t.jtzz = np.XZZ,
+"
+PRC_ZZKXGFY3_ALL	PROCEDURE	41	"           t.lxdh = np.lxdh,
+"
+PRC_ZZKXGFY3_ALL	PROCEDURE	42	"           t.sfzh = np.sfzh
+"
+PRC_ZZKXGFY3_ALL	PROCEDURE	43	"  when not matched then
+"
+PRC_ZZKXGFY3_ALL	PROCEDURE	44	"    insert
+"
+PRC_ZZKXGFY3_ALL	PROCEDURE	45	"      (T.JZKH,
+"
+PRC_ZZKXGFY3_ALL	PROCEDURE	46	"       t.jzcs,
+"
+PRC_ZZKXGFY3_ALL	PROCEDURE	47	"       t.zycs,
+"
+PRC_ZZKXGFY3_ALL	PROCEDURE	48	"       t.xm,
+"
+PRC_ZZKXGFY3_ALL	PROCEDURE	49	"       t.xb,
+"
+PRC_ZZKXGFY3_ALL	PROCEDURE	50	"       t.brxzdm,
+"
+PRC_ZZKXGFY3_ALL	PROCEDURE	51	"       t.brlb,
+"
+PRC_ZZKXGFY3_ALL	PROCEDURE	52	"       t.jtzz,
+"
+PRC_ZZKXGFY3_ALL	PROCEDURE	53	"       t.lxdh,
+"
+PRC_ZZKXGFY3_ALL	PROCEDURE	54	"       t.dwmc,
+"
+PRC_ZZKXGFY3_ALL	PROCEDURE	55	"       t.sfzh,
+"
+PRC_ZZKXGFY3_ALL	PROCEDURE	56	"       t.ldrq,
+"
+PRC_ZZKXGFY3_ALL	PROCEDURE	57	"       gj,
+"
+PRC_ZZKXGFY3_ALL	PROCEDURE	58	"       mz,
+"
+PRC_ZZKXGFY3_ALL	PROCEDURE	59	"       sfdm,
+"
+PRC_ZZKXGFY3_ALL	PROCEDURE	60	"       jgdm,
+"
+PRC_ZZKXGFY3_ALL	PROCEDURE	61	"       ldrgh)
+"
+PRC_ZZKXGFY3_ALL	PROCEDURE	62	"    values
+"
+PRC_ZZKXGFY3_ALL	PROCEDURE	63	"      ('BY' || np.zgid,
+"
+PRC_ZZKXGFY3_ALL	PROCEDURE	64	"       0,
+"
+PRC_ZZKXGFY3_ALL	PROCEDURE	65	"       0,
+"
+PRC_ZZKXGFY3_ALL	PROCEDURE	66	"       np.xm,
+"
+PRC_ZZKXGFY3_ALL	PROCEDURE	67	"       np.xb,
+"
+PRC_ZZKXGFY3_ALL	PROCEDURE	68	"       '1',
+"
+PRC_ZZKXGFY3_ALL	PROCEDURE	69	"       '1',
+"
+PRC_ZZKXGFY3_ALL	PROCEDURE	70	"       np.XZZ,
+"
+PRC_ZZKXGFY3_ALL	PROCEDURE	71	"       np.lxdh,
+"
+PRC_ZZKXGFY3_ALL	PROCEDURE	72	"       '义乌市中心医院',
+"
+PRC_ZZKXGFY3_ALL	PROCEDURE	73	"       np.sfzh,
+"
+PRC_ZZKXGFY3_ALL	PROCEDURE	74	"       sysdate_now,
+"
+PRC_ZZKXGFY3_ALL	PROCEDURE	75	"       40,
+"
+PRC_ZZKXGFY3_ALL	PROCEDURE	76	"       1,
+"
+PRC_ZZKXGFY3_ALL	PROCEDURE	77	"       11,
+"
+PRC_ZZKXGFY3_ALL	PROCEDURE	78	"       651,
+"
+PRC_ZZKXGFY3_ALL	PROCEDURE	79	"       'DBA');
+"
+PRC_ZZKXGFY3_ALL	PROCEDURE	80	"
+"
+PRC_ZZKXGFY3_ALL	PROCEDURE	81	"  if sqlcode = 0 then
+"
+PRC_ZZKXGFY3_ALL	PROCEDURE	82	"    commit;
+"
+PRC_ZZKXGFY3_ALL	PROCEDURE	83	"  else
+"
+PRC_ZZKXGFY3_ALL	PROCEDURE	84	"    rollback;
+"
+PRC_ZZKXGFY3_ALL	PROCEDURE	85	"    ret_code := -1;
+"
+PRC_ZZKXGFY3_ALL	PROCEDURE	86	"    ret_info := '插入gy_brjbxxk失败[ZZKXGFY3_all]';
+"
+PRC_ZZKXGFY3_ALL	PROCEDURE	87	"    return;
+"
+PRC_ZZKXGFY3_ALL	PROCEDURE	88	"  
+"
+PRC_ZZKXGFY3_ALL	PROCEDURE	89	"  end if;
+"
+PRC_ZZKXGFY3_ALL	PROCEDURE	90	"
+"
+PRC_ZZKXGFY3_ALL	PROCEDURE	91	"  insert into l_laborder o
+"
+PRC_ZZKXGFY3_ALL	PROCEDURE	92	"    (o.laborder,
+"
+PRC_ZZKXGFY3_ALL	PROCEDURE	93	"     o.laborderorg,
+"
+PRC_ZZKXGFY3_ALL	PROCEDURE	94	"     o.stayhospitalmode,
+"
+PRC_ZZKXGFY3_ALL	PROCEDURE	95	"     o.patientid,
+"
+PRC_ZZKXGFY3_ALL	PROCEDURE	96	"     o.sex,
+"
+PRC_ZZKXGFY3_ALL	PROCEDURE	97	"     o.currentdepartment,
+"
+PRC_ZZKXGFY3_ALL	PROCEDURE	98	"     o.specimen,
+"
+PRC_ZZKXGFY3_ALL	PROCEDURE	99	"     o.examitem,
+"
+PRC_ZZKXGFY3_ALL	PROCEDURE	100	"     o.testdescribe,
+"
+PRC_ZZKXGFY3_ALL	PROCEDURE	101	"     o.patientname,
+"
+PRC_ZZKXGFY3_ALL	PROCEDURE	102	"     o.printflag,
+"
+PRC_ZZKXGFY3_ALL	PROCEDURE	103	"     o.receiveflag,
+"
+PRC_ZZKXGFY3_ALL	PROCEDURE	104	"     o.typeflag,
+"
+PRC_ZZKXGFY3_ALL	PROCEDURE	105	"     o.requester,
+"
+PRC_ZZKXGFY3_ALL	PROCEDURE	106	"     o.requestetime,
+"
+PRC_ZZKXGFY3_ALL	PROCEDURE	107	"     o.labdepartment,
+"
+PRC_ZZKXGFY3_ALL	PROCEDURE	108	"     o.diagnostic,
+"
+PRC_ZZKXGFY3_ALL	PROCEDURE	109	"     o.feestatus,
+"
+PRC_ZZKXGFY3_ALL	PROCEDURE	110	"     O.KEZHIXBZ
+"
+PRC_ZZKXGFY3_ALL	PROCEDURE	111	"     -- ,     o.birthday
+"
+PRC_ZZKXGFY3_ALL	PROCEDURE	112	"     )
+"
+PRC_ZZKXGFY3_ALL	PROCEDURE	113	"    select seq_l_tiaomahao.nextval,
+"
+PRC_ZZKXGFY3_ALL	PROCEDURE	114	"           8,
+"
+PRC_ZZKXGFY3_ALL	PROCEDURE	115	"           1,
+"
+PRC_ZZKXGFY3_ALL	PROCEDURE	116	"           'BY' || zgid,
+"
+PRC_ZZKXGFY3_ALL	PROCEDURE	117	"           xbid,
+"
+PRC_ZZKXGFY3_ALL	PROCEDURE	118	"           ksdm,
+"
+PRC_ZZKXGFY3_ALL	PROCEDURE	119	"           (select yblx from gy_ylsf where ylxh = 31978),
+"
+PRC_ZZKXGFY3_ALL	PROCEDURE	120	"           (select ylmc from gy_ylsf where ylxh = 31978),
+"
+PRC_ZZKXGFY3_ALL	PROCEDURE	121	"           '31978',
+"
+PRC_ZZKXGFY3_ALL	PROCEDURE	122	"           xm,
+"
+PRC_ZZKXGFY3_ALL	PROCEDURE	123	"           0,
+"
+PRC_ZZKXGFY3_ALL	PROCEDURE	124	"           0,
+"
+PRC_ZZKXGFY3_ALL	PROCEDURE	125	"           0,
+"
+PRC_ZZKXGFY3_ALL	PROCEDURE	126	"           '10261',
+"
+PRC_ZZKXGFY3_ALL	PROCEDURE	127	"           sysdate_now,
+"
+PRC_ZZKXGFY3_ALL	PROCEDURE	128	"           '3020005',
+"
+PRC_ZZKXGFY3_ALL	PROCEDURE	129	"           '排查0',
+"
+PRC_ZZKXGFY3_ALL	PROCEDURE	130	"           6,
+"
+PRC_ZZKXGFY3_ALL	PROCEDURE	131	"           1
+"
+PRC_ZZKXGFY3_ALL	PROCEDURE	132	"    -- , to_date(substr(sfzh, 7, 8), 'yyyymmdd')
+"
+PRC_ZZKXGFY3_ALL	PROCEDURE	133	"      from ywzxyy_zgxx_OA
+"
+PRC_ZZKXGFY3_ALL	PROCEDURE	134	"     where
+"
+PRC_ZZKXGFY3_ALL	PROCEDURE	135	"    
+"
+PRC_ZZKXGFY3_ALL	PROCEDURE	136	"     rowid in (select id
+"
+PRC_ZZKXGFY3_ALL	PROCEDURE	137	"                 from (select 'BY' || zgid, min(rowid) id
+"
+PRC_ZZKXGFY3_ALL	PROCEDURE	138	"                       
+"
+PRC_ZZKXGFY3_ALL	PROCEDURE	139	"                         from ywzxyy_zgxx_oa
+"
+PRC_ZZKXGFY3_ALL	PROCEDURE	140	"                        where
+"
+PRC_ZZKXGFY3_ALL	PROCEDURE	141	"                       --trunc(ZGCRSJ) = trunc(sysdate)                          and
+"
+PRC_ZZKXGFY3_ALL	PROCEDURE	142	"                        nvl(FLAG, 0) = 0
+"
+PRC_ZZKXGFY3_ALL	PROCEDURE	143	"                        group by 'BY' || zgid));
+"
+PRC_ZZKXGFY3_ALL	PROCEDURE	144	"
+"
+PRC_ZZKXGFY3_ALL	PROCEDURE	145	"  if sqlcode = 0 then
+"
+PRC_ZZKXGFY3_ALL	PROCEDURE	146	"    NULL;
+"
+PRC_ZZKXGFY3_ALL	PROCEDURE	147	"  else
+"
+PRC_ZZKXGFY3_ALL	PROCEDURE	148	"    rollback;
+"
+PRC_ZZKXGFY3_ALL	PROCEDURE	149	"    ret_code := -1;
+"
+PRC_ZZKXGFY3_ALL	PROCEDURE	150	"    ret_info := '生成检验条码失败[ZZKXGFY3_all]';
+"
+PRC_ZZKXGFY3_ALL	PROCEDURE	151	"    return;
+"
+PRC_ZZKXGFY3_ALL	PROCEDURE	152	"  
+"
+PRC_ZZKXGFY3_ALL	PROCEDURE	153	"  end if;
+"
+PRC_ZZKXGFY3_ALL	PROCEDURE	154	"
+"
+PRC_ZZKXGFY3_ALL	PROCEDURE	155	"  update ywzxyy_zgxx_OA
+"
+PRC_ZZKXGFY3_ALL	PROCEDURE	156	"     set FLAG = 1, SCZGID = sctmid, SCZGxm = sctmxm, SCTMSJ = sysdate_now
+"
+PRC_ZZKXGFY3_ALL	PROCEDURE	157	"   where nvl(FLAG, 0) = 0;
+"
+PRC_ZZKXGFY3_ALL	PROCEDURE	158	"
+"
+PRC_ZZKXGFY3_ALL	PROCEDURE	159	"  if sqlcode = 0 then
+"
+PRC_ZZKXGFY3_ALL	PROCEDURE	160	"    NULL;
+"
+PRC_ZZKXGFY3_ALL	PROCEDURE	161	"  else
+"
+PRC_ZZKXGFY3_ALL	PROCEDURE	162	"    rollback;
+"
+PRC_ZZKXGFY3_ALL	PROCEDURE	163	"    ret_code := -1;
+"
+PRC_ZZKXGFY3_ALL	PROCEDURE	164	"    ret_info := '更新flag[ywzxyy_zgxx_OA]失败，[ZZKXGFY3_all]';
+"
+PRC_ZZKXGFY3_ALL	PROCEDURE	165	"    return;
+"
+PRC_ZZKXGFY3_ALL	PROCEDURE	166	"  end if;
+"
+PRC_ZZKXGFY3_ALL	PROCEDURE	167	"
+"
+PRC_ZZKXGFY3_ALL	PROCEDURE	168	"  commit;
+"
+PRC_ZZKXGFY3_ALL	PROCEDURE	169	"
+"
+PRC_ZZKXGFY3_ALL	PROCEDURE	170	"  ret_code := 0;
+"
+PRC_ZZKXGFY3_ALL	PROCEDURE	171	"  ret_info := '生成检验条码成功';
+"
+PRC_ZZKXGFY3_ALL	PROCEDURE	172	"
+"
+PRC_ZZKXGFY3_ALL	PROCEDURE	173	"  --插入挂号记录
+"
+PRC_ZZKXGFY3_ALL	PROCEDURE	174	"  if 1 = 1 then
+"
+PRC_ZZKXGFY3_ALL	PROCEDURE	175	"  
+"
+PRC_ZZKXGFY3_ALL	PROCEDURE	176	"    select jlxh, to_char(sysdate, 'hh24')
+"
+PRC_ZZKXGFY3_ALL	PROCEDURE	177	"      into v_pbjlxh, v_rq_sj
+"
+PRC_ZZKXGFY3_ALL	PROCEDURE	178	"      From gh_mzpbk
+"
+PRC_ZZKXGFY3_ALL	PROCEDURE	179	"     where ksdm = '2900011'
+"
+PRC_ZZKXGFY3_ALL	PROCEDURE	180	"       and trunc(rq) = trunc(sysdate);
+"
+PRC_ZZKXGFY3_ALL	PROCEDURE	181	"    v_sjlb := 1;
+"
+PRC_ZZKXGFY3_ALL	PROCEDURE	182	"    if v_rq_sj >= '12' then
+"
+PRC_ZZKXGFY3_ALL	PROCEDURE	183	"      v_sjlb := 2;
+"
+PRC_ZZKXGFY3_ALL	PROCEDURE	184	"    end if;
+"
+PRC_ZZKXGFY3_ALL	PROCEDURE	185	"  
+"
+PRC_ZZKXGFY3_ALL	PROCEDURE	186	"    select count(*)
+"
+PRC_ZZKXGFY3_ALL	PROCEDURE	187	"      into v_count
+"
+PRC_ZZKXGFY3_ALL	PROCEDURE	188	"      from l_laborder
+"
+PRC_ZZKXGFY3_ALL	PROCEDURE	189	"     where requestetime >= trunc(sysdate)
+"
+PRC_ZZKXGFY3_ALL	PROCEDURE	190	"       and requestetime <= trunc(sysdate + 1)
+"
+PRC_ZZKXGFY3_ALL	PROCEDURE	191	"       and patientid like 'BY%'
+"
+PRC_ZZKXGFY3_ALL	PROCEDURE	192	"       and patientid not in (select jzkh
+"
+PRC_ZZKXGFY3_ALL	PROCEDURE	193	"                               from gh_ghk
+"
+PRC_ZZKXGFY3_ALL	PROCEDURE	194	"                              where ghrq >= trunc(sysdate)
+"
+PRC_ZZKXGFY3_ALL	PROCEDURE	195	"                                and ghrq <= trunc(sysdate + 1)
+"
+PRC_ZZKXGFY3_ALL	PROCEDURE	196	"                                and ghxh = 999);
+"
+PRC_ZZKXGFY3_ALL	PROCEDURE	197	"    if v_count > 0 then
+"
+PRC_ZZKXGFY3_ALL	PROCEDURE	198	"    
+"
+PRC_ZZKXGFY3_ALL	PROCEDURE	199	"      update gy_xhb set dqz = dqz + zz + v_count where bm = 'GH_GHK';
+"
+PRC_ZZKXGFY3_ALL	PROCEDURE	200	"      commit;
+"
+PRC_ZZKXGFY3_ALL	PROCEDURE	201	"      select dqz - v_count into v_jlxh from gy_xhb where bm = 'GH_GHK';
+"
+PRC_ZZKXGFY3_ALL	PROCEDURE	202	"    
+"
+PRC_ZZKXGFY3_ALL	PROCEDURE	203	"      insert into gh_ghk
+"
+PRC_ZZKXGFY3_ALL	PROCEDURE	204	"        (jlxh,
+"
+PRC_ZZKXGFY3_ALL	PROCEDURE	205	"         jzkh,
+"
+PRC_ZZKXGFY3_ALL	PROCEDURE	206	"         jzcs,
+"
+PRC_ZZKXGFY3_ALL	PROCEDURE	207	"         brxm,
+"
+PRC_ZZKXGFY3_ALL	PROCEDURE	208	"         brlb,
+"
+PRC_ZZKXGFY3_ALL	PROCEDURE	209	"         brxz,
+"
+PRC_ZZKXGFY3_ALL	PROCEDURE	210	"         mzlbxh,
+"
+PRC_ZZKXGFY3_ALL	PROCEDURE	211	"         pbxh,
+"
+PRC_ZZKXGFY3_ALL	PROCEDURE	212	"         ksdm,
+"
+PRC_ZZKXGFY3_ALL	PROCEDURE	213	"         ghrq,
+"
+PRC_ZZKXGFY3_ALL	PROCEDURE	214	"         ghxh,
+"
+PRC_ZZKXGFY3_ALL	PROCEDURE	215	"         ysgh,
+"
+PRC_ZZKXGFY3_ALL	PROCEDURE	216	"         sjlb,
+"
+PRC_ZZKXGFY3_ALL	PROCEDURE	217	"         ghf,
+"
+PRC_ZZKXGFY3_ALL	PROCEDURE	218	"         zlf,
+"
+PRC_ZZKXGFY3_ALL	PROCEDURE	219	"         zlfds,
+"
+PRC_ZZKXGFY3_ALL	PROCEDURE	220	"         czgh,
+"
+PRC_ZZKXGFY3_ALL	PROCEDURE	221	"         thbz,
+"
+PRC_ZZKXGFY3_ALL	PROCEDURE	222	"         czrq)
+"
+PRC_ZZKXGFY3_ALL	PROCEDURE	223	"        select v_jlxh + rownum,
+"
+PRC_ZZKXGFY3_ALL	PROCEDURE	224	"               patientid,
+"
+PRC_ZZKXGFY3_ALL	PROCEDURE	225	"               0,
+"
+PRC_ZZKXGFY3_ALL	PROCEDURE	226	"               patientname,
+"
+PRC_ZZKXGFY3_ALL	PROCEDURE	227	"               1,
+"
+PRC_ZZKXGFY3_ALL	PROCEDURE	228	"               1,
+"
+PRC_ZZKXGFY3_ALL	PROCEDURE	229	"               1,
+"
+PRC_ZZKXGFY3_ALL	PROCEDURE	230	"               v_pbjlxh,
+"
+PRC_ZZKXGFY3_ALL	PROCEDURE	231	"               '2900011',
+"
+PRC_ZZKXGFY3_ALL	PROCEDURE	232	"               sysdate,
+"
+PRC_ZZKXGFY3_ALL	PROCEDURE	233	"               999,
+"
+PRC_ZZKXGFY3_ALL	PROCEDURE	234	"               null,
+"
+PRC_ZZKXGFY3_ALL	PROCEDURE	235	"               v_sjlb,
+"
+PRC_ZZKXGFY3_ALL	PROCEDURE	236	"               0.00,
+"
+PRC_ZZKXGFY3_ALL	PROCEDURE	237	"               0.01,
+"
+PRC_ZZKXGFY3_ALL	PROCEDURE	238	"               0,
+"
+PRC_ZZKXGFY3_ALL	PROCEDURE	239	"               'DBA',
+"
+PRC_ZZKXGFY3_ALL	PROCEDURE	240	"               0,
+"
+PRC_ZZKXGFY3_ALL	PROCEDURE	241	"               SYSDATE
+"
+PRC_ZZKXGFY3_ALL	PROCEDURE	242	"          from l_laborder
+"
+PRC_ZZKXGFY3_ALL	PROCEDURE	243	"         where laborder in
+"
+PRC_ZZKXGFY3_ALL	PROCEDURE	244	"               (select laborder
+"
+PRC_ZZKXGFY3_ALL	PROCEDURE	245	"                  from l_laborder
+"
+PRC_ZZKXGFY3_ALL	PROCEDURE	246	"                 where requestetime >= trunc(sysdate)
+"
+PRC_ZZKXGFY3_ALL	PROCEDURE	247	"                   and requestetime <= trunc(sysdate + 1)
+"
+PRC_ZZKXGFY3_ALL	PROCEDURE	248	"                   and patientid like 'BY%'
+"
+PRC_ZZKXGFY3_ALL	PROCEDURE	249	"                   and patientid not in (select jzkh
+"
+PRC_ZZKXGFY3_ALL	PROCEDURE	250	"                                           from gh_ghk
+"
+PRC_ZZKXGFY3_ALL	PROCEDURE	251	"                                          where ghrq >= trunc(sysdate)
+"
+PRC_ZZKXGFY3_ALL	PROCEDURE	252	"                                            and ghrq <= trunc(sysdate + 1)
+"
+PRC_ZZKXGFY3_ALL	PROCEDURE	253	"                                            and ghxh = 999));
+"
+PRC_ZZKXGFY3_ALL	PROCEDURE	254	"    
+"
+PRC_ZZKXGFY3_ALL	PROCEDURE	255	"      COMMIT;
+"
+PRC_ZZKXGFY3_ALL	PROCEDURE	256	"    end if;
+"
+PRC_ZZKXGFY3_ALL	PROCEDURE	257	"  
+"
+PRC_ZZKXGFY3_ALL	PROCEDURE	258	"  end if;
+"
+PRC_ZZKXGFY3_ALL	PROCEDURE	259	"
+"
+PRC_ZZKXGFY3_ALL	PROCEDURE	260	"  return;
+"
+PRC_ZZKXGFY3_ALL	PROCEDURE	261	"
+"
+PRC_ZZKXGFY3_ALL	PROCEDURE	262	"EXCEPTION
+"
+PRC_ZZKXGFY3_ALL	PROCEDURE	263	"
+"
+PRC_ZZKXGFY3_ALL	PROCEDURE	264	"  when others then
+"
+PRC_ZZKXGFY3_ALL	PROCEDURE	265	"    ret_code := -1;
+"
+PRC_ZZKXGFY3_ALL	PROCEDURE	266	"    ret_info := '插入l_laborder失败[ZZKXGFY3_all]';
+"
+PRC_ZZKXGFY3_ALL	PROCEDURE	267	"    rollback;
+"
+PRC_ZZKXGFY3_ALL	PROCEDURE	268	"    return;
+"
+PRC_ZZKXGFY3_ALL	PROCEDURE	269	"END;
+"

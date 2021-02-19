@@ -1,0 +1,80 @@
+PKG_SIIM	PACKAGE	1	"package Pkg_Siim is
+"
+PKG_SIIM	PACKAGE	2	"
+"
+PKG_SIIM	PACKAGE	3	"/* Source of PACKAGE PKG_SIIM is not available */
+"
+PKG_SIIM	PACKAGE	4	"Procedure p_Gettoken(Prm_Source    In Varchar2,
+"
+PKG_SIIM	PACKAGE	5	"                       Prm_Separator In Varchar2,
+"
+PKG_SIIM	PACKAGE	6	"                       Prm_Returnstr Out Varchar2,
+"
+PKG_SIIM	PACKAGE	7	"                       Prm_Retsource Out Varchar2);
+"
+PKG_SIIM	PACKAGE	8	"                       
+"
+PKG_SIIM	PACKAGE	9	"                       
+"
+PKG_SIIM	PACKAGE	10	"                       
+"
+PKG_SIIM	PACKAGE	11	"                       
+"
+PKG_SIIM	PACKAGE	12	"  Function f_Getparm(Prm_String In Varchar2,
+"
+PKG_SIIM	PACKAGE	13	"                     Prm_Pos    In Number,
+"
+PKG_SIIM	PACKAGE	14	"                     Prm_Sign   In Varchar2) Return Varchar2;
+"
+PKG_SIIM	PACKAGE	15	"                     
+"
+PKG_SIIM	PACKAGE	16	"                     
+"
+PKG_SIIM	PACKAGE	17	"                     
+"
+PKG_SIIM	PACKAGE	18	"Procedure p_Update_Bah(Prm_Indata  In Varchar2,
+"
+PKG_SIIM	PACKAGE	19	"                         Prm_Appcode Out Number,
+"
+PKG_SIIM	PACKAGE	20	"                         Prm_Outdata Out Varchar2);
+"
+PKG_SIIM	PACKAGE	21	"                         
+"
+PKG_SIIM	PACKAGE	22	"                         
+"
+PKG_SIIM	PACKAGE	23	"  Procedure p_Get_Qyck(Prm_InData  In Varchar2,
+"
+PKG_SIIM	PACKAGE	24	"                       Prm_AppCode Out Number,
+"
+PKG_SIIM	PACKAGE	25	"                       Prm_OutData Out Varchar2);
+"
+PKG_SIIM	PACKAGE	26	"                      
+"
+PKG_SIIM	PACKAGE	27	"  Procedure p_Update_Yswfkc(Prm_InData  In Varchar2,
+"
+PKG_SIIM	PACKAGE	28	"                            Prm_Appcode Out Number,
+"
+PKG_SIIM	PACKAGE	29	"                            Prm_Outdata Out Varchar2);
+"
+PKG_SIIM	PACKAGE	30	"
+"
+PKG_SIIM	PACKAGE	31	"
+"
+PKG_SIIM	PACKAGE	32	"Procedure p_Trade(Prm_TradeType In Varchar2,
+"
+PKG_SIIM	PACKAGE	33	"                    Prm_Indata    In Varchar2,
+"
+PKG_SIIM	PACKAGE	34	"                    Prm_Appcode   Out Number,
+"
+PKG_SIIM	PACKAGE	35	"                    Prm_Outdata   Out Varchar2);
+"
+PKG_SIIM	PACKAGE	36	"                   
+"
+PKG_SIIM	PACKAGE	37	"/*Procedure Prc_SyncMzYbjsxx(a_yyjyid varchar);
+"
+PKG_SIIM	PACKAGE	38	"*/
+"
+PKG_SIIM	PACKAGE	39	"
+"
+PKG_SIIM	PACKAGE	40	"end Pkg_Siim;
+"

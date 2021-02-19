@@ -1,0 +1,16 @@
+F_GET_DMLBMC	FUNCTION	1	"function f_get_dmlbmc(as_dmlb in varchar2)
+"
+F_GET_DMLBMC	FUNCTION	2	"return varchar
+"
+F_GET_DMLBMC	FUNCTION	3	"is
+"
+F_GET_DMLBMC	FUNCTION	4	"ls_return varchar2(100);
+"
+F_GET_DMLBMC	FUNCTION	5	"  begin
+"
+F_GET_DMLBMC	FUNCTION	6	"      select mc into ls_return from gy_gydm where dm=0 And dmlb=as_dmlb;
+"
+F_GET_DMLBMC	FUNCTION	7	"      return ls_return;
+"
+F_GET_DMLBMC	FUNCTION	8	"  end;
+"

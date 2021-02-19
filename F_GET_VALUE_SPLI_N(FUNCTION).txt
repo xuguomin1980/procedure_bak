@@ -1,0 +1,274 @@
+F_GET_VALUE_SPLI_N	FUNCTION	1	"FUNCTION ""F_GET_VALUE_SPLI_N""(arg_source in varchar2,
+"
+F_GET_VALUE_SPLI_N	FUNCTION	2	"                                              arg_item   in varchar2,
+"
+F_GET_VALUE_SPLI_N	FUNCTION	3	"                                              arg_spli   in varchar2, arg_number in number)
+"
+F_GET_VALUE_SPLI_N	FUNCTION	4	"  return varchar2 is
+"
+F_GET_VALUE_SPLI_N	FUNCTION	5	"  ls_return   varchar2(260);
+"
+F_GET_VALUE_SPLI_N	FUNCTION	6	"  ls_item     varchar2(200);
+"
+F_GET_VALUE_SPLI_N	FUNCTION	7	"   ls_item2     varchar2(200);
+"
+F_GET_VALUE_SPLI_N	FUNCTION	8	"  ls_source   varchar2(500);
+"
+F_GET_VALUE_SPLI_N	FUNCTION	9	"  ls_source2   varchar2(500);
+"
+F_GET_VALUE_SPLI_N	FUNCTION	10	"  ll_pos1     number;
+"
+F_GET_VALUE_SPLI_N	FUNCTION	11	"  ll_pos3     number;
+"
+F_GET_VALUE_SPLI_N	FUNCTION	12	"   ll_pos2     number;
+"
+F_GET_VALUE_SPLI_N	FUNCTION	13	"  ll_pos_spli number;
+"
+F_GET_VALUE_SPLI_N	FUNCTION	14	"begin
+"
+F_GET_VALUE_SPLI_N	FUNCTION	15	"
+"
+F_GET_VALUE_SPLI_N	FUNCTION	16	"  select length(arg_source) into ll_pos1 from dual;
+"
+F_GET_VALUE_SPLI_N	FUNCTION	17	"  if ll_pos1 > 0 then
+"
+F_GET_VALUE_SPLI_N	FUNCTION	18	"    null;
+"
+F_GET_VALUE_SPLI_N	FUNCTION	19	"  else
+"
+F_GET_VALUE_SPLI_N	FUNCTION	20	"    return '';
+"
+F_GET_VALUE_SPLI_N	FUNCTION	21	"  end if;
+"
+F_GET_VALUE_SPLI_N	FUNCTION	22	"
+"
+F_GET_VALUE_SPLI_N	FUNCTION	23	"  select length(arg_item) into ll_pos1 from dual;
+"
+F_GET_VALUE_SPLI_N	FUNCTION	24	"  if ll_pos1 > 0 then
+"
+F_GET_VALUE_SPLI_N	FUNCTION	25	"    null;
+"
+F_GET_VALUE_SPLI_N	FUNCTION	26	"  else
+"
+F_GET_VALUE_SPLI_N	FUNCTION	27	"    return '';
+"
+F_GET_VALUE_SPLI_N	FUNCTION	28	"  end if;
+"
+F_GET_VALUE_SPLI_N	FUNCTION	29	"
+"
+F_GET_VALUE_SPLI_N	FUNCTION	30	"  select length(arg_spli) into ll_pos1 from dual;
+"
+F_GET_VALUE_SPLI_N	FUNCTION	31	"  if ll_pos1 > 0 then
+"
+F_GET_VALUE_SPLI_N	FUNCTION	32	"    null;
+"
+F_GET_VALUE_SPLI_N	FUNCTION	33	"  else
+"
+F_GET_VALUE_SPLI_N	FUNCTION	34	"    return '';
+"
+F_GET_VALUE_SPLI_N	FUNCTION	35	"  end if;
+"
+F_GET_VALUE_SPLI_N	FUNCTION	36	"
+"
+F_GET_VALUE_SPLI_N	FUNCTION	37	"  -- select F_GET_VALUE_SPLI('mpsj=%%%mpzrr=超级用户%%%sfgl=','mpzrr=','%%%')  from dual;
+"
+F_GET_VALUE_SPLI_N	FUNCTION	38	"  --mpzrr=超级用户
+"
+F_GET_VALUE_SPLI_N	FUNCTION	39	"
+"
+F_GET_VALUE_SPLI_N	FUNCTION	40	"  --jqhddd=%%%mpsj=%%%mpzrr=超级用户%%%sfgl=%%%sfmp=%%%sfls=%%%xjzdz=北苑街道四季社区%%%
+"
+F_GET_VALUE_SPLI_N	FUNCTION	41	"
+"
+F_GET_VALUE_SPLI_N	FUNCTION	42	"  --  select  instr('jqhddd=%%%mpsj=%%%mpzrr=超级用户%%%sfgl=%%%sfmp=%%%sfls=%%%xjzdz=北苑街道四季社区%%%','%%%mpzrr=') from dual   --16
+"
+F_GET_VALUE_SPLI_N	FUNCTION	43	"  --select length('%%%mpzrr=') from dual  --9
+"
+F_GET_VALUE_SPLI_N	FUNCTION	44	"  --16+9
+"
+F_GET_VALUE_SPLI_N	FUNCTION	45	"  --select substr('jqhddd=%%%mpsj=%%%mpzrr=超级用户%%%sfgl=%%%sfmp=%%%sfls=%%%xjzdz=北苑街道四季社区%%%',(16 +9)) from dual
+"
+F_GET_VALUE_SPLI_N	FUNCTION	46	"
+"
+F_GET_VALUE_SPLI_N	FUNCTION	47	"  --select  instr('超级用户%%%sfgl=%%%sfmp=%%%sfls=%%%xjzdz=北苑街道四季社区%%%','%%%') from dual   --5
+"
+F_GET_VALUE_SPLI_N	FUNCTION	48	"  --5-1=4
+"
+F_GET_VALUE_SPLI_N	FUNCTION	49	"
+"
+F_GET_VALUE_SPLI_N	FUNCTION	50	"
+"
+F_GET_VALUE_SPLI_N	FUNCTION	51	"
+"
+F_GET_VALUE_SPLI_N	FUNCTION	52	"  --select substr('超级用户%%%sfgl=%%%sfmp=%%%sfls=%%%xjzdz=北苑街道四季社区%%%',1,4) from dual
+"
+F_GET_VALUE_SPLI_N	FUNCTION	53	"
+"
+F_GET_VALUE_SPLI_N	FUNCTION	54	"  select arg_spli || arg_source || arg_spli into ls_source from dual;
+"
+F_GET_VALUE_SPLI_N	FUNCTION	55	"
+"
+F_GET_VALUE_SPLI_N	FUNCTION	56	"  select arg_spli || arg_item into ls_item from dual;
+"
+F_GET_VALUE_SPLI_N	FUNCTION	57	"  select instr(ls_source, ls_item) into ll_pos1 from dual;
+"
+F_GET_VALUE_SPLI_N	FUNCTION	58	"  
+"
+F_GET_VALUE_SPLI_N	FUNCTION	59	"   ll_pos3:=ll_pos1;
+"
+F_GET_VALUE_SPLI_N	FUNCTION	60	"
+"
+F_GET_VALUE_SPLI_N	FUNCTION	61	"  if arg_number<0 then
+"
+F_GET_VALUE_SPLI_N	FUNCTION	62	"    select substr(ls_source, ll_pos1  + arg_number  ,arg_number * -1) into ls_item2 from dual;
+"
+F_GET_VALUE_SPLI_N	FUNCTION	63	"    if ls_item2=null then
+"
+F_GET_VALUE_SPLI_N	FUNCTION	64	"        ls_item2:='';
+"
+F_GET_VALUE_SPLI_N	FUNCTION	65	"    end if;
+"
+F_GET_VALUE_SPLI_N	FUNCTION	66	"    return(ls_item2);
+"
+F_GET_VALUE_SPLI_N	FUNCTION	67	"  end if;
+"
+F_GET_VALUE_SPLI_N	FUNCTION	68	"
+"
+F_GET_VALUE_SPLI_N	FUNCTION	69	"
+"
+F_GET_VALUE_SPLI_N	FUNCTION	70	"   if arg_number>0 then
+"
+F_GET_VALUE_SPLI_N	FUNCTION	71	"   ----
+"
+F_GET_VALUE_SPLI_N	FUNCTION	72	"    select length(arg_item)+ length(arg_spli)+ll_pos1 into ll_pos1 from dual;
+"
+F_GET_VALUE_SPLI_N	FUNCTION	73	"
+"
+F_GET_VALUE_SPLI_N	FUNCTION	74	"    select substr(ls_source, ll_pos1) into ls_item2 from dual;
+"
+F_GET_VALUE_SPLI_N	FUNCTION	75	"
+"
+F_GET_VALUE_SPLI_N	FUNCTION	76	"    -----
+"
+F_GET_VALUE_SPLI_N	FUNCTION	77	"
+"
+F_GET_VALUE_SPLI_N	FUNCTION	78	"     select length(arg_spli) into ll_pos_spli from dual;
+"
+F_GET_VALUE_SPLI_N	FUNCTION	79	"  select ll_pos1 + ll_pos_spli into ll_pos_spli from dual;
+"
+F_GET_VALUE_SPLI_N	FUNCTION	80	"
+"
+F_GET_VALUE_SPLI_N	FUNCTION	81	"
+"
+F_GET_VALUE_SPLI_N	FUNCTION	82	"  select substr(ls_source, ll_pos_spli) into ls_source from dual;
+"
+F_GET_VALUE_SPLI_N	FUNCTION	83	" ls_source2:=ls_source;
+"
+F_GET_VALUE_SPLI_N	FUNCTION	84	" 
+"
+F_GET_VALUE_SPLI_N	FUNCTION	85	"  select instr(ls_source, arg_spli) into ll_pos1 from dual;
+"
+F_GET_VALUE_SPLI_N	FUNCTION	86	"  select substr(ls_source, 1, ll_pos1 - 1) into ls_source from dual;
+"
+F_GET_VALUE_SPLI_N	FUNCTION	87	"--
+"
+F_GET_VALUE_SPLI_N	FUNCTION	88	" 
+"
+F_GET_VALUE_SPLI_N	FUNCTION	89	"
+"
+F_GET_VALUE_SPLI_N	FUNCTION	90	"  select length(arg_item) into ll_pos1 from dual;
+"
+F_GET_VALUE_SPLI_N	FUNCTION	91	"    select length(ls_source) into ll_pos2 from dual;
+"
+F_GET_VALUE_SPLI_N	FUNCTION	92	"
+"
+F_GET_VALUE_SPLI_N	FUNCTION	93	"    ----?
+"
+F_GET_VALUE_SPLI_N	FUNCTION	94	"    if ll_pos1 >ll_pos2+1 then
+"
+F_GET_VALUE_SPLI_N	FUNCTION	95	"    ls_return := '';
+"
+F_GET_VALUE_SPLI_N	FUNCTION	96	"   select substr(ls_source2, 1  ,arg_number +1 ) into ls_return from dual;
+"
+F_GET_VALUE_SPLI_N	FUNCTION	97	"    if ls_return=null then
+"
+F_GET_VALUE_SPLI_N	FUNCTION	98	"        ls_return := '';
+"
+F_GET_VALUE_SPLI_N	FUNCTION	99	"    end if;
+"
+F_GET_VALUE_SPLI_N	FUNCTION	100	"    return ls_return;
+"
+F_GET_VALUE_SPLI_N	FUNCTION	101	"    end if;
+"
+F_GET_VALUE_SPLI_N	FUNCTION	102	"
+"
+F_GET_VALUE_SPLI_N	FUNCTION	103	" 
+"
+F_GET_VALUE_SPLI_N	FUNCTION	104	" 
+"
+F_GET_VALUE_SPLI_N	FUNCTION	105	"  
+"
+F_GET_VALUE_SPLI_N	FUNCTION	106	"  
+"
+F_GET_VALUE_SPLI_N	FUNCTION	107	"  select length(ls_source) into ll_pos1 from dual;
+"
+F_GET_VALUE_SPLI_N	FUNCTION	108	"  if ll_pos1 > 0 then
+"
+F_GET_VALUE_SPLI_N	FUNCTION	109	"    null;
+"
+F_GET_VALUE_SPLI_N	FUNCTION	110	"  else
+"
+F_GET_VALUE_SPLI_N	FUNCTION	111	"   ll_pos1:=0;
+"
+F_GET_VALUE_SPLI_N	FUNCTION	112	"  end if;
+"
+F_GET_VALUE_SPLI_N	FUNCTION	113	"
+"
+F_GET_VALUE_SPLI_N	FUNCTION	114	"--return arg_item;
+"
+F_GET_VALUE_SPLI_N	FUNCTION	115	"  -- return arg_source;
+"
+F_GET_VALUE_SPLI_N	FUNCTION	116	"  -- return ls_source2;--3957910039&ly=义乌市中心医院&
+"
+F_GET_VALUE_SPLI_N	FUNCTION	117	"-- return to_char(ll_pos1 );
+"
+F_GET_VALUE_SPLI_N	FUNCTION	118	" --  select substr(arg_source, ll_pos1  + ll_pos3    ) into ls_return from dual;
+"
+F_GET_VALUE_SPLI_N	FUNCTION	119	"   -- return to_char(arg_number); 
+"
+F_GET_VALUE_SPLI_N	FUNCTION	120	"   
+"
+F_GET_VALUE_SPLI_N	FUNCTION	121	"   
+"
+F_GET_VALUE_SPLI_N	FUNCTION	122	"     select length(arg_spli) into ll_pos2 from dual;
+"
+F_GET_VALUE_SPLI_N	FUNCTION	123	"select substr(ls_source2, ll_pos1 + ll_pos2 +1    ,arg_number  ) into ls_return from dual;
+"
+F_GET_VALUE_SPLI_N	FUNCTION	124	"   
+"
+F_GET_VALUE_SPLI_N	FUNCTION	125	"   
+"
+F_GET_VALUE_SPLI_N	FUNCTION	126	"    
+"
+F_GET_VALUE_SPLI_N	FUNCTION	127	"    if ls_return=null then
+"
+F_GET_VALUE_SPLI_N	FUNCTION	128	"        ls_return := '';
+"
+F_GET_VALUE_SPLI_N	FUNCTION	129	"    end if;
+"
+F_GET_VALUE_SPLI_N	FUNCTION	130	"    return ls_return;
+"
+F_GET_VALUE_SPLI_N	FUNCTION	131	"  end if;
+"
+F_GET_VALUE_SPLI_N	FUNCTION	132	"
+"
+F_GET_VALUE_SPLI_N	FUNCTION	133	"   return '';
+"
+F_GET_VALUE_SPLI_N	FUNCTION	134	"
+"
+F_GET_VALUE_SPLI_N	FUNCTION	135	"
+"
+F_GET_VALUE_SPLI_N	FUNCTION	136	"
+"
+F_GET_VALUE_SPLI_N	FUNCTION	137	"end;
+"

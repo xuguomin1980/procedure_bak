@@ -1,0 +1,87 @@
+FUN_GET_BLBRJBXX	FUNCTION	1	"FUNCTION         ""FUN_GET_BLBRJBXX"" (PRM_BRXH NUMBER,PRM_BRJBXX VARCHAR2) RETURN VARCHAR2 IS
+"
+FUN_GET_BLBRJBXX	FUNCTION	2	"   RESULT VARCHAR2(2000);
+"
+FUN_GET_BLBRJBXX	FUNCTION	3	"   s_brjbxx VARCHAR2(2000);
+"
+FUN_GET_BLBRJBXX	FUNCTION	4	"   s_yymc VARCHAR2(100); --医院名称抬头
+"
+FUN_GET_BLBRJBXX	FUNCTION	5	"   s_blmc VARCHAR2(100); --病历名称抬头
+"
+FUN_GET_BLBRJBXX	FUNCTION	6	"   s_brxm VARCHAR2(20);  --病人姓名
+"
+FUN_GET_BLBRJBXX	FUNCTION	7	"   s_ksmc VARCHAR2(20);  --科室名称
+"
+FUN_GET_BLBRJBXX	FUNCTION	8	"   s_dqcw VARCHAR2(20);  --当前床位
+"
+FUN_GET_BLBRJBXX	FUNCTION	9	"   s_bah  VARCHAR2(20);  --病案号
+"
+FUN_GET_BLBRJBXX	FUNCTION	10	"   s_jzkh VARCHAR2(20);  --就诊卡号
+"
+FUN_GET_BLBRJBXX	FUNCTION	11	"   s_brxh VARCHAR2(20);  --病人序号
+"
+FUN_GET_BLBRJBXX	FUNCTION	12	"   s_kjid VARCHAR2(20);  --控件ID
+"
+FUN_GET_BLBRJBXX	FUNCTION	13	"   s_ymyj VARCHAR2(20);  --是否需要加上页眉页脚 1加，0不加
+"
+FUN_GET_BLBRJBXX	FUNCTION	14	"   s_bqmc VARCHAR2(20);  --病区名称
+"
+FUN_GET_BLBRJBXX	FUNCTION	15	"   s_nl   VARCHAR2(20);  --年龄
+"
+FUN_GET_BLBRJBXX	FUNCTION	16	"   s_xb   VARCHAR2(4);   --性别
+"
+FUN_GET_BLBRJBXX	FUNCTION	17	"   s_ymkz VARCHAR2(4);   --是否显示页码等信息控制
+"
+FUN_GET_BLBRJBXX	FUNCTION	18	"BEGIN
+"
+FUN_GET_BLBRJBXX	FUNCTION	19	"    --入参说明
+"
+FUN_GET_BLBRJBXX	FUNCTION	20	"    --//医院名称{COL}模板名称{COL}病人姓名{COL}当前科室{COL}当前床号{COL}病案号{COL}就诊卡号{COL}病人序号{COL}控件ID{COL}是否需要加上页眉页脚{COL}病区{COL}年龄{COL}性别{COL}是否显示页码{COL}
+"
+FUN_GET_BLBRJBXX	FUNCTION	21	"    s_brjbxx := PRM_BRJBXX;
+"
+FUN_GET_BLBRJBXX	FUNCTION	22	"    s_yymc := pkg_gy.Fun_StrGetToken(s_brjbxx,'{COL}');
+"
+FUN_GET_BLBRJBXX	FUNCTION	23	"    s_blmc := pkg_gy.Fun_StrGetToken(s_brjbxx,'{COL}');
+"
+FUN_GET_BLBRJBXX	FUNCTION	24	"    s_brxm := pkg_gy.Fun_StrGetToken(s_brjbxx,'{COL}');
+"
+FUN_GET_BLBRJBXX	FUNCTION	25	"    s_ksmc := pkg_gy.Fun_StrGetToken(s_brjbxx,'{COL}');
+"
+FUN_GET_BLBRJBXX	FUNCTION	26	"    s_dqcw := pkg_gy.Fun_StrGetToken(s_brjbxx,'{COL}');
+"
+FUN_GET_BLBRJBXX	FUNCTION	27	"    s_bah  := pkg_gy.Fun_StrGetToken(s_brjbxx,'{COL}');
+"
+FUN_GET_BLBRJBXX	FUNCTION	28	"    s_jzkh := pkg_gy.Fun_StrGetToken(s_brjbxx,'{COL}');
+"
+FUN_GET_BLBRJBXX	FUNCTION	29	"    s_brxh := pkg_gy.Fun_StrGetToken(s_brjbxx,'{COL}');
+"
+FUN_GET_BLBRJBXX	FUNCTION	30	"    s_kjid := pkg_gy.Fun_StrGetToken(s_brjbxx,'{COL}');
+"
+FUN_GET_BLBRJBXX	FUNCTION	31	"    s_ymyj := pkg_gy.Fun_StrGetToken(s_brjbxx,'{COL}');
+"
+FUN_GET_BLBRJBXX	FUNCTION	32	"    s_bqmc := pkg_gy.Fun_StrGetToken(s_brjbxx,'{COL}');
+"
+FUN_GET_BLBRJBXX	FUNCTION	33	"    s_nl   := pkg_gy.Fun_StrGetToken(s_brjbxx,'{COL}');
+"
+FUN_GET_BLBRJBXX	FUNCTION	34	"    s_xb   := pkg_gy.Fun_StrGetToken(s_brjbxx,'{COL}');
+"
+FUN_GET_BLBRJBXX	FUNCTION	35	"    s_ymkz := pkg_gy.Fun_StrGetToken(s_brjbxx,'{COL}');
+"
+FUN_GET_BLBRJBXX	FUNCTION	36	"
+"
+FUN_GET_BLBRJBXX	FUNCTION	37	"    --出参组合根据实际情况来
+"
+FUN_GET_BLBRJBXX	FUNCTION	38	"    RESULT := s_yymc||'{COL}'||s_blmc||'{COL}'||s_brxm||' '||s_xb||' '||s_nl||'{COL}'||s_ksmc||'{COL}'||s_dqcw||'{COL}'||s_bah||'{COL}{COL}'||s_brxh||'{COL}'||s_kjid||'{COL}0{COL}{COL}{COL}{COL}'||s_ymkz||'{COL}';
+"
+FUN_GET_BLBRJBXX	FUNCTION	39	"
+"
+FUN_GET_BLBRJBXX	FUNCTION	40	"    RETURN(RESULT);
+"
+FUN_GET_BLBRJBXX	FUNCTION	41	"END FUN_GET_BLBRJBXX;
+"
+FUN_GET_BLBRJBXX	FUNCTION	42	"
+"
+FUN_GET_BLBRJBXX	FUNCTION	43	"
+"
+FUN_GET_BLBRJBXX	FUNCTION	44	 

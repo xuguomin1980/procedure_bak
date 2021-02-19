@@ -1,0 +1,58 @@
+TRI_ZJ_JZXX_KSDM	TRIGGER	1	"TRIGGER ""ZJHIS"".""TRI_ZJ_JZXX_KSDM"" 
+"
+TRI_ZJ_JZXX_KSDM	TRIGGER	2	"BEFORE INSERT ON ""ZJ_JZXX"" 
+"
+TRI_ZJ_JZXX_KSDM	TRIGGER	3	"REFERENCING OLD AS OLD NEW AS NEW FOR EACH ROW 
+"
+TRI_ZJ_JZXX_KSDM	TRIGGER	4	"
+"
+TRI_ZJ_JZXX_KSDM	TRIGGER	5	"
+"
+TRI_ZJ_JZXX_KSDM	TRIGGER	6	"
+"
+TRI_ZJ_JZXX_KSDM	TRIGGER	7	"declare
+"
+TRI_ZJ_JZXX_KSDM	TRIGGER	8	"   n_ksdm   varchar2(10);
+"
+TRI_ZJ_JZXX_KSDM	TRIGGER	9	"   n_zwksdm varchar2(10);
+"
+TRI_ZJ_JZXX_KSDM	TRIGGER	10	"   n_zgid   varchar2(5);
+"
+TRI_ZJ_JZXX_KSDM	TRIGGER	11	"begin 
+"
+TRI_ZJ_JZXX_KSDM	TRIGGER	12	"   if rtrim(:new.ksdm) is null then
+"
+TRI_ZJ_JZXX_KSDM	TRIGGER	13	"      begin
+"
+TRI_ZJ_JZXX_KSDM	TRIGGER	14	"         select zwksdm,ksdm
+"
+TRI_ZJ_JZXX_KSDM	TRIGGER	15	"           into n_ksdm,n_zwksdm
+"
+TRI_ZJ_JZXX_KSDM	TRIGGER	16	"           from gy_zgxx
+"
+TRI_ZJ_JZXX_KSDM	TRIGGER	17	"          where zgid = :new.jzys;
+"
+TRI_ZJ_JZXX_KSDM	TRIGGER	18	"      Exception 
+"
+TRI_ZJ_JZXX_KSDM	TRIGGER	19	"	   When NO_DATA_FOUND Then
+"
+TRI_ZJ_JZXX_KSDM	TRIGGER	20	"         n_ksdm := '';
+"
+TRI_ZJ_JZXX_KSDM	TRIGGER	21	"	End;
+"
+TRI_ZJ_JZXX_KSDM	TRIGGER	22	"      if n_zwksdm is null then
+"
+TRI_ZJ_JZXX_KSDM	TRIGGER	23	"         :new.ksdm := n_ksdm;
+"
+TRI_ZJ_JZXX_KSDM	TRIGGER	24	"      else
+"
+TRI_ZJ_JZXX_KSDM	TRIGGER	25	"         :new.ksdm := n_zwksdm;
+"
+TRI_ZJ_JZXX_KSDM	TRIGGER	26	"      end if;
+"
+TRI_ZJ_JZXX_KSDM	TRIGGER	27	"   end if;
+"
+TRI_ZJ_JZXX_KSDM	TRIGGER	28	"end;
+"
+TRI_ZJ_JZXX_KSDM	TRIGGER	29	"
+"

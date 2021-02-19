@@ -1,0 +1,39 @@
+FUN_GY_CONSTRING	FUNCTION	1	"FUNCTION         ""FUN_GY_CONSTRING"" (as_sql in varchar2,as_sepearator in varchar2) return varchar2 is
+"
+FUN_GY_CONSTRING	FUNCTION	2	"  v_return varchar2(1000);
+"
+FUN_GY_CONSTRING	FUNCTION	3	"  v_tmp varchar2(100);
+"
+FUN_GY_CONSTRING	FUNCTION	4	"  Type c_type Is Ref Cursor;
+"
+FUN_GY_CONSTRING	FUNCTION	5	"  c_query c_type;
+"
+FUN_GY_CONSTRING	FUNCTION	6	"begin
+"
+FUN_GY_CONSTRING	FUNCTION	7	"  Open c_query For as_sql;
+"
+FUN_GY_CONSTRING	FUNCTION	8	"  Loop
+"
+FUN_GY_CONSTRING	FUNCTION	9	"      Fetch c_query Into v_tmp;
+"
+FUN_GY_CONSTRING	FUNCTION	10	"      Exit When c_query%notfound;
+"
+FUN_GY_CONSTRING	FUNCTION	11	"      v_return := v_return || v_tmp || as_sepearator;
+"
+FUN_GY_CONSTRING	FUNCTION	12	"  End Loop;
+"
+FUN_GY_CONSTRING	FUNCTION	13	"  Close c_query;
+"
+FUN_GY_CONSTRING	FUNCTION	14	"  If Length(v_return) > 0 then
+"
+FUN_GY_CONSTRING	FUNCTION	15	"     select rtrim(v_return,as_sepearator) Into v_return from dual;
+"
+FUN_GY_CONSTRING	FUNCTION	16	"  End if;
+"
+FUN_GY_CONSTRING	FUNCTION	17	"  return(v_return);
+"
+FUN_GY_CONSTRING	FUNCTION	18	"end fun_gy_constring;
+"
+FUN_GY_CONSTRING	FUNCTION	19	"
+"
+FUN_GY_CONSTRING	FUNCTION	20	 

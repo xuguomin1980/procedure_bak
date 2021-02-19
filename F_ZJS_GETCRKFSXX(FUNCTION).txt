@@ -1,0 +1,75 @@
+F_ZJS_GETCRKFSXX	FUNCTION	1	"FUNCTION         ""F_ZJS_GETCRKFSXX"" 
+"
+F_ZJS_GETCRKFSXX	FUNCTION	2	"(arg_xtxh in number,arg_crkfsdm in number,arg_flag in  varchar2)
+"
+F_ZJS_GETCRKFSXX	FUNCTION	3	"  return varchar2
+"
+F_ZJS_GETCRKFSXX	FUNCTION	4	"  is
+"
+F_ZJS_GETCRKFSXX	FUNCTION	5	"    ls_return varchar2(60);
+"
+F_ZJS_GETCRKFSXX	FUNCTION	6	"    ls_flag   varchar2(20);
+"
+F_ZJS_GETCRKFSXX	FUNCTION	7	"  begin
+"
+F_ZJS_GETCRKFSXX	FUNCTION	8	"    ls_flag:=lower(RTRIM(LTRIM(arg_flag)));
+"
+F_ZJS_GETCRKFSXX	FUNCTION	9	"   if ls_flag='crkfsmc' then
+"
+F_ZJS_GETCRKFSXX	FUNCTION	10	"      select crkfsmc into ls_return
+"
+F_ZJS_GETCRKFSXX	FUNCTION	11	"                     from zjs_crkfs
+"
+F_ZJS_GETCRKFSXX	FUNCTION	12	"                     where xtxh=arg_xtxh
+"
+F_ZJS_GETCRKFSXX	FUNCTION	13	"                     and  crkfsdm=arg_crkfsdm;
+"
+F_ZJS_GETCRKFSXX	FUNCTION	14	"   elsif ls_flag='dqdh' then
+"
+F_ZJS_GETCRKFSXX	FUNCTION	15	"         select dqdh into ls_return
+"
+F_ZJS_GETCRKFSXX	FUNCTION	16	"                     from zjs_crkfs
+"
+F_ZJS_GETCRKFSXX	FUNCTION	17	"                     where xtxh=arg_xtxh
+"
+F_ZJS_GETCRKFSXX	FUNCTION	18	"                     and  crkfsdm=arg_crkfsdm;
+"
+F_ZJS_GETCRKFSXX	FUNCTION	19	"  elsif ls_flag='dqzdh' then
+"
+F_ZJS_GETCRKFSXX	FUNCTION	20	"         select dqzdh into ls_return
+"
+F_ZJS_GETCRKFSXX	FUNCTION	21	"                     from zjs_crkfs
+"
+F_ZJS_GETCRKFSXX	FUNCTION	22	"                     where xtxh=arg_xtxh
+"
+F_ZJS_GETCRKFSXX	FUNCTION	23	"                     and  crkfsdm=arg_crkfsdm;
+"
+F_ZJS_GETCRKFSXX	FUNCTION	24	"  elsif ls_flag='dyhs' then
+"
+F_ZJS_GETCRKFSXX	FUNCTION	25	"           select to_char(dyhs) into ls_return
+"
+F_ZJS_GETCRKFSXX	FUNCTION	26	"                     from zjs_crkfs
+"
+F_ZJS_GETCRKFSXX	FUNCTION	27	"                     where xtxh=arg_xtxh
+"
+F_ZJS_GETCRKFSXX	FUNCTION	28	"                     and  crkfsdm=arg_crkfsdm;
+"
+F_ZJS_GETCRKFSXX	FUNCTION	29	"  elsif ls_flag='dygs' then
+"
+F_ZJS_GETCRKFSXX	FUNCTION	30	"           select to_char(dygs) into ls_return
+"
+F_ZJS_GETCRKFSXX	FUNCTION	31	"                                from zjs_crkfs
+"
+F_ZJS_GETCRKFSXX	FUNCTION	32	"                                where xtxh=arg_xtxh
+"
+F_ZJS_GETCRKFSXX	FUNCTION	33	"                                and  crkfsdm=arg_crkfsdm;
+"
+F_ZJS_GETCRKFSXX	FUNCTION	34	"   end if;
+"
+F_ZJS_GETCRKFSXX	FUNCTION	35	"    return(ls_return);
+"
+F_ZJS_GETCRKFSXX	FUNCTION	36	" end ;
+"
+F_ZJS_GETCRKFSXX	FUNCTION	37	"
+"
+F_ZJS_GETCRKFSXX	FUNCTION	38	 

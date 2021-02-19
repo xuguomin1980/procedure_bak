@@ -1,0 +1,454 @@
+PRC_AUTO_RUN_CS2	PROCEDURE	1	"PROCEDURE prc_auto_run_cs2 Is
+"
+PRC_AUTO_RUN_CS2	PROCEDURE	2	"
+"
+PRC_AUTO_RUN_CS2	PROCEDURE	3	"  /*=============================================================================
+"
+PRC_AUTO_RUN_CS2	PROCEDURE	4	"  || 过程名称 ： PRC_AUTO_RUN 后台自动运行
+"
+PRC_AUTO_RUN_CS2	PROCEDURE	5	"  ||-----------------------------------------------------------------------------
+"
+PRC_AUTO_RUN_CS2	PROCEDURE	6	"  || 功能说明 ：  JOB 定时10分钟 执行 后台任务
+"
+PRC_AUTO_RUN_CS2	PROCEDURE	7	"  ||-----------------------------------------------------------------------------
+"
+PRC_AUTO_RUN_CS2	PROCEDURE	8	"  || 参数描述 ： 无
+"
+PRC_AUTO_RUN_CS2	PROCEDURE	9	"  ------------------------------------------------------------
+"
+PRC_AUTO_RUN_CS2	PROCEDURE	10	"  ||-----------------------------------------------------------------------------
+"
+PRC_AUTO_RUN_CS2	PROCEDURE	11	"  || 注意事项 ：
+"
+PRC_AUTO_RUN_CS2	PROCEDURE	12	"  ||-----------------------------------------------------------------------------
+"
+PRC_AUTO_RUN_CS2	PROCEDURE	13	"  || 作    者 ：       完成日期 ：
+"
+PRC_AUTO_RUN_CS2	PROCEDURE	14	"  ||-----------------------------------------------------------------------------
+"
+PRC_AUTO_RUN_CS2	PROCEDURE	15	"  || 修改记录 ：
+"
+PRC_AUTO_RUN_CS2	PROCEDURE	16	"  =============================================================================*/
+"
+PRC_AUTO_RUN_CS2	PROCEDURE	17	"  v_Procedure_Name Varchar2(50);
+"
+PRC_AUTO_RUN_CS2	PROCEDURE	18	"  v_task           Varchar2(30);
+"
+PRC_AUTO_RUN_CS2	PROCEDURE	19	"
+"
+PRC_AUTO_RUN_CS2	PROCEDURE	20	"  ln_jcfx_id   Number;
+"
+PRC_AUTO_RUN_CS2	PROCEDURE	21	"  ln_code      Number;
+"
+PRC_AUTO_RUN_CS2	PROCEDURE	22	"  ls_mess      Varchar2(100);
+"
+PRC_AUTO_RUN_CS2	PROCEDURE	23	"  v_count      number;
+"
+PRC_AUTO_RUN_CS2	PROCEDURE	24	"  v_xh         number;
+"
+PRC_AUTO_RUN_CS2	PROCEDURE	25	"  ls_now       Varchar2(20);
+"
+PRC_AUTO_RUN_CS2	PROCEDURE	26	"  ls_now_minue Varchar2(20);
+"
+PRC_AUTO_RUN_CS2	PROCEDURE	27	"  lxdh         Varchar2(20);
+"
+PRC_AUTO_RUN_CS2	PROCEDURE	28	"  nr           Varchar2(200);
+"
+PRC_AUTO_RUN_CS2	PROCEDURE	29	"  v_bz         Varchar2(200);
+"
+PRC_AUTO_RUN_CS2	PROCEDURE	30	"  v_temp       Varchar2(100);
+"
+PRC_AUTO_RUN_CS2	PROCEDURE	31	"  v_jzkh       Varchar2(100);
+"
+PRC_AUTO_RUN_CS2	PROCEDURE	32	"  v_msg        Varchar2(200);
+"
+PRC_AUTO_RUN_CS2	PROCEDURE	33	"  v_sl         Number;
+"
+PRC_AUTO_RUN_CS2	PROCEDURE	34	"  v_sl_count   Number;
+"
+PRC_AUTO_RUN_CS2	PROCEDURE	35	"  v_laborder   Number;
+"
+PRC_AUTO_RUN_CS2	PROCEDURE	36	"  v_out_code   Number;
+"
+PRC_AUTO_RUN_CS2	PROCEDURE	37	"  v_out_msg    Varchar2(100);
+"
+PRC_AUTO_RUN_CS2	PROCEDURE	38	"  v_yyxh       number;
+"
+PRC_AUTO_RUN_CS2	PROCEDURE	39	"  v_lxdh       NVARCHAR2(30);
+"
+PRC_AUTO_RUN_CS2	PROCEDURE	40	"  v_ypxh       Number;
+"
+PRC_AUTO_RUN_CS2	PROCEDURE	41	"  v_ypcddm     Number;
+"
+PRC_AUTO_RUN_CS2	PROCEDURE	42	"  --预约挂号提醒
+"
+PRC_AUTO_RUN_CS2	PROCEDURE	43	"  cursor cur_mzyyk is
+"
+PRC_AUTO_RUN_CS2	PROCEDURE	44	"    select yyxh
+"
+PRC_AUTO_RUN_CS2	PROCEDURE	45	"      from gh_mzyyk
+"
+PRC_AUTO_RUN_CS2	PROCEDURE	46	"     where djrq > sysdate - 0.01
+"
+PRC_AUTO_RUN_CS2	PROCEDURE	47	"       and djrq < sysdate - 0.001
+"
+PRC_AUTO_RUN_CS2	PROCEDURE	48	"       and czgh < 'Z'
+"
+PRC_AUTO_RUN_CS2	PROCEDURE	49	"       and czgh >= 'B'
+"
+PRC_AUTO_RUN_CS2	PROCEDURE	50	"       and yyxh not in (
+"
+PRC_AUTO_RUN_CS2	PROCEDURE	51	"                        
+"
+PRC_AUTO_RUN_CS2	PROCEDURE	52	"                        select yyxh
+"
+PRC_AUTO_RUN_CS2	PROCEDURE	53	"                          from (select yyxh, lxdh
+"
+PRC_AUTO_RUN_CS2	PROCEDURE	54	"                                   From gh_mzyyk
+"
+PRC_AUTO_RUN_CS2	PROCEDURE	55	"                                  where djrq >= sysdate - 0.015
+"
+PRC_AUTO_RUN_CS2	PROCEDURE	56	"                                    and czgh < 'Z'
+"
+PRC_AUTO_RUN_CS2	PROCEDURE	57	"                                    and czgh >= 'B') x,
+"
+PRC_AUTO_RUN_CS2	PROCEDURE	58	"                                auto_task_ywzx_send y
+"
+PRC_AUTO_RUN_CS2	PROCEDURE	59	"                         where instr(y.bz, x.yyxh) > 0
+"
+PRC_AUTO_RUN_CS2	PROCEDURE	60	"                           and y.date_add > sysdate - 0.015
+"
+PRC_AUTO_RUN_CS2	PROCEDURE	61	"                           and nvl(x.lxdh, '13777929515') = y.lxdh);
+"
+PRC_AUTO_RUN_CS2	PROCEDURE	62	"
+"
+PRC_AUTO_RUN_CS2	PROCEDURE	63	"  --挂号费未缴费提醒1
+"
+PRC_AUTO_RUN_CS2	PROCEDURE	64	"  cursor cur_zlf is
+"
+PRC_AUTO_RUN_CS2	PROCEDURE	65	"    select c.jzkh
+"
+PRC_AUTO_RUN_CS2	PROCEDURE	66	"      From yj_yjk1 a, yj_Yjk2 b, zj_jzxx c
+"
+PRC_AUTO_RUN_CS2	PROCEDURE	67	"     where a.jzxh = c.jzxh
+"
+PRC_AUTO_RUN_CS2	PROCEDURE	68	"       and a.yjsb = b.yjsb
+"
+PRC_AUTO_RUN_CS2	PROCEDURE	69	"       and a.sfsb is null
+"
+PRC_AUTO_RUN_CS2	PROCEDURE	70	"       and a.brxh is null
+"
+PRC_AUTO_RUN_CS2	PROCEDURE	71	"       and instr(nvl(b.bz, '0'), '#未缴纳提醒1#') = 0
+"
+PRC_AUTO_RUN_CS2	PROCEDURE	72	"       and b.fygb = 13
+"
+PRC_AUTO_RUN_CS2	PROCEDURE	73	"       and c.jzrq > (sysdate - 0.021 - 0.1)
+"
+PRC_AUTO_RUN_CS2	PROCEDURE	74	"       and c.jzrq < sysdate - 0.021
+"
+PRC_AUTO_RUN_CS2	PROCEDURE	75	"       and c.jzkh = '9'
+"
+PRC_AUTO_RUN_CS2	PROCEDURE	76	"     group by c.jzkh
+"
+PRC_AUTO_RUN_CS2	PROCEDURE	77	"    having sum(sl) > 0;
+"
+PRC_AUTO_RUN_CS2	PROCEDURE	78	"
+"
+PRC_AUTO_RUN_CS2	PROCEDURE	79	"  --挂号费未缴费提醒 2天
+"
+PRC_AUTO_RUN_CS2	PROCEDURE	80	"  cursor cur_zlf_2days is
+"
+PRC_AUTO_RUN_CS2	PROCEDURE	81	"    select distinct (c.jzkh)
+"
+PRC_AUTO_RUN_CS2	PROCEDURE	82	"      From yj_yjk1 a, yj_Yjk2 b, zj_jzxx c
+"
+PRC_AUTO_RUN_CS2	PROCEDURE	83	"     where a.jzxh = c.jzxh
+"
+PRC_AUTO_RUN_CS2	PROCEDURE	84	"       and a.yjsb = b.yjsb
+"
+PRC_AUTO_RUN_CS2	PROCEDURE	85	"       and a.sfsb is null
+"
+PRC_AUTO_RUN_CS2	PROCEDURE	86	"       and a.brxh is null
+"
+PRC_AUTO_RUN_CS2	PROCEDURE	87	"       and instr(nvl(b.bz, '0'), '#未缴纳提醒1#') > 0
+"
+PRC_AUTO_RUN_CS2	PROCEDURE	88	"       and instr(nvl(b.bz, '0'), '#未缴纳提醒2#') = 0
+"
+PRC_AUTO_RUN_CS2	PROCEDURE	89	"       and b.fygb = 13
+"
+PRC_AUTO_RUN_CS2	PROCEDURE	90	"       and c.jzrq >= trunc(sysdate - 3)
+"
+PRC_AUTO_RUN_CS2	PROCEDURE	91	"       and c.jzrq < trunc(sysdate - 2)
+"
+PRC_AUTO_RUN_CS2	PROCEDURE	92	"       and c.jzkh = '9';
+"
+PRC_AUTO_RUN_CS2	PROCEDURE	93	"
+"
+PRC_AUTO_RUN_CS2	PROCEDURE	94	"  ---- 疫苗提醒    
+"
+PRC_AUTO_RUN_CS2	PROCEDURE	95	"  cursor cur_sms_yimao is
+"
+PRC_AUTO_RUN_CS2	PROCEDURE	96	"    select distinct a.jzkh, b.ypxh, b.ypcddm
+"
+PRC_AUTO_RUN_CS2	PROCEDURE	97	"      From mz_cfk1 a, mz_cfk2 b
+"
+PRC_AUTO_RUN_CS2	PROCEDURE	98	"     where a.cfsb = b.cfsb
+"
+PRC_AUTO_RUN_CS2	PROCEDURE	99	"       and trunc(b.shenhesj) = trunc(sysdate + 1)
+"
+PRC_AUTO_RUN_CS2	PROCEDURE	100	"       and b.shenhesj is not null
+"
+PRC_AUTO_RUN_CS2	PROCEDURE	101	"       and a.sfsb is not null
+"
+PRC_AUTO_RUN_CS2	PROCEDURE	102	"       and a.cfrq > sysdate - 360;
+"
+PRC_AUTO_RUN_CS2	PROCEDURE	103	"
+"
+PRC_AUTO_RUN_CS2	PROCEDURE	104	"Begin
+"
+PRC_AUTO_RUN_CS2	PROCEDURE	105	"  --2020-06-25
+"
+PRC_AUTO_RUN_CS2	PROCEDURE	106	"  v_Procedure_Name := '后台执行_PRC_AUTO_RUN';
+"
+PRC_AUTO_RUN_CS2	PROCEDURE	107	"  v_task           := ' ';
+"
+PRC_AUTO_RUN_CS2	PROCEDURE	108	"  lxdh             := '13777929515';
+"
+PRC_AUTO_RUN_CS2	PROCEDURE	109	"  v_count          := 0;
+"
+PRC_AUTO_RUN_CS2	PROCEDURE	110	"  /*  insert into zy_jiaoyi_v1
+"
+PRC_AUTO_RUN_CS2	PROCEDURE	111	"    (jiaoyilx, jylsh, flag)
+"
+PRC_AUTO_RUN_CS2	PROCEDURE	112	"  values
+"
+PRC_AUTO_RUN_CS2	PROCEDURE	113	"    (v_Procedure_Name, '开始', 0);
+"
+PRC_AUTO_RUN_CS2	PROCEDURE	114	"  commit;*/
+"
+PRC_AUTO_RUN_CS2	PROCEDURE	115	"
+"
+PRC_AUTO_RUN_CS2	PROCEDURE	116	"  -- --L0482  L0449 L0481
+"
+PRC_AUTO_RUN_CS2	PROCEDURE	117	"  update zy_total_fee
+"
+PRC_AUTO_RUN_CS2	PROCEDURE	118	"     set fplx = 1
+"
+PRC_AUTO_RUN_CS2	PROCEDURE	119	"   where
+"
+PRC_AUTO_RUN_CS2	PROCEDURE	120	"  --op_id in ('L0259', 'L0484', 'L0481', 'L0480', 'L0482', 'L0449')
+"
+PRC_AUTO_RUN_CS2	PROCEDURE	121	"   op_id in ('L0259', 'L0484', '', 'L0480', '', '')
+"
+PRC_AUTO_RUN_CS2	PROCEDURE	122	"   and nvl(fplx, 0) = 0
+"
+PRC_AUTO_RUN_CS2	PROCEDURE	123	"   and js_no = 1
+"
+PRC_AUTO_RUN_CS2	PROCEDURE	124	"   and flag > 0
+"
+PRC_AUTO_RUN_CS2	PROCEDURE	125	"   and jz_date > sysdate - 1.2;
+"
+PRC_AUTO_RUN_CS2	PROCEDURE	126	"  if sqlcode = 0 then
+"
+PRC_AUTO_RUN_CS2	PROCEDURE	127	"    commit;
+"
+PRC_AUTO_RUN_CS2	PROCEDURE	128	"    select v_Procedure_Name || ',住院收费 调整工号  ' into nr from dual;
+"
+PRC_AUTO_RUN_CS2	PROCEDURE	129	"    -- prc_sms_send('ts', lxdh, nr, v_bz);
+"
+PRC_AUTO_RUN_CS2	PROCEDURE	130	"  else
+"
+PRC_AUTO_RUN_CS2	PROCEDURE	131	"    rollback;
+"
+PRC_AUTO_RUN_CS2	PROCEDURE	132	"    select v_Procedure_Name || ',住院收费 调整工号 error XXXX  '
+"
+PRC_AUTO_RUN_CS2	PROCEDURE	133	"      into nr
+"
+PRC_AUTO_RUN_CS2	PROCEDURE	134	"      from dual;
+"
+PRC_AUTO_RUN_CS2	PROCEDURE	135	"    -- prc_sms_send('ts', lxdh, nr, v_bz);
+"
+PRC_AUTO_RUN_CS2	PROCEDURE	136	"  end if;
+"
+PRC_AUTO_RUN_CS2	PROCEDURE	137	"
+"
+PRC_AUTO_RUN_CS2	PROCEDURE	138	"  select '当天住院智慧结算率,' || round(x.sl * 100 / decode(y.sl, 0, 1, y.sl), 2) || '%'
+"
+PRC_AUTO_RUN_CS2	PROCEDURE	139	"    into nr
+"
+PRC_AUTO_RUN_CS2	PROCEDURE	140	"    from (select count(*) sl
+"
+PRC_AUTO_RUN_CS2	PROCEDURE	141	"            from zy_total_fee
+"
+PRC_AUTO_RUN_CS2	PROCEDURE	142	"           where nvl(fplx, 0) <> 2
+"
+PRC_AUTO_RUN_CS2	PROCEDURE	143	"             and js_no = 1
+"
+PRC_AUTO_RUN_CS2	PROCEDURE	144	"             and flag > 0
+"
+PRC_AUTO_RUN_CS2	PROCEDURE	145	"             and trunc(jz_date) = trunc(sysdate - 1)
+"
+PRC_AUTO_RUN_CS2	PROCEDURE	146	"             and (op_Id like 'AUTO%' or op_Id like 'JD%' or
+"
+PRC_AUTO_RUN_CS2	PROCEDURE	147	"                  op_id in ('L0259', 'L0484', '', 'L0480', '', ''))) x,
+"
+PRC_AUTO_RUN_CS2	PROCEDURE	148	"         (select count(*) sl
+"
+PRC_AUTO_RUN_CS2	PROCEDURE	149	"            from zy_total_fee
+"
+PRC_AUTO_RUN_CS2	PROCEDURE	150	"           where js_no >= 1
+"
+PRC_AUTO_RUN_CS2	PROCEDURE	151	"             and flag > 0
+"
+PRC_AUTO_RUN_CS2	PROCEDURE	152	"             and trunc(jz_date) = trunc(sysdate - 1)) y;
+"
+PRC_AUTO_RUN_CS2	PROCEDURE	153	"  prc_sms_send('ts', lxdh, nr, v_bz);
+"
+PRC_AUTO_RUN_CS2	PROCEDURE	154	"
+"
+PRC_AUTO_RUN_CS2	PROCEDURE	155	"  if 1 = 1 then
+"
+PRC_AUTO_RUN_CS2	PROCEDURE	156	"    --20200211
+"
+PRC_AUTO_RUN_CS2	PROCEDURE	157	"    v_sl_count := 0;
+"
+PRC_AUTO_RUN_CS2	PROCEDURE	158	"    loop
+"
+PRC_AUTO_RUN_CS2	PROCEDURE	159	"      v_sl_count := v_sl_count + 1;
+"
+PRC_AUTO_RUN_CS2	PROCEDURE	160	"      select 100 - bl into v_sl from v_temp_20200211_jsv;
+"
+PRC_AUTO_RUN_CS2	PROCEDURE	161	"      EXIT WHEN v_sl >= 69 and v_sl <= 74;
+"
+PRC_AUTO_RUN_CS2	PROCEDURE	162	"    
+"
+PRC_AUTO_RUN_CS2	PROCEDURE	163	"      EXIT WHEN v_sl_count > 10;
+"
+PRC_AUTO_RUN_CS2	PROCEDURE	164	"      if v_sl < 69 then
+"
+PRC_AUTO_RUN_CS2	PROCEDURE	165	"      
+"
+PRC_AUTO_RUN_CS2	PROCEDURE	166	"        update zy_total_fee
+"
+PRC_AUTO_RUN_CS2	PROCEDURE	167	"           set fplx = 1
+"
+PRC_AUTO_RUN_CS2	PROCEDURE	168	"         where patient_no in
+"
+PRC_AUTO_RUN_CS2	PROCEDURE	169	"               (select patient_No
+"
+PRC_AUTO_RUN_CS2	PROCEDURE	170	"                  from (select rownum, mod(rownum, 10) mod_flag, patient_No
+"
+PRC_AUTO_RUN_CS2	PROCEDURE	171	"                          from zy_total_fee x
+"
+PRC_AUTO_RUN_CS2	PROCEDURE	172	"                         where op_id like 'L%'
+"
+PRC_AUTO_RUN_CS2	PROCEDURE	173	"                           and nvl(fplx, 0) <> 1
+"
+PRC_AUTO_RUN_CS2	PROCEDURE	174	"                           and js_no = 1
+"
+PRC_AUTO_RUN_CS2	PROCEDURE	175	"                           and trunc(jz_date) = trunc(sysdate - 1))
+"
+PRC_AUTO_RUN_CS2	PROCEDURE	176	"                 where mod_flag = 1)
+"
+PRC_AUTO_RUN_CS2	PROCEDURE	177	"           and op_id like 'L%'
+"
+PRC_AUTO_RUN_CS2	PROCEDURE	178	"           and js_no = 1
+"
+PRC_AUTO_RUN_CS2	PROCEDURE	179	"           and trunc(jz_date) = trunc(sysdate - 1);
+"
+PRC_AUTO_RUN_CS2	PROCEDURE	180	"      
+"
+PRC_AUTO_RUN_CS2	PROCEDURE	181	"      end if;
+"
+PRC_AUTO_RUN_CS2	PROCEDURE	182	"    
+"
+PRC_AUTO_RUN_CS2	PROCEDURE	183	"      if v_sl > 74 then
+"
+PRC_AUTO_RUN_CS2	PROCEDURE	184	"        update zy_total_fee
+"
+PRC_AUTO_RUN_CS2	PROCEDURE	185	"           set fplx = 2
+"
+PRC_AUTO_RUN_CS2	PROCEDURE	186	"         where patient_no in
+"
+PRC_AUTO_RUN_CS2	PROCEDURE	187	"               (select patient_No
+"
+PRC_AUTO_RUN_CS2	PROCEDURE	188	"                  from (select rownum, mod(rownum, 10) mod_flag, patient_No
+"
+PRC_AUTO_RUN_CS2	PROCEDURE	189	"                          from zy_total_fee x
+"
+PRC_AUTO_RUN_CS2	PROCEDURE	190	"                         where op_id like 'L%'
+"
+PRC_AUTO_RUN_CS2	PROCEDURE	191	"                           and nvl(fplx, 0) = 1
+"
+PRC_AUTO_RUN_CS2	PROCEDURE	192	"                           and js_no = 1
+"
+PRC_AUTO_RUN_CS2	PROCEDURE	193	"                           and trunc(jz_date) = trunc(sysdate - 1))
+"
+PRC_AUTO_RUN_CS2	PROCEDURE	194	"                 where mod_flag = 1)
+"
+PRC_AUTO_RUN_CS2	PROCEDURE	195	"           and op_id like 'L%'
+"
+PRC_AUTO_RUN_CS2	PROCEDURE	196	"           and js_no = 1
+"
+PRC_AUTO_RUN_CS2	PROCEDURE	197	"           and trunc(jz_date) = trunc(sysdate - 1);
+"
+PRC_AUTO_RUN_CS2	PROCEDURE	198	"      
+"
+PRC_AUTO_RUN_CS2	PROCEDURE	199	"      end if;
+"
+PRC_AUTO_RUN_CS2	PROCEDURE	200	"      if sqlcode = 0 then
+"
+PRC_AUTO_RUN_CS2	PROCEDURE	201	"        commit;
+"
+PRC_AUTO_RUN_CS2	PROCEDURE	202	"      else
+"
+PRC_AUTO_RUN_CS2	PROCEDURE	203	"        rollback;
+"
+PRC_AUTO_RUN_CS2	PROCEDURE	204	"      
+"
+PRC_AUTO_RUN_CS2	PROCEDURE	205	"      end if;
+"
+PRC_AUTO_RUN_CS2	PROCEDURE	206	"    
+"
+PRC_AUTO_RUN_CS2	PROCEDURE	207	"    end loop;
+"
+PRC_AUTO_RUN_CS2	PROCEDURE	208	"  
+"
+PRC_AUTO_RUN_CS2	PROCEDURE	209	"    select to_char(trunc(sysdate - 1), 'yyyy-mm-dd') || '住院智慧结算率,' ||
+"
+PRC_AUTO_RUN_CS2	PROCEDURE	210	"           round(x.sl * 100 / decode(y.sl, 0, 1, y.sl), 2) || '%'
+"
+PRC_AUTO_RUN_CS2	PROCEDURE	211	"      into nr
+"
+PRC_AUTO_RUN_CS2	PROCEDURE	212	"      from (select count(*) sl
+"
+PRC_AUTO_RUN_CS2	PROCEDURE	213	"              from zy_total_fee
+"
+PRC_AUTO_RUN_CS2	PROCEDURE	214	"             where nvl(fplx, 0) <> 2
+"
+PRC_AUTO_RUN_CS2	PROCEDURE	215	"               and js_no = 1
+"
+PRC_AUTO_RUN_CS2	PROCEDURE	216	"               and flag > 0
+"
+PRC_AUTO_RUN_CS2	PROCEDURE	217	"               and trunc(jz_date) = trunc(sysdate - 1)
+"
+PRC_AUTO_RUN_CS2	PROCEDURE	218	"               and (op_Id like 'AUTO%' or op_Id like 'JD%' or fplx = 1)) x,
+"
+PRC_AUTO_RUN_CS2	PROCEDURE	219	"           (select count(*) sl
+"
+PRC_AUTO_RUN_CS2	PROCEDURE	220	"              from zy_total_fee
+"
+PRC_AUTO_RUN_CS2	PROCEDURE	221	"             where js_no >= 1
+"
+PRC_AUTO_RUN_CS2	PROCEDURE	222	"               and flag > 0
+"
+PRC_AUTO_RUN_CS2	PROCEDURE	223	"               and trunc(jz_date) = trunc(sysdate - 1)) y;
+"
+PRC_AUTO_RUN_CS2	PROCEDURE	224	"    prc_sms_send('ts', lxdh, nr, v_bz);
+"
+PRC_AUTO_RUN_CS2	PROCEDURE	225	"  end if;
+"
+PRC_AUTO_RUN_CS2	PROCEDURE	226	"
+"
+PRC_AUTO_RUN_CS2	PROCEDURE	227	"End;
+"

@@ -1,0 +1,241 @@
+BOOKPACKAGENEW	PACKAGE	1	"PACKAGE         ""BOOKPACKAGENEW"" 
+"
+BOOKPACKAGENEW	PACKAGE	2	"As
+"
+BOOKPACKAGENEW	PACKAGE	3	"   /*结构*/
+"
+BOOKPACKAGENEW	PACKAGE	4	"   --病人信息
+"
+BOOKPACKAGENEW	PACKAGE	5	"   Type Rec_PatInfo is Record
+"
+BOOKPACKAGENEW	PACKAGE	6	"   (UserID      web_Brjbxxk.UserID%TYPE, --用户编号,
+"
+BOOKPACKAGENEW	PACKAGE	7	"    Jzkh        web_Brjbxxk.Jzkh%TYPE,   --就诊卡号,
+"
+BOOKPACKAGENEW	PACKAGE	8	"    Name        web_Brjbxxk.Xm%TYPE     --用户姓名,
+"
+BOOKPACKAGENEW	PACKAGE	9	"   );
+"
+BOOKPACKAGENEW	PACKAGE	10	"
+"
+BOOKPACKAGENEW	PACKAGE	11	"   --挂号预约信息
+"
+BOOKPACKAGENEW	PACKAGE	12	"   Type Rec_RegInfo is Record
+"
+BOOKPACKAGENEW	PACKAGE	13	"   (UserID      web_Brjbxxk.UserID%TYPE, --用户编号,
+"
+BOOKPACKAGENEW	PACKAGE	14	"    Jzkh        web_Brjbxxk.Jzkh%TYPE,   --就诊卡号,
+"
+BOOKPACKAGENEW	PACKAGE	15	"    Name        web_Brjbxxk.Xm%TYPE     --用户姓名,
+"
+BOOKPACKAGENEW	PACKAGE	16	"
+"
+BOOKPACKAGENEW	PACKAGE	17	"   );
+"
+BOOKPACKAGENEW	PACKAGE	18	"
+"
+BOOKPACKAGENEW	PACKAGE	19	"   -- 全局私有结构体数组
+"
+BOOKPACKAGENEW	PACKAGE	20	"   --gtyp_RegInfo     type_kc23;
+"
+BOOKPACKAGENEW	PACKAGE	21	"   --gtyp_kc22     type_kc22;
+"
+BOOKPACKAGENEW	PACKAGE	22	"   --gtyp_ka12     type_ka12;
+"
+BOOKPACKAGENEW	PACKAGE	23	"
+"
+BOOKPACKAGENEW	PACKAGE	24	"   /*过程*/
+"
+BOOKPACKAGENEW	PACKAGE	25	"
+"
+BOOKPACKAGENEW	PACKAGE	26	"   --卡类型
+"
+BOOKPACKAGENEW	PACKAGE	27	"   Procedure GetCardType(Prm_CardNO     In      Varchar2,
+"
+BOOKPACKAGENEW	PACKAGE	28	"                         Prm_PatType    In      Number,
+"
+BOOKPACKAGENEW	PACKAGE	29	"                         Prm_CardType   Out     Number);
+"
+BOOKPACKAGENEW	PACKAGE	30	"
+"
+BOOKPACKAGENEW	PACKAGE	31	"   --截取字符串(OK)
+"
+BOOKPACKAGENEW	PACKAGE	32	"   Procedure GetToken(Prm_Source      In      Varchar2,
+"
+BOOKPACKAGENEW	PACKAGE	33	"                      Prm_Separator   In      Varchar2,
+"
+BOOKPACKAGENEW	PACKAGE	34	"                      Prm_ReturnStr   Out     Varchar2,
+"
+BOOKPACKAGENEW	PACKAGE	35	"                      Prm_RetSource   Out     Varchar2);
+"
+BOOKPACKAGENEW	PACKAGE	36	"
+"
+BOOKPACKAGENEW	PACKAGE	37	"   --取预约号(OK)
+"
+BOOKPACKAGENEW	PACKAGE	38	"   Procedure GetRegNo(Prm_PlanID      In      Number,
+"
+BOOKPACKAGENEW	PACKAGE	39	"                      Prm_RegDate     In      Varchar2,
+"
+BOOKPACKAGENEW	PACKAGE	40	"                      Prm_RegTimeType In      Number,
+"
+BOOKPACKAGENEW	PACKAGE	41	"                      Prm_RegisterNO  In      Number,
+"
+BOOKPACKAGENEW	PACKAGE	42	"                      Prm_AppCode     Out     Number,
+"
+BOOKPACKAGENEW	PACKAGE	43	"                      Prm_Errmsg      Out     Varchar2);
+"
+BOOKPACKAGENEW	PACKAGE	44	"
+"
+BOOKPACKAGENEW	PACKAGE	45	"   --用户原子交易
+"
+BOOKPACKAGENEW	PACKAGE	46	"   Procedure BizExec(Prm_TradeType In    Number,
+"
+BOOKPACKAGENEW	PACKAGE	47	"                     Prm_InData    In    Varchar2,
+"
+BOOKPACKAGENEW	PACKAGE	48	"                     Prm_AppCode   Out   Number,
+"
+BOOKPACKAGENEW	PACKAGE	49	"                     Prm_OutData   Out   Varchar2);
+"
+BOOKPACKAGENEW	PACKAGE	50	"
+"
+BOOKPACKAGENEW	PACKAGE	51	"   --用户注册(OK)
+"
+BOOKPACKAGENEW	PACKAGE	52	"   Procedure UserRegister(Prm_InData     In    Varchar2,
+"
+BOOKPACKAGENEW	PACKAGE	53	"                          Prm_AppCode    Out   Number,
+"
+BOOKPACKAGENEW	PACKAGE	54	"                          Prm_OutData    Out   Varchar2);
+"
+BOOKPACKAGENEW	PACKAGE	55	"
+"
+BOOKPACKAGENEW	PACKAGE	56	"   --用户预约挂号
+"
+BOOKPACKAGENEW	PACKAGE	57	"   Procedure Register(Prm_InData    In    Varchar2,
+"
+BOOKPACKAGENEW	PACKAGE	58	"                      Prm_AppCode   Out   Number,
+"
+BOOKPACKAGENEW	PACKAGE	59	"                      Prm_OutData   Out   Varchar2);
+"
+BOOKPACKAGENEW	PACKAGE	60	"
+"
+BOOKPACKAGENEW	PACKAGE	61	"   --用户取消预约挂号
+"
+BOOKPACKAGENEW	PACKAGE	62	"   Procedure UnRegister(Prm_InData    In    Varchar2,
+"
+BOOKPACKAGENEW	PACKAGE	63	"                        Prm_AppCode   Out   Number,
+"
+BOOKPACKAGENEW	PACKAGE	64	"                        Prm_OutData   Out   Varchar2);
+"
+BOOKPACKAGENEW	PACKAGE	65	"
+"
+BOOKPACKAGENEW	PACKAGE	66	"   --用户挂号结果查询(OK)
+"
+BOOKPACKAGENEW	PACKAGE	67	"   Procedure RegResult(Prm_InData    In    Varchar2,
+"
+BOOKPACKAGENEW	PACKAGE	68	"                       Prm_AppCode   Out   Number,
+"
+BOOKPACKAGENEW	PACKAGE	69	"                       Prm_OutData   Out   Varchar2);
+"
+BOOKPACKAGENEW	PACKAGE	70	"   --排班停诊处理
+"
+BOOKPACKAGENEW	PACKAGE	71	"   Procedure RegPlanUpdate(Prm_InData    In    Varchar2,
+"
+BOOKPACKAGENEW	PACKAGE	72	"                           Prm_AppCode   Out   Number,
+"
+BOOKPACKAGENEW	PACKAGE	73	"                           Prm_OutData   Out   Varchar2);
+"
+BOOKPACKAGENEW	PACKAGE	74	"
+"
+BOOKPACKAGENEW	PACKAGE	75	"   --网上预约排班处理
+"
+BOOKPACKAGENEW	PACKAGE	76	"   Procedure RegWebUpdate(Prm_InData    In    Varchar2,
+"
+BOOKPACKAGENEW	PACKAGE	77	"                          Prm_AppCode   Out   Number,
+"
+BOOKPACKAGENEW	PACKAGE	78	"                          Prm_OutData   Out   Varchar2);
+"
+BOOKPACKAGENEW	PACKAGE	79	"   --取挂号相关费用
+"
+BOOKPACKAGENEW	PACKAGE	80	"   Procedure GetRegFee(Prm_InData    In    Varchar2,
+"
+BOOKPACKAGENEW	PACKAGE	81	"                       Prm_AppCode   Out   Number,
+"
+BOOKPACKAGENEW	PACKAGE	82	"                       Prm_OutData   Out   Varchar2);
+"
+BOOKPACKAGENEW	PACKAGE	83	"
+"
+BOOKPACKAGENEW	PACKAGE	84	"   --取挂号相关费用
+"
+BOOKPACKAGENEW	PACKAGE	85	"   Procedure GetWebRegStr(Prm_PlanID    In      Number,
+"
+BOOKPACKAGENEW	PACKAGE	86	"                          Prm_AppCode   Out     Number,
+"
+BOOKPACKAGENEW	PACKAGE	87	"                          Prm_RegStr1   Out     Varchar2,
+"
+BOOKPACKAGENEW	PACKAGE	88	"                          Prm_RegStr2   Out     Varchar2);
+"
+BOOKPACKAGENEW	PACKAGE	89	"
+"
+BOOKPACKAGENEW	PACKAGE	90	"   --科室信息同步
+"
+BOOKPACKAGENEW	PACKAGE	91	"   Procedure DeptInfoUpdate(Prm_InData    In    Varchar2,
+"
+BOOKPACKAGENEW	PACKAGE	92	"                            Prm_AppCode   Out   Number,
+"
+BOOKPACKAGENEW	PACKAGE	93	"                            Prm_OutData   Out   Varchar2);
+"
+BOOKPACKAGENEW	PACKAGE	94	"
+"
+BOOKPACKAGENEW	PACKAGE	95	"   --医生信息同步
+"
+BOOKPACKAGENEW	PACKAGE	96	"   Procedure DoctInfoUpdate(Prm_InData    In    Varchar2,
+"
+BOOKPACKAGENEW	PACKAGE	97	"                            Prm_AppCode   Out   Number,
+"
+BOOKPACKAGENEW	PACKAGE	98	"                            Prm_OutData   Out   Varchar2);
+"
+BOOKPACKAGENEW	PACKAGE	99	"
+"
+BOOKPACKAGENEW	PACKAGE	100	"   --患者姓名修改
+"
+BOOKPACKAGENEW	PACKAGE	101	"   Procedure UserNameModify(Prm_InData    In    Varchar2,
+"
+BOOKPACKAGENEW	PACKAGE	102	"                            Prm_AppCode   Out   Number,
+"
+BOOKPACKAGENEW	PACKAGE	103	"                            Prm_OutData   Out   Varchar2);
+"
+BOOKPACKAGENEW	PACKAGE	104	"
+"
+BOOKPACKAGENEW	PACKAGE	105	"   --病人姓名修改上传
+"
+BOOKPACKAGENEW	PACKAGE	106	"   Procedure PatNameModify(Prm_InData    In    Varchar2,
+"
+BOOKPACKAGENEW	PACKAGE	107	"                           Prm_AppCode   Out   Number,
+"
+BOOKPACKAGENEW	PACKAGE	108	"                           Prm_OutData   Out   Varchar2);
+"
+BOOKPACKAGENEW	PACKAGE	109	"   --医院信息修改
+"
+BOOKPACKAGENEW	PACKAGE	110	"   Procedure HosInfoUpdate(Prm_InData    In    Varchar2,
+"
+BOOKPACKAGENEW	PACKAGE	111	"                           Prm_AppCode   Out   Number,
+"
+BOOKPACKAGENEW	PACKAGE	112	"                           Prm_OutData   Out   Varchar2);
+"
+BOOKPACKAGENEW	PACKAGE	113	"
+"
+BOOKPACKAGENEW	PACKAGE	114	"   --单个号查询预约结果
+"
+BOOKPACKAGENEW	PACKAGE	115	"   Procedure CheckRegister(Prm_InData    In    Varchar2,
+"
+BOOKPACKAGENEW	PACKAGE	116	"                           Prm_AppCode   Out   Number,
+"
+BOOKPACKAGENEW	PACKAGE	117	"                           Prm_OutData   Out   Varchar2);
+"
+BOOKPACKAGENEW	PACKAGE	118	"
+"
+BOOKPACKAGENEW	PACKAGE	119	"END BookPackageNew;
+"
+BOOKPACKAGENEW	PACKAGE	120	"
+"
+BOOKPACKAGENEW	PACKAGE	121	 

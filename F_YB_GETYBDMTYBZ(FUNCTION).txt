@@ -1,0 +1,30 @@
+F_YB_GETYBDMTYBZ	FUNCTION	1	"function f_Yb_Getybdmtybz(as_yplx in varchar2,as_ybdm in varchar2)
+"
+F_YB_GETYBDMTYBZ	FUNCTION	2	"return number is
+"
+F_YB_GETYBDMTYBZ	FUNCTION	3	"result number(2);
+"
+F_YB_GETYBDMTYBZ	FUNCTION	4	"begin
+"
+F_YB_GETYBDMTYBZ	FUNCTION	5	"  result := 0;
+"
+F_YB_GETYBDMTYBZ	FUNCTION	6	"  begin
+"
+F_YB_GETYBDMTYBZ	FUNCTION	7	"    select Sign(Trunc(To_date(nvl(""YBV_YAOPINML"".""TINGYONGRQ"",To_char(sysdate,'yyyymmdd')),'yyyy-mm-dd hh24:mi:ss')) - Trunc(Sysdate)) into result
+"
+F_YB_GETYBDMTYBZ	FUNCTION	8	"      from YBV_YAOPINML where yibaolx = as_yplx and YIBAODM = as_ybdm and rownum=1;
+"
+F_YB_GETYBDMTYBZ	FUNCTION	9	"   Exception
+"
+F_YB_GETYBDMTYBZ	FUNCTION	10	"      When No_Data_Found Then
+"
+F_YB_GETYBDMTYBZ	FUNCTION	11	"      Result := -1;
+"
+F_YB_GETYBDMTYBZ	FUNCTION	12	"    End;
+"
+F_YB_GETYBDMTYBZ	FUNCTION	13	"
+"
+F_YB_GETYBDMTYBZ	FUNCTION	14	"   return result;
+"
+F_YB_GETYBDMTYBZ	FUNCTION	15	"end;
+"

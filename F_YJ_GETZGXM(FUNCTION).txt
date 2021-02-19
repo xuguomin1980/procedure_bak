@@ -1,0 +1,24 @@
+F_YJ_GETZGXM	FUNCTION	1	"FUNCTION ""F_YJ_GETZGXM""
+"
+F_YJ_GETZGXM	FUNCTION	2	"(arg_ysgh in varchar2)
+"
+F_YJ_GETZGXM	FUNCTION	3	"  return varchar2
+"
+F_YJ_GETZGXM	FUNCTION	4	"  is
+"
+F_YJ_GETZGXM	FUNCTION	5	"
+"
+F_YJ_GETZGXM	FUNCTION	6	"    ls_return varchar2(20);
+"
+F_YJ_GETZGXM	FUNCTION	7	"  begin
+"
+F_YJ_GETZGXM	FUNCTION	8	"	  select xm into ls_return from gy_zgxx where zgid=arg_ysgh;
+"
+F_YJ_GETZGXM	FUNCTION	9	"	  return(ls_return);
+"
+F_YJ_GETZGXM	FUNCTION	10	"  end;
+"
+F_YJ_GETZGXM	FUNCTION	11	"
+"
+F_YJ_GETZGXM	FUNCTION	12	" 
+"

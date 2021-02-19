@@ -1,0 +1,80 @@
+F_GET_DJHM_DJKF	FUNCTION	1	"function ""F_GET_DJHM_DJKF""
+"
+F_GET_DJHM_DJKF	FUNCTION	2	"(in_xtxh in number, in_zblx in number,in_djlx in number ) return varchar2
+"
+F_GET_DJHM_DJKF	FUNCTION	3	"  as
+"
+F_GET_DJHM_DJKF	FUNCTION	4	"   v_dqz   number := NULL;
+"
+F_GET_DJHM_DJKF	FUNCTION	5	"   s_dqz varchar2(20);
+"
+F_GET_DJHM_DJKF	FUNCTION	6	"   s_djhm varchar2(20);
+"
+F_GET_DJHM_DJKF	FUNCTION	7	"begin
+"
+F_GET_DJHM_DJKF	FUNCTION	8	"  begin
+"
+F_GET_DJHM_DJKF	FUNCTION	9	"    if(in_xtxh is null) then
+"
+F_GET_DJHM_DJKF	FUNCTION	10	"      SELECT nvl(djhm,0) INTO v_dqz  FROM ylsb_djkf.wz_djlx
+"
+F_GET_DJHM_DJKF	FUNCTION	11	"             WHERE xtxh='92' and zblx=in_zblx and djlx=in_djlx FOR UPDATE;
+"
+F_GET_DJHM_DJKF	FUNCTION	12	"    else
+"
+F_GET_DJHM_DJKF	FUNCTION	13	"      SELECT nvl(djhm,0) INTO v_dqz  FROM ylsb_djkf.wz_djlx
+"
+F_GET_DJHM_DJKF	FUNCTION	14	"             WHERE xtxh=in_xtxh and zblx=in_zblx and djlx=in_djlx FOR UPDATE;
+"
+F_GET_DJHM_DJKF	FUNCTION	15	"    end if;
+"
+F_GET_DJHM_DJKF	FUNCTION	16	"
+"
+F_GET_DJHM_DJKF	FUNCTION	17	"    Exception
+"
+F_GET_DJHM_DJKF	FUNCTION	18	"    When Others Then
+"
+F_GET_DJHM_DJKF	FUNCTION	19	"         v_dqz := null;
+"
+F_GET_DJHM_DJKF	FUNCTION	20	"  end;
+"
+F_GET_DJHM_DJKF	FUNCTION	21	"
+"
+F_GET_DJHM_DJKF	FUNCTION	22	"  IF v_dqz IS NOT NULL THEN
+"
+F_GET_DJHM_DJKF	FUNCTION	23	"     v_dqz := v_dqz + 1;
+"
+F_GET_DJHM_DJKF	FUNCTION	24	"
+"
+F_GET_DJHM_DJKF	FUNCTION	25	"     UPDATE ylsb_djkf.wz_djlx SET djhm = v_dqz
+"
+F_GET_DJHM_DJKF	FUNCTION	26	"     WHERE xtxh=in_xtxh and zblx=in_zblx and djlx=in_djlx;
+"
+F_GET_DJHM_DJKF	FUNCTION	27	"  ELSE
+"
+F_GET_DJHM_DJKF	FUNCTION	28	"     v_dqz := 1;
+"
+F_GET_DJHM_DJKF	FUNCTION	29	"     insert into ylsb_djkf.wz_djlx(xtxh,djlx,zblx,djmc,djhm,bhgz)
+"
+F_GET_DJHM_DJKF	FUNCTION	30	"     values(in_xtxh,in_djlx,in_zblx,'',v_dqz,3);
+"
+F_GET_DJHM_DJKF	FUNCTION	31	"
+"
+F_GET_DJHM_DJKF	FUNCTION	32	"  END IF;
+"
+F_GET_DJHM_DJKF	FUNCTION	33	"  COMMIT;
+"
+F_GET_DJHM_DJKF	FUNCTION	34	"
+"
+F_GET_DJHM_DJKF	FUNCTION	35	"  s_dqz := v_dqz;
+"
+F_GET_DJHM_DJKF	FUNCTION	36	"  s_djhm := '0'||in_zblx||CONCAT(SUBSTR('00000000',LENGTH(s_dqz) + 1 ),s_dqz);
+"
+F_GET_DJHM_DJKF	FUNCTION	37	"
+"
+F_GET_DJHM_DJKF	FUNCTION	38	"  Return s_djhm;
+"
+F_GET_DJHM_DJKF	FUNCTION	39	"
+"
+F_GET_DJHM_DJKF	FUNCTION	40	"end f_get_djhm_djkf;
+"

@@ -1,0 +1,136 @@
+TRI_ZY_DETAIL_CHAREGE	TRIGGER	1	"TRIGGER ""ZJHIS"".""TRI_ZY_DETAIL_CHAREGE"" 
+"
+TRI_ZY_DETAIL_CHAREGE	TRIGGER	2	"After Update On zy_detail_charge For Each Row
+"
+TRI_ZY_DETAIL_CHAREGE	TRIGGER	3	"
+"
+TRI_ZY_DETAIL_CHAREGE	TRIGGER	4	"/*=============================================================================
+"
+TRI_ZY_DETAIL_CHAREGE	TRIGGER	5	"|| 对象名称 ： 住院费用表修改触发器tri_zy_detail_charege
+"
+TRI_ZY_DETAIL_CHAREGE	TRIGGER	6	"||-----------------------------------------------------------------------------
+"
+TRI_ZY_DETAIL_CHAREGE	TRIGGER	7	"|| 功能说明 ： 住院非自动记帐数据修改后自动把修改前后数据插入到表
+"
+TRI_ZY_DETAIL_CHAREGE	TRIGGER	8	"||             JCFX_ZY_DATA_CHANGE1中。记录的数据有：jlxh、jcfx_id、curr_bq、
+"
+TRI_ZY_DETAIL_CHAREGE	TRIGGER	9	"||             curr_ks、fygl、zx_ks、group_code、ys_code、dj、sl、flag
+"
+TRI_ZY_DETAIL_CHAREGE	TRIGGER	10	"||-----------------------------------------------------------------------------
+"
+TRI_ZY_DETAIL_CHAREGE	TRIGGER	11	"|| 注意事项 ： 测试要求1）修改一个或多个字段；2）任何情况下不得妨碍原住院业务
+"
+TRI_ZY_DETAIL_CHAREGE	TRIGGER	12	"||            -----------------------------------------------------------------
+"
+TRI_ZY_DETAIL_CHAREGE	TRIGGER	13	"||             运行一个月，情况正常，未发现影响原业务系统。数据基本为检验子系统
+"
+TRI_ZY_DETAIL_CHAREGE	TRIGGER	14	"||             修改产生的。
+"
+TRI_ZY_DETAIL_CHAREGE	TRIGGER	15	"||-----------------------------------------------------------------------------
+"
+TRI_ZY_DETAIL_CHAREGE	TRIGGER	16	"|| 作    者 ： 陈联     完成日期 ：2001-03-11
+"
+TRI_ZY_DETAIL_CHAREGE	TRIGGER	17	"||-----------------------------------------------------------------------------
+"
+TRI_ZY_DETAIL_CHAREGE	TRIGGER	18	"|| 修改记录 ： 陈联 @ 2001-04-11
+"
+TRI_ZY_DETAIL_CHAREGE	TRIGGER	19	"||             修改触发条件中增加日期判断,当天修改不记录.
+"
+TRI_ZY_DETAIL_CHAREGE	TRIGGER	20	"||            -----------------------------------------------------------------
+"
+TRI_ZY_DETAIL_CHAREGE	TRIGGER	21	"||             陈智鸿 @ 2002-10-21
+"
+TRI_ZY_DETAIL_CHAREGE	TRIGGER	22	"||             整理代码
+"
+TRI_ZY_DETAIL_CHAREGE	TRIGGER	23	"=============================================================================*/
+"
+TRI_ZY_DETAIL_CHAREGE	TRIGGER	24	"
+"
+TRI_ZY_DETAIL_CHAREGE	TRIGGER	25	"Declare
+"
+TRI_ZY_DETAIL_CHAREGE	TRIGGER	26	"  i            Number;
+"
+TRI_ZY_DETAIL_CHAREGE	TRIGGER	27	"  ln_jcfx_id   Number;
+"
+TRI_ZY_DETAIL_CHAREGE	TRIGGER	28	"  
+"
+TRI_ZY_DETAIL_CHAREGE	TRIGGER	29	"Begin
+"
+TRI_ZY_DETAIL_CHAREGE	TRIGGER	30	"  ln_jcfx_id := To_number(To_char(Trunc(sysdate),'yyyymmdd'));
+"
+TRI_ZY_DETAIL_CHAREGE	TRIGGER	31	"  If :old.twice_detail_code <> 'AU' AND :old.jcfx_id <> ln_jcfx_id  Then
+"
+TRI_ZY_DETAIL_CHAREGE	TRIGGER	32	"    IF :Old.dj         <> :New.dj         Or      --单价
+"
+TRI_ZY_DETAIL_CHAREGE	TRIGGER	33	"       :Old.sl         <> :New.sl         Or      --数量
+"
+TRI_ZY_DETAIL_CHAREGE	TRIGGER	34	"       :Old.fygl       <> :New.fygl       Or      --费用归类
+"
+TRI_ZY_DETAIL_CHAREGE	TRIGGER	35	"       :Old.curr_bq    <> :New.curr_bq    Or      --病区
+"
+TRI_ZY_DETAIL_CHAREGE	TRIGGER	36	"       :Old.curr_ks    <> :New.curr_ks    Or      --科室
+"
+TRI_ZY_DETAIL_CHAREGE	TRIGGER	37	"       :Old.group_code <> :New.group_code Or      --组
+"
+TRI_ZY_DETAIL_CHAREGE	TRIGGER	38	"       :Old.ys_code    <> :New.ys_code    Or      --医生
+"
+TRI_ZY_DETAIL_CHAREGE	TRIGGER	39	"       :Old.zx_ks      <> :New.zx_ks      Then    --执行科室
+"
+TRI_ZY_DETAIL_CHAREGE	TRIGGER	40	"      
+"
+TRI_ZY_DETAIL_CHAREGE	TRIGGER	41	"      -- 把旧的数据插入到表JCFX_ZY_DATA_CHANGE1中（HONGER）
+"
+TRI_ZY_DETAIL_CHAREGE	TRIGGER	42	"      Insert Into jcfx_zy_data_change1 ( jlxh, jcfx_id, curr_bq,
+"
+TRI_ZY_DETAIL_CHAREGE	TRIGGER	43	"                                         curr_ks, fygl, zx_ks,
+"
+TRI_ZY_DETAIL_CHAREGE	TRIGGER	44	"                                         group_code, ys_code, dj,
+"
+TRI_ZY_DETAIL_CHAREGE	TRIGGER	45	"                                         sl, flag)
+"
+TRI_ZY_DETAIL_CHAREGE	TRIGGER	46	"      Values ( :Old.jlxh, :Old.jcfx_id, :Old.curr_bq,
+"
+TRI_ZY_DETAIL_CHAREGE	TRIGGER	47	"               :Old.curr_ks, :Old.fygl, :Old.zx_ks,
+"
+TRI_ZY_DETAIL_CHAREGE	TRIGGER	48	"               :Old.group_code, :Old.ys_code, :Old.dj,
+"
+TRI_ZY_DETAIL_CHAREGE	TRIGGER	49	"               :Old.sl, -1);
+"
+TRI_ZY_DETAIL_CHAREGE	TRIGGER	50	"    
+"
+TRI_ZY_DETAIL_CHAREGE	TRIGGER	51	"      -- 把新的数据插入到表JCFX_ZY_DATA_CHANGE1中（HONGER）
+"
+TRI_ZY_DETAIL_CHAREGE	TRIGGER	52	"      Insert Into jcfx_zy_data_change1 ( jlxh, jcfx_id, curr_bq,
+"
+TRI_ZY_DETAIL_CHAREGE	TRIGGER	53	"                                         curr_ks, fygl, zx_ks,
+"
+TRI_ZY_DETAIL_CHAREGE	TRIGGER	54	"                                         group_code, ys_code, dj,
+"
+TRI_ZY_DETAIL_CHAREGE	TRIGGER	55	"                                         sl, flag) 
+"
+TRI_ZY_DETAIL_CHAREGE	TRIGGER	56	"      Values ( :New.jlxh, :New.jcfx_id, :New.curr_bq,
+"
+TRI_ZY_DETAIL_CHAREGE	TRIGGER	57	"               :New.curr_ks, :New.fygl, :New.zx_ks,
+"
+TRI_ZY_DETAIL_CHAREGE	TRIGGER	58	"               :New.group_code, :New.ys_code, :New.dj,
+"
+TRI_ZY_DETAIL_CHAREGE	TRIGGER	59	"               :New.sl, 1);
+"
+TRI_ZY_DETAIL_CHAREGE	TRIGGER	60	"    End If;
+"
+TRI_ZY_DETAIL_CHAREGE	TRIGGER	61	"  End If;
+"
+TRI_ZY_DETAIL_CHAREGE	TRIGGER	62	"
+"
+TRI_ZY_DETAIL_CHAREGE	TRIGGER	63	"Exception
+"
+TRI_ZY_DETAIL_CHAREGE	TRIGGER	64	"  When Others Then
+"
+TRI_ZY_DETAIL_CHAREGE	TRIGGER	65	"    i := 1;
+"
+TRI_ZY_DETAIL_CHAREGE	TRIGGER	66	"    
+"
+TRI_ZY_DETAIL_CHAREGE	TRIGGER	67	"End tri_zy_detail_charege;
+"
+TRI_ZY_DETAIL_CHAREGE	TRIGGER	68	"
+"

@@ -1,0 +1,19 @@
+F_YJ_GETKSMC	FUNCTION	1	"FUNCTION         ""F_YJ_GETKSMC"" (arg_ksdm in varchar2)
+"
+F_YJ_GETKSMC	FUNCTION	2	"  return varchar2
+"
+F_YJ_GETKSMC	FUNCTION	3	"  is
+"
+F_YJ_GETKSMC	FUNCTION	4	"    ls_return varchar2(30);
+"
+F_YJ_GETKSMC	FUNCTION	5	"  begin
+"
+F_YJ_GETKSMC	FUNCTION	6	"	  select ksmc into ls_return from gy_ksdm where ksdm=arg_ksdm and rownum=1;
+"
+F_YJ_GETKSMC	FUNCTION	7	"	  return(ls_return);
+"
+F_YJ_GETKSMC	FUNCTION	8	"  end;
+"
+F_YJ_GETKSMC	FUNCTION	9	"
+"
+F_YJ_GETKSMC	FUNCTION	10	 

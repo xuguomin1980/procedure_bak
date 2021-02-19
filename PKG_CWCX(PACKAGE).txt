@@ -1,0 +1,95 @@
+PKG_CWCX	PACKAGE	1	"PACKAGE         ""PKG_CWCX"" 
+"
+PKG_CWCX	PACKAGE	2	"As
+"
+PKG_CWCX	PACKAGE	3	"   Procedure prc_zy_fyjc_sqs (in_dt_tjrq In  Date, 
+"
+PKG_CWCX	PACKAGE	4	"                              on_code    Out NUMBER,
+"
+PKG_CWCX	PACKAGE	5	"                              os_mess    Out VARCHAR2);
+"
+PKG_CWCX	PACKAGE	6	"   Procedure prc_zy_fyjc_add (in_dt_tjrq In  Date, 
+"
+PKG_CWCX	PACKAGE	7	"                              on_code    Out NUMBER,
+"
+PKG_CWCX	PACKAGE	8	"                              os_mess    Out VARCHAR2);
+"
+PKG_CWCX	PACKAGE	9	"   Procedure prc_zy_fyjc_add1(in_dt_tjrq In  Date, 
+"
+PKG_CWCX	PACKAGE	10	"                              on_code    Out NUMBER,
+"
+PKG_CWCX	PACKAGE	11	"                              os_mess    Out VARCHAR2);
+"
+PKG_CWCX	PACKAGE	12	"   Procedure prc_zy_fyjc_red (in_dt_tjrq In  Date, 
+"
+PKG_CWCX	PACKAGE	13	"                              on_code    Out NUMBER,
+"
+PKG_CWCX	PACKAGE	14	"                              os_mess    Out VARCHAR2);
+"
+PKG_CWCX	PACKAGE	15	"   Procedure prc_zy_fyjc_red1(in_dt_tjrq In  Date, 
+"
+PKG_CWCX	PACKAGE	16	"                              on_code    Out NUMBER,
+"
+PKG_CWCX	PACKAGE	17	"                              os_mess    Out VARCHAR2);
+"
+PKG_CWCX	PACKAGE	18	"   Procedure prc_zy_zhxx     (in_dt_tjrq In  Date, 
+"
+PKG_CWCX	PACKAGE	19	"                              on_code    Out NUMBER,
+"
+PKG_CWCX	PACKAGE	20	"                              os_mess    Out VARCHAR2);
+"
+PKG_CWCX	PACKAGE	21	"   Procedure prc_zy_zhxx1    (in_dt_tjrq In  Date, 
+"
+PKG_CWCX	PACKAGE	22	"                              on_code    Out NUMBER,
+"
+PKG_CWCX	PACKAGE	23	"                              os_mess    Out VARCHAR2);
+"
+PKG_CWCX	PACKAGE	24	"   Procedure prc_zy_fyjc_jcs (in_dt_tjrq In  Date, 
+"
+PKG_CWCX	PACKAGE	25	"                              on_code    Out NUMBER,
+"
+PKG_CWCX	PACKAGE	26	"                              os_mess    Out VARCHAR2);
+"
+PKG_CWCX	PACKAGE	27	"   Procedure prc_zy_yjfy_zxks (in_dt_tjrq In Date, 
+"
+PKG_CWCX	PACKAGE	28	"                              on_code    Out NUMBER,
+"
+PKG_CWCX	PACKAGE	29	"                              os_mess    Out VARCHAR2);
+"
+PKG_CWCX	PACKAGE	30	"   Procedure prc_zy_yjfy_zxks1(in_dt_tjrq In Date, 
+"
+PKG_CWCX	PACKAGE	31	"                              on_code    Out NUMBER,
+"
+PKG_CWCX	PACKAGE	32	"                              os_mess    Out VARCHAR2);
+"
+PKG_CWCX	PACKAGE	33	"   Procedure prc_mz_fyfx(in_dt_tjrq In  Date, 
+"
+PKG_CWCX	PACKAGE	34	"                              on_code    Out NUMBER,
+"
+PKG_CWCX	PACKAGE	35	"                              os_mess    Out VARCHAR2);
+"
+PKG_CWCX	PACKAGE	36	"   Procedure prc_zy_fyfx(in_dt_tjrq In  Date, 
+"
+PKG_CWCX	PACKAGE	37	"                              on_code    Out NUMBER,
+"
+PKG_CWCX	PACKAGE	38	"                              os_mess    Out VARCHAR2);
+"
+PKG_CWCX	PACKAGE	39	"   Procedure prc_mz_fyfx1(in_dt_tjrq In  Date, 
+"
+PKG_CWCX	PACKAGE	40	"                              on_code    Out NUMBER,
+"
+PKG_CWCX	PACKAGE	41	"                              os_mess    Out VARCHAR2);
+"
+PKG_CWCX	PACKAGE	42	"   Procedure prc_zy_fyfx1(in_dt_tjrq In  Date, 
+"
+PKG_CWCX	PACKAGE	43	"                              on_code    Out NUMBER,
+"
+PKG_CWCX	PACKAGE	44	"                              os_mess    Out VARCHAR2);                          
+"
+PKG_CWCX	PACKAGE	45	"
+"
+PKG_CWCX	PACKAGE	46	"END Pkg_cwcx;
+"
+PKG_CWCX	PACKAGE	47	"
+"
+PKG_CWCX	PACKAGE	48	 

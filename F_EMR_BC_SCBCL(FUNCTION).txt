@@ -1,0 +1,72 @@
+F_EMR_BC_SCBCL	FUNCTION	1	"FUNCTION F_emr_BC_SCBCL(BINGRENID1 in varchar2)
+"
+F_EMR_BC_SCBCL	FUNCTION	2	"  return varchar2 is
+"
+F_EMR_BC_SCBCL	FUNCTION	3	"  ls_return varchar2(4000);
+"
+F_EMR_BC_SCBCL	FUNCTION	4	"begin
+"
+F_EMR_BC_SCBCL	FUNCTION	5	"
+"
+F_EMR_BC_SCBCL	FUNCTION	6	"  select substr(to_char(substr(substr(b.xmlvalue,
+"
+F_EMR_BC_SCBCL	FUNCTION	7	"                                      INSTR(b.xmlvalue, '<病历记录时间>') + 8,
+"
+F_EMR_BC_SCBCL	FUNCTION	8	"                                      INSTR(b.xmlvalue, '</病历记录时间>') -
+"
+F_EMR_BC_SCBCL	FUNCTION	9	"                                      INSTR(b.xmlvalue, '<病历记录时间>') - 8),
+"
+F_EMR_BC_SCBCL	FUNCTION	10	"                               0,
+"
+F_EMR_BC_SCBCL	FUNCTION	11	"                               4000)) ||
+"
+F_EMR_BC_SCBCL	FUNCTION	12	"                to_char(substr(substr(b.xmlvalue,
+"
+F_EMR_BC_SCBCL	FUNCTION	13	"                                      INSTR(b.xmlvalue, '<初步诊断>') + 6,
+"
+F_EMR_BC_SCBCL	FUNCTION	14	"                                      INSTR(b.xmlvalue, '</初步诊断>') -
+"
+F_EMR_BC_SCBCL	FUNCTION	15	"                                      INSTR(b.xmlvalue, '<初步诊断>') - 6),
+"
+F_EMR_BC_SCBCL	FUNCTION	16	"                               0,
+"
+F_EMR_BC_SCBCL	FUNCTION	17	"                               4000)) ||
+"
+F_EMR_BC_SCBCL	FUNCTION	18	"                to_char(substr(substr(b.xmlvalue,
+"
+F_EMR_BC_SCBCL	FUNCTION	19	"                                      INSTR(b.xmlvalue, '<诊疗计划>') + 6,
+"
+F_EMR_BC_SCBCL	FUNCTION	20	"                                      INSTR(b.xmlvalue, '</诊疗计划>') -
+"
+F_EMR_BC_SCBCL	FUNCTION	21	"                                      INSTR(b.xmlvalue, '<诊疗计划>') - 6),
+"
+F_EMR_BC_SCBCL	FUNCTION	22	"                               0,
+"
+F_EMR_BC_SCBCL	FUNCTION	23	"                               4000)),
+"
+F_EMR_BC_SCBCL	FUNCTION	24	"                0,
+"
+F_EMR_BC_SCBCL	FUNCTION	25	"                4000)
+"
+F_EMR_BC_SCBCL	FUNCTION	26	"    into ls_return
+"
+F_EMR_BC_SCBCL	FUNCTION	27	"    FROM emr3.ZY_DOC_BINGCHENGJL_V4@emrdb a,
+"
+F_EMR_BC_SCBCL	FUNCTION	28	"         emr3.zy_doc_binglijlxml_v4@emrdb B
+"
+F_EMR_BC_SCBCL	FUNCTION	29	"   WHERE A.BINGCHENGJLID = B.BINGLIJLID
+"
+F_EMR_BC_SCBCL	FUNCTION	30	"     and rownum = 1
+"
+F_EMR_BC_SCBCL	FUNCTION	31	"     and a.mobanlx = 'BC_SCBCL'
+"
+F_EMR_BC_SCBCL	FUNCTION	32	"     and a.zuofeibz = '0'
+"
+F_EMR_BC_SCBCL	FUNCTION	33	"     and a.bingrenid = BINGRENID1;
+"
+F_EMR_BC_SCBCL	FUNCTION	34	"
+"
+F_EMR_BC_SCBCL	FUNCTION	35	"  return(ls_return);
+"
+F_EMR_BC_SCBCL	FUNCTION	36	"end;
+"

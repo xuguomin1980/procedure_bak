@@ -1,0 +1,27 @@
+F_GET_MZLBXH	FUNCTION	1	"FUNCTION         ""F_GET_MZLBXH"" (as_jzkh in varchar2,as_rq in varchar2)
+"
+F_GET_MZLBXH	FUNCTION	2	"return varchar2
+"
+F_GET_MZLBXH	FUNCTION	3	"is
+"
+F_GET_MZLBXH	FUNCTION	4	"   ls_return varchar2(10);
+"
+F_GET_MZLBXH	FUNCTION	5	"begin
+"
+F_GET_MZLBXH	FUNCTION	6	"  SELECT nvl(mzlbxh,1) into ls_return FROM gh_ghk where to_char(ghrq,'yyyy-mm-dd')= as_rq and jzkh=as_jzkh;
+"
+F_GET_MZLBXH	FUNCTION	7	"   return ls_return;
+"
+F_GET_MZLBXH	FUNCTION	8	"exception
+"
+F_GET_MZLBXH	FUNCTION	9	"   when others then
+"
+F_GET_MZLBXH	FUNCTION	10	"      return null;
+"
+F_GET_MZLBXH	FUNCTION	11	"end;
+"
+F_GET_MZLBXH	FUNCTION	12	"
+"
+F_GET_MZLBXH	FUNCTION	13	"
+"
+F_GET_MZLBXH	FUNCTION	14	 

@@ -1,0 +1,116 @@
+CUSTOMPAGING	PACKAGE BODY	1	"PACKAGE BODY         ""CUSTOMPAGING"" is
+"
+CUSTOMPAGING	PACKAGE BODY	2	"
+"
+CUSTOMPAGING	PACKAGE BODY	3	" --***************************************************************************************
+"
+CUSTOMPAGING	PACKAGE BODY	4	"
+"
+CUSTOMPAGING	PACKAGE BODY	5	" PROCEDURE Pagination(
+"
+CUSTOMPAGING	PACKAGE BODY	6	"  Pindex in number,
+"
+CUSTOMPAGING	PACKAGE BODY	7	"  Psql in varchar2,
+"
+CUSTOMPAGING	PACKAGE BODY	8	"  Psize in number,
+"
+CUSTOMPAGING	PACKAGE BODY	9	"  Pcount out number,
+"
+CUSTOMPAGING	PACKAGE BODY	10	"  Pallcount out number,
+"
+CUSTOMPAGING	PACKAGE BODY	11	"  cur_OUT out type_cur
+"
+CUSTOMPAGING	PACKAGE BODY	12	" )
+"
+CUSTOMPAGING	PACKAGE BODY	13	" AS
+"
+CUSTOMPAGING	PACKAGE BODY	14	"
+"
+CUSTOMPAGING	PACKAGE BODY	15	"  v_sql VARCHAR2(4000);
+"
+CUSTOMPAGING	PACKAGE BODY	16	"  v_count number;
+"
+CUSTOMPAGING	PACKAGE BODY	17	"  v_Plow number;
+"
+CUSTOMPAGING	PACKAGE BODY	18	"  v_Phei number;
+"
+CUSTOMPAGING	PACKAGE BODY	19	" Begin
+"
+CUSTOMPAGING	PACKAGE BODY	20	"  ------------------------------------------------------------取分页总数
+"
+CUSTOMPAGING	PACKAGE BODY	21	"  v_sql := 'select count(*) from (' || Psql || ')';
+"
+CUSTOMPAGING	PACKAGE BODY	22	"  execute immediate v_sql into v_count;
+"
+CUSTOMPAGING	PACKAGE BODY	23	"  Pcount := ceil(v_count/Psize);
+"
+CUSTOMPAGING	PACKAGE BODY	24	"  Pallcount:=v_count;
+"
+CUSTOMPAGING	PACKAGE BODY	25	"  ------------------------------------------------------------显示任意页内容
+"
+CUSTOMPAGING	PACKAGE BODY	26	"  v_Phei := Pindex * Psize + Psize;
+"
+CUSTOMPAGING	PACKAGE BODY	27	"  v_Plow := v_Phei - Psize + 1;
+"
+CUSTOMPAGING	PACKAGE BODY	28	"  --Psql := 'select rownum rn,t.* from cd_ssxl t' ;            --要求必须包含rownum字段
+"
+CUSTOMPAGING	PACKAGE BODY	29	"  -- v_sql := 'select * from (select  rownum rn,a.* from (' || Psql || ') a)  where rn between ' || v_Plow || ' and ' || v_Phei ;
+"
+CUSTOMPAGING	PACKAGE BODY	30	"     v_sql :='select * from (select  rownum rn,a.* from (' || Psql || ') a  where ROWNUM <=  ' || v_Phei ||  ' ) b where rn>= ' || v_Plow ;
+"
+CUSTOMPAGING	PACKAGE BODY	31	"
+"
+CUSTOMPAGING	PACKAGE BODY	32	"
+"
+CUSTOMPAGING	PACKAGE BODY	33	"  open cur_OUT for v_sql;
+"
+CUSTOMPAGING	PACKAGE BODY	34	"
+"
+CUSTOMPAGING	PACKAGE BODY	35	" End Pagination;
+"
+CUSTOMPAGING	PACKAGE BODY	36	"
+"
+CUSTOMPAGING	PACKAGE BODY	37	" --**************************************************************************************
+"
+CUSTOMPAGING	PACKAGE BODY	38	"
+"
+CUSTOMPAGING	PACKAGE BODY	39	" procedure PageRecordsCount(
+"
+CUSTOMPAGING	PACKAGE BODY	40	"  Psqlcount in varchar2,
+"
+CUSTOMPAGING	PACKAGE BODY	41	"  Prcount   out number
+"
+CUSTOMPAGING	PACKAGE BODY	42	"  )
+"
+CUSTOMPAGING	PACKAGE BODY	43	"  as
+"
+CUSTOMPAGING	PACKAGE BODY	44	"
+"
+CUSTOMPAGING	PACKAGE BODY	45	"   v_sql varchar2(1000);
+"
+CUSTOMPAGING	PACKAGE BODY	46	"   v_prcount number;
+"
+CUSTOMPAGING	PACKAGE BODY	47	"
+"
+CUSTOMPAGING	PACKAGE BODY	48	"  begin
+"
+CUSTOMPAGING	PACKAGE BODY	49	"
+"
+CUSTOMPAGING	PACKAGE BODY	50	"   v_sql := 'select count(*) from (' || Psqlcount || ')';
+"
+CUSTOMPAGING	PACKAGE BODY	51	"   execute immediate v_sql into v_prcount;
+"
+CUSTOMPAGING	PACKAGE BODY	52	"   Prcount := v_prcount;                  --返回记录总数
+"
+CUSTOMPAGING	PACKAGE BODY	53	"
+"
+CUSTOMPAGING	PACKAGE BODY	54	"  end PageRecordsCount;
+"
+CUSTOMPAGING	PACKAGE BODY	55	"
+"
+CUSTOMPAGING	PACKAGE BODY	56	" --**************************************************************************************
+"
+CUSTOMPAGING	PACKAGE BODY	57	"
+"
+CUSTOMPAGING	PACKAGE BODY	58	"end CustomPaging;
+"

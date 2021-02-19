@@ -1,0 +1,48 @@
+F_SPIT1	FUNCTION	1	"function f_spit1(p_w varchar2,p_i varchar2,p_n varchar2)        --p_w 为传入参数
+"
+F_SPIT1	FUNCTION	2	"return varchar2                                                   --返回类型
+"
+F_SPIT1	FUNCTION	3	"as
+"
+F_SPIT1	FUNCTION	4	"v_pos1 number;                        --定义变量v_f
+"
+F_SPIT1	FUNCTION	5	"v_pos2 number;
+"
+F_SPIT1	FUNCTION	6	"v_a varchar2(500);            --定义变量v_a
+"
+F_SPIT1	FUNCTION	7	"begin
+"
+F_SPIT1	FUNCTION	8	"--判断是否有数据
+"
+F_SPIT1	FUNCTION	9	"if p_w is null then
+"
+F_SPIT1	FUNCTION	10	"  return null;
+"
+F_SPIT1	FUNCTION	11	"end if;
+"
+F_SPIT1	FUNCTION	12	"
+"
+F_SPIT1	FUNCTION	13	"if instr(p_w,p_n)=0 then
+"
+F_SPIT1	FUNCTION	14	"    return null;
+"
+F_SPIT1	FUNCTION	15	"end if;
+"
+F_SPIT1	FUNCTION	16	"if instr(p_w,p_i)=0 then
+"
+F_SPIT1	FUNCTION	17	"    return null;
+"
+F_SPIT1	FUNCTION	18	"end if;
+"
+F_SPIT1	FUNCTION	19	"v_pos1:=instr(p_w,p_n||':')+length(p_n)+1;
+"
+F_SPIT1	FUNCTION	20	"v_pos2:=instr(p_w,p_i,v_pos1) -(v_pos1);
+"
+F_SPIT1	FUNCTION	21	"
+"
+F_SPIT1	FUNCTION	22	"v_a:= substr(p_w,v_pos1,v_pos2);
+"
+F_SPIT1	FUNCTION	23	"return trim(v_a);
+"
+F_SPIT1	FUNCTION	24	"end;
+"

@@ -1,0 +1,264 @@
+PRC_CHECK_YP2ZDXX	PROCEDURE	1	"procedure prc_check_yp2zdxx(in_jzxh       in number,
+"
+PRC_CHECK_YP2ZDXX	PROCEDURE	2	"                                              out_code      out INTEGER, -- 返回结果 0为执行成功
+"
+PRC_CHECK_YP2ZDXX	PROCEDURE	3	"                                              out_msg       out varchar2,
+"
+PRC_CHECK_YP2ZDXX	PROCEDURE	4	"                                              question_type out varchar2) is
+"
+PRC_CHECK_YP2ZDXX	PROCEDURE	5	"
+"
+PRC_CHECK_YP2ZDXX	PROCEDURE	6	"  ll_count number;
+"
+PRC_CHECK_YP2ZDXX	PROCEDURE	7	"  out_ypmc varchar2(2000);
+"
+PRC_CHECK_YP2ZDXX	PROCEDURE	8	"  ll_brlb  number;
+"
+PRC_CHECK_YP2ZDXX	PROCEDURE	9	"  --20201222 R-115332(661311)
+"
+PRC_CHECK_YP2ZDXX	PROCEDURE	10	"  --百令、至灵、稳心颗粒在完成就诊时对药品及诊断进行判断（药品及诊断关联关系见目录），如在关联范围内的，按医保上传，如无关联范围内的诊断，对应的药品按自费上传结算。该功能增加参数控制启用或不启用。                                        
+"
+PRC_CHECK_YP2ZDXX	PROCEDURE	11	"begin
+"
+PRC_CHECK_YP2ZDXX	PROCEDURE	12	"  out_code      := 0;
+"
+PRC_CHECK_YP2ZDXX	PROCEDURE	13	"  out_msg       := '';
+"
+PRC_CHECK_YP2ZDXX	PROCEDURE	14	"  question_type := '';
+"
+PRC_CHECK_YP2ZDXX	PROCEDURE	15	"/*return ;*/
+"
+PRC_CHECK_YP2ZDXX	PROCEDURE	16	" /* select nvl(sum(sl), 0)
+"
+PRC_CHECK_YP2ZDXX	PROCEDURE	17	"    into ll_count
+"
+PRC_CHECK_YP2ZDXX	PROCEDURE	18	"    From mz_cfk1 a, mz_cfk2 b
+"
+PRC_CHECK_YP2ZDXX	PROCEDURE	19	"   where a.cfsb = b.cfsb
+"
+PRC_CHECK_YP2ZDXX	PROCEDURE	20	"     and b.shenhesj is not null
+"
+PRC_CHECK_YP2ZDXX	PROCEDURE	21	"     and b.ypxh = 7767
+"
+PRC_CHECK_YP2ZDXX	PROCEDURE	22	"     and a.sfsb is null
+"
+PRC_CHECK_YP2ZDXX	PROCEDURE	23	"     and a.jzxh = in_jzxh;
+"
+PRC_CHECK_YP2ZDXX	PROCEDURE	24	"  
+"
+PRC_CHECK_YP2ZDXX	PROCEDURE	25	"  if ll_count > 0 then
+"
+PRC_CHECK_YP2ZDXX	PROCEDURE	26	"    select count(a.cfsb)
+"
+PRC_CHECK_YP2ZDXX	PROCEDURE	27	"      into ll_count
+"
+PRC_CHECK_YP2ZDXX	PROCEDURE	28	"      From mz_cfk1 a, mz_cfk2 b
+"
+PRC_CHECK_YP2ZDXX	PROCEDURE	29	"     where a.cfsb = b.cfsb
+"
+PRC_CHECK_YP2ZDXX	PROCEDURE	30	"       and b.shenhesj is not null
+"
+PRC_CHECK_YP2ZDXX	PROCEDURE	31	"       and b.ypxh = 7767
+"
+PRC_CHECK_YP2ZDXX	PROCEDURE	32	"       and a.sfsb is null
+"
+PRC_CHECK_YP2ZDXX	PROCEDURE	33	"       and a.jzxh = in_jzxh
+"
+PRC_CHECK_YP2ZDXX	PROCEDURE	34	"       and nvl(a.ysgh, '0') <> 'DBA';
+"
+PRC_CHECK_YP2ZDXX	PROCEDURE	35	"  
+"
+PRC_CHECK_YP2ZDXX	PROCEDURE	36	"    if ll_count > 0 then
+"
+PRC_CHECK_YP2ZDXX	PROCEDURE	37	"      out_code := -1;
+"
+PRC_CHECK_YP2ZDXX	PROCEDURE	38	"      out_msg  := '该特殊疫苗未开放，不允许开立';
+"
+PRC_CHECK_YP2ZDXX	PROCEDURE	39	"      return;
+"
+PRC_CHECK_YP2ZDXX	PROCEDURE	40	"    end if;
+"
+PRC_CHECK_YP2ZDXX	PROCEDURE	41	"  end if;*/
+"
+PRC_CHECK_YP2ZDXX	PROCEDURE	42	"  
+"
+PRC_CHECK_YP2ZDXX	PROCEDURE	43	"  select brlb
+"
+PRC_CHECK_YP2ZDXX	PROCEDURE	44	"    into ll_brlb
+"
+PRC_CHECK_YP2ZDXX	PROCEDURE	45	"    from gy_brjbxxk
+"
+PRC_CHECK_YP2ZDXX	PROCEDURE	46	"   where jzkh = (select jzkh from zj_jzxx where jzxh = in_jzxh);
+"
+PRC_CHECK_YP2ZDXX	PROCEDURE	47	"  if ll_brlb = 1 then
+"
+PRC_CHECK_YP2ZDXX	PROCEDURE	48	"  
+"
+PRC_CHECK_YP2ZDXX	PROCEDURE	49	"    return;
+"
+PRC_CHECK_YP2ZDXX	PROCEDURE	50	"  end if;
+"
+PRC_CHECK_YP2ZDXX	PROCEDURE	51	"  select listagg(xmmc) within
+"
+PRC_CHECK_YP2ZDXX	PROCEDURE	52	"   group(
+"
+PRC_CHECK_YP2ZDXX	PROCEDURE	53	"   order by b.cfsb)
+"
+PRC_CHECK_YP2ZDXX	PROCEDURE	54	"    into out_ypmc
+"
+PRC_CHECK_YP2ZDXX	PROCEDURE	55	"    from mz_cfk1 a, mz_cfk2 b
+"
+PRC_CHECK_YP2ZDXX	PROCEDURE	56	"   where a.cfsb = b.cfsb
+"
+PRC_CHECK_YP2ZDXX	PROCEDURE	57	"     and jzxh = in_jzxh  and (nvl(spbh,0)>=0 or nvl(zfbz,0)=0)
+"
+PRC_CHECK_YP2ZDXX	PROCEDURE	58	"     and (ypxh, ypcddm) in (select ypxh, ypcddm
+"
+PRC_CHECK_YP2ZDXX	PROCEDURE	59	"                              from gy_ypcdjg a
+"
+PRC_CHECK_YP2ZDXX	PROCEDURE	60	"                             where ypmc like '%百令%'
+"
+PRC_CHECK_YP2ZDXX	PROCEDURE	61	"                                or ypmc like '%至灵%'
+"
+PRC_CHECK_YP2ZDXX	PROCEDURE	62	"                                or ypmc like '%宁心宝%'
+"
+PRC_CHECK_YP2ZDXX	PROCEDURE	63	"                                or ypmc like '%金水宝%');
+"
+PRC_CHECK_YP2ZDXX	PROCEDURE	64	"  if out_ypmc is null then
+"
+PRC_CHECK_YP2ZDXX	PROCEDURE	65	"    out_ypmc := '';
+"
+PRC_CHECK_YP2ZDXX	PROCEDURE	66	"  end if;
+"
+PRC_CHECK_YP2ZDXX	PROCEDURE	67	"  if length(out_ypmc) > 0 then
+"
+PRC_CHECK_YP2ZDXX	PROCEDURE	68	"    select count(*)
+"
+PRC_CHECK_YP2ZDXX	PROCEDURE	69	"      into ll_count
+"
+PRC_CHECK_YP2ZDXX	PROCEDURE	70	"      from zj_zdxx
+"
+PRC_CHECK_YP2ZDXX	PROCEDURE	71	"     where jzxh = in_jzxh
+"
+PRC_CHECK_YP2ZDXX	PROCEDURE	72	"       and icd10m in (select jbdm from zj_zd2ypxx a where kongzhilx = '1');
+"
+PRC_CHECK_YP2ZDXX	PROCEDURE	73	"    if ll_count = 0 then
+"
+PRC_CHECK_YP2ZDXX	PROCEDURE	74	"      update mz_cfk2
+"
+PRC_CHECK_YP2ZDXX	PROCEDURE	75	"         set spbh = -10
+"
+PRC_CHECK_YP2ZDXX	PROCEDURE	76	"       where cfsb in (select a.cfsb
+"
+PRC_CHECK_YP2ZDXX	PROCEDURE	77	"                        from mz_cfk1 a, mz_cfk2 b
+"
+PRC_CHECK_YP2ZDXX	PROCEDURE	78	"                       where a.cfsb = b.cfsb
+"
+PRC_CHECK_YP2ZDXX	PROCEDURE	79	"                         and jzxh = in_jzxh
+"
+PRC_CHECK_YP2ZDXX	PROCEDURE	80	"                         and (ypxh, ypcddm) in
+"
+PRC_CHECK_YP2ZDXX	PROCEDURE	81	"                             (select ypxh, ypcddm
+"
+PRC_CHECK_YP2ZDXX	PROCEDURE	82	"                                from gy_ypcdjg a
+"
+PRC_CHECK_YP2ZDXX	PROCEDURE	83	"                               where ypmc like '%百令%'
+"
+PRC_CHECK_YP2ZDXX	PROCEDURE	84	"                                  or ypmc like '%至灵%'
+"
+PRC_CHECK_YP2ZDXX	PROCEDURE	85	"                                  or ypmc like '%宁心宝%'
+"
+PRC_CHECK_YP2ZDXX	PROCEDURE	86	"                                  or ypmc like '%金水宝%'));
+"
+PRC_CHECK_YP2ZDXX	PROCEDURE	87	"      out_code      := 0;
+"
+PRC_CHECK_YP2ZDXX	PROCEDURE	88	"      out_msg       := out_ypmc || '药品此次没有对应的诊断，确定后将按自费结算，或返回填写对应的诊断';
+"
+PRC_CHECK_YP2ZDXX	PROCEDURE	89	"      question_type := 'question';
+"
+PRC_CHECK_YP2ZDXX	PROCEDURE	90	"      return;
+"
+PRC_CHECK_YP2ZDXX	PROCEDURE	91	"    end if;
+"
+PRC_CHECK_YP2ZDXX	PROCEDURE	92	"  end if;
+"
+PRC_CHECK_YP2ZDXX	PROCEDURE	93	"
+"
+PRC_CHECK_YP2ZDXX	PROCEDURE	94	"  select listagg(xmmc) within
+"
+PRC_CHECK_YP2ZDXX	PROCEDURE	95	"   group(
+"
+PRC_CHECK_YP2ZDXX	PROCEDURE	96	"   order by b.cfsb)
+"
+PRC_CHECK_YP2ZDXX	PROCEDURE	97	"    into out_ypmc
+"
+PRC_CHECK_YP2ZDXX	PROCEDURE	98	"    from mz_cfk1 a, mz_cfk2 b
+"
+PRC_CHECK_YP2ZDXX	PROCEDURE	99	"   where a.cfsb = b.cfsb
+"
+PRC_CHECK_YP2ZDXX	PROCEDURE	100	"     and jzxh = in_jzxh and (nvl(spbh,0)>=0 or nvl(zfbz,0)=0)
+"
+PRC_CHECK_YP2ZDXX	PROCEDURE	101	"     and (ypxh, ypcddm) in 
+"
+PRC_CHECK_YP2ZDXX	PROCEDURE	102	"         (select ypxh, ypcddm from gy_ypcdjg a where ypmc like '%稳心颗粒%');
+"
+PRC_CHECK_YP2ZDXX	PROCEDURE	103	"  if out_ypmc is null then
+"
+PRC_CHECK_YP2ZDXX	PROCEDURE	104	"    out_ypmc := '';
+"
+PRC_CHECK_YP2ZDXX	PROCEDURE	105	"  end if;
+"
+PRC_CHECK_YP2ZDXX	PROCEDURE	106	"  if length(out_ypmc) > 0 then
+"
+PRC_CHECK_YP2ZDXX	PROCEDURE	107	"    select count(*)
+"
+PRC_CHECK_YP2ZDXX	PROCEDURE	108	"      into ll_count
+"
+PRC_CHECK_YP2ZDXX	PROCEDURE	109	"      from zj_zdxx
+"
+PRC_CHECK_YP2ZDXX	PROCEDURE	110	"     where jzxh = in_jzxh
+"
+PRC_CHECK_YP2ZDXX	PROCEDURE	111	"       and icd10m in (select jbdm from zj_zd2ypxx a where kongzhilx = '2');
+"
+PRC_CHECK_YP2ZDXX	PROCEDURE	112	"    if ll_count = 0 then
+"
+PRC_CHECK_YP2ZDXX	PROCEDURE	113	"      update mz_cfk2
+"
+PRC_CHECK_YP2ZDXX	PROCEDURE	114	"         set spbh = -10
+"
+PRC_CHECK_YP2ZDXX	PROCEDURE	115	"       where cfsb in (select a.cfsb
+"
+PRC_CHECK_YP2ZDXX	PROCEDURE	116	"                        from mz_cfk1 a, mz_cfk2 b
+"
+PRC_CHECK_YP2ZDXX	PROCEDURE	117	"                       where a.cfsb = b.cfsb
+"
+PRC_CHECK_YP2ZDXX	PROCEDURE	118	"                         and jzxh = in_jzxh
+"
+PRC_CHECK_YP2ZDXX	PROCEDURE	119	"                         and (ypxh, ypcddm) in
+"
+PRC_CHECK_YP2ZDXX	PROCEDURE	120	"                             (select ypxh, ypcddm
+"
+PRC_CHECK_YP2ZDXX	PROCEDURE	121	"                                from gy_ypcdjg a
+"
+PRC_CHECK_YP2ZDXX	PROCEDURE	122	"                               where ypmc like '%稳心颗粒%'));
+"
+PRC_CHECK_YP2ZDXX	PROCEDURE	123	"      out_code      := 0;
+"
+PRC_CHECK_YP2ZDXX	PROCEDURE	124	"      out_msg       := out_ypmc || '药品此次没有对应的诊断，确定后将按自费结算，或返回填写对应的诊断';
+"
+PRC_CHECK_YP2ZDXX	PROCEDURE	125	"      question_type := 'question';
+"
+PRC_CHECK_YP2ZDXX	PROCEDURE	126	"      return;
+"
+PRC_CHECK_YP2ZDXX	PROCEDURE	127	"    end if;
+"
+PRC_CHECK_YP2ZDXX	PROCEDURE	128	"  end if;
+"
+PRC_CHECK_YP2ZDXX	PROCEDURE	129	"  out_code := 0;
+"
+PRC_CHECK_YP2ZDXX	PROCEDURE	130	"  out_msg  := '';
+"
+PRC_CHECK_YP2ZDXX	PROCEDURE	131	"  return;
+"
+PRC_CHECK_YP2ZDXX	PROCEDURE	132	"end;
+"

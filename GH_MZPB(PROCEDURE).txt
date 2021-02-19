@@ -1,0 +1,115 @@
+GH_MZPB	PROCEDURE	1	"PROCEDURE         ""GH_MZPB"" as
+"
+GH_MZPB	PROCEDURE	2	"begin
+"
+GH_MZPB	PROCEDURE	3	"declare 
+"
+GH_MZPB	PROCEDURE	4	"  vjlxh number ;
+"
+GH_MZPB	PROCEDURE	5	"  i number ;
+"
+GH_MZPB	PROCEDURE	6	"  vxq number ;
+"
+GH_MZPB	PROCEDURE	7	"  vmzlbxh number ;
+"
+GH_MZPB	PROCEDURE	8	"  vswjsh number ;
+"
+GH_MZPB	PROCEDURE	9	"  vswzgxh number ;
+"
+GH_MZPB	PROCEDURE	10	"  vxwjsh number ;
+"
+GH_MZPB	PROCEDURE	11	"  vxwzgxh number ;
+"
+GH_MZPB	PROCEDURE	12	"  vksdm varchar2(20) ;
+"
+GH_MZPB	PROCEDURE	13	"  vysgh varchar2(8) ;
+"
+GH_MZPB	PROCEDURE	14	"  vysxm varchar2(10) ;
+"
+GH_MZPB	PROCEDURE	15	"  vswyyxh number ; --上午预约限号
+"
+GH_MZPB	PROCEDURE	16	"  vxwyyxh number ; --下午预约限号
+"
+GH_MZPB	PROCEDURE	17	"  vyyf number;	--预约费
+"
+GH_MZPB	PROCEDURE	18	"  vyyts number ;     --预约时间跨度天数
+"
+GH_MZPB	PROCEDURE	19	"  --vyyrq varchar2(10) ;
+"
+GH_MZPB	PROCEDURE	20	"  jlxh number;
+"
+GH_MZPB	PROCEDURE	21	"
+"
+GH_MZPB	PROCEDURE	22	"  cursor dtpbcur is
+"
+GH_MZPB	PROCEDURE	23	"    select jlxh,ksdm,mzlbxh,swjsh,swzgxh,xwjsh,xwzgxh,ysgh,ysxm,swyyxh,xwyyxh,yyf 
+"
+GH_MZPB	PROCEDURE	24	"      from gh_yzpbk where xq=vxq ;
+"
+GH_MZPB	PROCEDURE	25	"begin
+"
+GH_MZPB	PROCEDURE	26	"  lock table gh_yzpbk in exclusive mode ;      --锁表GH_YZPBK
+"
+GH_MZPB	PROCEDURE	27	"  --预约挂号时间跨度
+"
+GH_MZPB	PROCEDURE	28	"  select csz2 into vyyts from gy_xtcs where xtxh=23 and csmc='YYTS';
+"
+GH_MZPB	PROCEDURE	29	"
+"
+GH_MZPB	PROCEDURE	30	"    select count(*),to_char(sysdate+vyyts,'D') into i,vxq from gh_mzpbk 
+"
+GH_MZPB	PROCEDURE	31	"    where to_char(rq,'yyyy/mm/dd')=to_char(sysdate+vyyts,'yyyy/mm/dd') ;
+"
+GH_MZPB	PROCEDURE	32	"    if i>0 then
+"
+GH_MZPB	PROCEDURE	33	"      rollback ;
+"
+GH_MZPB	PROCEDURE	34	"    else
+"
+GH_MZPB	PROCEDURE	35	"      vxq:=vxq - 1 ;
+"
+GH_MZPB	PROCEDURE	36	"      if vxq=0 then 
+"
+GH_MZPB	PROCEDURE	37	"         vxq:=7 ;
+"
+GH_MZPB	PROCEDURE	38	"      end if ;
+"
+GH_MZPB	PROCEDURE	39	"      open dtpbcur ;
+"
+GH_MZPB	PROCEDURE	40	"      loop 
+"
+GH_MZPB	PROCEDURE	41	"        fetch dtpbcur into jlxh,vksdm,vmzlbxh,vswjsh,vswzgxh,vxwjsh,vxwzgxh,vysgh,vysxm,vswyyxh,vxwyyxh,vyyf ;
+"
+GH_MZPB	PROCEDURE	42	"        exit when dtpbcur%notfound ;
+"
+GH_MZPB	PROCEDURE	43	"        update gy_xhb set dqz=dqz+1 where bm='GH_MZPBK' ;
+"
+GH_MZPB	PROCEDURE	44	"        select dqz into vjlxh from gy_xhb where bm='GH_MZPBK' ;
+"
+GH_MZPB	PROCEDURE	45	"        insert into gh_mzpbk (rq,ksdm,mzlbxh,swjsh,swzgxh,swdqh,swths,xwjsh,
+"
+GH_MZPB	PROCEDURE	46	"                            xwzgxh,xwdqh,xwths,ysgh,ysxm,jlxh,swyyxh,xwyyxh,swyyyh,xwyyyh,yyf,pbjlxh) 
+"
+GH_MZPB	PROCEDURE	47	"        values (sysdate+vyyts,vksdm,vmzlbxh,vswjsh,vswzgxh,0,0,vxwjsh,
+"
+GH_MZPB	PROCEDURE	48	"              vxwzgxh,0,0,vysgh,vysxm,vjlxh,vswyyxh,vxwyyxh,0,0,vyyf,jlxh) ;
+"
+GH_MZPB	PROCEDURE	49	"      end loop ;
+"
+GH_MZPB	PROCEDURE	50	"      close dtpbcur ;
+"
+GH_MZPB	PROCEDURE	51	"      commit ;
+"
+GH_MZPB	PROCEDURE	52	"    end if ;
+"
+GH_MZPB	PROCEDURE	53	"end ;
+"
+GH_MZPB	PROCEDURE	54	"end ;
+"
+GH_MZPB	PROCEDURE	55	"
+"
+GH_MZPB	PROCEDURE	56	"
+"
+GH_MZPB	PROCEDURE	57	"
+"
+GH_MZPB	PROCEDURE	58	 

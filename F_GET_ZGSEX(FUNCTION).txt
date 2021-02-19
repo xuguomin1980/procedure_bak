@@ -1,0 +1,22 @@
+F_GET_ZGSEX	FUNCTION	1	"FUNCTION f_get_zgsex
+"
+F_GET_ZGSEX	FUNCTION	2	"(arg_zgid in varchar2)
+"
+F_GET_ZGSEX	FUNCTION	3	"return varchar2
+"
+F_GET_ZGSEX	FUNCTION	4	"  is
+"
+F_GET_ZGSEX	FUNCTION	5	"     ls_return varchar2(30);
+"
+F_GET_ZGSEX	FUNCTION	6	"begin
+"
+F_GET_ZGSEX	FUNCTION	7	"  select xb into ls_return from gy_zgxx where zgid =
+"
+F_GET_ZGSEX	FUNCTION	8	" arg_zgid;
+"
+F_GET_ZGSEX	FUNCTION	9	"
+"
+F_GET_ZGSEX	FUNCTION	10	"   return(ls_return);
+"
+F_GET_ZGSEX	FUNCTION	11	"end;
+"

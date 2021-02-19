@@ -1,0 +1,25 @@
+F_EMR_GETMZGYFSMC	FUNCTION	1	"FUNCTION         ""F_EMR_GETMZGYFSMC"" (p_gyfsbh in number)
+"
+F_EMR_GETMZGYFSMC	FUNCTION	2	"return varchar2
+"
+F_EMR_GETMZGYFSMC	FUNCTION	3	"is
+"
+F_EMR_GETMZGYFSMC	FUNCTION	4	"   ls_return varchar2(40);
+"
+F_EMR_GETMZGYFSMC	FUNCTION	5	"begin
+"
+F_EMR_GETMZGYFSMC	FUNCTION	6	"   select gyfsmc into ls_return from zj_gyfs where gyfsbh=p_gyfsbh;
+"
+F_EMR_GETMZGYFSMC	FUNCTION	7	"   return ls_return;
+"
+F_EMR_GETMZGYFSMC	FUNCTION	8	"exception
+"
+F_EMR_GETMZGYFSMC	FUNCTION	9	"   when others then
+"
+F_EMR_GETMZGYFSMC	FUNCTION	10	"      return null;
+"
+F_EMR_GETMZGYFSMC	FUNCTION	11	"end;
+"
+F_EMR_GETMZGYFSMC	FUNCTION	12	"
+"
+F_EMR_GETMZGYFSMC	FUNCTION	13	 

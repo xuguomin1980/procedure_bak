@@ -1,0 +1,89 @@
+F_JCFX_GET_ZYRS1	FUNCTION	1	"FUNCTION         ""F_JCFX_GET_ZYRS1"" ( in_xmxh   In   Number,
+"
+F_JCFX_GET_ZYRS1	FUNCTION	2	"                                             in_id     In   Number )
+"
+F_JCFX_GET_ZYRS1	FUNCTION	3	"Return Number 
+"
+F_JCFX_GET_ZYRS1	FUNCTION	4	"
+"
+F_JCFX_GET_ZYRS1	FUNCTION	5	"IS
+"
+F_JCFX_GET_ZYRS1	FUNCTION	6	"
+"
+F_JCFX_GET_ZYRS1	FUNCTION	7	"/*=============================================================================
+"
+F_JCFX_GET_ZYRS1	FUNCTION	8	"|| 函数名称 ： 取在院人数f_jcfx_get_zyrs1
+"
+F_JCFX_GET_ZYRS1	FUNCTION	9	"||-----------------------------------------------------------------------------
+"
+F_JCFX_GET_ZYRS1	FUNCTION	10	"|| 功能说明 ： 输入统计口径10（病区科室）的项目序号和日期ID，得到该项目下所有科室的
+"
+F_JCFX_GET_ZYRS1	FUNCTION	11	"||             在院人数之和
+"
+F_JCFX_GET_ZYRS1	FUNCTION	12	"||-----------------------------------------------------------------------------
+"
+F_JCFX_GET_ZYRS1	FUNCTION	13	"|| 参数描述 ： 参数标识   输入/输出   类型     名称
+"
+F_JCFX_GET_ZYRS1	FUNCTION	14	"||            -----------------------------------------------------------------
+"
+F_JCFX_GET_ZYRS1	FUNCTION	15	"||             in_xmxh    In          Number   项目序号
+"
+F_JCFX_GET_ZYRS1	FUNCTION	16	"||             in_id      In          Number   日期ID
+"
+F_JCFX_GET_ZYRS1	FUNCTION	17	"||-----------------------------------------------------------------------------
+"
+F_JCFX_GET_ZYRS1	FUNCTION	18	"|| 返回结果 ： Number   人数之和
+"
+F_JCFX_GET_ZYRS1	FUNCTION	19	"||-----------------------------------------------------------------------------
+"
+F_JCFX_GET_ZYRS1	FUNCTION	20	"|| 注意事项 ： 无
+"
+F_JCFX_GET_ZYRS1	FUNCTION	21	"||-----------------------------------------------------------------------------
+"
+F_JCFX_GET_ZYRS1	FUNCTION	22	"|| 作    者 ： 陈智鸿      完成日期 ：2002-05-28
+"
+F_JCFX_GET_ZYRS1	FUNCTION	23	"||-----------------------------------------------------------------------------
+"
+F_JCFX_GET_ZYRS1	FUNCTION	24	"|| 修改记录 ： 陈智鸿 @ 2002-10-21
+"
+F_JCFX_GET_ZYRS1	FUNCTION	25	"||             整理代码
+"
+F_JCFX_GET_ZYRS1	FUNCTION	26	"=============================================================================*/
+"
+F_JCFX_GET_ZYRS1	FUNCTION	27	"
+"
+F_JCFX_GET_ZYRS1	FUNCTION	28	"ln_rs   Number;
+"
+F_JCFX_GET_ZYRS1	FUNCTION	29	"
+"
+F_JCFX_GET_ZYRS1	FUNCTION	30	"Begin
+"
+F_JCFX_GET_ZYRS1	FUNCTION	31	"
+"
+F_JCFX_GET_ZYRS1	FUNCTION	32	"  Select Nvl(Sum(Nvl(a.zyrs, 0)), 0)
+"
+F_JCFX_GET_ZYRS1	FUNCTION	33	"    Into ln_rs
+"
+F_JCFX_GET_ZYRS1	FUNCTION	34	"    From jcfx_zy_zhxx a,
+"
+F_JCFX_GET_ZYRS1	FUNCTION	35	"         jcfx_v_xmgl b
+"
+F_JCFX_GET_ZYRS1	FUNCTION	36	"   Where a.jcfx_id = in_id
+"
+F_JCFX_GET_ZYRS1	FUNCTION	37	"     And b.bs = 'BQKS'   --病区科室
+"
+F_JCFX_GET_ZYRS1	FUNCTION	38	"     And b.xmxh = in_xmxh
+"
+F_JCFX_GET_ZYRS1	FUNCTION	39	"     And a.ksdm = b.gldm;
+"
+F_JCFX_GET_ZYRS1	FUNCTION	40	"
+"
+F_JCFX_GET_ZYRS1	FUNCTION	41	"  Return(ln_rs);
+"
+F_JCFX_GET_ZYRS1	FUNCTION	42	"  
+"
+F_JCFX_GET_ZYRS1	FUNCTION	43	"End f_jcfx_get_zyrs1;
+"
+F_JCFX_GET_ZYRS1	FUNCTION	44	"
+"
+F_JCFX_GET_ZYRS1	FUNCTION	45	 

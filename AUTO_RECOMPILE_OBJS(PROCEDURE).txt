@@ -1,0 +1,100 @@
+AUTO_RECOMPILE_OBJS	PROCEDURE	1	"PROCEDURE auto_recompile_objs as
+"
+AUTO_RECOMPILE_OBJS	PROCEDURE	2	"  v_object_name varchar2(500);
+"
+AUTO_RECOMPILE_OBJS	PROCEDURE	3	"  v_object_type varchar2(500);
+"
+AUTO_RECOMPILE_OBJS	PROCEDURE	4	"
+"
+AUTO_RECOMPILE_OBJS	PROCEDURE	5	"  cursor objects_list is
+"
+AUTO_RECOMPILE_OBJS	PROCEDURE	6	"    select object_name, object_type
+"
+AUTO_RECOMPILE_OBJS	PROCEDURE	7	"      from user_objects
+"
+AUTO_RECOMPILE_OBJS	PROCEDURE	8	"     where status = 'INVALID'
+"
+AUTO_RECOMPILE_OBJS	PROCEDURE	9	"       and object_name in (select object_name from V_SYSTEM_VIEW_FAIL);
+"
+AUTO_RECOMPILE_OBJS	PROCEDURE	10	"
+"
+AUTO_RECOMPILE_OBJS	PROCEDURE	11	"begin
+"
+AUTO_RECOMPILE_OBJS	PROCEDURE	12	"
+"
+AUTO_RECOMPILE_OBJS	PROCEDURE	13	"  IF NOT objects_list%ISOPEN THEN
+"
+AUTO_RECOMPILE_OBJS	PROCEDURE	14	"    --打开游标
+"
+AUTO_RECOMPILE_OBJS	PROCEDURE	15	"    OPEN objects_list;
+"
+AUTO_RECOMPILE_OBJS	PROCEDURE	16	"  END IF;
+"
+AUTO_RECOMPILE_OBJS	PROCEDURE	17	"  loop
+"
+AUTO_RECOMPILE_OBJS	PROCEDURE	18	"    FETCH objects_list
+"
+AUTO_RECOMPILE_OBJS	PROCEDURE	19	"      INTO v_object_name, v_object_type;
+"
+AUTO_RECOMPILE_OBJS	PROCEDURE	20	"  
+"
+AUTO_RECOMPILE_OBJS	PROCEDURE	21	"    EXIT WHEN objects_list%NOTFOUND OR objects_list%NOTFOUND IS NULL;
+"
+AUTO_RECOMPILE_OBJS	PROCEDURE	22	"    if length(v_object_name) > 0 then
+"
+AUTO_RECOMPILE_OBJS	PROCEDURE	23	"      insert into zy_jiaoyi_v1
+"
+AUTO_RECOMPILE_OBJS	PROCEDURE	24	"        (bz, jylsh, jiaoyilx)
+"
+AUTO_RECOMPILE_OBJS	PROCEDURE	25	"      values
+"
+AUTO_RECOMPILE_OBJS	PROCEDURE	26	"        ('auto_recompile_objs', v_object_name, 'error');
+"
+AUTO_RECOMPILE_OBJS	PROCEDURE	27	"      commit;
+"
+AUTO_RECOMPILE_OBJS	PROCEDURE	28	"    end if;
+"
+AUTO_RECOMPILE_OBJS	PROCEDURE	29	"    if v_object_type = 'PROCEDURE' then
+"
+AUTO_RECOMPILE_OBJS	PROCEDURE	30	"      execute immediate 'alter procedure ' || v_object_name || ' compile';
+"
+AUTO_RECOMPILE_OBJS	PROCEDURE	31	"    
+"
+AUTO_RECOMPILE_OBJS	PROCEDURE	32	"    end if;
+"
+AUTO_RECOMPILE_OBJS	PROCEDURE	33	"    if v_object_type = 'FUNCTION' then
+"
+AUTO_RECOMPILE_OBJS	PROCEDURE	34	"      execute immediate 'alter function ' || v_object_name || ' compile';
+"
+AUTO_RECOMPILE_OBJS	PROCEDURE	35	"    end if;
+"
+AUTO_RECOMPILE_OBJS	PROCEDURE	36	"    if v_object_type = 'VIEW' then
+"
+AUTO_RECOMPILE_OBJS	PROCEDURE	37	"      execute immediate 'alter view ' || v_object_name || ' compile';
+"
+AUTO_RECOMPILE_OBJS	PROCEDURE	38	"    end if;
+"
+AUTO_RECOMPILE_OBJS	PROCEDURE	39	"    if v_object_type = 'MATERIALIZED VIEW' then
+"
+AUTO_RECOMPILE_OBJS	PROCEDURE	40	"      execute immediate 'alter materialized view ' || v_object_name ||
+"
+AUTO_RECOMPILE_OBJS	PROCEDURE	41	"                        ' compile';
+"
+AUTO_RECOMPILE_OBJS	PROCEDURE	42	"    end if;
+"
+AUTO_RECOMPILE_OBJS	PROCEDURE	43	"  
+"
+AUTO_RECOMPILE_OBJS	PROCEDURE	44	"    EXIT WHEN objects_list%NOTFOUND OR objects_list%NOTFOUND IS NULL;
+"
+AUTO_RECOMPILE_OBJS	PROCEDURE	45	"  end loop;
+"
+AUTO_RECOMPILE_OBJS	PROCEDURE	46	"  close objects_list;
+"
+AUTO_RECOMPILE_OBJS	PROCEDURE	47	"  insert into zy_jiaoyi_v1 (bz) values ('auto_recompile_objs');
+"
+AUTO_RECOMPILE_OBJS	PROCEDURE	48	"  commit;
+"
+AUTO_RECOMPILE_OBJS	PROCEDURE	49	"
+"
+AUTO_RECOMPILE_OBJS	PROCEDURE	50	"end auto_recompile_objs;
+"

@@ -1,0 +1,122 @@
+F_GET_ZLF0301	FUNCTION	1	"FUNCTION ""F_GET_ZLF0301""(KSDM0   IN NVARCHAR2,
+"
+F_GET_ZLF0301	FUNCTION	2	"                                           YSGH0   IN NVARCHAR2,
+"
+F_GET_ZLF0301	FUNCTION	3	"                                           MZLBXh0 IN NUMBER) RETURN NUMBER IS
+"
+F_GET_ZLF0301	FUNCTION	4	"
+"
+F_GET_ZLF0301	FUNCTION	5	"  L_RESULT NUMBER;
+"
+F_GET_ZLF0301	FUNCTION	6	"  jiagelb  number;
+"
+F_GET_ZLF0301	FUNCTION	7	"BEGIN
+"
+F_GET_ZLF0301	FUNCTION	8	"
+"
+F_GET_ZLF0301	FUNCTION	9	"  --获取挂号诊疗费 gy_zgxx> gy_ksdm  > gh_mzlbk
+"
+F_GET_ZLF0301	FUNCTION	10	"  select sum(zlf) - 1
+"
+F_GET_ZLF0301	FUNCTION	11	"    into L_RESULT
+"
+F_GET_ZLF0301	FUNCTION	12	"    from (SELECT nvl(ghf, 0) + nvl(zlf, 0) zlf
+"
+F_GET_ZLF0301	FUNCTION	13	"            from gy_zgxx
+"
+F_GET_ZLF0301	FUNCTION	14	"           where zgid = YSGH0
+"
+F_GET_ZLF0301	FUNCTION	15	"             and rownum = 1
+"
+F_GET_ZLF0301	FUNCTION	16	"          union all
+"
+F_GET_ZLF0301	FUNCTION	17	"          select 1 from dual);
+"
+F_GET_ZLF0301	FUNCTION	18	"
+"
+F_GET_ZLF0301	FUNCTION	19	"  IF L_RESULT > 0 Then
+"
+F_GET_ZLF0301	FUNCTION	20	"    RETURN(L_RESULT);
+"
+F_GET_ZLF0301	FUNCTION	21	"  end if;
+"
+F_GET_ZLF0301	FUNCTION	22	"
+"
+F_GET_ZLF0301	FUNCTION	23	"  select sum(zlf) - 1
+"
+F_GET_ZLF0301	FUNCTION	24	"    into L_RESULT
+"
+F_GET_ZLF0301	FUNCTION	25	"    from (SELECT nvl(ghf, 0) + nvl(zlf, 0) zlf
+"
+F_GET_ZLF0301	FUNCTION	26	"            from gy_ksdm
+"
+F_GET_ZLF0301	FUNCTION	27	"           where ksdm = ksdm0
+"
+F_GET_ZLF0301	FUNCTION	28	"             and rownum = 1
+"
+F_GET_ZLF0301	FUNCTION	29	"          union all
+"
+F_GET_ZLF0301	FUNCTION	30	"          select 1 from dual);
+"
+F_GET_ZLF0301	FUNCTION	31	"
+"
+F_GET_ZLF0301	FUNCTION	32	"  IF L_RESULT > 0 Then
+"
+F_GET_ZLF0301	FUNCTION	33	"    RETURN(L_RESULT);
+"
+F_GET_ZLF0301	FUNCTION	34	"  end if;
+"
+F_GET_ZLF0301	FUNCTION	35	"
+"
+F_GET_ZLF0301	FUNCTION	36	"  select sum(jiagelb) - 1
+"
+F_GET_ZLF0301	FUNCTION	37	"    into jiagelb
+"
+F_GET_ZLF0301	FUNCTION	38	"    from (SELECT nvl(t.jiagelb, 0) jiagelb
+"
+F_GET_ZLF0301	FUNCTION	39	"            from gy_ksdm t
+"
+F_GET_ZLF0301	FUNCTION	40	"           where ksdm = ksdm0
+"
+F_GET_ZLF0301	FUNCTION	41	"             and rownum = 1
+"
+F_GET_ZLF0301	FUNCTION	42	"          union all
+"
+F_GET_ZLF0301	FUNCTION	43	"          select 1 from dual);
+"
+F_GET_ZLF0301	FUNCTION	44	"
+"
+F_GET_ZLF0301	FUNCTION	45	"  select decode(jiagelb,
+"
+F_GET_ZLF0301	FUNCTION	46	"                3,
+"
+F_GET_ZLF0301	FUNCTION	47	"                nvl(ghf, 0) + nvl(zlf_et, 0),
+"
+F_GET_ZLF0301	FUNCTION	48	"                nvl(ghf, 0) + nvl(zlf, 0))
+"
+F_GET_ZLF0301	FUNCTION	49	"    into L_RESULT
+"
+F_GET_ZLF0301	FUNCTION	50	"    from gh_mzlbk
+"
+F_GET_ZLF0301	FUNCTION	51	"   where mzlbxh = mzlbxh0
+"
+F_GET_ZLF0301	FUNCTION	52	"     and rownum = 1;
+"
+F_GET_ZLF0301	FUNCTION	53	"
+"
+F_GET_ZLF0301	FUNCTION	54	"  IF L_RESULT > 0 Then
+"
+F_GET_ZLF0301	FUNCTION	55	"    RETURN(L_RESULT);
+"
+F_GET_ZLF0301	FUNCTION	56	"  end if;
+"
+F_GET_ZLF0301	FUNCTION	57	"
+"
+F_GET_ZLF0301	FUNCTION	58	"  --默认返回50
+"
+F_GET_ZLF0301	FUNCTION	59	"  RETURN(50);
+"
+F_GET_ZLF0301	FUNCTION	60	"
+"
+F_GET_ZLF0301	FUNCTION	61	"END;
+"

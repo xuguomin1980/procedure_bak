@@ -1,0 +1,17 @@
+F_YF_GETBQMC	FUNCTION	1	"FUNCTION         ""F_YF_GETBQMC"" (arg_bqdm in varchar2)  
+"
+F_YF_GETBQMC	FUNCTION	2	"return varchar2  is 
+"
+F_YF_GETBQMC	FUNCTION	3	"  ls_return varchar2(30); 
+"
+F_YF_GETBQMC	FUNCTION	4	"begin  
+"
+F_YF_GETBQMC	FUNCTION	5	"    select bqmc into ls_return from gy_bqdm  
+"
+F_YF_GETBQMC	FUNCTION	6	"    where bqdm=arg_bqdm and rownum=1;  
+"
+F_YF_GETBQMC	FUNCTION	7	"return(ls_return);  
+"
+F_YF_GETBQMC	FUNCTION	8	"end; 
+"
+F_YF_GETBQMC	FUNCTION	9	 

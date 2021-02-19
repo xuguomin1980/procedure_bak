@@ -1,0 +1,101 @@
+ISNUMBER	FUNCTION	1	"FUNCTION         ""ISNUMBER"" (as_testresult in varchar2)
+"
+ISNUMBER	FUNCTION	2	"return number
+"
+ISNUMBER	FUNCTION	3	"is
+"
+ISNUMBER	FUNCTION	4	" li_return number(1);
+"
+ISNUMBER	FUNCTION	5	"begin
+"
+ISNUMBER	FUNCTION	6	"  declare
+"
+ISNUMBER	FUNCTION	7	"  li_asc number(10);
+"
+ISNUMBER	FUNCTION	8	"  li_i   number(2);
+"
+ISNUMBER	FUNCTION	9	"  li_j   number(2);
+"
+ISNUMBER	FUNCTION	10	"  li_length number(2);
+"
+ISNUMBER	FUNCTION	11	"  ls_a      char(2);
+"
+ISNUMBER	FUNCTION	12	"  ls_testresult varchar2(100);
+"
+ISNUMBER	FUNCTION	13	"  begin
+"
+ISNUMBER	FUNCTION	14	"    ls_testresult:=ltrim(as_testresult);
+"
+ISNUMBER	FUNCTION	15	"    ls_testresult:=rtrim(ls_testresult);
+"
+ISNUMBER	FUNCTION	16	"     if ls_testresult is null or ls_testresult = '' then
+"
+ISNUMBER	FUNCTION	17	"        ls_testresult :='A';
+"
+ISNUMBER	FUNCTION	18	"     end if;
+"
+ISNUMBER	FUNCTION	19	"    li_length:=length(ls_testresult);
+"
+ISNUMBER	FUNCTION	20	"     if li_length > 0 then
+"
+ISNUMBER	FUNCTION	21	"      li_i:= 0;
+"
+ISNUMBER	FUNCTION	22	"      li_j:= 0;
+"
+ISNUMBER	FUNCTION	23	"      loop
+"
+ISNUMBER	FUNCTION	24	"        li_i:=li_i + 1 ;
+"
+ISNUMBER	FUNCTION	25	"        if li_i > li_length then
+"
+ISNUMBER	FUNCTION	26	"          li_return:=1;
+"
+ISNUMBER	FUNCTION	27	"          exit;
+"
+ISNUMBER	FUNCTION	28	"        end if;
+"
+ISNUMBER	FUNCTION	29	"        ls_a:=substr(ls_testresult,li_i,1);
+"
+ISNUMBER	FUNCTION	30	"        if ls_a = '.' then
+"
+ISNUMBER	FUNCTION	31	"          li_j:=li_j +1 ;
+"
+ISNUMBER	FUNCTION	32	"          if li_j > 1 then
+"
+ISNUMBER	FUNCTION	33	"            li_return:=0;
+"
+ISNUMBER	FUNCTION	34	"            exit;
+"
+ISNUMBER	FUNCTION	35	"          end if;
+"
+ISNUMBER	FUNCTION	36	"        else
+"
+ISNUMBER	FUNCTION	37	"          li_asc:=ascii(ls_a);
+"
+ISNUMBER	FUNCTION	38	"          if li_asc < 48 or li_asc > 57 then
+"
+ISNUMBER	FUNCTION	39	"            li_return:=0;
+"
+ISNUMBER	FUNCTION	40	"            exit;
+"
+ISNUMBER	FUNCTION	41	"          end if;
+"
+ISNUMBER	FUNCTION	42	"        end if;
+"
+ISNUMBER	FUNCTION	43	"      end loop;
+"
+ISNUMBER	FUNCTION	44	"     else
+"
+ISNUMBER	FUNCTION	45	"        li_return:=0;
+"
+ISNUMBER	FUNCTION	46	"     end if;
+"
+ISNUMBER	FUNCTION	47	"    return (li_return);
+"
+ISNUMBER	FUNCTION	48	"  end;
+"
+ISNUMBER	FUNCTION	49	"end;
+"
+ISNUMBER	FUNCTION	50	"
+"
+ISNUMBER	FUNCTION	51	 

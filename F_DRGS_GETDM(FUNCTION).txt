@@ -1,0 +1,34 @@
+F_DRGS_GETDM	FUNCTION	1	"function f_drgs_getdm(arg_lb in varchar2,
+"
+F_DRGS_GETDM	FUNCTION	2	"                                        arg_dm in varchar2) return varchar2 is
+"
+F_DRGS_GETDM	FUNCTION	3	"  ls_dm varchar(100);
+"
+F_DRGS_GETDM	FUNCTION	4	"begin
+"
+F_DRGS_GETDM	FUNCTION	5	"  begin
+"
+F_DRGS_GETDM	FUNCTION	6	"    select dm1
+"
+F_DRGS_GETDM	FUNCTION	7	"      into ls_dm
+"
+F_DRGS_GETDM	FUNCTION	8	"      from jk_drgs_dmdz
+"
+F_DRGS_GETDM	FUNCTION	9	"     where lb = arg_lb
+"
+F_DRGS_GETDM	FUNCTION	10	"       and dm = arg_dm
+"
+F_DRGS_GETDM	FUNCTION	11	"       and rownum = 1;
+"
+F_DRGS_GETDM	FUNCTION	12	"  exception
+"
+F_DRGS_GETDM	FUNCTION	13	"    when others then
+"
+F_DRGS_GETDM	FUNCTION	14	"      ls_dm := arg_dm;
+"
+F_DRGS_GETDM	FUNCTION	15	"  End;
+"
+F_DRGS_GETDM	FUNCTION	16	"  return ls_dm;
+"
+F_DRGS_GETDM	FUNCTION	17	"end;
+"

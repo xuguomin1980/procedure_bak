@@ -1,0 +1,15 @@
+F_GET_ZGXM	FUNCTION	1	"FUNCTION         ""F_GET_ZGXM"" (is_id In Varchar2) return varchar2 is
+"
+F_GET_ZGXM	FUNCTION	2	"  ls_xm varchar2(20);
+"
+F_GET_ZGXM	FUNCTION	3	"begin
+"
+F_GET_ZGXM	FUNCTION	4	"  SELECT xm INTO ls_xm FROM gy_zgxx WHERE zgid = is_id;
+"
+F_GET_ZGXM	FUNCTION	5	"  return(ls_xm);
+"
+F_GET_ZGXM	FUNCTION	6	"end f_get_zgxm; 
+"
+F_GET_ZGXM	FUNCTION	7	"
+"
+F_GET_ZGXM	FUNCTION	8	 

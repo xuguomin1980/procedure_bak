@@ -1,0 +1,21 @@
+F_YJ_GETYLDW	FUNCTION	1	"FUNCTION         ""F_YJ_GETYLDW"" 
+"
+F_YJ_GETYLDW	FUNCTION	2	"(arg_ylxh in number)
+"
+F_YJ_GETYLDW	FUNCTION	3	"  return varchar2
+"
+F_YJ_GETYLDW	FUNCTION	4	"  is
+"
+F_YJ_GETYLDW	FUNCTION	5	"    ls_return varchar2(20);
+"
+F_YJ_GETYLDW	FUNCTION	6	"  begin
+"
+F_YJ_GETYLDW	FUNCTION	7	"	  select dw into ls_return from gy_ylsf where ylxh=arg_ylxh;
+"
+F_YJ_GETYLDW	FUNCTION	8	"	  return(ls_return);
+"
+F_YJ_GETYLDW	FUNCTION	9	"  end;
+"
+F_YJ_GETYLDW	FUNCTION	10	"
+"
+F_YJ_GETYLDW	FUNCTION	11	 

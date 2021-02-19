@@ -1,0 +1,1656 @@
+PKG_SIIM	PACKAGE BODY	1	"package body Pkg_Siim is
+"
+PKG_SIIM	PACKAGE BODY	2	"
+"
+PKG_SIIM	PACKAGE BODY	3	"  --出入参分隔符
+"
+PKG_SIIM	PACKAGE BODY	4	"  Prm_Sep Constant Varchar2(1) := '|';
+"
+PKG_SIIM	PACKAGE BODY	5	"  /**
+"
+PKG_SIIM	PACKAGE BODY	6	"  *Create By Phg-2012-06-25
+"
+PKG_SIIM	PACKAGE BODY	7	"  *解析入参公用方法(按顺序解析，直到被解析字符串为空)
+"
+PKG_SIIM	PACKAGE BODY	8	"  **/
+"
+PKG_SIIM	PACKAGE BODY	9	"  Procedure p_Gettoken(Prm_Source    In Varchar2,
+"
+PKG_SIIM	PACKAGE BODY	10	"                       Prm_Separator In Varchar2,
+"
+PKG_SIIM	PACKAGE BODY	11	"                       Prm_Returnstr Out Varchar2,
+"
+PKG_SIIM	PACKAGE BODY	12	"                       Prm_Retsource Out Varchar2) Is
+"
+PKG_SIIM	PACKAGE BODY	13	"    n_Length Number;
+"
+PKG_SIIM	PACKAGE BODY	14	"    n_Pos    Number;
+"
+PKG_SIIM	PACKAGE BODY	15	"
+"
+PKG_SIIM	PACKAGE BODY	16	"  Begin
+"
+PKG_SIIM	PACKAGE BODY	17	"    Prm_Retsource := Prm_Source;
+"
+PKG_SIIM	PACKAGE BODY	18	"    n_Length      := Length(Prm_Separator);
+"
+PKG_SIIM	PACKAGE BODY	19	"    n_Pos         := Instr(Prm_Source, Prm_Separator);
+"
+PKG_SIIM	PACKAGE BODY	20	"
+"
+PKG_SIIM	PACKAGE BODY	21	"    If n_Pos = 0 Then
+"
+PKG_SIIM	PACKAGE BODY	22	"      Prm_Returnstr := Prm_Source;
+"
+PKG_SIIM	PACKAGE BODY	23	"      Prm_Retsource := '';
+"
+PKG_SIIM	PACKAGE BODY	24	"    Else
+"
+PKG_SIIM	PACKAGE BODY	25	"      Prm_Returnstr := Substr(Prm_Source, 1, n_Pos - 1);
+"
+PKG_SIIM	PACKAGE BODY	26	"      Prm_Retsource := Substr(Prm_Source, n_Pos + n_Length);
+"
+PKG_SIIM	PACKAGE BODY	27	"    End If;
+"
+PKG_SIIM	PACKAGE BODY	28	"
+"
+PKG_SIIM	PACKAGE BODY	29	"    If Prm_Returnstr Is Null Then
+"
+PKG_SIIM	PACKAGE BODY	30	"      Prm_Returnstr := '';
+"
+PKG_SIIM	PACKAGE BODY	31	"    End If;
+"
+PKG_SIIM	PACKAGE BODY	32	"  End p_Gettoken;
+"
+PKG_SIIM	PACKAGE BODY	33	"  /**
+"
+PKG_SIIM	PACKAGE BODY	34	"  *Create By Phg-2012-06-25
+"
+PKG_SIIM	PACKAGE BODY	35	"  *解析入参（可准确的解析出第几个参数）
+"
+PKG_SIIM	PACKAGE BODY	36	"  **/
+"
+PKG_SIIM	PACKAGE BODY	37	"  Function f_Getparm(Prm_String In Varchar2,
+"
+PKG_SIIM	PACKAGE BODY	38	"                     Prm_Pos    In Number,
+"
+PKG_SIIM	PACKAGE BODY	39	"                     Prm_Sign   In Varchar2) Return Varchar2
+"
+PKG_SIIM	PACKAGE BODY	40	"
+"
+PKG_SIIM	PACKAGE BODY	41	"   Is
+"
+PKG_SIIM	PACKAGE BODY	42	"
+"
+PKG_SIIM	PACKAGE BODY	43	"    n_Num      Number(1);
+"
+PKG_SIIM	PACKAGE BODY	44	"    n_Start    Number(2) := 1;
+"
+PKG_SIIM	PACKAGE BODY	45	"    n_End      Number(2) := 1;
+"
+PKG_SIIM	PACKAGE BODY	46	"    Str_Return Varchar2(20);
+"
+PKG_SIIM	PACKAGE BODY	47	"  Begin
+"
+PKG_SIIM	PACKAGE BODY	48	"    For n_Num In 1 .. Prm_Pos - 1 Loop
+"
+PKG_SIIM	PACKAGE BODY	49	"      n_Start := Instr(Prm_String, Prm_Sign, n_Start, 1);
+"
+PKG_SIIM	PACKAGE BODY	50	"      If n_Start > 0 Then
+"
+PKG_SIIM	PACKAGE BODY	51	"        n_Start := n_Start + Length(Prm_Sign);
+"
+PKG_SIIM	PACKAGE BODY	52	"      End If;
+"
+PKG_SIIM	PACKAGE BODY	53	"    End Loop;
+"
+PKG_SIIM	PACKAGE BODY	54	"    If n_Start = 0 Then
+"
+PKG_SIIM	PACKAGE BODY	55	"      Return Str_Return;
+"
+PKG_SIIM	PACKAGE BODY	56	"    Elsif n_Start > 0 Then
+"
+PKG_SIIM	PACKAGE BODY	57	"      n_End := Instr(Prm_String, Prm_Sign, n_Start, 1);
+"
+PKG_SIIM	PACKAGE BODY	58	"      If n_End = 0 Then
+"
+PKG_SIIM	PACKAGE BODY	59	"        n_End := Length(Prm_String) + 1;
+"
+PKG_SIIM	PACKAGE BODY	60	"      End If;
+"
+PKG_SIIM	PACKAGE BODY	61	"      Str_Return := Substr(Prm_String, n_Start, n_End - n_Start);
+"
+PKG_SIIM	PACKAGE BODY	62	"      Return Str_Return;
+"
+PKG_SIIM	PACKAGE BODY	63	"    End If;
+"
+PKG_SIIM	PACKAGE BODY	64	"  End;
+"
+PKG_SIIM	PACKAGE BODY	65	"  /**
+"
+PKG_SIIM	PACKAGE BODY	66	"  *Create By Kbb-2013-05-01
+"
+PKG_SIIM	PACKAGE BODY	67	"  *更新病案号
+"
+PKG_SIIM	PACKAGE BODY	68	"  **/
+"
+PKG_SIIM	PACKAGE BODY	69	"  Procedure p_Update_Bah(Prm_Indata  In Varchar2,
+"
+PKG_SIIM	PACKAGE BODY	70	"                         Prm_Appcode Out Number,
+"
+PKG_SIIM	PACKAGE BODY	71	"                         Prm_Outdata Out Varchar2) Is
+"
+PKG_SIIM	PACKAGE BODY	72	"    v_Sfzh    gy_Brjbxxk.Sfzh%Type;
+"
+PKG_SIIM	PACKAGE BODY	73	"    v_Bah     gy_Brjbxxk.Bah%Type;
+"
+PKG_SIIM	PACKAGE BODY	74	"    v_Brxm    gy_Brjbxxk.Xm%Type;
+"
+PKG_SIIM	PACKAGE BODY	75	"    n_Xb      gy_Brjbxxk.Xb%Type;
+"
+PKG_SIIM	PACKAGE BODY	76	"    n_Brzzbz  gy_Brjbxxk.Brzzbz%Type;
+"
+PKG_SIIM	PACKAGE BODY	77	"    d_Gxrq    Date;
+"
+PKG_SIIM	PACKAGE BODY	78	"
+"
+PKG_SIIM	PACKAGE BODY	79	"    n_Count   Number;
+"
+PKG_SIIM	PACKAGE BODY	80	"    v_Jzkh_In Gy_Brjbxxk.Jzkh%Type;
+"
+PKG_SIIM	PACKAGE BODY	81	"    v_Strtemp Varchar2(1000);
+"
+PKG_SIIM	PACKAGE BODY	82	"    --v_Returnstr Varchar2(1000);
+"
+PKG_SIIM	PACKAGE BODY	83	"  Begin
+"
+PKG_SIIM	PACKAGE BODY	84	"    return;
+"
+PKG_SIIM	PACKAGE BODY	85	"   /* n_Brzzbz    := 1;
+"
+PKG_SIIM	PACKAGE BODY	86	"    Prm_Appcode := -1;
+"
+PKG_SIIM	PACKAGE BODY	87	"    V_Strtemp   := Prm_Indata;
+"
+PKG_SIIM	PACKAGE BODY	88	"    --解析出就诊卡号
+"
+PKG_SIIM	PACKAGE BODY	89	"    p_Gettoken(v_Strtemp, Prm_Sep, v_Jzkh_In, v_Strtemp);
+"
+PKG_SIIM	PACKAGE BODY	90	"    --检索基本信息
+"
+PKG_SIIM	PACKAGE BODY	91	"    Select Sfzh, bah, xm, xb
+"
+PKG_SIIM	PACKAGE BODY	92	"      Into v_Sfzh, v_Bah, v_Brxm, n_Xb
+"
+PKG_SIIM	PACKAGE BODY	93	"      From zjhis.Gy_Brjbxxk
+"
+PKG_SIIM	PACKAGE BODY	94	"     Where Jzkh = v_Jzkh_In;
+"
+PKG_SIIM	PACKAGE BODY	95	"    If v_bah is Not Null Then
+"
+PKG_SIIM	PACKAGE BODY	96	"      Goto AlterSfzh;
+"
+PKG_SIIM	PACKAGE BODY	97	"    End If;
+"
+PKG_SIIM	PACKAGE BODY	98	"    --
+"
+PKG_SIIM	PACKAGE BODY	99	"    If v_Sfzh is Not Null Then
+"
+PKG_SIIM	PACKAGE BODY	100	"      Select Bah
+"
+PKG_SIIM	PACKAGE BODY	101	"        Into v_Bah
+"
+PKG_SIIM	PACKAGE BODY	102	"        From zjhis.Gy_Brjbxxk
+"
+PKG_SIIM	PACKAGE BODY	103	"       Where Sfzh = v_Sfzh
+"
+PKG_SIIM	PACKAGE BODY	104	"         And Brzzbz + 0 = 1
+"
+PKG_SIIM	PACKAGE BODY	105	"         And Rownum = 1
+"
+PKG_SIIM	PACKAGE BODY	106	"       Order By Ldrq Desc;
+"
+PKG_SIIM	PACKAGE BODY	107	"      If v_Bah is Not Null Then
+"
+PKG_SIIM	PACKAGE BODY	108	"        n_Brzzbz := 0;
+"
+PKG_SIIM	PACKAGE BODY	109	"        Goto a;
+"
+PKG_SIIM	PACKAGE BODY	110	"      End If;
+"
+PKG_SIIM	PACKAGE BODY	111	"      end if;
+"
+PKG_SIIM	PACKAGE BODY	112	"    --取病案号
+"
+PKG_SIIM	PACKAGE BODY	113	"    Begin
+"
+PKG_SIIM	PACKAGE BODY	114	"      -- Call the procedure
+"
+PKG_SIIM	PACKAGE BODY	115	"      Pkg_Medhis_Gy.PRC_Get_BrIndex(prm_value => v_Bah,
+"
+PKG_SIIM	PACKAGE BODY	116	"                                    as_errmsg => Prm_OutData);
+"
+PKG_SIIM	PACKAGE BODY	117	"      If v_Bah is Null Then
+"
+PKG_SIIM	PACKAGE BODY	118	"        Rollback;
+"
+PKG_SIIM	PACKAGE BODY	119	"        Prm_OutData := '调用p_Update_Bah取得病人病案号为空,原因为：' + Prm_OutData;
+"
+PKG_SIIM	PACKAGE BODY	120	"        Return;
+"
+PKG_SIIM	PACKAGE BODY	121	"      End If;
+"
+PKG_SIIM	PACKAGE BODY	122	"    End;
+"
+PKG_SIIM	PACKAGE BODY	123	"    <<a>>
+"
+PKG_SIIM	PACKAGE BODY	124	"    Begin
+"
+PKG_SIIM	PACKAGE BODY	125	"      Update zjhis.Gy_Brjbxxk
+"
+PKG_SIIM	PACKAGE BODY	126	"         Set Bah = v_Bah, Brzzbz = n_Brzzbz
+"
+PKG_SIIM	PACKAGE BODY	127	"       where jzkh = v_Jzkh_In
+"
+PKG_SIIM	PACKAGE BODY	128	"         And Bah Is Null;
+"
+PKG_SIIM	PACKAGE BODY	129	"    Exception
+"
+PKG_SIIM	PACKAGE BODY	130	"      When Others Then
+"
+PKG_SIIM	PACKAGE BODY	131	"        Prm_OutData := '调用p_Update_Bah更新病人病案号和主帐户标志出错：' || sqlerrm;
+"
+PKG_SIIM	PACKAGE BODY	132	"        Rollback;
+"
+PKG_SIIM	PACKAGE BODY	133	"        Return;
+"
+PKG_SIIM	PACKAGE BODY	134	"    End;
+"
+PKG_SIIM	PACKAGE BODY	135	"    <<AlterSfzh>>
+"
+PKG_SIIM	PACKAGE BODY	136	"    If v_Sfzh is Not Null Then
+"
+PKG_SIIM	PACKAGE BODY	137	"      Begin
+"
+PKG_SIIM	PACKAGE BODY	138	"        Update zjhis.Gy_Brjbxxk
+"
+PKG_SIIM	PACKAGE BODY	139	"           Set Bah = v_Bah
+"
+PKG_SIIM	PACKAGE BODY	140	"         Where Sfzh = v_Sfzh
+"
+PKG_SIIM	PACKAGE BODY	141	"           And Xm = v_Brxm
+"
+PKG_SIIM	PACKAGE BODY	142	"           And Xb = n_Xb
+"
+PKG_SIIM	PACKAGE BODY	143	"           And Jzkh <> v_Jzkh_In
+"
+PKG_SIIM	PACKAGE BODY	144	"           And Bah Is Null;
+"
+PKG_SIIM	PACKAGE BODY	145	"      Exception
+"
+PKG_SIIM	PACKAGE BODY	146	"        When Others Then
+"
+PKG_SIIM	PACKAGE BODY	147	"          Prm_OutData := '调用p_Update_Bah更新同一病人不同就诊卡号的病案号出错：' || sqlerrm;
+"
+PKG_SIIM	PACKAGE BODY	148	"          Rollback;
+"
+PKG_SIIM	PACKAGE BODY	149	"          Return;
+"
+PKG_SIIM	PACKAGE BODY	150	"      End;
+"
+PKG_SIIM	PACKAGE BODY	151	"    End If;
+"
+PKG_SIIM	PACKAGE BODY	152	"    If v_Bah is Not null Then
+"
+PKG_SIIM	PACKAGE BODY	153	"      Begin
+"
+PKG_SIIM	PACKAGE BODY	154	"        Update zjhis.Gy_Brjbxxk
+"
+PKG_SIIM	PACKAGE BODY	155	"           Set Brzzbz = 1
+"
+PKG_SIIM	PACKAGE BODY	156	"         Where Jzkh = v_Jzkh_In
+"
+PKG_SIIM	PACKAGE BODY	157	"           and Bah = v_Bah
+"
+PKG_SIIM	PACKAGE BODY	158	"           and Nvl(Brzzbz, 0) = 0;
+"
+PKG_SIIM	PACKAGE BODY	159	"      Exception
+"
+PKG_SIIM	PACKAGE BODY	160	"        When Others Then
+"
+PKG_SIIM	PACKAGE BODY	161	"          Prm_OutData := '调用p_Update_Bah更新该病人病案号主帐户标志出错：' || sqlerrm;
+"
+PKG_SIIM	PACKAGE BODY	162	"          Rollback;
+"
+PKG_SIIM	PACKAGE BODY	163	"          Return;
+"
+PKG_SIIM	PACKAGE BODY	164	"      End;
+"
+PKG_SIIM	PACKAGE BODY	165	"      Begin
+"
+PKG_SIIM	PACKAGE BODY	166	"        Update zjhis.Gy_Brjbxxk
+"
+PKG_SIIM	PACKAGE BODY	167	"           Set Brzzbz = 0
+"
+PKG_SIIM	PACKAGE BODY	168	"         Where Jzkh <> v_Jzkh_In
+"
+PKG_SIIM	PACKAGE BODY	169	"           And Bah = v_Bah
+"
+PKG_SIIM	PACKAGE BODY	170	"           And Nvl(Brzzbz, 0) = 1;
+"
+PKG_SIIM	PACKAGE BODY	171	"      Exception
+"
+PKG_SIIM	PACKAGE BODY	172	"        When Others Then
+"
+PKG_SIIM	PACKAGE BODY	173	"          Prm_OutData := '调用p_Update_Bah更新该病人病案号主帐户标志出错：' || sqlerrm;
+"
+PKG_SIIM	PACKAGE BODY	174	"          Rollback;
+"
+PKG_SIIM	PACKAGE BODY	175	"          Return;
+"
+PKG_SIIM	PACKAGE BODY	176	"      End;
+"
+PKG_SIIM	PACKAGE BODY	177	"    End If;
+"
+PKG_SIIM	PACKAGE BODY	178	"    Commit;
+"
+PKG_SIIM	PACKAGE BODY	179	"    prm_AppCode := 0;
+"
+PKG_SIIM	PACKAGE BODY	180	"    Return;*/
+"
+PKG_SIIM	PACKAGE BODY	181	"  End p_Update_Bah;
+"
+PKG_SIIM	PACKAGE BODY	182	"  /**
+"
+PKG_SIIM	PACKAGE BODY	183	"  *Create by cjf-2013-11-11
+"
+PKG_SIIM	PACKAGE BODY	184	"  *获取取药窗口
+"
+PKG_SIIM	PACKAGE BODY	185	"  **/
+"
+PKG_SIIM	PACKAGE BODY	186	"  Procedure p_Get_Qyck(Prm_InData  In Varchar2,
+"
+PKG_SIIM	PACKAGE BODY	187	"                       Prm_AppCode Out Number,
+"
+PKG_SIIM	PACKAGE BODY	188	"                       Prm_OutData Out Varchar2) Is
+"
+PKG_SIIM	PACKAGE BODY	189	"
+"
+PKG_SIIM	PACKAGE BODY	190	"    v_Version Constant Varchar2(9) := 'V20110511';
+"
+PKG_SIIM	PACKAGE BODY	191	"    v_SeqName Constant Varchar2(13) := 'SEQ_YF_PYQYXX';
+"
+PKG_SIIM	PACKAGE BODY	192	"    n_QyhmWs  Constant Number(1) := 4;
+"
+PKG_SIIM	PACKAGE BODY	193	"    v_Strtemp Varchar2(1000);
+"
+PKG_SIIM	PACKAGE BODY	194	"    n_AutoWin Number;
+"
+PKG_SIIM	PACKAGE BODY	195	"    n_Xh      Number;
+"
+PKG_SIIM	PACKAGE BODY	196	"    --n_Xtxh Number;
+"
+PKG_SIIM	PACKAGE BODY	197	"    v_ReturnStr Varchar2(1000);
+"
+PKG_SIIM	PACKAGE BODY	198	"    --v_TempStr Varchar2(1000);
+"
+PKG_SIIM	PACKAGE BODY	199	"    n_Cfsb         Mz_Cfk1.Cfsb%Type;
+"
+PKG_SIIM	PACKAGE BODY	200	"    n_Jzyf         Mz_Cfk1.Jzyf%Type;
+"
+PKG_SIIM	PACKAGE BODY	201	"    v_Qyhm         Varchar2(50);
+"
+PKG_SIIM	PACKAGE BODY	202	"    v_Jzkh         Mz_Cfk1.Jzkh%Type;
+"
+PKG_SIIM	PACKAGE BODY	203	"    n_Cflx         Mz_Cfk1.Cflx%Type;
+"
+PKG_SIIM	PACKAGE BODY	204	"    v_Bah          Gy_Brjbxxk.Bah%Type;
+"
+PKG_SIIM	PACKAGE BODY	205	"    v_Zy           Varchar2(20);
+"
+PKG_SIIM	PACKAGE BODY	206	"    v_Qyhm_SeqMode Varchar2(5);
+"
+PKG_SIIM	PACKAGE BODY	207	"    d_Date_Curr    Date;
+"
+PKG_SIIM	PACKAGE BODY	208	"    v_Date_Curr    Varchar2(20);
+"
+PKG_SIIM	PACKAGE BODY	209	"    v_Date_Pre     Varchar2(20);
+"
+PKG_SIIM	PACKAGE BODY	210	"    v_SeqName_Temp Varchar2(70);
+"
+PKG_SIIM	PACKAGE BODY	211	"    v_SeqName_Curr Varchar2(70);
+"
+PKG_SIIM	PACKAGE BODY	212	"    v_SeqName_Pre  Varchar2(70);
+"
+PKG_SIIM	PACKAGE BODY	213	"    v_Sql_Temp     Varchar2(50);
+"
+PKG_SIIM	PACKAGE BODY	214	"    v_Qyck         Varchar2(50);
+"
+PKG_SIIM	PACKAGE BODY	215	"    v_Cfszpb       Mz_Cfk1.Cfszpb%Type;
+"
+PKG_SIIM	PACKAGE BODY	216	"    v_Ysgh         Mz_Cfk1.Ysgh%Type;
+"
+PKG_SIIM	PACKAGE BODY	217	"    v_Qyhm_AutoWin Varchar2(50);
+"
+PKG_SIIM	PACKAGE BODY	218	"    d_Cfrq         Mz_Cfk1.Cfrq%Type;
+"
+PKG_SIIM	PACKAGE BODY	219	"    v_Brxm         Mz_Cfk1.Brxm%Type;
+"
+PKG_SIIM	PACKAGE BODY	220	"    v_Brxz         Mz_Cfk1.Brxz%Type;
+"
+PKG_SIIM	PACKAGE BODY	221	"    n_Sfsb         Mz_Cfk1.Sfsb%Type;
+"
+PKG_SIIM	PACKAGE BODY	222	"    n_TsYpYb       Gy_Ypmcggzd.TsYpYb%Type;
+"
+PKG_SIIM	PACKAGE BODY	223	"    n_Fypb         Mz_Cfk1.Fypb%Type;
+"
+PKG_SIIM	PACKAGE BODY	224	"    n_YinHangLsh   Mz_Cfk1.YinHangLsh%Type;
+"
+PKG_SIIM	PACKAGE BODY	225	"    v_Cfszpb_Temp  Varchar2(5);
+"
+PKG_SIIM	PACKAGE BODY	226	"    n_YfXtxh       Number;
+"
+PKG_SIIM	PACKAGE BODY	227	"    v_Auto_Ms      Varchar2(5);
+"
+PKG_SIIM	PACKAGE BODY	228	"    v_Auto_YpWzMs  Varchar2(5);
+"
+PKG_SIIM	PACKAGE BODY	229	"    n_Count        Number;
+"
+PKG_SIIM	PACKAGE BODY	230	"    v_Ckbh         Mz_Tmpcfk.Ckbh%Type;
+"
+PKG_SIIM	PACKAGE BODY	231	"    v_RowId        Varchar2(30);
+"
+PKG_SIIM	PACKAGE BODY	232	"    n_Yplx_Gs      Number;
+"
+PKG_SIIM	PACKAGE BODY	233	"    v_ErrMsg       Varchar2(100);
+"
+PKG_SIIM	PACKAGE BODY	234	"    n_Dyzs         Number;
+"
+PKG_SIIM	PACKAGE BODY	235	"    n_xtxh_yf      Number;
+"
+PKG_SIIM	PACKAGE BODY	236	"    v_Ksbm         Varchar2(200);
+"
+PKG_SIIM	PACKAGE BODY	237	"  Begin
+"
+PKG_SIIM	PACKAGE BODY	238	"    V_Strtemp := Prm_Indata;
+"
+PKG_SIIM	PACKAGE BODY	239	"    --解析出处方识别
+"
+PKG_SIIM	PACKAGE BODY	240	"    p_Gettoken(v_Strtemp, Prm_Sep, v_ReturnStr, v_Strtemp);
+"
+PKG_SIIM	PACKAGE BODY	241	"    n_Cfsb := To_Number(v_ReturnStr);
+"
+PKG_SIIM	PACKAGE BODY	242	"    p_Gettoken(v_Strtemp, Prm_Sep, v_ReturnStr, v_Strtemp);
+"
+PKG_SIIM	PACKAGE BODY	243	"    n_Sfsb := To_Number(v_ReturnStr);
+"
+PKG_SIIM	PACKAGE BODY	244	"    --取发药窗口的启用参数
+"
+PKG_SIIM	PACKAGE BODY	245	"    n_AutoWin := To_Number(fun_Get_Xtcs(23, 'AUTOWIN', 2, '0'));
+"
+PKG_SIIM	PACKAGE BODY	246	"    --取当前时间
+"
+PKG_SIIM	PACKAGE BODY	247	"    Select Sysdate,
+"
+PKG_SIIM	PACKAGE BODY	248	"           To_Char(Sysdate, 'yyyymmdd'),
+"
+PKG_SIIM	PACKAGE BODY	249	"           To_Char(Sysdate - 1, 'yyyymmdd')
+"
+PKG_SIIM	PACKAGE BODY	250	"      Into d_Date_Curr, v_Date_Curr, v_Date_Pre
+"
+PKG_SIIM	PACKAGE BODY	251	"      From Dual;
+"
+PKG_SIIM	PACKAGE BODY	252	"    --取基本信息
+"
+PKG_SIIM	PACKAGE BODY	253	"    Begin
+"
+PKG_SIIM	PACKAGE BODY	254	"      Select Nvl(Jzyf, 0), '', Nvl(Jzkh, ''), Nvl(Cflx, 0),  brxm,   brxz,    yinhanglsh
+"
+PKG_SIIM	PACKAGE BODY	255	"        Into n_Jzyf,       v_Qyhm,        v_Jzkh,        n_Cflx,        v_Brxm, v_Brxz,  n_YinHangLsh
+"
+PKG_SIIM	PACKAGE BODY	256	"        From zjhis.Mz_Cfk1
+"
+PKG_SIIM	PACKAGE BODY	257	"       Where Cfsb = n_Cfsb;
+"
+PKG_SIIM	PACKAGE BODY	258	"     
+"
+PKG_SIIM	PACKAGE BODY	259	"    Exception
+"
+PKG_SIIM	PACKAGE BODY	260	"      When No_Data_Found Then
+"
+PKG_SIIM	PACKAGE BODY	261	"        Prm_Appcode := -1;
+"
+PKG_SIIM	PACKAGE BODY	262	"        Prm_Outdata := '调用p_Get_Qyck中检索Mz_Cfk1找不到数据';
+"
+PKG_SIIM	PACKAGE BODY	263	"        Return;
+"
+PKG_SIIM	PACKAGE BODY	264	"    End;
+"
+PKG_SIIM	PACKAGE BODY	265	"
+"
+PKG_SIIM	PACKAGE BODY	266	"    If n_AutoWin = 1 Then
+"
+PKG_SIIM	PACKAGE BODY	267	"       Begin
+"
+PKG_SIIM	PACKAGE BODY	268	"        --同一个病人:西成取同一窗口编号,草药取同一窗口编号
+"
+PKG_SIIM	PACKAGE BODY	269	"        If n_Cflx = 4 Then
+"
+PKG_SIIM	PACKAGE BODY	270	"
+"
+PKG_SIIM	PACKAGE BODY	271	"          select ckbh
+"
+PKG_SIIM	PACKAGE BODY	272	"          into v_Ckbh
+"
+PKG_SIIM	PACKAGE BODY	273	"          from mz_tmpcfk
+"
+PKG_SIIM	PACKAGE BODY	274	"          where sfsb = n_Sfsb
+"
+PKG_SIIM	PACKAGE BODY	275	"            and cflx = n_Cflx
+"
+PKG_SIIM	PACKAGE BODY	276	"            and rownum = 1;
+"
+PKG_SIIM	PACKAGE BODY	277	"
+"
+PKG_SIIM	PACKAGE BODY	278	"        Else
+"
+PKG_SIIM	PACKAGE BODY	279	"          select ckbh
+"
+PKG_SIIM	PACKAGE BODY	280	"          into v_Ckbh
+"
+PKG_SIIM	PACKAGE BODY	281	"          from mz_tmpcfk
+"
+PKG_SIIM	PACKAGE BODY	282	"          where sfsb = n_Sfsb
+"
+PKG_SIIM	PACKAGE BODY	283	"            and cflx in (1,2)
+"
+PKG_SIIM	PACKAGE BODY	284	"            and rownum = 1;
+"
+PKG_SIIM	PACKAGE BODY	285	"
+"
+PKG_SIIM	PACKAGE BODY	286	"        End If;
+"
+PKG_SIIM	PACKAGE BODY	287	"
+"
+PKG_SIIM	PACKAGE BODY	288	"       Exception
+"
+PKG_SIIM	PACKAGE BODY	289	"        When No_Data_Found Then
+"
+PKG_SIIM	PACKAGE BODY	290	"          goto abc;
+"
+PKG_SIIM	PACKAGE BODY	291	"
+"
+PKG_SIIM	PACKAGE BODY	292	"       End;
+"
+PKG_SIIM	PACKAGE BODY	293	"
+"
+PKG_SIIM	PACKAGE BODY	294	"        If v_Ckbh > 0 Then
+"
+PKG_SIIM	PACKAGE BODY	295	"          Begin
+"
+PKG_SIIM	PACKAGE BODY	296	"          Insert Into zjhis.Mz_Tmpcfk
+"
+PKG_SIIM	PACKAGE BODY	297	"            (Cfsb,
+"
+PKG_SIIM	PACKAGE BODY	298	"             Cflx,
+"
+PKG_SIIM	PACKAGE BODY	299	"             Cfrq,
+"
+PKG_SIIM	PACKAGE BODY	300	"             Brxm,
+"
+PKG_SIIM	PACKAGE BODY	301	"             Ckbh,
+"
+PKG_SIIM	PACKAGE BODY	302	"             Ysgh,
+"
+PKG_SIIM	PACKAGE BODY	303	"             Sfsb,
+"
+PKG_SIIM	PACKAGE BODY	304	"             Brxz,
+"
+PKG_SIIM	PACKAGE BODY	305	"             Dybz,
+"
+PKG_SIIM	PACKAGE BODY	306	"             Pmpb,
+"
+PKG_SIIM	PACKAGE BODY	307	"             YinHangLsh)
+"
+PKG_SIIM	PACKAGE BODY	308	"          Values
+"
+PKG_SIIM	PACKAGE BODY	309	"            (n_Cfsb,
+"
+PKG_SIIM	PACKAGE BODY	310	"             n_Cflx,
+"
+PKG_SIIM	PACKAGE BODY	311	"             sysdate,
+"
+PKG_SIIM	PACKAGE BODY	312	"             v_Brxm,
+"
+PKG_SIIM	PACKAGE BODY	313	"             v_Ckbh,
+"
+PKG_SIIM	PACKAGE BODY	314	"             v_Ysgh,
+"
+PKG_SIIM	PACKAGE BODY	315	"             n_Sfsb,
+"
+PKG_SIIM	PACKAGE BODY	316	"             v_Brxz,
+"
+PKG_SIIM	PACKAGE BODY	317	"             0,
+"
+PKG_SIIM	PACKAGE BODY	318	"             0,
+"
+PKG_SIIM	PACKAGE BODY	319	"             n_YinHangLsh);
+"
+PKG_SIIM	PACKAGE BODY	320	"
+"
+PKG_SIIM	PACKAGE BODY	321	"        Exception
+"
+PKG_SIIM	PACKAGE BODY	322	"          When Others Then
+"
+PKG_SIIM	PACKAGE BODY	323	"            Rollback;
+"
+PKG_SIIM	PACKAGE BODY	324	"            v_ErrMsg := Sqlerrm;
+"
+PKG_SIIM	PACKAGE BODY	325	"            Goto Err;
+"
+PKG_SIIM	PACKAGE BODY	326	"
+"
+PKG_SIIM	PACKAGE BODY	327	"             End;
+"
+PKG_SIIM	PACKAGE BODY	328	"
+"
+PKG_SIIM	PACKAGE BODY	329	"        End If;
+"
+PKG_SIIM	PACKAGE BODY	330	"
+"
+PKG_SIIM	PACKAGE BODY	331	"        --commit;
+"
+PKG_SIIM	PACKAGE BODY	332	"        Goto Succ;
+"
+PKG_SIIM	PACKAGE BODY	333	"
+"
+PKG_SIIM	PACKAGE BODY	334	" <<abc>>
+"
+PKG_SIIM	PACKAGE BODY	335	"      v_Ckbh := '';
+"
+PKG_SIIM	PACKAGE BODY	336	"      Case n_Cflx
+"
+PKG_SIIM	PACKAGE BODY	337	"      When 1 Then
+"
+PKG_SIIM	PACKAGE BODY	338	"        n_Count := 0;
+"
+PKG_SIIM	PACKAGE BODY	339	"        n_xtxh_yf:=5;
+"
+PKG_SIIM	PACKAGE BODY	340	"          
+"
+PKG_SIIM	PACKAGE BODY	341	"       if n_Jzyf=5 then
+"
+PKG_SIIM	PACKAGE BODY	342	"          n_xtxh_yf:=53;
+"
+PKG_SIIM	PACKAGE BODY	343	"          end if;
+"
+PKG_SIIM	PACKAGE BODY	344	"        
+"
+PKG_SIIM	PACKAGE BODY	345	"        select count(*) into n_Count from MY_CKXH where dlbz=1 and ( cflx in (1,3,5,7) ) and xtxh=n_xtxh_yf ;
+"
+PKG_SIIM	PACKAGE BODY	346	"        If n_Count > 0 Then
+"
+PKG_SIIM	PACKAGE BODY	347	"          select min(dyzs) into n_Dyzs from MY_CKXH where dlbz=1  and ( cflx in (1,3,5,7) ) and xtxh=n_xtxh_yf  ;
+"
+PKG_SIIM	PACKAGE BODY	348	"          select ksdm,rowid,ksbm into v_Ckbh,v_RowId,v_Ksbm from MY_CKXH
+"
+PKG_SIIM	PACKAGE BODY	349	"          where dlbz=1 and dyzs = n_Dyzs and cflx in (1,3,5,7)  and rownum=1  and xtxh=n_xtxh_yf ;
+"
+PKG_SIIM	PACKAGE BODY	350	"        End If;
+"
+PKG_SIIM	PACKAGE BODY	351	"      When 2 Then
+"
+PKG_SIIM	PACKAGE BODY	352	"        select count(*) into n_Count from MY_CKXH where dlbz=1 and cflx in (2,3,6,7);
+"
+PKG_SIIM	PACKAGE BODY	353	"        If n_Count > 0 Then
+"
+PKG_SIIM	PACKAGE BODY	354	"          select min(dyzs) into n_Dyzs from MY_CKXH where dlbz=1 and cflx in (2,3,6,7);
+"
+PKG_SIIM	PACKAGE BODY	355	"
+"
+PKG_SIIM	PACKAGE BODY	356	"          select ksdm,rowid,ksbm into v_Ckbh,v_RowId,v_Ksbm from MY_CKXH
+"
+PKG_SIIM	PACKAGE BODY	357	"          where dlbz=1 and dyzs = n_Dyzs  and cflx in (2,3,6,7) and rownum=1;
+"
+PKG_SIIM	PACKAGE BODY	358	"        End If;
+"
+PKG_SIIM	PACKAGE BODY	359	"      When 4 Then
+"
+PKG_SIIM	PACKAGE BODY	360	"        select count(*) into n_Count from MY_CKXH where dlbz=1 and cflx in (4,5,6,7);
+"
+PKG_SIIM	PACKAGE BODY	361	"         If n_Count > 0 Then
+"
+PKG_SIIM	PACKAGE BODY	362	"          select min(dyzs) into n_Dyzs from MY_CKXH where dlbz=1 and cflx in (4,5,6,7);
+"
+PKG_SIIM	PACKAGE BODY	363	"          select ksdm,rowid,ksbm into v_Ckbh,v_RowId,v_Ksbm from MY_CKXH
+"
+PKG_SIIM	PACKAGE BODY	364	"          where dlbz=1 and dyzs = n_Dyzs and cflx in (4,5,6,7) and rownum=1;
+"
+PKG_SIIM	PACKAGE BODY	365	"        End If;
+"
+PKG_SIIM	PACKAGE BODY	366	"      End Case;
+"
+PKG_SIIM	PACKAGE BODY	367	"      Begin
+"
+PKG_SIIM	PACKAGE BODY	368	"        Insert Into zjhis.Mz_Tmpcfk
+"
+PKG_SIIM	PACKAGE BODY	369	"          (Cfsb,
+"
+PKG_SIIM	PACKAGE BODY	370	"           Cflx,
+"
+PKG_SIIM	PACKAGE BODY	371	"           Cfrq,
+"
+PKG_SIIM	PACKAGE BODY	372	"           Brxm,
+"
+PKG_SIIM	PACKAGE BODY	373	"           Ckbh,
+"
+PKG_SIIM	PACKAGE BODY	374	"           Ysgh,
+"
+PKG_SIIM	PACKAGE BODY	375	"           Sfsb,
+"
+PKG_SIIM	PACKAGE BODY	376	"           Brxz,
+"
+PKG_SIIM	PACKAGE BODY	377	"           Dybz,
+"
+PKG_SIIM	PACKAGE BODY	378	"           Pmpb,
+"
+PKG_SIIM	PACKAGE BODY	379	"           YinHangLsh)
+"
+PKG_SIIM	PACKAGE BODY	380	"        Values
+"
+PKG_SIIM	PACKAGE BODY	381	"          (n_Cfsb,
+"
+PKG_SIIM	PACKAGE BODY	382	"           n_Cflx,
+"
+PKG_SIIM	PACKAGE BODY	383	"           sysdate,
+"
+PKG_SIIM	PACKAGE BODY	384	"           v_Brxm,
+"
+PKG_SIIM	PACKAGE BODY	385	"           v_Ckbh,
+"
+PKG_SIIM	PACKAGE BODY	386	"           v_Ysgh,
+"
+PKG_SIIM	PACKAGE BODY	387	"           n_Sfsb,
+"
+PKG_SIIM	PACKAGE BODY	388	"           v_Brxz,
+"
+PKG_SIIM	PACKAGE BODY	389	"           0,
+"
+PKG_SIIM	PACKAGE BODY	390	"           0,
+"
+PKG_SIIM	PACKAGE BODY	391	"           n_YinHangLsh);
+"
+PKG_SIIM	PACKAGE BODY	392	"      Exception
+"
+PKG_SIIM	PACKAGE BODY	393	"        When Others Then
+"
+PKG_SIIM	PACKAGE BODY	394	"          Rollback;
+"
+PKG_SIIM	PACKAGE BODY	395	"          v_ErrMsg := Sqlerrm;
+"
+PKG_SIIM	PACKAGE BODY	396	"          Goto Err;
+"
+PKG_SIIM	PACKAGE BODY	397	"      End;
+"
+PKG_SIIM	PACKAGE BODY	398	"
+"
+PKG_SIIM	PACKAGE BODY	399	"      If v_Ckbh <> '' Then
+"
+PKG_SIIM	PACKAGE BODY	400	"        Begin
+"
+PKG_SIIM	PACKAGE BODY	401	"          Update zjhis.My_Ckxh Set Dyzs = Dyzs + 1 Where Rowid = v_Rowid;
+"
+PKG_SIIM	PACKAGE BODY	402	"        Exception
+"
+PKG_SIIM	PACKAGE BODY	403	"          When Others Then
+"
+PKG_SIIM	PACKAGE BODY	404	"            Rollback;
+"
+PKG_SIIM	PACKAGE BODY	405	"            v_ErrMsg := Sqlerrm;
+"
+PKG_SIIM	PACKAGE BODY	406	"            Goto Err;
+"
+PKG_SIIM	PACKAGE BODY	407	"        End;
+"
+PKG_SIIM	PACKAGE BODY	408	"      End If;
+"
+PKG_SIIM	PACKAGE BODY	409	"     -- Commit;
+"
+PKG_SIIM	PACKAGE BODY	410	"    End If;
+"
+PKG_SIIM	PACKAGE BODY	411	"--取kszm
+"
+PKG_SIIM	PACKAGE BODY	412	"    Begin
+"
+PKG_SIIM	PACKAGE BODY	413	"      Select Ksbm,xtxh Into v_Qyck,v_Qyhm From zjhis.My_Ckxh Where Ksdm = v_Ckbh;
+"
+PKG_SIIM	PACKAGE BODY	414	"    Exception
+"
+PKG_SIIM	PACKAGE BODY	415	"      When Others Then
+"
+PKG_SIIM	PACKAGE BODY	416	"        v_Qyck := '';
+"
+PKG_SIIM	PACKAGE BODY	417	"    End;
+"
+PKG_SIIM	PACKAGE BODY	418	"    Prm_Appcode := 0;
+"
+PKG_SIIM	PACKAGE BODY	419	"    Prm_Outdata := v_Qyhm || Prm_Sep || v_Qyck || Prm_Sep;
+"
+PKG_SIIM	PACKAGE BODY	420	"    Return;
+"
+PKG_SIIM	PACKAGE BODY	421	"    <<Succ>>
+"
+PKG_SIIM	PACKAGE BODY	422	"    Prm_Appcode := 0;
+"
+PKG_SIIM	PACKAGE BODY	423	"    Prm_Outdata := v_Qyhm || Prm_Sep || v_Ckbh || Prm_Sep;
+"
+PKG_SIIM	PACKAGE BODY	424	"    Return;
+"
+PKG_SIIM	PACKAGE BODY	425	"    <<Err>>
+"
+PKG_SIIM	PACKAGE BODY	426	"    Prm_Appcode := -2;
+"
+PKG_SIIM	PACKAGE BODY	427	"    Prm_Outdata := v_Qyhm || Prm_Sep || v_ErrMsg || Prm_Sep;
+"
+PKG_SIIM	PACKAGE BODY	428	"    Return;
+"
+PKG_SIIM	PACKAGE BODY	429	"  End p_Get_Qyck;
+"
+PKG_SIIM	PACKAGE BODY	430	"
+"
+PKG_SIIM	PACKAGE BODY	431	"  /**
+"
+PKG_SIIM	PACKAGE BODY	432	"  *Create By wjx-2013-05-09
+"
+PKG_SIIM	PACKAGE BODY	433	"  *更新Yswfkc
+"
+PKG_SIIM	PACKAGE BODY	434	"  **/
+"
+PKG_SIIM	PACKAGE BODY	435	"
+"
+PKG_SIIM	PACKAGE BODY	436	"  Procedure p_Update_Yswfkc(Prm_InData  In Varchar2,
+"
+PKG_SIIM	PACKAGE BODY	437	"                            Prm_Appcode Out Number,
+"
+PKG_SIIM	PACKAGE BODY	438	"                            Prm_Outdata Out Varchar2) Is
+"
+PKG_SIIM	PACKAGE BODY	439	"    v_Strtemp   Varchar2(1000);
+"
+PKG_SIIM	PACKAGE BODY	440	"    v_ReturnStr Varchar2(1000);
+"
+PKG_SIIM	PACKAGE BODY	441	"    v_Errmsg    Varchar2(100);
+"
+PKG_SIIM	PACKAGE BODY	442	"    n_Ypxh      Gy_Ypcdjg.Ypxh%Type;
+"
+PKG_SIIM	PACKAGE BODY	443	"    n_Ypcddm    Gy_Ypcdjg.Ypcddm%Type;
+"
+PKG_SIIM	PACKAGE BODY	444	"    n_Cflx      Mz_Cfk1.Cflx%Type;
+"
+PKG_SIIM	PACKAGE BODY	445	"    n_Jzyf      Mz_Cfk1.Jzyf%Type;
+"
+PKG_SIIM	PACKAGE BODY	446	"    n_Fzfl      Gy_Ypcdjg.Fzfl%Type;
+"
+PKG_SIIM	PACKAGE BODY	447	"    n_Ypbzl     Gy_Ypcdjg.Ypbzl%Type;
+"
+PKG_SIIM	PACKAGE BODY	448	"    v_Ypsx      Gy_Ypcdjg.Ypsx%Type;
+"
+PKG_SIIM	PACKAGE BODY	449	"    n_Ypsl      Number;
+"
+PKG_SIIM	PACKAGE BODY	450	"    n_Ypsl_In   Number;
+"
+PKG_SIIM	PACKAGE BODY	451	"    v_Temp1     Varchar2(2);
+"
+PKG_SIIM	PACKAGE BODY	452	"    v_Temp2     Varchar2(2);
+"
+PKG_SIIM	PACKAGE BODY	453	"    v_Temp3     Varchar2(2);
+"
+PKG_SIIM	PACKAGE BODY	454	"    n_Xtxh      Yf_YplxDz.Xtxh%Type;
+"
+PKG_SIIM	PACKAGE BODY	455	"    v_YaoFangPc Varchar2(10);
+"
+PKG_SIIM	PACKAGE BODY	456	"
+"
+PKG_SIIM	PACKAGE BODY	457	"  Begin
+"
+PKG_SIIM	PACKAGE BODY	458	"    v_Strtemp := Prm_Indata;
+"
+PKG_SIIM	PACKAGE BODY	459	"    --解析药品序号
+"
+PKG_SIIM	PACKAGE BODY	460	"    p_Gettoken(v_Strtemp, Prm_Sep, v_ReturnStr, v_Strtemp);
+"
+PKG_SIIM	PACKAGE BODY	461	"    n_Ypxh := To_Number(v_ReturnStr);
+"
+PKG_SIIM	PACKAGE BODY	462	"    --解析出药品产地代码
+"
+PKG_SIIM	PACKAGE BODY	463	"    p_Gettoken(v_Strtemp, Prm_Sep, v_ReturnStr, v_Strtemp);
+"
+PKG_SIIM	PACKAGE BODY	464	"    n_Ypcddm := To_Number(v_ReturnStr);
+"
+PKG_SIIM	PACKAGE BODY	465	"    --解析出处方类型
+"
+PKG_SIIM	PACKAGE BODY	466	"    p_Gettoken(v_Strtemp, Prm_Sep, v_ReturnStr, v_Strtemp);
+"
+PKG_SIIM	PACKAGE BODY	467	"    n_Cflx := To_Number(v_ReturnStr);
+"
+PKG_SIIM	PACKAGE BODY	468	"    --解析出传入的药品数量
+"
+PKG_SIIM	PACKAGE BODY	469	"    p_Gettoken(v_Strtemp, Prm_Sep, v_ReturnStr, v_Strtemp);
+"
+PKG_SIIM	PACKAGE BODY	470	"    n_Ypsl_In := To_Number(v_ReturnStr);
+"
+PKG_SIIM	PACKAGE BODY	471	"    --解析出急诊处方标志
+"
+PKG_SIIM	PACKAGE BODY	472	"    p_Gettoken(v_Strtemp, Prm_Sep, v_ReturnStr, v_Strtemp);
+"
+PKG_SIIM	PACKAGE BODY	473	"    n_Jzyf := To_Number(v_ReturnStr);
+"
+PKG_SIIM	PACKAGE BODY	474	"    If n_Ypxh = 0 Or n_Ypcddm = 0 Or n_Cflx = 0 Then
+"
+PKG_SIIM	PACKAGE BODY	475	"      v_ErrMsg := '传入参数有误,不能有空值';
+"
+PKG_SIIM	PACKAGE BODY	476	"      Goto Err;
+"
+PKG_SIIM	PACKAGE BODY	477	"    End If;
+"
+PKG_SIIM	PACKAGE BODY	478	"
+"
+PKG_SIIM	PACKAGE BODY	479	"    If n_Ypsl_In Is Null Then
+"
+PKG_SIIM	PACKAGE BODY	480	"      v_ErrMsg := '传入药品数量有误,不能为空值';
+"
+PKG_SIIM	PACKAGE BODY	481	"      Goto Err;
+"
+PKG_SIIM	PACKAGE BODY	482	"    End If;
+"
+PKG_SIIM	PACKAGE BODY	483	"
+"
+PKG_SIIM	PACKAGE BODY	484	"    If n_Jzyf Is Null Then
+"
+PKG_SIIM	PACKAGE BODY	485	"      n_Jzyf := 0;
+"
+PKG_SIIM	PACKAGE BODY	486	"    End If;
+"
+PKG_SIIM	PACKAGE BODY	487	"
+"
+PKG_SIIM	PACKAGE BODY	488	"    Begin
+"
+PKG_SIIM	PACKAGE BODY	489	"      Select Distinct Fzfl, Ypbzl, Ypsx
+"
+PKG_SIIM	PACKAGE BODY	490	"        Into n_Fzfl, n_Ypbzl, v_Ypsx
+"
+PKG_SIIM	PACKAGE BODY	491	"        From zjhis.Gy_Ypcdjg
+"
+PKG_SIIM	PACKAGE BODY	492	"       Where Ypxh = n_Ypxh
+"
+PKG_SIIM	PACKAGE BODY	493	"         And Ypcddm = n_Ypcddm
+"
+PKG_SIIM	PACKAGE BODY	494	"         and bmxh is null;
+"
+PKG_SIIM	PACKAGE BODY	495	"
+"
+PKG_SIIM	PACKAGE BODY	496	"    Exception
+"
+PKG_SIIM	PACKAGE BODY	497	"      When Others Then
+"
+PKG_SIIM	PACKAGE BODY	498	"        v_ErrMsg := '调用p_Update_Yswfkc时出错:test2' || Sqlerrm;
+"
+PKG_SIIM	PACKAGE BODY	499	"        Goto Err;
+"
+PKG_SIIM	PACKAGE BODY	500	"
+"
+PKG_SIIM	PACKAGE BODY	501	"    End;
+"
+PKG_SIIM	PACKAGE BODY	502	"
+"
+PKG_SIIM	PACKAGE BODY	503	"    --取药房系统序号
+"
+PKG_SIIM	PACKAGE BODY	504	"    Begin
+"
+PKG_SIIM	PACKAGE BODY	505	"    
+"
+PKG_SIIM	PACKAGE BODY	506	"    if 1=0 then 
+"
+PKG_SIIM	PACKAGE BODY	507	"    
+"
+PKG_SIIM	PACKAGE BODY	508	"      Select Xtxh
+"
+PKG_SIIM	PACKAGE BODY	509	"      Into n_Xtxh
+"
+PKG_SIIM	PACKAGE BODY	510	"      From zjhis.Yf_Yplxdz
+"
+PKG_SIIM	PACKAGE BODY	511	"     Where Yplx=n_Cflx
+"
+PKG_SIIM	PACKAGE BODY	512	"       And Xtxh In (5,22,24,25);
+"
+PKG_SIIM	PACKAGE BODY	513	"       end if;
+"
+PKG_SIIM	PACKAGE BODY	514	"       
+"
+PKG_SIIM	PACKAGE BODY	515	"       if 1=1 then
+"
+PKG_SIIM	PACKAGE BODY	516	"        --fybh, 0,'门诊药房5',1,'绣湖分院',3,'结核药房',5,'急诊药房',7,'发热药房',6,'佛堂应急药房' 
+"
+PKG_SIIM	PACKAGE BODY	517	"     --  decode(fybh, 0,'门诊药房5',1,'绣湖分院41',3,'结核药房40',5,'急诊药房53',7,'发热药房57',6,'佛堂应急药房56','门诊药房5')
+"
+PKG_SIIM	PACKAGE BODY	518	"             Select Xtxh
+"
+PKG_SIIM	PACKAGE BODY	519	"      Into n_Xtxh
+"
+PKG_SIIM	PACKAGE BODY	520	"      From
+"
+PKG_SIIM	PACKAGE BODY	521	"      (         Select xtxh
+"
+PKG_SIIM	PACKAGE BODY	522	"      From zjhis.Yf_Yplxdz
+"
+PKG_SIIM	PACKAGE BODY	523	"     Where      Yplx=n_Cflx     And     Xtxh  In (22,24) and   Yplx<>1         
+"
+PKG_SIIM	PACKAGE BODY	524	"        union  all
+"
+PKG_SIIM	PACKAGE BODY	525	"            select decode(n_Jzyf,1,41,3,40,5,53,7,57,6,56,5) from dual where      n_Cflx=1  ) ;
+"
+PKG_SIIM	PACKAGE BODY	526	"       
+"
+PKG_SIIM	PACKAGE BODY	527	"       end if;
+"
+PKG_SIIM	PACKAGE BODY	528	"
+"
+PKG_SIIM	PACKAGE BODY	529	"    Exception
+"
+PKG_SIIM	PACKAGE BODY	530	"      When Others Then
+"
+PKG_SIIM	PACKAGE BODY	531	"        v_ErrMsg := '调用p_Update_Yswfkc时检索Yf_YplxDz出错:test1' || SqlErrm;
+"
+PKG_SIIM	PACKAGE BODY	532	"        Goto Err;
+"
+PKG_SIIM	PACKAGE BODY	533	"
+"
+PKG_SIIM	PACKAGE BODY	534	"    End;
+"
+PKG_SIIM	PACKAGE BODY	535	"
+"
+PKG_SIIM	PACKAGE BODY	536	"    --分装父类为空
+"
+PKG_SIIM	PACKAGE BODY	537	"    If n_Fzfl Is Null Then
+"
+PKG_SIIM	PACKAGE BODY	538	"      Select SubStr(v_Ypsx, 2, 2),
+"
+PKG_SIIM	PACKAGE BODY	539	"             SubStr(v_Ypsx, 5, 2),
+"
+PKG_SIIM	PACKAGE BODY	540	"             SubStr(v_Ypsx, 8, 2)
+"
+PKG_SIIM	PACKAGE BODY	541	"        Into v_Temp1, v_Temp2, v_Temp3
+"
+PKG_SIIM	PACKAGE BODY	542	"        From Dual;
+"
+PKG_SIIM	PACKAGE BODY	543	"
+"
+PKG_SIIM	PACKAGE BODY	544	"      --拆包装
+"
+PKG_SIIM	PACKAGE BODY	545	"      If (v_Temp1 = '10' And n_Cflx = 1) Or (v_Temp2 = '10' And n_Cflx = 2) Or
+"
+PKG_SIIM	PACKAGE BODY	546	"         (v_Temp3 = '10' And n_Cflx = 4) Then
+"
+PKG_SIIM	PACKAGE BODY	547	"        Begin
+"
+PKG_SIIM	PACKAGE BODY	548	"          Select Yswfkc
+"
+PKG_SIIM	PACKAGE BODY	549	"            Into n_Ypsl
+"
+PKG_SIIM	PACKAGE BODY	550	"            From zjhis.My_Ypkcz
+"
+PKG_SIIM	PACKAGE BODY	551	"           Where Fzfl = n_Ypxh
+"
+PKG_SIIM	PACKAGE BODY	552	"             And Ypcddm = n_Ypcddm
+"
+PKG_SIIM	PACKAGE BODY	553	"             And Xtxh = n_Xtxh
+"
+PKG_SIIM	PACKAGE BODY	554	"             And Sypl > 0;
+"
+PKG_SIIM	PACKAGE BODY	555	"
+"
+PKG_SIIM	PACKAGE BODY	556	"        Exception
+"
+PKG_SIIM	PACKAGE BODY	557	"          When Others Then
+"
+PKG_SIIM	PACKAGE BODY	558	"            v_ErrMsg := '调用p_Update_Yswfkc时检索My_Ypkcz出错:' || SqlErrm;
+"
+PKG_SIIM	PACKAGE BODY	559	"            Goto Err;
+"
+PKG_SIIM	PACKAGE BODY	560	"
+"
+PKG_SIIM	PACKAGE BODY	561	"        End;
+"
+PKG_SIIM	PACKAGE BODY	562	"
+"
+PKG_SIIM	PACKAGE BODY	563	"        If n_Ypsl Is Null Or n_Ypsl <= 0 Then
+"
+PKG_SIIM	PACKAGE BODY	564	"          n_Ypsl := 0;
+"
+PKG_SIIM	PACKAGE BODY	565	"        End If;
+"
+PKG_SIIM	PACKAGE BODY	566	"
+"
+PKG_SIIM	PACKAGE BODY	567	"        --未拆包装
+"
+PKG_SIIM	PACKAGE BODY	568	"      Else
+"
+PKG_SIIM	PACKAGE BODY	569	"        Begin
+"
+PKG_SIIM	PACKAGE BODY	570	"          Select Yswfkc
+"
+PKG_SIIM	PACKAGE BODY	571	"            Into n_Ypsl
+"
+PKG_SIIM	PACKAGE BODY	572	"            From zjhis.My_Ypkcz
+"
+PKG_SIIM	PACKAGE BODY	573	"           Where Ypxh = n_Ypxh
+"
+PKG_SIIM	PACKAGE BODY	574	"             And Ypcddm = n_Ypcddm
+"
+PKG_SIIM	PACKAGE BODY	575	"             And Xtxh = n_Xtxh
+"
+PKG_SIIM	PACKAGE BODY	576	"             And Sypl > 0;
+"
+PKG_SIIM	PACKAGE BODY	577	"
+"
+PKG_SIIM	PACKAGE BODY	578	"        Exception
+"
+PKG_SIIM	PACKAGE BODY	579	"          When Others Then
+"
+PKG_SIIM	PACKAGE BODY	580	"            v_ErrMsg := '调用p_Update_Yswfkc时检索My_Ypkcz出错:' || SqlErrm;
+"
+PKG_SIIM	PACKAGE BODY	581	"            Goto Err;
+"
+PKG_SIIM	PACKAGE BODY	582	"
+"
+PKG_SIIM	PACKAGE BODY	583	"        End;
+"
+PKG_SIIM	PACKAGE BODY	584	"
+"
+PKG_SIIM	PACKAGE BODY	585	"        If n_Ypsl Is Null Or n_Ypsl <= 0 Then
+"
+PKG_SIIM	PACKAGE BODY	586	"          n_Ypsl := 0;
+"
+PKG_SIIM	PACKAGE BODY	587	"        End If;
+"
+PKG_SIIM	PACKAGE BODY	588	"
+"
+PKG_SIIM	PACKAGE BODY	589	"      End If;
+"
+PKG_SIIM	PACKAGE BODY	590	"
+"
+PKG_SIIM	PACKAGE BODY	591	"      --分装父类为空、套餐
+"
+PKG_SIIM	PACKAGE BODY	592	"    Else
+"
+PKG_SIIM	PACKAGE BODY	593	"      If n_Fzfl = 0 Then
+"
+PKG_SIIM	PACKAGE BODY	594	"        n_Ypsl := 1;
+"
+PKG_SIIM	PACKAGE BODY	595	"        --分装父类不为空、可拆分
+"
+PKG_SIIM	PACKAGE BODY	596	"      Else
+"
+PKG_SIIM	PACKAGE BODY	597	"        --最小规格
+"
+PKG_SIIM	PACKAGE BODY	598	"        If n_Ypbzl = 1 Then
+"
+PKG_SIIM	PACKAGE BODY	599	"          Begin
+"
+PKG_SIIM	PACKAGE BODY	600	"            Select Yswfkc
+"
+PKG_SIIM	PACKAGE BODY	601	"              Into n_Ypsl
+"
+PKG_SIIM	PACKAGE BODY	602	"              From zjhis.My_Ypkcz
+"
+PKG_SIIM	PACKAGE BODY	603	"             Where Ypxh = n_Ypxh
+"
+PKG_SIIM	PACKAGE BODY	604	"               And Ypcddm = n_Ypcddm
+"
+PKG_SIIM	PACKAGE BODY	605	"               And Xtxh = n_Xtxh
+"
+PKG_SIIM	PACKAGE BODY	606	"               And Sypl > 0;
+"
+PKG_SIIM	PACKAGE BODY	607	"
+"
+PKG_SIIM	PACKAGE BODY	608	"          Exception
+"
+PKG_SIIM	PACKAGE BODY	609	"            When Others Then
+"
+PKG_SIIM	PACKAGE BODY	610	"              v_ErrMsg := '调用p_Update_Yswfkc时检索My_Ypkcz出错:' || SqlErrm;
+"
+PKG_SIIM	PACKAGE BODY	611	"              Goto Err;
+"
+PKG_SIIM	PACKAGE BODY	612	"
+"
+PKG_SIIM	PACKAGE BODY	613	"          End;
+"
+PKG_SIIM	PACKAGE BODY	614	"
+"
+PKG_SIIM	PACKAGE BODY	615	"          If n_Ypsl Is Null Or n_Ypsl <= 0 Then
+"
+PKG_SIIM	PACKAGE BODY	616	"            n_Ypsl := 0;
+"
+PKG_SIIM	PACKAGE BODY	617	"          End If;
+"
+PKG_SIIM	PACKAGE BODY	618	"
+"
+PKG_SIIM	PACKAGE BODY	619	"        Else
+"
+PKG_SIIM	PACKAGE BODY	620	"          Begin
+"
+PKG_SIIM	PACKAGE BODY	621	"            Select Yswfkc
+"
+PKG_SIIM	PACKAGE BODY	622	"              Into n_Ypsl
+"
+PKG_SIIM	PACKAGE BODY	623	"              From zjhis.My_Ypkcz
+"
+PKG_SIIM	PACKAGE BODY	624	"             Where Ypxh = n_Fzfl
+"
+PKG_SIIM	PACKAGE BODY	625	"               And Ypcddm = n_Ypcddm
+"
+PKG_SIIM	PACKAGE BODY	626	"               And Xtxh = n_Xtxh
+"
+PKG_SIIM	PACKAGE BODY	627	"               And Sypl > 0;
+"
+PKG_SIIM	PACKAGE BODY	628	"
+"
+PKG_SIIM	PACKAGE BODY	629	"          Exception
+"
+PKG_SIIM	PACKAGE BODY	630	"            When Others Then
+"
+PKG_SIIM	PACKAGE BODY	631	"              v_ErrMsg := '调用p_Update_Yswfkc时检索My_Ypkcz出错:' || SqlErrm;
+"
+PKG_SIIM	PACKAGE BODY	632	"              Goto Err;
+"
+PKG_SIIM	PACKAGE BODY	633	"
+"
+PKG_SIIM	PACKAGE BODY	634	"          End;
+"
+PKG_SIIM	PACKAGE BODY	635	"
+"
+PKG_SIIM	PACKAGE BODY	636	"          If n_Ypsl Is Null Or n_Ypsl <= 0 Then
+"
+PKG_SIIM	PACKAGE BODY	637	"            n_Ypsl := 0;
+"
+PKG_SIIM	PACKAGE BODY	638	"          End If;
+"
+PKG_SIIM	PACKAGE BODY	639	"
+"
+PKG_SIIM	PACKAGE BODY	640	"        End If;
+"
+PKG_SIIM	PACKAGE BODY	641	"
+"
+PKG_SIIM	PACKAGE BODY	642	"      End If;
+"
+PKG_SIIM	PACKAGE BODY	643	"
+"
+PKG_SIIM	PACKAGE BODY	644	"    End If;
+"
+PKG_SIIM	PACKAGE BODY	645	"
+"
+PKG_SIIM	PACKAGE BODY	646	"    --转换传入数量
+"
+PKG_SIIM	PACKAGE BODY	647	"    If n_Fzfl Is Null And
+"
+PKG_SIIM	PACKAGE BODY	648	"       (v_Temp1 = '10' Or v_Temp2 = '10' Or v_Temp3 = '10') Then
+"
+PKG_SIIM	PACKAGE BODY	649	"      Begin
+"
+PKG_SIIM	PACKAGE BODY	650	"        Select Ypxh
+"
+PKG_SIIM	PACKAGE BODY	651	"          Into n_Ypxh
+"
+PKG_SIIM	PACKAGE BODY	652	"          From zjhis.Gy_Ypmcggzd
+"
+PKG_SIIM	PACKAGE BODY	653	"         Where Fzfl = n_Ypxh
+"
+PKG_SIIM	PACKAGE BODY	654	"           And Substr(Ypsx, 2, 3) <> '001'
+"
+PKG_SIIM	PACKAGE BODY	655	"           And Substr(Ypsx, 5, 3) <> '001';
+"
+PKG_SIIM	PACKAGE BODY	656	"
+"
+PKG_SIIM	PACKAGE BODY	657	"      Exception
+"
+PKG_SIIM	PACKAGE BODY	658	"        When Others Then
+"
+PKG_SIIM	PACKAGE BODY	659	"          v_ErrMsg := '调用p_Update_Yswfkc时检索Gy_Ypmcggzd出错:' || SqlErrm;
+"
+PKG_SIIM	PACKAGE BODY	660	"          Goto Err;
+"
+PKG_SIIM	PACKAGE BODY	661	"
+"
+PKG_SIIM	PACKAGE BODY	662	"      End;
+"
+PKG_SIIM	PACKAGE BODY	663	"
+"
+PKG_SIIM	PACKAGE BODY	664	"      n_Ypsl_In := n_Ypsl_In * n_Ypbzl;
+"
+PKG_SIIM	PACKAGE BODY	665	"    End If;
+"
+PKG_SIIM	PACKAGE BODY	666	"
+"
+PKG_SIIM	PACKAGE BODY	667	"    If n_Fzfl Is Not Null And n_Ypbzl > 1 Then
+"
+PKG_SIIM	PACKAGE BODY	668	"      n_Ypxh    := n_Fzfl;
+"
+PKG_SIIM	PACKAGE BODY	669	"      n_Ypsl_In := n_Ypsl_In * n_Ypbzl;
+"
+PKG_SIIM	PACKAGE BODY	670	"    End If;
+"
+PKG_SIIM	PACKAGE BODY	671	"
+"
+PKG_SIIM	PACKAGE BODY	672	"    --判断库存
+"
+PKG_SIIM	PACKAGE BODY	673	"    If n_Ypsl_In > n_Ypsl And (n_Cflx = 1 or n_Cflx = 2) Then
+"
+PKG_SIIM	PACKAGE BODY	674	"      v_ErrMsg := '调用p_Update_Yswfkc时检测药品[' || To_Char(n_Ypxh) || ']无库存';
+"
+PKG_SIIM	PACKAGE BODY	675	"      Goto Err;
+"
+PKG_SIIM	PACKAGE BODY	676	"    End If;
+"
+PKG_SIIM	PACKAGE BODY	677	"
+"
+PKG_SIIM	PACKAGE BODY	678	"    --药房正在盘存时不减应收未发库存，防止锁表
+"
+PKG_SIIM	PACKAGE BODY	679	"    v_YaoFangPc := Fun_Get_Xtcs(n_Xtxh, 'PCDH', 1, '');
+"
+PKG_SIIM	PACKAGE BODY	680	"    If v_YaoFangPc <> 'ON' Then
+"
+PKG_SIIM	PACKAGE BODY	681	"      --库存更新出错即Rollback,提交放在外面与调用事物统一提交
+"
+PKG_SIIM	PACKAGE BODY	682	"      Begin
+"
+PKG_SIIM	PACKAGE BODY	683	"        Update zjhis.My_Ypkcz
+"
+PKG_SIIM	PACKAGE BODY	684	"           Set Yswfkc = Yswfkc - n_Ypsl_In
+"
+PKG_SIIM	PACKAGE BODY	685	"         Where Ypxh = n_Ypxh
+"
+PKG_SIIM	PACKAGE BODY	686	"           And Ypcddm = n_Ypcddm
+"
+PKG_SIIM	PACKAGE BODY	687	"           And Xtxh = n_Xtxh;
+"
+PKG_SIIM	PACKAGE BODY	688	"
+"
+PKG_SIIM	PACKAGE BODY	689	"      Exception
+"
+PKG_SIIM	PACKAGE BODY	690	"        When Others Then
+"
+PKG_SIIM	PACKAGE BODY	691	"          Rollback;
+"
+PKG_SIIM	PACKAGE BODY	692	"          v_ErrMsg := '调用p_Update_Yswfkc时更新药品库存出错:' || SqlErrm;
+"
+PKG_SIIM	PACKAGE BODY	693	"          Goto Err;
+"
+PKG_SIIM	PACKAGE BODY	694	"
+"
+PKG_SIIM	PACKAGE BODY	695	"      End;
+"
+PKG_SIIM	PACKAGE BODY	696	"
+"
+PKG_SIIM	PACKAGE BODY	697	"    End If;
+"
+PKG_SIIM	PACKAGE BODY	698	"
+"
+PKG_SIIM	PACKAGE BODY	699	"    <<Succ>>
+"
+PKG_SIIM	PACKAGE BODY	700	"    Prm_Appcode := 0;
+"
+PKG_SIIM	PACKAGE BODY	701	"    Prm_Outdata := '';
+"
+PKG_SIIM	PACKAGE BODY	702	"    Return;
+"
+PKG_SIIM	PACKAGE BODY	703	"    <<Err>>
+"
+PKG_SIIM	PACKAGE BODY	704	"    Prm_Appcode := -1;
+"
+PKG_SIIM	PACKAGE BODY	705	"    Prm_Outdata := v_Errmsg;
+"
+PKG_SIIM	PACKAGE BODY	706	"    Return;
+"
+PKG_SIIM	PACKAGE BODY	707	"  End p_Update_Yswfkc;
+"
+PKG_SIIM	PACKAGE BODY	708	"
+"
+PKG_SIIM	PACKAGE BODY	709	"  /**
+"
+PKG_SIIM	PACKAGE BODY	710	"  *Create by wjx-2013-05-07
+"
+PKG_SIIM	PACKAGE BODY	711	"  *His基础业务函数主交易
+"
+PKG_SIIM	PACKAGE BODY	712	"  **/
+"
+PKG_SIIM	PACKAGE BODY	713	"
+"
+PKG_SIIM	PACKAGE BODY	714	"  Procedure p_Trade(Prm_TradeType In Varchar2,
+"
+PKG_SIIM	PACKAGE BODY	715	"                    Prm_Indata    In Varchar2,
+"
+PKG_SIIM	PACKAGE BODY	716	"                    Prm_Appcode   Out Number,
+"
+PKG_SIIM	PACKAGE BODY	717	"                    Prm_Outdata   Out Varchar2) Is
+"
+PKG_SIIM	PACKAGE BODY	718	"    --n_Ret Number;
+"
+PKG_SIIM	PACKAGE BODY	719	"  Begin
+"
+PKG_SIIM	PACKAGE BODY	720	"    --判断传入参数有效性
+"
+PKG_SIIM	PACKAGE BODY	721	"    If Prm_Indata Is Null Then
+"
+PKG_SIIM	PACKAGE BODY	722	"      Prm_Appcode := -1;
+"
+PKG_SIIM	PACKAGE BODY	723	"      Prm_Outdata := '调用[' || Prm_TradeType || ']传入参数为空';
+"
+PKG_SIIM	PACKAGE BODY	724	"      Return;
+"
+PKG_SIIM	PACKAGE BODY	725	"    End If;
+"
+PKG_SIIM	PACKAGE BODY	726	"
+"
+PKG_SIIM	PACKAGE BODY	727	"    Case Upper(Prm_TradeType)
+"
+PKG_SIIM	PACKAGE BODY	728	"      When Upper('p_Update_Bah') Then
+"
+PKG_SIIM	PACKAGE BODY	729	"        --更新病案号
+"
+PKG_SIIM	PACKAGE BODY	730	"        p_Update_Bah(Prm_Indata, Prm_Appcode, Prm_Outdata);
+"
+PKG_SIIM	PACKAGE BODY	731	"
+"
+PKG_SIIM	PACKAGE BODY	732	"      When Upper('p_Get_Qyck') Then
+"
+PKG_SIIM	PACKAGE BODY	733	"        --获取取药窗口
+"
+PKG_SIIM	PACKAGE BODY	734	"        p_Get_Qyck(Prm_Indata, Prm_Appcode, Prm_Outdata);
+"
+PKG_SIIM	PACKAGE BODY	735	"
+"
+PKG_SIIM	PACKAGE BODY	736	"      When Upper('p_Update_Yswfkc') Then
+"
+PKG_SIIM	PACKAGE BODY	737	"        --更新药品库存
+"
+PKG_SIIM	PACKAGE BODY	738	"        p_Update_Yswfkc(Prm_Indata, Prm_Appcode, Prm_Outdata);
+"
+PKG_SIIM	PACKAGE BODY	739	"
+"
+PKG_SIIM	PACKAGE BODY	740	"      Else
+"
+PKG_SIIM	PACKAGE BODY	741	"        Prm_Appcode := -1;
+"
+PKG_SIIM	PACKAGE BODY	742	"        Prm_Outdata := '调用未定义的交易功能号';
+"
+PKG_SIIM	PACKAGE BODY	743	"
+"
+PKG_SIIM	PACKAGE BODY	744	"    End Case;
+"
+PKG_SIIM	PACKAGE BODY	745	"
+"
+PKG_SIIM	PACKAGE BODY	746	"    Return;
+"
+PKG_SIIM	PACKAGE BODY	747	"  End p_Trade;
+"
+PKG_SIIM	PACKAGE BODY	748	"
+"
+PKG_SIIM	PACKAGE BODY	749	"  /**
+"
+PKG_SIIM	PACKAGE BODY	750	"  *Create by phg
+"
+PKG_SIIM	PACKAGE BODY	751	"  *更新门诊医保结算信息中间表
+"
+PKG_SIIM	PACKAGE BODY	752	"  **/
+"
+PKG_SIIM	PACKAGE BODY	753	"
+"
+PKG_SIIM	PACKAGE BODY	754	" /* Procedure Prc_SyncMzYbjsxx(a_yyjyid varchar) Is
+"
+PKG_SIIM	PACKAGE BODY	755	"    n_ylbxid siim.yb_mzjsxx.ylbxid%type;
+"
+PKG_SIIM	PACKAGE BODY	756	"    n_ybjyrq siim.yb_mzjsxx.ybjyrq%type;
+"
+PKG_SIIM	PACKAGE BODY	757	"    n_ywzqhm siim.yb_mzjsxx.ywzqhm%type;
+"
+PKG_SIIM	PACKAGE BODY	758	"    n_ybjyhm siim.yb_mzjsxx.ybjyhm%type;
+"
+PKG_SIIM	PACKAGE BODY	759	"    n_yyjyhm siim.yb_mzjsxx.yyjyhm%type;
+"
+PKG_SIIM	PACKAGE BODY	760	"    n_ybdkxx siim.yb_mzjsxx.ybdkxx%type;
+"
+PKG_SIIM	PACKAGE BODY	761	"    n_ybbrxx siim.yb_mzjsxx.ybbrxx%type;
+"
+PKG_SIIM	PACKAGE BODY	762	"    n_ybjsxx siim.yb_mzjsxx.ybjsxx%type;
+"
+PKG_SIIM	PACKAGE BODY	763	"    n_ybgrbh siim.yb_mzjsxx.ybgrbh%type;
+"
+PKG_SIIM	PACKAGE BODY	764	"    n_ybbrkh siim.yb_mzjsxx.ybbrkh%type;
+"
+PKG_SIIM	PACKAGE BODY	765	"    n_hismzh siim.yb_mzjsxx.hismzh%type;
+"
+PKG_SIIM	PACKAGE BODY	766	"
+"
+PKG_SIIM	PACKAGE BODY	767	"  begin
+"
+PKG_SIIM	PACKAGE BODY	768	"    begin
+"
+PKG_SIIM	PACKAGE BODY	769	"      \*select ylbxid,
+"
+PKG_SIIM	PACKAGE BODY	770	"             ybjyrq,
+"
+PKG_SIIM	PACKAGE BODY	771	"             ywzqhm,
+"
+PKG_SIIM	PACKAGE BODY	772	"             ybjyhm,
+"
+PKG_SIIM	PACKAGE BODY	773	"             yyjyhm,
+"
+PKG_SIIM	PACKAGE BODY	774	"             ybdkxx,
+"
+PKG_SIIM	PACKAGE BODY	775	"             ybbrxx,
+"
+PKG_SIIM	PACKAGE BODY	776	"             ybjsxx,
+"
+PKG_SIIM	PACKAGE BODY	777	"             ybgrbh,
+"
+PKG_SIIM	PACKAGE BODY	778	"             ybbrkh,
+"
+PKG_SIIM	PACKAGE BODY	779	"             hismzh
+"
+PKG_SIIM	PACKAGE BODY	780	"        into n_ylbxid,
+"
+PKG_SIIM	PACKAGE BODY	781	"             n_ybjyrq,
+"
+PKG_SIIM	PACKAGE BODY	782	"             n_ywzqhm,
+"
+PKG_SIIM	PACKAGE BODY	783	"             n_ybjyhm,
+"
+PKG_SIIM	PACKAGE BODY	784	"             n_yyjyhm,
+"
+PKG_SIIM	PACKAGE BODY	785	"             n_ybdkxx,
+"
+PKG_SIIM	PACKAGE BODY	786	"             n_ybbrxx,
+"
+PKG_SIIM	PACKAGE BODY	787	"             n_ybjsxx,
+"
+PKG_SIIM	PACKAGE BODY	788	"             n_ybgrbh,
+"
+PKG_SIIM	PACKAGE BODY	789	"             n_ybbrkh,
+"
+PKG_SIIM	PACKAGE BODY	790	"             n_hismzh
+"
+PKG_SIIM	PACKAGE BODY	791	"        from siim.yb_mzjsxx
+"
+PKG_SIIM	PACKAGE BODY	792	"       where ybjylb in(2,1) and
+"
+PKG_SIIM	PACKAGE BODY	793	"          yyjyid = a_yyjyid
+"
+PKG_SIIM	PACKAGE BODY	794	"         and sfjylb = 1;
+"
+PKG_SIIM	PACKAGE BODY	795	"
+"
+PKG_SIIM	PACKAGE BODY	796	"    Exception
+"
+PKG_SIIM	PACKAGE BODY	797	"      when others then
+"
+PKG_SIIM	PACKAGE BODY	798	"        return;
+"
+PKG_SIIM	PACKAGE BODY	799	"
+"
+PKG_SIIM	PACKAGE BODY	800	"    end;
+"
+PKG_SIIM	PACKAGE BODY	801	"
+"
+PKG_SIIM	PACKAGE BODY	802	"    begin
+"
+PKG_SIIM	PACKAGE BODY	803	"      update zjhis.mz_ybjsxx
+"
+PKG_SIIM	PACKAGE BODY	804	"         Set YBKH       = n_ybbrkh,
+"
+PKG_SIIM	PACKAGE BODY	805	"             DATABUFFER = n_ybjsxx,
+"
+PKG_SIIM	PACKAGE BODY	806	"             MZH        = n_ybgrbh,
+"
+PKG_SIIM	PACKAGE BODY	807	"             BLACK      = n_ybjsxx,
+"
+PKG_SIIM	PACKAGE BODY	808	"             BRIGHT     = n_ybbrxx,
+"
+PKG_SIIM	PACKAGE BODY	809	"             JYLSH      = n_ybjyhm,
+"
+PKG_SIIM	PACKAGE BODY	810	"             YWZQH      = n_ywzqhm,
+"
+PKG_SIIM	PACKAGE BODY	811	"             YYLSH      = n_yyjyhm,
+"
+PKG_SIIM	PACKAGE BODY	812	"             JYRQ       = n_ybjyrq,
+"
+PKG_SIIM	PACKAGE BODY	813	"             Ybdkxx     = n_ybdkxx,
+"
+PKG_SIIM	PACKAGE BODY	814	"             hismzh     = n_hismzh,
+"
+PKG_SIIM	PACKAGE BODY	815	"             yyjyid     = a_yyjyid
+"
+PKG_SIIM	PACKAGE BODY	816	"       where sfsb = to_number(a_yyjyid)
+"
+PKG_SIIM	PACKAGE BODY	817	"         and jylx = 1;*\
+"
+PKG_SIIM	PACKAGE BODY	818	"
+"
+PKG_SIIM	PACKAGE BODY	819	"    Exception
+"
+PKG_SIIM	PACKAGE BODY	820	"      when others then
+"
+PKG_SIIM	PACKAGE BODY	821	"        return;
+"
+PKG_SIIM	PACKAGE BODY	822	"
+"
+PKG_SIIM	PACKAGE BODY	823	"    end;
+"
+PKG_SIIM	PACKAGE BODY	824	"
+"
+PKG_SIIM	PACKAGE BODY	825	"
+"
+PKG_SIIM	PACKAGE BODY	826	"  End Prc_SyncMzYbjsxx;*/
+"
+PKG_SIIM	PACKAGE BODY	827	"
+"
+PKG_SIIM	PACKAGE BODY	828	"end Pkg_Siim;
+"

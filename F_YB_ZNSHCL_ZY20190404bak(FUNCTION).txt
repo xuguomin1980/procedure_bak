@@ -1,0 +1,448 @@
+F_YB_ZNSHCL_ZY20190404bak	FUNCTION	1	"FUNCTION ""F_YB_ZNSHCL_ZY20190404bak"" ( in_source  varchar2 )
+"
+F_YB_ZNSHCL_ZY20190404bak	FUNCTION	2	"  return varchar2
+"
+F_YB_ZNSHCL_ZY20190404bak	FUNCTION	3	"Is
+"
+F_YB_ZNSHCL_ZY20190404bak	FUNCTION	4	"
+"
+F_YB_ZNSHCL_ZY20190404bak	FUNCTION	5	"
+"
+F_YB_ZNSHCL_ZY20190404bak	FUNCTION	6	"v_data varchar2(200);
+"
+F_YB_ZNSHCL_ZY20190404bak	FUNCTION	7	"v_str1 varchar2(100);
+"
+F_YB_ZNSHCL_ZY20190404bak	FUNCTION	8	"v_str2 varchar2(100);
+"
+F_YB_ZNSHCL_ZY20190404bak	FUNCTION	9	"v_str3 varchar2(100);
+"
+F_YB_ZNSHCL_ZY20190404bak	FUNCTION	10	"v_str4 varchar2(100);
+"
+F_YB_ZNSHCL_ZY20190404bak	FUNCTION	11	"v_str5 varchar2(100);
+"
+F_YB_ZNSHCL_ZY20190404bak	FUNCTION	12	"v_str6 varchar2(100);
+"
+F_YB_ZNSHCL_ZY20190404bak	FUNCTION	13	"v_str7 varchar2(100);
+"
+F_YB_ZNSHCL_ZY20190404bak	FUNCTION	14	"v_str8 varchar2(100);
+"
+F_YB_ZNSHCL_ZY20190404bak	FUNCTION	15	"v_str9 varchar2(100);
+"
+F_YB_ZNSHCL_ZY20190404bak	FUNCTION	16	"v_str10 varchar2(100);
+"
+F_YB_ZNSHCL_ZY20190404bak	FUNCTION	17	"v_str11 varchar2(100);
+"
+F_YB_ZNSHCL_ZY20190404bak	FUNCTION	18	"v_str12 varchar2(100);
+"
+F_YB_ZNSHCL_ZY20190404bak	FUNCTION	19	"v_str13 varchar2(100);
+"
+F_YB_ZNSHCL_ZY20190404bak	FUNCTION	20	"v_str14 varchar2(100);
+"
+F_YB_ZNSHCL_ZY20190404bak	FUNCTION	21	"in_item varchar2(100);
+"
+F_YB_ZNSHCL_ZY20190404bak	FUNCTION	22	"out_msg varchar2(100);
+"
+F_YB_ZNSHCL_ZY20190404bak	FUNCTION	23	"
+"
+F_YB_ZNSHCL_ZY20190404bak	FUNCTION	24	" 
+"
+F_YB_ZNSHCL_ZY20190404bak	FUNCTION	25	"v_pos number;
+"
+F_YB_ZNSHCL_ZY20190404bak	FUNCTION	26	"v_flag varchar2(50);
+"
+F_YB_ZNSHCL_ZY20190404bak	FUNCTION	27	"v_flag_len number;
+"
+F_YB_ZNSHCL_ZY20190404bak	FUNCTION	28	"v_sl  number;
+"
+F_YB_ZNSHCL_ZY20190404bak	FUNCTION	29	"v_je number;
+"
+F_YB_ZNSHCL_ZY20190404bak	FUNCTION	30	"ll_count  number;
+"
+F_YB_ZNSHCL_ZY20190404bak	FUNCTION	31	"
+"
+F_YB_ZNSHCL_ZY20190404bak	FUNCTION	32	"v_cfsb number;
+"
+F_YB_ZNSHCL_ZY20190404bak	FUNCTION	33	"v_cfk1_new number;
+"
+F_YB_ZNSHCL_ZY20190404bak	FUNCTION	34	"v_jzkh varchar(20);
+"
+F_YB_ZNSHCL_ZY20190404bak	FUNCTION	35	"v_brxm varchar(50);
+"
+F_YB_ZNSHCL_ZY20190404bak	FUNCTION	36	"
+"
+F_YB_ZNSHCL_ZY20190404bak	FUNCTION	37	"v_fypb number;
+"
+F_YB_ZNSHCL_ZY20190404bak	FUNCTION	38	"
+"
+F_YB_ZNSHCL_ZY20190404bak	FUNCTION	39	"arg_systime varchar2(50);
+"
+F_YB_ZNSHCL_ZY20190404bak	FUNCTION	40	"arg_patient_no  varchar2(20);
+"
+F_YB_ZNSHCL_ZY20190404bak	FUNCTION	41	"arg_fygl varchar2(20);
+"
+F_YB_ZNSHCL_ZY20190404bak	FUNCTION	42	"arg_charge_code   varchar2(20);
+"
+F_YB_ZNSHCL_ZY20190404bak	FUNCTION	43	"arg_sl   number;
+"
+F_YB_ZNSHCL_ZY20190404bak	FUNCTION	44	"arg_dj  number;
+"
+F_YB_ZNSHCL_ZY20190404bak	FUNCTION	45	"arg_spbh   varchar2(20);
+"
+F_YB_ZNSHCL_ZY20190404bak	FUNCTION	46	"arg_zx_ks   varchar2(20);
+"
+F_YB_ZNSHCL_ZY20190404bak	FUNCTION	47	"arg_curr_ks   varchar2(20);
+"
+F_YB_ZNSHCL_ZY20190404bak	FUNCTION	48	"arg_czgh   varchar2(20);
+"
+F_YB_ZNSHCL_ZY20190404bak	FUNCTION	49	"arg_twice_detail_code varchar2(50);
+"
+F_YB_ZNSHCL_ZY20190404bak	FUNCTION	50	"arg_charge_name varchar2(50);
+"
+F_YB_ZNSHCL_ZY20190404bak	FUNCTION	51	"arg_twice_detail_id varchar2(50);
+"
+F_YB_ZNSHCL_ZY20190404bak	FUNCTION	52	"arg_ysgh varchar2(50);
+"
+F_YB_ZNSHCL_ZY20190404bak	FUNCTION	53	"
+"
+F_YB_ZNSHCL_ZY20190404bak	FUNCTION	54	"
+"
+F_YB_ZNSHCL_ZY20190404bak	FUNCTION	55	"begin
+"
+F_YB_ZNSHCL_ZY20190404bak	FUNCTION	56	"
+"
+F_YB_ZNSHCL_ZY20190404bak	FUNCTION	57	"out_msg:='';
+"
+F_YB_ZNSHCL_ZY20190404bak	FUNCTION	58	"in_item:='住院费用录入前医保检查';
+"
+F_YB_ZNSHCL_ZY20190404bak	FUNCTION	59	"--insert into zy_jiaoyi_v1(jiaoyilx,jylsh) values (in_item,in_source);
+"
+F_YB_ZNSHCL_ZY20190404bak	FUNCTION	60	"--commit;
+"
+F_YB_ZNSHCL_ZY20190404bak	FUNCTION	61	"
+"
+F_YB_ZNSHCL_ZY20190404bak	FUNCTION	62	" --out_msg:='没有处理的内容';
+"
+F_YB_ZNSHCL_ZY20190404bak	FUNCTION	63	"
+"
+F_YB_ZNSHCL_ZY20190404bak	FUNCTION	64	"  --获取入参的值
+"
+F_YB_ZNSHCL_ZY20190404bak	FUNCTION	65	"    if 1=1 then
+"
+F_YB_ZNSHCL_ZY20190404bak	FUNCTION	66	"  --in_source to_char(sysdate)#patient_no#fygl#charge_code#sl#dj#spbh#zx_ks#curr_ks#czgh#arg_twice_detail_code#charge_name#arg_twice_detail_id#arg_ysgh
+"
+F_YB_ZNSHCL_ZY20190404bak	FUNCTION	67	"  --
+"
+F_YB_ZNSHCL_ZY20190404bak	FUNCTION	68	"  v_flag:='#';
+"
+F_YB_ZNSHCL_ZY20190404bak	FUNCTION	69	"  v_flag_len:=1;
+"
+F_YB_ZNSHCL_ZY20190404bak	FUNCTION	70	"  v_data:=in_source||v_flag;
+"
+F_YB_ZNSHCL_ZY20190404bak	FUNCTION	71	"--1
+"
+F_YB_ZNSHCL_ZY20190404bak	FUNCTION	72	"  v_pos:=to_number(instr(v_data,v_flag));
+"
+F_YB_ZNSHCL_ZY20190404bak	FUNCTION	73	"  v_str1:=ltrim(rtrim(substr(v_data,1,v_pos - 1)));
+"
+F_YB_ZNSHCL_ZY20190404bak	FUNCTION	74	"  v_data:=substr(v_data,v_pos+v_flag_len);
+"
+F_YB_ZNSHCL_ZY20190404bak	FUNCTION	75	"  --2
+"
+F_YB_ZNSHCL_ZY20190404bak	FUNCTION	76	"  v_pos:=to_number(instr(v_data,v_flag));
+"
+F_YB_ZNSHCL_ZY20190404bak	FUNCTION	77	"  v_str2:=ltrim(rtrim(substr(v_data,1,v_pos - 1)));
+"
+F_YB_ZNSHCL_ZY20190404bak	FUNCTION	78	"  v_data:=substr(v_data,v_pos+v_flag_len);
+"
+F_YB_ZNSHCL_ZY20190404bak	FUNCTION	79	"  --//3
+"
+F_YB_ZNSHCL_ZY20190404bak	FUNCTION	80	"  v_pos:=to_number(instr(v_data,v_flag));
+"
+F_YB_ZNSHCL_ZY20190404bak	FUNCTION	81	"  v_str3:=ltrim(rtrim(substr(v_data,1,v_pos - 1)));
+"
+F_YB_ZNSHCL_ZY20190404bak	FUNCTION	82	"  v_data:=substr(v_data,v_pos+v_flag_len);
+"
+F_YB_ZNSHCL_ZY20190404bak	FUNCTION	83	"  --//4
+"
+F_YB_ZNSHCL_ZY20190404bak	FUNCTION	84	"  v_pos:=to_number(instr(v_data,v_flag));
+"
+F_YB_ZNSHCL_ZY20190404bak	FUNCTION	85	"  v_str4:=ltrim(rtrim(substr(v_data,1,v_pos - 1)));
+"
+F_YB_ZNSHCL_ZY20190404bak	FUNCTION	86	"  v_data:=substr(v_data,v_pos+v_flag_len);
+"
+F_YB_ZNSHCL_ZY20190404bak	FUNCTION	87	" -- //5
+"
+F_YB_ZNSHCL_ZY20190404bak	FUNCTION	88	"  v_pos:=to_number(instr(v_data,v_flag));
+"
+F_YB_ZNSHCL_ZY20190404bak	FUNCTION	89	"  v_str5:=ltrim(rtrim(substr(v_data,1,v_pos - 1)));
+"
+F_YB_ZNSHCL_ZY20190404bak	FUNCTION	90	"  v_data:=substr(v_data,v_pos+v_flag_len);
+"
+F_YB_ZNSHCL_ZY20190404bak	FUNCTION	91	" -- //6
+"
+F_YB_ZNSHCL_ZY20190404bak	FUNCTION	92	"  v_pos:=to_number(instr(v_data,v_flag));
+"
+F_YB_ZNSHCL_ZY20190404bak	FUNCTION	93	"  v_str6:=ltrim(rtrim(substr(v_data,1,v_pos - 1)));
+"
+F_YB_ZNSHCL_ZY20190404bak	FUNCTION	94	"  v_data:=substr(v_data,v_pos+v_flag_len);
+"
+F_YB_ZNSHCL_ZY20190404bak	FUNCTION	95	"  --//7
+"
+F_YB_ZNSHCL_ZY20190404bak	FUNCTION	96	"  v_pos:=to_number(instr(v_data,v_flag));
+"
+F_YB_ZNSHCL_ZY20190404bak	FUNCTION	97	"  v_str7:=ltrim(rtrim(substr(v_data,1,v_pos - 1)));
+"
+F_YB_ZNSHCL_ZY20190404bak	FUNCTION	98	"  v_data:=substr(v_data,v_pos+v_flag_len);
+"
+F_YB_ZNSHCL_ZY20190404bak	FUNCTION	99	"  --//8
+"
+F_YB_ZNSHCL_ZY20190404bak	FUNCTION	100	"  v_pos:=to_number(instr(v_data,v_flag));
+"
+F_YB_ZNSHCL_ZY20190404bak	FUNCTION	101	"  v_str8:=ltrim(rtrim(substr(v_data,1,v_pos - 1)));
+"
+F_YB_ZNSHCL_ZY20190404bak	FUNCTION	102	"  v_data:=substr(v_data,v_pos+v_flag_len);
+"
+F_YB_ZNSHCL_ZY20190404bak	FUNCTION	103	"  --//9
+"
+F_YB_ZNSHCL_ZY20190404bak	FUNCTION	104	"  v_pos:=to_number(instr(v_data,v_flag));
+"
+F_YB_ZNSHCL_ZY20190404bak	FUNCTION	105	"  v_str9:=ltrim(rtrim(substr(v_data,1,v_pos - 1)));
+"
+F_YB_ZNSHCL_ZY20190404bak	FUNCTION	106	"  v_data:=substr(v_data,v_pos+v_flag_len);
+"
+F_YB_ZNSHCL_ZY20190404bak	FUNCTION	107	"  
+"
+F_YB_ZNSHCL_ZY20190404bak	FUNCTION	108	"    --//10
+"
+F_YB_ZNSHCL_ZY20190404bak	FUNCTION	109	"  v_pos:=to_number(instr(v_data,v_flag));
+"
+F_YB_ZNSHCL_ZY20190404bak	FUNCTION	110	"  v_str10:=ltrim(rtrim(substr(v_data,1,v_pos - 1)));
+"
+F_YB_ZNSHCL_ZY20190404bak	FUNCTION	111	"  v_data:=substr(v_data,v_pos+v_flag_len);
+"
+F_YB_ZNSHCL_ZY20190404bak	FUNCTION	112	"
+"
+F_YB_ZNSHCL_ZY20190404bak	FUNCTION	113	"    --//11
+"
+F_YB_ZNSHCL_ZY20190404bak	FUNCTION	114	"  v_pos:=to_number(instr(v_data,v_flag));
+"
+F_YB_ZNSHCL_ZY20190404bak	FUNCTION	115	"  v_str11:=ltrim(rtrim(substr(v_data,1,v_pos - 1)));
+"
+F_YB_ZNSHCL_ZY20190404bak	FUNCTION	116	"  v_data:=substr(v_data,v_pos+v_flag_len);
+"
+F_YB_ZNSHCL_ZY20190404bak	FUNCTION	117	"  
+"
+F_YB_ZNSHCL_ZY20190404bak	FUNCTION	118	"      --//12
+"
+F_YB_ZNSHCL_ZY20190404bak	FUNCTION	119	"  v_pos:=to_number(instr(v_data,v_flag));
+"
+F_YB_ZNSHCL_ZY20190404bak	FUNCTION	120	"  v_str12:=ltrim(rtrim(substr(v_data,1,v_pos - 1)));
+"
+F_YB_ZNSHCL_ZY20190404bak	FUNCTION	121	"  v_data:=substr(v_data,v_pos+v_flag_len);
+"
+F_YB_ZNSHCL_ZY20190404bak	FUNCTION	122	"  
+"
+F_YB_ZNSHCL_ZY20190404bak	FUNCTION	123	"      --//13
+"
+F_YB_ZNSHCL_ZY20190404bak	FUNCTION	124	"  v_pos:=to_number(instr(v_data,v_flag));
+"
+F_YB_ZNSHCL_ZY20190404bak	FUNCTION	125	"  v_str13:=ltrim(rtrim(substr(v_data,1,v_pos - 1)));
+"
+F_YB_ZNSHCL_ZY20190404bak	FUNCTION	126	"  v_data:=substr(v_data,v_pos+v_flag_len);
+"
+F_YB_ZNSHCL_ZY20190404bak	FUNCTION	127	"
+"
+F_YB_ZNSHCL_ZY20190404bak	FUNCTION	128	"      --//13
+"
+F_YB_ZNSHCL_ZY20190404bak	FUNCTION	129	"  v_pos:=to_number(instr(v_data,v_flag));
+"
+F_YB_ZNSHCL_ZY20190404bak	FUNCTION	130	"  v_str14:=ltrim(rtrim(substr(v_data,1,v_pos - 1)));
+"
+F_YB_ZNSHCL_ZY20190404bak	FUNCTION	131	"  v_data:=substr(v_data,v_pos+v_flag_len);
+"
+F_YB_ZNSHCL_ZY20190404bak	FUNCTION	132	"    end if;
+"
+F_YB_ZNSHCL_ZY20190404bak	FUNCTION	133	" --in_source  to_char(sysdate)#patient_no#fygl#charge_code#sl#dj#spbh#zx_ks#curr_ks#czgh#arg_twice_detail_code#charge_name#arg_twice_detail_id
+"
+F_YB_ZNSHCL_ZY20190404bak	FUNCTION	134	" --解析数据
+"
+F_YB_ZNSHCL_ZY20190404bak	FUNCTION	135	"     if 2=2 then
+"
+F_YB_ZNSHCL_ZY20190404bak	FUNCTION	136	" if v_str1='' then 
+"
+F_YB_ZNSHCL_ZY20190404bak	FUNCTION	137	" out_msg:='第1个参数有误 操作系统时间不能为空 年月日时分秒';
+"
+F_YB_ZNSHCL_ZY20190404bak	FUNCTION	138	" return out_msg;
+"
+F_YB_ZNSHCL_ZY20190404bak	FUNCTION	139	" end if;
+"
+F_YB_ZNSHCL_ZY20190404bak	FUNCTION	140	" arg_systime:=v_str1;
+"
+F_YB_ZNSHCL_ZY20190404bak	FUNCTION	141	" 
+"
+F_YB_ZNSHCL_ZY20190404bak	FUNCTION	142	"  if v_str2='' or v_str2='0' then 
+"
+F_YB_ZNSHCL_ZY20190404bak	FUNCTION	143	" out_msg:='第2个参数有误 住院病人序号不能为空';
+"
+F_YB_ZNSHCL_ZY20190404bak	FUNCTION	144	"  return out_msg;
+"
+F_YB_ZNSHCL_ZY20190404bak	FUNCTION	145	" end if;
+"
+F_YB_ZNSHCL_ZY20190404bak	FUNCTION	146	" arg_patient_no:=trim(v_str2);
+"
+F_YB_ZNSHCL_ZY20190404bak	FUNCTION	147	" select arg_systime||arg_patient_no into arg_systime from dual;
+"
+F_YB_ZNSHCL_ZY20190404bak	FUNCTION	148	"
+"
+F_YB_ZNSHCL_ZY20190404bak	FUNCTION	149	"    if v_str3=''  then 
+"
+F_YB_ZNSHCL_ZY20190404bak	FUNCTION	150	" out_msg:='第3个参数有误 费用归类不能为空';
+"
+F_YB_ZNSHCL_ZY20190404bak	FUNCTION	151	"  return out_msg;
+"
+F_YB_ZNSHCL_ZY20190404bak	FUNCTION	152	" end if;
+"
+F_YB_ZNSHCL_ZY20190404bak	FUNCTION	153	" arg_fygl:=trim(v_str3);
+"
+F_YB_ZNSHCL_ZY20190404bak	FUNCTION	154	" 
+"
+F_YB_ZNSHCL_ZY20190404bak	FUNCTION	155	"
+"
+F_YB_ZNSHCL_ZY20190404bak	FUNCTION	156	"   if v_str4=''   then 
+"
+F_YB_ZNSHCL_ZY20190404bak	FUNCTION	157	" out_msg:='第4个参数有误 charge_code不能为空';
+"
+F_YB_ZNSHCL_ZY20190404bak	FUNCTION	158	"  return out_msg;
+"
+F_YB_ZNSHCL_ZY20190404bak	FUNCTION	159	" end if;
+"
+F_YB_ZNSHCL_ZY20190404bak	FUNCTION	160	" arg_charge_code:=v_str4;
+"
+F_YB_ZNSHCL_ZY20190404bak	FUNCTION	161	" 
+"
+F_YB_ZNSHCL_ZY20190404bak	FUNCTION	162	"   if v_str5=''   then 
+"
+F_YB_ZNSHCL_ZY20190404bak	FUNCTION	163	" out_msg:='第5个参数有误 数量不能为空';
+"
+F_YB_ZNSHCL_ZY20190404bak	FUNCTION	164	"  return out_msg;
+"
+F_YB_ZNSHCL_ZY20190404bak	FUNCTION	165	" end if;
+"
+F_YB_ZNSHCL_ZY20190404bak	FUNCTION	166	" arg_sl:=to_number(v_str5);
+"
+F_YB_ZNSHCL_ZY20190404bak	FUNCTION	167	" 
+"
+F_YB_ZNSHCL_ZY20190404bak	FUNCTION	168	" 
+"
+F_YB_ZNSHCL_ZY20190404bak	FUNCTION	169	" 
+"
+F_YB_ZNSHCL_ZY20190404bak	FUNCTION	170	"   if v_str6=''   then 
+"
+F_YB_ZNSHCL_ZY20190404bak	FUNCTION	171	" out_msg:='第6个参数有误 单价不能为空';
+"
+F_YB_ZNSHCL_ZY20190404bak	FUNCTION	172	"  return out_msg;
+"
+F_YB_ZNSHCL_ZY20190404bak	FUNCTION	173	" end if;
+"
+F_YB_ZNSHCL_ZY20190404bak	FUNCTION	174	" arg_dj:=to_number(v_str6);
+"
+F_YB_ZNSHCL_ZY20190404bak	FUNCTION	175	" 
+"
+F_YB_ZNSHCL_ZY20190404bak	FUNCTION	176	" 
+"
+F_YB_ZNSHCL_ZY20190404bak	FUNCTION	177	"    if v_str7=''   then 
+"
+F_YB_ZNSHCL_ZY20190404bak	FUNCTION	178	" out_msg:='第7个参数有误 审批编号不能为空';
+"
+F_YB_ZNSHCL_ZY20190404bak	FUNCTION	179	"  return out_msg;
+"
+F_YB_ZNSHCL_ZY20190404bak	FUNCTION	180	" end if;
+"
+F_YB_ZNSHCL_ZY20190404bak	FUNCTION	181	"arg_spbh :=trim(v_str7);
+"
+F_YB_ZNSHCL_ZY20190404bak	FUNCTION	182	"
+"
+F_YB_ZNSHCL_ZY20190404bak	FUNCTION	183	"     if v_str8=''   then 
+"
+F_YB_ZNSHCL_ZY20190404bak	FUNCTION	184	" out_msg:='第8个参数有误 执行科室代码不能为空';
+"
+F_YB_ZNSHCL_ZY20190404bak	FUNCTION	185	"  return out_msg;
+"
+F_YB_ZNSHCL_ZY20190404bak	FUNCTION	186	" end if;
+"
+F_YB_ZNSHCL_ZY20190404bak	FUNCTION	187	" arg_zx_ks:=v_str8;
+"
+F_YB_ZNSHCL_ZY20190404bak	FUNCTION	188	" 
+"
+F_YB_ZNSHCL_ZY20190404bak	FUNCTION	189	"    if v_str9=''   then 
+"
+F_YB_ZNSHCL_ZY20190404bak	FUNCTION	190	" out_msg:='第9个参数有误 当前科室不能为空';
+"
+F_YB_ZNSHCL_ZY20190404bak	FUNCTION	191	"  return out_msg;
+"
+F_YB_ZNSHCL_ZY20190404bak	FUNCTION	192	" end if;
+"
+F_YB_ZNSHCL_ZY20190404bak	FUNCTION	193	" arg_curr_ks:=v_str9;
+"
+F_YB_ZNSHCL_ZY20190404bak	FUNCTION	194	"
+"
+F_YB_ZNSHCL_ZY20190404bak	FUNCTION	195	"  
+"
+F_YB_ZNSHCL_ZY20190404bak	FUNCTION	196	"     if v_str10=''   then 
+"
+F_YB_ZNSHCL_ZY20190404bak	FUNCTION	197	" out_msg:='第10个参数有误 操作工号不能为空';
+"
+F_YB_ZNSHCL_ZY20190404bak	FUNCTION	198	"  return out_msg;
+"
+F_YB_ZNSHCL_ZY20190404bak	FUNCTION	199	" end if;
+"
+F_YB_ZNSHCL_ZY20190404bak	FUNCTION	200	" arg_czgh:=v_str10;
+"
+F_YB_ZNSHCL_ZY20190404bak	FUNCTION	201	" 
+"
+F_YB_ZNSHCL_ZY20190404bak	FUNCTION	202	"
+"
+F_YB_ZNSHCL_ZY20190404bak	FUNCTION	203	"arg_twice_detail_code :=v_str11;
+"
+F_YB_ZNSHCL_ZY20190404bak	FUNCTION	204	"  
+"
+F_YB_ZNSHCL_ZY20190404bak	FUNCTION	205	"arg_charge_name :=v_str12;
+"
+F_YB_ZNSHCL_ZY20190404bak	FUNCTION	206	"arg_twice_detail_id  :=v_str13;
+"
+F_YB_ZNSHCL_ZY20190404bak	FUNCTION	207	"   
+"
+F_YB_ZNSHCL_ZY20190404bak	FUNCTION	208	"arg_ysgh  :=v_str13;
+"
+F_YB_ZNSHCL_ZY20190404bak	FUNCTION	209	"
+"
+F_YB_ZNSHCL_ZY20190404bak	FUNCTION	210	"end if;
+"
+F_YB_ZNSHCL_ZY20190404bak	FUNCTION	211	" 
+"
+F_YB_ZNSHCL_ZY20190404bak	FUNCTION	212	"
+"
+F_YB_ZNSHCL_ZY20190404bak	FUNCTION	213	"
+"
+F_YB_ZNSHCL_ZY20190404bak	FUNCTION	214	"
+"
+F_YB_ZNSHCL_ZY20190404bak	FUNCTION	215	"  Return '不符合物价规定';
+"
+F_YB_ZNSHCL_ZY20190404bak	FUNCTION	216	"  
+"
+F_YB_ZNSHCL_ZY20190404bak	FUNCTION	217	"
+"
+F_YB_ZNSHCL_ZY20190404bak	FUNCTION	218	"
+"
+F_YB_ZNSHCL_ZY20190404bak	FUNCTION	219	"
+"
+F_YB_ZNSHCL_ZY20190404bak	FUNCTION	220	" 
+"
+F_YB_ZNSHCL_ZY20190404bak	FUNCTION	221	"
+"
+F_YB_ZNSHCL_ZY20190404bak	FUNCTION	222	"  Return '';
+"
+F_YB_ZNSHCL_ZY20190404bak	FUNCTION	223	"
+"
+F_YB_ZNSHCL_ZY20190404bak	FUNCTION	224	"End;
+"

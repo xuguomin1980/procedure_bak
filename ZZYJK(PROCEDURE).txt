@@ -1,0 +1,172 @@
+ZZYJK	PROCEDURE	1	"PROCEDURE ""ZZYJK"" (
+"
+ZZYJK	PROCEDURE	2	"       zyh IN VARCHAR,
+"
+ZZYJK	PROCEDURE	3	"       name IN VARCHAR,
+"
+ZZYJK	PROCEDURE	4	"       jylsh in VARCHAR,
+"
+ZZYJK	PROCEDURE	5	"       jylsh_old in VARCHAR,
+"
+ZZYJK	PROCEDURE	6	"       jkje IN VARCHAR,
+"
+ZZYJK	PROCEDURE	7	"       type IN INTEGER,--微信16，支付宝17
+"
+ZZYJK	PROCEDURE	8	"       caozuogh_in in VARCHAR,
+"
+ZZYJK	PROCEDURE	9	"       ret_code out INTEGER,
+"
+ZZYJK	PROCEDURE	10	"       ret_info out VARCHAR
+"
+ZZYJK	PROCEDURE	11	") AS
+"
+ZZYJK	PROCEDURE	12	" 
+"
+ZZYJK	PROCEDURE	13	"  v_jlxh  number(10);
+"
+ZZYJK	PROCEDURE	14	"    v_count  number(5);
+"
+ZZYJK	PROCEDURE	15	"  v_brxx zy_patient_information%rowtype;
+"
+ZZYJK	PROCEDURE	16	"  v_rq date;
+"
+ZZYJK	PROCEDURE	17	"  v_jlxh1 number(10);
+"
+ZZYJK	PROCEDURE	18	"BEGIN
+"
+ZZYJK	PROCEDURE	19	"  --select max(jlxh)+1 into v_jlxh from gy_jrjymx; 
+"
+ZZYJK	PROCEDURE	20	"  select SEQ_GY_JRJYMX_JLXH.nextval into v_jlxh from dual;
+"
+ZZYJK	PROCEDURE	21	"  update gy_xhb set dqz=dqz+1 where bm='ZY_DEPOSIT_FILE';
+"
+ZZYJK	PROCEDURE	22	"  select dqz into v_jlxh1 from gy_xhb where bm='ZY_DEPOSIT_FILE';
+"
+ZZYJK	PROCEDURE	23	"  select * into v_brxx   from zy_patient_information where bah =zyh and js_no=0;
+"
+ZZYJK	PROCEDURE	24	"              if sqlcode=0 then
+"
+ZZYJK	PROCEDURE	25	"                        ret_info:='';
+"
+ZZYJK	PROCEDURE	26	"                        else                          
+"
+ZZYJK	PROCEDURE	27	"                         ret_code:=-0;
+"
+ZZYJK	PROCEDURE	28	"                          ret_info:='未找到记录-0'||sqlerrm;
+"
+ZZYJK	PROCEDURE	29	"                        end if;
+"
+ZZYJK	PROCEDURE	30	"  
+"
+ZZYJK	PROCEDURE	31	"  
+"
+ZZYJK	PROCEDURE	32	"  if v_brxx.bah is null or v_brxx.bah=''  then
+"
+ZZYJK	PROCEDURE	33	"      ret_code:=-1;
+"
+ZZYJK	PROCEDURE	34	"      ret_info:='该病案号不存在-1';
+"
+ZZYJK	PROCEDURE	35	"      rollback;
+"
+ZZYJK	PROCEDURE	36	"      return;
+"
+ZZYJK	PROCEDURE	37	"      end if;
+"
+ZZYJK	PROCEDURE	38	"   if v_brxx.name<>name then
+"
+ZZYJK	PROCEDURE	39	"      ret_code:=-3;
+"
+ZZYJK	PROCEDURE	40	"      ret_info:='病人姓名不一-3致';
+"
+ZZYJK	PROCEDURE	41	"      rollback;
+"
+ZZYJK	PROCEDURE	42	"      return;
+"
+ZZYJK	PROCEDURE	43	"      end if;
+"
+ZZYJK	PROCEDURE	44	"  select sysdate into v_rq from dual;
+"
+ZZYJK	PROCEDURE	45	"  insert into  gy_jrjymx (jlxh,sflb,jrlx,jrzhlx,jylx,shlsh,jyje,czsj,czgh,yjylsh) values
+"
+ZZYJK	PROCEDURE	46	"                        (v_jlxh,type,1,     '02',1,  jylsh,jkje,v_rq,caozuogh_in,jylsh_old);
+"
+ZZYJK	PROCEDURE	47	"                        if sqlcode=0 then
+"
+ZZYJK	PROCEDURE	48	"                          ret_info:='';
+"
+ZZYJK	PROCEDURE	49	"                        else
+"
+ZZYJK	PROCEDURE	50	"                          rollback;
+"
+ZZYJK	PROCEDURE	51	"                          ret_code:=-5;
+"
+ZZYJK	PROCEDURE	52	"                          ret_info:='交款失败-5'||sqlerrm;
+"
+ZZYJK	PROCEDURE	53	"                        end if;
+"
+ZZYJK	PROCEDURE	54	"  insert into zy_deposit_file (jlxh,patient_no,js_no,name,depo_date,op_id,amount,depo_type,status,dept_code,jrjylsh) values
+"
+ZZYJK	PROCEDURE	55	"  (v_jlxh1,v_brxx.patient_no,v_brxx.js_no,v_brxx.name,v_rq,caozuogh_in,jkje,type,1,v_brxx.curr_ks,v_jlxh);
+"
+ZZYJK	PROCEDURE	56	"  ret_code:=0;
+"
+ZZYJK	PROCEDURE	57	"  ret_info:='交款成功';
+"
+ZZYJK	PROCEDURE	58	"  
+"
+ZZYJK	PROCEDURE	59	"                     if sqlcode=0 then
+"
+ZZYJK	PROCEDURE	60	"                        ret_info:='';
+"
+ZZYJK	PROCEDURE	61	"                        else
+"
+ZZYJK	PROCEDURE	62	"                          rollback;
+"
+ZZYJK	PROCEDURE	63	"                         ret_code:=-6;
+"
+ZZYJK	PROCEDURE	64	"                          ret_info:='交款失败-6'||sqlerrm;
+"
+ZZYJK	PROCEDURE	65	"                        end if;
+"
+ZZYJK	PROCEDURE	66	"                        
+"
+ZZYJK	PROCEDURE	67	"  commit;
+"
+ZZYJK	PROCEDURE	68	"  
+"
+ZZYJK	PROCEDURE	69	"    select count(patient_no) into v_count from zy_yujiaokuancx   where patient_no=v_brxx.patient_no and nvl(yue,0)>0;
+"
+ZZYJK	PROCEDURE	70	"    
+"
+ZZYJK	PROCEDURE	71	"    if v_count>0 then 
+"
+ZZYJK	PROCEDURE	72	"  insert into zy_change_item(patient_no,js_no,name,change_date,old_item,curr_item,op_id,change_item) 
+"
+ZZYJK	PROCEDURE	73	" select patient_no,js_no,name,sysdate,'费用冻结','病人帐户解冻',caozuogh_in,'预交款补交' from zy_patient_information where 
+"
+ZZYJK	PROCEDURE	74	" patient_No=v_brxx.patient_no;
+"
+ZZYJK	PROCEDURE	75	" 
+"
+ZZYJK	PROCEDURE	76	"  update  zy_patient_information  set dj_flag=0 where   patient_No=v_brxx.patient_no;
+"
+ZZYJK	PROCEDURE	77	" commit;
+"
+ZZYJK	PROCEDURE	78	" end if;
+"
+ZZYJK	PROCEDURE	79	" 
+"
+ZZYJK	PROCEDURE	80	"EXCEPTION
+"
+ZZYJK	PROCEDURE	81	"  when others then
+"
+ZZYJK	PROCEDURE	82	"    ret_code:=-4;
+"
+ZZYJK	PROCEDURE	83	"    ret_info:='交款失败-4'||ret_info||sqlerrm;
+"
+ZZYJK	PROCEDURE	84	"    rollback;
+"
+ZZYJK	PROCEDURE	85	"    return;
+"
+ZZYJK	PROCEDURE	86	"END;
+"

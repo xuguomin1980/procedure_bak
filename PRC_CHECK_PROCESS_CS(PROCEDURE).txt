@@ -1,0 +1,1478 @@
+PRC_CHECK_PROCESS_CS	PROCEDURE	1	"procedure prc_check_process_cs(in_jiaoyilx in varchar2, --交易类型
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	2	"                                                 in_caozuogh in varchar2, --操作工号
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	3	"                                                 in_jzkh     in varchar2, --卡号
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	4	"                                                 in_jylsh    in varchar2, --其它参数
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	5	"                                                 out_code    out INTEGER, -- 返回结果 0为执行成功
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	6	"                                                 out_msg     out varchar2) is
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	7	"  -- 2021-02-02 
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	8	"
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	9	"  -- prc_check_process  (in_jiaoyilx业务节点名称，in_caozuogh操作人员工号，in_jzkh就诊卡号，in_other其它参数，out_code返回值interger值，out_msg返回文本内容)
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	10	"  --out_code <0 说明没有通过业务检查
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	11	"  --out_msg 提示消息，如果为空，不显示给医生看
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	12	"  --入参说明：
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	13	"
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	14	"  --病人类别
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	15	"  v_brlb number;
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	16	"  --结算标志
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	17	"  v_js_no     number;
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	18	"  v_total_fee number;
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	19	"  --预出院日期
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	20	"  v_preout_date varchar2(20);
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	21	"  --病人性质
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	22	"  v_brxz       varchar2(20);
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	23	"  v_icd10      varchar2(30);
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	24	"  v_icd10_from varchar2(30);
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	25	"  v_data       varchar2(300);
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	26	"  v_jylsh      varchar2(2000);
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	27	"  v_data_temp  varchar2(200);
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	28	"  v_sfzh       varchar2(50);
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	29	"  v_str1       varchar2(20);
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	30	"  v_str2       varchar2(20);
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	31	"  v_str3       varchar2(20);
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	32	"  v_str4       varchar2(20);
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	33	"  v_str5       varchar2(20);
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	34	"  v_temp       varchar2(50);
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	35	"  ls_color     varchar2(20);
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	36	"  v_czgh       varchar2(20);
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	37	"  --临时的统计的数量
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	38	"  v_count      number;
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	39	"  v_count2     number;
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	40	"  v_count_temp number;
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	41	"  v_csz        number;
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	42	"  --操作工号
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	43	"  --v_caozuogh varchar2(20);
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	44	"
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	45	"begin
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	46	"
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	47	"  if 1 = 0 and in_jiaoyilx = '新诊间登录控制' then
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	48	"    select nvl(csz2, 0)
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	49	"      into v_csz
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	50	"      From gy_xtcs
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	51	"     where xtxh = 0
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	52	"       and csmc = 'LOGINIPCHECK4';
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	53	"    if v_csz = 1 then
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	54	"    
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	55	"      --如果表里有数据，就放行可以登录
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	56	"      select count(*)
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	57	"        into v_count
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	58	"        from temp_ip_20200221
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	59	"       where ip = in_jylsh;
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	60	"      if v_count > 0 then
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	61	"        out_code := 0;
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	62	"        out_msg  := '';
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	63	"        return;
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	64	"      end if;
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	65	"    
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	66	"      --3号门诊楼新IP网段
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	67	"      if instr(in_jylsh, '172.18.44.') > 0 or
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	68	"         instr(in_jylsh, '172.18.45.') > 0 or
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	69	"         instr(in_jylsh, '172.18.46.') > 0 or
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	70	"         instr(in_jylsh, '172.18.47.') > 0 or
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	71	"         instr(in_jylsh, '172.18.48.') > 0 or
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	72	"         instr(in_jylsh, '172.18.49.') > 0 or
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	73	"         instr(in_jylsh, '172.18.50.') > 0 or
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	74	"         instr(in_jylsh, '172.18.1.') > 0 or
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	75	"         instr(in_jylsh, '172.18.2.') > 0 or
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	76	"         instr(in_jylsh, '172.18.21.') > 0 or
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	77	"         instr(in_jylsh, '172.18.22.') > 0 or
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	78	"         instr(in_jylsh, '172.18.23.') > 0 or
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	79	"         instr(in_jylsh, '192.168.20.') > 0 or
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	80	"         instr(in_jylsh, '192.168.25.') > 0 or
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	81	"         instr(in_jylsh, '192.168.26.') > 0 or
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	82	"         instr(in_jylsh, '192.168.32.') > 0 or
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	83	"         instr(in_jylsh, '192.168.33.') > 0 or
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	84	"         instr(in_jylsh, '172.20.1.') > 0 then
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	85	"        out_code := 0;
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	86	"        out_msg  := '';
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	87	"        return;
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	88	"      end if;
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	89	"      /*if  in_jylsh>='172.18.22.' and in_jylsh<='172.18.22.254'  then 
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	90	"           out_code := 0;
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	91	"           out_msg  := '';
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	92	"           return;
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	93	"      end if ;
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	94	"      
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	95	"      --3号门诊楼老IP网段
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	96	"      if  in_jylsh>='192.168.20.1' and in_jylsh<='192.168.20.254'  then 
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	97	"           out_code := 0;
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	98	"           out_msg  := '';
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	99	"           return;
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	100	"      end if ;
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	101	"      if  in_jylsh>='192.168.25.1' and in_jylsh<='192.168.25.254'  then 
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	102	"           out_code := 0;
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	103	"           out_msg  := '';
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	104	"           return;
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	105	"      end if ;
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	106	"      if  in_jylsh>='192.168.26.1' and in_jylsh<='192.168.26.254'  then 
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	107	"           out_code := 0;
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	108	"           out_msg  := '';
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	109	"           return;
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	110	"      end if ;
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	111	"      if  in_jylsh>='192.168.33.1' and in_jylsh<='192.168.33.254'  then 
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	112	"           out_code := 0;
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	113	"           out_msg  := '';
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	114	"           return;
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	115	"      end if ;
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	116	"      
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	117	"      --结核门诊
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	118	"      if  in_jylsh>='172.18.21.' and in_jylsh<='172.18.21.254'  then 
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	119	"           out_code := 0;
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	120	"           out_msg  := '';
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	121	"           return;
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	122	"      end if ;
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	123	"      
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	124	"       --急诊抢救室
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	125	"      if  in_jylsh>='172.18.1.' and in_jylsh<='172.18.1.254'  then 
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	126	"           out_code := 0;
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	127	"           out_msg  := '';
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	128	"           return;
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	129	"      end if ;
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	130	"      
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	131	"      --普通急诊
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	132	"      if  in_jylsh>='172.18.2.' and in_jylsh<='172.18.2.254'  then 
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	133	"           out_code := 0;
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	134	"           out_msg  := '';
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	135	"           return;
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	136	"      end if ;*/
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	137	"    
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	138	"      /*     if  in_jylsh>='172.18.10.' and in_jylsh<='172.18.19.'  then 
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	139	"            out_code := -1;
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	140	"           out_msg  := '该电脑不允许登录，请联系医务科申请';
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	141	"           return;
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	142	"      end if ;
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	143	"       
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	144	"         if  in_jylsh>='172.18.10.' and in_jylsh<='172.18.19.'  then 
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	145	"            out_code := -1;
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	146	"           out_msg  := '该电脑不允许登录，请联系医务科申请';
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	147	"           return;
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	148	"      end if ;
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	149	"      */
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	150	"      --控制不允许登录
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	151	"      out_code := -1;
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	152	"      out_msg  := '该电脑不允许登录，请联系医务科申请';
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	153	"      return;
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	154	"    
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	155	"      /* select count(*)
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	156	"           into v_count
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	157	"           from temp_ip_20200221
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	158	"          where ip = in_jylsh;      
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	159	"          
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	160	"          
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	161	"         if v_count > 0 then
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	162	"           out_code := 0;
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	163	"           out_msg  := '';
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	164	"           return;
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	165	"         else
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	166	"          out_code := -1;
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	167	"           out_msg  := '该电脑不允许登录，请联系医务科申请';
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	168	"           return;
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	169	"          
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	170	"         end if;
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	171	"      
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	172	"      
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	173	"      */
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	174	"    end if;
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	175	"  end if;
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	176	"  if in_jiaoyilx = '新诊间登录控制2' then
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	177	"    select nvl(csz2, 0)
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	178	"      into v_csz
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	179	"      From gy_xtcs
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	180	"     where xtxh = 0
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	181	"       and csmc = 'LOGINIPCHECK4';
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	182	"    if v_csz = 1 then
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	183	"    
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	184	"      --如果表里有数据，就放行可以登录
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	185	"      select count(*)
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	186	"        into v_count
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	187	"        from temp_ip_20200221
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	188	"       where ip = in_jylsh;
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	189	"      if v_count > 0 then
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	190	"        out_code := 0;
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	191	"        out_msg  := '';
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	192	"        return;
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	193	"      end if;
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	194	"    
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	195	"      --3号门诊楼新IP网段
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	196	"      if instr(in_jylsh, '172.18.44.') > 0 or
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	197	"         instr(in_jylsh, '172.18.45.') > 0 or
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	198	"         instr(in_jylsh, '172.18.46.') > 0 or
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	199	"         instr(in_jylsh, '172.18.47.') > 0 or
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	200	"         instr(in_jylsh, '172.18.48.') > 0 or
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	201	"         instr(in_jylsh, '172.18.49.') > 0 or
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	202	"         instr(in_jylsh, '172.18.50.') > 0 or
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	203	"         instr(in_jylsh, '172.18.1.') > 0 or
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	204	"         instr(in_jylsh, '172.18.2.') > 0 or
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	205	"         instr(in_jylsh, '172.18.21.') > 0 or
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	206	"         instr(in_jylsh, '172.18.22.') > 0 or
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	207	"         instr(in_jylsh, '172.18.23.') > 0 or
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	208	"         instr(in_jylsh, '192.168.20.') > 0 or
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	209	"         instr(in_jylsh, '192.168.25.') > 0 or
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	210	"         instr(in_jylsh, '192.168.26.') > 0 or
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	211	"         instr(in_jylsh, '192.168.32.') > 0 or
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	212	"         instr(in_jylsh, '192.168.33.') > 0 or
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	213	"         instr(in_jylsh, '172.20.1.') > 0 then
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	214	"        out_code := 0;
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	215	"        out_msg  := '';
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	216	"        return;
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	217	"      end if;
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	218	"      /*if  in_jylsh>='172.18.22.' and in_jylsh<='172.18.22.254'  then 
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	219	"           out_code := 0;
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	220	"           out_msg  := '';
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	221	"           return;
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	222	"      end if ;
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	223	"      
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	224	"      --3号门诊楼老IP网段
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	225	"      if  in_jylsh>='192.168.20.1' and in_jylsh<='192.168.20.254'  then 
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	226	"           out_code := 0;
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	227	"           out_msg  := '';
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	228	"           return;
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	229	"      end if ;
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	230	"      if  in_jylsh>='192.168.25.1' and in_jylsh<='192.168.25.254'  then 
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	231	"           out_code := 0;
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	232	"           out_msg  := '';
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	233	"           return;
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	234	"      end if ;
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	235	"      if  in_jylsh>='192.168.26.1' and in_jylsh<='192.168.26.254'  then 
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	236	"           out_code := 0;
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	237	"           out_msg  := '';
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	238	"           return;
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	239	"      end if ;
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	240	"      if  in_jylsh>='192.168.33.1' and in_jylsh<='192.168.33.254'  then 
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	241	"           out_code := 0;
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	242	"           out_msg  := '';
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	243	"           return;
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	244	"      end if ;
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	245	"      
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	246	"      --结核门诊
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	247	"      if  in_jylsh>='172.18.21.' and in_jylsh<='172.18.21.254'  then 
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	248	"           out_code := 0;
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	249	"           out_msg  := '';
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	250	"           return;
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	251	"      end if ;
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	252	"      
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	253	"       --急诊抢救室
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	254	"      if  in_jylsh>='172.18.1.' and in_jylsh<='172.18.1.254'  then 
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	255	"           out_code := 0;
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	256	"           out_msg  := '';
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	257	"           return;
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	258	"      end if ;
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	259	"      
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	260	"      --普通急诊
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	261	"      if  in_jylsh>='172.18.2.' and in_jylsh<='172.18.2.254'  then 
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	262	"           out_code := 0;
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	263	"           out_msg  := '';
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	264	"           return;
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	265	"      end if ;*/
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	266	"    
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	267	"      /*     if  in_jylsh>='172.18.10.' and in_jylsh<='172.18.19.'  then 
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	268	"            out_code := -1;
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	269	"           out_msg  := '该电脑不允许登录，请联系医务科申请';
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	270	"           return;
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	271	"      end if ;
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	272	"       
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	273	"         if  in_jylsh>='172.18.10.' and in_jylsh<='172.18.19.'  then 
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	274	"            out_code := -1;
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	275	"           out_msg  := '该电脑不允许登录，请联系医务科申请';
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	276	"           return;
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	277	"      end if ;
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	278	"      */
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	279	"      --控制不允许登录
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	280	"      out_code := -1;
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	281	"      out_msg  := '该电脑不允许登录，请联系医务科申请';
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	282	"      return;
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	283	"    
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	284	"      /* select count(*)
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	285	"           into v_count
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	286	"           from temp_ip_20200221
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	287	"          where ip = in_jylsh;      
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	288	"          
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	289	"          
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	290	"         if v_count > 0 then
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	291	"           out_code := 0;
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	292	"           out_msg  := '';
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	293	"           return;
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	294	"         else
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	295	"          out_code := -1;
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	296	"           out_msg  := '该电脑不允许登录，请联系医务科申请';
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	297	"           return;
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	298	"          
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	299	"         end if;
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	300	"      
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	301	"      
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	302	"      */
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	303	"    end if;
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	304	"  end if;
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	305	"
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	306	"  if in_jiaoyilx = '新冠防控分类' then
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	307	"    out_code := 1;
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	308	"    /* out_msg  := f_get_fenlei_scb(in_jylsh);
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	309	"    out_msg  := '''' || out_msg || '''';
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	310	"    select instr(out_msg, 'error') into v_count from dual;
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	311	"    if v_count > 0 then
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	312	"      out_code := -1;
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	313	"      return;
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	314	"    end if;
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	315	"    
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	316	"    return;*/
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	317	"  
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	318	"    /*  insert into zy_jiaoyi_v1
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	319	"      (jiaoyilx, caozuogh, flag, jylsh)
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	320	"    values
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	321	"      (in_jiaoyilx, in_caozuogh, -9, in_jylsh);
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	322	"    commit;*/
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	323	"    --|czgh=JDZZ|
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	324	"    if in_jylsh = '' or in_jylsh is null then
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	325	"      out_code := 0;
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	326	"      out_msg  := '125,125,125';
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	327	"      if v_czgh = 'JDZZ' then
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	328	"        out_msg := '紫色';
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	329	"      end if;
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	330	"      return;
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	331	"    end if;
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	332	"    v_czgh := F_GET_VALUE_SPLI(in_jylsh, 'czgh=', '|');
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	333	"  
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	334	"    out_msg := '0,0,255';
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	335	"    if v_czgh = 'JDZZ' then
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	336	"      out_msg := '红色';
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	337	"    end if;
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	338	"  
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	339	"    v_data := F_GET_VALUE_SPLI(in_jylsh, 'lxdh=', '|');
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	340	"    if length(v_data) = 11 or length(v_data) = 8 then
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	341	"      null;
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	342	"    else
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	343	"      out_code := -1;
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	344	"      out_msg  := '联系电话，不是11位或8位';
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	345	"      return;
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	346	"    end if;
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	347	"  
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	348	"    /*
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	349	"     v_data := F_GET_VALUE_SPLI(in_jylsh, 'lxdh2=', '|');
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	350	"    if length(v_data) < 2 or length(v_data) = 11 or length(v_data) = 8 then
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	351	"       null;
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	352	"     else
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	353	"       out_code := -1;
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	354	"       out_msg  := '联系电话2，不是11位或8位';
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	355	"       return;
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	356	"     end if;
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	357	"     */
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	358	"  
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	359	"    v_data := F_GET_VALUE_SPLI(in_jylsh, 'sfzh=', '|');
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	360	"    if length(v_data) > 1 then
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	361	"      null;
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	362	"    else
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	363	"      out_code := -1;
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	364	"      out_msg  := '身份证号错误';
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	365	"      return;
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	366	"    end if;
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	367	"  
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	368	"    --  xm=姓名|sfzh=身份证号|jzkh=病案号|sheng=省|shi=市|qu=区|jiedao=街道|shequ=社区|lxdh=联系电话1|lxdh2=联系电话2|
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	369	"    --lk=离开过金华|hbwz=来自湖北省或浙江省温州市|qg=去过有新型冠状病毒感染确诊患者的社区|qzjc=是否与确诊患者密切接触
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	370	"    --|mjjc=是否与接触过确诊患者的人接触|qzeb=是否为确诊治愈留观满28天内患者|jjx=聚集性发病
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	371	"  
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	372	"    --|fr=是否出现发热|twfr=当前体温是否有发热|tsy=是否服用过退热药或感冒药
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	373	"    --症状 |ks=是否咳嗽|hlt=是否咽痛|lt=是否流涕|fl=是否乏力|jrst=是否肌肉酸痛|fx=是否腹泻|   
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	374	"    --|qiduan=是否气短|jiemocx=是否结膜充血|
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	375	"  
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	376	"    --|hy=如为女性，是否怀孕备孕|
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	377	"  
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	378	"    --|jiankanma=健康码|jiankanma2=健康码说明
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	379	"  
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	380	"    --有流行病学史 v_str1
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	381	"  
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	382	"    ---sflz add 2-18
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	383	"  
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	384	"    --lk 离开 ,bs 鼻塞,ex 恶心,ot 呕吐  去掉不用的选择项目
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	385	"    if 1 = 1 then
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	386	"      v_str1 := '0';
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	387	"    
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	388	"      /*    if F_GET_VALUE_SPLI(in_jylsh, 'lk=', '|') = '1' then
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	389	"        v_str1 := '1';
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	390	"      end if;*/
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	391	"      if F_GET_VALUE_SPLI(in_jylsh, 'hbwz=', '|') = '1' then
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	392	"        v_str1 := '1';
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	393	"      end if;
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	394	"    
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	395	"      if F_GET_VALUE_SPLI(in_jylsh, 'qg=', '|') = '1' then
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	396	"        v_str1 := '1';
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	397	"      end if;
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	398	"      if F_GET_VALUE_SPLI(in_jylsh, 'qzjc=', '|') = '1' then
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	399	"        v_str1 := '1';
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	400	"      end if;
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	401	"      if F_GET_VALUE_SPLI(in_jylsh, 'mjjc=', '|') = '1' then
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	402	"        v_str1 := '1';
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	403	"      end if;
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	404	"      if F_GET_VALUE_SPLI(in_jylsh, 'qzeb=', '|') = '1' then
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	405	"        v_str1 := '1';
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	406	"      end if;
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	407	"      if F_GET_VALUE_SPLI(in_jylsh, 'jjx=', '|') = '1' then
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	408	"        v_str1 := '1';
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	409	"      end if;
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	410	"    
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	411	"      if F_GET_VALUE_SPLI(in_jylsh, 'sflz=', '|') = '1' then
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	412	"        v_str1 := '1';
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	413	"      end if;
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	414	"    
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	415	"    end if;
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	416	"  
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	417	"    --发热 v_str2
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	418	"    if 1 = 1 then
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	419	"      v_str2 := '0';
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	420	"    
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	421	"      if F_GET_VALUE_SPLI(in_jylsh, 'fr=', '|') = '1' then
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	422	"        v_str2 := '1';
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	423	"      end if;
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	424	"      if F_GET_VALUE_SPLI(in_jylsh, 'twfr=', '|') = '1' then
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	425	"        v_str2 := '1';
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	426	"      end if;
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	427	"      if F_GET_VALUE_SPLI(in_jylsh, 'tsy=', '|') = '1' then
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	428	"        v_str2 := '1';
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	429	"      end if;
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	430	"    
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	431	"    end if;
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	432	"  
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	433	"    --有可疑症状 v_str3   
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	434	"    if 1 = 1 then
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	435	"      v_str3 := '0';
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	436	"      --症状 ks=0|hlt=0|lt=0|bs=0|fl=0|jrst=0|fx=0|ex=1|ot=0
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	437	"      if F_GET_VALUE_SPLI(in_jylsh, 'ks=', '|') = '1' then
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	438	"        v_str3 := '1';
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	439	"      end if;
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	440	"      if F_GET_VALUE_SPLI(in_jylsh, 'hlt=', '|') = '1' then
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	441	"        v_str3 := '1';
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	442	"      end if;
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	443	"      if F_GET_VALUE_SPLI(in_jylsh, 'lt=', '|') = '1' then
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	444	"        v_str3 := '1';
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	445	"      end if;
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	446	"      /*    if F_GET_VALUE_SPLI(in_jylsh, 'bs=', '|') = '1' then
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	447	"        v_str3 := '1';
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	448	"      end if;*/
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	449	"      if F_GET_VALUE_SPLI(in_jylsh, 'fl=', '|') = '1' then
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	450	"        v_str3 := '1';
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	451	"      end if;
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	452	"      if F_GET_VALUE_SPLI(in_jylsh, 'jrst=', '|') = '1' then
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	453	"        v_str3 := '1';
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	454	"      end if;
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	455	"      if F_GET_VALUE_SPLI(in_jylsh, 'fx=', '|') = '1' then
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	456	"        v_str3 := '1';
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	457	"      end if;
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	458	"      /*  if F_GET_VALUE_SPLI(in_jylsh, 'ex=', '|') = '1' then
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	459	"        v_str3 := '1';
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	460	"      end if;
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	461	"      if F_GET_VALUE_SPLI(in_jylsh, 'ot=', '|') = '1' then
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	462	"        v_str3 := '1';
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	463	"      end if;*/
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	464	"    
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	465	"      if F_GET_VALUE_SPLI(in_jylsh, 'qiduan=', '|') = '1' then
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	466	"        v_str3 := '1';
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	467	"      end if;
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	468	"      if F_GET_VALUE_SPLI(in_jylsh, 'jiemocx=', '|') = '1' then
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	469	"        v_str3 := '1';
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	470	"      end if;
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	471	"    
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	472	"    end if;
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	473	"  
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	474	"    --怀孕 v_str4    
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	475	"    if 1 = 1 then
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	476	"      v_str4 := '0';
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	477	"      if F_GET_VALUE_SPLI(in_jylsh, 'hy=', '|') = '1' then
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	478	"        v_str4 := '1';
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	479	"      end if;
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	480	"    
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	481	"    end if;
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	482	"  
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	483	"    --红色  '255,0,0';  绿色  0,255,0   紫色 128,0,128 黄色   255,255,0 蓝色 0,0,255 橙色  255,165,0  返回
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	484	"  
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	485	"    --孕妇或备孕状态，当出现可疑症状但无流行病学史及发热，由橙色直接升为蓝色 0,0,255
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	486	"    if 1 = 1 then
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	487	"      if v_str1 = '0' and v_str2 = '0' and v_str3 = '1' and v_str4 = '1' then
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	488	"        out_code := 0;
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	489	"        out_msg  := '0,0,255';
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	490	"        if v_czgh = 'JDZZ' then
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	491	"          out_msg := '蓝色';
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	492	"        end if;
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	493	"        return;
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	494	"      end if;
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	495	"    
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	496	"    end if;
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	497	"  
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	498	"    --绿色 0,255,0 无流行病学史，无发热，无可疑症状
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	499	"    if 1 = 1 then
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	500	"      if v_str1 = '0' and v_str2 = '0' and v_str3 = '0' then
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	501	"        out_code := 0;
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	502	"        out_msg  := '0,255,0';
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	503	"        if v_czgh = 'JDZZ' then
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	504	"          out_msg := '绿色';
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	505	"        end if;
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	506	"      
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	507	"        return;
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	508	"      end if;
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	509	"    
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	510	"    end if;
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	511	"  
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	512	"    --紫色   128,0,128 有流行病学史，有发热或可疑症状者
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	513	"    if 1 = 1 then
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	514	"      if v_str1 = '1' and (v_str2 = '1' or v_str3 = '1') then
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	515	"        out_code := 0;
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	516	"        out_msg  := '128,0,128';
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	517	"        if v_czgh = 'JDZZ' then
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	518	"          out_msg := '紫色';
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	519	"        end if;
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	520	"        return;
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	521	"      end if;
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	522	"    
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	523	"    end if;
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	524	"  
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	525	"    -- 黄色  255,255,0 无流行病学史的发热患者
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	526	"    if 1 = 1 then
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	527	"      if v_str1 = '0' and v_str2 = '1' then
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	528	"        out_code := 0;
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	529	"        out_msg  := '255,255,0';
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	530	"        if v_czgh = 'JDZZ' then
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	531	"          out_msg := '黄色';
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	532	"        end if;
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	533	"        return;
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	534	"      end if;
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	535	"    
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	536	"    end if;
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	537	"  
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	538	"    --蓝色  0,0,255 有流病学史，无发热且无可疑症状，因其他原因就诊
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	539	"    if 1 = 1 then
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	540	"      if v_str1 = '1' and v_str2 = '0' and v_str3 = '0' then
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	541	"        out_code := 0;
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	542	"        out_msg  := '0,0,255';
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	543	"        if v_czgh = 'JDZZ' then
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	544	"          out_msg := '蓝色';
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	545	"        end if;
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	546	"        return;
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	547	"      end if;
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	548	"    
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	549	"    end if;
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	550	"  
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	551	"    --橙色  255,165,0 有可疑症状，无流行病学史，无发热
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	552	"    if 1 = 1 then
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	553	"      if v_str1 = '0' and v_str2 = '0' and v_str3 = '1' then
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	554	"        out_code := 0;
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	555	"        out_msg  := '255,165,0';
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	556	"        if v_czgh = 'JDZZ' then
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	557	"          out_msg := '橙色';
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	558	"        end if;
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	559	"        return;
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	560	"      end if;
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	561	"    
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	562	"    end if;
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	563	"  
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	564	"    --默认红色放行 '255,0,0'
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	565	"    out_code := 0;
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	566	"    out_msg  := '255,0,0';
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	567	"    if v_czgh = 'JDZZ' then
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	568	"      out_msg := '红色';
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	569	"    end if;
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	570	"    return;
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	571	"  
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	572	"  end if;
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	573	"
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	574	"  if in_jiaoyilx = '增加筛查表记录' then
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	575	"  
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	576	"    /*  insert into zy_jiaoyi_v1
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	577	"      (jiaoyilx, caozuogh, flag, jylsh)
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	578	"    values
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	579	"      (in_jiaoyilx, in_caozuogh, -9, in_jylsh);
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	580	"    commit;*/
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	581	"  
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	582	"    if 0 = 1 then
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	583	"      --  xm=姓名|sfzh=身份证号|jzkh=病案号|sheng=省|shi=市|qu=区|jiedao=街道|shequ=社区|lxdh=联系电话1|lxdh2=联系电话2|
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	584	"      --lk=离开过金华|hbwz=来自湖北省或浙江省温州市|qg=去过有新型冠状病毒感染确诊患者的社区|qzjc=是否与确诊患者密切接触
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	585	"      --|mjjc=是否与接触过确诊患者的人接触|qzeb=是否为确诊治愈留观满28天内患者|jjx=聚集性发病
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	586	"    
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	587	"      --|fr=是否出现发热|twfr=当前体温是否有发热|tsy=是否服用过退热药或感冒药
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	588	"      --症状 |ks=是否咳嗽|hlt=是否咽痛|lt=是否流涕|fl=是否乏力|jrst=是否肌肉酸痛|fx=是否腹泻|   
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	589	"      --|qiduan=是否气短|jiemocx=是否结膜充血|
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	590	"    
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	591	"      --|hy=如为女性，是否怀孕备孕|
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	592	"    
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	593	"      --|jiankanma=健康码|jiankanmasm=健康码说明
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	594	"      --|czgh=JDZZ|
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	595	"    
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	596	"      --有流行病学史 v_str1
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	597	"    
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	598	"      ---sflz add 2-18
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	599	"    
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	600	"      --lk 离开 ,bs 鼻塞,ex 恶心,ot 呕吐  去掉不用的选择项目
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	601	"    
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	602	"      if in_caozuogh = 'JDZZ' then
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	603	"        out_msg := '红色';
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	604	"      end if;
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	605	"    
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	606	"      v_data := F_GET_VALUE_SPLI(in_jylsh, 'lxdh=', '|');
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	607	"      if length(v_data) = 11 or length(v_data) = 8 then
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	608	"        null;
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	609	"      else
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	610	"        out_code := -1;
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	611	"        out_msg  := '联系电话，不是11位或8位';
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	612	"        return;
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	613	"      end if;
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	614	"    
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	615	"      v_data := F_GET_VALUE_SPLI(in_jylsh, 'jiankanma=', '|');
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	616	"      if v_data = '绿色' or v_data = '黄色' or v_data = '红色' then
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	617	"        null;
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	618	"      else
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	619	"        out_code := -1;
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	620	"        out_msg  := '健康码颜色不对';
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	621	"        return;
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	622	"      end if;
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	623	"    
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	624	"      v_data := F_GET_VALUE_SPLI(in_jylsh, 'jiankanmasm=', '|');
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	625	"      if length(v_data) >= 1 then
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	626	"        null;
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	627	"      else
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	628	"        out_code := -1;
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	629	"        out_msg  := '健康码说明 不能为空';
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	630	"        return;
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	631	"      end if;
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	632	"    
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	633	"      /*
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	634	"       v_data := F_GET_VALUE_SPLI(in_jylsh, 'lxdh2=', '|');
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	635	"      if length(v_data) < 2 or length(v_data) = 11 or length(v_data) = 8 then
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	636	"         null;
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	637	"       else
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	638	"         out_code := -1;
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	639	"         out_msg  := '联系电话2，不是11位或8位';
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	640	"         return;
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	641	"       end if;
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	642	"       */
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	643	"    
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	644	"      v_data := F_GET_VALUE_SPLI(in_jylsh, 'sfzh=', '|');
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	645	"      if length(v_data) > 1 then
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	646	"        null;
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	647	"      else
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	648	"        out_code := -1;
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	649	"        out_msg  := '身份证号不能为空';
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	650	"        return;
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	651	"      end if;
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	652	"    
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	653	"      --怀孕 v_str4    
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	654	"      --红色  '255,0,0';  绿色  0,255,0   紫色 128,0,128 黄色   255,255,0 蓝色 0,0,255 橙色  255,165,0  返回  
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	655	"    
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	656	"    end if;
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	657	"  
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	658	"    out_code := 1;
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	659	"    out_msg  := f_get_fenlei_scb(in_jylsh);
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	660	"    select instr(out_msg, 'error') into v_count from dual;
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	661	"    if v_count > 0 then
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	662	"      out_code := -1;
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	663	"      return;
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	664	"    end if;
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	665	"    select replace(in_jylsh, '|', '&') into v_jylsh from dual;
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	666	"  
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	667	"    insert into zj_jizhenptsc
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	668	"      (jzkh, sfzh, rbrq, tbxx)
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	669	"    values
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	670	"      (in_jzkh, in_caozuogh, sysdate, v_jylsh);
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	671	"    if sqlcode = 0 then
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	672	"      commit;
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	673	"      out_code := 1;
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	674	"      -- out_msg  := '保存成功'; 返回颜色
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	675	"    else
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	676	"      rollback;
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	677	"      out_code := -1;
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	678	"      out_msg  := '保存失败';
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	679	"    end if;
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	680	"  
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	681	"    out_code := -1;
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	682	"    out_msg  := '保存失败';
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	683	"  
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	684	"    return;
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	685	"  
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	686	"  end if;
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	687	"  -- 增加筛查表记录 end if 
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	688	"
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	689	"  if in_jiaoyilx = '新诊间读卡' or in_jiaoyilx = '入院准备中心读卡' then
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	690	"    select count(*)
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	691	"      into v_count
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	692	"      from gy_brjbxxk
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	693	"     where jzkh = in_jzkh
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	694	"       and length(sfzh) > 4;
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	695	"    if v_count > 0 then
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	696	"      out_code := 0;
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	697	"    
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	698	"    else
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	699	"      out_code := 0;
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	700	"      out_msg  := '';
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	701	"      return;
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	702	"    end if;
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	703	"  
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	704	"    select trim(sfzh)
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	705	"      into v_sfzh
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	706	"      from gy_brjbxxk
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	707	"     where jzkh = in_jzkh
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	708	"       and length(sfzh) > 4;
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	709	"  
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	710	"    if length(v_sfzh) > 2 then
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	711	"      select count(*) into v_count From t_tmp_200212a where sfzh = v_sfzh;
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	712	"    
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	713	"      if v_count > 0 then
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	714	"      
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	715	"        out_msg  := '风险患者，请注意!';
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	716	"        out_code := 0;
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	717	"        return;
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	718	"      
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	719	"        select count(*)
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	720	"          into v_count
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	721	"          From t_tmp_200212a_x
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	722	"         where sfzh = v_sfzh;
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	723	"      
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	724	"        if v_count = 0 then
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	725	"        
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	726	"          out_code := 0;
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	727	"          out_msg  := '风险患者，请注意!';
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	728	"          return;
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	729	"        end if;
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	730	"      end if;
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	731	"    
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	732	"    end if;
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	733	"  end if;
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	734	"
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	735	"  out_code := 0;
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	736	"  out_msg  := '';
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	737	"  return;
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	738	"
+"
+PRC_CHECK_PROCESS_CS	PROCEDURE	739	"end;
+"

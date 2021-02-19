@@ -1,0 +1,46 @@
+F_ZJ_GET_ZHUYISX	FUNCTION	1	"Function f_Zj_Get_Zhuyisx(Arg_Xiangmubh In Varchar2)
+"
+F_ZJ_GET_ZHUYISX	FUNCTION	2	"  Return Varchar2 Is
+"
+F_ZJ_GET_ZHUYISX	FUNCTION	3	"  Ls_Daozhenxx Varchar2(2000);
+"
+F_ZJ_GET_ZHUYISX	FUNCTION	4	"  Ls_Fenleidm  Varchar2(10);
+"
+F_ZJ_GET_ZHUYISX	FUNCTION	5	"Begin
+"
+F_ZJ_GET_ZHUYISX	FUNCTION	6	"  --取检查项目的注意事项
+"
+F_ZJ_GET_ZHUYISX	FUNCTION	7	"  Select Nvl(Zhuyisx,''), Fenleidm
+"
+F_ZJ_GET_ZHUYISX	FUNCTION	8	"    Into Ls_Daozhenxx, Ls_Fenleidm
+"
+F_ZJ_GET_ZHUYISX	FUNCTION	9	"    From Jc_Xiangmuxx
+"
+F_ZJ_GET_ZHUYISX	FUNCTION	10	"   Where Jianchaxmbh = Arg_Xiangmubh;
+"
+F_ZJ_GET_ZHUYISX	FUNCTION	11	"  If Length(Ls_Daozhenxx) = 0 Or Ls_Daozhenxx Is Null Then
+"
+F_ZJ_GET_ZHUYISX	FUNCTION	12	"    --取项目分类的注意事项
+"
+F_ZJ_GET_ZHUYISX	FUNCTION	13	"    Select Zhuyisx
+"
+F_ZJ_GET_ZHUYISX	FUNCTION	14	"      Into Ls_Daozhenxx
+"
+F_ZJ_GET_ZHUYISX	FUNCTION	15	"      From Jc_Xiangmufl
+"
+F_ZJ_GET_ZHUYISX	FUNCTION	16	"     Where Fenleidm = Ls_Fenleidm;
+"
+F_ZJ_GET_ZHUYISX	FUNCTION	17	"  End If;
+"
+F_ZJ_GET_ZHUYISX	FUNCTION	18	"  If Length(Ls_Daozhenxx) = 0 Or Ls_Daozhenxx Is Null Then
+"
+F_ZJ_GET_ZHUYISX	FUNCTION	19	"    Return Null;
+"
+F_ZJ_GET_ZHUYISX	FUNCTION	20	"  Else
+"
+F_ZJ_GET_ZHUYISX	FUNCTION	21	"    Return '注意事项：' || Ls_Daozhenxx;
+"
+F_ZJ_GET_ZHUYISX	FUNCTION	22	"  End If;
+"
+F_ZJ_GET_ZHUYISX	FUNCTION	23	"End f_Zj_Get_Zhuyisx;
+"

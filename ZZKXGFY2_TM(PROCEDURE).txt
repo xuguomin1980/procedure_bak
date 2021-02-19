@@ -1,0 +1,546 @@
+ZZKXGFY2_TM	PROCEDURE	1	"PROCEDURE ""ZZKXGFY2_TM""(card_no  in VARCHAR,
+"
+ZZKXGFY2_TM	PROCEDURE	2	"                                          brxm     in VARCHAR,
+"
+ZZKXGFY2_TM	PROCEDURE	3	"                                          ret_code out INTEGER,
+"
+ZZKXGFY2_TM	PROCEDURE	4	"                                          ret_info out VARCHAR) AS
+"
+ZZKXGFY2_TM	PROCEDURE	5	"  ----自助机开立新冠
+"
+ZZKXGFY2_TM	PROCEDURE	6	"  v_yjsb number(10);
+"
+ZZKXGFY2_TM	PROCEDURE	7	"
+"
+ZZKXGFY2_TM	PROCEDURE	8	"BEGIN
+"
+ZZKXGFY2_TM	PROCEDURE	9	"
+"
+ZZKXGFY2_TM	PROCEDURE	10	"  --不插yjk1
+"
+ZZKXGFY2_TM	PROCEDURE	11	"  if 1 = 0 then
+"
+ZZKXGFY2_TM	PROCEDURE	12	"    update gy_xhb set dqz = dqz + zz where bm = 'YJ_YJK1';
+"
+ZZKXGFY2_TM	PROCEDURE	13	"    select dqz into v_yjsb from gy_xhb where bm = 'YJ_YJK1';
+"
+ZZKXGFY2_TM	PROCEDURE	14	"    INSERT INTO yj_yjk1
+"
+ZZKXGFY2_TM	PROCEDURE	15	"      (yjsb,
+"
+ZZKXGFY2_TM	PROCEDURE	16	"       jchm,
+"
+ZZKXGFY2_TM	PROCEDURE	17	"       jzkh,
+"
+ZZKXGFY2_TM	PROCEDURE	18	"       brxm,
+"
+ZZKXGFY2_TM	PROCEDURE	19	"       sjysgh,
+"
+ZZKXGFY2_TM	PROCEDURE	20	"       sjksdm,
+"
+ZZKXGFY2_TM	PROCEDURE	21	"       kdsj,
+"
+ZZKXGFY2_TM	PROCEDURE	22	"       czgh,
+"
+ZZKXGFY2_TM	PROCEDURE	23	"       jzxh,
+"
+ZZKXGFY2_TM	PROCEDURE	24	"       zjpb,
+"
+ZZKXGFY2_TM	PROCEDURE	25	"       lczd,
+"
+ZZKXGFY2_TM	PROCEDURE	26	"       yshsks,
+"
+ZZKXGFY2_TM	PROCEDURE	27	"       kaidandxxx,
+"
+ZZKXGFY2_TM	PROCEDURE	28	"       fybh,
+"
+ZZKXGFY2_TM	PROCEDURE	29	"       tsjblx,
+"
+ZZKXGFY2_TM	PROCEDURE	30	"       hj,
+"
+ZZKXGFY2_TM	PROCEDURE	31	"       xgbz)
+"
+ZZKXGFY2_TM	PROCEDURE	32	"    VALUES
+"
+ZZKXGFY2_TM	PROCEDURE	33	"      (v_yjsb,
+"
+ZZKXGFY2_TM	PROCEDURE	34	"       v_yjsb,
+"
+ZZKXGFY2_TM	PROCEDURE	35	"       card_no,
+"
+ZZKXGFY2_TM	PROCEDURE	36	"       brxm,
+"
+ZZKXGFY2_TM	PROCEDURE	37	"       'DBA',
+"
+ZZKXGFY2_TM	PROCEDURE	38	"       '3020004',
+"
+ZZKXGFY2_TM	PROCEDURE	39	"       sysdate,
+"
+ZZKXGFY2_TM	PROCEDURE	40	"       'ZZJ2',
+"
+ZZKXGFY2_TM	PROCEDURE	41	"       '',
+"
+ZZKXGFY2_TM	PROCEDURE	42	"       5,
+"
+ZZKXGFY2_TM	PROCEDURE	43	"       '',
+"
+ZZKXGFY2_TM	PROCEDURE	44	"       '',
+"
+ZZKXGFY2_TM	PROCEDURE	45	"       '自助机自助开立新冠2',
+"
+ZZKXGFY2_TM	PROCEDURE	46	"       0,
+"
+ZZKXGFY2_TM	PROCEDURE	47	"       '',
+"
+ZZKXGFY2_TM	PROCEDURE	48	"       '',
+"
+ZZKXGFY2_TM	PROCEDURE	49	"       0);
+"
+ZZKXGFY2_TM	PROCEDURE	50	"  
+"
+ZZKXGFY2_TM	PROCEDURE	51	"  end if;
+"
+ZZKXGFY2_TM	PROCEDURE	52	"  --不开 新冠 yjk
+"
+ZZKXGFY2_TM	PROCEDURE	53	"  if 1 = 0 then
+"
+ZZKXGFY2_TM	PROCEDURE	54	"    INSERT INTO yj_yjk2
+"
+ZZKXGFY2_TM	PROCEDURE	55	"      (yjsb,
+"
+ZZKXGFY2_TM	PROCEDURE	56	"       yjxh,
+"
+ZZKXGFY2_TM	PROCEDURE	57	"       ylxh,
+"
+ZZKXGFY2_TM	PROCEDURE	58	"       xmmc,
+"
+ZZKXGFY2_TM	PROCEDURE	59	"       dj,
+"
+ZZKXGFY2_TM	PROCEDURE	60	"       sl,
+"
+ZZKXGFY2_TM	PROCEDURE	61	"       fygb,
+"
+ZZKXGFY2_TM	PROCEDURE	62	"       zfbl,
+"
+ZZKXGFY2_TM	PROCEDURE	63	"       zxksdm,
+"
+ZZKXGFY2_TM	PROCEDURE	64	"       jyyblx,
+"
+ZZKXGFY2_TM	PROCEDURE	65	"       tcylxh,
+"
+ZZKXGFY2_TM	PROCEDURE	66	"       ybzfbl,
+"
+ZZKXGFY2_TM	PROCEDURE	67	"       tcsl,
+"
+ZZKXGFY2_TM	PROCEDURE	68	"       JYDYMC,
+"
+ZZKXGFY2_TM	PROCEDURE	69	"       zfbz,
+"
+ZZKXGFY2_TM	PROCEDURE	70	"       qzzfbz,
+"
+ZZKXGFY2_TM	PROCEDURE	71	"       yblx,
+"
+ZZKXGFY2_TM	PROCEDURE	72	"       hyjg)
+"
+ZZKXGFY2_TM	PROCEDURE	73	"    Values
+"
+ZZKXGFY2_TM	PROCEDURE	74	"      (v_yjsb,
+"
+ZZKXGFY2_TM	PROCEDURE	75	"       1,
+"
+ZZKXGFY2_TM	PROCEDURE	76	"       31509,
+"
+ZZKXGFY2_TM	PROCEDURE	77	"       '新型冠状病毒IgG抗体(包括总抗体)检测(自费)',
+"
+ZZKXGFY2_TM	PROCEDURE	78	"       '40.00',
+"
+ZZKXGFY2_TM	PROCEDURE	79	"       1,
+"
+ZZKXGFY2_TM	PROCEDURE	80	"       9,
+"
+ZZKXGFY2_TM	PROCEDURE	81	"       1,
+"
+ZZKXGFY2_TM	PROCEDURE	82	"       '3020016',
+"
+ZZKXGFY2_TM	PROCEDURE	83	"       '',
+"
+ZZKXGFY2_TM	PROCEDURE	84	"       '21897',
+"
+ZZKXGFY2_TM	PROCEDURE	85	"       '',
+"
+ZZKXGFY2_TM	PROCEDURE	86	"       1,
+"
+ZZKXGFY2_TM	PROCEDURE	87	"       '严重急性呼吸综合症冠状病毒抗体检测',
+"
+ZZKXGFY2_TM	PROCEDURE	88	"       0,
+"
+ZZKXGFY2_TM	PROCEDURE	89	"       0,
+"
+ZZKXGFY2_TM	PROCEDURE	90	"       'Q',
+"
+ZZKXGFY2_TM	PROCEDURE	91	"       '');
+"
+ZZKXGFY2_TM	PROCEDURE	92	"    INSERT INTO yj_yjk2
+"
+ZZKXGFY2_TM	PROCEDURE	93	"      (yjsb,
+"
+ZZKXGFY2_TM	PROCEDURE	94	"       yjxh,
+"
+ZZKXGFY2_TM	PROCEDURE	95	"       ylxh,
+"
+ZZKXGFY2_TM	PROCEDURE	96	"       xmmc,
+"
+ZZKXGFY2_TM	PROCEDURE	97	"       dj,
+"
+ZZKXGFY2_TM	PROCEDURE	98	"       sl,
+"
+ZZKXGFY2_TM	PROCEDURE	99	"       fygb,
+"
+ZZKXGFY2_TM	PROCEDURE	100	"       zfbl,
+"
+ZZKXGFY2_TM	PROCEDURE	101	"       zxksdm,
+"
+ZZKXGFY2_TM	PROCEDURE	102	"       jyyblx,
+"
+ZZKXGFY2_TM	PROCEDURE	103	"       tcylxh,
+"
+ZZKXGFY2_TM	PROCEDURE	104	"       ybzfbl,
+"
+ZZKXGFY2_TM	PROCEDURE	105	"       tcsl,
+"
+ZZKXGFY2_TM	PROCEDURE	106	"       JYDYMC,
+"
+ZZKXGFY2_TM	PROCEDURE	107	"       zfbz,
+"
+ZZKXGFY2_TM	PROCEDURE	108	"       qzzfbz,
+"
+ZZKXGFY2_TM	PROCEDURE	109	"       yblx,
+"
+ZZKXGFY2_TM	PROCEDURE	110	"       hyjg)
+"
+ZZKXGFY2_TM	PROCEDURE	111	"    Values
+"
+ZZKXGFY2_TM	PROCEDURE	112	"      (v_yjsb,
+"
+ZZKXGFY2_TM	PROCEDURE	113	"       2,
+"
+ZZKXGFY2_TM	PROCEDURE	114	"       31510,
+"
+ZZKXGFY2_TM	PROCEDURE	115	"       '新型冠状病毒IgM抗体检测（自费）',
+"
+ZZKXGFY2_TM	PROCEDURE	116	"       '40.00',
+"
+ZZKXGFY2_TM	PROCEDURE	117	"       1,
+"
+ZZKXGFY2_TM	PROCEDURE	118	"       9,
+"
+ZZKXGFY2_TM	PROCEDURE	119	"       1,
+"
+ZZKXGFY2_TM	PROCEDURE	120	"       '3020016',
+"
+ZZKXGFY2_TM	PROCEDURE	121	"       '',
+"
+ZZKXGFY2_TM	PROCEDURE	122	"       '21897',
+"
+ZZKXGFY2_TM	PROCEDURE	123	"       '',
+"
+ZZKXGFY2_TM	PROCEDURE	124	"       1,
+"
+ZZKXGFY2_TM	PROCEDURE	125	"       '严重急性呼吸综合症冠状病毒抗体检测',
+"
+ZZKXGFY2_TM	PROCEDURE	126	"       0,
+"
+ZZKXGFY2_TM	PROCEDURE	127	"       0,
+"
+ZZKXGFY2_TM	PROCEDURE	128	"       'Q',
+"
+ZZKXGFY2_TM	PROCEDURE	129	"       '');
+"
+ZZKXGFY2_TM	PROCEDURE	130	"  
+"
+ZZKXGFY2_TM	PROCEDURE	131	"  end if;
+"
+ZZKXGFY2_TM	PROCEDURE	132	"
+"
+ZZKXGFY2_TM	PROCEDURE	133	"  -- --不开 核酸 yjk 
+"
+ZZKXGFY2_TM	PROCEDURE	134	"  if 1 = 0 then
+"
+ZZKXGFY2_TM	PROCEDURE	135	"    INSERT INTO yj_yjk2
+"
+ZZKXGFY2_TM	PROCEDURE	136	"      (yjsb,
+"
+ZZKXGFY2_TM	PROCEDURE	137	"       yjxh,
+"
+ZZKXGFY2_TM	PROCEDURE	138	"       ylxh,
+"
+ZZKXGFY2_TM	PROCEDURE	139	"       xmmc,
+"
+ZZKXGFY2_TM	PROCEDURE	140	"       dj,
+"
+ZZKXGFY2_TM	PROCEDURE	141	"       sl,
+"
+ZZKXGFY2_TM	PROCEDURE	142	"       fygb,
+"
+ZZKXGFY2_TM	PROCEDURE	143	"       zfbl,
+"
+ZZKXGFY2_TM	PROCEDURE	144	"       zxksdm,
+"
+ZZKXGFY2_TM	PROCEDURE	145	"       jyyblx,
+"
+ZZKXGFY2_TM	PROCEDURE	146	"       tcylxh,
+"
+ZZKXGFY2_TM	PROCEDURE	147	"       ybzfbl,
+"
+ZZKXGFY2_TM	PROCEDURE	148	"       tcsl,
+"
+ZZKXGFY2_TM	PROCEDURE	149	"       JYDYMC,
+"
+ZZKXGFY2_TM	PROCEDURE	150	"       zfbz,
+"
+ZZKXGFY2_TM	PROCEDURE	151	"       qzzfbz,
+"
+ZZKXGFY2_TM	PROCEDURE	152	"       yblx,
+"
+ZZKXGFY2_TM	PROCEDURE	153	"       hyjg)
+"
+ZZKXGFY2_TM	PROCEDURE	154	"    Values
+"
+ZZKXGFY2_TM	PROCEDURE	155	"      (v_yjsb,
+"
+ZZKXGFY2_TM	PROCEDURE	156	"       3,
+"
+ZZKXGFY2_TM	PROCEDURE	157	"       31511,
+"
+ZZKXGFY2_TM	PROCEDURE	158	"       '新型冠状病毒核糖核酸检测（咽拭子）',
+"
+ZZKXGFY2_TM	PROCEDURE	159	"       '136.00',
+"
+ZZKXGFY2_TM	PROCEDURE	160	"       1,
+"
+ZZKXGFY2_TM	PROCEDURE	161	"       9,
+"
+ZZKXGFY2_TM	PROCEDURE	162	"       1,
+"
+ZZKXGFY2_TM	PROCEDURE	163	"       '3020005',
+"
+ZZKXGFY2_TM	PROCEDURE	164	"       '',
+"
+ZZKXGFY2_TM	PROCEDURE	165	"       '31513',
+"
+ZZKXGFY2_TM	PROCEDURE	166	"       '',
+"
+ZZKXGFY2_TM	PROCEDURE	167	"       1,
+"
+ZZKXGFY2_TM	PROCEDURE	168	"       '新型冠状病毒核糖核酸检测（咽拭子）',
+"
+ZZKXGFY2_TM	PROCEDURE	169	"       0,
+"
+ZZKXGFY2_TM	PROCEDURE	170	"       0,
+"
+ZZKXGFY2_TM	PROCEDURE	171	"       'R',
+"
+ZZKXGFY2_TM	PROCEDURE	172	"       '');
+"
+ZZKXGFY2_TM	PROCEDURE	173	"  
+"
+ZZKXGFY2_TM	PROCEDURE	174	"  end if;
+"
+ZZKXGFY2_TM	PROCEDURE	175	"  ret_code := 0;
+"
+ZZKXGFY2_TM	PROCEDURE	176	"  ret_info := '开单成功';
+"
+ZZKXGFY2_TM	PROCEDURE	177	"  commit;
+"
+ZZKXGFY2_TM	PROCEDURE	178	"
+"
+ZZKXGFY2_TM	PROCEDURE	179	"  insert into l_laborder o
+"
+ZZKXGFY2_TM	PROCEDURE	180	"    (o.laborder,
+"
+ZZKXGFY2_TM	PROCEDURE	181	"     o.laborderorg,
+"
+ZZKXGFY2_TM	PROCEDURE	182	"     o.stayhospitalmode,
+"
+ZZKXGFY2_TM	PROCEDURE	183	"     o.patientid,
+"
+ZZKXGFY2_TM	PROCEDURE	184	"     o.sex,
+"
+ZZKXGFY2_TM	PROCEDURE	185	"     o.currentdepartment,
+"
+ZZKXGFY2_TM	PROCEDURE	186	"     o.specimen,
+"
+ZZKXGFY2_TM	PROCEDURE	187	"     o.examitem,
+"
+ZZKXGFY2_TM	PROCEDURE	188	"     o.testdescribe,
+"
+ZZKXGFY2_TM	PROCEDURE	189	"     o.patientname,
+"
+ZZKXGFY2_TM	PROCEDURE	190	"     o.printflag,
+"
+ZZKXGFY2_TM	PROCEDURE	191	"     o.receiveflag,
+"
+ZZKXGFY2_TM	PROCEDURE	192	"     o.typeflag,
+"
+ZZKXGFY2_TM	PROCEDURE	193	"     o.requester,
+"
+ZZKXGFY2_TM	PROCEDURE	194	"     o.requestetime,
+"
+ZZKXGFY2_TM	PROCEDURE	195	"     o.labdepartment,
+"
+ZZKXGFY2_TM	PROCEDURE	196	"     o.diagnostic,
+"
+ZZKXGFY2_TM	PROCEDURE	197	"     o.feestatus,
+"
+ZZKXGFY2_TM	PROCEDURE	198	"     O.KEZHIXBZ)
+"
+ZZKXGFY2_TM	PROCEDURE	199	"    select seq_l_tiaomahao.nextval,
+"
+ZZKXGFY2_TM	PROCEDURE	200	"           88888888,
+"
+ZZKXGFY2_TM	PROCEDURE	201	"           1,
+"
+ZZKXGFY2_TM	PROCEDURE	202	"           jzkh,
+"
+ZZKXGFY2_TM	PROCEDURE	203	"           xb,
+"
+ZZKXGFY2_TM	PROCEDURE	204	"           '', --ksdm
+"
+ZZKXGFY2_TM	PROCEDURE	205	"           'R',
+"
+ZZKXGFY2_TM	PROCEDURE	206	"           '新型冠状病毒核酸检测（咽拭子）',
+"
+ZZKXGFY2_TM	PROCEDURE	207	"           '31513',
+"
+ZZKXGFY2_TM	PROCEDURE	208	"           xm,
+"
+ZZKXGFY2_TM	PROCEDURE	209	"           0,
+"
+ZZKXGFY2_TM	PROCEDURE	210	"           0,
+"
+ZZKXGFY2_TM	PROCEDURE	211	"           0,
+"
+ZZKXGFY2_TM	PROCEDURE	212	"           'A0456',
+"
+ZZKXGFY2_TM	PROCEDURE	213	"           sysdate,
+"
+ZZKXGFY2_TM	PROCEDURE	214	"           '3020005',
+"
+ZZKXGFY2_TM	PROCEDURE	215	"           '排查',
+"
+ZZKXGFY2_TM	PROCEDURE	216	"           1,
+"
+ZZKXGFY2_TM	PROCEDURE	217	"           1
+"
+ZZKXGFY2_TM	PROCEDURE	218	"      from gy_brjbxxk
+"
+ZZKXGFY2_TM	PROCEDURE	219	"     where jzkh = card_no;
+"
+ZZKXGFY2_TM	PROCEDURE	220	"
+"
+ZZKXGFY2_TM	PROCEDURE	221	"  --插入严重急性呼吸综合症冠状病毒抗体检测
+"
+ZZKXGFY2_TM	PROCEDURE	222	"  if 1 = 0 then
+"
+ZZKXGFY2_TM	PROCEDURE	223	"    insert into l_laborder o
+"
+ZZKXGFY2_TM	PROCEDURE	224	"      (o.laborder,
+"
+ZZKXGFY2_TM	PROCEDURE	225	"       o.laborderorg,
+"
+ZZKXGFY2_TM	PROCEDURE	226	"       o.stayhospitalmode,
+"
+ZZKXGFY2_TM	PROCEDURE	227	"       o.patientid,
+"
+ZZKXGFY2_TM	PROCEDURE	228	"       o.sex,
+"
+ZZKXGFY2_TM	PROCEDURE	229	"       o.currentdepartment,
+"
+ZZKXGFY2_TM	PROCEDURE	230	"       o.specimen,
+"
+ZZKXGFY2_TM	PROCEDURE	231	"       o.examitem,
+"
+ZZKXGFY2_TM	PROCEDURE	232	"       o.testdescribe,
+"
+ZZKXGFY2_TM	PROCEDURE	233	"       o.patientname,
+"
+ZZKXGFY2_TM	PROCEDURE	234	"       o.printflag,
+"
+ZZKXGFY2_TM	PROCEDURE	235	"       o.receiveflag,
+"
+ZZKXGFY2_TM	PROCEDURE	236	"       o.typeflag,
+"
+ZZKXGFY2_TM	PROCEDURE	237	"       o.requester,
+"
+ZZKXGFY2_TM	PROCEDURE	238	"       o.requestetime,
+"
+ZZKXGFY2_TM	PROCEDURE	239	"       o.labdepartment,
+"
+ZZKXGFY2_TM	PROCEDURE	240	"       o.diagnostic,
+"
+ZZKXGFY2_TM	PROCEDURE	241	"       o.feestatus)
+"
+ZZKXGFY2_TM	PROCEDURE	242	"      select seq_l_tiaomahao.nextval,
+"
+ZZKXGFY2_TM	PROCEDURE	243	"             88888888,
+"
+ZZKXGFY2_TM	PROCEDURE	244	"             1,
+"
+ZZKXGFY2_TM	PROCEDURE	245	"             jzkh,
+"
+ZZKXGFY2_TM	PROCEDURE	246	"             xb,
+"
+ZZKXGFY2_TM	PROCEDURE	247	"             '',
+"
+ZZKXGFY2_TM	PROCEDURE	248	"             'Q',
+"
+ZZKXGFY2_TM	PROCEDURE	249	"             '严重急性呼吸综合症冠状病毒抗体检测',
+"
+ZZKXGFY2_TM	PROCEDURE	250	"             '21897',
+"
+ZZKXGFY2_TM	PROCEDURE	251	"             xm,
+"
+ZZKXGFY2_TM	PROCEDURE	252	"             0,
+"
+ZZKXGFY2_TM	PROCEDURE	253	"             0,
+"
+ZZKXGFY2_TM	PROCEDURE	254	"             0,
+"
+ZZKXGFY2_TM	PROCEDURE	255	"             'A0456',
+"
+ZZKXGFY2_TM	PROCEDURE	256	"             sysdate,
+"
+ZZKXGFY2_TM	PROCEDURE	257	"             '3020005',
+"
+ZZKXGFY2_TM	PROCEDURE	258	"             '排查',
+"
+ZZKXGFY2_TM	PROCEDURE	259	"             1
+"
+ZZKXGFY2_TM	PROCEDURE	260	"        from gy_brjbxxk
+"
+ZZKXGFY2_TM	PROCEDURE	261	"       where jzkh = card_no;
+"
+ZZKXGFY2_TM	PROCEDURE	262	"  end if;
+"
+ZZKXGFY2_TM	PROCEDURE	263	"  ret_code := 0;
+"
+ZZKXGFY2_TM	PROCEDURE	264	"  ret_info := '生成检验条码成功';
+"
+ZZKXGFY2_TM	PROCEDURE	265	"  commit;
+"
+ZZKXGFY2_TM	PROCEDURE	266	"EXCEPTION
+"
+ZZKXGFY2_TM	PROCEDURE	267	"  when others then
+"
+ZZKXGFY2_TM	PROCEDURE	268	"    ret_code := 4;
+"
+ZZKXGFY2_TM	PROCEDURE	269	"  
+"
+ZZKXGFY2_TM	PROCEDURE	270	"    ret_info := '开单失败';
+"
+ZZKXGFY2_TM	PROCEDURE	271	"    rollback;
+"
+ZZKXGFY2_TM	PROCEDURE	272	"    return;
+"
+ZZKXGFY2_TM	PROCEDURE	273	"END;
+"

@@ -1,0 +1,27 @@
+F_ZJ_GETYSZT	FUNCTION	1	"FUNCTION         ""F_ZJ_GETYSZT"" 
+"
+F_ZJ_GETYSZT	FUNCTION	2	"(arg_code in number)
+"
+F_ZJ_GETYSZT	FUNCTION	3	"  return varchar2
+"
+F_ZJ_GETYSZT	FUNCTION	4	"  is
+"
+F_ZJ_GETYSZT	FUNCTION	5	"    ls_return varchar2(100);
+"
+F_ZJ_GETYSZT	FUNCTION	6	"  begin
+"
+F_ZJ_GETYSZT	FUNCTION	7	"  select yszt into ls_return From zj_yszt where ztxh = arg_code And mjpb =1;
+"
+F_ZJ_GETYSZT	FUNCTION	8	"  return(ls_return);
+"
+F_ZJ_GETYSZT	FUNCTION	9	"  exception
+"
+F_ZJ_GETYSZT	FUNCTION	10	"  when NO_DATA_FOUND then
+"
+F_ZJ_GETYSZT	FUNCTION	11	"       return('');
+"
+F_ZJ_GETYSZT	FUNCTION	12	"  end;
+"
+F_ZJ_GETYSZT	FUNCTION	13	"
+"
+F_ZJ_GETYSZT	FUNCTION	14	 

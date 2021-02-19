@@ -1,0 +1,67 @@
+F_BF_GETKC_DB	FUNCTION	1	"FUNCTION         ""F_BF_GETKC_DB"" 
+"
+F_BF_GETKC_DB	FUNCTION	2	"(arg_type in number,arg_XTXH in NUMBER,arg_ypxh in number,arg_ypcddm in number,arg_yplx in number)
+"
+F_BF_GETKC_DB	FUNCTION	3	"   return number
+"
+F_BF_GETKC_DB	FUNCTION	4	"   is
+"
+F_BF_GETKC_DB	FUNCTION	5	"     ls_return number(11,3);
+"
+F_BF_GETKC_DB	FUNCTION	6	"     ls_ypsx   varchar2(2);
+"
+F_BF_GETKC_DB	FUNCTION	7	"     li_ypbzl  number(5);
+"
+F_BF_GETKC_DB	FUNCTION	8	"begin
+"
+F_BF_GETKC_DB	FUNCTION	9	"   if arg_type=1 then 
+"
+F_BF_GETKC_DB	FUNCTION	10	"     select nvl(skc,0) - nvl(xskc,0) into ls_return from by_ypkcz
+"
+F_BF_GETKC_DB	FUNCTION	11	"        where  (ypxh=arg_ypxh or fzfl=arg_ypxh) and ypcddm=arg_ypcddm AND XTXH=ARG_XTXH AND ksdm=
+"
+F_BF_GETKC_DB	FUNCTION	12	"                 (select ksdm from by_ckxh where kssx=1 and xtxh=arg_xtxh);
+"
+F_BF_GETKC_DB	FUNCTION	13	"    end if;
+"
+F_BF_GETKC_DB	FUNCTION	14	"   if arg_type=2 then 
+"
+F_BF_GETKC_DB	FUNCTION	15	"     select nvl(skc,0)  into ls_return from by_ypkcz
+"
+F_BF_GETKC_DB	FUNCTION	16	"        where  (ypxh=arg_ypxh or fzfl=arg_ypxh) and ypcddm=arg_ypcddm AND XTXH=ARG_XTXH AND ksdm=
+"
+F_BF_GETKC_DB	FUNCTION	17	"                 (select ksdm from by_ckxh where kssx=1 and xtxh=arg_xtxh);
+"
+F_BF_GETKC_DB	FUNCTION	18	"   end if;
+"
+F_BF_GETKC_DB	FUNCTION	19	"  
+"
+F_BF_GETKC_DB	FUNCTION	20	"     select decode(arg_yplx,1,substr(ypsx,2,1)||substr(ypsx,4,1),2,substr(ypsx,5,1)||substr(ypsx,7,1)) ,ypbzl
+"
+F_BF_GETKC_DB	FUNCTION	21	"       into ls_ypsx, li_ypbzl
+"
+F_BF_GETKC_DB	FUNCTION	22	"      from  gy_ypmcggzd 
+"
+F_BF_GETKC_DB	FUNCTION	23	"     where ypxh=arg_ypxh;
+"
+F_BF_GETKC_DB	FUNCTION	24	"   if ls_ypsx='10' or ls_ypsx='01' then 
+"
+F_BF_GETKC_DB	FUNCTION	25	"      ls_return := round(ls_return/li_ypbzl,2);
+"
+F_BF_GETKC_DB	FUNCTION	26	"   end if;
+"
+F_BF_GETKC_DB	FUNCTION	27	" 
+"
+F_BF_GETKC_DB	FUNCTION	28	"
+"
+F_BF_GETKC_DB	FUNCTION	29	"   return(ls_return);
+"
+F_BF_GETKC_DB	FUNCTION	30	"end;
+"
+F_BF_GETKC_DB	FUNCTION	31	"
+"
+F_BF_GETKC_DB	FUNCTION	32	"
+"
+F_BF_GETKC_DB	FUNCTION	33	"
+"
+F_BF_GETKC_DB	FUNCTION	34	 

@@ -1,0 +1,47 @@
+FUN_GET_SY_YZPBBZ	FUNCTION	1	"FUNCTION         ""FUN_GET_SY_YZPBBZ"" 
+"
+FUN_GET_SY_YZPBBZ	FUNCTION	2	" (arg_order_no in number, arg_performance_time in date
+"
+FUN_GET_SY_YZPBBZ	FUNCTION	3	" )
+"
+FUN_GET_SY_YZPBBZ	FUNCTION	4	" -- 传入医嘱序号，执行时间获取主药的yzpbbz
+"
+FUN_GET_SY_YZPBBZ	FUNCTION	5	" --当是主药是传入的是order_no 当为副药时传入parent_no
+"
+FUN_GET_SY_YZPBBZ	FUNCTION	6	" return number
+"
+FUN_GET_SY_YZPBBZ	FUNCTION	7	"
+"
+FUN_GET_SY_YZPBBZ	FUNCTION	8	" is
+"
+FUN_GET_SY_YZPBBZ	FUNCTION	9	"   ln_yzpbbz number;
+"
+FUN_GET_SY_YZPBBZ	FUNCTION	10	" begin
+"
+FUN_GET_SY_YZPBBZ	FUNCTION	11	"    begin
+"
+FUN_GET_SY_YZPBBZ	FUNCTION	12	"        select nvl(yzpbbz,0) into ln_yzpbbz
+"
+FUN_GET_SY_YZPBBZ	FUNCTION	13	"          from yz_order_occ
+"
+FUN_GET_SY_YZPBBZ	FUNCTION	14	"         where order_no = arg_order_no
+"
+FUN_GET_SY_YZPBBZ	FUNCTION	15	"           and performance_time = arg_performance_time and rownum = 1;
+"
+FUN_GET_SY_YZPBBZ	FUNCTION	16	"    exception
+"
+FUN_GET_SY_YZPBBZ	FUNCTION	17	"        -- 出错时 yzpbbz返回为0
+"
+FUN_GET_SY_YZPBBZ	FUNCTION	18	"        when others  then
+"
+FUN_GET_SY_YZPBBZ	FUNCTION	19	"          ln_yzpbbz:=0;
+"
+FUN_GET_SY_YZPBBZ	FUNCTION	20	"    end ;
+"
+FUN_GET_SY_YZPBBZ	FUNCTION	21	"    return(ln_yzpbbz);
+"
+FUN_GET_SY_YZPBBZ	FUNCTION	22	" end ;
+"
+FUN_GET_SY_YZPBBZ	FUNCTION	23	"
+"
+FUN_GET_SY_YZPBBZ	FUNCTION	24	 

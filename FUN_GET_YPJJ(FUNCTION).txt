@@ -1,0 +1,407 @@
+FUN_GET_YPJJ	FUNCTION	1	"FUNCTION         ""FUN_GET_YPJJ"" (p_ypxh   IN NUMBER, 
+"
+FUN_GET_YPJJ	FUNCTION	2	"                                         p_ypcddm IN NUMBER, 
+"
+FUN_GET_YPJJ	FUNCTION	3	"                                        p_yfxtxh IN NUMBER) RETURN NUMBER IS 
+"
+FUN_GET_YPJJ	FUNCTION	4	"    RESULT     NUMBER(16, 6); 
+"
+FUN_GET_YPJJ	FUNCTION	5	"   v_kcxh     NUMBER; 
+"
+FUN_GET_YPJJ	FUNCTION	6	"   ll_zdbzl   NUMBER(16, 6); 
+"
+FUN_GET_YPJJ	FUNCTION	7	"   v_ypbzl    NUMBER(16, 6); 
+"
+FUN_GET_YPJJ	FUNCTION	8	"   ll_maxypxh NUMBER; 
+"
+FUN_GET_YPJJ	FUNCTION	9	"   v_dqdh     yk_crkfs.dqdh%type; 
+"
+FUN_GET_YPJJ	FUNCTION	10	"   v_qckc     number; 
+"
+FUN_GET_YPJJ	FUNCTION	11	"   v_qcjj     number(16, 6); 
+"
+FUN_GET_YPJJ	FUNCTION	12	"   v_rksl     number; 
+"
+FUN_GET_YPJJ	FUNCTION	13	"   v_rkdh      yk_yprkd.rkdh%type; 
+"
+FUN_GET_YPJJ	FUNCTION	14	"   v_rkje     number; 
+"
+FUN_GET_YPJJ	FUNCTION	15	"   v_pjjj_max number(16, 6); 
+"
+FUN_GET_YPJJ	FUNCTION	16	"   v_yplx     number; 
+"
+FUN_GET_YPJJ	FUNCTION	17	"   v_ykxtxh   number; 
+"
+FUN_GET_YPJJ	FUNCTION	18	"    v_isget_jj  NUMBER(16, 6); 
+"
+FUN_GET_YPJJ	FUNCTION	19	"  BEGIN 
+"
+FUN_GET_YPJJ	FUNCTION	20	"    --取参数 
+"
+FUN_GET_YPJJ	FUNCTION	21	"    select nvl(csz2, 0) 
+"
+FUN_GET_YPJJ	FUNCTION	22	"      into v_isget_jj 
+"
+FUN_GET_YPJJ	FUNCTION	23	"      from gy_xtcs 
+"
+FUN_GET_YPJJ	FUNCTION	24	"     where xtxh = p_yfxtxh 
+"
+FUN_GET_YPJJ	FUNCTION	25	"      and csmc = 'ISGET_JJ'; 
+"
+FUN_GET_YPJJ	FUNCTION	26	"    v_yplx := f_bf_getypxx(p_ypxh, p_ypcddm, 'yplx'); 
+"
+FUN_GET_YPJJ	FUNCTION	27	"   select ykxh 
+"
+FUN_GET_YPJJ	FUNCTION	28	"     into v_ykxtxh 
+"
+FUN_GET_YPJJ	FUNCTION	29	"     from yf_yplxdz 
+"
+FUN_GET_YPJJ	FUNCTION	30	"    where xtxh = p_yfxtxh 
+"
+FUN_GET_YPJJ	FUNCTION	31	"      and yplx = v_yplx; 
+"
+FUN_GET_YPJJ	FUNCTION	32	"   select ypbzl 
+"
+FUN_GET_YPJJ	FUNCTION	33	"     into v_ypbzl 
+"
+FUN_GET_YPJJ	FUNCTION	34	"     from gy_ypcdjg 
+"
+FUN_GET_YPJJ	FUNCTION	35	"    where ypxh = p_ypxh 
+"
+FUN_GET_YPJJ	FUNCTION	36	"      and ypcddm = p_ypcddm 
+"
+FUN_GET_YPJJ	FUNCTION	37	"      and bmxh is null 
+"
+FUN_GET_YPJJ	FUNCTION	38	"      and rownum = 1; 
+"
+FUN_GET_YPJJ	FUNCTION	39	"    if v_ypbzl = 0 or v_ypbzl is null then 
+"
+FUN_GET_YPJJ	FUNCTION	40	"      v_ypbzl := 1; 
+"
+FUN_GET_YPJJ	FUNCTION	41	"    end if; 
+"
+FUN_GET_YPJJ	FUNCTION	42	"    ll_maxypxh := f_bf_getypxx(p_ypxh, p_ypcddm, 'ykxh'); 
+"
+FUN_GET_YPJJ	FUNCTION	43	"    ll_zdbzl := f_bf_getypxx(ll_maxypxh, p_ypcddm, 'ypbzl'); 
+"
+FUN_GET_YPJJ	FUNCTION	44	"    If ll_zdbzl = 0 Then 
+"
+FUN_GET_YPJJ	FUNCTION	45	"      ll_zdbzl := 1; 
+"
+FUN_GET_YPJJ	FUNCTION	46	"    End IF; 
+"
+FUN_GET_YPJJ	FUNCTION	47	"    --根据参数取进价  
+"
+FUN_GET_YPJJ	FUNCTION	48	"    if v_isget_jj = 0 then 
+"
+FUN_GET_YPJJ	FUNCTION	49	"      --不取进价 
+"
+FUN_GET_YPJJ	FUNCTION	50	"      return RESULT; 
+"
+FUN_GET_YPJJ	FUNCTION	51	"    elsif v_isget_jj = 1 then 
+"
+FUN_GET_YPJJ	FUNCTION	52	"      -- 默认进价取法 
+"
+FUN_GET_YPJJ	FUNCTION	53	"      select avg(jj) 
+"
+FUN_GET_YPJJ	FUNCTION	54	"        into v_pjjj_max 
+"
+FUN_GET_YPJJ	FUNCTION	55	"        from yk_yprkdmx 
+"
+FUN_GET_YPJJ	FUNCTION	56	"      where xtxh = v_ykxtxh 
+"
+FUN_GET_YPJJ	FUNCTION	57	"        and ypxh = ll_maxypxh 
+"
+FUN_GET_YPJJ	FUNCTION	58	"        and ypcddm = p_ypcddm 
+"
+FUN_GET_YPJJ	FUNCTION	59	"        and jj > 0; 
+"
+FUN_GET_YPJJ	FUNCTION	60	"     if v_pjjj_max > 0 then 
+"
+FUN_GET_YPJJ	FUNCTION	61	"       v_pjjj_max := v_pjjj_max; 
+"
+FUN_GET_YPJJ	FUNCTION	62	"      else 
+"
+FUN_GET_YPJJ	FUNCTION	63	"        select avg(jj)     into v_pjjj_max 
+"
+FUN_GET_YPJJ	FUNCTION	64	"         from yk_ypkczb 
+"
+FUN_GET_YPJJ	FUNCTION	65	"         where xtxh = v_ykxtxh 
+"
+FUN_GET_YPJJ	FUNCTION	66	"           and ypxh = ll_maxypxh 
+"
+FUN_GET_YPJJ	FUNCTION	67	"           and ypcddm = p_ypcddm 
+"
+FUN_GET_YPJJ	FUNCTION	68	"           and jj > 0; 
+"
+FUN_GET_YPJJ	FUNCTION	69	"        if v_pjjj_max > 0 then 
+"
+FUN_GET_YPJJ	FUNCTION	70	"          v_pjjj_max := v_pjjj_max; 
+"
+FUN_GET_YPJJ	FUNCTION	71	"        else 
+"
+FUN_GET_YPJJ	FUNCTION	72	"          select pfj 
+"
+FUN_GET_YPJJ	FUNCTION	73	"           into v_pjjj_max 
+"
+FUN_GET_YPJJ	FUNCTION	74	"            from gy_ypcdjg 
+"
+FUN_GET_YPJJ	FUNCTION	75	"           where ypxh = ll_maxypxh 
+"
+FUN_GET_YPJJ	FUNCTION	76	"             and ypcddm = p_ypcddm 
+"
+FUN_GET_YPJJ	FUNCTION	77	"             and bmxh is null; 
+"
+FUN_GET_YPJJ	FUNCTION	78	"        end if; 
+"
+FUN_GET_YPJJ	FUNCTION	79	"      end if; 
+"
+FUN_GET_YPJJ	FUNCTION	80	"    elsif v_isget_jj = 2 then 
+"
+FUN_GET_YPJJ	FUNCTION	81	"      -- 取参考进价 
+"
+FUN_GET_YPJJ	FUNCTION	82	"      select ckjj 
+"
+FUN_GET_YPJJ	FUNCTION	83	"        into v_pjjj_max 
+"
+FUN_GET_YPJJ	FUNCTION	84	"        from gy_ypcdjg 
+"
+FUN_GET_YPJJ	FUNCTION	85	"       where ypxh = ll_maxypxh 
+"
+FUN_GET_YPJJ	FUNCTION	86	"         and ypcddm = p_ypcddm 
+"
+FUN_GET_YPJJ	FUNCTION	87	"         and bmxh is null; 
+"
+FUN_GET_YPJJ	FUNCTION	88	"    elsif v_isget_jj = 3 then 
+"
+FUN_GET_YPJJ	FUNCTION	89	"      -- 取批发价当进价 
+"
+FUN_GET_YPJJ	FUNCTION	90	"      select pfj 
+"
+FUN_GET_YPJJ	FUNCTION	91	"        into v_pjjj_max 
+"
+FUN_GET_YPJJ	FUNCTION	92	"        from gy_ypcdjg 
+"
+FUN_GET_YPJJ	FUNCTION	93	"       where ypxh = ll_maxypxh 
+"
+FUN_GET_YPJJ	FUNCTION	94	"         and ypcddm = p_ypcddm 
+"
+FUN_GET_YPJJ	FUNCTION	95	"         and bmxh is null; 
+"
+FUN_GET_YPJJ	FUNCTION	96	"      elsif v_isget_jj =4 then  
+"
+FUN_GET_YPJJ	FUNCTION	97	"        --取最新进价 
+"
+FUN_GET_YPJJ	FUNCTION	98	"             select to_char(max(rkdh)) 
+"
+FUN_GET_YPJJ	FUNCTION	99	"      					  into v_rkdh 
+"
+FUN_GET_YPJJ	FUNCTION	100	"      						from yk_yprkdmx 
+"
+FUN_GET_YPJJ	FUNCTION	101	"      					 where ypxh=ll_maxypxh and ypcddm=p_ypcddm and jj <> 0  and rownum=1; 
+"
+FUN_GET_YPJJ	FUNCTION	102	"        if v_rkdh is null then 
+"
+FUN_GET_YPJJ	FUNCTION	103	"      						v_pjjj_max :=v_pjjj_max; 
+"
+FUN_GET_YPJJ	FUNCTION	104	"      					else 
+"
+FUN_GET_YPJJ	FUNCTION	105	"      						 Select jj 	 Into v_pjjj_max 
+"
+FUN_GET_YPJJ	FUNCTION	106	"      						 From yk_yprkdmx  
+"
+FUN_GET_YPJJ	FUNCTION	107	"      						 Where ypxh=ll_maxypxh and ypcddm=p_ypcddm and rkdh = v_rkdh and jj <> 0 and rownum = 1 ; 
+"
+FUN_GET_YPJJ	FUNCTION	108	"      					end if;				 
+"
+FUN_GET_YPJJ	FUNCTION	109	"      					If v_pjjj_max>0 then --取不到取批发价 
+"
+FUN_GET_YPJJ	FUNCTION	110	"                  v_pjjj_max:=v_pjjj_max; 
+"
+FUN_GET_YPJJ	FUNCTION	111	"      					Else 
+"
+FUN_GET_YPJJ	FUNCTION	112	"      					  select pfj into v_pjjj_max from gy_ypcdjg where ypxh=ll_maxypxh and ypcddm=p_ypcddm and  bmxh is null; 
+"
+FUN_GET_YPJJ	FUNCTION	113	"      					End if; 
+"
+FUN_GET_YPJJ	FUNCTION	114	"    elsif v_isget_jj = 5 then 
+"
+FUN_GET_YPJJ	FUNCTION	115	"      --新进价算法（加权平均值） 慈溪人民 取加权平均值 （药库月初库存总金额（期初库存 * 上月新进价） + 当月入库数量总额（入库量 * 进价）） / (期初库存数 + 入库量） 
+"
+FUN_GET_YPJJ	FUNCTION	116	"      select rtrim(dqdh) 
+"
+FUN_GET_YPJJ	FUNCTION	117	"        into v_dqdh 
+"
+FUN_GET_YPJJ	FUNCTION	118	"        from yk_crkfs 
+"
+FUN_GET_YPJJ	FUNCTION	119	"       where xtxh = v_ykxtxh 
+"
+FUN_GET_YPJJ	FUNCTION	120	"         and crkfsdm = 83; 
+"
+FUN_GET_YPJJ	FUNCTION	121	"      select sum(sl) 
+"
+FUN_GET_YPJJ	FUNCTION	122	"        into v_qckc 
+"
+FUN_GET_YPJJ	FUNCTION	123	"        from yk_Ypmxz 
+"
+FUN_GET_YPJJ	FUNCTION	124	"       where xtxh = v_ykxtxh 
+"
+FUN_GET_YPJJ	FUNCTION	125	"         and crkfsdm = 82 
+"
+FUN_GET_YPJJ	FUNCTION	126	"         and crkdh = v_dqdh 
+"
+FUN_GET_YPJJ	FUNCTION	127	"         and ypxh = ll_maxypxh 
+"
+FUN_GET_YPJJ	FUNCTION	128	"         and ypcddm = p_ypcddm; 
+"
+FUN_GET_YPJJ	FUNCTION	129	"      if v_qckc is null then 
+"
+FUN_GET_YPJJ	FUNCTION	130	"        v_qckc := 0; 
+"
+FUN_GET_YPJJ	FUNCTION	131	"      end if; 
+"
+FUN_GET_YPJJ	FUNCTION	132	"      select sum(sl) 
+"
+FUN_GET_YPJJ	FUNCTION	133	"        into v_rksl 
+"
+FUN_GET_YPJJ	FUNCTION	134	"        from yk_Ypmxz 
+"
+FUN_GET_YPJJ	FUNCTION	135	"       where xtxh = v_ykxtxh 
+"
+FUN_GET_YPJJ	FUNCTION	136	"         and crkfsdm = 1 
+"
+FUN_GET_YPJJ	FUNCTION	137	"         and crkdh like v_dqdh || '%' 
+"
+FUN_GET_YPJJ	FUNCTION	138	"         and ypxh = ll_maxypxh 
+"
+FUN_GET_YPJJ	FUNCTION	139	"         and ypcddm = p_ypcddm; 
+"
+FUN_GET_YPJJ	FUNCTION	140	"      if v_rksl is null then 
+"
+FUN_GET_YPJJ	FUNCTION	141	"        v_rksl := 0; 
+"
+FUN_GET_YPJJ	FUNCTION	142	"      end if; 
+"
+FUN_GET_YPJJ	FUNCTION	143	"      select round(sum(sl * jj), 2) 
+"
+FUN_GET_YPJJ	FUNCTION	144	"        into v_rkje 
+"
+FUN_GET_YPJJ	FUNCTION	145	"        from yk_Ypmxz 
+"
+FUN_GET_YPJJ	FUNCTION	146	"       where xtxh = v_ykxtxh 
+"
+FUN_GET_YPJJ	FUNCTION	147	"         and crkfsdm = 1 
+"
+FUN_GET_YPJJ	FUNCTION	148	"         and crkdh like v_dqdh || '%' 
+"
+FUN_GET_YPJJ	FUNCTION	149	"         and ypxh = ll_maxypxh 
+"
+FUN_GET_YPJJ	FUNCTION	150	"         and ypcddm = p_ypcddm; 
+"
+FUN_GET_YPJJ	FUNCTION	151	"      if v_rkje is null then 
+"
+FUN_GET_YPJJ	FUNCTION	152	"       v_rkje := 0; 
+"
+FUN_GET_YPJJ	FUNCTION	153	"      end if; 
+"
+FUN_GET_YPJJ	FUNCTION	154	"      select to_char(max(a.rkdh)) 
+"
+FUN_GET_YPJJ	FUNCTION	155	"        into v_rkdh 
+"
+FUN_GET_YPJJ	FUNCTION	156	"        from yk_Yprkd a, yk_Yprkdmx b 
+"
+FUN_GET_YPJJ	FUNCTION	157	"       where a.xtxh = b.xtxh 
+"
+FUN_GET_YPJJ	FUNCTION	158	"         and a.crkfsdm = b.crkfsdm 
+"
+FUN_GET_YPJJ	FUNCTION	159	"         and a.rkdh = b.rkdh 
+"
+FUN_GET_YPJJ	FUNCTION	160	"         and a.xtxh = v_ykxtxh 
+"
+FUN_GET_YPJJ	FUNCTION	161	"         and a.crkfsdm = 1 
+"
+FUN_GET_YPJJ	FUNCTION	162	"         and a.ydzbz = 1 
+"
+FUN_GET_YPJJ	FUNCTION	163	"         and a.rkdh like v_dqdh || '%' 
+"
+FUN_GET_YPJJ	FUNCTION	164	"         and b.ypxh = ll_maxypxh 
+"
+FUN_GET_YPJJ	FUNCTION	165	"         and b.ypcddm = p_ypcddm 
+"
+FUN_GET_YPJJ	FUNCTION	166	"         and b.jj > 0; 
+"
+FUN_GET_YPJJ	FUNCTION	167	"      if v_rkdh is null then 
+"
+FUN_GET_YPJJ	FUNCTION	168	"        select max(kcxh) 
+"
+FUN_GET_YPJJ	FUNCTION	169	"          into v_kcxh 
+"
+FUN_GET_YPJJ	FUNCTION	170	"          from yk_ypkczb 
+"
+FUN_GET_YPJJ	FUNCTION	171	"         where xtxh = v_ykxtxh 
+"
+FUN_GET_YPJJ	FUNCTION	172	"           and ypxh = ll_maxypxh 
+"
+FUN_GET_YPJJ	FUNCTION	173	"           and ypcddm = p_ypcddm; 
+"
+FUN_GET_YPJJ	FUNCTION	174	"           if v_kcxh is null then  
+"
+FUN_GET_YPJJ	FUNCTION	175	"          v_qcjj := 0; 
+"
+FUN_GET_YPJJ	FUNCTION	176	"        else 
+"
+FUN_GET_YPJJ	FUNCTION	177	"          select jj into v_qcjj from yk_ypkczb where xtxh = v_ykxtxh and  kcxh = v_kcxh; 
+"
+FUN_GET_YPJJ	FUNCTION	178	"        end if; 
+"
+FUN_GET_YPJJ	FUNCTION	179	"     else 
+"
+FUN_GET_YPJJ	FUNCTION	180	"        select jj 
+"
+FUN_GET_YPJJ	FUNCTION	181	"          into v_qcjj 
+"
+FUN_GET_YPJJ	FUNCTION	182	"         from yk_yprkdmx 
+"
+FUN_GET_YPJJ	FUNCTION	183	"        where xtxh = v_ykxtxh 
+"
+FUN_GET_YPJJ	FUNCTION	184	"          and crkfsdm = 1 
+"
+FUN_GET_YPJJ	FUNCTION	185	"          and rkdh = v_rkdh 
+"
+FUN_GET_YPJJ	FUNCTION	186	"           and ypxh = ll_maxypxh 
+"
+FUN_GET_YPJJ	FUNCTION	187	"       and ypcddm = p_ypcddm and  rownum=1; 
+"
+FUN_GET_YPJJ	FUNCTION	188	"     end if; 
+"
+FUN_GET_YPJJ	FUNCTION	189	"     if v_qckc + v_rksl = 0 then 
+"
+FUN_GET_YPJJ	FUNCTION	190	"        v_pjjj_max := 0; 
+"
+FUN_GET_YPJJ	FUNCTION	191	"      else 
+"
+FUN_GET_YPJJ	FUNCTION	192	"        v_pjjj_max := (v_qckc * v_qcjj + v_rkje) / (v_qckc + v_rksl); 
+"
+FUN_GET_YPJJ	FUNCTION	193	"      end if; 
+"
+FUN_GET_YPJJ	FUNCTION	194	"    --  elsif v_isget_jj=6 then 
+"
+FUN_GET_YPJJ	FUNCTION	195	"      --新增批次库存帐,根据策略(先进先出) 
+"
+FUN_GET_YPJJ	FUNCTION	196	"    --  elsif v_isget_jj=7 then 
+"
+FUN_GET_YPJJ	FUNCTION	197	"     -- 新增批次库存帐根据批次出库 
+"
+FUN_GET_YPJJ	FUNCTION	198	"    else 
+"
+FUN_GET_YPJJ	FUNCTION	199	"      RETURN(RESULT); 
+"
+FUN_GET_YPJJ	FUNCTION	200	"    end if; 
+"
+FUN_GET_YPJJ	FUNCTION	201	"    result := v_pjjj_max / ll_zdbzl * v_ypbzl; 
+"
+FUN_GET_YPJJ	FUNCTION	202	"    RETURN(RESULT); 
+"
+FUN_GET_YPJJ	FUNCTION	203	"  END; 
+"
+FUN_GET_YPJJ	FUNCTION	204	 

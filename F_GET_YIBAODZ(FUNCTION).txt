@@ -1,0 +1,28 @@
+F_GET_YIBAODZ	FUNCTION	1	"FUNCTION f_get_yibaodz (arg_yiyuandm in varchar2)
+"
+F_GET_YIBAODZ	FUNCTION	2	"return varchar2
+"
+F_GET_YIBAODZ	FUNCTION	3	"   is
+"
+F_GET_YIBAODZ	FUNCTION	4	"     ls_return varchar2(30);
+"
+F_GET_YIBAODZ	FUNCTION	5	"begin
+"
+F_GET_YIBAODZ	FUNCTION	6	"   select yibaodm into ls_return from yb_yibaozddz where yiyuandm = arg_yiyuandm;
+"
+F_GET_YIBAODZ	FUNCTION	7	"   if ls_return ='' then
+"
+F_GET_YIBAODZ	FUNCTION	8	"     ls_return := arg_yiyuandm;
+"
+F_GET_YIBAODZ	FUNCTION	9	"   end if;
+"
+F_GET_YIBAODZ	FUNCTION	10	"   return(ls_return);
+"
+F_GET_YIBAODZ	FUNCTION	11	"end;
+"
+F_GET_YIBAODZ	FUNCTION	12	"
+"
+F_GET_YIBAODZ	FUNCTION	13	"
+"
+F_GET_YIBAODZ	FUNCTION	14	"
+"

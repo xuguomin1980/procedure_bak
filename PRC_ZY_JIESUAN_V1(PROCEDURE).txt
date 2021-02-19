@@ -1,0 +1,284 @@
+PRC_ZY_JIESUAN_V1	PROCEDURE	1	"procedure prc_zy_jiesuan_V1(in_czgh in varchar2, in_patient_no in number,out_msg out varchar2 ) is
+"
+PRC_ZY_JIESUAN_V1	PROCEDURE	2	"
+"
+PRC_ZY_JIESUAN_V1	PROCEDURE	3	"v_brlb number;
+"
+PRC_ZY_JIESUAN_V1	PROCEDURE	4	"v_js_no number;
+"
+PRC_ZY_JIESUAN_V1	PROCEDURE	5	"v_preout_date varchar2(20);
+"
+PRC_ZY_JIESUAN_V1	PROCEDURE	6	"v_brxz varchar2(20);
+"
+PRC_ZY_JIESUAN_V1	PROCEDURE	7	"v_patient_no number;
+"
+PRC_ZY_JIESUAN_V1	PROCEDURE	8	"v_count number;
+"
+PRC_ZY_JIESUAN_V1	PROCEDURE	9	"v_czgh varchar2(20);
+"
+PRC_ZY_JIESUAN_V1	PROCEDURE	10	"v_infant_flag number;
+"
+PRC_ZY_JIESUAN_V1	PROCEDURE	11	"
+"
+PRC_ZY_JIESUAN_V1	PROCEDURE	12	"begin
+"
+PRC_ZY_JIESUAN_V1	PROCEDURE	13	"  out_msg:='无法处理，该存储过程已作废,请核实' ;
+"
+PRC_ZY_JIESUAN_V1	PROCEDURE	14	"        return ;
+"
+PRC_ZY_JIESUAN_V1	PROCEDURE	15	"        
+"
+PRC_ZY_JIESUAN_V1	PROCEDURE	16	"  out_msg:='ok';
+"
+PRC_ZY_JIESUAN_V1	PROCEDURE	17	"v_patient_no:=in_patient_no;
+"
+PRC_ZY_JIESUAN_V1	PROCEDURE	18	"v_czgh:=in_czgh;
+"
+PRC_ZY_JIESUAN_V1	PROCEDURE	19	"--注意事项 确保人工已经成功调用预结算，本地医保需要 上传明细，预结算  出院信息变更交易  操作工号签到流水号
+"
+PRC_ZY_JIESUAN_V1	PROCEDURE	20	"
+"
+PRC_ZY_JIESUAN_V1	PROCEDURE	21	" --判断是否有预出院日期，是否已经结算    out_msg:='找不到这个电脑号的记录'||out_msg||','||in_qtsfje ;
+"
+PRC_ZY_JIESUAN_V1	PROCEDURE	22	"
+"
+PRC_ZY_JIESUAN_V1	PROCEDURE	23	"    --select js_no,nvl(to_char(preout_date,'yyyy'),'0') ,nvl(brlb,0),nvl(brxz,'') into v_js_no,v_preout_date ,v_brlb,v_brxz from zy_patient_information where    patient_no=in_patient_no;
+"
+PRC_ZY_JIESUAN_V1	PROCEDURE	24	" 
+"
+PRC_ZY_JIESUAN_V1	PROCEDURE	25	" select nvl(js_no,0), nvl(brlb,0),nvl(brxz,'') ,nvl(to_char(preout_date,'yyyy'),'0') , infant_flag into v_js_no,v_brlb,v_brxz,v_preout_date  ,v_infant_flag from zy_patient_information where    patient_no=v_patient_no;
+"
+PRC_ZY_JIESUAN_V1	PROCEDURE	26	"
+"
+PRC_ZY_JIESUAN_V1	PROCEDURE	27	"
+"
+PRC_ZY_JIESUAN_V1	PROCEDURE	28	"
+"
+PRC_ZY_JIESUAN_V1	PROCEDURE	29	"   if v_js_no=0 then
+"
+PRC_ZY_JIESUAN_V1	PROCEDURE	30	"  out_msg:='ok';
+"
+PRC_ZY_JIESUAN_V1	PROCEDURE	31	"     else
+"
+PRC_ZY_JIESUAN_V1	PROCEDURE	32	"        out_msg:='无法结算，结算标志<>0,可能已经结算,请核实' ;
+"
+PRC_ZY_JIESUAN_V1	PROCEDURE	33	"        return ;
+"
+PRC_ZY_JIESUAN_V1	PROCEDURE	34	"   end if;
+"
+PRC_ZY_JIESUAN_V1	PROCEDURE	35	"
+"
+PRC_ZY_JIESUAN_V1	PROCEDURE	36	" if v_preout_date>'2000' then
+"
+PRC_ZY_JIESUAN_V1	PROCEDURE	37	"  out_msg:='ok';
+"
+PRC_ZY_JIESUAN_V1	PROCEDURE	38	"     else
+"
+PRC_ZY_JIESUAN_V1	PROCEDURE	39	"       out_msg:='无法结算，还未预出院,请核实' ;
+"
+PRC_ZY_JIESUAN_V1	PROCEDURE	40	"        return ;
+"
+PRC_ZY_JIESUAN_V1	PROCEDURE	41	"   end if;
+"
+PRC_ZY_JIESUAN_V1	PROCEDURE	42	"
+"
+PRC_ZY_JIESUAN_V1	PROCEDURE	43	"--判断 brlb,brxz是否正确
+"
+PRC_ZY_JIESUAN_V1	PROCEDURE	44	" if v_brlb=1 or v_brlb=27 then
+"
+PRC_ZY_JIESUAN_V1	PROCEDURE	45	"  out_msg:='ok';
+"
+PRC_ZY_JIESUAN_V1	PROCEDURE	46	"     else
+"
+PRC_ZY_JIESUAN_V1	PROCEDURE	47	"       out_msg:='无法结算，只支持自费或者本地医保,请核实' ;
+"
+PRC_ZY_JIESUAN_V1	PROCEDURE	48	"        return ;
+"
+PRC_ZY_JIESUAN_V1	PROCEDURE	49	"   end if;
+"
+PRC_ZY_JIESUAN_V1	PROCEDURE	50	"
+"
+PRC_ZY_JIESUAN_V1	PROCEDURE	51	"   if v_brlb=1  and v_brxz<>'1' then
+"
+PRC_ZY_JIESUAN_V1	PROCEDURE	52	"      out_msg:='无法结算，病人类别为自费，但是病人性质不是自费,请核实' ;
+"
+PRC_ZY_JIESUAN_V1	PROCEDURE	53	"        return ;
+"
+PRC_ZY_JIESUAN_V1	PROCEDURE	54	"   end if;
+"
+PRC_ZY_JIESUAN_V1	PROCEDURE	55	"
+"
+PRC_ZY_JIESUAN_V1	PROCEDURE	56	"   if v_brlb=27  and v_brxz<'YW' then
+"
+PRC_ZY_JIESUAN_V1	PROCEDURE	57	"      out_msg:='无法结算，病人类别为本地医保，但是病人性质不是医保,请核实' ;
+"
+PRC_ZY_JIESUAN_V1	PROCEDURE	58	"        return ;
+"
+PRC_ZY_JIESUAN_V1	PROCEDURE	59	"   end if;
+"
+PRC_ZY_JIESUAN_V1	PROCEDURE	60	"
+"
+PRC_ZY_JIESUAN_V1	PROCEDURE	61	"--判断医保病人 出院诊断 ICD10编码
+"
+PRC_ZY_JIESUAN_V1	PROCEDURE	62	"if v_brlb=27 then
+"
+PRC_ZY_JIESUAN_V1	PROCEDURE	63	"v_count:=0;
+"
+PRC_ZY_JIESUAN_V1	PROCEDURE	64	"Select count(icd10) Into v_count   From v_bl_bingrenzdqk Where  zhenduanlx In(3,4)
+"
+PRC_ZY_JIESUAN_V1	PROCEDURE	65	"		And icd10 Is Not null And bingrenid = v_patient_no   ;
+"
+PRC_ZY_JIESUAN_V1	PROCEDURE	66	"	If v_count > 0 Then
+"
+PRC_ZY_JIESUAN_V1	PROCEDURE	67	"    out_msg:='ok';
+"
+PRC_ZY_JIESUAN_V1	PROCEDURE	68	"    else
+"
+PRC_ZY_JIESUAN_V1	PROCEDURE	69	"      out_msg:='无法结算，(ICD10编码)出院诊断未录入,请联系病区';
+"
+PRC_ZY_JIESUAN_V1	PROCEDURE	70	"        return ; 
+"
+PRC_ZY_JIESUAN_V1	PROCEDURE	71	"    end if;
+"
+PRC_ZY_JIESUAN_V1	PROCEDURE	72	" end if; 
+"
+PRC_ZY_JIESUAN_V1	PROCEDURE	73	"
+"
+PRC_ZY_JIESUAN_V1	PROCEDURE	74	"
+"
+PRC_ZY_JIESUAN_V1	PROCEDURE	75	"--判断医保病人 未上传的明细
+"
+PRC_ZY_JIESUAN_V1	PROCEDURE	76	"if v_brlb=27 then
+"
+PRC_ZY_JIESUAN_V1	PROCEDURE	77	"v_count:=0;
+"
+PRC_ZY_JIESUAN_V1	PROCEDURE	78	"Select count(patient_no) Into v_count  From zy_detail_charge where patient_no = v_patient_no And to_char(scrq,'yyyy') = '1900';
+"
+PRC_ZY_JIESUAN_V1	PROCEDURE	79	"	If v_count = 0 Then
+"
+PRC_ZY_JIESUAN_V1	PROCEDURE	80	"    out_msg:='ok';
+"
+PRC_ZY_JIESUAN_V1	PROCEDURE	81	"    else
+"
+PRC_ZY_JIESUAN_V1	PROCEDURE	82	"      out_msg:='无法结算，还有未上传的明细';
+"
+PRC_ZY_JIESUAN_V1	PROCEDURE	83	"        return ; 
+"
+PRC_ZY_JIESUAN_V1	PROCEDURE	84	"    end if;
+"
+PRC_ZY_JIESUAN_V1	PROCEDURE	85	" end if; 
+"
+PRC_ZY_JIESUAN_V1	PROCEDURE	86	"
+"
+PRC_ZY_JIESUAN_V1	PROCEDURE	87	"--判断 明细 单价小于0
+"
+PRC_ZY_JIESUAN_V1	PROCEDURE	88	"
+"
+PRC_ZY_JIESUAN_V1	PROCEDURE	89	"v_count:=0;
+"
+PRC_ZY_JIESUAN_V1	PROCEDURE	90	"Select count(patient_no) Into v_count  From zy_detail_charge where patient_no = v_patient_no And nvl(dj,0)<=0;
+"
+PRC_ZY_JIESUAN_V1	PROCEDURE	91	"	If v_count = 0 Then
+"
+PRC_ZY_JIESUAN_V1	PROCEDURE	92	"    out_msg:='ok';
+"
+PRC_ZY_JIESUAN_V1	PROCEDURE	93	"    else
+"
+PRC_ZY_JIESUAN_V1	PROCEDURE	94	"      out_msg:='无法结算，有单价<0的明细';
+"
+PRC_ZY_JIESUAN_V1	PROCEDURE	95	"        return ; 
+"
+PRC_ZY_JIESUAN_V1	PROCEDURE	96	"    end if;
+"
+PRC_ZY_JIESUAN_V1	PROCEDURE	97	"
+"
+PRC_ZY_JIESUAN_V1	PROCEDURE	98	" --判断 费用大项的合计小于0
+"
+PRC_ZY_JIESUAN_V1	PROCEDURE	99	"
+"
+PRC_ZY_JIESUAN_V1	PROCEDURE	100	"v_count:=0;
+"
+PRC_ZY_JIESUAN_V1	PROCEDURE	101	"  select count(*) Into v_count from  (  select a.fygl,sum(a.dj*a.sl) zje from zy_detail_charge a where patient_no=v_patient_no   group by a.fygl having sum(a.dj*a.sl)<0  );
+"
+PRC_ZY_JIESUAN_V1	PROCEDURE	102	"	If v_count = 0 Then
+"
+PRC_ZY_JIESUAN_V1	PROCEDURE	103	"    out_msg:='ok';
+"
+PRC_ZY_JIESUAN_V1	PROCEDURE	104	"    else
+"
+PRC_ZY_JIESUAN_V1	PROCEDURE	105	"      out_msg:='无法结算，费用大项的合计小于0';
+"
+PRC_ZY_JIESUAN_V1	PROCEDURE	106	"        return ; 
+"
+PRC_ZY_JIESUAN_V1	PROCEDURE	107	"    end if;
+"
+PRC_ZY_JIESUAN_V1	PROCEDURE	108	"
+"
+PRC_ZY_JIESUAN_V1	PROCEDURE	109	" --判断 余额刚好=0
+"
+PRC_ZY_JIESUAN_V1	PROCEDURE	110	"
+"
+PRC_ZY_JIESUAN_V1	PROCEDURE	111	"v_count:=0;
+"
+PRC_ZY_JIESUAN_V1	PROCEDURE	112	"select count(*) Into v_count from zy_yujiaokuancx where patient_no=v_patient_no and nvl(yue,0.00)=0.00 ;
+"
+PRC_ZY_JIESUAN_V1	PROCEDURE	113	"	If v_count = 0 Then
+"
+PRC_ZY_JIESUAN_V1	PROCEDURE	114	"    out_msg:='ok';
+"
+PRC_ZY_JIESUAN_V1	PROCEDURE	115	"    else
+"
+PRC_ZY_JIESUAN_V1	PROCEDURE	116	"      out_msg:='无法结算，余额没有刚好等于00';
+"
+PRC_ZY_JIESUAN_V1	PROCEDURE	117	"        return ; 
+"
+PRC_ZY_JIESUAN_V1	PROCEDURE	118	"    end if;
+"
+PRC_ZY_JIESUAN_V1	PROCEDURE	119	"
+"
+PRC_ZY_JIESUAN_V1	PROCEDURE	120	"
+"
+PRC_ZY_JIESUAN_V1	PROCEDURE	121	"--更新 zy_detail_charge 费用明细表
+"
+PRC_ZY_JIESUAN_V1	PROCEDURE	122	"v_js_no:=v_js_no +1;
+"
+PRC_ZY_JIESUAN_V1	PROCEDURE	123	" update zy_detail_charge set js_no=v_js_no where patient_no=v_patient_no and js_no=0;
+"
+PRC_ZY_JIESUAN_V1	PROCEDURE	124	"
+"
+PRC_ZY_JIESUAN_V1	PROCEDURE	125	" if sqlcode=0 then 
+"
+PRC_ZY_JIESUAN_V1	PROCEDURE	126	"    out_msg:='ok';
+"
+PRC_ZY_JIESUAN_V1	PROCEDURE	127	"    else
+"
+PRC_ZY_JIESUAN_V1	PROCEDURE	128	"      out_msg:='无法结算，更新失败 zy_detail_charge 费用明细表';
+"
+PRC_ZY_JIESUAN_V1	PROCEDURE	129	"        return ; 
+"
+PRC_ZY_JIESUAN_V1	PROCEDURE	130	" end if;
+"
+PRC_ZY_JIESUAN_V1	PROCEDURE	131	" 
+"
+PRC_ZY_JIESUAN_V1	PROCEDURE	132	"
+"
+PRC_ZY_JIESUAN_V1	PROCEDURE	133	"--if in_qtsffs=26 then
+"
+PRC_ZY_JIESUAN_V1	PROCEDURE	134	" --  update mz_mzsfk1  set   qtsfje=nvl(xj,0)+nvl(qtsfje,0),xj=0  where sfsb=in_sfsb and  rbrq is null ;
+"
+PRC_ZY_JIESUAN_V1	PROCEDURE	135	" --  commit;
+"
+PRC_ZY_JIESUAN_V1	PROCEDURE	136	" -- out_msg:=in_sfsb||'修改成银行刷卡，处理成功';
+"
+PRC_ZY_JIESUAN_V1	PROCEDURE	137	"--end if;
+"
+PRC_ZY_JIESUAN_V1	PROCEDURE	138	"
+"
+PRC_ZY_JIESUAN_V1	PROCEDURE	139	"
+"
+PRC_ZY_JIESUAN_V1	PROCEDURE	140	"return;
+"
+PRC_ZY_JIESUAN_V1	PROCEDURE	141	"
+"
+PRC_ZY_JIESUAN_V1	PROCEDURE	142	"end prc_zy_jiesuan_V1;
+"

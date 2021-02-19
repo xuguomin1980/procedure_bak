@@ -1,0 +1,16 @@
+FUN_GET_GYDM	FUNCTION	1	"function FUN_get_gydm(arg_dm in varchar2,arg_dmlb in varchar2)
+"
+FUN_GET_GYDM	FUNCTION	2	"  return varchar2
+"
+FUN_GET_GYDM	FUNCTION	3	"  is
+"
+FUN_GET_GYDM	FUNCTION	4	"    ls_return varchar2(30);
+"
+FUN_GET_GYDM	FUNCTION	5	"  begin
+"
+FUN_GET_GYDM	FUNCTION	6	"    select mc into ls_return from gy_gydm where dm=to_number(arg_dm) and dmlb = to_number(arg_dmlb);
+"
+FUN_GET_GYDM	FUNCTION	7	"    return(ls_return);
+"
+FUN_GET_GYDM	FUNCTION	8	" end;
+"

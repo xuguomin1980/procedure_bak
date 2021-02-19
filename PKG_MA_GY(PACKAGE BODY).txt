@@ -1,0 +1,672 @@
+PKG_MA_GY	PACKAGE BODY	1	"PACKAGE BODY         ""PKG_MA_GY"" is
+"
+PKG_MA_GY	PACKAGE BODY	2	"
+"
+PKG_MA_GY	PACKAGE BODY	3	"   -- 全局变量
+"
+PKG_MA_GY	PACKAGE BODY	4	"   gn_SystemError   CONSTANT number  := -1;
+"
+PKG_MA_GY	PACKAGE BODY	5	"   gn_SystemSuccess CONSTANT number  := 0;
+"
+PKG_MA_GY	PACKAGE BODY	6	"   gstr_Sql Varchar2(1000);
+"
+PKG_MA_GY	PACKAGE BODY	7	"   gstr_InBuffer Varchar2(1000);
+"
+PKG_MA_GY	PACKAGE BODY	8	"
+"
+PKG_MA_GY	PACKAGE BODY	9	"
+"
+PKG_MA_GY	PACKAGE BODY	10	"   TYPE ty_str_split IS TABLE OF VARCHAR2 (4000);
+"
+PKG_MA_GY	PACKAGE BODY	11	"   -- 用指定分隔符切割输入的字符串，返回一维数组，每个数组元素为一个子串。
+"
+PKG_MA_GY	PACKAGE BODY	12	"
+"
+PKG_MA_GY	PACKAGE BODY	13	"   FUNCTION Fun_split (p_str IN VARCHAR2, p_delimiter IN VARCHAR2)
+"
+PKG_MA_GY	PACKAGE BODY	14	"   RETURN ty_str_split
+"
+PKG_MA_GY	PACKAGE BODY	15	"    IS
+"
+PKG_MA_GY	PACKAGE BODY	16	"      j INT := 0;
+"
+PKG_MA_GY	PACKAGE BODY	17	"      i INT := 1;
+"
+PKG_MA_GY	PACKAGE BODY	18	"      len INT := 0;
+"
+PKG_MA_GY	PACKAGE BODY	19	"      len1 INT := 0;
+"
+PKG_MA_GY	PACKAGE BODY	20	"      str VARCHAR2 (4000);
+"
+PKG_MA_GY	PACKAGE BODY	21	"      str_split ty_str_split := ty_str_split ();
+"
+PKG_MA_GY	PACKAGE BODY	22	"    BEGIN
+"
+PKG_MA_GY	PACKAGE BODY	23	"      len := LENGTH (p_str);
+"
+PKG_MA_GY	PACKAGE BODY	24	"      len1 := LENGTH (p_delimiter);
+"
+PKG_MA_GY	PACKAGE BODY	25	"
+"
+PKG_MA_GY	PACKAGE BODY	26	"    WHILE j < len
+"
+PKG_MA_GY	PACKAGE BODY	27	"      LOOP
+"
+PKG_MA_GY	PACKAGE BODY	28	"          j := INSTR (p_str, p_delimiter, i);
+"
+PKG_MA_GY	PACKAGE BODY	29	"
+"
+PKG_MA_GY	PACKAGE BODY	30	"          IF j = 0
+"
+PKG_MA_GY	PACKAGE BODY	31	"          THEN
+"
+PKG_MA_GY	PACKAGE BODY	32	"              j := len;
+"
+PKG_MA_GY	PACKAGE BODY	33	"               str := SUBSTR (p_str, i);
+"
+PKG_MA_GY	PACKAGE BODY	34	"               str_split.EXTEND;
+"
+PKG_MA_GY	PACKAGE BODY	35	"               str_split (str_split.COUNT) := str;
+"
+PKG_MA_GY	PACKAGE BODY	36	"
+"
+PKG_MA_GY	PACKAGE BODY	37	"              IF i >= len
+"
+PKG_MA_GY	PACKAGE BODY	38	"              THEN
+"
+PKG_MA_GY	PACKAGE BODY	39	"                  EXIT;
+"
+PKG_MA_GY	PACKAGE BODY	40	"              END IF;
+"
+PKG_MA_GY	PACKAGE BODY	41	"          ELSE
+"
+PKG_MA_GY	PACKAGE BODY	42	"              str := SUBSTR (p_str, i, j - i);
+"
+PKG_MA_GY	PACKAGE BODY	43	"              i := j + len1;
+"
+PKG_MA_GY	PACKAGE BODY	44	"              str_split.EXTEND;
+"
+PKG_MA_GY	PACKAGE BODY	45	"              str_split (str_split.COUNT) := str;
+"
+PKG_MA_GY	PACKAGE BODY	46	"          END IF;
+"
+PKG_MA_GY	PACKAGE BODY	47	"      END LOOP;
+"
+PKG_MA_GY	PACKAGE BODY	48	"
+"
+PKG_MA_GY	PACKAGE BODY	49	"    RETURN str_split;
+"
+PKG_MA_GY	PACKAGE BODY	50	"    END Fun_split;
+"
+PKG_MA_GY	PACKAGE BODY	51	"
+"
+PKG_MA_GY	PACKAGE BODY	52	"   -- 函数：按指定分隔符拆分字符串
+"
+PKG_MA_GY	PACKAGE BODY	53	"   -- 参数：1.待拆分的字符串
+"
+PKG_MA_GY	PACKAGE BODY	54	"   --       2.分隔符号
+"
+PKG_MA_GY	PACKAGE BODY	55	"   -- 注意：Prm_Source在函数执行后为分隔符号后面的字符串
+"
+PKG_MA_GY	PACKAGE BODY	56	"   Function Fun_GetToken(Prm_source    in out Varchar2,
+"
+PKG_MA_GY	PACKAGE BODY	57	"                            Prm_separator in Varchar2) Return Varchar2 Is
+"
+PKG_MA_GY	PACKAGE BODY	58	"     Result varchar2(400);
+"
+PKG_MA_GY	PACKAGE BODY	59	"     n_p        Number(3);
+"
+PKG_MA_GY	PACKAGE BODY	60	"     n_i        Number(3);
+"
+PKG_MA_GY	PACKAGE BODY	61	"
+"
+PKG_MA_GY	PACKAGE BODY	62	"     Begin
+"
+PKG_MA_GY	PACKAGE BODY	63	"       If prm_source Is Null Then
+"
+PKG_MA_GY	PACKAGE BODY	64	"              prm_source := '';
+"
+PKG_MA_GY	PACKAGE BODY	65	"              Result := '';
+"
+PKG_MA_GY	PACKAGE BODY	66	"              return(Result);
+"
+PKG_MA_GY	PACKAGE BODY	67	"        End If;
+"
+PKG_MA_GY	PACKAGE BODY	68	"
+"
+PKG_MA_GY	PACKAGE BODY	69	"        n_p := Instr(Prm_source,Prm_separator,1,1);
+"
+PKG_MA_GY	PACKAGE BODY	70	"        n_i := Length(Prm_separator);
+"
+PKG_MA_GY	PACKAGE BODY	71	"
+"
+PKG_MA_GY	PACKAGE BODY	72	"        If n_p = 0 Then
+"
+PKG_MA_GY	PACKAGE BODY	73	"           Result     := Prm_source;
+"
+PKG_MA_GY	PACKAGE BODY	74	"           prm_source := '';
+"
+PKG_MA_GY	PACKAGE BODY	75	"        Else
+"
+PKG_MA_GY	PACKAGE BODY	76	"           Result     := Substr(Prm_source,1,n_p - 1);
+"
+PKG_MA_GY	PACKAGE BODY	77	"           prm_source := Substr(Prm_source,n_p+n_i);
+"
+PKG_MA_GY	PACKAGE BODY	78	"        End If;
+"
+PKG_MA_GY	PACKAGE BODY	79	"
+"
+PKG_MA_GY	PACKAGE BODY	80	"        Return(Result);
+"
+PKG_MA_GY	PACKAGE BODY	81	"     End fun_gettoken;
+"
+PKG_MA_GY	PACKAGE BODY	82	"
+"
+PKG_MA_GY	PACKAGE BODY	83	"   -- 函数：返回指定sql的结果集，支持分页
+"
+PKG_MA_GY	PACKAGE BODY	84	"   -- 参数：Sql，实体名称，页号，SessionID
+"
+PKG_MA_GY	PACKAGE BODY	85	"   Function   Fun_GetData(prm_Sql       Varchar2,
+"
+PKG_MA_GY	PACKAGE BODY	86	"                          prm_AppCode   in Out Number,
+"
+PKG_MA_GY	PACKAGE BODY	87	"                          prm_OutBuffer Out Varchar2
+"
+PKG_MA_GY	PACKAGE BODY	88	"                          )   Return   t_DataResult is
+"
+PKG_MA_GY	PACKAGE BODY	89	"
+"
+PKG_MA_GY	PACKAGE BODY	90	"      c_DataResult   t_DataResult;
+"
+PKG_MA_GY	PACKAGE BODY	91	"
+"
+PKG_MA_GY	PACKAGE BODY	92	"       Begin
+"
+PKG_MA_GY	PACKAGE BODY	93	"          prm_AppCode   := gn_SystemSuccess;
+"
+PKG_MA_GY	PACKAGE BODY	94	"          prm_OutBuffer := prm_Sql;
+"
+PKG_MA_GY	PACKAGE BODY	95	"          Open   c_DataResult   for   prm_Sql   ;
+"
+PKG_MA_GY	PACKAGE BODY	96	"          Return   c_DataResult;
+"
+PKG_MA_GY	PACKAGE BODY	97	"       Exception
+"
+PKG_MA_GY	PACKAGE BODY	98	"          When OTHERS Then
+"
+PKG_MA_GY	PACKAGE BODY	99	"             prm_AppCode := -1;
+"
+PKG_MA_GY	PACKAGE BODY	100	"             prm_OutBuffer := SQLERRM||'('||prm_Sql||')';
+"
+PKG_MA_GY	PACKAGE BODY	101	"             close c_DataResult;
+"
+PKG_MA_GY	PACKAGE BODY	102	"             Return   c_DataResult;
+"
+PKG_MA_GY	PACKAGE BODY	103	"
+"
+PKG_MA_GY	PACKAGE BODY	104	"   End Fun_GetData;
+"
+PKG_MA_GY	PACKAGE BODY	105	"
+"
+PKG_MA_GY	PACKAGE BODY	106	"   -- 获取数据集
+"
+PKG_MA_GY	PACKAGE BODY	107	"   Function   Fun_GetData(prm_Sql       Varchar2,
+"
+PKG_MA_GY	PACKAGE BODY	108	"                          prm_PageNo    Varchar2,
+"
+PKG_MA_GY	PACKAGE BODY	109	"                          prm_Entity    Varchar2,
+"
+PKG_MA_GY	PACKAGE BODY	110	"                          prm_SessionID Varchar2,
+"
+PKG_MA_GY	PACKAGE BODY	111	"                          prm_AppCode   in out Number,
+"
+PKG_MA_GY	PACKAGE BODY	112	"                          prm_OutBuffer Out Varchar2
+"
+PKG_MA_GY	PACKAGE BODY	113	"                          )   Return   t_DataResult is
+"
+PKG_MA_GY	PACKAGE BODY	114	"
+"
+PKG_MA_GY	PACKAGE BODY	115	"       c_DataResult   t_DataResult;
+"
+PKG_MA_GY	PACKAGE BODY	116	"       n_StartPage Number;  -- 起始页号
+"
+PKG_MA_GY	PACKAGE BODY	117	"       n_EndPage   Number;  -- 结束页号
+"
+PKG_MA_GY	PACKAGE BODY	118	"
+"
+PKG_MA_GY	PACKAGE BODY	119	"       Begin
+"
+PKG_MA_GY	PACKAGE BODY	120	"          prm_AppCode   := gn_SystemSuccess;
+"
+PKG_MA_GY	PACKAGE BODY	121	"
+"
+PKG_MA_GY	PACKAGE BODY	122	"
+"
+PKG_MA_GY	PACKAGE BODY	123	"          If Nvl(prm_PageNo,0) <> 0 Then
+"
+PKG_MA_GY	PACKAGE BODY	124	"             n_StartPage:= (To_Number(Prm_PageNo)-1) * 10;
+"
+PKG_MA_GY	PACKAGE BODY	125	"             n_EndPage  := n_StartPage + 9;
+"
+PKG_MA_GY	PACKAGE BODY	126	"             gstr_Sql    := 'Select * From (Select z.*,RowNum rn From ('||prm_Sql||' ) z Where rownum<='||to_char(n_EndPage||') Where RN>='||To_Char(n_StartPage));
+"
+PKG_MA_GY	PACKAGE BODY	127	"          Else
+"
+PKG_MA_GY	PACKAGE BODY	128	"             gstr_Sql    := prm_Sql;
+"
+PKG_MA_GY	PACKAGE BODY	129	"          End if;
+"
+PKG_MA_GY	PACKAGE BODY	130	"
+"
+PKG_MA_GY	PACKAGE BODY	131	"          prm_OutBuffer := gstr_Sql;
+"
+PKG_MA_GY	PACKAGE BODY	132	"          Open   c_DataResult   for   gstr_Sql   ;
+"
+PKG_MA_GY	PACKAGE BODY	133	"          Return   c_DataResult;
+"
+PKG_MA_GY	PACKAGE BODY	134	"
+"
+PKG_MA_GY	PACKAGE BODY	135	"       Exception
+"
+PKG_MA_GY	PACKAGE BODY	136	"          When OTHERS Then
+"
+PKG_MA_GY	PACKAGE BODY	137	"             prm_AppCode   := -1;
+"
+PKG_MA_GY	PACKAGE BODY	138	"             prm_OutBuffer := SQLERRM||'('||prm_Sql||')';
+"
+PKG_MA_GY	PACKAGE BODY	139	"             close c_DataResult;
+"
+PKG_MA_GY	PACKAGE BODY	140	"             Return   c_DataResult;
+"
+PKG_MA_GY	PACKAGE BODY	141	"
+"
+PKG_MA_GY	PACKAGE BODY	142	"   End Fun_GetData;
+"
+PKG_MA_GY	PACKAGE BODY	143	"
+"
+PKG_MA_GY	PACKAGE BODY	144	"    Function Fun_ToDate(Prm_Date in Varchar2) Return Date Is
+"
+PKG_MA_GY	PACKAGE BODY	145	"    Begin
+"
+PKG_MA_GY	PACKAGE BODY	146	"       Return to_Date(Prm_Date,'yyyy-mm-dd,hh24:mi:ss');
+"
+PKG_MA_GY	PACKAGE BODY	147	"    Exception
+"
+PKG_MA_GY	PACKAGE BODY	148	"       When OTHERS Then
+"
+PKG_MA_GY	PACKAGE BODY	149	"          Return null;
+"
+PKG_MA_GY	PACKAGE BODY	150	"    End Fun_ToDate;
+"
+PKG_MA_GY	PACKAGE BODY	151	"
+"
+PKG_MA_GY	PACKAGE BODY	152	"   -- 获取床位列表
+"
+PKG_MA_GY	PACKAGE BODY	153	"   Procedure Prc_GetCwlb  (Prm_FuncID     in  Varchar2,              --功能ID
+"
+PKG_MA_GY	PACKAGE BODY	154	"                           prm_InBuffer   in  Varchar2,              --范围类型|范围内容（1：病区，2：医疗组，3：主治医生，4：责任护士）
+"
+PKG_MA_GY	PACKAGE BODY	155	"                           Prm_AppCode    out Number,                --执行结果
+"
+PKG_MA_GY	PACKAGE BODY	156	"                           Prm_SessionID  out Varchar2,              --进程ID
+"
+PKG_MA_GY	PACKAGE BODY	157	"                           Prm_OutBuffer  out Varchar2,              --执行文本输出
+"
+PKG_MA_GY	PACKAGE BODY	158	"                           Prm_DataResult out t_DataResult           --执行结果集输出
+"
+PKG_MA_GY	PACKAGE BODY	159	"                           ) is
+"
+PKG_MA_GY	PACKAGE BODY	160	"   start_Page Number;  -- 起始页号
+"
+PKG_MA_GY	PACKAGE BODY	161	"   end_Page Number;    -- 结束页号
+"
+PKG_MA_GY	PACKAGE BODY	162	"   no_Page Number;     -- 不分页
+"
+PKG_MA_GY	PACKAGE BODY	163	"
+"
+PKG_MA_GY	PACKAGE BODY	164	"   str_FWNR Varchar2(100);
+"
+PKG_MA_GY	PACKAGE BODY	165	"   str_FWLX Varchar2(10);
+"
+PKG_MA_GY	PACKAGE BODY	166	"   str_InBuffer Varchar2(100);
+"
+PKG_MA_GY	PACKAGE BODY	167	"   str_Where    Varchar2(100);
+"
+PKG_MA_GY	PACKAGE BODY	168	"   str_Hldj     Varchar2(10);
+"
+PKG_MA_GY	PACKAGE BODY	169	"   Begin
+"
+PKG_MA_GY	PACKAGE BODY	170	"      Prm_AppCode := gn_SystemSuccess;
+"
+PKG_MA_GY	PACKAGE BODY	171	"      str_InBuffer:= prm_InBuffer;
+"
+PKG_MA_GY	PACKAGE BODY	172	"      str_FWLX := Fun_GetToken(str_InBuffer,'|');
+"
+PKG_MA_GY	PACKAGE BODY	173	"      str_FWNR := Fun_GetToken(str_InBuffer,'|');
+"
+PKG_MA_GY	PACKAGE BODY	174	"      Case str_FWLX
+"
+PKG_MA_GY	PACKAGE BODY	175	"            When '1' Then  -- 病区
+"
+PKG_MA_GY	PACKAGE BODY	176	"               str_Where := ' BQDM = '''||str_FWNR|| '''';
+"
+PKG_MA_GY	PACKAGE BODY	177	"            When '2' Then  -- 医疗组
+"
+PKG_MA_GY	PACKAGE BODY	178	"               str_Where := ' YLZ  = '''||str_FWNR|| '''';
+"
+PKG_MA_GY	PACKAGE BODY	179	"            When '3' Then  -- 主治医师
+"
+PKG_MA_GY	PACKAGE BODY	180	"               str_Where := ' ZZYS = '''||str_FWNR|| '''';
+"
+PKG_MA_GY	PACKAGE BODY	181	"            When '4' Then  -- 责任护士
+"
+PKG_MA_GY	PACKAGE BODY	182	"               str_Where := ' ZRHS = '''||str_FWNR|| '''';
+"
+PKG_MA_GY	PACKAGE BODY	183	"      End Case;
+"
+PKG_MA_GY	PACKAGE BODY	184	"
+"
+PKG_MA_GY	PACKAGE BODY	185	"      Case Prm_FuncID
+"
+PKG_MA_GY	PACKAGE BODY	186	"         When '1' Then
+"
+PKG_MA_GY	PACKAGE BODY	187	"            null;
+"
+PKG_MA_GY	PACKAGE BODY	188	"         When '2' Then -- 按状态
+"
+PKG_MA_GY	PACKAGE BODY	189	"            gstr_Sql := 'Select * From E_CW  Where'||str_Where;
+"
+PKG_MA_GY	PACKAGE BODY	190	"         When '3' Then -- 按护理等级
+"
+PKG_MA_GY	PACKAGE BODY	191	"            str_Hldj := Fun_GetToken(str_InBuffer,'|');
+"
+PKG_MA_GY	PACKAGE BODY	192	"            gstr_Sql := 'Select * From E_CW  Where'||str_Where||' and HL = '''||str_Hldj||'''';
+"
+PKG_MA_GY	PACKAGE BODY	193	"         When '4' Then
+"
+PKG_MA_GY	PACKAGE BODY	194	"            null;
+"
+PKG_MA_GY	PACKAGE BODY	195	"      End Case;
+"
+PKG_MA_GY	PACKAGE BODY	196	"
+"
+PKG_MA_GY	PACKAGE BODY	197	"      prm_DataResult:= Fun_GetData(gstr_Sql,prm_AppCode,Prm_OutBuffer);
+"
+PKG_MA_GY	PACKAGE BODY	198	"   Exception
+"
+PKG_MA_GY	PACKAGE BODY	199	"      When others then
+"
+PKG_MA_GY	PACKAGE BODY	200	"         prm_AppCode  := gn_SystemError;
+"
+PKG_MA_GY	PACKAGE BODY	201	"         prm_OutBuffer:= '调用Prc_getCWLB,原因:'||sqlerrm;
+"
+PKG_MA_GY	PACKAGE BODY	202	"   End Prc_getCWLB;
+"
+PKG_MA_GY	PACKAGE BODY	203	"
+"
+PKG_MA_GY	PACKAGE BODY	204	"   -- 获取病人信息
+"
+PKG_MA_GY	PACKAGE BODY	205	"   Procedure Prc_GetBrxx  (prm_FuncID     in  Varchar2,              --功能ID（1：病人概要，2：费用明细，3：过敏史）
+"
+PKG_MA_GY	PACKAGE BODY	206	"                           prm_InBuffer   in  Varchar2,              --病人住院ID
+"
+PKG_MA_GY	PACKAGE BODY	207	"                           prm_AppCode    out Number,                --执行结果
+"
+PKG_MA_GY	PACKAGE BODY	208	"                           prm_SessionID  out Varchar2,              --进程ID
+"
+PKG_MA_GY	PACKAGE BODY	209	"                           prm_OutBuffer  out Varchar2,              --执行文本输出
+"
+PKG_MA_GY	PACKAGE BODY	210	"                           prm_DataResult out t_DataResult           --执行结果集输出
+"
+PKG_MA_GY	PACKAGE BODY	211	"                           ) is
+"
+PKG_MA_GY	PACKAGE BODY	212	"
+"
+PKG_MA_GY	PACKAGE BODY	213	"   Begin
+"
+PKG_MA_GY	PACKAGE BODY	214	"      prm_AppCode := gn_SystemSuccess;
+"
+PKG_MA_GY	PACKAGE BODY	215	"      Case prm_FuncID
+"
+PKG_MA_GY	PACKAGE BODY	216	"         When '1' Then
+"
+PKG_MA_GY	PACKAGE BODY	217	"            gstr_Sql := 'Select * From E_BR Where BRZYID = '''||prm_InBuffer||'''';
+"
+PKG_MA_GY	PACKAGE BODY	218	"         When '2' Then
+"
+PKG_MA_GY	PACKAGE BODY	219	"            null;
+"
+PKG_MA_GY	PACKAGE BODY	220	"      End Case;
+"
+PKG_MA_GY	PACKAGE BODY	221	"      prm_DataResult:= Fun_GetData(gstr_Sql,prm_AppCode,Prm_OutBuffer);
+"
+PKG_MA_GY	PACKAGE BODY	222	"      prm_OutBuffer := gstr_Sql;
+"
+PKG_MA_GY	PACKAGE BODY	223	"   Exception
+"
+PKG_MA_GY	PACKAGE BODY	224	"      When others then
+"
+PKG_MA_GY	PACKAGE BODY	225	"         prm_AppCode  := -1;
+"
+PKG_MA_GY	PACKAGE BODY	226	"         prm_OutBuffer:= '调用Prc_GetBRXX失败,原因:'||sqlerrm;
+"
+PKG_MA_GY	PACKAGE BODY	227	"   End Prc_GetBRXX;
+"
+PKG_MA_GY	PACKAGE BODY	228	"
+"
+PKG_MA_GY	PACKAGE BODY	229	"
+"
+PKG_MA_GY	PACKAGE BODY	230	"   -- 获取用户信息（登录身份验证）
+"
+PKG_MA_GY	PACKAGE BODY	231	"   Procedure Prc_GetYhxx  (prm_FuncID     in  Varchar2,              --功能ID（1：身份验证）
+"
+PKG_MA_GY	PACKAGE BODY	232	"                           prm_InBuffer   in  Varchar2,              --入参
+"
+PKG_MA_GY	PACKAGE BODY	233	"                           prm_AppCode    out Number,                --执行结果
+"
+PKG_MA_GY	PACKAGE BODY	234	"                           prm_SessionID  out Varchar2,              --进程ID
+"
+PKG_MA_GY	PACKAGE BODY	235	"                           prm_OutBuffer  out Varchar2,              --执行文本输出
+"
+PKG_MA_GY	PACKAGE BODY	236	"                           prm_DataResult out t_DataResult           --执行结果集输出
+"
+PKG_MA_GY	PACKAGE BODY	237	"                           ) is
+"
+PKG_MA_GY	PACKAGE BODY	238	"   str_Yhid Varchar2(10);
+"
+PKG_MA_GY	PACKAGE BODY	239	"
+"
+PKG_MA_GY	PACKAGE BODY	240	"   Begin
+"
+PKG_MA_GY	PACKAGE BODY	241	"      prm_AppCode := gn_SystemSuccess;
+"
+PKG_MA_GY	PACKAGE BODY	242	"      gstr_InBuffer:= prm_InBuffer;
+"
+PKG_MA_GY	PACKAGE BODY	243	"
+"
+PKG_MA_GY	PACKAGE BODY	244	"      str_Yhid := Fun_GetToken(gstr_InBuffer,'|');
+"
+PKG_MA_GY	PACKAGE BODY	245	"      gstr_Sql := 'Select * From E_YH Where XTXH=33 AND ZGGH = '''||str_Yhid||'''';
+"
+PKG_MA_GY	PACKAGE BODY	246	"      prm_DataResult := Fun_GetData(gstr_Sql,prm_AppCode,prm_OutBuffer);
+"
+PKG_MA_GY	PACKAGE BODY	247	"   Exception
+"
+PKG_MA_GY	PACKAGE BODY	248	"      When others then
+"
+PKG_MA_GY	PACKAGE BODY	249	"         prm_AppCode  := gn_SystemError;
+"
+PKG_MA_GY	PACKAGE BODY	250	"         prm_OutBuffer:= '调用Prc_GetYhxx,原因:'||sqlerrm;
+"
+PKG_MA_GY	PACKAGE BODY	251	"   End Prc_GetYhxx;
+"
+PKG_MA_GY	PACKAGE BODY	252	"
+"
+PKG_MA_GY	PACKAGE BODY	253	"   -- 获取病区信息
+"
+PKG_MA_GY	PACKAGE BODY	254	"   Procedure Prc_GetBqxx  (prm_FuncID     in  Varchar2,              --功能ID（1：病区列表）
+"
+PKG_MA_GY	PACKAGE BODY	255	"                           prm_InBuffer   in  Varchar2,              --入参
+"
+PKG_MA_GY	PACKAGE BODY	256	"                           prm_AppCode    out Number,                --执行结果
+"
+PKG_MA_GY	PACKAGE BODY	257	"                           prm_SessionID  out Varchar2,              --进程ID
+"
+PKG_MA_GY	PACKAGE BODY	258	"                           prm_OutBuffer  out Varchar2,              --执行文本输出
+"
+PKG_MA_GY	PACKAGE BODY	259	"                           prm_DataResult out t_DataResult           --执行结果集输出
+"
+PKG_MA_GY	PACKAGE BODY	260	"                           ) is
+"
+PKG_MA_GY	PACKAGE BODY	261	"
+"
+PKG_MA_GY	PACKAGE BODY	262	"   Begin
+"
+PKG_MA_GY	PACKAGE BODY	263	"      prm_AppCode := gn_SystemSuccess;
+"
+PKG_MA_GY	PACKAGE BODY	264	"      gstr_InBuffer:= prm_InBuffer;
+"
+PKG_MA_GY	PACKAGE BODY	265	"
+"
+PKG_MA_GY	PACKAGE BODY	266	"      gstr_Sql := 'Select * From E_BQ ';
+"
+PKG_MA_GY	PACKAGE BODY	267	"      prm_DataResult := Fun_GetData(gstr_Sql,prm_AppCode,prm_OutBuffer);
+"
+PKG_MA_GY	PACKAGE BODY	268	"   Exception
+"
+PKG_MA_GY	PACKAGE BODY	269	"      When others then
+"
+PKG_MA_GY	PACKAGE BODY	270	"         prm_AppCode  := gn_SystemError;
+"
+PKG_MA_GY	PACKAGE BODY	271	"         prm_OutBuffer:= '调用Prc_GetBqxx,原因:'||sqlerrm;
+"
+PKG_MA_GY	PACKAGE BODY	272	"   End Prc_GetBqxx;
+"
+PKG_MA_GY	PACKAGE BODY	273	"
+"
+PKG_MA_GY	PACKAGE BODY	274	"
+"
+PKG_MA_GY	PACKAGE BODY	275	"
+"
+PKG_MA_GY	PACKAGE BODY	276	"    -- 获取系统参数
+"
+PKG_MA_GY	PACKAGE BODY	277	"   Procedure Prc_GetXtcs  (prm_FuncID     in  Varchar2,              --功能ID（1：指定参数，2：指定应用）
+"
+PKG_MA_GY	PACKAGE BODY	278	"                           prm_InBuffer   in  Varchar2,              --病人住院ID
+"
+PKG_MA_GY	PACKAGE BODY	279	"                           prm_AppCode    out Number,                --执行结果
+"
+PKG_MA_GY	PACKAGE BODY	280	"                           prm_SessionID  out Varchar2,              --进程ID
+"
+PKG_MA_GY	PACKAGE BODY	281	"                           prm_OutBuffer  out Varchar2,              --执行文本输出
+"
+PKG_MA_GY	PACKAGE BODY	282	"                           prm_DataResult out t_DataResult           --执行结果集输出
+"
+PKG_MA_GY	PACKAGE BODY	283	"                           ) is
+"
+PKG_MA_GY	PACKAGE BODY	284	"   str_YYID Varchar2(10);
+"
+PKG_MA_GY	PACKAGE BODY	285	"   str_CSID Varchar2(50);
+"
+PKG_MA_GY	PACKAGE BODY	286	"   Begin
+"
+PKG_MA_GY	PACKAGE BODY	287	"      prm_AppCode := gn_SystemSuccess;
+"
+PKG_MA_GY	PACKAGE BODY	288	"      gstr_InBuffer:= prm_InBuffer;
+"
+PKG_MA_GY	PACKAGE BODY	289	"      -- prm_InBuffer = 应用ID|参数ID
+"
+PKG_MA_GY	PACKAGE BODY	290	"      str_YYID := Fun_GetToken(gstr_InBuffer,'|');
+"
+PKG_MA_GY	PACKAGE BODY	291	"      str_CSID := Fun_GetToken(gstr_InBuffer,'|');
+"
+PKG_MA_GY	PACKAGE BODY	292	"      Case prm_FuncID
+"
+PKG_MA_GY	PACKAGE BODY	293	"         When '1' Then
+"
+PKG_MA_GY	PACKAGE BODY	294	"            gstr_Sql := 'Select * From E_XTCS Where CSID = '''||str_CSID||''' and YYID='''||str_YYID||'''';
+"
+PKG_MA_GY	PACKAGE BODY	295	"         When '2' Then
+"
+PKG_MA_GY	PACKAGE BODY	296	"            gstr_Sql := 'Select * From E_XTCS Where YYID='''||str_YYID||'''';
+"
+PKG_MA_GY	PACKAGE BODY	297	"      End Case;
+"
+PKG_MA_GY	PACKAGE BODY	298	"      prm_DataResult:= Fun_GetData(gstr_Sql,prm_AppCode,Prm_OutBuffer);
+"
+PKG_MA_GY	PACKAGE BODY	299	"      prm_OutBuffer := gstr_Sql;
+"
+PKG_MA_GY	PACKAGE BODY	300	"   Exception
+"
+PKG_MA_GY	PACKAGE BODY	301	"      When others then
+"
+PKG_MA_GY	PACKAGE BODY	302	"         prm_AppCode  := -1;
+"
+PKG_MA_GY	PACKAGE BODY	303	"         prm_OutBuffer:= '调用Prc_GetXtcs失败,原因:'||sqlerrm;
+"
+PKG_MA_GY	PACKAGE BODY	304	"   End Prc_GetXtcs;
+"
+PKG_MA_GY	PACKAGE BODY	305	"
+"
+PKG_MA_GY	PACKAGE BODY	306	"
+"
+PKG_MA_GY	PACKAGE BODY	307	"  /* -- 获取常用语
+"
+PKG_MA_GY	PACKAGE BODY	308	"   Procedure Prc_GetCYY(prm_FuncID     in  Varchar2,              --功能ID
+"
+PKG_MA_GY	PACKAGE BODY	309	"                        prm_InBuffer   in  Varchar2,              --入参
+"
+PKG_MA_GY	PACKAGE BODY	310	"                        prm_AppCode    out Number,                --执行结果
+"
+PKG_MA_GY	PACKAGE BODY	311	"                        prm_SessionID  out Varchar2,              --进程ID
+"
+PKG_MA_GY	PACKAGE BODY	312	"                        prm_OutBuffer  out Varchar2,              --执行文本输出
+"
+PKG_MA_GY	PACKAGE BODY	313	"                        prm_DataResult out t_DataResult           --执行结果集输出
+"
+PKG_MA_GY	PACKAGE BODY	314	"                        ) is
+"
+PKG_MA_GY	PACKAGE BODY	315	"   str_ChangJingID Varchar2(4);
+"
+PKG_MA_GY	PACKAGE BODY	316	"   Begin
+"
+PKG_MA_GY	PACKAGE BODY	317	"     gstr_InBuffer:= prm_InBuffer;
+"
+PKG_MA_GY	PACKAGE BODY	318	"      -- prm_InBuffer = 应用ID|参数ID
+"
+PKG_MA_GY	PACKAGE BODY	319	"      str_ChangJingID := Fun_GetToken(gstr_InBuffer,'|');
+"
+PKG_MA_GY	PACKAGE BODY	320	"      Case prm_FuncID
+"
+PKG_MA_GY	PACKAGE BODY	321	"         --
+"
+PKG_MA_GY	PACKAGE BODY	322	"         When '1' Then
+"
+PKG_MA_GY	PACKAGE BODY	323	"            gstr_Sql := 'select a.DAIMAMC DMMC, b.leibieid LBID, b.changyongymc CYYMC, b.fangweiid FWID
+"
+PKG_MA_GY	PACKAGE BODY	324	"                         from Ma_Changyongylb a, Ma_Changyongyu b
+"
+PKG_MA_GY	PACKAGE BODY	325	"                         where a.DAIMAID = b.leibieid and a.FuLeiDM = '''|| str_ChangJingID ||'''
+"
+PKG_MA_GY	PACKAGE BODY	326	"                         order by LBID asc';
+"
+PKG_MA_GY	PACKAGE BODY	327	"      End Case;
+"
+PKG_MA_GY	PACKAGE BODY	328	"      prm_DataResult := Fun_GetData(gstr_Sql,prm_AppCode,prm_OutBuffer);
+"
+PKG_MA_GY	PACKAGE BODY	329	"   Exception
+"
+PKG_MA_GY	PACKAGE BODY	330	"      When others then
+"
+PKG_MA_GY	PACKAGE BODY	331	"         prm_AppCode  := gn_SystemError;
+"
+PKG_MA_GY	PACKAGE BODY	332	"         prm_OutBuffer:= 'Prc_GetCYY,原因:'||sqlerrm;
+"
+PKG_MA_GY	PACKAGE BODY	333	"
+"
+PKG_MA_GY	PACKAGE BODY	334	"   End Prc_GetCYY;
+"
+PKG_MA_GY	PACKAGE BODY	335	"   */
+"
+PKG_MA_GY	PACKAGE BODY	336	"End PKG_MA_GY;
+"

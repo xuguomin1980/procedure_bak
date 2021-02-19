@@ -1,0 +1,29 @@
+F_ZJ_GET_GDBZPB	FUNCTION	1	"FUNCTION         ""F_ZJ_GET_GDBZPB"" 
+"
+F_ZJ_GET_GDBZPB	FUNCTION	2	"(arg_jzxh in number) 
+"
+F_ZJ_GET_GDBZPB	FUNCTION	3	"  return number
+"
+F_ZJ_GET_GDBZPB	FUNCTION	4	"  is
+"
+F_ZJ_GET_GDBZPB	FUNCTION	5	"    ls_return number;
+"
+F_ZJ_GET_GDBZPB	FUNCTION	6	"  begin
+"
+F_ZJ_GET_GDBZPB	FUNCTION	7	"	  select nvl(gdbzpb,0)
+"
+F_ZJ_GET_GDBZPB	FUNCTION	8	"          into ls_return 
+"
+F_ZJ_GET_GDBZPB	FUNCTION	9	"          from zj_jzxx 
+"
+F_ZJ_GET_GDBZPB	FUNCTION	10	"         where jzxh = arg_jzxh;
+"
+F_ZJ_GET_GDBZPB	FUNCTION	11	"	  return(ls_return);
+"
+F_ZJ_GET_GDBZPB	FUNCTION	12	"  end;
+"
+F_ZJ_GET_GDBZPB	FUNCTION	13	"
+"
+F_ZJ_GET_GDBZPB	FUNCTION	14	"
+"
+F_ZJ_GET_GDBZPB	FUNCTION	15	 

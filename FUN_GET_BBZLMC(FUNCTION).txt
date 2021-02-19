@@ -1,0 +1,29 @@
+FUN_GET_BBZLMC	FUNCTION	1	"FUNCTION         ""FUN_GET_BBZLMC"" 
+"
+FUN_GET_BBZLMC	FUNCTION	2	"(as_bbzl in varchar2)
+"
+FUN_GET_BBZLMC	FUNCTION	3	"return varchar2
+"
+FUN_GET_BBZLMC	FUNCTION	4	"is
+"
+FUN_GET_BBZLMC	FUNCTION	5	"  as_bbzlmc varchar2(30);
+"
+FUN_GET_BBZLMC	FUNCTION	6	"begin
+"
+FUN_GET_BBZLMC	FUNCTION	7	"
+"
+FUN_GET_BBZLMC	FUNCTION	8	"   select sampledescribe into as_bbzlmc  from  l_sampletype where sampletype = as_bbzl and rownum < 2;
+"
+FUN_GET_BBZLMC	FUNCTION	9	"   return(as_bbzlmc);
+"
+FUN_GET_BBZLMC	FUNCTION	10	"exception
+"
+FUN_GET_BBZLMC	FUNCTION	11	"when others then
+"
+FUN_GET_BBZLMC	FUNCTION	12	"     return('');
+"
+FUN_GET_BBZLMC	FUNCTION	13	"end;
+"
+FUN_GET_BBZLMC	FUNCTION	14	"
+"
+FUN_GET_BBZLMC	FUNCTION	15	 

@@ -1,0 +1,99 @@
+F_JCFX_GET_YSZM	FUNCTION	1	"FUNCTION         ""F_JCFX_GET_YSZM"" ( is_yszh   In   Varchar2 )
+"
+F_JCFX_GET_YSZM	FUNCTION	2	"Return Varchar2
+"
+F_JCFX_GET_YSZM	FUNCTION	3	"
+"
+F_JCFX_GET_YSZM	FUNCTION	4	"Is
+"
+F_JCFX_GET_YSZM	FUNCTION	5	"
+"
+F_JCFX_GET_YSZM	FUNCTION	6	"/*=============================================================================
+"
+F_JCFX_GET_YSZM	FUNCTION	7	"|| 函数名称 ： 取医生组名f_jcfx_get_yszm
+"
+F_JCFX_GET_YSZM	FUNCTION	8	"||-----------------------------------------------------------------------------
+"
+F_JCFX_GET_YSZM	FUNCTION	9	"|| 功能说明 ： 输入医生组号，得到医生组名
+"
+F_JCFX_GET_YSZM	FUNCTION	10	"||-----------------------------------------------------------------------------
+"
+F_JCFX_GET_YSZM	FUNCTION	11	"|| 参数描述 ： 参数标识   输入/输出   类型       名称
+"
+F_JCFX_GET_YSZM	FUNCTION	12	"||            -----------------------------------------------------------------
+"
+F_JCFX_GET_YSZM	FUNCTION	13	"||             is_yszh    IN          VARCHAR2   医生组号
+"
+F_JCFX_GET_YSZM	FUNCTION	14	"||-----------------------------------------------------------------------------
+"
+F_JCFX_GET_YSZM	FUNCTION	15	"|| 返回结果 ： Varchar2   医生组名
+"
+F_JCFX_GET_YSZM	FUNCTION	16	"||-----------------------------------------------------------------------------
+"
+F_JCFX_GET_YSZM	FUNCTION	17	"|| 注意事项 ： 入参为空，返回'未分组'
+"
+F_JCFX_GET_YSZM	FUNCTION	18	"||            -----------------------------------------------------------------
+"
+F_JCFX_GET_YSZM	FUNCTION	19	"||             找不到组名，返回'未匹配组'
+"
+F_JCFX_GET_YSZM	FUNCTION	20	"||-----------------------------------------------------------------------------
+"
+F_JCFX_GET_YSZM	FUNCTION	21	"|| 作    者 ： 陈智鸿      完成日期 ：2002-05-28
+"
+F_JCFX_GET_YSZM	FUNCTION	22	"||-----------------------------------------------------------------------------
+"
+F_JCFX_GET_YSZM	FUNCTION	23	"|| 修改记录 ： 陈智鸿 @ 2002-10-21
+"
+F_JCFX_GET_YSZM	FUNCTION	24	"||             整理代码
+"
+F_JCFX_GET_YSZM	FUNCTION	25	"=============================================================================*/
+"
+F_JCFX_GET_YSZM	FUNCTION	26	"
+"
+F_JCFX_GET_YSZM	FUNCTION	27	"ls_yszm     Varchar2(30);     -- 医生组名
+"
+F_JCFX_GET_YSZM	FUNCTION	28	"
+"
+F_JCFX_GET_YSZM	FUNCTION	29	"Begin
+"
+F_JCFX_GET_YSZM	FUNCTION	30	"  If is_yszh Is Null Then
+"
+F_JCFX_GET_YSZM	FUNCTION	31	"    -- 入参为空
+"
+F_JCFX_GET_YSZM	FUNCTION	32	"    ls_yszm := '未分组';
+"
+F_JCFX_GET_YSZM	FUNCTION	33	"  Else
+"
+F_JCFX_GET_YSZM	FUNCTION	34	"    -- 从GY_YSFZ中去组名
+"
+F_JCFX_GET_YSZM	FUNCTION	35	"    Select yszm
+"
+F_JCFX_GET_YSZM	FUNCTION	36	"      Into ls_yszm
+"
+F_JCFX_GET_YSZM	FUNCTION	37	"      From gy_ysfz
+"
+F_JCFX_GET_YSZM	FUNCTION	38	"     Where yszh = is_yszh;
+"
+F_JCFX_GET_YSZM	FUNCTION	39	"    
+"
+F_JCFX_GET_YSZM	FUNCTION	40	"    If ls_yszm Is Null Then
+"
+F_JCFX_GET_YSZM	FUNCTION	41	"      -- 组名为空
+"
+F_JCFX_GET_YSZM	FUNCTION	42	"      ls_yszm := '未匹配组';
+"
+F_JCFX_GET_YSZM	FUNCTION	43	"    End If;
+"
+F_JCFX_GET_YSZM	FUNCTION	44	"  End If;
+"
+F_JCFX_GET_YSZM	FUNCTION	45	"  
+"
+F_JCFX_GET_YSZM	FUNCTION	46	"  Return(ls_yszm);
+"
+F_JCFX_GET_YSZM	FUNCTION	47	"  
+"
+F_JCFX_GET_YSZM	FUNCTION	48	"End f_jcfx_get_yszm;
+"
+F_JCFX_GET_YSZM	FUNCTION	49	"
+"
+F_JCFX_GET_YSZM	FUNCTION	50	 

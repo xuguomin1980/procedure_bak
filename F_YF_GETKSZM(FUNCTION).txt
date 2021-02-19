@@ -1,0 +1,17 @@
+F_YF_GETKSZM	FUNCTION	1	"FUNCTION         ""F_YF_GETKSZM"" (arg_ksdm in varchar2)  
+"
+F_YF_GETKSZM	FUNCTION	2	"   return varchar2  is 
+"
+F_YF_GETKSZM	FUNCTION	3	"     ls_return varchar2(30);  
+"
+F_YF_GETKSZM	FUNCTION	4	"   begin 
+"
+F_YF_GETKSZM	FUNCTION	5	"       select kszm into ls_return from my_ckxh  
+"
+F_YF_GETKSZM	FUNCTION	6	"       where ksdm=arg_ksdm;  
+"
+F_YF_GETKSZM	FUNCTION	7	"   return(ls_return);  
+"
+F_YF_GETKSZM	FUNCTION	8	"   end; 
+"
+F_YF_GETKSZM	FUNCTION	9	 

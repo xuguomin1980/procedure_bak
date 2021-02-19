@@ -1,0 +1,522 @@
+PRC_DJKF_ZDSCRK	PROCEDURE	1	"Procedure prc_djkf_zdscrk(in_yqid   in number,
+"
+PRC_DJKF_ZDSCRK	PROCEDURE	2	"                                            in_sjxtxh in number,
+"
+PRC_DJKF_ZDSCRK	PROCEDURE	3	"                                            in_xtxh   in number,
+"
+PRC_DJKF_ZDSCRK	PROCEDURE	4	"                                            in_ckdxh  in number,
+"
+PRC_DJKF_ZDSCRK	PROCEDURE	5	"                                            in_ckksdm in varchar2,
+"
+PRC_DJKF_ZDSCRK	PROCEDURE	6	"                                            in_djkfjb in number,
+"
+PRC_DJKF_ZDSCRK	PROCEDURE	7	"
+"
+PRC_DJKF_ZDSCRK	PROCEDURE	8	"                                            in_sjkfdm in varchar2,
+"
+PRC_DJKF_ZDSCRK	PROCEDURE	9	"                                            in_zblx   in number,
+"
+PRC_DJKF_ZDSCRK	PROCEDURE	10	"                                            in_jzrxm  in varchar2,
+"
+PRC_DJKF_ZDSCRK	PROCEDURE	11	"
+"
+PRC_DJKF_ZDSCRK	PROCEDURE	12	"                                            out_ret   out number) Is
+"
+PRC_DJKF_ZDSCRK	PROCEDURE	13	"
+"
+PRC_DJKF_ZDSCRK	PROCEDURE	14	"  num1     number;
+"
+PRC_DJKF_ZDSCRK	PROCEDURE	15	"  num2     number;
+"
+PRC_DJKF_ZDSCRK	PROCEDURE	16	"  code1    number;
+"
+PRC_DJKF_ZDSCRK	PROCEDURE	17	"  code2    number;
+"
+PRC_DJKF_ZDSCRK	PROCEDURE	18	"  ll_cnt   number;
+"
+PRC_DJKF_ZDSCRK	PROCEDURE	19	"
+"
+PRC_DJKF_ZDSCRK	PROCEDURE	20	"  --ll_djkfjb number;
+"
+PRC_DJKF_ZDSCRK	PROCEDURE	21	"  ll_rkdxh number;
+"
+PRC_DJKF_ZDSCRK	PROCEDURE	22	"  ls_rkddjhm varchar2(10);
+"
+PRC_DJKF_ZDSCRK	PROCEDURE	23	"
+"
+PRC_DJKF_ZDSCRK	PROCEDURE	24	"  ll_czzt number;
+"
+PRC_DJKF_ZDSCRK	PROCEDURE	25	"  ll_pcbz number;
+"
+PRC_DJKF_ZDSCRK	PROCEDURE	26	"  ll_kjqj number;
+"
+PRC_DJKF_ZDSCRK	PROCEDURE	27	"  ls_ksdw varchar2(200);
+"
+PRC_DJKF_ZDSCRK	PROCEDURE	28	"  ls_ckdjhm varchar2(40);
+"
+PRC_DJKF_ZDSCRK	PROCEDURE	29	"  ls_jzrdm varchar2(50);
+"
+PRC_DJKF_ZDSCRK	PROCEDURE	30	"  ldt_jzrq date;
+"
+PRC_DJKF_ZDSCRK	PROCEDURE	31	"
+"
+PRC_DJKF_ZDSCRK	PROCEDURE	32	"  ll_rkdmxxh number;
+"
+PRC_DJKF_ZDSCRK	PROCEDURE	33	"  ll_rkdmxkcxh number;
+"
+PRC_DJKF_ZDSCRK	PROCEDURE	34	"  ll_rkdmxmxzxh number;
+"
+PRC_DJKF_ZDSCRK	PROCEDURE	35	"  ll_rkdmxkczb number;
+"
+PRC_DJKF_ZDSCRK	PROCEDURE	36	"
+"
+PRC_DJKF_ZDSCRK	PROCEDURE	37	"  Cursor C_ckd Is
+"
+PRC_DJKF_ZDSCRK	PROCEDURE	38	"    Select *
+"
+PRC_DJKF_ZDSCRK	PROCEDURE	39	"      From Wz_ckd
+"
+PRC_DJKF_ZDSCRK	PROCEDURE	40	"     Where yqid=in_yqid and
+"
+PRC_DJKF_ZDSCRK	PROCEDURE	41	"           Xtxh = in_sjxtxh And
+"
+PRC_DJKF_ZDSCRK	PROCEDURE	42	"           Xh = In_ckdxh;
+"
+PRC_DJKF_ZDSCRK	PROCEDURE	43	"
+"
+PRC_DJKF_ZDSCRK	PROCEDURE	44	"  C_ckd_Row C_ckd%Rowtype;
+"
+PRC_DJKF_ZDSCRK	PROCEDURE	45	"
+"
+PRC_DJKF_ZDSCRK	PROCEDURE	46	"  Cursor C_ckdmx Is
+"
+PRC_DJKF_ZDSCRK	PROCEDURE	47	"    Select *
+"
+PRC_DJKF_ZDSCRK	PROCEDURE	48	"      From Wz_ckdmx
+"
+PRC_DJKF_ZDSCRK	PROCEDURE	49	"     Where Xtxh = in_sjxtxh
+"
+PRC_DJKF_ZDSCRK	PROCEDURE	50	"       And ckdxh = In_ckdxh;
+"
+PRC_DJKF_ZDSCRK	PROCEDURE	51	"
+"
+PRC_DJKF_ZDSCRK	PROCEDURE	52	"  C_ckdmx_Row C_ckdmx%Rowtype;
+"
+PRC_DJKF_ZDSCRK	PROCEDURE	53	"
+"
+PRC_DJKF_ZDSCRK	PROCEDURE	54	"Begin
+"
+PRC_DJKF_ZDSCRK	PROCEDURE	55	"
+"
+PRC_DJKF_ZDSCRK	PROCEDURE	56	"  begin
+"
+PRC_DJKF_ZDSCRK	PROCEDURE	57	"    ll_cnt := null;
+"
+PRC_DJKF_ZDSCRK	PROCEDURE	58	"
+"
+PRC_DJKF_ZDSCRK	PROCEDURE	59	"
+"
+PRC_DJKF_ZDSCRK	PROCEDURE	60	"    --ll_djkfjb := in_djkfjb + 1 ;
+"
+PRC_DJKF_ZDSCRK	PROCEDURE	61	"
+"
+PRC_DJKF_ZDSCRK	PROCEDURE	62	"    select count(*)
+"
+PRC_DJKF_ZDSCRK	PROCEDURE	63	"      into ll_cnt
+"
+PRC_DJKF_ZDSCRK	PROCEDURE	64	"      from ylsb_djkf.wz_djkfsz
+"
+PRC_DJKF_ZDSCRK	PROCEDURE	65	"     where yqid = in_yqid
+"
+PRC_DJKF_ZDSCRK	PROCEDURE	66	"       and xtxh = in_xtxh
+"
+PRC_DJKF_ZDSCRK	PROCEDURE	67	"       and ksdm = in_ckksdm
+"
+PRC_DJKF_ZDSCRK	PROCEDURE	68	"       and in_sjkfdm <> in_ckksdm
+"
+PRC_DJKF_ZDSCRK	PROCEDURE	69	"       ;
+"
+PRC_DJKF_ZDSCRK	PROCEDURE	70	"
+"
+PRC_DJKF_ZDSCRK	PROCEDURE	71	"    if isnull(ll_cnt, -111) = -111 or ll_cnt = 0 then
+"
+PRC_DJKF_ZDSCRK	PROCEDURE	72	"      out_ret := 1; --未启用多级库房,不用执行下面语句
+"
+PRC_DJKF_ZDSCRK	PROCEDURE	73	"      return;
+"
+PRC_DJKF_ZDSCRK	PROCEDURE	74	"    end if;
+"
+PRC_DJKF_ZDSCRK	PROCEDURE	75	"
+"
+PRC_DJKF_ZDSCRK	PROCEDURE	76	"     if in_ckksdm='02303' then --检验科不用直接生成入库单
+"
+PRC_DJKF_ZDSCRK	PROCEDURE	77	"          out_ret := 1; --未启用多级库房,不用执行下面语句
+"
+PRC_DJKF_ZDSCRK	PROCEDURE	78	"          return;
+"
+PRC_DJKF_ZDSCRK	PROCEDURE	79	"      end if;
+"
+PRC_DJKF_ZDSCRK	PROCEDURE	80	"
+"
+PRC_DJKF_ZDSCRK	PROCEDURE	81	"
+"
+PRC_DJKF_ZDSCRK	PROCEDURE	82	"    SELECT czzt , pcbz into ll_czzt,ll_pcbz FROM ylsb_djkf.wz_zblx
+"
+PRC_DJKF_ZDSCRK	PROCEDURE	83	"    WHERE xtxh =in_xtxh And zblx = in_zblx and yqid =in_yqid and djkfdm = in_ckksdm ;
+"
+PRC_DJKF_ZDSCRK	PROCEDURE	84	"
+"
+PRC_DJKF_ZDSCRK	PROCEDURE	85	"    if ll_czzt = 1 then
+"
+PRC_DJKF_ZDSCRK	PROCEDURE	86	"      out_ret := 2; --多级库房在结转
+"
+PRC_DJKF_ZDSCRK	PROCEDURE	87	"      return;
+"
+PRC_DJKF_ZDSCRK	PROCEDURE	88	"    end if;
+"
+PRC_DJKF_ZDSCRK	PROCEDURE	89	"
+"
+PRC_DJKF_ZDSCRK	PROCEDURE	90	"    if ll_pcbz = 1 then
+"
+PRC_DJKF_ZDSCRK	PROCEDURE	91	"      out_ret := 3; --多级库房在盘存
+"
+PRC_DJKF_ZDSCRK	PROCEDURE	92	"      return;
+"
+PRC_DJKF_ZDSCRK	PROCEDURE	93	"    end if;
+"
+PRC_DJKF_ZDSCRK	PROCEDURE	94	"
+"
+PRC_DJKF_ZDSCRK	PROCEDURE	95	"  end;
+"
+PRC_DJKF_ZDSCRK	PROCEDURE	96	"
+"
+PRC_DJKF_ZDSCRK	PROCEDURE	97	"
+"
+PRC_DJKF_ZDSCRK	PROCEDURE	98	"  begin
+"
+PRC_DJKF_ZDSCRK	PROCEDURE	99	"
+"
+PRC_DJKF_ZDSCRK	PROCEDURE	100	"      For C_ckd_Row In C_ckd Loop
+"
+PRC_DJKF_ZDSCRK	PROCEDURE	101	"
+"
+PRC_DJKF_ZDSCRK	PROCEDURE	102	"        ll_rkdxh := f_get_xh_djkf(in_xtxh, 'WZ_RKD');
+"
+PRC_DJKF_ZDSCRK	PROCEDURE	103	"        ls_rkddjhm :=f_get_djhm_djkf(in_xtxh,in_zblx,1);
+"
+PRC_DJKF_ZDSCRK	PROCEDURE	104	"
+"
+PRC_DJKF_ZDSCRK	PROCEDURE	105	"        Select kjqj into ll_kjqj From ylsb_djkf.wz_kjrl
+"
+PRC_DJKF_ZDSCRK	PROCEDURE	106	"        Where xtxh =in_xtxh And sybz =0 and yqid =in_yqid and ksdm = in_ckksdm;
+"
+PRC_DJKF_ZDSCRK	PROCEDURE	107	"
+"
+PRC_DJKF_ZDSCRK	PROCEDURE	108	"        if in_djkfjb < 2 then
+"
+PRC_DJKF_ZDSCRK	PROCEDURE	109	"           select ksmc into ls_ksdw from wz_ksdm where ksdm = in_sjkfdm ;
+"
+PRC_DJKF_ZDSCRK	PROCEDURE	110	"
+"
+PRC_DJKF_ZDSCRK	PROCEDURE	111	"        else
+"
+PRC_DJKF_ZDSCRK	PROCEDURE	112	"
+"
+PRC_DJKF_ZDSCRK	PROCEDURE	113	"          select djkfmc
+"
+PRC_DJKF_ZDSCRK	PROCEDURE	114	"            into ls_ksdw
+"
+PRC_DJKF_ZDSCRK	PROCEDURE	115	"            from wz_djkfsz
+"
+PRC_DJKF_ZDSCRK	PROCEDURE	116	"           where yqid = in_yqid
+"
+PRC_DJKF_ZDSCRK	PROCEDURE	117	"             and xtxh = in_sjxtxh
+"
+PRC_DJKF_ZDSCRK	PROCEDURE	118	"             and ksdm = in_sjkfdm
+"
+PRC_DJKF_ZDSCRK	PROCEDURE	119	"             ;
+"
+PRC_DJKF_ZDSCRK	PROCEDURE	120	"
+"
+PRC_DJKF_ZDSCRK	PROCEDURE	121	"         end if;
+"
+PRC_DJKF_ZDSCRK	PROCEDURE	122	"
+"
+PRC_DJKF_ZDSCRK	PROCEDURE	123	"        ldt_jzrq := C_ckd_Row.jzrq;
+"
+PRC_DJKF_ZDSCRK	PROCEDURE	124	"        ls_jzrdm := c_ckd_row.jzr;
+"
+PRC_DJKF_ZDSCRK	PROCEDURE	125	"        ls_ckdjhm := C_ckd_Row.djhm;
+"
+PRC_DJKF_ZDSCRK	PROCEDURE	126	"
+"
+PRC_DJKF_ZDSCRK	PROCEDURE	127	"          INSERT INTO ylsb_djkf.WZ_RKD ( FSDM, FSRQ, HSLB, JBR, YSDJH, FDJS, ZDR,
+"
+PRC_DJKF_ZDSCRK	PROCEDURE	128	"                    ZDRQ, SHR, SHRQ, SHBZ, JZR, JZRQ, JZBZ, DJHM, HDBZ, KJQJ,
+"
+PRC_DJKF_ZDSCRK	PROCEDURE	129	"                    ZFBZ, XH, XTXH, GHDW, KSDM, ZBLX, FKBZ, DYBZ, LYDXH, JE,
+"
+PRC_DJKF_ZDSCRK	PROCEDURE	130	"                    JBR_DM, KSDW_MC, JE1, HXJE, JE2, JSR, JSR_DM, JFLY, ZFFS,
+"
+PRC_DJKF_ZDSCRK	PROCEDURE	131	"                    JFMC2, JFMC_DM2, CGKS, CGKSDM, CGFS, MSBZ, BZ, DJLX, YQID,DJKFDM )
+"
+PRC_DJKF_ZDSCRK	PROCEDURE	132	"
+"
+PRC_DJKF_ZDSCRK	PROCEDURE	133	"          VALUES ( '10', C_ckd_Row.jzrq, C_ckd_Row.hslb, C_ckd_Row.jbr, C_ckd_Row.djhm, NULL,C_ckd_Row.jbr_dm,
+"
+PRC_DJKF_ZDSCRK	PROCEDURE	134	"                   C_ckd_Row.jzrq, C_ckd_Row.jbr_dm, C_ckd_Row.jzrq, '1', C_ckd_Row.jbr_dm, C_ckd_Row.jzrq, '1', ls_rkddjhm, '1', ll_kjqj,
+"
+PRC_DJKF_ZDSCRK	PROCEDURE	135	"          '0', ll_rkdxh , in_xtxh , in_sjkfdm , in_ckksdm , C_ckd_Row.zblx, '0', '0', NULL, C_ckd_Row.je,
+"
+PRC_DJKF_ZDSCRK	PROCEDURE	136	"          C_ckd_Row.Jbr_Dm,ls_ksdw, C_ckd_Row.je, '0.00', C_ckd_Row.je2, C_ckd_Row.jsr, C_ckd_Row.jsr_dm, C_ckd_Row.Jfly,  NULL,
+"
+PRC_DJKF_ZDSCRK	PROCEDURE	137	"          NULL , NULL,NULL, NULL, NULL, NULL, NULL, NULL, in_yqid , in_ckksdm );
+"
+PRC_DJKF_ZDSCRK	PROCEDURE	138	"
+"
+PRC_DJKF_ZDSCRK	PROCEDURE	139	"     End Loop;
+"
+PRC_DJKF_ZDSCRK	PROCEDURE	140	"
+"
+PRC_DJKF_ZDSCRK	PROCEDURE	141	"         Exception
+"
+PRC_DJKF_ZDSCRK	PROCEDURE	142	"          When Others Then
+"
+PRC_DJKF_ZDSCRK	PROCEDURE	143	"            Raise_Application_Error(-20300,
+"
+PRC_DJKF_ZDSCRK	PROCEDURE	144	"                                    'prc_djkf_zdscrk-djkf.wz_rkd 错误编号：' ||
+"
+PRC_DJKF_ZDSCRK	PROCEDURE	145	"                                    Sqlcode || '， 错误日志：' ||
+"
+PRC_DJKF_ZDSCRK	PROCEDURE	146	"                                    Substr(Sqlerrm, 1, 1000));
+"
+PRC_DJKF_ZDSCRK	PROCEDURE	147	"            Rollback;
+"
+PRC_DJKF_ZDSCRK	PROCEDURE	148	"            Out_Ret := -1;
+"
+PRC_DJKF_ZDSCRK	PROCEDURE	149	"    End;
+"
+PRC_DJKF_ZDSCRK	PROCEDURE	150	"
+"
+PRC_DJKF_ZDSCRK	PROCEDURE	151	"
+"
+PRC_DJKF_ZDSCRK	PROCEDURE	152	"    begin
+"
+PRC_DJKF_ZDSCRK	PROCEDURE	153	"        ll_rkdmxxh := 0;
+"
+PRC_DJKF_ZDSCRK	PROCEDURE	154	"        For C_ckdmx_Row In C_ckdmx Loop
+"
+PRC_DJKF_ZDSCRK	PROCEDURE	155	"          ll_rkdmxxh := ll_rkdmxxh + 1;
+"
+PRC_DJKF_ZDSCRK	PROCEDURE	156	"
+"
+PRC_DJKF_ZDSCRK	PROCEDURE	157	"          ll_rkdmxkcxh := f_get_xh_djkf(in_xtxh,'WZ_KCZZ');
+"
+PRC_DJKF_ZDSCRK	PROCEDURE	158	"
+"
+PRC_DJKF_ZDSCRK	PROCEDURE	159	"          INSERT INTO ylsb_djkf.WZ_RKDMX ( XH, RKDXH, XTXH, WZXH, WZBM, GGXH, CDDM,
+"
+PRC_DJKF_ZDSCRK	PROCEDURE	160	"                SCCJ, KCXH, DJ, SL, JE, FPHM, PDBZ, KCSL, KL, RLJ, RLJE,
+"
+PRC_DJKF_ZDSCRK	PROCEDURE	161	"                KWBH, KSDM, SCRQ, YXQ, SXRQ, KCJE, KYCHSL, KYCHJE, DJ2, JE2,
+"
+PRC_DJKF_ZDSCRK	PROCEDURE	162	"                DJ3, DJ4, FPRQ, SCPH, CPGZH, HTXXXH, MJPH, ZCZH, EJKFBZ,
+"
+PRC_DJKF_ZDSCRK	PROCEDURE	163	"                PPXH, CLSF_KSDM, CLSF_JLXH, CKKSDM, CKKSMC, DAXH, NZWXH, NZWMXXH,
+"
+PRC_DJKF_ZDSCRK	PROCEDURE	164	"                CKDMX_XH, CKDXH, YXTXH, DJHM1, LDXH, QLSL ,wzpctm )
+"
+PRC_DJKF_ZDSCRK	PROCEDURE	165	"
+"
+PRC_DJKF_ZDSCRK	PROCEDURE	166	"          VALUES ( ll_rkdmxxh, ll_rkdxh, in_xtxh , C_ckdmx_Row.wzxh, C_ckdmx_Row.wzbm, C_ckdmx_Row.Ggxh, C_ckdmx_Row.Cddm,
+"
+PRC_DJKF_ZDSCRK	PROCEDURE	167	"                  C_ckdmx_Row.Sccj , ll_rkdmxkcxh , C_ckdmx_Row.dj, C_ckdmx_Row.sl, C_ckdmx_Row.je, NULL, '0', '0.0000', '1.0000', NULL, NULL,
+"
+PRC_DJKF_ZDSCRK	PROCEDURE	168	"                  NULL, NULL, null, null, C_ckdmx_Row.Sxrq, '0.0000', C_ckdmx_Row.sl, C_ckdmx_Row.je, C_ckdmx_Row.Dj2, C_ckdmx_Row.je2,
+"
+PRC_DJKF_ZDSCRK	PROCEDURE	169	"                  '0.0000','0.0000', NULL, C_ckdmx_Row.scph, C_ckdmx_Row.Cpgzh, NULL, C_ckdmx_Row.Mjph, C_ckdmx_Row.Zczh, '0',
+"
+PRC_DJKF_ZDSCRK	PROCEDURE	170	"                  '0', NULL, NULL, NULL,NULL, NULL, NULL, NULL,
+"
+PRC_DJKF_ZDSCRK	PROCEDURE	171	"                  C_ckdmx_Row.Xh , C_ckdmx_Row.Ckdxh, in_sjxtxh , NULL, NULL, NULL ,C_ckdmx_Row.wzpctm );
+"
+PRC_DJKF_ZDSCRK	PROCEDURE	172	"
+"
+PRC_DJKF_ZDSCRK	PROCEDURE	173	"
+"
+PRC_DJKF_ZDSCRK	PROCEDURE	174	"           INSERT INTO ylsb_djkf.wz_kczz ( xtxh , xh , ksdm , wzxh , wzbm , ggxh , cddm , ghdw , fsrq
+"
+PRC_DJKF_ZDSCRK	PROCEDURE	175	"                , dj , kcsl , tjcksl , kcje , rksl , rkje , cksl , ckje , bjbssl , bjbsje ,
+"
+PRC_DJKF_ZDSCRK	PROCEDURE	176	"                xjbssl , xjbsje , zksl , zkje , kfjb , zblx , sccj , dj2 , sxrq , scph , cpgzh ,
+"
+PRC_DJKF_ZDSCRK	PROCEDURE	177	"                htxxxh , mjph , jbr , zczh , fphm , ejkfbz , ppxh , djrq , daxh , nzwxh , nzwmxxh
+"
+PRC_DJKF_ZDSCRK	PROCEDURE	178	"                , rkdjhm , cgks , cgksdm , bxdqsj , cfdd , kwbh , yqid , djkfdm ,wzpctm )
+"
+PRC_DJKF_ZDSCRK	PROCEDURE	179	"            VALUES ( in_xtxh  ,ll_rkdmxkcxh , in_ckksdm , C_ckdmx_Row.Wzxh , C_ckdmx_Row.Wzbm , C_ckdmx_Row.Ggxh , C_ckdmx_Row.Cddm , in_sjkfdm ,ldt_jzrq
+"
+PRC_DJKF_ZDSCRK	PROCEDURE	180	"                , C_ckdmx_Row.Dj , C_ckdmx_Row.sl , C_ckdmx_Row.sl , C_ckdmx_Row.je , C_ckdmx_Row.sl , C_ckdmx_Row.je , 0 , 0 , 0 , 0 ,
+"
+PRC_DJKF_ZDSCRK	PROCEDURE	181	"                0 , 0 , 0, 0 , 1 , in_zblx , C_ckdmx_Row.Sccj , NULL , C_ckdmx_Row.Sxrq , C_ckdmx_Row.scph ,C_ckdmx_Row.Cpgzh ,
+"
+PRC_DJKF_ZDSCRK	PROCEDURE	182	"                NULL , C_ckdmx_Row.Mjph  , NUll , C_ckdmx_Row.Zczh ,  NULL , 0 , 0 , ldt_jzrq ,NULL , NULL , NULL
+"
+PRC_DJKF_ZDSCRK	PROCEDURE	183	"                , ls_rkddjhm , NULL , NULL , NULL , '' , NULL , in_yqid , in_ckksdm ,C_ckdmx_Row.wzpctm) ;
+"
+PRC_DJKF_ZDSCRK	PROCEDURE	184	"
+"
+PRC_DJKF_ZDSCRK	PROCEDURE	185	"          ll_rkdmxmxzxh := f_get_xh_djkf(in_xtxh, 'WZ_MXZ');
+"
+PRC_DJKF_ZDSCRK	PROCEDURE	186	"
+"
+PRC_DJKF_ZDSCRK	PROCEDURE	187	"          INSERT INTO ylsb_djkf.wz_mxz ( xtxh , xh , ksdm , ghdw , kcxh , wzxh , wzbm , ggxh , cddm ,
+"
+PRC_DJKF_ZDSCRK	PROCEDURE	188	"                rq , dj , sl , je , djxh , zy , fsdm , kjqj , zblx , je1 , jbr , djhm , dj2 , je2
+"
+PRC_DJKF_ZDSCRK	PROCEDURE	189	"                , sxrq , scph , cpgzh , mjph , fphm , sccj , zczh ,
+"
+PRC_DJKF_ZDSCRK	PROCEDURE	190	"                djrq , fprq , cfdd , ppxh , ysdjh , yqid , djkfdm ,wzpctm )
+"
+PRC_DJKF_ZDSCRK	PROCEDURE	191	"
+"
+PRC_DJKF_ZDSCRK	PROCEDURE	192	"          VALUES ( in_xtxh , ll_rkdmxmxzxh , in_ckksdm , in_sjkfdm , ll_rkdmxkcxh , C_ckdmx_Row.wzxh ,C_ckdmx_Row.Wzbm ,C_ckdmx_Row.ggxh , C_ckdmx_Row.Cddm ,
+"
+PRC_DJKF_ZDSCRK	PROCEDURE	193	"                ldt_jzrq , C_ckdmx_Row.dj , C_ckdmx_Row.sl , C_ckdmx_Row.je , ll_rkdxh, ls_ksdw||'【领用入库】' , '81' , ll_kjqj , in_zblx , NULL , NULL , ls_rkddjhm , NULL , NULL ,
+"
+PRC_DJKF_ZDSCRK	PROCEDURE	194	"                C_ckdmx_Row.Sxrq, C_ckdmx_Row.Scph , C_ckdmx_Row.Cpgzh , C_ckdmx_Row.Mjph , NULL , C_ckdmx_Row.Sccj , C_ckdmx_Row.Zczh ,
+"
+PRC_DJKF_ZDSCRK	PROCEDURE	195	"                ldt_jzrq , NULL , '' , 0 , ls_ckdjhm , in_yqid , in_ckksdm  ,C_ckdmx_Row.wzpctm ) ;
+"
+PRC_DJKF_ZDSCRK	PROCEDURE	196	"
+"
+PRC_DJKF_ZDSCRK	PROCEDURE	197	"          ll_rkdmxkczb := f_get_xh_djkf(in_xtxh, 'WZ_KCZB');
+"
+PRC_DJKF_ZDSCRK	PROCEDURE	198	"
+"
+PRC_DJKF_ZDSCRK	PROCEDURE	199	"          INSERT INTO ylsb_djkf.WZ_kczb ( xtxh , xh , zblx , kcxh , wzxh , wzbm , ggxh , jzrq , jfsl
+"
+PRC_DJKF_ZDSCRK	PROCEDURE	200	"                , jfdj , jfje , dfsl , dfdj , dfje , jcsl , jcje , kjqj , zy , xz , djhm , fsdm ,
+"
+PRC_DJKF_ZDSCRK	PROCEDURE	201	"                ppxh , djrq , cfdd , yqid , djkfdm )
+"
+PRC_DJKF_ZDSCRK	PROCEDURE	202	"          VALUES ( in_xtxh , ll_rkdmxkczb , in_zblx , ll_rkdmxkcxh , C_ckdmx_Row.wzxh ,C_ckdmx_Row.Wzbm , C_ckdmx_Row.Ggxh , ldt_jzrq , C_ckdmx_Row.sl
+"
+PRC_DJKF_ZDSCRK	PROCEDURE	203	"                , C_ckdmx_Row.dj , C_ckdmx_Row.je , 0 , 0 , 0 , '0' , '0' , ll_kjqj , ls_ksdw||'【领用入库】' , 1 , ls_rkddjhm , '81' ,
+"
+PRC_DJKF_ZDSCRK	PROCEDURE	204	"                0 , ldt_jzrq , '' , in_yqid , in_ckksdm ) ;
+"
+PRC_DJKF_ZDSCRK	PROCEDURE	205	"
+"
+PRC_DJKF_ZDSCRK	PROCEDURE	206	"         End Loop;
+"
+PRC_DJKF_ZDSCRK	PROCEDURE	207	"
+"
+PRC_DJKF_ZDSCRK	PROCEDURE	208	"     Exception
+"
+PRC_DJKF_ZDSCRK	PROCEDURE	209	"      When Others Then
+"
+PRC_DJKF_ZDSCRK	PROCEDURE	210	"        Raise_Application_Error(-20301,
+"
+PRC_DJKF_ZDSCRK	PROCEDURE	211	"                                'prc_djkf_zdscrk-djkf.wz_rkdmx\wz_kczz 错误编号：' ||
+"
+PRC_DJKF_ZDSCRK	PROCEDURE	212	"                                Sqlcode || '， 错误日志：' ||
+"
+PRC_DJKF_ZDSCRK	PROCEDURE	213	"                                Substr(Sqlerrm, 1, 1000));
+"
+PRC_DJKF_ZDSCRK	PROCEDURE	214	"        Rollback;
+"
+PRC_DJKF_ZDSCRK	PROCEDURE	215	"        Out_Ret := -2;
+"
+PRC_DJKF_ZDSCRK	PROCEDURE	216	"    End;
+"
+PRC_DJKF_ZDSCRK	PROCEDURE	217	"
+"
+PRC_DJKF_ZDSCRK	PROCEDURE	218	"
+"
+PRC_DJKF_ZDSCRK	PROCEDURE	219	"    begin
+"
+PRC_DJKF_ZDSCRK	PROCEDURE	220	"
+"
+PRC_DJKF_ZDSCRK	PROCEDURE	221	"      Update wz_ckd a
+"
+PRC_DJKF_ZDSCRK	PROCEDURE	222	"         set EJKFRK_SHBZ = 1,
+"
+PRC_DJKF_ZDSCRK	PROCEDURE	223	"             EJKFJZRQ    = ldt_jzrq,
+"
+PRC_DJKF_ZDSCRK	PROCEDURE	224	"             EJKFRKR_DM  = ls_jzrdm,
+"
+PRC_DJKF_ZDSCRK	PROCEDURE	225	"             EJKFRKR_XM  = in_jzrxm,
+"
+PRC_DJKF_ZDSCRK	PROCEDURE	226	"             EJKBZ       = 1
+"
+PRC_DJKF_ZDSCRK	PROCEDURE	227	"       where yqid = in_yqid
+"
+PRC_DJKF_ZDSCRK	PROCEDURE	228	"         and xtxh = in_sjxtxh
+"
+PRC_DJKF_ZDSCRK	PROCEDURE	229	"         and xh = in_ckdxh;
+"
+PRC_DJKF_ZDSCRK	PROCEDURE	230	"
+"
+PRC_DJKF_ZDSCRK	PROCEDURE	231	"      num1  := sql%rowcount;
+"
+PRC_DJKF_ZDSCRK	PROCEDURE	232	"      code1 := sqlcode;
+"
+PRC_DJKF_ZDSCRK	PROCEDURE	233	"
+"
+PRC_DJKF_ZDSCRK	PROCEDURE	234	"      if num1 = 0 or code1 <> 0 then
+"
+PRC_DJKF_ZDSCRK	PROCEDURE	235	"        out_ret := -11;
+"
+PRC_DJKF_ZDSCRK	PROCEDURE	236	"        return;
+"
+PRC_DJKF_ZDSCRK	PROCEDURE	237	"      end if;
+"
+PRC_DJKF_ZDSCRK	PROCEDURE	238	"
+"
+PRC_DJKF_ZDSCRK	PROCEDURE	239	"      Update wz_ckdmx a
+"
+PRC_DJKF_ZDSCRK	PROCEDURE	240	"         set EJKFRKBZ = 1, RKDDRXH = ll_rkdxh
+"
+PRC_DJKF_ZDSCRK	PROCEDURE	241	"       where xtxh = in_sjxtxh
+"
+PRC_DJKF_ZDSCRK	PROCEDURE	242	"         and ckdxh = in_ckdxh;
+"
+PRC_DJKF_ZDSCRK	PROCEDURE	243	"
+"
+PRC_DJKF_ZDSCRK	PROCEDURE	244	"      num2  := sql%rowcount;
+"
+PRC_DJKF_ZDSCRK	PROCEDURE	245	"      code2 := sqlcode;
+"
+PRC_DJKF_ZDSCRK	PROCEDURE	246	"
+"
+PRC_DJKF_ZDSCRK	PROCEDURE	247	"      if num2 = 0 or code2 <> 0 then
+"
+PRC_DJKF_ZDSCRK	PROCEDURE	248	"        out_ret := -12;
+"
+PRC_DJKF_ZDSCRK	PROCEDURE	249	"        return;
+"
+PRC_DJKF_ZDSCRK	PROCEDURE	250	"      end if;
+"
+PRC_DJKF_ZDSCRK	PROCEDURE	251	"
+"
+PRC_DJKF_ZDSCRK	PROCEDURE	252	"      commit;
+"
+PRC_DJKF_ZDSCRK	PROCEDURE	253	"      out_ret := 1;
+"
+PRC_DJKF_ZDSCRK	PROCEDURE	254	"
+"
+PRC_DJKF_ZDSCRK	PROCEDURE	255	"    EXCEPTION
+"
+PRC_DJKF_ZDSCRK	PROCEDURE	256	"      when others then
+"
+PRC_DJKF_ZDSCRK	PROCEDURE	257	"        rollback;
+"
+PRC_DJKF_ZDSCRK	PROCEDURE	258	"        out_ret := 0;
+"
+PRC_DJKF_ZDSCRK	PROCEDURE	259	"  end;
+"
+PRC_DJKF_ZDSCRK	PROCEDURE	260	"
+"
+PRC_DJKF_ZDSCRK	PROCEDURE	261	"End;
+"

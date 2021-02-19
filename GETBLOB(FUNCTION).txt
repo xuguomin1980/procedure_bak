@@ -1,0 +1,42 @@
+GETBLOB	FUNCTION	1	"function getblob(table_name in varchar2, --表名
+"
+GETBLOB	FUNCTION	2	"                                   field_name in varchar2, --CLOB字段名
+"
+GETBLOB	FUNCTION	3	"                                   v_tj       in varchar2, --表查询条件
+"
+GETBLOB	FUNCTION	4	"                                   v_pos      in number) --字符起始位置
+"
+GETBLOB	FUNCTION	5	" return varchar2 is
+"
+GETBLOB	FUNCTION	6	"  buffer    varchar2(32767);
+"
+GETBLOB	FUNCTION	7	"  lobloc    blob;
+"
+GETBLOB	FUNCTION	8	"  amount    number := 2000;
+"
+GETBLOB	FUNCTION	9	"  query_str varchar2(1000);
+"
+GETBLOB	FUNCTION	10	"begin
+"
+GETBLOB	FUNCTION	11	"  query_str := 'select ' || field_name || ' from ' || table_name ||
+"
+GETBLOB	FUNCTION	12	"               ' where ' || v_tj || ''; --initialize buffer with data to be found
+"
+GETBLOB	FUNCTION	13	"  execute immediate query_str
+"
+GETBLOB	FUNCTION	14	"    INTO lobloc; --read 2000 varchar2 from the buffer
+"
+GETBLOB	FUNCTION	15	" -- dbms_lob.read(lobloc, amount, v_pos + 1, buffer);
+"
+GETBLOB	FUNCTION	16	"    select utl_raw.cast_to_varchar2(DBMS_LOB.SUBSTR(lobloc,amount,v_pos)) into buffer from dual ;
+"
+GETBLOB	FUNCTION	17	"  return buffer;
+"
+GETBLOB	FUNCTION	18	"exception
+"
+GETBLOB	FUNCTION	19	"  when no_data_found then
+"
+GETBLOB	FUNCTION	20	"    return buffer;
+"
+GETBLOB	FUNCTION	21	"end;
+"

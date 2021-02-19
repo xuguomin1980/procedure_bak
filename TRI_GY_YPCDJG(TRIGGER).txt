@@ -1,0 +1,18 @@
+TRI_GY_YPCDJG	TRIGGER	1	"TRIGGER ""ZJHIS"".""TRI_GY_YPCDJG"" 
+"
+TRI_GY_YPCDJG	TRIGGER	2	"before delete on gy_ypcdjg
+"
+TRI_GY_YPCDJG	TRIGGER	3	"for each row
+"
+TRI_GY_YPCDJG	TRIGGER	4	" WHEN (old.kfbz is not null) begin
+"
+TRI_GY_YPCDJG	TRIGGER	5	"raise_application_error(-20300,'YOU CAN NOT DELETE ANY DATA!!!');
+"
+TRI_GY_YPCDJG	TRIGGER	6	"rollback;
+"
+TRI_GY_YPCDJG	TRIGGER	7	"end tri_gy_ypcdjg;
+"
+TRI_GY_YPCDJG	TRIGGER	8	"
+"
+TRI_GY_YPCDJG	TRIGGER	9	"
+"

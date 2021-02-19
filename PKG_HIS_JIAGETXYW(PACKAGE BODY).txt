@@ -1,0 +1,1684 @@
+PKG_HIS_JIAGETXYW	PACKAGE BODY	1	"package body Pkg_His_JiaGeTxYw is
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	2	"  --gstr_PrcName  varchar2(300);
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	3	"
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	4	"  FUNCTION FUN_GET_XTCS(ARG_XTXH    IN NUMBER,
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	5	"                        ARG_CSMC    IN VARCHAR2,
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	6	"                        ARG_CSXH    IN NUMBER,
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	7	"                        ARG_DEFAULT IN VARCHAR2
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	8	"                        /*1-arg_xtxh 系统序号 2-arg_csmc 参数命称 3-arg_csxh 参数值1/参数值2 4-arg_default
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	9	"                                                                                                   fun_get_csz(11,'ZYXYF',2,'1')='3'
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	10	"                                                                                                  */)
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	11	"    RETURN VARCHAR2
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	12	"  
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	13	"   IS
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	14	"    Ls_ret gy_xtcs.csz2%Type;
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	15	"  Begin
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	16	"    begin
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	17	"      SELECT Decode(arg_csxh, 1, csz1, TO_CHAR(csz2))
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	18	"        INTO Ls_ret
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	19	"        FROM gy_xtcs
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	20	"       WHERE xtxh = arg_xtxh
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	21	"         AND csmc = UPPER(arg_csmc);
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	22	"    exception
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	23	"      when others then
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	24	"        ls_ret := arg_default;
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	25	"    End;
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	26	"    return(ls_ret);
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	27	"  End;
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	28	"
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	29	"  --价格体系业务 底层业务
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	30	"  Procedure Prc_His_JiaGeTx(As_In_xiangmuxx_xml  In Varchar2,
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	31	"                            Ai_DebugLtMs         In Number,
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	32	"                            As_Out_xiangmuxx_xml Out Varchar2,
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	33	"                            Ad_NewDj             Out GY_XiangMujgTx.xiangMudj%type,
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	34	"                            Ai_JiaGeLb           Out Gy_Xiangmujgtx.JiaGeLb%type,
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	35	"                            prm_AppCode          Out Number,
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	36	"                            As_ErrMsg            Out Varchar2)
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	37	"  
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	38	"   Is
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	39	"    /*prm_AppCode 1:符合条件 走新的价格体系
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	40	"                 0:正常的 不符合条件
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	41	"                 <0  -2:传入参数有误  -1:数据库错
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	42	"    */
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	43	"    as_GongneiBs    Varchar2(20);
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	44	"    ls_JieDian      Varchar2(20);
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	45	"    li_zhenliaoyppb Gy_XiangMuJgTx.Zhenliaoyppb%TYpe;
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	46	"    ll_XiangMuxh    Gy_XiangMuJgTx.XiangMuxh%TYpe;
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	47	"    ll_XiangMuCd    Gy_XiangMuJgTx.XiangMucd%TYpe;
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	48	"    ad_olddj        Gy_XiangMuJgTx.XiangMuDj%TYpe;
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	49	"    ls_TempData     Varchar2(20);
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	50	"    ls_ChuShengRq   Varchar2(8); --'yyyymmdd'
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	51	"    ls_FeiYongRq    Varchar2(8); --'yyyymmdd'
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	52	"    ls_Keishidm     Gy_Ksdm.Ksdm%Type;
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	53	"    ls_NlCs         Gy_Xtcs.Csz1%Type; -- 设置取年龄算法
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	54	"    DErTongNl       Gy_Xtcs.Csz2%Type; --设置儿童年龄界限 （以实周岁 包含)
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	55	"    ld_Nl           Number(10, 5);
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	56	"    li_JiaGeLb      Gy_XiangmujgTx.JiaGelb%Type;
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	57	"    li_AppCode      Number(2);
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	58	"    ls_ErrText      Varchar2(200);
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	59	"    ll_YiBaoysxmxh  Gy_XiangMujgtx.Yibaoysxmxh%Type;
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	60	"    Ls_Csmc         Gy_xtcs.csmc%TYpe;
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	61	"    li_JiaGeTxQy    Gy_xtcs.csz2%Type;
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	62	"    lstr_PrcName    varchar2(300);
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	63	"  
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	64	"    v_count              number;
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	65	"    xq                   Varchar2(5);
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	66	"    jjr_jiejiari         Varchar2(5);
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	67	"    jjr_zhoumo           Varchar2(5);
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	68	"    ll_jjr_zhoumo_csz2   number;
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	69	"    ll_jjr_jiejiari_csz2 number;
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	70	"    ll_dj_zlf            number;
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	71	"  
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	72	"  Begin
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	73	"    --gstr_PrcName:='Pkg_His_JiaGeTxYw.Prc_His_JiaGeTx';
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	74	"    lstr_PrcName := 'Pkg_His_JiaGeTxYw.Prc_His_JiaGeTx';
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	75	"    prm_AppCode  := 0;
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	76	"    ---//原单价 放在最前面，保证能让单价传出
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	77	"    ls_JieDian  := 'OLDDJ';
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	78	"    ls_TempData := Fun_Get_XmlParm(As_in_xiangmuxx_xml, ls_JieDian);
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	79	"    ad_olddj    := To_Number(ls_TempData);
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	80	"    If ls_TempData Is Null Or ls_TempData = '' Or ad_olddj < 0 Then
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	81	"      prm_AppCode := -2;
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	82	"      as_ErrMsg   := '传入的' || ls_JieDian || '有误!';
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	83	"      Goto Error;
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	84	"    End If;
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	85	"    Ls_Csmc      := '=JIAGETXQY=';
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	86	"    li_JiaGeTxQy := To_Number(Fun_get_xtcs(0, Ls_Csmc, 2, '1'));
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	87	"    If li_JiaGeTxQy <> '1' Then
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	88	"      --没启用模式 保证让传出的单价有效
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	89	"      as_errmsg := '=JIAGETXQY=为0';
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	90	"      Goto Error;
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	91	"    End If;
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	92	"    /*判断入参有效*/
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	93	"    --功能标识
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	94	"    ls_JieDian   := 'GEINEIBS';
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	95	"    as_GongneiBs := Fun_Get_XmlParm(As_in_xiangmuxx_xml, ls_JieDian);
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	96	"    If as_GongneiBs Is Null Or as_GongneiBs = '' Then
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	97	"      prm_AppCode := -2;
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	98	"      as_ErrMsg   := '传入的GEINEIBS为空!';
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	99	"      Goto Error;
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	100	"    End If;
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	101	"    --//诊疗药品判别 0：诊疗  1：药品
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	102	"    ls_JieDian  := 'ZHENLIAOYPPB';
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	103	"    ls_TempData := Fun_Get_XmlParm(As_in_xiangmuxx_xml, ls_JieDian);
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	104	"    If ls_TempData Is Null Or ls_TempData = '' Then
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	105	"      prm_AppCode := -2;
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	106	"      as_ErrMsg   := '传入的' || ls_JieDian || '有误，为空错误，请传0,1';
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	107	"      Goto Error;
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	108	"    End If;
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	109	"    li_zhenliaoyppb := To_Number(ls_TempData);
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	110	"    If Not (li_zhenliaoyppb = 0 Or li_zhenliaoyppb = 1) Then
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	111	"      prm_AppCode := -2;
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	112	"      as_ErrMsg   := '传入的' || ls_JieDian || '有误,请传0,1!';
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	113	"      Goto Error;
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	114	"    End If;
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	115	"  
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	116	"    ---//项目序号
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	117	"    ls_JieDian   := 'XIANGMUXH';
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	118	"    ll_XiangMuxh := To_Number(Fun_Get_XmlParm(As_in_xiangmuxx_xml,
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	119	"                                              ls_JieDian));
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	120	"    If ll_XiangMuxh <= 0 Or ll_XiangMuxh Is Null Then
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	121	"      prm_AppCode := -2;
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	122	"      as_ErrMsg   := '传入的' || ls_JieDian || '有误!';
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	123	"      Goto Error;
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	124	"    End If;
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	125	"    --//项目产地
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	126	"    ls_JieDian   := 'XIANGMUCD';
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	127	"    ll_Xiangmucd := To_Number(Fun_Get_XmlParm(As_in_xiangmuxx_xml,
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	128	"                                              ls_JieDian));
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	129	"    If ll_XiangMuxh <= 0 Or ll_XiangMuxh Is Null Then
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	130	"      prm_AppCode := -2;
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	131	"      as_ErrMsg   := '传入的' || ls_JieDian || '有误!';
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	132	"      Goto Error;
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	133	"    End If;
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	134	"  
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	135	"    If as_GongneiBs = 'ERTONGNLSB' or as_GongneiBs = 'ERTONGKSSB' Then
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	136	"      --功能标识
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	137	"      ---//出生日期 以YYYYMMDD
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	138	"      ls_JieDian    := 'CHUSHENGRQ';
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	139	"      ls_ChuShengRq := Fun_Get_XmlParm(As_in_xiangmuxx_xml, ls_JieDian);
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	140	"      If ls_ChuShengRq Is Null Or ls_ChuShengRq = '' Then
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	141	"        prm_AppCode := -2;
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	142	"        as_ErrMsg   := '传入的' || ls_JieDian || '有误!';
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	143	"        Goto Error;
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	144	"      End If;
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	145	"      --//费用日期 以YYYYMMDD
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	146	"      ls_JieDian   := 'FEIYONGRQ';
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	147	"      ls_FeiYongRq := Fun_Get_XmlParm(As_in_xiangmuxx_xml, ls_JieDian);
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	148	"      If ls_FeiYongRq Is Null Or ls_FeiYongRq = '' Then
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	149	"        prm_AppCode := -2;
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	150	"        as_ErrMsg   := '传入的' || ls_JieDian || '有误!';
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	151	"        Goto Error;
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	152	"      End If;
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	153	"    
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	154	"      --//科室代码
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	155	"      ls_JieDian  := 'KEISHIDM';
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	156	"      ls_Keishidm := Fun_Get_XmlParm(As_in_xiangmuxx_xml, ls_JieDian);
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	157	"      If ls_Keishidm Is Null Or ls_Keishidm = '' Then
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	158	"        prm_AppCode := -2;
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	159	"        as_ErrMsg   := '传入的' || ls_JieDian || '有误!';
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	160	"        Goto Error;
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	161	"      End If;
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	162	"    
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	163	"      /*先判断年龄准入条件　*/
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	164	"      ls_NlCs := Fun_Get_Xtcs(0, 'ERTONGSBTJ', 1, '1');
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	165	"      If ls_NlCs = '' Or ls_Nlcs Is Null Then
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	166	"        ls_NLcs := '1';
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	167	"      End If;
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	168	"      --从参数ERTONGSBTJ取儿童年龄界限 （以实周岁 包含)
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	169	"      DErTongNl := To_Number(Fun_Get_Xtcs(0, 'ERTONGSBTJ', 2, '6'));
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	170	"      If DErTongNl <= 0 Or DErTongNl Is Null Then
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	171	"        DErTongNl := 6;
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	172	"      End If;
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	173	"      --从出生日期，费用日期（发生日期）计算年龄  Number
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	174	"      Begin
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	175	"        ld_Nl := Fun_Get_Age2number(To_Date(ls_ChuShengRq, 'YYYYMMDD'),
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	176	"                                    To_Date(ls_FeiYongRq, 'YYYYMMDD'),
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	177	"                                    ls_NlCs);
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	178	"      Exception
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	179	"        When Others Then
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	180	"          prm_AppCode := -1;
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	181	"          as_ErrMsg   := '调用Fun_Get_Age2number出错' || SQLERRM;
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	182	"          Goto Error;
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	183	"      End;
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	184	"      If ld_Nl = -1 Then
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	185	"        --//出错
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	186	"        prm_AppCode := -1;
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	187	"        as_ErrMsg   := '调用Fun_Get_Age2number出错';
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	188	"        Goto Error;
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	189	"      End If;
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	190	"      If ld_Nl <= DErTongNl Then
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	191	"        --//注意小于或等于（包含） //医保根据月  6岁或6岁下
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	192	"        li_JiaGeLb := 2;
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	193	"        --从Gy_XiangmujgTx底层取数据
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	194	"        Prc_Get_XiangMuJgtx(li_jiagelb,
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	195	"                            li_zhenliaoyppb,
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	196	"                            ll_xiangmuxh,
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	197	"                            ll_xiangmucd,
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	198	"                            ls_FeiYongRq,
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	199	"                            Ai_DebugLtMs,
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	200	"                            ad_Newdj,
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	201	"                            li_AppCode,
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	202	"                            ls_ErrText);
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	203	"        If li_AppCode < 0 Then
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	204	"          ---出错
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	205	"          as_ErrMsg   := '2调用Prc_Get_XiangMuJgtx出错' || ls_ErrText;
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	206	"          prm_AppCode := -1;
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	207	"          Goto Error;
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	208	"        ElsIf li_AppCode = 0 Then
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	209	"          --没走体系表(不符合条件)
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	210	"          li_JiaGeLb := 0;
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	211	"        ElsIf li_AppCode = 1 Then
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	212	"          ---准入走体系表(符合条件)
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	213	"          GoTo Sucess;
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	214	"        End If;
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	215	"      End If;
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	216	"      /*年龄<=6  不符合条件 没走体系表，下面再从符合儿科科室里(诊查费加收模式）判断　*/
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	217	"      /*从科室代码取相应的价格类别  儿科 诊查费加收准入*/
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	218	"      Begin
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	219	"        --从科室中取相应价格体系
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	220	"        Select Nvl(JiageLb, 0)
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	221	"          Into li_jiagelb
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	222	"          From gy_ksdm
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	223	"         Where ksdm = ls_Keishidm;
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	224	"      Exception
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	225	"        When others Then
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	226	"          prm_AppCode := -1;
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	227	"          as_ErrMsg   := ls_Keishidm || '在gy_ksdm中找不到 ' || SQLERRM;
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	228	"          Goto Error;
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	229	"      End;
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	230	"      If li_jiagelb > 0 Then
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	231	"        --从Gy_XiangmujgTx底层取数据
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	232	"        Prc_Get_XiangMuJgtx(li_jiagelb,
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	233	"                            li_zhenliaoyppb,
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	234	"                            ll_xiangmuxh,
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	235	"                            ll_xiangmucd,
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	236	"                            ls_FeiYongRq,
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	237	"                            Ai_DebugLtMs,
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	238	"                            ad_Newdj,
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	239	"                            li_AppCode,
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	240	"                            ls_ErrText);
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	241	"        If li_AppCode < 0 Then
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	242	"          ---出错
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	243	"          prm_AppCode := -1;
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	244	"          as_ErrMsg   := '3调用Prc_Get_XiangMuJgtx出错' || ls_ErrText;
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	245	"          Goto Error;
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	246	"        ElsIf li_AppCode = 0 Then
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	247	"          --没走体系表(不符合条件)
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	248	"          li_JiaGeLb := 0;
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	249	"        ElsIf li_AppCode = 1 Then
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	250	"          ---准入走体系表（符合条件)
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	251	"          GoTo Sucess;
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	252	"        End If;
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	253	"      End If;
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	254	"    
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	255	"    Else
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	256	"      ----功能标识
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	257	"      prm_AppCode := -1;
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	258	"      as_ErrMsg   := '调用入参识别标识没定义!';
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	259	"      Goto Error;
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	260	"    
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	261	"    End If; ----功能标识
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	262	"  
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	263	"    /*正常的 不符合条件  不走价格系目录　*/
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	264	"    If li_JiaGeLb <= 0 Or li_JiaGeLb Is Null Then
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	265	"      prm_AppCode := 0;
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	266	"      Goto Error;
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	267	"    End If;
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	268	"  
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	269	"    <<Sucess>> --//以准入法 走扩大表
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	270	"    --对Out 变量进行复值
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	271	"    ---满足条件 扩大表有数据就直接返回Sucess
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	272	"    ---取医保延伸项目序号 以用不同限价（不同医保代码）上传给医保使用
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	273	"    Begin
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	274	"      Select Nvl(yibaoysxmxh, 0)
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	275	"        Into ll_YiBaoysxmxh
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	276	"        From gy_xiangmujgtx
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	277	"       Where jiagelb = li_jiagelb
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	278	"         And zhenliaoyppb = li_zhenliaoyppb
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	279	"         And xiangmuxh = ll_xiangmuxh
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	280	"         And xiangmucd = ll_xiangmucd;
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	281	"    Exception
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	282	"      When Others Then
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	283	"        as_ErrMsg   := as_ErrMsg || SQLERRM;
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	284	"        prm_AppCode := -1;
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	285	"        If ll_YiBaoysxmxh Is Null Then
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	286	"          ll_YiBaoysxmxh := 0;
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	287	"        End If;
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	288	"        GoTo Error;
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	289	"    End;
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	290	"    If ll_YiBaoysxmxh Is Null Then
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	291	"      ll_YiBaoysxmxh := 0;
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	292	"    End If;
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	293	"    prm_AppCode := 1;
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	294	"    ai_jiagelb  := li_jiagelb;
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	295	"    ad_newdj    := ad_Newdj;
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	296	"  
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	297	"    -- 节假日儿科诊疗费 
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	298	"    if ll_xiangmuxh = 11334 and 1 = 1 then
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	299	"      ll_jjr_zhoumo_csz2   := 0;
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	300	"      ll_jjr_jiejiari_csz2 := 0;
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	301	"    
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	302	"      select TO_CHAR(SYSDATE, 'd') into xq From dual;
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	303	"      if xq = '1' or xq = '7' then
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	304	"        select nvl(csz1, '2'), nvl(csz2, 0)
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	305	"          into jjr_zhoumo, ll_jjr_zhoumo_csz2
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	306	"          From gy_xtcs
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	307	"         where csmc = 'ZM_MZLBXH'
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	308	"           and rownum = 1;
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	309	"      end if;
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	310	"    
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	311	"      select count(*)
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	312	"        into v_count
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	313	"        from gh_jjr
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	314	"       where to_char(rq, 'yyyymmdd') = to_char(sysdate, 'yyyymmdd');
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	315	"      if v_count > 0 then
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	316	"        select nvl(csz1, '2'), nvl(csz2, 0)
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	317	"          into jjr_jiejiari, ll_jjr_jiejiari_csz2
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	318	"          From gy_xtcs
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	319	"         where csmc = 'JJR_MZLBXH'
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	320	"           and rownum = 1;
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	321	"      end if;
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	322	"    
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	323	"      if ll_jjr_zhoumo_csz2 > 0 or ll_jjr_jiejiari_csz2 > 0 then
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	324	"        if ll_jjr_jiejiari_csz2 >= ll_jjr_zhoumo_csz2 then
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	325	"          null;
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	326	"        else
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	327	"          jjr_jiejiari := jjr_zhoumo;
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	328	"        end if;
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	329	"        select zlf_et
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	330	"          into ll_dj_zlf
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	331	"          From gh_mzlbk
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	332	"         where mzlbxh = jjr_jiejiari;
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	333	"        if ll_dj_zlf > 0 then
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	334	"          ad_newdj := ll_dj_zlf;
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	335	"        end if;
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	336	"      end if;
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	337	"    end if;
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	338	"  
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	339	"    as_out_xiangmuxx_xml := '<NEWDJ>' || To_Char(ad_newdj) || '</NEWDJ>';
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	340	"    as_out_xiangmuxx_xml := as_out_xiangmuxx_xml || '<JIAGELB>' ||
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	341	"                            To_Char(ai_jiagelb) || '</JIAGELB>';
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	342	"    as_out_xiangmuxx_xml := as_out_xiangmuxx_xml || '<YIBAOYSXMXH>' ||
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	343	"                            To_Char(Nvl(ll_YibaoYsxmxh, 0)) ||
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	344	"                            '</YIBAOYSXMXH>';
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	345	"    as_out_xiangmuxx_xml := as_out_xiangmuxx_xml || '<RETURN>' ||
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	346	"                            To_Char(prm_AppCode) || '</RETURN>';
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	347	"    as_errmsg            := Nvl(as_errmsg, '');
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	348	"    as_out_xiangmuxx_xml := as_out_xiangmuxx_xml || '<ERRMSG>' || as_errmsg ||
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	349	"                            '</ERRMSG>';
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	350	"    Return;
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	351	"  
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	352	"    <<Error>> --//处理不正常或不走扩大表 或未启用
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	353	"    Ai_JiaGeLb           := 0;
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	354	"    ad_Newdj             := ad_Olddj;
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	355	"    as_out_xiangmuxx_xml := '<NEWDJ>' || To_Char(ad_newdj) || '</NEWDJ>';
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	356	"    as_out_xiangmuxx_xml := as_out_xiangmuxx_xml || '<JIAGELB>' ||
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	357	"                            To_Char(ai_jiagelb) || '</JIAGELB>';
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	358	"    as_out_xiangmuxx_xml := as_out_xiangmuxx_xml || '<YIBAOYSXMXH>' ||
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	359	"                            To_Char(Nvl(ll_YibaoYsxmxh, 0)) ||
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	360	"                            '</YIBAOYSXMXH>';
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	361	"    as_out_xiangmuxx_xml := as_out_xiangmuxx_xml || '<RETURN>' ||
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	362	"                            To_Char(prm_AppCode) || '</RETURN>';
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	363	"    as_errmsg            := Nvl(as_errmsg, '');
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	364	"    as_out_xiangmuxx_xml := as_out_xiangmuxx_xml || '<ERRMSG>' || as_errmsg ||
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	365	"                            '</ERRMSG>';
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	366	"    Return;
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	367	"  
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	368	"  Exception
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	369	"    When Others Then
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	370	"      --出错取传过来的数据
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	371	"      prm_AppCode := -1;
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	372	"      --As_ErrMsg   := gstr_PrcName || SQLERRM||SQLCODE;
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	373	"      As_ErrMsg := lstr_PrcName || SQLERRM || SQLCODE;
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	374	"    
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	375	"      Ai_JiaGeLb           := 0;
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	376	"      ad_Newdj             := ad_Olddj;
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	377	"      as_out_xiangmuxx_xml := '<NEWDJ>' || To_Char(ad_newdj) || '</NEWDJ>';
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	378	"      as_out_xiangmuxx_xml := as_out_xiangmuxx_xml || '<JIAGELB>' ||
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	379	"                              To_Char(ai_jiagelb) || '</JIAGELB>';
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	380	"      ll_YibaoYsxmxh       := 0;
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	381	"      as_out_xiangmuxx_xml := as_out_xiangmuxx_xml ||
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	382	"                              '<YIBAOYSXMXH>To_Char(Nvl(ll_YibakYsxmxh,0))' ||
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	383	"                              '</YIBAOYSXMXH>';
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	384	"      as_out_xiangmuxx_xml := as_out_xiangmuxx_xml || '<RETURN>' ||
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	385	"                              To_Char(prm_AppCode) || '</RETURN>';
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	386	"      If As_ErrMsg Is Null Then
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	387	"        As_ErrMsg := '';
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	388	"      End If;
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	389	"      as_out_xiangmuxx_xml := as_out_xiangmuxx_xml || '<ERRMSG>' ||
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	390	"                              as_errmsg || '</ERRMSG>';
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	391	"  End;
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	392	"
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	393	"  --儿童价格体系模式
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	394	"  Procedure Prc_ETJiaGeTx(Ai_ZhenliaoYppb In Number,
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	395	"                          As_ChuShengrq   In Varchar2,
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	396	"                          As_FeiYongrq    In Varchar2,
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	397	"                          As_KeiShiDm     In Varchar2,
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	398	"                          Al_XiangMuxh    In Number,
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	399	"                          Al_XiangMucd    In Number,
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	400	"                          Ad_OldDj        In Number,
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	401	"                          Ad_NewDj        Out GY_XiangMujgTx.xiangMudj%type,
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	402	"                          Ai_JiaGeLb      Out Gy_Xiangmujgtx.JiaGeLb%type,
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	403	"                          Al_YiBaoysxmxh  Out Gy_Xiangmujgtx.Yibaoysxmxh%Type,
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	404	"                          Prm_AppCode     Out Number,
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	405	"                          As_ErrMsg       Out Varchar2) Is
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	406	"    ls_InXml  Varchar2(2000);
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	407	"    ls_OutXml Varchar2(2000);
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	408	"  Begin
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	409	"    ls_InXml := '<GEINEIBS>ERTONGNLSB</GEINEIBS>';
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	410	"    ls_InXml := ls_InXml || '<ZHENLIAOYPPB>' || To_char(Ai_ZhenliaoYppb) ||
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	411	"                '</ZHENLIAOYPPB>';
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	412	"    ls_InXml := ls_InXml || '<XIANGMUXH>' || To_Char(al_XiangMuxh) ||
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	413	"                '</XIANGMUXH>';
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	414	"    ls_InXml := ls_InXml || '<OLDDJ>' || To_Char(ad_Olddj) || '</OLDDJ>';
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	415	"    ls_InXml := ls_InXml || '<XIANGMUCD>' || To_char(al_XiangMucd) ||
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	416	"                '</XIANGMUCD>';
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	417	"    ls_InXml := ls_InXml || '<KEISHIDM>' || As_KeiShiDm || '</KEISHIDM>';
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	418	"    ls_InXml := ls_InXml || '<CHUSHENGRQ>' || As_ChuShengrq ||
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	419	"                '</CHUSHENGRQ>';
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	420	"    ls_InXml := ls_InXml || '<FEIYONGRQ>' || As_FeiYongrq || '</FEIYONGRQ>';
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	421	"    Prc_His_JiaGeTx(ls_InXml,
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	422	"                    0,
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	423	"                    ls_OutXml,
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	424	"                    Ad_NewDj,
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	425	"                    Ai_JiaGeLb,
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	426	"                    prm_AppCode,
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	427	"                    As_ErrMsg);
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	428	"    Al_YiBaoysxmxh := Fun_Get_xmlParm(ls_OutXml, 'YIBAOYSXMXH');
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	429	"  End;
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	430	"
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	431	"  ---儿童价格体系模式--诊疗
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	432	"  Procedure Prc_ETJiaGeTx_ZhenLiao(As_ChuShengrq  In Varchar2,
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	433	"                                   As_FeiYongrq   In Varchar2,
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	434	"                                   As_KeiShiDm    In Varchar2,
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	435	"                                   Al_XiangMuxh   In Number,
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	436	"                                   Al_XiangMuCd   In Number,
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	437	"                                   Ad_OldDj       In Number,
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	438	"                                   Ad_NewDj       Out GY_XiangMujgTx.xiangMudj%type,
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	439	"                                   Ai_JiaGeLb     Out Gy_Xiangmujgtx.JiaGeLb%type,
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	440	"                                   Al_YiBaoysxmxh Out Gy_Xiangmujgtx.Yibaoysxmxh%Type,
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	441	"                                   prm_AppCode    Out Number,
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	442	"                                   As_ErrMsg      Out Varchar2) Is
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	443	"  Begin
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	444	"    Prc_ETJiaGeTx(0,
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	445	"                  As_ChuShengrq,
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	446	"                  As_FeiYongrq,
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	447	"                  As_KeiShiDm,
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	448	"                  al_XiangMuxh,
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	449	"                  al_XiangMucd,
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	450	"                  Ad_OldDj,
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	451	"                  Ad_NewDj,
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	452	"                  Ai_JiaGeLb,
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	453	"                  Al_YiBaoysxmxh,
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	454	"                  prm_AppCode,
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	455	"                  As_ErrMsg);
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	456	"  End;
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	457	"
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	458	"  ---儿童价格体系模式--药品
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	459	"  Procedure Prc_ETJiaGeTx_YaoPin(As_ChuShengrq  In Varchar2,
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	460	"                                 As_FeiYongrq   In Varchar2,
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	461	"                                 As_KeiShiDm    In Varchar2,
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	462	"                                 Al_XiangMuxh   In Number,
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	463	"                                 Al_XiangMuCd   In Number,
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	464	"                                 Ad_OldDj       In Number,
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	465	"                                 Ad_NewDj       Out GY_XiangMujgTx.xiangMudj%type,
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	466	"                                 Ai_JiaGeLb     Out Gy_Xiangmujgtx.JiaGeLb%type,
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	467	"                                 Al_YiBaoysxmxh Out Gy_Xiangmujgtx.Yibaoysxmxh%Type,
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	468	"                                 prm_AppCode    Out Number,
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	469	"                                 As_ErrMsg      Out Varchar2) Is
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	470	"  Begin
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	471	"    Prc_ETJiaGeTx(1,
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	472	"                  As_ChuShengrq,
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	473	"                  As_FeiYongrq,
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	474	"                  As_KeiShiDm,
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	475	"                  al_XiangMuxh,
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	476	"                  al_XiangMucd,
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	477	"                  Ad_OldDj,
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	478	"                  Ad_NewDj,
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	479	"                  Ai_JiaGeLb,
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	480	"                  Al_YiBaoysxmxh,
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	481	"                  prm_AppCode,
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	482	"                  As_ErrMsg);
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	483	"  End;
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	484	"
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	485	"  --取底层的价格体系
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	486	"  Procedure Prc_Get_Xiangmujgtx(Ai_Jiagelb      In Gy_Xiangmujgtx.JiaGeLb%type,
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	487	"                                Ai_Zhenliaoyppb In Gy_Xiangmujgtx.ZhenliaoYppb%type,
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	488	"                                Al_Xiangmuxh    In Gy_Xiangmujgtx.XiangMuxh%type,
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	489	"                                Al_Xiangmucd    In Gy_Xiangmujgtx.XiangMuCd%type,
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	490	"                                As_FeiyongRq    In Varchar2, --yyyymmdd
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	491	"                                Ai_Debug        In Number,
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	492	"                                Ad_NewDj        Out Gy_Xiangmujgtx.xiangmudj%type,
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	493	"                                prm_AppCode     Out Number,
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	494	"                                As_ErrMsg       Out Varchar2) Is
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	495	"    /*
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	496	"    prm_AppCode 0 不走体系表
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	497	"                1  准入
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	498	"                <0 出错 */
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	499	"    ls_Qiyongrq  gy_xiangmujgtxzd.qiyongrq%type;
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	500	"    lstr_PrcName varchar2(300);
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	501	"  Begin
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	502	"    --gstr_PrcName:='Pkg_His_JiaGeTxYw.Prc_Get_Xiangmujgtx';
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	503	"    lstr_PrcName := 'Pkg_His_JiaGeTxYw.Prc_Get_Xiangmujgtx';
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	504	"    prm_AppCode  := 0;
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	505	"  
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	506	"    If As_FeiyongRq Is Null Or As_FeiyongRq = '' Or
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	507	"       Length(As_FeiyongRq) <> 8 Then
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	508	"      prm_AppCode := -2;
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	509	"      As_ErrMsg   := '传入的FeiyongRq错误(格式应为yyyymmdd)!';
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	510	"      GoTo EndOver;
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	511	"    End If;
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	512	"    /*联调模式 不判断启用时间　*/
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	513	"    If Nvl(Ai_Debug, 0) <> 1 Then
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	514	"      /* daq  从价格体系字典中判别启用时间  */
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	515	"      Begin
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	516	"        Select qiyongrq
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	517	"          Into ls_Qiyongrq
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	518	"          From gy_xiangmujgtxzd
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	519	"         Where jiagelb = Ai_Jiagelb
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	520	"           And Nvl(shiyongpb, 0) = 1
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	521	"           And (To_char(sysdate, 'yyyymmdd') >= qiyongrq And
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	522	"               qiyongrq is Not Null);
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	523	"      Exception
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	524	"        ---当没有数据时
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	525	"        When No_Data_Found Then
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	526	"          prm_AppCode := 0;
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	527	"          GoTo EndOver;
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	528	"          --数据库出错
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	529	"        When others Then
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	530	"          prm_AppCode := -1;
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	531	"          GoTo EndOver;
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	532	"        
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	533	"      End;
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	534	"    
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	535	"      --判断是否是非法的启用日期
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	536	"      If Length(ls_Qiyongrq) <> 8 Then
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	537	"        --yyyymmdd
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	538	"        prm_AppCode := -2;
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	539	"        As_ErrMsg   := '从价格体系字典库中取启用日期错误(格式应为yyyymmdd)!';
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	540	"        GoTo EndOver;
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	541	"      End If;
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	542	"    
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	543	"      /*费用日期小于启用日期 ,不走价格体系*/
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	544	"      If as_FeiYongrq < ls_Qiyongrq Then
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	545	"        prm_AppCode := 0;
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	546	"        GoTo EndOver;
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	547	"      End If;
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	548	"    
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	549	"    End If;
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	550	"  
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	551	"    --Ai_Zhenliaoyppb 0:诊疗   1：药品
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	552	"    If Not (Ai_Zhenliaoyppb = 0 Or Ai_Zhenliaoyppb = 1) Then
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	553	"      prm_AppCode := -2;
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	554	"      As_ErrMsg   := '传入的Zhenliaoyppb错误!';
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	555	"      GoTo EndOver;
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	556	"    End If;
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	557	"  
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	558	"    Begin
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	559	"      Select Nvl(Xiangmudj, 0)
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	560	"        Into Ad_NewDj
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	561	"        From Gy_Xiangmujgtx
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	562	"       Where Jiagelb = Ai_Jiagelb
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	563	"         And Zhenliaoyppb = Ai_Zhenliaoyppb
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	564	"         And Xiangmuxh = Al_Xiangmuxh
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	565	"         And Xiangmucd = Al_Xiangmucd
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	566	"         And Nvl(Zuofeipb, 0) = 0;
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	567	"    Exception
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	568	"      ---当没有数据时
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	569	"      When No_Data_Found Then
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	570	"        prm_AppCode := 0;
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	571	"        GoTo EndOver;
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	572	"        --数据库出错
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	573	"      When others Then
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	574	"        prm_AppCode := -1;
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	575	"        GoTo EndOver;
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	576	"    End;
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	577	"  
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	578	"    prm_AppCode := 1;
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	579	"    Ad_NewDj    := Ad_NewDj;
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	580	"    Return;
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	581	"  
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	582	"    <<EndOver>>
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	583	"    If As_ErrMsg Is Null Then
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	584	"      As_ErrMsg := '';
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	585	"    End If;
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	586	"    --As_ErrMsg:=As_ErrMsg||gstr_PrcName||' ' || SQLERRM;
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	587	"    As_ErrMsg := As_ErrMsg || lstr_PrcName || ' ' || SQLERRM;
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	588	"    ReTurn;
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	589	"  
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	590	"  Exception
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	591	"    When Others Then
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	592	"      --出错取传过来的数据
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	593	"    
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	594	"      prm_AppCode := SQLCODE;
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	595	"      --gstr_PrcName := '过程： Prc_Yp_YongFaYlZh出错！';
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	596	"      lstr_PrcName := '过程： Prc_Yp_YongFaYlZh出错！';
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	597	"      --As_ErrMsg   := gstr_PrcName || SQLERRM;
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	598	"      As_ErrMsg := lstr_PrcName || SQLERRM;
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	599	"  End;
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	600	"
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	601	"  FUNCTION FUN_GET_AGE2NUMBER(ad_csrq IN date,
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	602	"                              ad_dqrq IN date,
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	603	"                              ai_cs   IN VARCHAR2) RETURN Number IS
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	604	"    /*Create  daq  2017/04/18 取年龄返回 Number
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	605	"     注意返回-1出错
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	606	"    */
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	607	"    RESULT   Number(10, 5);
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	608	"    n_months number;
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	609	"    n_days   number;
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	610	"    n_year   number;
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	611	"    d_dqrq   date;
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	612	"  BEGIN
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	613	"    Begin
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	614	"      --出生日期为空或<=19000101 或出生日期大于当前日期为错
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	615	"      IF ad_csrq is null OR ad_csrq <= TO_DATE('1900-1-1', 'YYYY-MM-DD') or
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	616	"         TO_CHAR(ad_csrq, 'YYYYMMDD') > TO_CHAR(ad_dqrq, 'YYYYMMDD') THEN
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	617	"        RESULT := -1;
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	618	"        RETURN(RESULT);
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	619	"      END IF;
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	620	"      IF ad_dqrq is null OR ad_dqrq <= TO_DATE('1900-1-1', 'YYYY-MM-DD') THEN
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	621	"        d_dqrq := SYSDATE;
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	622	"      ELSE
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	623	"        d_dqrq := ad_dqrq;
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	624	"      END IF;
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	625	"    
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	626	"      /*
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	627	"         --计算日数
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	628	"       select d_dqrq - ad_csrq  into n_days from dual;
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	629	"       IF n_days < 1 THEN
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	630	"           n_days := 1;
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	631	"       Else
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	632	"           n_days := n_days + 1;
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	633	"       END IF;
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	634	"      */
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	635	"    
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	636	"      /*
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	637	"       --计算年数
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	638	"       select to_number(to_char(ad_dqrq,'yyyy')) - to_number(to_char(ad_csrq,'yyyy')) into n_year from dual;
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	639	"       if n_year < 0 then
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	640	"          n_year := 0;
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	641	"       end if;
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	642	"      */
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	643	"    
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	644	"      --根据不同计算方法来取相应年龄
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	645	"      IF ai_cs = '1' THEN
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	646	"        --以月 来算  实周岁来算
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	647	"        select to_number(to_char(d_dqrq, 'YYYY')) * 12 +
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	648	"               to_number(to_char(d_dqrq, 'MM')) -
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	649	"               (to_number(to_char(ad_csrq, 'YYYY')) * 12 +
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	650	"                to_number(to_char(ad_csrq, 'MM')))
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	651	"          into n_months
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	652	"          from dual;
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	653	"      
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	654	"        RESULT := n_months / 12;
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	655	"      
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	656	"      ELSIF ai_cs = '2' THEN
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	657	"        --以年来算 实周岁来算
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	658	"        select to_number(to_char(d_dqrq, 'YYYY')) * 12 -
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	659	"               to_number(to_char(ad_csrq, 'YYYY')) * 12
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	660	"          into n_months
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	661	"          from dual;
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	662	"        RESULT := n_months / 12;
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	663	"      
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	664	"      ELSIF ai_cs = '3' Then
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	665	"        -- 以天来算 实周岁来算
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	666	"        select to_number(to_char(d_dqrq, 'YYYY')) * 12 +
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	667	"               to_number(to_char(d_dqrq, 'MM')) -
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	668	"               (to_number(to_char(ad_csrq, 'YYYY')) * 12 +
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	669	"                to_number(to_char(ad_csrq, 'MM')))
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	670	"          into n_months
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	671	"          from dual; ---// (当前年份*12+当前月份) – (出生年份*12+出生月份)
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	672	"      
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	673	"        IF n_months >= 12 THEN
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	674	"          --//如果大于等于12个月
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	675	"          --- //周岁的算法
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	676	"          If to_char(ad_csrq, 'MM') = to_char(d_dqrq, 'MM') Then
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	677	"            --  //同月的时候
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	678	"            N_days := to_number(to_char(ad_dqrq, 'DD')) -
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	679	"                      to_number(to_char(ad_csrq, 'DD'));
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	680	"            Result := Round(Trunc(n_months / 12, 0) + N_days / 365, 5);
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	681	"          
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	682	"          Else
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	683	"            n_days := TRUNC(d_dqrq) - TRUNC(ad_csrq);
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	684	"            Result := Round(n_days / 365, 5);
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	685	"          
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	686	"          End If;
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	687	"        
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	688	"          --ELSIF n_months >= 1  and n_months < 12 THEN            --//如果大于等于1个月小于12个月
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	689	"          --n_days:= d_dqrq - ad_csrq;
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	690	"          --Result:= n_days/365;
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	691	"          -- Result:=n_months/12;   --//几个月
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	692	"        ELSE
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	693	"          ---//单位取“天”  //几天
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	694	"          --Result:=n_months/12;
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	695	"          n_days := TRUNC(d_dqrq) - TRUNC(ad_csrq);
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	696	"          Result := Round(n_days / 365, 5);
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	697	"        END IF;
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	698	"      
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	699	"      Else
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	700	"        ---以月 来算  实周岁来算
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	701	"        select to_number(to_char(d_dqrq, 'YYYY')) * 12 +
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	702	"               to_number(to_char(d_dqrq, 'MM')) -
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	703	"               (to_number(to_char(ad_csrq, 'YYYY')) * 12 +
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	704	"                to_number(to_char(ad_csrq, 'MM')))
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	705	"          into n_months
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	706	"          from dual;
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	707	"      
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	708	"        RESULT := n_months / 12;
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	709	"      
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	710	"      END IF;
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	711	"    
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	712	"    EXCEPTION
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	713	"      WHEN OTHERS THEN
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	714	"        RESULT := -1;
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	715	"    End;
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	716	"  
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	717	"    RETURN(RESULT);
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	718	"  END;
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	719	"
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	720	"  Function Fun_Get_XmlParm(prm_InXml In Varchar2, prm_InParm In Varchar2)
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	721	"    Return varchar2 Is
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	722	"    n_OutValue         varchar2(4000);
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	723	"    n_StartingPosition Number;
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	724	"    n_EndPosition      Number;
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	725	"    n_ParmLength       Number;
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	726	"    n_Length           Number;
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	727	"    n_date             date;
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	728	"  Begin
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	729	"    If prm_InXml is null Then
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	730	"      Return '';
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	731	"    End If;
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	732	"    If prm_InParm is null Then
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	733	"      Return prm_InXml;
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	734	"    End If;
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	735	"  
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	736	"    --取起始位置值
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	737	"    n_StartingPosition := Instr(upper(prm_InXml),
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	738	"                                '<' || upper(prm_InParm) || '>');
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	739	"    If n_StartingPosition = 0 Then
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	740	"      Return nvl(n_OutValue, '');
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	741	"    End If;
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	742	"    --取结束位置值
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	743	"    n_EndPosition := Instr(upper(prm_InXml),
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	744	"                           '</' || upper(prm_InParm) || '>');
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	745	"    If n_EndPosition = 0 Then
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	746	"      Return nvl(n_OutValue, '');
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	747	"    End If;
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	748	"    --取分隔符长度
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	749	"    n_ParmLength := Length('<' || prm_InParm || '>');
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	750	"    --取截取长度
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	751	"    n_Length := n_EndPosition - n_StartingPosition - n_ParmLength;
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	752	"    --取返回值
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	753	"    n_OutValue := SubStr(prm_InXml,
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	754	"                         n_StartingPosition + n_ParmLength,
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	755	"                         n_Length);
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	756	"    Return nvl(n_OutValue, '');
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	757	"  
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	758	"  End;
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	759	"
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	760	"  --- ---取诊疗单价  原单价是取Gy_Ylsf中的Dj
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	761	"  Function Fun_Get_ZHENLIAODJ(As_ChuShengrq In Varchar2,
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	762	"                              As_FeiYongrq  In Varchar2,
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	763	"                              As_KeiShiDm   In Varchar2,
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	764	"                              Al_XiangMuxh  In Number) Return Number Is
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	765	"    ld_Olddj       Gy_Xiangmujgtx.xiangmudj%Type;
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	766	"    ld_newdj       Gy_Xiangmujgtx.xiangmudj%Type;
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	767	"    li_Jiagelb     Gy_Xiangmujgtx.jiagelb%Type;
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	768	"    ll_Yibaoysxmxh Gy_Xiangmujgtx.Yibaoysxmxh%Type;
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	769	"    li_PrmCode     Number;
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	770	"    ls_ErrText     varchar2(500);
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	771	"  Begin
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	772	"    Begin
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	773	"      --从现有的诊疗库中取现有单价
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	774	"      Select Nvl(Dj, 0)
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	775	"        Into ld_Olddj
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	776	"        From Gy_Ylsf
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	777	"       Where Ylxh = Al_XiangMuxh;
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	778	"    Exception
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	779	"      When Others Then
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	780	"        ld_Olddj := 0;
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	781	"    End;
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	782	"    Prc_ETJiaGeTx_ZhenLiao(As_ChuShengrq,
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	783	"                           As_FeiYongrq,
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	784	"                           As_KeiShiDm,
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	785	"                           Al_XiangMuxh,
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	786	"                           0,
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	787	"                           ld_Olddj,
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	788	"                           ld_NewDj,
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	789	"                           li_JiaGeLb,
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	790	"                           ll_YiBaoysxmxh,
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	791	"                           li_PrmCode,
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	792	"                           ls_ErrText);
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	793	"    Return(ld_newdj);
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	794	"  
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	795	"  End;
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	796	"
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	797	"  ---根据价格类别取价格体系库中取单价
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	798	"  Function Fun_Get_Xiangmujgtx(Ai_Jiagelb      In Number,
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	799	"                               Ai_Zhenliaoyppb In Number,
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	800	"                               Al_Xiangmuxh    In Number,
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	801	"                               Al_Xiangmucd    In Number,
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	802	"                               Ai_Debug        In Number) Return Number Is
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	803	"    Result     Gy_xiangmujgtx.xiangmudj%Type;
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	804	"    li_AppCode Number;
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	805	"    ls_ErrText Varchar2(500);
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	806	"    /*　 Return   >=0 ：从扩大表中取
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	807	"                  -1 : 找不到 不走扩大 或未启用
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	808	"                  -2 ：传入参数有误
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	809	"                  -3  ：异常出错
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	810	"    
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	811	"        增加 Ai_Debug 模式  0:正常运行模式  1：debug联调模式
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	812	"        add  daq  2017/04/17
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	813	"    */
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	814	"  
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	815	"  Begin
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	816	"    Prc_Get_Xiangmujgtx(Ai_Jiagelb,
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	817	"                        Ai_Zhenliaoyppb,
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	818	"                        Al_Xiangmuxh,
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	819	"                        Al_Xiangmucd,
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	820	"                        To_char(sysdate, 'yyyymmdd'),
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	821	"                        Ai_Debug,
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	822	"                        Result,
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	823	"                        li_AppCode,
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	824	"                        ls_ErrText);
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	825	"    If li_AppCode = 1 Then
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	826	"      Result := Result; --已准入 走体系表
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	827	"    ElsIf li_AppCode = 0 Then
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	828	"      Result := -1; --找不到
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	829	"    ElsIf li_AppCode < 0 Then
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	830	"      Result := li_AppCode; --出错
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	831	"    End If;
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	832	"  
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	833	"    Return(Result);
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	834	"  
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	835	"  exception
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	836	"    When Others Then
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	837	"      Result := -3;
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	838	"      Return(Result);
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	839	"    
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	840	"  End;
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	841	"
+"
+PKG_HIS_JIAGETXYW	PACKAGE BODY	842	"end Pkg_His_JiaGeTxYw;
+"

@@ -1,0 +1,23 @@
+F_YF_GETBRXZMC	FUNCTION	1	"FUNCTION         ""F_YF_GETBRXZMC"" (arg_brxzdm in varchar2)  
+"
+F_YF_GETBRXZMC	FUNCTION	2	"return varchar2  is 
+"
+F_YF_GETBRXZMC	FUNCTION	3	"  ls_return varchar2(30); 
+"
+F_YF_GETBRXZMC	FUNCTION	4	"begin  
+"
+F_YF_GETBRXZMC	FUNCTION	5	"    if arg_brxzdm = null then  
+"
+F_YF_GETBRXZMC	FUNCTION	6	"      return null; 
+"
+F_YF_GETBRXZMC	FUNCTION	7	"    end if; 
+"
+F_YF_GETBRXZMC	FUNCTION	8	"    select xzmc into ls_return from gy_brxz  
+"
+F_YF_GETBRXZMC	FUNCTION	9	"    where xzdm=arg_brxzdm;  
+"
+F_YF_GETBRXZMC	FUNCTION	10	"return(ls_return);  
+"
+F_YF_GETBRXZMC	FUNCTION	11	"end; 
+"
+F_YF_GETBRXZMC	FUNCTION	12	 

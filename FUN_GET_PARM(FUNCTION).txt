@@ -1,0 +1,60 @@
+FUN_GET_PARM	FUNCTION	1	"FUNCTION FUN_GET_PARM  (prm_String   In     Varchar2,
+"
+FUN_GET_PARM	FUNCTION	2	"                       prm_Pos      In     Number,
+"
+FUN_GET_PARM	FUNCTION	3	"                       prm_Sign     In     Varchar2
+"
+FUN_GET_PARM	FUNCTION	4	"                       ) Return Varchar2
+"
+FUN_GET_PARM	FUNCTION	5	"
+"
+FUN_GET_PARM	FUNCTION	6	"  Is
+"
+FUN_GET_PARM	FUNCTION	7	"
+"
+FUN_GET_PARM	FUNCTION	8	"  n_Num      Number(1);
+"
+FUN_GET_PARM	FUNCTION	9	"  n_Start    Number(4):=1;
+"
+FUN_GET_PARM	FUNCTION	10	"  n_End      Number(4):=1;
+"
+FUN_GET_PARM	FUNCTION	11	"  str_Return Varchar2(500);
+"
+FUN_GET_PARM	FUNCTION	12	"
+"
+FUN_GET_PARM	FUNCTION	13	"  Begin
+"
+FUN_GET_PARM	FUNCTION	14	"    For n_num In 1..prm_Pos-1 Loop
+"
+FUN_GET_PARM	FUNCTION	15	"        n_Start  :=  Instr(prm_String,prm_Sign,n_Start,1);
+"
+FUN_GET_PARM	FUNCTION	16	"        If n_Start>0 Then
+"
+FUN_GET_PARM	FUNCTION	17	"           n_Start := n_Start+Length(prm_Sign);
+"
+FUN_GET_PARM	FUNCTION	18	"        End If;
+"
+FUN_GET_PARM	FUNCTION	19	"    End loop;
+"
+FUN_GET_PARM	FUNCTION	20	"    If n_Start=0 Then
+"
+FUN_GET_PARM	FUNCTION	21	"       Return str_Return;
+"
+FUN_GET_PARM	FUNCTION	22	"    ElsIf n_Start>0 Then
+"
+FUN_GET_PARM	FUNCTION	23	"       n_End  :=  instr(prm_String,prm_Sign,n_Start,1);
+"
+FUN_GET_PARM	FUNCTION	24	"       If n_End=0 Then
+"
+FUN_GET_PARM	FUNCTION	25	"          n_End := length(prm_string)+1;
+"
+FUN_GET_PARM	FUNCTION	26	"       End If;
+"
+FUN_GET_PARM	FUNCTION	27	"       str_Return := Substr(prm_String,n_Start,n_End-n_Start);
+"
+FUN_GET_PARM	FUNCTION	28	"       Return str_Return;
+"
+FUN_GET_PARM	FUNCTION	29	"    End If;
+"
+FUN_GET_PARM	FUNCTION	30	"  End;
+"

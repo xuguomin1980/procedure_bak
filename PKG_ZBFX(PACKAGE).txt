@@ -1,0 +1,31 @@
+PKG_ZBFX	PACKAGE	1	"PACKAGE         ""PKG_ZBFX"" is
+"
+PKG_ZBFX	PACKAGE	2	"function f_ypfx_getypxx
+"
+PKG_ZBFX	PACKAGE	3	"(arg_ypxh in number,arg_ypcddm in number,arg_flag in varchar2)
+"
+PKG_ZBFX	PACKAGE	4	"  return varchar2;
+"
+PKG_ZBFX	PACKAGE	5	"procedure prc_zbfx_xtcs;
+"
+PKG_ZBFX	PACKAGE	6	"procedure prc_zbfx_sjcj1;--( in_ypfx_id   In    NUMBER,
+"
+PKG_ZBFX	PACKAGE	7	"                        -- on_code      Out   NUMBER,
+"
+PKG_ZBFX	PACKAGE	8	"                         --os_mess      Out   VARCHAR2 );
+"
+PKG_ZBFX	PACKAGE	9	"Procedure prc_sjcj ( in_start_id   In    NUMBER,
+"
+PKG_ZBFX	PACKAGE	10	"                        in_day        In    NUMBER   default   1,
+"
+PKG_ZBFX	PACKAGE	11	"                        on_code       Out   NUMBER,
+"
+PKG_ZBFX	PACKAGE	12	"                        os_mess       Out   Varchar2);
+"
+PKG_ZBFX	PACKAGE	13	"
+"
+PKG_ZBFX	PACKAGE	14	"end Pkg_zbfx;
+"
+PKG_ZBFX	PACKAGE	15	"
+"
+PKG_ZBFX	PACKAGE	16	 

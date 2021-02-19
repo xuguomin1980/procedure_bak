@@ -1,0 +1,23 @@
+F_YJ_GETYJYY_CZGH	FUNCTION	1	"FUNCTION         ""F_YJ_GETYJYY_CZGH"" 
+"
+F_YJ_GETYJYY_CZGH	FUNCTION	2	"(arg_mzzy varchar2,arg_yjsb number,arg_ylxh in number)
+"
+F_YJ_GETYJYY_CZGH	FUNCTION	3	"  return varchar2
+"
+F_YJ_GETYJYY_CZGH	FUNCTION	4	"  is
+"
+F_YJ_GETYJYY_CZGH	FUNCTION	5	"    ls_return varchar2(30);
+"
+F_YJ_GETYJYY_CZGH	FUNCTION	6	"  begin
+"
+F_YJ_GETYJYY_CZGH	FUNCTION	7	"	  select czgh into ls_return from yj_yyxx where yjsb=arg_yjsb and
+"
+F_YJ_GETYJYY_CZGH	FUNCTION	8	"       mzzy=arg_mzzy and ylxh=arg_ylxh;
+"
+F_YJ_GETYJYY_CZGH	FUNCTION	9	"	  return(ls_return);
+"
+F_YJ_GETYJYY_CZGH	FUNCTION	10	"  end;
+"
+F_YJ_GETYJYY_CZGH	FUNCTION	11	"
+"
+F_YJ_GETYJYY_CZGH	FUNCTION	12	 

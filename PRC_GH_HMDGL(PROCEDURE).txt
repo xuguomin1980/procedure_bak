@@ -1,0 +1,106 @@
+PRC_GH_HMDGL	PROCEDURE	1	"PROCEDURE ""PRC_GH_HMDGL""
+"
+PRC_GH_HMDGL	PROCEDURE	2	"Is
+"
+PRC_GH_HMDGL	PROCEDURE	3	"  v_count number(5);
+"
+PRC_GH_HMDGL	PROCEDURE	4	"  v_sfzh varchar(18);
+"
+PRC_GH_HMDGL	PROCEDURE	5	"  v_xm varchar(30);
+"
+PRC_GH_HMDGL	PROCEDURE	6	"  v_lxdh varchar(11);  
+"
+PRC_GH_HMDGL	PROCEDURE	7	"  v_count1 number(5);
+"
+PRC_GH_HMDGL	PROCEDURE	8	"
+"
+PRC_GH_HMDGL	PROCEDURE	9	"Cursor lcur_hmdry Is
+"
+PRC_GH_HMDGL	PROCEDURE	10	"select distinct sfzh into v_sfzh from gh_mzyyk where trunc(yyrq1)=trunc(sysdate) and zt=0 and length(sfzh)=18;
+"
+PRC_GH_HMDGL	PROCEDURE	11	"
+"
+PRC_GH_HMDGL	PROCEDURE	12	"BEGIN
+"
+PRC_GH_HMDGL	PROCEDURE	13	"open lcur_hmdry;
+"
+PRC_GH_HMDGL	PROCEDURE	14	"Loop
+"
+PRC_GH_HMDGL	PROCEDURE	15	"      Fetch lcur_hmdry
+"
+PRC_GH_HMDGL	PROCEDURE	16	"        Into v_sfzh;
+"
+PRC_GH_HMDGL	PROCEDURE	17	"      Exit When lcur_hmdry%NotFound;
+"
+PRC_GH_HMDGL	PROCEDURE	18	"  select  count(*)    into v_count   from gh_hmdgl   where sfzh = v_sfzh ;
+"
+PRC_GH_HMDGL	PROCEDURE	19	"  SELECT COUNT(*) INTO v_count1 from gh_mzyyk where sfzh = v_sfzh and yyrq1 >sysdate -90 and zt=0 ;----改成3个月内违约次数
+"
+PRC_GH_HMDGL	PROCEDURE	20	"  if v_count=0 then
+"
+PRC_GH_HMDGL	PROCEDURE	21	"   /*select  sfzh,xm,lxdh,1    into v_sfzh,v_xm,v_lxdh,v_count1    from gh_mzyyk   where  trunc(yyrq1)=trunc(sysdate)     and nvl(zt,0)=0 and sfzh=v_sfzh and rownum=1;*/
+"
+PRC_GH_HMDGL	PROCEDURE	22	"
+"
+PRC_GH_HMDGL	PROCEDURE	23	"  /*select  yyxh,xm,ksdm,ysgh,yyrq1,czgh,jzkh,ghxh,yysj,pbxh,mzlbxh into v_yyxh,v_xm,v_ksdm,v_ysgh,v_yyrq,v_czgh,v_jzkh,v_ghxh,v_sjlb,v_pbxh,v_mzlbxh
+"
+PRC_GH_HMDGL	PROCEDURE	24	"  from gh_mzyyk   where       trunc(yyrq1)=trunc(sysdate)     and nvl(zt,0)=0 and  INSTR(','||DEPT_CODE, ','||KSDM)>0  and jzkh=card_no and rownum=1;
+"
+PRC_GH_HMDGL	PROCEDURE	25	"  select nvl(jiagelb,0) into v_jiagelb from gy_ksdm where ksdm= v_ksdm;
+"
+PRC_GH_HMDGL	PROCEDURE	26	"  if v_jiagelb=3 then
+"
+PRC_GH_HMDGL	PROCEDURE	27	"  select zlf_ylxh_et,ghf+zlf_et into v_ylxh,v_fee  from gh_mzlbk where mzlbxh = v_mzlbxh;
+"
+PRC_GH_HMDGL	PROCEDURE	28	"  else
+"
+PRC_GH_HMDGL	PROCEDURE	29	"  select zlf_ylxh,ghf+zlf into v_ylxh,v_fee  from gh_mzlbk where mzlbxh = v_mzlbxh;
+"
+PRC_GH_HMDGL	PROCEDURE	30	"  end if;
+"
+PRC_GH_HMDGL	PROCEDURE	31	"  update gy_xhb set dqz=dqz+zz where bm='GH_GHK';
+"
+PRC_GH_HMDGL	PROCEDURE	32	"  select dqz into v_jlxh from gy_xhb where bm='GH_GHK';
+"
+PRC_GH_HMDGL	PROCEDURE	33	"  update gy_xhb set dqz=dqz+zz where bm='YJ_YJK1';
+"
+PRC_GH_HMDGL	PROCEDURE	34	"  select dqz into V_YJSB from gy_xhb where bm='YJ_YJK1';*/
+"
+PRC_GH_HMDGL	PROCEDURE	35	"  insert into gh_hmdgl (sfzh,name,lxdh,cs) values ( v_sfzh,v_xm,v_lxdh,v_count1) ;
+"
+PRC_GH_HMDGL	PROCEDURE	36	"  end if;
+"
+PRC_GH_HMDGL	PROCEDURE	37	"   if v_count>0 then
+"
+PRC_GH_HMDGL	PROCEDURE	38	"update gh_hmdgl set cs=v_count1 where sfzh=v_sfzh;
+"
+PRC_GH_HMDGL	PROCEDURE	39	" end if;
+"
+PRC_GH_HMDGL	PROCEDURE	40	" end loop;
+"
+PRC_GH_HMDGL	PROCEDURE	41	" close lcur_hmdry;
+"
+PRC_GH_HMDGL	PROCEDURE	42	" /* ret_code:=0;
+"
+PRC_GH_HMDGL	PROCEDURE	43	"  ret_info:='更新成功';
+"
+PRC_GH_HMDGL	PROCEDURE	44	" reg_id:=v_jlxh||','||v_jzkh||','||v_ghxh||','||v_xm||','||v_ksdm||','||v_sjlb1||','||v_ysgh||','||to_char(v_rq,'yyyy-mm-dd hh24:mi:ss');
+"
+PRC_GH_HMDGL	PROCEDURE	45	" reg_id:='ok';*/
+"
+PRC_GH_HMDGL	PROCEDURE	46	"  commit;
+"
+PRC_GH_HMDGL	PROCEDURE	47	"/*EXCEPTION
+"
+PRC_GH_HMDGL	PROCEDURE	48	"  when others then
+"
+PRC_GH_HMDGL	PROCEDURE	49	"    ret_code:=-4;
+"
+PRC_GH_HMDGL	PROCEDURE	50	"    ret_info:='更新失败'||sqlerrm;
+"
+PRC_GH_HMDGL	PROCEDURE	51	"    rollback;
+"
+PRC_GH_HMDGL	PROCEDURE	52	"    return;*/
+"
+PRC_GH_HMDGL	PROCEDURE	53	"END;
+"

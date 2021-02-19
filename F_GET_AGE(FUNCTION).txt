@@ -1,0 +1,77 @@
+F_GET_AGE	FUNCTION	1	"FUNCTION         ""F_GET_AGE"" (ai_type in number,arg_csrq in date)
+"
+F_GET_AGE	FUNCTION	2	"       return varchar2
+"
+F_GET_AGE	FUNCTION	3	"  is
+"
+F_GET_AGE	FUNCTION	4	"       ls_return varchar2(50);
+"
+F_GET_AGE	FUNCTION	5	"       ll_month  number(6);
+"
+F_GET_AGE	FUNCTION	6	"       ls_age    varchar2(10);
+"
+F_GET_AGE	FUNCTION	7	"       ls_dw     varchar2(10);
+"
+F_GET_AGE	FUNCTION	8	"  begin
+"
+F_GET_AGE	FUNCTION	9	"      select (to_number(to_char(sysdate,'YYYY')) * 12 + to_number(to_char(sysdate,'MM'))) -
+"
+F_GET_AGE	FUNCTION	10	"             (to_number(to_char(arg_csrq,'YYYY')) * 12 + to_number(to_char(arg_csrq,'MM')))
+"
+F_GET_AGE	FUNCTION	11	"        into ll_month
+"
+F_GET_AGE	FUNCTION	12	"        from dual;
+"
+F_GET_AGE	FUNCTION	13	"
+"
+F_GET_AGE	FUNCTION	14	"      if ll_month >= 12 then
+"
+F_GET_AGE	FUNCTION	15	"         select To_Char(Trunc(ll_month / 12,0)) into ls_age from dual;
+"
+F_GET_AGE	FUNCTION	16	"         ls_dw := 'Ëê';
+"
+F_GET_AGE	FUNCTION	17	"      elsif ll_month >= 1 And ll_month < 12 then
+"
+F_GET_AGE	FUNCTION	18	"         select To_Char(ll_month)               into ls_age from dual;
+"
+F_GET_AGE	FUNCTION	19	"         ls_dw := 'ÔÂ';
+"
+F_GET_AGE	FUNCTION	20	"      else
+"
+F_GET_AGE	FUNCTION	21	"        select To_Char(floor(sysdate - nvl(arg_csrq,sysdate))) into ls_age from dual;
+"
+F_GET_AGE	FUNCTION	22	"        ls_dw := 'ÈÕ';
+"
+F_GET_AGE	FUNCTION	23	"      end if;
+"
+F_GET_AGE	FUNCTION	24	"
+"
+F_GET_AGE	FUNCTION	25	"      if ai_type = 1 then
+"
+F_GET_AGE	FUNCTION	26	"        ls_return := ls_age;
+"
+F_GET_AGE	FUNCTION	27	"      else
+"
+F_GET_AGE	FUNCTION	28	"        if ai_type = 2 then
+"
+F_GET_AGE	FUNCTION	29	"           ls_return := ls_dw;
+"
+F_GET_AGE	FUNCTION	30	"        else
+"
+F_GET_AGE	FUNCTION	31	"           ls_return := ls_age || ls_dw;
+"
+F_GET_AGE	FUNCTION	32	"        end if;
+"
+F_GET_AGE	FUNCTION	33	"      end if;
+"
+F_GET_AGE	FUNCTION	34	"
+"
+F_GET_AGE	FUNCTION	35	"    Return(ls_return);
+"
+F_GET_AGE	FUNCTION	36	"  end;
+"
+F_GET_AGE	FUNCTION	37	"
+"
+F_GET_AGE	FUNCTION	38	"
+"
+F_GET_AGE	FUNCTION	39	 

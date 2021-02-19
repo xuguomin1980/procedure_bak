@@ -1,0 +1,81 @@
+APPOINT_CANCEL	PROCEDURE	1	"PROCEDURE         ""APPOINT_CANCEL"" (
+"
+APPOINT_CANCEL	PROCEDURE	2	"       reg_id IN VARCHAR,
+"
+APPOINT_CANCEL	PROCEDURE	3	"       ret_code out INTEGER,
+"
+APPOINT_CANCEL	PROCEDURE	4	"       ret_info out VARCHAR
+"
+APPOINT_CANCEL	PROCEDURE	5	") AS
+"
+APPOINT_CANCEL	PROCEDURE	6	"  v_yyxx gh_mzyyk%rowtype;
+"
+APPOINT_CANCEL	PROCEDURE	7	"BEGIN
+"
+APPOINT_CANCEL	PROCEDURE	8	"  begin
+"
+APPOINT_CANCEL	PROCEDURE	9	"    select * into v_yyxx from gh_mzyyk where yyxh=to_number(reg_id);
+"
+APPOINT_CANCEL	PROCEDURE	10	"  exception
+"
+APPOINT_CANCEL	PROCEDURE	11	"    when others then
+"
+APPOINT_CANCEL	PROCEDURE	12	"      ret_code:=-1;
+"
+APPOINT_CANCEL	PROCEDURE	13	"      ret_info:='该预约号不存在'||sqlerrm;
+"
+APPOINT_CANCEL	PROCEDURE	14	"      rollback;
+"
+APPOINT_CANCEL	PROCEDURE	15	"      return;
+"
+APPOINT_CANCEL	PROCEDURE	16	"  end;
+"
+APPOINT_CANCEL	PROCEDURE	17	"  if v_yyxx.zt=1 or v_yyxx.jlxh>0 then
+"
+APPOINT_CANCEL	PROCEDURE	18	"    ret_code:=-1;
+"
+APPOINT_CANCEL	PROCEDURE	19	"    ret_info:='该预约号已正式挂号';
+"
+APPOINT_CANCEL	PROCEDURE	20	"    rollback;
+"
+APPOINT_CANCEL	PROCEDURE	21	"    return;
+"
+APPOINT_CANCEL	PROCEDURE	22	"  end if;
+"
+APPOINT_CANCEL	PROCEDURE	23	"  if v_yyxx.zt=-1 then
+"
+APPOINT_CANCEL	PROCEDURE	24	"    ret_code:=-1;
+"
+APPOINT_CANCEL	PROCEDURE	25	"    ret_info:='该预约号已经取消,不可重复取消';
+"
+APPOINT_CANCEL	PROCEDURE	26	"    rollback;
+"
+APPOINT_CANCEL	PROCEDURE	27	"    return;
+"
+APPOINT_CANCEL	PROCEDURE	28	"  end if;
+"
+APPOINT_CANCEL	PROCEDURE	29	"  update gh_mzyyk set zt=-1 where yyxh=v_yyxx.yyxh;
+"
+APPOINT_CANCEL	PROCEDURE	30	"  ret_code:=0;
+"
+APPOINT_CANCEL	PROCEDURE	31	"  ret_info:='取消预约成功';
+"
+APPOINT_CANCEL	PROCEDURE	32	"  commit;
+"
+APPOINT_CANCEL	PROCEDURE	33	"EXCEPTION
+"
+APPOINT_CANCEL	PROCEDURE	34	"  when others then
+"
+APPOINT_CANCEL	PROCEDURE	35	"    ret_code:=-1;
+"
+APPOINT_CANCEL	PROCEDURE	36	"    ret_info:='取消预约失败'||sqlerrm;
+"
+APPOINT_CANCEL	PROCEDURE	37	"    rollback;
+"
+APPOINT_CANCEL	PROCEDURE	38	"    return;
+"
+APPOINT_CANCEL	PROCEDURE	39	"END;
+"
+APPOINT_CANCEL	PROCEDURE	40	"
+"
+APPOINT_CANCEL	PROCEDURE	41	 

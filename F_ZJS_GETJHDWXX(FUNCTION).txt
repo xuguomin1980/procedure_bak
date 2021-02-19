@@ -1,0 +1,53 @@
+F_ZJS_GETJHDWXX	FUNCTION	1	"FUNCTION         ""F_ZJS_GETJHDWXX"" 
+"
+F_ZJS_GETJHDWXX	FUNCTION	2	"(arg_xtxh in number,arg_dwfx in number,arg_dwdm in varchar2,arg_flag in  varchar2)
+"
+F_ZJS_GETJHDWXX	FUNCTION	3	"  return varchar2
+"
+F_ZJS_GETJHDWXX	FUNCTION	4	"  is
+"
+F_ZJS_GETJHDWXX	FUNCTION	5	"    ls_return varchar2(60);
+"
+F_ZJS_GETJHDWXX	FUNCTION	6	"    ls_flag   varchar2(20);
+"
+F_ZJS_GETJHDWXX	FUNCTION	7	"  begin
+"
+F_ZJS_GETJHDWXX	FUNCTION	8	"    ls_flag:=lower(RTRIM(LTRIM(arg_flag)));
+"
+F_ZJS_GETJHDWXX	FUNCTION	9	"   if ls_flag='dwmc'  then
+"
+F_ZJS_GETJHDWXX	FUNCTION	10	"       if arg_dwfx=1 then
+"
+F_ZJS_GETJHDWXX	FUNCTION	11	"          select ksmc into ls_return
+"
+F_ZJS_GETJHDWXX	FUNCTION	12	"                      from gy_ksdm
+"
+F_ZJS_GETJHDWXX	FUNCTION	13	"                      where ksdm=arg_dwdm;
+"
+F_ZJS_GETJHDWXX	FUNCTION	14	"       elsif arg_dwfx=2 then
+"
+F_ZJS_GETJHDWXX	FUNCTION	15	"           select dwmc into ls_return
+"
+F_ZJS_GETJHDWXX	FUNCTION	16	"                       from zjs_jhdw
+"
+F_ZJS_GETJHDWXX	FUNCTION	17	"                       where xtxh=arg_xtxh
+"
+F_ZJS_GETJHDWXX	FUNCTION	18	"                       and   dwbh=to_number(arg_dwdm);
+"
+F_ZJS_GETJHDWXX	FUNCTION	19	"       elsif arg_dwfx=0 or arg_dwfx>2 then
+"
+F_ZJS_GETJHDWXX	FUNCTION	20	"             ls_return :=arg_dwdm ;
+"
+F_ZJS_GETJHDWXX	FUNCTION	21	"       end if;
+"
+F_ZJS_GETJHDWXX	FUNCTION	22	"   end if;
+"
+F_ZJS_GETJHDWXX	FUNCTION	23	"
+"
+F_ZJS_GETJHDWXX	FUNCTION	24	"    return(ls_return);
+"
+F_ZJS_GETJHDWXX	FUNCTION	25	" end ;
+"
+F_ZJS_GETJHDWXX	FUNCTION	26	"
+"
+F_ZJS_GETJHDWXX	FUNCTION	27	 

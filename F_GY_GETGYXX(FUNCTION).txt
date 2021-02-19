@@ -1,0 +1,33 @@
+F_GY_GETGYXX	FUNCTION	1	"FUNCTION         ""F_GY_GETGYXX"" (p_yhdm  in varchar2,p_flag varchar2)
+"
+F_GY_GETGYXX	FUNCTION	2	"return varchar
+"
+F_GY_GETGYXX	FUNCTION	3	"is
+"
+F_GY_GETGYXX	FUNCTION	4	"ls_return varchar2(20);
+"
+F_GY_GETGYXX	FUNCTION	5	"ls_flag   varchar2(20);
+"
+F_GY_GETGYXX	FUNCTION	6	"  begin
+"
+F_GY_GETGYXX	FUNCTION	7	"      ls_flag:=lower(RTRIM(LTRIM(p_flag)));
+"
+F_GY_GETGYXX	FUNCTION	8	"      if ls_flag='hy' then
+"
+F_GY_GETGYXX	FUNCTION	9	"         select mc into ls_return from gy_gydm where dmlb=7 and dm<>0 and dm = p_yhdm;
+"
+F_GY_GETGYXX	FUNCTION	10	"      end if;
+"
+F_GY_GETGYXX	FUNCTION	11	"      if ls_flag = 'zy' then
+"
+F_GY_GETGYXX	FUNCTION	12	"         select mc into ls_return from gy_gydm where dmlb=3 and dm<>0 and dm = p_yhdm;
+"
+F_GY_GETGYXX	FUNCTION	13	"      end if;
+"
+F_GY_GETGYXX	FUNCTION	14	"      return ls_return;
+"
+F_GY_GETGYXX	FUNCTION	15	"  end;
+"
+F_GY_GETGYXX	FUNCTION	16	"
+"
+F_GY_GETGYXX	FUNCTION	17	 

@@ -1,0 +1,21 @@
+JK_QYJKJL_GETZYFEE	FUNCTION	1	"FUNCTION         ""JK_QYJKJL_GETZYFEE"" (p_djxh number, p_sfxm number) return number is
+"
+JK_QYJKJL_GETZYFEE	FUNCTION	2	"  ln_sfje number(10,2);
+"
+JK_QYJKJL_GETZYFEE	FUNCTION	3	"begin
+"
+JK_QYJKJL_GETZYFEE	FUNCTION	4	"  select sum(je) into ln_sfje from zy_bill_fee
+"
+JK_QYJKJL_GETZYFEE	FUNCTION	5	"   where patient_no = p_djxh
+"
+JK_QYJKJL_GETZYFEE	FUNCTION	6	"     and sfxm_code = p_sfxm;
+"
+JK_QYJKJL_GETZYFEE	FUNCTION	7	"
+"
+JK_QYJKJL_GETZYFEE	FUNCTION	8	"  return ln_sfje;
+"
+JK_QYJKJL_GETZYFEE	FUNCTION	9	"end;
+"
+JK_QYJKJL_GETZYFEE	FUNCTION	10	"
+"
+JK_QYJKJL_GETZYFEE	FUNCTION	11	 

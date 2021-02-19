@@ -1,0 +1,130 @@
+F_YB_ZNSHCL2_DATE_BAK	FUNCTION	1	"FUNCTION ""F_YB_ZNSHCL2_DATE_BAK""(arg_patient_no     Number,
+"
+F_YB_ZNSHCL2_DATE_BAK	FUNCTION	2	"                                                   arg_syzldm         Varchar2,
+"
+F_YB_ZNSHCL2_DATE_BAK	FUNCTION	3	"                                                   CHARGE_DATE_STRING Varchar2)
+"
+F_YB_ZNSHCL2_DATE_BAK	FUNCTION	4	"  return Number Is
+"
+F_YB_ZNSHCL2_DATE_BAK	FUNCTION	5	"  ll_count  number;
+"
+F_YB_ZNSHCL2_DATE_BAK	FUNCTION	6	"  ll_pos    number;
+"
+F_YB_ZNSHCL2_DATE_BAK	FUNCTION	7	"  ls_syzldm varchar2(200);
+"
+F_YB_ZNSHCL2_DATE_BAK	FUNCTION	8	"  ls_ybdm   varchar2(50);
+"
+F_YB_ZNSHCL2_DATE_BAK	FUNCTION	9	"Begin
+"
+F_YB_ZNSHCL2_DATE_BAK	FUNCTION	10	"  ls_syzldm := arg_syzldm;
+"
+F_YB_ZNSHCL2_DATE_BAK	FUNCTION	11	"  Loop
+"
+F_YB_ZNSHCL2_DATE_BAK	FUNCTION	12	"    ll_pos := instr(ls_syzldm, '¡¢');
+"
+F_YB_ZNSHCL2_DATE_BAK	FUNCTION	13	"    if ll_pos > 0 then
+"
+F_YB_ZNSHCL2_DATE_BAK	FUNCTION	14	"      ls_ybdm   := substr(ls_syzldm, 1, ll_pos - 1);
+"
+F_YB_ZNSHCL2_DATE_BAK	FUNCTION	15	"      ls_syzldm := substr(ls_syzldm, ll_pos + 1);
+"
+F_YB_ZNSHCL2_DATE_BAK	FUNCTION	16	"    else
+"
+F_YB_ZNSHCL2_DATE_BAK	FUNCTION	17	"      ls_ybdm   := ls_syzldm;
+"
+F_YB_ZNSHCL2_DATE_BAK	FUNCTION	18	"      ls_syzldm := null;
+"
+F_YB_ZNSHCL2_DATE_BAK	FUNCTION	19	"    end if;
+"
+F_YB_ZNSHCL2_DATE_BAK	FUNCTION	20	"    if instr(ls_ybdm, 'f') = 0 then
+"
+F_YB_ZNSHCL2_DATE_BAK	FUNCTION	21	"      ls_ybdm := 'f' || ls_ybdm;
+"
+F_YB_ZNSHCL2_DATE_BAK	FUNCTION	22	"    end if;
+"
+F_YB_ZNSHCL2_DATE_BAK	FUNCTION	23	"    Select Sum(a.sl)
+"
+F_YB_ZNSHCL2_DATE_BAK	FUNCTION	24	"      Into ll_count
+"
+F_YB_ZNSHCL2_DATE_BAK	FUNCTION	25	"      From zy_detail_charge a, yb_duizhaoml b
+"
+F_YB_ZNSHCL2_DATE_BAK	FUNCTION	26	"     Where a.charge_code = b.xiangmuxh
+"
+F_YB_ZNSHCL2_DATE_BAK	FUNCTION	27	"       And a.patient_no = arg_patient_no
+"
+F_YB_ZNSHCL2_DATE_BAK	FUNCTION	28	"       And to_char(charge_date, 'yyyy-mm-dd') = CHARGE_DATE_STRING
+"
+F_YB_ZNSHCL2_DATE_BAK	FUNCTION	29	"       And b.yaopinpb = 0
+"
+F_YB_ZNSHCL2_DATE_BAK	FUNCTION	30	"       And instr(b.yibaodm, ls_ybdm) = 1;
+"
+F_YB_ZNSHCL2_DATE_BAK	FUNCTION	31	"    if ll_count > 0 then
+"
+F_YB_ZNSHCL2_DATE_BAK	FUNCTION	32	"      return 1;
+"
+F_YB_ZNSHCL2_DATE_BAK	FUNCTION	33	"    end if;
+"
+F_YB_ZNSHCL2_DATE_BAK	FUNCTION	34	"    Exit When ls_syzldm Is Null;
+"
+F_YB_ZNSHCL2_DATE_BAK	FUNCTION	35	"  End Loop;
+"
+F_YB_ZNSHCL2_DATE_BAK	FUNCTION	36	"
+"
+F_YB_ZNSHCL2_DATE_BAK	FUNCTION	37	"  if length(ls_syzldm) > 3 then
+"
+F_YB_ZNSHCL2_DATE_BAK	FUNCTION	38	"    Loop
+"
+F_YB_ZNSHCL2_DATE_BAK	FUNCTION	39	"      ll_pos := instr(ls_syzldm, '^');
+"
+F_YB_ZNSHCL2_DATE_BAK	FUNCTION	40	"      if ll_pos > 0 then
+"
+F_YB_ZNSHCL2_DATE_BAK	FUNCTION	41	"        ls_ybdm   := substr(ls_syzldm, 1, ll_pos - 1);
+"
+F_YB_ZNSHCL2_DATE_BAK	FUNCTION	42	"        ls_syzldm := substr(ls_syzldm, ll_pos + 1);
+"
+F_YB_ZNSHCL2_DATE_BAK	FUNCTION	43	"      else
+"
+F_YB_ZNSHCL2_DATE_BAK	FUNCTION	44	"        ls_ybdm   := ls_syzldm;
+"
+F_YB_ZNSHCL2_DATE_BAK	FUNCTION	45	"        ls_syzldm := null;
+"
+F_YB_ZNSHCL2_DATE_BAK	FUNCTION	46	"      end if;
+"
+F_YB_ZNSHCL2_DATE_BAK	FUNCTION	47	"      if instr(ls_ybdm, 'f') = 0 then
+"
+F_YB_ZNSHCL2_DATE_BAK	FUNCTION	48	"        ls_ybdm := 'f' || ls_ybdm;
+"
+F_YB_ZNSHCL2_DATE_BAK	FUNCTION	49	"      end if;
+"
+F_YB_ZNSHCL2_DATE_BAK	FUNCTION	50	"      Select Sum(a.sl)
+"
+F_YB_ZNSHCL2_DATE_BAK	FUNCTION	51	"        Into ll_count
+"
+F_YB_ZNSHCL2_DATE_BAK	FUNCTION	52	"        From zy_detail_charge a, yb_duizhaoml b
+"
+F_YB_ZNSHCL2_DATE_BAK	FUNCTION	53	"       Where a.charge_code = b.xiangmuxh
+"
+F_YB_ZNSHCL2_DATE_BAK	FUNCTION	54	"         And a.patient_no = arg_patient_no
+"
+F_YB_ZNSHCL2_DATE_BAK	FUNCTION	55	"         And to_char(charge_date, 'yyyy-mm-dd') = CHARGE_DATE_STRING
+"
+F_YB_ZNSHCL2_DATE_BAK	FUNCTION	56	"         And b.yaopinpb = 0
+"
+F_YB_ZNSHCL2_DATE_BAK	FUNCTION	57	"         And instr(b.yibaodm, ls_ybdm) = 1;
+"
+F_YB_ZNSHCL2_DATE_BAK	FUNCTION	58	"      if ll_count > 0 then
+"
+F_YB_ZNSHCL2_DATE_BAK	FUNCTION	59	"        return 1;
+"
+F_YB_ZNSHCL2_DATE_BAK	FUNCTION	60	"      end if;
+"
+F_YB_ZNSHCL2_DATE_BAK	FUNCTION	61	"      Exit When ls_syzldm Is Null;
+"
+F_YB_ZNSHCL2_DATE_BAK	FUNCTION	62	"    End Loop;
+"
+F_YB_ZNSHCL2_DATE_BAK	FUNCTION	63	"  end if;
+"
+F_YB_ZNSHCL2_DATE_BAK	FUNCTION	64	"  Return 0;
+"
+F_YB_ZNSHCL2_DATE_BAK	FUNCTION	65	"End;
+"

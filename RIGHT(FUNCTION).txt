@@ -1,0 +1,15 @@
+RIGHT	FUNCTION	1	"FUNCTION         ""RIGHT"" (prm_string in varchar2,prm_pos in number) return varchar2 is
+"
+RIGHT	FUNCTION	2	"v_return varchar2(20);
+"
+RIGHT	FUNCTION	3	"begin
+"
+RIGHT	FUNCTION	4	"v_return:=substr(prm_string,length(prm_string)-prm_pos+1,prm_pos);
+"
+RIGHT	FUNCTION	5	"return v_return;
+"
+RIGHT	FUNCTION	6	"end;
+"
+RIGHT	FUNCTION	7	"
+"
+RIGHT	FUNCTION	8	 

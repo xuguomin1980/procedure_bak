@@ -1,0 +1,88 @@
+FUNC_GET_TS_SPYP2020	FUNCTION	1	"FUNCTION func_get_ts_spyp2020(ypxh_in IN number ,ypcddm_in in number )
+"
+FUNC_GET_TS_SPYP2020	FUNCTION	2	"  RETURN VARCHAR2 IS
+"
+FUNC_GET_TS_SPYP2020	FUNCTION	3	"  RESULT VARCHAR2(600);
+"
+FUNC_GET_TS_SPYP2020	FUNCTION	4	"  v_bz VARCHAR2(600);
+"
+FUNC_GET_TS_SPYP2020	FUNCTION	5	"
+"
+FUNC_GET_TS_SPYP2020	FUNCTION	6	"
+"
+FUNC_GET_TS_SPYP2020	FUNCTION	7	"BEGIN
+"
+FUNC_GET_TS_SPYP2020	FUNCTION	8	"
+"
+FUNC_GET_TS_SPYP2020	FUNCTION	9	"
+"
+FUNC_GET_TS_SPYP2020	FUNCTION	10	"  BEGIN
+"
+FUNC_GET_TS_SPYP2020	FUNCTION	11	"    
+"
+FUNC_GET_TS_SPYP2020	FUNCTION	12	"    select count(*)
+"
+FUNC_GET_TS_SPYP2020	FUNCTION	13	"      into v_bz
+"
+FUNC_GET_TS_SPYP2020	FUNCTION	14	"      from v_zj_ypsyfw a, yb_duizhaoml b
+"
+FUNC_GET_TS_SPYP2020	FUNCTION	15	"     where a.sdmlbm = b.yibaodm
+"
+FUNC_GET_TS_SPYP2020	FUNCTION	16	"       and b.yibaolx = '9997'
+"
+FUNC_GET_TS_SPYP2020	FUNCTION	17	"       and b.xiangmuxh = ypxh_in
+"
+FUNC_GET_TS_SPYP2020	FUNCTION	18	"       and b.xiangmucd = ypcddm_in
+"
+FUNC_GET_TS_SPYP2020	FUNCTION	19	"       and b.yaopinpb = 1
+"
+FUNC_GET_TS_SPYP2020	FUNCTION	20	"       and to_char(sysdate, 'yyyymmdd') between qiyongrq and
+"
+FUNC_GET_TS_SPYP2020	FUNCTION	21	"           nvl(tingyongrq, '30000101');
+"
+FUNC_GET_TS_SPYP2020	FUNCTION	22	"    if v_bz = 0 then
+"
+FUNC_GET_TS_SPYP2020	FUNCTION	23	"      select count(*)
+"
+FUNC_GET_TS_SPYP2020	FUNCTION	24	"        into v_bz
+"
+FUNC_GET_TS_SPYP2020	FUNCTION	25	"        from yb_xdjsplml a, yb_duizhaoml b
+"
+FUNC_GET_TS_SPYP2020	FUNCTION	26	"       where a.sdmlbm = b.yibaodm
+"
+FUNC_GET_TS_SPYP2020	FUNCTION	27	"         and b.yibaolx = '9997'
+"
+FUNC_GET_TS_SPYP2020	FUNCTION	28	"         and b.xiangmuxh = ypxh_in
+"
+FUNC_GET_TS_SPYP2020	FUNCTION	29	"         and b.xiangmucd = ypcddm_in
+"
+FUNC_GET_TS_SPYP2020	FUNCTION	30	"         and b.yaopinpb = 1
+"
+FUNC_GET_TS_SPYP2020	FUNCTION	31	"         and to_char(sysdate, 'yyyymmdd') between qiyongrq and
+"
+FUNC_GET_TS_SPYP2020	FUNCTION	32	"             nvl(tingyongrq, '30000101');
+"
+FUNC_GET_TS_SPYP2020	FUNCTION	33	"      if v_bz = 0 then
+"
+FUNC_GET_TS_SPYP2020	FUNCTION	34	"        v_bz := '';
+"
+FUNC_GET_TS_SPYP2020	FUNCTION	35	"      end if;
+"
+FUNC_GET_TS_SPYP2020	FUNCTION	36	"    end if;
+"
+FUNC_GET_TS_SPYP2020	FUNCTION	37	"
+"
+FUNC_GET_TS_SPYP2020	FUNCTION	38	"  EXCEPTION
+"
+FUNC_GET_TS_SPYP2020	FUNCTION	39	"    WHEN no_data_found THEN
+"
+FUNC_GET_TS_SPYP2020	FUNCTION	40	"      v_bz :='';
+"
+FUNC_GET_TS_SPYP2020	FUNCTION	41	"  END;
+"
+FUNC_GET_TS_SPYP2020	FUNCTION	42	"  RESULT := v_bz;
+"
+FUNC_GET_TS_SPYP2020	FUNCTION	43	"  RETURN(RESULT);
+"
+FUNC_GET_TS_SPYP2020	FUNCTION	44	"END func_get_ts_spyp2020;
+"

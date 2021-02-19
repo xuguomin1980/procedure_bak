@@ -1,0 +1,3500 @@
+PRC_AUTO_RUN_CS	PROCEDURE	1	"PROCEDURE prc_auto_run_cs Is
+"
+PRC_AUTO_RUN_CS	PROCEDURE	2	"
+"
+PRC_AUTO_RUN_CS	PROCEDURE	3	"  /*=============================================================================
+"
+PRC_AUTO_RUN_CS	PROCEDURE	4	"  || 过程名称 ： PRC_AUTO_RUN 后台自动运行
+"
+PRC_AUTO_RUN_CS	PROCEDURE	5	"  ||-----------------------------------------------------------------------------
+"
+PRC_AUTO_RUN_CS	PROCEDURE	6	"  || 功能说明 ：  JOB 定时10分钟 执行 后台任务
+"
+PRC_AUTO_RUN_CS	PROCEDURE	7	"  ||-----------------------------------------------------------------------------
+"
+PRC_AUTO_RUN_CS	PROCEDURE	8	"  || 参数描述 ： 无
+"
+PRC_AUTO_RUN_CS	PROCEDURE	9	"  ------------------------------------------------------------
+"
+PRC_AUTO_RUN_CS	PROCEDURE	10	"  ||-----------------------------------------------------------------------------
+"
+PRC_AUTO_RUN_CS	PROCEDURE	11	"  || 注意事项 ：
+"
+PRC_AUTO_RUN_CS	PROCEDURE	12	"  ||-----------------------------------------------------------------------------
+"
+PRC_AUTO_RUN_CS	PROCEDURE	13	"  || 作    者 ：       完成日期 ：
+"
+PRC_AUTO_RUN_CS	PROCEDURE	14	"  ||-----------------------------------------------------------------------------
+"
+PRC_AUTO_RUN_CS	PROCEDURE	15	"  || 修改记录 ：
+"
+PRC_AUTO_RUN_CS	PROCEDURE	16	"  =============================================================================*/
+"
+PRC_AUTO_RUN_CS	PROCEDURE	17	"  v_Procedure_Name Varchar2(50);
+"
+PRC_AUTO_RUN_CS	PROCEDURE	18	"  v_task           Varchar2(30);
+"
+PRC_AUTO_RUN_CS	PROCEDURE	19	"
+"
+PRC_AUTO_RUN_CS	PROCEDURE	20	"  ln_jcfx_id   Number;
+"
+PRC_AUTO_RUN_CS	PROCEDURE	21	"  ln_code      Number;
+"
+PRC_AUTO_RUN_CS	PROCEDURE	22	"  ls_mess      Varchar2(100);
+"
+PRC_AUTO_RUN_CS	PROCEDURE	23	"  v_count      number;
+"
+PRC_AUTO_RUN_CS	PROCEDURE	24	"  v_xh         number;
+"
+PRC_AUTO_RUN_CS	PROCEDURE	25	"  ls_now       Varchar2(20);
+"
+PRC_AUTO_RUN_CS	PROCEDURE	26	"  ls_now_minue Varchar2(20);
+"
+PRC_AUTO_RUN_CS	PROCEDURE	27	"  lxdh         Varchar2(20);
+"
+PRC_AUTO_RUN_CS	PROCEDURE	28	"  nr           Varchar2(200);
+"
+PRC_AUTO_RUN_CS	PROCEDURE	29	"  v_bz         Varchar2(200);
+"
+PRC_AUTO_RUN_CS	PROCEDURE	30	"  v_temp       Varchar2(100);
+"
+PRC_AUTO_RUN_CS	PROCEDURE	31	"  v_jzkh       Varchar2(100);
+"
+PRC_AUTO_RUN_CS	PROCEDURE	32	"  v_msg        Varchar2(300);
+"
+PRC_AUTO_RUN_CS	PROCEDURE	33	"  v_sl         Number;
+"
+PRC_AUTO_RUN_CS	PROCEDURE	34	"  v_sl_count   Number;
+"
+PRC_AUTO_RUN_CS	PROCEDURE	35	"  v_laborder   Number;
+"
+PRC_AUTO_RUN_CS	PROCEDURE	36	"  v_out_code   Number;
+"
+PRC_AUTO_RUN_CS	PROCEDURE	37	"  v_out_msg    Varchar2(300);
+"
+PRC_AUTO_RUN_CS	PROCEDURE	38	"  v_yyxh       number;
+"
+PRC_AUTO_RUN_CS	PROCEDURE	39	"  v_lxdh       NVARCHAR2(30);
+"
+PRC_AUTO_RUN_CS	PROCEDURE	40	"  v_ypxh       Number;
+"
+PRC_AUTO_RUN_CS	PROCEDURE	41	"  v_ypcddm     Number;
+"
+PRC_AUTO_RUN_CS	PROCEDURE	42	"  --预约挂号提醒
+"
+PRC_AUTO_RUN_CS	PROCEDURE	43	"  cursor cur_mzyyk is
+"
+PRC_AUTO_RUN_CS	PROCEDURE	44	"    select yyxh
+"
+PRC_AUTO_RUN_CS	PROCEDURE	45	"      from gh_mzyyk
+"
+PRC_AUTO_RUN_CS	PROCEDURE	46	"     where djrq > sysdate - 0.01
+"
+PRC_AUTO_RUN_CS	PROCEDURE	47	"       and djrq < sysdate - 0.001
+"
+PRC_AUTO_RUN_CS	PROCEDURE	48	"       and czgh < 'Z'
+"
+PRC_AUTO_RUN_CS	PROCEDURE	49	"       and czgh >= 'B'
+"
+PRC_AUTO_RUN_CS	PROCEDURE	50	"       and yyxh not in (
+"
+PRC_AUTO_RUN_CS	PROCEDURE	51	"                        
+"
+PRC_AUTO_RUN_CS	PROCEDURE	52	"                        select yyxh
+"
+PRC_AUTO_RUN_CS	PROCEDURE	53	"                          from (select yyxh, lxdh
+"
+PRC_AUTO_RUN_CS	PROCEDURE	54	"                                   From gh_mzyyk
+"
+PRC_AUTO_RUN_CS	PROCEDURE	55	"                                  where djrq >= sysdate - 0.015
+"
+PRC_AUTO_RUN_CS	PROCEDURE	56	"                                    and czgh < 'Z'
+"
+PRC_AUTO_RUN_CS	PROCEDURE	57	"                                    and czgh >= 'B') x,
+"
+PRC_AUTO_RUN_CS	PROCEDURE	58	"                                auto_task_ywzx_send y
+"
+PRC_AUTO_RUN_CS	PROCEDURE	59	"                         where instr(y.bz, x.yyxh) > 0
+"
+PRC_AUTO_RUN_CS	PROCEDURE	60	"                           and y.date_add > sysdate - 0.015
+"
+PRC_AUTO_RUN_CS	PROCEDURE	61	"                           and nvl(x.lxdh, '13777929515') = y.lxdh);
+"
+PRC_AUTO_RUN_CS	PROCEDURE	62	"
+"
+PRC_AUTO_RUN_CS	PROCEDURE	63	"  --挂号费未缴费提醒1
+"
+PRC_AUTO_RUN_CS	PROCEDURE	64	"  cursor cur_zlf is
+"
+PRC_AUTO_RUN_CS	PROCEDURE	65	"    select c.jzkh
+"
+PRC_AUTO_RUN_CS	PROCEDURE	66	"      From yj_yjk1 a, yj_Yjk2 b, zj_jzxx c
+"
+PRC_AUTO_RUN_CS	PROCEDURE	67	"     where a.jzxh = c.jzxh
+"
+PRC_AUTO_RUN_CS	PROCEDURE	68	"       and a.yjsb = b.yjsb
+"
+PRC_AUTO_RUN_CS	PROCEDURE	69	"       and a.sfsb is null
+"
+PRC_AUTO_RUN_CS	PROCEDURE	70	"       and a.brxh is null
+"
+PRC_AUTO_RUN_CS	PROCEDURE	71	"       and instr(nvl(b.bz, '0'), '#未缴纳提醒1#') = 0
+"
+PRC_AUTO_RUN_CS	PROCEDURE	72	"       and b.fygb = 13
+"
+PRC_AUTO_RUN_CS	PROCEDURE	73	"       and c.jzrq > (sysdate - 0.021 - 0.1)
+"
+PRC_AUTO_RUN_CS	PROCEDURE	74	"       and c.jzrq < sysdate - 0.021
+"
+PRC_AUTO_RUN_CS	PROCEDURE	75	"       and c.jzkh = '9'
+"
+PRC_AUTO_RUN_CS	PROCEDURE	76	"     group by c.jzkh
+"
+PRC_AUTO_RUN_CS	PROCEDURE	77	"    having sum(sl) > 0;
+"
+PRC_AUTO_RUN_CS	PROCEDURE	78	"
+"
+PRC_AUTO_RUN_CS	PROCEDURE	79	"  --挂号费未缴费提醒 2天
+"
+PRC_AUTO_RUN_CS	PROCEDURE	80	"  cursor cur_zlf_2days is
+"
+PRC_AUTO_RUN_CS	PROCEDURE	81	"    select distinct (c.jzkh)
+"
+PRC_AUTO_RUN_CS	PROCEDURE	82	"      From yj_yjk1 a, yj_Yjk2 b, zj_jzxx c
+"
+PRC_AUTO_RUN_CS	PROCEDURE	83	"     where a.jzxh = c.jzxh
+"
+PRC_AUTO_RUN_CS	PROCEDURE	84	"       and a.yjsb = b.yjsb
+"
+PRC_AUTO_RUN_CS	PROCEDURE	85	"       and a.sfsb is null
+"
+PRC_AUTO_RUN_CS	PROCEDURE	86	"       and a.brxh is null
+"
+PRC_AUTO_RUN_CS	PROCEDURE	87	"       and instr(nvl(b.bz, '0'), '#未缴纳提醒1#') > 0
+"
+PRC_AUTO_RUN_CS	PROCEDURE	88	"       and instr(nvl(b.bz, '0'), '#未缴纳提醒2#') = 0
+"
+PRC_AUTO_RUN_CS	PROCEDURE	89	"       and b.fygb = 13
+"
+PRC_AUTO_RUN_CS	PROCEDURE	90	"       and c.jzrq >= trunc(sysdate - 3)
+"
+PRC_AUTO_RUN_CS	PROCEDURE	91	"       and c.jzrq < trunc(sysdate - 2)
+"
+PRC_AUTO_RUN_CS	PROCEDURE	92	"       and c.jzkh = '9';
+"
+PRC_AUTO_RUN_CS	PROCEDURE	93	"
+"
+PRC_AUTO_RUN_CS	PROCEDURE	94	"  ---- 疫苗提醒    
+"
+PRC_AUTO_RUN_CS	PROCEDURE	95	"  cursor cur_sms_yimao is
+"
+PRC_AUTO_RUN_CS	PROCEDURE	96	"    select distinct a.jzkh, b.ypxh, b.ypcddm
+"
+PRC_AUTO_RUN_CS	PROCEDURE	97	"      From mz_cfk1 a, mz_cfk2 b
+"
+PRC_AUTO_RUN_CS	PROCEDURE	98	"     where a.cfsb = b.cfsb
+"
+PRC_AUTO_RUN_CS	PROCEDURE	99	"       and trunc(b.shenhesj) = trunc(sysdate + 1)
+"
+PRC_AUTO_RUN_CS	PROCEDURE	100	"       and b.shenhesj is not null
+"
+PRC_AUTO_RUN_CS	PROCEDURE	101	"       and a.sfsb is not null
+"
+PRC_AUTO_RUN_CS	PROCEDURE	102	"       and a.cfrq > sysdate - 360;
+"
+PRC_AUTO_RUN_CS	PROCEDURE	103	"
+"
+PRC_AUTO_RUN_CS	PROCEDURE	104	"Begin
+"
+PRC_AUTO_RUN_CS	PROCEDURE	105	"  --2020-06-25
+"
+PRC_AUTO_RUN_CS	PROCEDURE	106	"  v_Procedure_Name := '后台执行_PRC_AUTO_RUN';
+"
+PRC_AUTO_RUN_CS	PROCEDURE	107	"  v_task           := ' ';
+"
+PRC_AUTO_RUN_CS	PROCEDURE	108	"  lxdh             := '13777929515';
+"
+PRC_AUTO_RUN_CS	PROCEDURE	109	"  v_count          := 0;
+"
+PRC_AUTO_RUN_CS	PROCEDURE	110	"  /*  insert into zy_jiaoyi_v1
+"
+PRC_AUTO_RUN_CS	PROCEDURE	111	"    (jiaoyilx, jylsh, flag)
+"
+PRC_AUTO_RUN_CS	PROCEDURE	112	"  values
+"
+PRC_AUTO_RUN_CS	PROCEDURE	113	"    (v_Procedure_Name, '开始', 0);
+"
+PRC_AUTO_RUN_CS	PROCEDURE	114	"  commit;*/
+"
+PRC_AUTO_RUN_CS	PROCEDURE	115	"
+"
+PRC_AUTO_RUN_CS	PROCEDURE	116	"  select to_char(sysdate, 'hh24:mi'),
+"
+PRC_AUTO_RUN_CS	PROCEDURE	117	"         substr(to_char(sysdate, 'hh24:mi'), 5, 1)
+"
+PRC_AUTO_RUN_CS	PROCEDURE	118	"    into ls_now, ls_now_minue
+"
+PRC_AUTO_RUN_CS	PROCEDURE	119	"    from dual;
+"
+PRC_AUTO_RUN_CS	PROCEDURE	120	"
+"
+PRC_AUTO_RUN_CS	PROCEDURE	121	"  if 1 = 0 and ((ls_now >= '23:58' and ls_now <= '23:59')) then
+"
+PRC_AUTO_RUN_CS	PROCEDURE	122	"    update gh_mzlbk set zlf = 0.01, zlf_et = 0.01 where mzlbxh > 0;
+"
+PRC_AUTO_RUN_CS	PROCEDURE	123	"    if sqlcode = 0 then
+"
+PRC_AUTO_RUN_CS	PROCEDURE	124	"      commit;
+"
+PRC_AUTO_RUN_CS	PROCEDURE	125	"      prc_sms_send('ts', '13777929515', 'gh_mzlbk=0.01 ok', v_bz);
+"
+PRC_AUTO_RUN_CS	PROCEDURE	126	"    else
+"
+PRC_AUTO_RUN_CS	PROCEDURE	127	"      rollback;
+"
+PRC_AUTO_RUN_CS	PROCEDURE	128	"      prc_sms_send('ts', '13777929515', 'gh_mzlbk=0.01 error', v_bz);
+"
+PRC_AUTO_RUN_CS	PROCEDURE	129	"    end if;
+"
+PRC_AUTO_RUN_CS	PROCEDURE	130	"  
+"
+PRC_AUTO_RUN_CS	PROCEDURE	131	"  end if;
+"
+PRC_AUTO_RUN_CS	PROCEDURE	132	"
+"
+PRC_AUTO_RUN_CS	PROCEDURE	133	"  -- 住院病人现金与预交款不一致
+"
+PRC_AUTO_RUN_CS	PROCEDURE	134	"  if 1 = 1 then
+"
+PRC_AUTO_RUN_CS	PROCEDURE	135	"  
+"
+PRC_AUTO_RUN_CS	PROCEDURE	136	"    select count(patient_no)
+"
+PRC_AUTO_RUN_CS	PROCEDURE	137	"      into v_count
+"
+PRC_AUTO_RUN_CS	PROCEDURE	138	"      from (select patient_no,
+"
+PRC_AUTO_RUN_CS	PROCEDURE	139	"                   t.zf_fee -
+"
+PRC_AUTO_RUN_CS	PROCEDURE	140	"                   ((select nvl(sum(amount), 0)
+"
+PRC_AUTO_RUN_CS	PROCEDURE	141	"                       from zy_deposit_file
+"
+PRC_AUTO_RUN_CS	PROCEDURE	142	"                      where patient_No = t.patient_no
+"
+PRC_AUTO_RUN_CS	PROCEDURE	143	"                        and js_No = 1) + nvl(pay_xj, 0) + nvl(pay_zp, 0) -
+"
+PRC_AUTO_RUN_CS	PROCEDURE	144	"                   nvl(return_xj, 0) - nvl(return_zp, 0)) je
+"
+PRC_AUTO_RUN_CS	PROCEDURE	145	"            
+"
+PRC_AUTO_RUN_CS	PROCEDURE	146	"              From zy_total_fee t
+"
+PRC_AUTO_RUN_CS	PROCEDURE	147	"             where jz_date > sysdate - 0.1
+"
+PRC_AUTO_RUN_CS	PROCEDURE	148	"               and js_NO = 1)
+"
+PRC_AUTO_RUN_CS	PROCEDURE	149	"     where je <> 0;
+"
+PRC_AUTO_RUN_CS	PROCEDURE	150	"    if v_count > 0 then
+"
+PRC_AUTO_RUN_CS	PROCEDURE	151	"      prc_sms_send('ts',
+"
+PRC_AUTO_RUN_CS	PROCEDURE	152	"                   '13777929515',
+"
+PRC_AUTO_RUN_CS	PROCEDURE	153	"                   '住院病人现金与预交款不一致[prc_auto_run]',
+"
+PRC_AUTO_RUN_CS	PROCEDURE	154	"                   v_bz);
+"
+PRC_AUTO_RUN_CS	PROCEDURE	155	"    end if;
+"
+PRC_AUTO_RUN_CS	PROCEDURE	156	"  
+"
+PRC_AUTO_RUN_CS	PROCEDURE	157	"  end if;
+"
+PRC_AUTO_RUN_CS	PROCEDURE	158	"
+"
+PRC_AUTO_RUN_CS	PROCEDURE	159	"  --人工电话预约 漏发短信
+"
+PRC_AUTO_RUN_CS	PROCEDURE	160	"  IF 1 = 1 THEN
+"
+PRC_AUTO_RUN_CS	PROCEDURE	161	"  
+"
+PRC_AUTO_RUN_CS	PROCEDURE	162	"    open cur_mzyyk;
+"
+PRC_AUTO_RUN_CS	PROCEDURE	163	"    loop
+"
+PRC_AUTO_RUN_CS	PROCEDURE	164	"      fetch cur_mzyyk
+"
+PRC_AUTO_RUN_CS	PROCEDURE	165	"        into v_yyxh;
+"
+PRC_AUTO_RUN_CS	PROCEDURE	166	"    
+"
+PRC_AUTO_RUN_CS	PROCEDURE	167	"      exit when cur_mzyyk%NOTFOUND;
+"
+PRC_AUTO_RUN_CS	PROCEDURE	168	"      select nvl(lxdh, '13777929515'),
+"
+PRC_AUTO_RUN_CS	PROCEDURE	169	"             '就诊科室:' || (select ksmc from gy_ksdm where ksdm = t.ksdm) || ' ' ||
+"
+PRC_AUTO_RUN_CS	PROCEDURE	170	"             (select '就诊医师:' || xm from gy_zgxx where zgid = ysgh) ||
+"
+PRC_AUTO_RUN_CS	PROCEDURE	171	"             ',预约号为:' || yyxh || ',预约日期' || to_char(yyrq1, 'yyyy-mm-dd') ||
+"
+PRC_AUTO_RUN_CS	PROCEDURE	172	"             decode(yysj, 1, '上午', '下午') || ghxh || '号'
+"
+PRC_AUTO_RUN_CS	PROCEDURE	173	"        into v_lxdh, v_msg
+"
+PRC_AUTO_RUN_CS	PROCEDURE	174	"        from gh_mzyyk t
+"
+PRC_AUTO_RUN_CS	PROCEDURE	175	"       where yyxh = v_yyxh;
+"
+PRC_AUTO_RUN_CS	PROCEDURE	176	"      --v_lxdh := '13777929515';
+"
+PRC_AUTO_RUN_CS	PROCEDURE	177	"      prc_sms_send('gh', v_lxdh, v_msg, v_temp);
+"
+PRC_AUTO_RUN_CS	PROCEDURE	178	"    
+"
+PRC_AUTO_RUN_CS	PROCEDURE	179	"    end loop;
+"
+PRC_AUTO_RUN_CS	PROCEDURE	180	"    close cur_mzyyk;
+"
+PRC_AUTO_RUN_CS	PROCEDURE	181	"  
+"
+PRC_AUTO_RUN_CS	PROCEDURE	182	"  end if;
+"
+PRC_AUTO_RUN_CS	PROCEDURE	183	"  -- end 人工电话预约 漏发短信
+"
+PRC_AUTO_RUN_CS	PROCEDURE	184	"
+"
+PRC_AUTO_RUN_CS	PROCEDURE	185	"  -- 短信提醒 费用未缴纳
+"
+PRC_AUTO_RUN_CS	PROCEDURE	186	"  if 1 = 1 then
+"
+PRC_AUTO_RUN_CS	PROCEDURE	187	"  
+"
+PRC_AUTO_RUN_CS	PROCEDURE	188	"    open cur_zlf;
+"
+PRC_AUTO_RUN_CS	PROCEDURE	189	"    loop
+"
+PRC_AUTO_RUN_CS	PROCEDURE	190	"      fetch cur_zlf
+"
+PRC_AUTO_RUN_CS	PROCEDURE	191	"        into v_jzkh;
+"
+PRC_AUTO_RUN_CS	PROCEDURE	192	"    
+"
+PRC_AUTO_RUN_CS	PROCEDURE	193	"      exit when cur_zlf%NOTFOUND;
+"
+PRC_AUTO_RUN_CS	PROCEDURE	194	"      select trim(lxdh),
+"
+PRC_AUTO_RUN_CS	PROCEDURE	195	"             xm || ' 您好！您是否还有费用未缴纳，请核实。若已缴或短信误发敬请忽略！'
+"
+PRC_AUTO_RUN_CS	PROCEDURE	196	"        into v_lxdh, v_msg
+"
+PRC_AUTO_RUN_CS	PROCEDURE	197	"        from gy_brjbxxk
+"
+PRC_AUTO_RUN_CS	PROCEDURE	198	"       where jzkh = v_jzkh;
+"
+PRC_AUTO_RUN_CS	PROCEDURE	199	"      --v_lxdh := '13777929515';
+"
+PRC_AUTO_RUN_CS	PROCEDURE	200	"    
+"
+PRC_AUTO_RUN_CS	PROCEDURE	201	"      update yj_Yjk2
+"
+PRC_AUTO_RUN_CS	PROCEDURE	202	"         set bz = bz || '#未缴纳提醒1#,'
+"
+PRC_AUTO_RUN_CS	PROCEDURE	203	"       where fygb = 13
+"
+PRC_AUTO_RUN_CS	PROCEDURE	204	"         and yjsb in (
+"
+PRC_AUTO_RUN_CS	PROCEDURE	205	"                      
+"
+PRC_AUTO_RUN_CS	PROCEDURE	206	"                      select a.yjsb
+"
+PRC_AUTO_RUN_CS	PROCEDURE	207	"                        from yj_Yjk1 a, yj_Yjk2 b, zj_jzxx c
+"
+PRC_AUTO_RUN_CS	PROCEDURE	208	"                       where a.jzxh = c.jzxh
+"
+PRC_AUTO_RUN_CS	PROCEDURE	209	"                         and a.yjsb = b.yjsb
+"
+PRC_AUTO_RUN_CS	PROCEDURE	210	"                         and a.sfsb is null
+"
+PRC_AUTO_RUN_CS	PROCEDURE	211	"                         and a.brxh is null
+"
+PRC_AUTO_RUN_CS	PROCEDURE	212	"                         and instr(nvl(b.bz, '0'), '#未缴纳提醒1#') = 0
+"
+PRC_AUTO_RUN_CS	PROCEDURE	213	"                         and sl > 0
+"
+PRC_AUTO_RUN_CS	PROCEDURE	214	"                         and b.fygb = 13
+"
+PRC_AUTO_RUN_CS	PROCEDURE	215	"                         and c.jzrq > (sysdate - 0.5)
+"
+PRC_AUTO_RUN_CS	PROCEDURE	216	"                         and c.jzrq < sysdate - 0.021
+"
+PRC_AUTO_RUN_CS	PROCEDURE	217	"                         and c.jzkh = v_jzkh);
+"
+PRC_AUTO_RUN_CS	PROCEDURE	218	"    
+"
+PRC_AUTO_RUN_CS	PROCEDURE	219	"      if sqlcode = 0 then
+"
+PRC_AUTO_RUN_CS	PROCEDURE	220	"        commit;
+"
+PRC_AUTO_RUN_CS	PROCEDURE	221	"      
+"
+PRC_AUTO_RUN_CS	PROCEDURE	222	"        prc_sms_send('未缴纳提醒', v_lxdh, v_msg, v_temp);
+"
+PRC_AUTO_RUN_CS	PROCEDURE	223	"      else
+"
+PRC_AUTO_RUN_CS	PROCEDURE	224	"        rollback;
+"
+PRC_AUTO_RUN_CS	PROCEDURE	225	"      end if;
+"
+PRC_AUTO_RUN_CS	PROCEDURE	226	"    end loop;
+"
+PRC_AUTO_RUN_CS	PROCEDURE	227	"    close cur_zlf;
+"
+PRC_AUTO_RUN_CS	PROCEDURE	228	"  
+"
+PRC_AUTO_RUN_CS	PROCEDURE	229	"  end if;
+"
+PRC_AUTO_RUN_CS	PROCEDURE	230	"  -- end  短信提醒 费用未缴纳
+"
+PRC_AUTO_RUN_CS	PROCEDURE	231	"
+"
+PRC_AUTO_RUN_CS	PROCEDURE	232	"  --   短信提醒 2天 费用未缴纳
+"
+PRC_AUTO_RUN_CS	PROCEDURE	233	"  if 1 = 1 and ((ls_now > '08:00' and ls_now <= '08:01')) then
+"
+PRC_AUTO_RUN_CS	PROCEDURE	234	"  
+"
+PRC_AUTO_RUN_CS	PROCEDURE	235	"    open cur_zlf_2days;
+"
+PRC_AUTO_RUN_CS	PROCEDURE	236	"    loop
+"
+PRC_AUTO_RUN_CS	PROCEDURE	237	"      fetch cur_zlf_2days
+"
+PRC_AUTO_RUN_CS	PROCEDURE	238	"        into v_jzkh;
+"
+PRC_AUTO_RUN_CS	PROCEDURE	239	"    
+"
+PRC_AUTO_RUN_CS	PROCEDURE	240	"      exit when cur_zlf_2days%NOTFOUND;
+"
+PRC_AUTO_RUN_CS	PROCEDURE	241	"      select trim(lxdh),
+"
+PRC_AUTO_RUN_CS	PROCEDURE	242	"             xm ||
+"
+PRC_AUTO_RUN_CS	PROCEDURE	243	"              ' 亲爱的病友，您好！您近期在我院就诊时，部分诊疗费用尚未结清，
+"
+PRC_AUTO_RUN_CS	PROCEDURE	244	"请您尽快到院进行结算，以免对您的后续诊疗及个人信用产生不良影响。感谢您的配合，祝您早日康复！若已缴或短信误发敬请忽略！'
+"
+PRC_AUTO_RUN_CS	PROCEDURE	245	"        into v_lxdh, v_msg
+"
+PRC_AUTO_RUN_CS	PROCEDURE	246	"        from gy_brjbxxk
+"
+PRC_AUTO_RUN_CS	PROCEDURE	247	"       where jzkh = v_jzkh;
+"
+PRC_AUTO_RUN_CS	PROCEDURE	248	"    
+"
+PRC_AUTO_RUN_CS	PROCEDURE	249	"      update yj_Yjk2
+"
+PRC_AUTO_RUN_CS	PROCEDURE	250	"         set bz = bz || '#未缴纳提醒2#,'
+"
+PRC_AUTO_RUN_CS	PROCEDURE	251	"       where fygb = 13
+"
+PRC_AUTO_RUN_CS	PROCEDURE	252	"         and yjsb in (select a.yjsb
+"
+PRC_AUTO_RUN_CS	PROCEDURE	253	"                        from yj_Yjk1 a, yj_Yjk2 b, zj_jzxx c
+"
+PRC_AUTO_RUN_CS	PROCEDURE	254	"                       where a.jzxh = c.jzxh
+"
+PRC_AUTO_RUN_CS	PROCEDURE	255	"                         and a.yjsb = b.yjsb
+"
+PRC_AUTO_RUN_CS	PROCEDURE	256	"                         and a.sfsb is null
+"
+PRC_AUTO_RUN_CS	PROCEDURE	257	"                         and a.brxh is null
+"
+PRC_AUTO_RUN_CS	PROCEDURE	258	"                         and instr(nvl(b.bz, '0'), '#未缴纳提醒1#') > 0
+"
+PRC_AUTO_RUN_CS	PROCEDURE	259	"                         and instr(nvl(b.bz, '0'), '#未缴纳提醒2#') = 0
+"
+PRC_AUTO_RUN_CS	PROCEDURE	260	"                         and b.fygb = 13
+"
+PRC_AUTO_RUN_CS	PROCEDURE	261	"                         and b.sl > 0
+"
+PRC_AUTO_RUN_CS	PROCEDURE	262	"                         and c.jzrq >= trunc(sysdate - 3)
+"
+PRC_AUTO_RUN_CS	PROCEDURE	263	"                         and c.jzrq < trunc(sysdate - 2)
+"
+PRC_AUTO_RUN_CS	PROCEDURE	264	"                         and c.jzkh = v_jzkh);
+"
+PRC_AUTO_RUN_CS	PROCEDURE	265	"    
+"
+PRC_AUTO_RUN_CS	PROCEDURE	266	"      if sqlcode = 0 then
+"
+PRC_AUTO_RUN_CS	PROCEDURE	267	"        commit;
+"
+PRC_AUTO_RUN_CS	PROCEDURE	268	"      
+"
+PRC_AUTO_RUN_CS	PROCEDURE	269	"        prc_sms_send('未缴纳提醒', v_lxdh, v_msg, v_temp);
+"
+PRC_AUTO_RUN_CS	PROCEDURE	270	"      else
+"
+PRC_AUTO_RUN_CS	PROCEDURE	271	"        rollback;
+"
+PRC_AUTO_RUN_CS	PROCEDURE	272	"      end if;
+"
+PRC_AUTO_RUN_CS	PROCEDURE	273	"    end loop;
+"
+PRC_AUTO_RUN_CS	PROCEDURE	274	"    close cur_zlf_2days;
+"
+PRC_AUTO_RUN_CS	PROCEDURE	275	"  
+"
+PRC_AUTO_RUN_CS	PROCEDURE	276	"  end if;
+"
+PRC_AUTO_RUN_CS	PROCEDURE	277	"  -- end  短信提醒 2天 费用未缴纳
+"
+PRC_AUTO_RUN_CS	PROCEDURE	278	"
+"
+PRC_AUTO_RUN_CS	PROCEDURE	279	"  --  疫苗  短信提醒
+"
+PRC_AUTO_RUN_CS	PROCEDURE	280	"
+"
+PRC_AUTO_RUN_CS	PROCEDURE	281	"  if 1 = 1 and ((ls_now > '08:05' and ls_now <= '08:06')) then
+"
+PRC_AUTO_RUN_CS	PROCEDURE	282	"  
+"
+PRC_AUTO_RUN_CS	PROCEDURE	283	"    -- select distinct a.jzkh, b.ypxh,b.ypcddm      
+"
+PRC_AUTO_RUN_CS	PROCEDURE	284	"  
+"
+PRC_AUTO_RUN_CS	PROCEDURE	285	"    open cur_sms_yimao;
+"
+PRC_AUTO_RUN_CS	PROCEDURE	286	"    loop
+"
+PRC_AUTO_RUN_CS	PROCEDURE	287	"      fetch cur_sms_yimao
+"
+PRC_AUTO_RUN_CS	PROCEDURE	288	"        into v_jzkh, v_ypxh, v_ypcddm;
+"
+PRC_AUTO_RUN_CS	PROCEDURE	289	"    
+"
+PRC_AUTO_RUN_CS	PROCEDURE	290	"      exit when cur_sms_yimao%NOTFOUND;
+"
+PRC_AUTO_RUN_CS	PROCEDURE	291	"      select trim(lxdh),
+"
+PRC_AUTO_RUN_CS	PROCEDURE	292	"             xm || ' 亲爱的病友，您好！明天有预约疫苗接种！若已处理或短信误发敬请忽略！'
+"
+PRC_AUTO_RUN_CS	PROCEDURE	293	"        into v_lxdh, v_msg
+"
+PRC_AUTO_RUN_CS	PROCEDURE	294	"        from gy_brjbxxk
+"
+PRC_AUTO_RUN_CS	PROCEDURE	295	"       where jzkh = v_jzkh;
+"
+PRC_AUTO_RUN_CS	PROCEDURE	296	"      prc_sms_send('未缴纳提醒', v_lxdh, v_msg, v_temp);
+"
+PRC_AUTO_RUN_CS	PROCEDURE	297	"    
+"
+PRC_AUTO_RUN_CS	PROCEDURE	298	"    end loop;
+"
+PRC_AUTO_RUN_CS	PROCEDURE	299	"    close cur_sms_yimao;
+"
+PRC_AUTO_RUN_CS	PROCEDURE	300	"  
+"
+PRC_AUTO_RUN_CS	PROCEDURE	301	"  end if;
+"
+PRC_AUTO_RUN_CS	PROCEDURE	302	"  -- end  疫苗  短信提醒
+"
+PRC_AUTO_RUN_CS	PROCEDURE	303	"
+"
+PRC_AUTO_RUN_CS	PROCEDURE	304	"  --  本院核酸收费标志 
+"
+PRC_AUTO_RUN_CS	PROCEDURE	305	"
+"
+PRC_AUTO_RUN_CS	PROCEDURE	306	"  if 1 = 1 and ((ls_now > '08:27' and ls_now <= '08:28')) then
+"
+PRC_AUTO_RUN_CS	PROCEDURE	307	"  
+"
+PRC_AUTO_RUN_CS	PROCEDURE	308	"    update l_patientinfo
+"
+PRC_AUTO_RUN_CS	PROCEDURE	309	"       set feestatus = 6
+"
+PRC_AUTO_RUN_CS	PROCEDURE	310	"     where feestatus = 1
+"
+PRC_AUTO_RUN_CS	PROCEDURE	311	"       and patientid like 'BY%'
+"
+PRC_AUTO_RUN_CS	PROCEDURE	312	"       and sampleno >= to_char(sysdate - 7, 'yyyymmdd');
+"
+PRC_AUTO_RUN_CS	PROCEDURE	313	"    if sqlcode = 0 then
+"
+PRC_AUTO_RUN_CS	PROCEDURE	314	"      commit;
+"
+PRC_AUTO_RUN_CS	PROCEDURE	315	"    else
+"
+PRC_AUTO_RUN_CS	PROCEDURE	316	"      rollback;
+"
+PRC_AUTO_RUN_CS	PROCEDURE	317	"    end if;
+"
+PRC_AUTO_RUN_CS	PROCEDURE	318	"  
+"
+PRC_AUTO_RUN_CS	PROCEDURE	319	"  end if;
+"
+PRC_AUTO_RUN_CS	PROCEDURE	320	"  -- end  本院核酸收费标志 
+"
+PRC_AUTO_RUN_CS	PROCEDURE	321	"
+"
+PRC_AUTO_RUN_CS	PROCEDURE	322	"  --zfl=0.01
+"
+PRC_AUTO_RUN_CS	PROCEDURE	323	"  if 1 = 0 and (((ls_now > '06:01' and ls_now <= '06:02')) or
+"
+PRC_AUTO_RUN_CS	PROCEDURE	324	"     ((ls_now > '06:11' and ls_now <= '06:12'))) then
+"
+PRC_AUTO_RUN_CS	PROCEDURE	325	"  
+"
+PRC_AUTO_RUN_CS	PROCEDURE	326	"    update gh_mzlbk
+"
+PRC_AUTO_RUN_CS	PROCEDURE	327	"       set zlf = 0.01, zlf_et = 0.01
+"
+PRC_AUTO_RUN_CS	PROCEDURE	328	"     where mzlbxh not in (2, 6, 7)
+"
+PRC_AUTO_RUN_CS	PROCEDURE	329	"       and mzlbxh = 0
+"
+PRC_AUTO_RUN_CS	PROCEDURE	330	"       and (zlf > 1 or zlf_et > 1)
+"
+PRC_AUTO_RUN_CS	PROCEDURE	331	"       and to_char(sysdate, 'yyyymmdd') = '20210110';
+"
+PRC_AUTO_RUN_CS	PROCEDURE	332	"    if sqlcode = 0 then
+"
+PRC_AUTO_RUN_CS	PROCEDURE	333	"      commit;
+"
+PRC_AUTO_RUN_CS	PROCEDURE	334	"    
+"
+PRC_AUTO_RUN_CS	PROCEDURE	335	"    else
+"
+PRC_AUTO_RUN_CS	PROCEDURE	336	"      rollback;
+"
+PRC_AUTO_RUN_CS	PROCEDURE	337	"    end if;
+"
+PRC_AUTO_RUN_CS	PROCEDURE	338	"  
+"
+PRC_AUTO_RUN_CS	PROCEDURE	339	"    select count(*)
+"
+PRC_AUTO_RUN_CS	PROCEDURE	340	"      into v_count
+"
+PRC_AUTO_RUN_CS	PROCEDURE	341	"      from gh_mzlbk
+"
+PRC_AUTO_RUN_CS	PROCEDURE	342	"     where (zlf > 1 or zlf_et > 1);
+"
+PRC_AUTO_RUN_CS	PROCEDURE	343	"    select '不免费挂号类别:' || v_count into nr from dual;
+"
+PRC_AUTO_RUN_CS	PROCEDURE	344	"    prc_sms_send('ts', '13777929515', nr, v_bz);
+"
+PRC_AUTO_RUN_CS	PROCEDURE	345	"  
+"
+PRC_AUTO_RUN_CS	PROCEDURE	346	"  end if;
+"
+PRC_AUTO_RUN_CS	PROCEDURE	347	"  -- end zfl=0.01
+"
+PRC_AUTO_RUN_CS	PROCEDURE	348	"
+"
+PRC_AUTO_RUN_CS	PROCEDURE	349	"  --dj<0 fjxx=074
+"
+PRC_AUTO_RUN_CS	PROCEDURE	350	"  if 0 = 1 then
+"
+PRC_AUTO_RUN_CS	PROCEDURE	351	"    select count(a.yjsb)
+"
+PRC_AUTO_RUN_CS	PROCEDURE	352	"      into v_count
+"
+PRC_AUTO_RUN_CS	PROCEDURE	353	"      From yj_Yjk1 A, YJ_YJK2 B
+"
+PRC_AUTO_RUN_CS	PROCEDURE	354	"     where A.YJSB = b.yjsb
+"
+PRC_AUTO_RUN_CS	PROCEDURE	355	"       and b.dj < 0.1
+"
+PRC_AUTO_RUN_CS	PROCEDURE	356	"       and b.fygb = 13
+"
+PRC_AUTO_RUN_CS	PROCEDURE	357	"       and a. SFSB IN (SELECT SFSB
+"
+PRC_AUTO_RUN_CS	PROCEDURE	358	"                      fROM mz_mzsfk1 t
+"
+PRC_AUTO_RUN_CS	PROCEDURE	359	"                     where sfrq > sysdate - 0.001
+"
+PRC_AUTO_RUN_CS	PROCEDURE	360	"                       and czgh in ('AUTO5', 'AUTO1')
+"
+PRC_AUTO_RUN_CS	PROCEDURE	361	"                       and fjxx >= '073');
+"
+PRC_AUTO_RUN_CS	PROCEDURE	362	"  
+"
+PRC_AUTO_RUN_CS	PROCEDURE	363	"    if v_count > 0 then
+"
+PRC_AUTO_RUN_CS	PROCEDURE	364	"      select 'dj<0, fjxx=074, fygl=13,sl=' || v_count into nr from dual;
+"
+PRC_AUTO_RUN_CS	PROCEDURE	365	"      prc_sms_send('ts', lxdh, nr, v_bz);
+"
+PRC_AUTO_RUN_CS	PROCEDURE	366	"    end if;
+"
+PRC_AUTO_RUN_CS	PROCEDURE	367	"  
+"
+PRC_AUTO_RUN_CS	PROCEDURE	368	"  end if;
+"
+PRC_AUTO_RUN_CS	PROCEDURE	369	"  if 0 = 1 then
+"
+PRC_AUTO_RUN_CS	PROCEDURE	370	"  
+"
+PRC_AUTO_RUN_CS	PROCEDURE	371	"    SELECT nvl(TO_CHAR(wm_concat(('073 _ ' || t.ipaddress))), '0')
+"
+PRC_AUTO_RUN_CS	PROCEDURE	372	"      into nr
+"
+PRC_AUTO_RUN_CS	PROCEDURE	373	"      fROM mz_mzsfk1 t
+"
+PRC_AUTO_RUN_CS	PROCEDURE	374	"     where sfrq > sysdate - 0.001
+"
+PRC_AUTO_RUN_CS	PROCEDURE	375	"       and fjxx = '073';
+"
+PRC_AUTO_RUN_CS	PROCEDURE	376	"    if length(nr) > 2 then
+"
+PRC_AUTO_RUN_CS	PROCEDURE	377	"      prc_sms_send('ts', lxdh, nr, v_bz);
+"
+PRC_AUTO_RUN_CS	PROCEDURE	378	"    end if;
+"
+PRC_AUTO_RUN_CS	PROCEDURE	379	"  end if;
+"
+PRC_AUTO_RUN_CS	PROCEDURE	380	"
+"
+PRC_AUTO_RUN_CS	PROCEDURE	381	"  if 0 = 0 then
+"
+PRC_AUTO_RUN_CS	PROCEDURE	382	"  
+"
+PRC_AUTO_RUN_CS	PROCEDURE	383	"    select nvl(to_char(wm_concat(object_name)), '')
+"
+PRC_AUTO_RUN_CS	PROCEDURE	384	"      into nr
+"
+PRC_AUTO_RUN_CS	PROCEDURE	385	"      from v_system_view_fail;
+"
+PRC_AUTO_RUN_CS	PROCEDURE	386	"    if length(nr) > 1 then
+"
+PRC_AUTO_RUN_CS	PROCEDURE	387	"      prc_sms_send('ts', lxdh, nr, v_bz);
+"
+PRC_AUTO_RUN_CS	PROCEDURE	388	"    end if;
+"
+PRC_AUTO_RUN_CS	PROCEDURE	389	"  
+"
+PRC_AUTO_RUN_CS	PROCEDURE	390	"    /*    select count(*)
+"
+PRC_AUTO_RUN_CS	PROCEDURE	391	"      into v_count
+"
+PRC_AUTO_RUN_CS	PROCEDURE	392	"      from zy_jiaoyi_v1
+"
+PRC_AUTO_RUN_CS	PROCEDURE	393	"     where bz = 'auto_recompile_objs'
+"
+PRC_AUTO_RUN_CS	PROCEDURE	394	"       and jyrq > sysdate - 0.01;
+"
+PRC_AUTO_RUN_CS	PROCEDURE	395	"    
+"
+PRC_AUTO_RUN_CS	PROCEDURE	396	"    if v_count = 0 then
+"
+PRC_AUTO_RUN_CS	PROCEDURE	397	"      select 'auto_recompile_objs存储过程失效处理 无记录'
+"
+PRC_AUTO_RUN_CS	PROCEDURE	398	"        into nr
+"
+PRC_AUTO_RUN_CS	PROCEDURE	399	"        from dual;
+"
+PRC_AUTO_RUN_CS	PROCEDURE	400	"      prc_sms_send('ts', lxdh, nr, v_bz);
+"
+PRC_AUTO_RUN_CS	PROCEDURE	401	"    end if;*/
+"
+PRC_AUTO_RUN_CS	PROCEDURE	402	"  
+"
+PRC_AUTO_RUN_CS	PROCEDURE	403	"  end if;
+"
+PRC_AUTO_RUN_CS	PROCEDURE	404	"  -- 2020-06-01 免费检查
+"
+PRC_AUTO_RUN_CS	PROCEDURE	405	"  if 0 = 1 then
+"
+PRC_AUTO_RUN_CS	PROCEDURE	406	"    select count(*)
+"
+PRC_AUTO_RUN_CS	PROCEDURE	407	"      into v_count
+"
+PRC_AUTO_RUN_CS	PROCEDURE	408	"      from temp_20200507_saicab t
+"
+PRC_AUTO_RUN_CS	PROCEDURE	409	"     where jzrq > sysdate - 0.3;
+"
+PRC_AUTO_RUN_CS	PROCEDURE	410	"    if v_count > 1 and v_count < 6 then
+"
+PRC_AUTO_RUN_CS	PROCEDURE	411	"      /* v_sl_count := 0;
+"
+PRC_AUTO_RUN_CS	PROCEDURE	412	"      select nvl(sum(sl), 0)
+"
+PRC_AUTO_RUN_CS	PROCEDURE	413	"        into v_sl_count
+"
+PRC_AUTO_RUN_CS	PROCEDURE	414	"        from temp_20200507_saicab
+"
+PRC_AUTO_RUN_CS	PROCEDURE	415	"       where jzrq >= trunc(sysdate);*/
+"
+PRC_AUTO_RUN_CS	PROCEDURE	416	"      if v_count > 0 then
+"
+PRC_AUTO_RUN_CS	PROCEDURE	417	"        select '2020-06-01 免费检查活动：' || v_count into nr from dual;
+"
+PRC_AUTO_RUN_CS	PROCEDURE	418	"        prc_sms_send('ts', lxdh, nr, v_bz);
+"
+PRC_AUTO_RUN_CS	PROCEDURE	419	"      end if;
+"
+PRC_AUTO_RUN_CS	PROCEDURE	420	"    end if;
+"
+PRC_AUTO_RUN_CS	PROCEDURE	421	"  end if;
+"
+PRC_AUTO_RUN_CS	PROCEDURE	422	"
+"
+PRC_AUTO_RUN_CS	PROCEDURE	423	"  -- 2020-06-01 免费挂号
+"
+PRC_AUTO_RUN_CS	PROCEDURE	424	"  if 0 = 1 then
+"
+PRC_AUTO_RUN_CS	PROCEDURE	425	"  
+"
+PRC_AUTO_RUN_CS	PROCEDURE	426	"    select count(a.yjsb)
+"
+PRC_AUTO_RUN_CS	PROCEDURE	427	"      into v_count
+"
+PRC_AUTO_RUN_CS	PROCEDURE	428	"      From yj_Yjk1 A, YJ_YJK2 B
+"
+PRC_AUTO_RUN_CS	PROCEDURE	429	"     where A.YJSB = b.yjsb
+"
+PRC_AUTO_RUN_CS	PROCEDURE	430	"       and b.dj < 0.1
+"
+PRC_AUTO_RUN_CS	PROCEDURE	431	"       and b.fygb = 13
+"
+PRC_AUTO_RUN_CS	PROCEDURE	432	"       and a.kdsj > sysdate - 0.1;
+"
+PRC_AUTO_RUN_CS	PROCEDURE	433	"  
+"
+PRC_AUTO_RUN_CS	PROCEDURE	434	"    if v_count > 1 and v_count < 6 then
+"
+PRC_AUTO_RUN_CS	PROCEDURE	435	"      if v_count > 0 then
+"
+PRC_AUTO_RUN_CS	PROCEDURE	436	"        select '2020-06-01 免费挂号活动：' || v_count into nr from dual;
+"
+PRC_AUTO_RUN_CS	PROCEDURE	437	"        prc_sms_send('ts', lxdh, nr, v_bz);
+"
+PRC_AUTO_RUN_CS	PROCEDURE	438	"      end if;
+"
+PRC_AUTO_RUN_CS	PROCEDURE	439	"    end if;
+"
+PRC_AUTO_RUN_CS	PROCEDURE	440	"  
+"
+PRC_AUTO_RUN_CS	PROCEDURE	441	"    select count(a.yjsb)
+"
+PRC_AUTO_RUN_CS	PROCEDURE	442	"      into v_count
+"
+PRC_AUTO_RUN_CS	PROCEDURE	443	"      From yj_Yjk1 A, YJ_YJK2 B
+"
+PRC_AUTO_RUN_CS	PROCEDURE	444	"     where A.YJSB = b.yjsb
+"
+PRC_AUTO_RUN_CS	PROCEDURE	445	"       and a.sjksdm not in (select ksdm from gh_jjr_ksdm)
+"
+PRC_AUTO_RUN_CS	PROCEDURE	446	"          
+"
+PRC_AUTO_RUN_CS	PROCEDURE	447	"       and b.dj < 0.1
+"
+PRC_AUTO_RUN_CS	PROCEDURE	448	"       and b.fygb = 13
+"
+PRC_AUTO_RUN_CS	PROCEDURE	449	"       and a.kdsj > sysdate - 0.1;
+"
+PRC_AUTO_RUN_CS	PROCEDURE	450	"  
+"
+PRC_AUTO_RUN_CS	PROCEDURE	451	"    if v_count > 1 and v_count < 6 then
+"
+PRC_AUTO_RUN_CS	PROCEDURE	452	"      if v_count > 0 then
+"
+PRC_AUTO_RUN_CS	PROCEDURE	453	"        select '2020-06-01 not ksdm 免费挂号活动：' || v_count
+"
+PRC_AUTO_RUN_CS	PROCEDURE	454	"          into nr
+"
+PRC_AUTO_RUN_CS	PROCEDURE	455	"          from dual;
+"
+PRC_AUTO_RUN_CS	PROCEDURE	456	"        prc_sms_send('ts', lxdh, nr, v_bz);
+"
+PRC_AUTO_RUN_CS	PROCEDURE	457	"      end if;
+"
+PRC_AUTO_RUN_CS	PROCEDURE	458	"    end if;
+"
+PRC_AUTO_RUN_CS	PROCEDURE	459	"  
+"
+PRC_AUTO_RUN_CS	PROCEDURE	460	"  end if;
+"
+PRC_AUTO_RUN_CS	PROCEDURE	461	"
+"
+PRC_AUTO_RUN_CS	PROCEDURE	462	"  --新型冠状病毒核酸检测 待复查 转发
+"
+PRC_AUTO_RUN_CS	PROCEDURE	463	"  if 1 = 1 then
+"
+PRC_AUTO_RUN_CS	PROCEDURE	464	"    v_xh       := 1;
+"
+PRC_AUTO_RUN_CS	PROCEDURE	465	"    v_sl_count := 0;
+"
+PRC_AUTO_RUN_CS	PROCEDURE	466	"    while v_xh > 0 loop
+"
+PRC_AUTO_RUN_CS	PROCEDURE	467	"    
+"
+PRC_AUTO_RUN_CS	PROCEDURE	468	"      v_sl_count := v_sl_count + 1;
+"
+PRC_AUTO_RUN_CS	PROCEDURE	469	"      if v_sl_count > 6 then
+"
+PRC_AUTO_RUN_CS	PROCEDURE	470	"        exit;
+"
+PRC_AUTO_RUN_CS	PROCEDURE	471	"      end if;
+"
+PRC_AUTO_RUN_CS	PROCEDURE	472	"      select nvl(max(xh), 0)
+"
+PRC_AUTO_RUN_CS	PROCEDURE	473	"        into v_xh
+"
+PRC_AUTO_RUN_CS	PROCEDURE	474	"        from auto_task_ywzx_send
+"
+PRC_AUTO_RUN_CS	PROCEDURE	475	"       where date_send > sysdate - 0.1
+"
+PRC_AUTO_RUN_CS	PROCEDURE	476	"         and instr(bz, '转发') = 0
+"
+PRC_AUTO_RUN_CS	PROCEDURE	477	"         and instr(bz, 'IgM') > 0
+"
+PRC_AUTO_RUN_CS	PROCEDURE	478	"         and instr(bz, '待复查') > 0
+"
+PRC_AUTO_RUN_CS	PROCEDURE	479	"         and instr(bz, '新型冠状病毒') > 0
+"
+PRC_AUTO_RUN_CS	PROCEDURE	480	"         and laborder > 0;
+"
+PRC_AUTO_RUN_CS	PROCEDURE	481	"      if v_xh > 0 then
+"
+PRC_AUTO_RUN_CS	PROCEDURE	482	"      
+"
+PRC_AUTO_RUN_CS	PROCEDURE	483	"        select bz, nvl(laborder, 0)
+"
+PRC_AUTO_RUN_CS	PROCEDURE	484	"          into nr, v_laborder
+"
+PRC_AUTO_RUN_CS	PROCEDURE	485	"          from auto_task_ywzx_send
+"
+PRC_AUTO_RUN_CS	PROCEDURE	486	"         where xh = v_xh;
+"
+PRC_AUTO_RUN_CS	PROCEDURE	487	"      
+"
+PRC_AUTO_RUN_CS	PROCEDURE	488	"        select nvl(max(y.lxdh), '无')
+"
+PRC_AUTO_RUN_CS	PROCEDURE	489	"          into v_temp
+"
+PRC_AUTO_RUN_CS	PROCEDURE	490	"          from l_patientinfo t, gy_brjbxxk y
+"
+PRC_AUTO_RUN_CS	PROCEDURE	491	"         where t.patientid = y.jzkh
+"
+PRC_AUTO_RUN_CS	PROCEDURE	492	"           and t.stayhospitalmode = 1
+"
+PRC_AUTO_RUN_CS	PROCEDURE	493	"           and t.doctadviseno > 0
+"
+PRC_AUTO_RUN_CS	PROCEDURE	494	"           and t.doctadviseno = v_laborder;
+"
+PRC_AUTO_RUN_CS	PROCEDURE	495	"      
+"
+PRC_AUTO_RUN_CS	PROCEDURE	496	"        select nr || ',患者联系电话:' || v_temp into nr from dual;
+"
+PRC_AUTO_RUN_CS	PROCEDURE	497	"      
+"
+PRC_AUTO_RUN_CS	PROCEDURE	498	"        -- select bz into nr from auto_task_ywzx_send where xh = v_xh;
+"
+PRC_AUTO_RUN_CS	PROCEDURE	499	"        --  prc_sms_send('ts', '13777929515', nr, v_bz);
+"
+PRC_AUTO_RUN_CS	PROCEDURE	500	"        prc_sms_send('ts', '13735759506', nr, v_bz);
+"
+PRC_AUTO_RUN_CS	PROCEDURE	501	"        prc_sms_send('ts', '13867936636', nr, v_bz);
+"
+PRC_AUTO_RUN_CS	PROCEDURE	502	"        prc_sms_send('ts', '15825760232', nr, v_bz);
+"
+PRC_AUTO_RUN_CS	PROCEDURE	503	"        prc_sms_send('ts', '18458034799', nr, v_bz);
+"
+PRC_AUTO_RUN_CS	PROCEDURE	504	"        update auto_task_ywzx_send set bz = bz || '[转发]' where xh = v_xh;
+"
+PRC_AUTO_RUN_CS	PROCEDURE	505	"        if sqlcode = 0 then
+"
+PRC_AUTO_RUN_CS	PROCEDURE	506	"          commit;
+"
+PRC_AUTO_RUN_CS	PROCEDURE	507	"        else
+"
+PRC_AUTO_RUN_CS	PROCEDURE	508	"          rollback;
+"
+PRC_AUTO_RUN_CS	PROCEDURE	509	"        end if;
+"
+PRC_AUTO_RUN_CS	PROCEDURE	510	"      
+"
+PRC_AUTO_RUN_CS	PROCEDURE	511	"      end if;
+"
+PRC_AUTO_RUN_CS	PROCEDURE	512	"    end loop;
+"
+PRC_AUTO_RUN_CS	PROCEDURE	513	"  end if;
+"
+PRC_AUTO_RUN_CS	PROCEDURE	514	"
+"
+PRC_AUTO_RUN_CS	PROCEDURE	515	"  --新型冠状病毒核酸检测 待复查 转发 end 
+"
+PRC_AUTO_RUN_CS	PROCEDURE	516	"
+"
+PRC_AUTO_RUN_CS	PROCEDURE	517	"  -- 'ylsbgl.wz_nzwcgsqxx 高值计费 老系统记录'
+"
+PRC_AUTO_RUN_CS	PROCEDURE	518	"  /*  if 0 = 0 then
+"
+PRC_AUTO_RUN_CS	PROCEDURE	519	"    select count(*)
+"
+PRC_AUTO_RUN_CS	PROCEDURE	520	"      into v_count
+"
+PRC_AUTO_RUN_CS	PROCEDURE	521	"      From ylsbgl.wz_nzwcgsqxx a
+"
+PRC_AUTO_RUN_CS	PROCEDURE	522	"     where sqrq > sysdate - 0.1;
+"
+PRC_AUTO_RUN_CS	PROCEDURE	523	"  
+"
+PRC_AUTO_RUN_CS	PROCEDURE	524	"    if v_count > 0 then
+"
+PRC_AUTO_RUN_CS	PROCEDURE	525	"      select 'ylsbgl.wz_nzwcgsqxx 高值计费 老系统记录' into nr from dual;
+"
+PRC_AUTO_RUN_CS	PROCEDURE	526	"      prc_sms_send('ts', lxdh, nr, v_bz);
+"
+PRC_AUTO_RUN_CS	PROCEDURE	527	"    end if;
+"
+PRC_AUTO_RUN_CS	PROCEDURE	528	"  end if;*/
+"
+PRC_AUTO_RUN_CS	PROCEDURE	529	"
+"
+PRC_AUTO_RUN_CS	PROCEDURE	530	"  --'抗菌药物停止通知'
+"
+PRC_AUTO_RUN_CS	PROCEDURE	531	"  if 1 = 1 and ((ls_now > '07:40' and ls_now <= '07:41') or
+"
+PRC_AUTO_RUN_CS	PROCEDURE	532	"     (ls_now > '08:40' and ls_now <= '08:41') or
+"
+PRC_AUTO_RUN_CS	PROCEDURE	533	"     (ls_now > '09:40' and ls_now <= '09:41') or
+"
+PRC_AUTO_RUN_CS	PROCEDURE	534	"     (ls_now > '10:40' and ls_now <= '10:41') or
+"
+PRC_AUTO_RUN_CS	PROCEDURE	535	"     (ls_now > '11:40' and ls_now <= '11:41') or
+"
+PRC_AUTO_RUN_CS	PROCEDURE	536	"     (ls_now > '12:40' and ls_now <= '12:41') or
+"
+PRC_AUTO_RUN_CS	PROCEDURE	537	"     (ls_now > '13:40' and ls_now <= '13:41') or
+"
+PRC_AUTO_RUN_CS	PROCEDURE	538	"     (ls_now > '14:40' and ls_now <= '14:41') or
+"
+PRC_AUTO_RUN_CS	PROCEDURE	539	"     (ls_now > '15:40' and ls_now <= '15:41') or
+"
+PRC_AUTO_RUN_CS	PROCEDURE	540	"     (ls_now > '16:40' and ls_now <= '16:41') or
+"
+PRC_AUTO_RUN_CS	PROCEDURE	541	"     (ls_now > '17:40' and ls_now <= '17:41') or
+"
+PRC_AUTO_RUN_CS	PROCEDURE	542	"     (ls_now > '19:40' and ls_now <= '19:41') or
+"
+PRC_AUTO_RUN_CS	PROCEDURE	543	"     (ls_now > '21:40' and ls_now <= '21:41')) then
+"
+PRC_AUTO_RUN_CS	PROCEDURE	544	"  
+"
+PRC_AUTO_RUN_CS	PROCEDURE	545	"    --留义温暖基金
+"
+PRC_AUTO_RUN_CS	PROCEDURE	546	"    if 1 = 1 then
+"
+PRC_AUTO_RUN_CS	PROCEDURE	547	"    
+"
+PRC_AUTO_RUN_CS	PROCEDURE	548	"      select to_char(nvl(wm_concat('留义温暖基金 ' || fs || ':' || je), '0'))
+"
+PRC_AUTO_RUN_CS	PROCEDURE	549	"        into nr
+"
+PRC_AUTO_RUN_CS	PROCEDURE	550	"        from (select decode(depo_type, 1, '现金', 2, '支票', '其它方式') fs,
+"
+PRC_AUTO_RUN_CS	PROCEDURE	551	"                     sum(amount) je
+"
+PRC_AUTO_RUN_CS	PROCEDURE	552	"                from zy_deposit_file
+"
+PRC_AUTO_RUN_CS	PROCEDURE	553	"               where depo_date > sysdate - 0.2
+"
+PRC_AUTO_RUN_CS	PROCEDURE	554	"                 and op_Id = 'AU002'
+"
+PRC_AUTO_RUN_CS	PROCEDURE	555	"               group by depo_type);
+"
+PRC_AUTO_RUN_CS	PROCEDURE	556	"    
+"
+PRC_AUTO_RUN_CS	PROCEDURE	557	"      if length(nr) > 5 then
+"
+PRC_AUTO_RUN_CS	PROCEDURE	558	"        prc_sms_send('ts', '13777929515', nr, v_bz);
+"
+PRC_AUTO_RUN_CS	PROCEDURE	559	"      
+"
+PRC_AUTO_RUN_CS	PROCEDURE	560	"        select to_char(nvl(wm_concat('留义温暖基金大于1000 ' || to_char(patient_no）), '0')) into nr from (select patient_no
+"
+PRC_AUTO_RUN_CS	PROCEDURE	561	"                                                                                                    from zy_deposit_file
+"
+PRC_AUTO_RUN_CS	PROCEDURE	562	"                                                                                                   where patient_No in
+"
+PRC_AUTO_RUN_CS	PROCEDURE	563	"                                                                                                         (select patient_no
+"
+PRC_AUTO_RUN_CS	PROCEDURE	564	"                                                                                                            from zy_deposit_file
+"
+PRC_AUTO_RUN_CS	PROCEDURE	565	"                                                                                                           where depo_date >
+"
+PRC_AUTO_RUN_CS	PROCEDURE	566	"                                                                                                                 sysdate - 0.2
+"
+PRC_AUTO_RUN_CS	PROCEDURE	567	"                                                                                                             and op_Id =
+"
+PRC_AUTO_RUN_CS	PROCEDURE	568	"                                                                                                                 'AU002')
+"
+PRC_AUTO_RUN_CS	PROCEDURE	569	"                                                                                                     and op_Id =
+"
+PRC_AUTO_RUN_CS	PROCEDURE	570	"                                                                                                         'AU002'
+"
+PRC_AUTO_RUN_CS	PROCEDURE	571	"                                                                                                   group by patient_no
+"
+PRC_AUTO_RUN_CS	PROCEDURE	572	"                                                                                                  having sum(amount) > 1000);
+"
+PRC_AUTO_RUN_CS	PROCEDURE	573	"      
+"
+PRC_AUTO_RUN_CS	PROCEDURE	574	"        if length(nr) > 2 then
+"
+PRC_AUTO_RUN_CS	PROCEDURE	575	"          prc_sms_send('ts', '13777929515', nr, v_bz);
+"
+PRC_AUTO_RUN_CS	PROCEDURE	576	"        end if;
+"
+PRC_AUTO_RUN_CS	PROCEDURE	577	"      
+"
+PRC_AUTO_RUN_CS	PROCEDURE	578	"      end if;
+"
+PRC_AUTO_RUN_CS	PROCEDURE	579	"    
+"
+PRC_AUTO_RUN_CS	PROCEDURE	580	"      select count(*)
+"
+PRC_AUTO_RUN_CS	PROCEDURE	581	"        into v_count
+"
+PRC_AUTO_RUN_CS	PROCEDURE	582	"        from (select (select nvl(to_char(cwfp_date, 'yyyymmdd'), '20210101')
+"
+PRC_AUTO_RUN_CS	PROCEDURE	583	"                        from zy_patient_information
+"
+PRC_AUTO_RUN_CS	PROCEDURE	584	"                       where patient_no = t.patient_no) rq
+"
+PRC_AUTO_RUN_CS	PROCEDURE	585	"                From zy_deposit_file t
+"
+PRC_AUTO_RUN_CS	PROCEDURE	586	"               where patient_no <> 851509
+"
+PRC_AUTO_RUN_CS	PROCEDURE	587	"                 and op_id = 'AU002'
+"
+PRC_AUTO_RUN_CS	PROCEDURE	588	"                 and patient_no > 0
+"
+PRC_AUTO_RUN_CS	PROCEDURE	589	"                 and depo_date > sysdate - 2)
+"
+PRC_AUTO_RUN_CS	PROCEDURE	590	"       where rq < '20210210'
+"
+PRC_AUTO_RUN_CS	PROCEDURE	591	"          or rq > '20210221';
+"
+PRC_AUTO_RUN_CS	PROCEDURE	592	"      if v_count > 0 then
+"
+PRC_AUTO_RUN_CS	PROCEDURE	593	"        select '留义温暖基金,床位分配时间不在0210-0221,数量=' || v_count
+"
+PRC_AUTO_RUN_CS	PROCEDURE	594	"          into nr
+"
+PRC_AUTO_RUN_CS	PROCEDURE	595	"          from dual;
+"
+PRC_AUTO_RUN_CS	PROCEDURE	596	"      
+"
+PRC_AUTO_RUN_CS	PROCEDURE	597	"        select count(*)
+"
+PRC_AUTO_RUN_CS	PROCEDURE	598	"          into v_count
+"
+PRC_AUTO_RUN_CS	PROCEDURE	599	"          from (select (select count(*)
+"
+PRC_AUTO_RUN_CS	PROCEDURE	600	"                          from zy_patient_information
+"
+PRC_AUTO_RUN_CS	PROCEDURE	601	"                         where patient_no = t.patient_no
+"
+PRC_AUTO_RUN_CS	PROCEDURE	602	"                           and cwfp_date is null) sl
+"
+PRC_AUTO_RUN_CS	PROCEDURE	603	"                  From zy_deposit_file t
+"
+PRC_AUTO_RUN_CS	PROCEDURE	604	"                 where patient_no <> 851509
+"
+PRC_AUTO_RUN_CS	PROCEDURE	605	"                   and op_id = 'AU002'
+"
+PRC_AUTO_RUN_CS	PROCEDURE	606	"                   and patient_no > 0
+"
+PRC_AUTO_RUN_CS	PROCEDURE	607	"                   and depo_date > sysdate - 2
+"
+PRC_AUTO_RUN_CS	PROCEDURE	608	"                   and depo_date < sysdate - 0.05)
+"
+PRC_AUTO_RUN_CS	PROCEDURE	609	"         where sl = 1;
+"
+PRC_AUTO_RUN_CS	PROCEDURE	610	"        if v_count > 0 then
+"
+PRC_AUTO_RUN_CS	PROCEDURE	611	"          select nr || ',cwfp_date =null,数量=' || v_count
+"
+PRC_AUTO_RUN_CS	PROCEDURE	612	"            into nr
+"
+PRC_AUTO_RUN_CS	PROCEDURE	613	"            from dual;
+"
+PRC_AUTO_RUN_CS	PROCEDURE	614	"        
+"
+PRC_AUTO_RUN_CS	PROCEDURE	615	"          update zy_deposit_file
+"
+PRC_AUTO_RUN_CS	PROCEDURE	616	"             set patient_no = patient_no * -1
+"
+PRC_AUTO_RUN_CS	PROCEDURE	617	"           where op_id = 'AU002'
+"
+PRC_AUTO_RUN_CS	PROCEDURE	618	"             and depo_date > sysdate - 2
+"
+PRC_AUTO_RUN_CS	PROCEDURE	619	"             and patient_No in
+"
+PRC_AUTO_RUN_CS	PROCEDURE	620	"                 (select patient_no
+"
+PRC_AUTO_RUN_CS	PROCEDURE	621	"                    from (select (select count(*)
+"
+PRC_AUTO_RUN_CS	PROCEDURE	622	"                                    from zy_patient_information
+"
+PRC_AUTO_RUN_CS	PROCEDURE	623	"                                   where patient_no = t.patient_no
+"
+PRC_AUTO_RUN_CS	PROCEDURE	624	"                                     and cwfp_date is null) sl,
+"
+PRC_AUTO_RUN_CS	PROCEDURE	625	"                                 patient_no
+"
+PRC_AUTO_RUN_CS	PROCEDURE	626	"                            From zy_deposit_file t
+"
+PRC_AUTO_RUN_CS	PROCEDURE	627	"                           where patient_no <> 851509
+"
+PRC_AUTO_RUN_CS	PROCEDURE	628	"                             and op_id = 'AU002'
+"
+PRC_AUTO_RUN_CS	PROCEDURE	629	"                             and patient_no > 0
+"
+PRC_AUTO_RUN_CS	PROCEDURE	630	"                             and js_No = 0
+"
+PRC_AUTO_RUN_CS	PROCEDURE	631	"                             and depo_date > sysdate - 2
+"
+PRC_AUTO_RUN_CS	PROCEDURE	632	"                             and depo_date < sysdate - 0.05)
+"
+PRC_AUTO_RUN_CS	PROCEDURE	633	"                   where sl = 1);
+"
+PRC_AUTO_RUN_CS	PROCEDURE	634	"          if sqlcode = 0 then
+"
+PRC_AUTO_RUN_CS	PROCEDURE	635	"            commit;
+"
+PRC_AUTO_RUN_CS	PROCEDURE	636	"          else
+"
+PRC_AUTO_RUN_CS	PROCEDURE	637	"            rollback;
+"
+PRC_AUTO_RUN_CS	PROCEDURE	638	"          end if;
+"
+PRC_AUTO_RUN_CS	PROCEDURE	639	"        
+"
+PRC_AUTO_RUN_CS	PROCEDURE	640	"        end if;
+"
+PRC_AUTO_RUN_CS	PROCEDURE	641	"      
+"
+PRC_AUTO_RUN_CS	PROCEDURE	642	"        prc_sms_send('ts', '13777929515', nr, v_bz);
+"
+PRC_AUTO_RUN_CS	PROCEDURE	643	"      end if;
+"
+PRC_AUTO_RUN_CS	PROCEDURE	644	"    
+"
+PRC_AUTO_RUN_CS	PROCEDURE	645	"    end if;
+"
+PRC_AUTO_RUN_CS	PROCEDURE	646	"    --end 留义温暖基金
+"
+PRC_AUTO_RUN_CS	PROCEDURE	647	"  
+"
+PRC_AUTO_RUN_CS	PROCEDURE	648	"    prc_xiangmu_cursor_do('抗菌药物停止通知',
+"
+PRC_AUTO_RUN_CS	PROCEDURE	649	"                          '',
+"
+PRC_AUTO_RUN_CS	PROCEDURE	650	"                          '',
+"
+PRC_AUTO_RUN_CS	PROCEDURE	651	"                          v_out_code,
+"
+PRC_AUTO_RUN_CS	PROCEDURE	652	"                          v_out_msg);
+"
+PRC_AUTO_RUN_CS	PROCEDURE	653	"  
+"
+PRC_AUTO_RUN_CS	PROCEDURE	654	"    prc_xiangmu_cursor_do('门诊停诊通知', '', '', v_out_code, v_out_msg);
+"
+PRC_AUTO_RUN_CS	PROCEDURE	655	"  
+"
+PRC_AUTO_RUN_CS	PROCEDURE	656	"  end if;
+"
+PRC_AUTO_RUN_CS	PROCEDURE	657	"
+"
+PRC_AUTO_RUN_CS	PROCEDURE	658	"  -- 短信提醒： 化验结果提醒  化验项目未做提醒  药品未取提醒  检查项目未做提醒
+"
+PRC_AUTO_RUN_CS	PROCEDURE	659	"
+"
+PRC_AUTO_RUN_CS	PROCEDURE	660	"  if 1 = 1 then
+"
+PRC_AUTO_RUN_CS	PROCEDURE	661	"    if 1 = 1 and (ls_now > '15:50' and ls_now <= '16:50') then
+"
+PRC_AUTO_RUN_CS	PROCEDURE	662	"      if 1 = 1 and ls_now_minue = '1' then
+"
+PRC_AUTO_RUN_CS	PROCEDURE	663	"        prc_xiangmu_sms_send('化验结果提醒', '', '', v_out_code, v_out_msg);
+"
+PRC_AUTO_RUN_CS	PROCEDURE	664	"      
+"
+PRC_AUTO_RUN_CS	PROCEDURE	665	"        prc_xiangmu_sms_send('化验项目未做提醒',
+"
+PRC_AUTO_RUN_CS	PROCEDURE	666	"                             '',
+"
+PRC_AUTO_RUN_CS	PROCEDURE	667	"                             '',
+"
+PRC_AUTO_RUN_CS	PROCEDURE	668	"                             v_out_code,
+"
+PRC_AUTO_RUN_CS	PROCEDURE	669	"                             v_out_msg);
+"
+PRC_AUTO_RUN_CS	PROCEDURE	670	"        prc_xiangmu_sms_send('医后付未结算提醒',
+"
+PRC_AUTO_RUN_CS	PROCEDURE	671	"                             '',
+"
+PRC_AUTO_RUN_CS	PROCEDURE	672	"                             '',
+"
+PRC_AUTO_RUN_CS	PROCEDURE	673	"                             v_out_code,
+"
+PRC_AUTO_RUN_CS	PROCEDURE	674	"                             v_out_msg);
+"
+PRC_AUTO_RUN_CS	PROCEDURE	675	"      
+"
+PRC_AUTO_RUN_CS	PROCEDURE	676	"      end if;
+"
+PRC_AUTO_RUN_CS	PROCEDURE	677	"    
+"
+PRC_AUTO_RUN_CS	PROCEDURE	678	"    end if;
+"
+PRC_AUTO_RUN_CS	PROCEDURE	679	"  
+"
+PRC_AUTO_RUN_CS	PROCEDURE	680	"    if 1 = 1 and (ls_now > '07:50' and ls_now <= '16:50') then
+"
+PRC_AUTO_RUN_CS	PROCEDURE	681	"      if 1 = 1 and ls_now_minue = '4' then
+"
+PRC_AUTO_RUN_CS	PROCEDURE	682	"        prc_xiangmu_sms_send('药品未取提醒', '', '', v_out_code, v_out_msg);
+"
+PRC_AUTO_RUN_CS	PROCEDURE	683	"      
+"
+PRC_AUTO_RUN_CS	PROCEDURE	684	"        prc_xiangmu_sms_send('检查项目未做提醒',
+"
+PRC_AUTO_RUN_CS	PROCEDURE	685	"                             '',
+"
+PRC_AUTO_RUN_CS	PROCEDURE	686	"                             '',
+"
+PRC_AUTO_RUN_CS	PROCEDURE	687	"                             v_out_code,
+"
+PRC_AUTO_RUN_CS	PROCEDURE	688	"                             v_out_msg);
+"
+PRC_AUTO_RUN_CS	PROCEDURE	689	"      
+"
+PRC_AUTO_RUN_CS	PROCEDURE	690	"      end if;
+"
+PRC_AUTO_RUN_CS	PROCEDURE	691	"    
+"
+PRC_AUTO_RUN_CS	PROCEDURE	692	"    end if;
+"
+PRC_AUTO_RUN_CS	PROCEDURE	693	"  
+"
+PRC_AUTO_RUN_CS	PROCEDURE	694	"  end if;
+"
+PRC_AUTO_RUN_CS	PROCEDURE	695	"
+"
+PRC_AUTO_RUN_CS	PROCEDURE	696	"  --  error 更新单价<0  ys_code
+"
+PRC_AUTO_RUN_CS	PROCEDURE	697	"  if 1 = 1 then
+"
+PRC_AUTO_RUN_CS	PROCEDURE	698	"  
+"
+PRC_AUTO_RUN_CS	PROCEDURE	699	"    if (ls_now > '07:00' and ls_now <= '07:01') then
+"
+PRC_AUTO_RUN_CS	PROCEDURE	700	"      update zy_detail_charge
+"
+PRC_AUTO_RUN_CS	PROCEDURE	701	"         set dj = dj * -1, sl = sl * -1
+"
+PRC_AUTO_RUN_CS	PROCEDURE	702	"       where js_no = 0
+"
+PRC_AUTO_RUN_CS	PROCEDURE	703	"         and dj < 0
+"
+PRC_AUTO_RUN_CS	PROCEDURE	704	"         and jcfx_date > sysdate - 2
+"
+PRC_AUTO_RUN_CS	PROCEDURE	705	"         and jcfx_date < sysdate - 0.011;
+"
+PRC_AUTO_RUN_CS	PROCEDURE	706	"      if sqlcode = 0 then
+"
+PRC_AUTO_RUN_CS	PROCEDURE	707	"        commit;
+"
+PRC_AUTO_RUN_CS	PROCEDURE	708	"      else
+"
+PRC_AUTO_RUN_CS	PROCEDURE	709	"        rollback;
+"
+PRC_AUTO_RUN_CS	PROCEDURE	710	"        prc_sms_send('ts', '13777929515', 'dj<0 update prc_autuo', v_bz);
+"
+PRC_AUTO_RUN_CS	PROCEDURE	711	"      end if;
+"
+PRC_AUTO_RUN_CS	PROCEDURE	712	"    
+"
+PRC_AUTO_RUN_CS	PROCEDURE	713	"      update zy_detail_charge x
+"
+PRC_AUTO_RUN_CS	PROCEDURE	714	"         set ys_code = (select zzys
+"
+PRC_AUTO_RUN_CS	PROCEDURE	715	"                          from zy_patient_information
+"
+PRC_AUTO_RUN_CS	PROCEDURE	716	"                         where patient_No = x.patient_no)
+"
+PRC_AUTO_RUN_CS	PROCEDURE	717	"       where nvl(ys_code, 0) not in (select zgid from gy_zgxx)
+"
+PRC_AUTO_RUN_CS	PROCEDURE	718	"         and js_no = 0
+"
+PRC_AUTO_RUN_CS	PROCEDURE	719	"         and jcfx_date > sysdate - 2
+"
+PRC_AUTO_RUN_CS	PROCEDURE	720	"         and jcfx_date < sysdate - 0.011;
+"
+PRC_AUTO_RUN_CS	PROCEDURE	721	"    
+"
+PRC_AUTO_RUN_CS	PROCEDURE	722	"      if sqlcode = 0 then
+"
+PRC_AUTO_RUN_CS	PROCEDURE	723	"        commit;
+"
+PRC_AUTO_RUN_CS	PROCEDURE	724	"      else
+"
+PRC_AUTO_RUN_CS	PROCEDURE	725	"        rollback;
+"
+PRC_AUTO_RUN_CS	PROCEDURE	726	"        prc_sms_send('ts', '13777929515', 'zzys update prc_auto', v_bz);
+"
+PRC_AUTO_RUN_CS	PROCEDURE	727	"      end if;
+"
+PRC_AUTO_RUN_CS	PROCEDURE	728	"    
+"
+PRC_AUTO_RUN_CS	PROCEDURE	729	"    end if;
+"
+PRC_AUTO_RUN_CS	PROCEDURE	730	"  
+"
+PRC_AUTO_RUN_CS	PROCEDURE	731	"    if (ls_now > '07:00' and ls_now <= '18:01') then
+"
+PRC_AUTO_RUN_CS	PROCEDURE	732	"      update zy_detail_charge
+"
+PRC_AUTO_RUN_CS	PROCEDURE	733	"         set dj = dj * -1, sl = sl * -1
+"
+PRC_AUTO_RUN_CS	PROCEDURE	734	"       where js_no = 0
+"
+PRC_AUTO_RUN_CS	PROCEDURE	735	"         and dj < 0
+"
+PRC_AUTO_RUN_CS	PROCEDURE	736	"         and jcfx_date > sysdate - 0.011;
+"
+PRC_AUTO_RUN_CS	PROCEDURE	737	"      if sqlcode = 0 then
+"
+PRC_AUTO_RUN_CS	PROCEDURE	738	"        commit;
+"
+PRC_AUTO_RUN_CS	PROCEDURE	739	"      else
+"
+PRC_AUTO_RUN_CS	PROCEDURE	740	"        rollback;
+"
+PRC_AUTO_RUN_CS	PROCEDURE	741	"        prc_sms_send('ts', '13777929515', 'dj<0 update prc_autuo', v_bz);
+"
+PRC_AUTO_RUN_CS	PROCEDURE	742	"      end if;
+"
+PRC_AUTO_RUN_CS	PROCEDURE	743	"    
+"
+PRC_AUTO_RUN_CS	PROCEDURE	744	"      update zy_detail_charge x
+"
+PRC_AUTO_RUN_CS	PROCEDURE	745	"         set ys_code = (select zzys
+"
+PRC_AUTO_RUN_CS	PROCEDURE	746	"                          from zy_patient_information
+"
+PRC_AUTO_RUN_CS	PROCEDURE	747	"                         where patient_No = x.patient_no)
+"
+PRC_AUTO_RUN_CS	PROCEDURE	748	"       where nvl(ys_code, 0) not in (select zgid from gy_zgxx)
+"
+PRC_AUTO_RUN_CS	PROCEDURE	749	"         and js_no = 0
+"
+PRC_AUTO_RUN_CS	PROCEDURE	750	"         and jcfx_date > sysdate - 0.011;
+"
+PRC_AUTO_RUN_CS	PROCEDURE	751	"    
+"
+PRC_AUTO_RUN_CS	PROCEDURE	752	"      if sqlcode = 0 then
+"
+PRC_AUTO_RUN_CS	PROCEDURE	753	"        commit;
+"
+PRC_AUTO_RUN_CS	PROCEDURE	754	"      else
+"
+PRC_AUTO_RUN_CS	PROCEDURE	755	"        rollback;
+"
+PRC_AUTO_RUN_CS	PROCEDURE	756	"        prc_sms_send('ts', '13777929515', 'zzys update prc_auto', v_bz);
+"
+PRC_AUTO_RUN_CS	PROCEDURE	757	"      end if;
+"
+PRC_AUTO_RUN_CS	PROCEDURE	758	"    
+"
+PRC_AUTO_RUN_CS	PROCEDURE	759	"    end if;
+"
+PRC_AUTO_RUN_CS	PROCEDURE	760	"  
+"
+PRC_AUTO_RUN_CS	PROCEDURE	761	"  end if;
+"
+PRC_AUTO_RUN_CS	PROCEDURE	762	"  --旧高值耗材更新价格
+"
+PRC_AUTO_RUN_CS	PROCEDURE	763	"  if 1 = 1 then
+"
+PRC_AUTO_RUN_CS	PROCEDURE	764	"    update zy_detail_charge t
+"
+PRC_AUTO_RUN_CS	PROCEDURE	765	"       set dj = dj - 100, tsyybz = ' '
+"
+PRC_AUTO_RUN_CS	PROCEDURE	766	"     where fygl = 25
+"
+PRC_AUTO_RUN_CS	PROCEDURE	767	"       and tsyybz is null
+"
+PRC_AUTO_RUN_CS	PROCEDURE	768	"       and t.twice_detail_code = 'SB'
+"
+PRC_AUTO_RUN_CS	PROCEDURE	769	"       and js_No = 0
+"
+PRC_AUTO_RUN_CS	PROCEDURE	770	"       and dj >= 2000
+"
+PRC_AUTO_RUN_CS	PROCEDURE	771	"       and jlxh >= 293106684
+"
+PRC_AUTO_RUN_CS	PROCEDURE	772	"       and jcfx_date > sysdate - 0.5
+"
+PRC_AUTO_RUN_CS	PROCEDURE	773	"       and jcfx_date < sysdate - 0.0001;
+"
+PRC_AUTO_RUN_CS	PROCEDURE	774	"    if sqlcode = 0 then
+"
+PRC_AUTO_RUN_CS	PROCEDURE	775	"      commit;
+"
+PRC_AUTO_RUN_CS	PROCEDURE	776	"    else
+"
+PRC_AUTO_RUN_CS	PROCEDURE	777	"      rollback;
+"
+PRC_AUTO_RUN_CS	PROCEDURE	778	"    end if;
+"
+PRC_AUTO_RUN_CS	PROCEDURE	779	"  
+"
+PRC_AUTO_RUN_CS	PROCEDURE	780	"    update zy_detail_charge t
+"
+PRC_AUTO_RUN_CS	PROCEDURE	781	"       set dj = round(dj / 1.05, 0), tsyybz = ' '
+"
+PRC_AUTO_RUN_CS	PROCEDURE	782	"     where fygl = 25
+"
+PRC_AUTO_RUN_CS	PROCEDURE	783	"       and tsyybz is null
+"
+PRC_AUTO_RUN_CS	PROCEDURE	784	"       and t.twice_detail_code = 'SB'
+"
+PRC_AUTO_RUN_CS	PROCEDURE	785	"       and js_No = 0
+"
+PRC_AUTO_RUN_CS	PROCEDURE	786	"       and dj < 2000
+"
+PRC_AUTO_RUN_CS	PROCEDURE	787	"       and jlxh >= 293106684
+"
+PRC_AUTO_RUN_CS	PROCEDURE	788	"       and jcfx_date > sysdate - 0.5
+"
+PRC_AUTO_RUN_CS	PROCEDURE	789	"       and jcfx_date < sysdate - 0.0001;
+"
+PRC_AUTO_RUN_CS	PROCEDURE	790	"    if sqlcode = 0 then
+"
+PRC_AUTO_RUN_CS	PROCEDURE	791	"      commit;
+"
+PRC_AUTO_RUN_CS	PROCEDURE	792	"    else
+"
+PRC_AUTO_RUN_CS	PROCEDURE	793	"      rollback;
+"
+PRC_AUTO_RUN_CS	PROCEDURE	794	"    end if;
+"
+PRC_AUTO_RUN_CS	PROCEDURE	795	"    update gy_xtcs
+"
+PRC_AUTO_RUN_CS	PROCEDURE	796	"       set csz1 = to_char(sysdate + 0.042, 'yyyymmddhh24')
+"
+PRC_AUTO_RUN_CS	PROCEDURE	797	"     where xtxh = 0
+"
+PRC_AUTO_RUN_CS	PROCEDURE	798	"       and csmc = 'AUTO_SB';
+"
+PRC_AUTO_RUN_CS	PROCEDURE	799	"    if sqlcode = 0 then
+"
+PRC_AUTO_RUN_CS	PROCEDURE	800	"      commit;
+"
+PRC_AUTO_RUN_CS	PROCEDURE	801	"    else
+"
+PRC_AUTO_RUN_CS	PROCEDURE	802	"      rollback;
+"
+PRC_AUTO_RUN_CS	PROCEDURE	803	"    end if;
+"
+PRC_AUTO_RUN_CS	PROCEDURE	804	"  end if;
+"
+PRC_AUTO_RUN_CS	PROCEDURE	805	"
+"
+PRC_AUTO_RUN_CS	PROCEDURE	806	"  --发热病人统计数据，发送短信  '12:01 - 12:02'
+"
+PRC_AUTO_RUN_CS	PROCEDURE	807	"  if 101 = 101 and ((ls_now > '07:41' and ls_now <= '07:42')) then
+"
+PRC_AUTO_RUN_CS	PROCEDURE	808	"    -- count(distinct to_char(jzrq, 'yyyymmdd') || ' ' || jzkh) ||
+"
+PRC_AUTO_RUN_CS	PROCEDURE	809	"  
+"
+PRC_AUTO_RUN_CS	PROCEDURE	810	"    /*  select to_char(trunc(sysdate - 1) + 0.5, 'yyyy-mm-dd hh24:mi:ss') ||
+"
+PRC_AUTO_RUN_CS	PROCEDURE	811	"               ' 至 ' || to_char(trunc(sysdate) + 0.5, 'yyyy-mm-dd hh24:mi:ss') ||
+"
+PRC_AUTO_RUN_CS	PROCEDURE	812	"               '为止,发热门诊病人: ' ||wm_concat(bz) from (
+"
+PRC_AUTO_RUN_CS	PROCEDURE	813	"    select (select ksmc from gy_ksdm where ksdm=t.ksdm)|| count(distinct jzkh) || ' 例 ' bz   
+"
+PRC_AUTO_RUN_CS	PROCEDURE	814	"          from zj_jzxx t      where ksdm in ('2270006', '2010040', '2100005')
+"
+PRC_AUTO_RUN_CS	PROCEDURE	815	"           and jzrq between trunc(sysdate - 1) + 0.5 and trunc(sysdate) + 0.5
+"
+PRC_AUTO_RUN_CS	PROCEDURE	816	"           group by t.ksdm )*/
+"
+PRC_AUTO_RUN_CS	PROCEDURE	817	"  
+"
+PRC_AUTO_RUN_CS	PROCEDURE	818	"    /* select to_char(trunc(sysdate - 1) + 0.5, 'yyyy-mm-dd hh24:mi:ss') ||
+"
+PRC_AUTO_RUN_CS	PROCEDURE	819	"           ' 至 ' || to_char(trunc(sysdate) + 0.5, 'yyyy-mm-dd hh24:mi:ss') ||
+"
+PRC_AUTO_RUN_CS	PROCEDURE	820	"           '为止,发热门诊病人: ' || count(distinct jzkh) || ' 例 '
+"
+PRC_AUTO_RUN_CS	PROCEDURE	821	"      into nr
+"
+PRC_AUTO_RUN_CS	PROCEDURE	822	"      from zj_jzxx
+"
+PRC_AUTO_RUN_CS	PROCEDURE	823	"     where ksdm in ('2270006', '2010040')
+"
+PRC_AUTO_RUN_CS	PROCEDURE	824	"       and jzrq between trunc(sysdate - 1) + 0.5 and trunc(sysdate) + 0.5;
+"
+PRC_AUTO_RUN_CS	PROCEDURE	825	"    
+"
+PRC_AUTO_RUN_CS	PROCEDURE	826	"    select nr || ';发热门诊有发热症状的例数: ' || count(distinct(bingrenhm)) || ' 例 '
+"
+PRC_AUTO_RUN_CS	PROCEDURE	827	"      into nr
+"
+PRC_AUTO_RUN_CS	PROCEDURE	828	"      from zj_menzhenblxx a, zj_jzxx b
+"
+PRC_AUTO_RUN_CS	PROCEDURE	829	"     where a.jiuzhenxh = b.jzxh
+"
+PRC_AUTO_RUN_CS	PROCEDURE	830	"       and a.zhushu like '%发热%'
+"
+PRC_AUTO_RUN_CS	PROCEDURE	831	"       and b.ksdm in ('2270006', '2010040')
+"
+PRC_AUTO_RUN_CS	PROCEDURE	832	"       and b.jzrq between trunc(sysdate - 1) + 0.5 and trunc(sysdate) + 0.5;*/
+"
+PRC_AUTO_RUN_CS	PROCEDURE	833	"  
+"
+PRC_AUTO_RUN_CS	PROCEDURE	834	"    select to_char(trunc(sysdate - 1), 'yyyy-mm-dd') || ' 发热门诊病人: ' ||
+"
+PRC_AUTO_RUN_CS	PROCEDURE	835	"           count(distinct jzkh) || ' 例 '
+"
+PRC_AUTO_RUN_CS	PROCEDURE	836	"      into nr
+"
+PRC_AUTO_RUN_CS	PROCEDURE	837	"      from zj_jzxx
+"
+PRC_AUTO_RUN_CS	PROCEDURE	838	"     where ksdm in ('2270006', '2010040')
+"
+PRC_AUTO_RUN_CS	PROCEDURE	839	"       and jzrq between trunc(sysdate - 1) and trunc(sysdate);
+"
+PRC_AUTO_RUN_CS	PROCEDURE	840	"  
+"
+PRC_AUTO_RUN_CS	PROCEDURE	841	"    select nr || ';发热门诊有发热症状的例数: ' || count(distinct(jzkh)) || ' 例 '
+"
+PRC_AUTO_RUN_CS	PROCEDURE	842	"      into nr
+"
+PRC_AUTO_RUN_CS	PROCEDURE	843	"      from zj_jzxx b
+"
+PRC_AUTO_RUN_CS	PROCEDURE	844	"     where b.BRTW > 37.5
+"
+PRC_AUTO_RUN_CS	PROCEDURE	845	"       and b.ksdm in ('2270006', '2010040')
+"
+PRC_AUTO_RUN_CS	PROCEDURE	846	"       and b.jzrq between trunc(sysdate - 1) and trunc(sysdate);
+"
+PRC_AUTO_RUN_CS	PROCEDURE	847	"  
+"
+PRC_AUTO_RUN_CS	PROCEDURE	848	"    prc_sms_send('ts', lxdh, nr, v_bz);
+"
+PRC_AUTO_RUN_CS	PROCEDURE	849	"    prc_sms_send('ts', '13958443561', nr, v_bz);
+"
+PRC_AUTO_RUN_CS	PROCEDURE	850	"    prc_sms_send('ts', '13867936636', nr, v_bz);
+"
+PRC_AUTO_RUN_CS	PROCEDURE	851	"    prc_sms_send('ts', '15757996037', nr, v_bz);
+"
+PRC_AUTO_RUN_CS	PROCEDURE	852	"    prc_sms_send('ts', '15868957673', nr, v_bz);
+"
+PRC_AUTO_RUN_CS	PROCEDURE	853	"  
+"
+PRC_AUTO_RUN_CS	PROCEDURE	854	"    select to_char(trunc(sysdate - 1), 'yyyy-mm-dd') || ' 儿科发热门诊病人: ' ||
+"
+PRC_AUTO_RUN_CS	PROCEDURE	855	"           count(distinct jzkh) || ' 例 '
+"
+PRC_AUTO_RUN_CS	PROCEDURE	856	"      into nr
+"
+PRC_AUTO_RUN_CS	PROCEDURE	857	"      from zj_jzxx
+"
+PRC_AUTO_RUN_CS	PROCEDURE	858	"     where ksdm in ('2100005', '2020014')
+"
+PRC_AUTO_RUN_CS	PROCEDURE	859	"       and jzrq between trunc(sysdate - 1) and trunc(sysdate);
+"
+PRC_AUTO_RUN_CS	PROCEDURE	860	"  
+"
+PRC_AUTO_RUN_CS	PROCEDURE	861	"    select nr || ';发热门诊有发热症状的例数: ' || count(distinct(jzkh)) || ' 例 '
+"
+PRC_AUTO_RUN_CS	PROCEDURE	862	"      into nr
+"
+PRC_AUTO_RUN_CS	PROCEDURE	863	"      from zj_jzxx b
+"
+PRC_AUTO_RUN_CS	PROCEDURE	864	"     where b.BRTW > 37.5
+"
+PRC_AUTO_RUN_CS	PROCEDURE	865	"       and b.ksdm in ('2100005', '2020014')
+"
+PRC_AUTO_RUN_CS	PROCEDURE	866	"       and b.jzrq between trunc(sysdate - 1) and trunc(sysdate);
+"
+PRC_AUTO_RUN_CS	PROCEDURE	867	"  
+"
+PRC_AUTO_RUN_CS	PROCEDURE	868	"    prc_sms_send('ts', lxdh, nr, v_bz);
+"
+PRC_AUTO_RUN_CS	PROCEDURE	869	"    prc_sms_send('ts', '13958443561', nr, v_bz);
+"
+PRC_AUTO_RUN_CS	PROCEDURE	870	"    prc_sms_send('ts', '13867936636', nr, v_bz);
+"
+PRC_AUTO_RUN_CS	PROCEDURE	871	"    prc_sms_send('ts', '15757996037', nr, v_bz);
+"
+PRC_AUTO_RUN_CS	PROCEDURE	872	"    prc_sms_send('ts', '15868957673', nr, v_bz);
+"
+PRC_AUTO_RUN_CS	PROCEDURE	873	"  
+"
+PRC_AUTO_RUN_CS	PROCEDURE	874	"    --mz_jkk更新5天
+"
+PRC_AUTO_RUN_CS	PROCEDURE	875	"    /*    if 1 = 0 then
+"
+PRC_AUTO_RUN_CS	PROCEDURE	876	"      update mz_jkk
+"
+PRC_AUTO_RUN_CS	PROCEDURE	877	"         set kzrq = jkrq + 6
+"
+PRC_AUTO_RUN_CS	PROCEDURE	878	"       where jkcs = 1
+"
+PRC_AUTO_RUN_CS	PROCEDURE	879	"         and wym = 2
+"
+PRC_AUTO_RUN_CS	PROCEDURE	880	"         and xtbz = 0
+"
+PRC_AUTO_RUN_CS	PROCEDURE	881	"         and sfsb is null
+"
+PRC_AUTO_RUN_CS	PROCEDURE	882	"         and kzrq < jkrq + 6
+"
+PRC_AUTO_RUN_CS	PROCEDURE	883	"         and jkrq > sysdate - 10
+"
+PRC_AUTO_RUN_CS	PROCEDURE	884	"         and jkrq < sysdate - 0.1;
+"
+PRC_AUTO_RUN_CS	PROCEDURE	885	"    
+"
+PRC_AUTO_RUN_CS	PROCEDURE	886	"      if sqlcode = 0 then
+"
+PRC_AUTO_RUN_CS	PROCEDURE	887	"        commit;
+"
+PRC_AUTO_RUN_CS	PROCEDURE	888	"      else
+"
+PRC_AUTO_RUN_CS	PROCEDURE	889	"        rollback;
+"
+PRC_AUTO_RUN_CS	PROCEDURE	890	"        nr := 'mz_jkk更新5天报错，prc_auto_run';
+"
+PRC_AUTO_RUN_CS	PROCEDURE	891	"        prc_sms_send('ts', '13867936636', nr, v_bz);
+"
+PRC_AUTO_RUN_CS	PROCEDURE	892	"      end if;
+"
+PRC_AUTO_RUN_CS	PROCEDURE	893	"    end if;*/
+"
+PRC_AUTO_RUN_CS	PROCEDURE	894	"  
+"
+PRC_AUTO_RUN_CS	PROCEDURE	895	"    -- 门诊挂号人次
+"
+PRC_AUTO_RUN_CS	PROCEDURE	896	"    /*   SELECT to_char(trunc(sysdate - 1) + 0.5, 'yyyy-mm-dd hh24:mi:ss') ||
+"
+PRC_AUTO_RUN_CS	PROCEDURE	897	"          ' 至 ' || to_char(trunc(sysdate) + 0.5, 'yyyy-mm-dd hh24:mi:ss') ||
+"
+PRC_AUTO_RUN_CS	PROCEDURE	898	"          '为止,门诊挂号人次' || SUM(DECODE(A.THBZ,
+"
+PRC_AUTO_RUN_CS	PROCEDURE	899	"                                    0,
+"
+PRC_AUTO_RUN_CS	PROCEDURE	900	"                                    DECODE(A.ZFPB,
+"
+PRC_AUTO_RUN_CS	PROCEDURE	901	"                                           NULL,
+"
+PRC_AUTO_RUN_CS	PROCEDURE	902	"                                           DECODE(A.MZLBXH, 2, 0, 8, 0, 1),
+"
+PRC_AUTO_RUN_CS	PROCEDURE	903	"                                           0),
+"
+PRC_AUTO_RUN_CS	PROCEDURE	904	"                                    0)) || ' , 急诊挂号人次' ||
+"
+PRC_AUTO_RUN_CS	PROCEDURE	905	"          SUM(DECODE(A.THBZ,
+"
+PRC_AUTO_RUN_CS	PROCEDURE	906	"                     0,
+"
+PRC_AUTO_RUN_CS	PROCEDURE	907	"                     DECODE(A.ZFPB,
+"
+PRC_AUTO_RUN_CS	PROCEDURE	908	"                            NULL,
+"
+PRC_AUTO_RUN_CS	PROCEDURE	909	"                            DECODE(A.MZLBXH, 2, 1, 8, 1, 0),
+"
+PRC_AUTO_RUN_CS	PROCEDURE	910	"                            0),
+"
+PRC_AUTO_RUN_CS	PROCEDURE	911	"                     0))
+"
+PRC_AUTO_RUN_CS	PROCEDURE	912	"     into nr
+"
+PRC_AUTO_RUN_CS	PROCEDURE	913	"     FROM GH_GHK A, GY_KSDM B
+"
+PRC_AUTO_RUN_CS	PROCEDURE	914	"    WHERE A.KSDM = B.KSDM
+"
+PRC_AUTO_RUN_CS	PROCEDURE	915	"      AND A.GHRQ between trunc(sysdate - 1) + 0.5 and trunc(sysdate) + 0.5;*/
+"
+PRC_AUTO_RUN_CS	PROCEDURE	916	"  
+"
+PRC_AUTO_RUN_CS	PROCEDURE	917	"    SELECT to_char(trunc(sysdate - 1), 'yyyy-mm-dd') || ' 门诊挂号人次' ||
+"
+PRC_AUTO_RUN_CS	PROCEDURE	918	"           SUM(DECODE(A.THBZ,
+"
+PRC_AUTO_RUN_CS	PROCEDURE	919	"                      0,
+"
+PRC_AUTO_RUN_CS	PROCEDURE	920	"                      DECODE(A.ZFPB,
+"
+PRC_AUTO_RUN_CS	PROCEDURE	921	"                             NULL,
+"
+PRC_AUTO_RUN_CS	PROCEDURE	922	"                             DECODE(A.MZLBXH, 2, 0, 8, 0, 1),
+"
+PRC_AUTO_RUN_CS	PROCEDURE	923	"                             0),
+"
+PRC_AUTO_RUN_CS	PROCEDURE	924	"                      0)) || ' , 急诊挂号人次' ||
+"
+PRC_AUTO_RUN_CS	PROCEDURE	925	"           SUM(DECODE(A.THBZ,
+"
+PRC_AUTO_RUN_CS	PROCEDURE	926	"                      0,
+"
+PRC_AUTO_RUN_CS	PROCEDURE	927	"                      DECODE(A.ZFPB,
+"
+PRC_AUTO_RUN_CS	PROCEDURE	928	"                             NULL,
+"
+PRC_AUTO_RUN_CS	PROCEDURE	929	"                             DECODE(A.MZLBXH, 2, 1, 8, 1, 0),
+"
+PRC_AUTO_RUN_CS	PROCEDURE	930	"                             0),
+"
+PRC_AUTO_RUN_CS	PROCEDURE	931	"                      0))
+"
+PRC_AUTO_RUN_CS	PROCEDURE	932	"      into nr
+"
+PRC_AUTO_RUN_CS	PROCEDURE	933	"      FROM GH_GHK A, GY_KSDM B
+"
+PRC_AUTO_RUN_CS	PROCEDURE	934	"     WHERE A.KSDM = B.KSDM
+"
+PRC_AUTO_RUN_CS	PROCEDURE	935	"       AND A.GHRQ between trunc(sysdate - 1) and trunc(sysdate);
+"
+PRC_AUTO_RUN_CS	PROCEDURE	936	"  
+"
+PRC_AUTO_RUN_CS	PROCEDURE	937	"    SELECT nr || ',本院核酸开单:' || count(jlxh)
+"
+PRC_AUTO_RUN_CS	PROCEDURE	938	"      into nr
+"
+PRC_AUTO_RUN_CS	PROCEDURE	939	"      FROM GH_GHK A
+"
+PRC_AUTO_RUN_CS	PROCEDURE	940	"     WHERE a.jzkh like 'BY%'
+"
+PRC_AUTO_RUN_CS	PROCEDURE	941	"       AND A.GHRQ between trunc(sysdate - 1) and trunc(sysdate);
+"
+PRC_AUTO_RUN_CS	PROCEDURE	942	"  
+"
+PRC_AUTO_RUN_CS	PROCEDURE	943	"    prc_sms_send('ts', lxdh, nr, v_bz);
+"
+PRC_AUTO_RUN_CS	PROCEDURE	944	"    prc_sms_send('ts', '13958443561', nr, v_bz);
+"
+PRC_AUTO_RUN_CS	PROCEDURE	945	"    prc_sms_send('ts', '13516995998', nr, v_bz);
+"
+PRC_AUTO_RUN_CS	PROCEDURE	946	"    prc_sms_send('ts', '15868957673', nr, v_bz);
+"
+PRC_AUTO_RUN_CS	PROCEDURE	947	"  
+"
+PRC_AUTO_RUN_CS	PROCEDURE	948	"    --新冠统计
+"
+PRC_AUTO_RUN_CS	PROCEDURE	949	"    select to_char(mc) into nr from v_auto_xingguang1218;
+"
+PRC_AUTO_RUN_CS	PROCEDURE	950	"    prc_sms_send('ts', '13958443561', nr, v_bz);
+"
+PRC_AUTO_RUN_CS	PROCEDURE	951	"  
+"
+PRC_AUTO_RUN_CS	PROCEDURE	952	"  end if;
+"
+PRC_AUTO_RUN_CS	PROCEDURE	953	"
+"
+PRC_AUTO_RUN_CS	PROCEDURE	954	"  --决策分析_业务数据采集
+"
+PRC_AUTO_RUN_CS	PROCEDURE	955	"  if ls_now > '02:01' and ls_now <= '02:02' then
+"
+PRC_AUTO_RUN_CS	PROCEDURE	956	"    if 101 = 101 then
+"
+PRC_AUTO_RUN_CS	PROCEDURE	957	"    
+"
+PRC_AUTO_RUN_CS	PROCEDURE	958	"      v_task := '决策分析_业务数据采集';
+"
+PRC_AUTO_RUN_CS	PROCEDURE	959	"      select count(*)
+"
+PRC_AUTO_RUN_CS	PROCEDURE	960	"        into v_count
+"
+PRC_AUTO_RUN_CS	PROCEDURE	961	"        from zy_jiaoyi_v1
+"
+PRC_AUTO_RUN_CS	PROCEDURE	962	"       where jiaoyilx = v_Procedure_Name
+"
+PRC_AUTO_RUN_CS	PROCEDURE	963	"         and jylsh = v_task
+"
+PRC_AUTO_RUN_CS	PROCEDURE	964	"         and jyrq > sysdate - 0.05;
+"
+PRC_AUTO_RUN_CS	PROCEDURE	965	"      --最近1小时已经执行过
+"
+PRC_AUTO_RUN_CS	PROCEDURE	966	"      if v_count > 0 then
+"
+PRC_AUTO_RUN_CS	PROCEDURE	967	"        v_task := ' ';
+"
+PRC_AUTO_RUN_CS	PROCEDURE	968	"      end if;
+"
+PRC_AUTO_RUN_CS	PROCEDURE	969	"    
+"
+PRC_AUTO_RUN_CS	PROCEDURE	970	"    end if;
+"
+PRC_AUTO_RUN_CS	PROCEDURE	971	"  
+"
+PRC_AUTO_RUN_CS	PROCEDURE	972	"    -- 决策分析_业务数据采集 采集数据失败 zy_detail_charge curr_ks is null
+"
+PRC_AUTO_RUN_CS	PROCEDURE	973	"    if v_task = '决策分析_业务数据采集' then
+"
+PRC_AUTO_RUN_CS	PROCEDURE	974	"      insert into zy_jiaoyi_v1
+"
+PRC_AUTO_RUN_CS	PROCEDURE	975	"        (jiaoyilx, jylsh, flag)
+"
+PRC_AUTO_RUN_CS	PROCEDURE	976	"      values
+"
+PRC_AUTO_RUN_CS	PROCEDURE	977	"        (v_Procedure_Name, v_task, -1);
+"
+PRC_AUTO_RUN_CS	PROCEDURE	978	"      if sqlcode = 0 then
+"
+PRC_AUTO_RUN_CS	PROCEDURE	979	"        commit;
+"
+PRC_AUTO_RUN_CS	PROCEDURE	980	"      else
+"
+PRC_AUTO_RUN_CS	PROCEDURE	981	"        rollback;
+"
+PRC_AUTO_RUN_CS	PROCEDURE	982	"      end if;
+"
+PRC_AUTO_RUN_CS	PROCEDURE	983	"    
+"
+PRC_AUTO_RUN_CS	PROCEDURE	984	"      select count(*)
+"
+PRC_AUTO_RUN_CS	PROCEDURE	985	"        into v_count
+"
+PRC_AUTO_RUN_CS	PROCEDURE	986	"        from Zy_Detail_Charge
+"
+PRC_AUTO_RUN_CS	PROCEDURE	987	"       WHERE jcfx_date > sysdate - 3
+"
+PRC_AUTO_RUN_CS	PROCEDURE	988	"         and jcfx_date < trunc(sysdate)
+"
+PRC_AUTO_RUN_CS	PROCEDURE	989	"         and CURR_KS IS NULL;
+"
+PRC_AUTO_RUN_CS	PROCEDURE	990	"      if v_count > 0 then
+"
+PRC_AUTO_RUN_CS	PROCEDURE	991	"        insert into zy_jiaoyi_v1
+"
+PRC_AUTO_RUN_CS	PROCEDURE	992	"          (jiaoyilx, jylsh, patient_no)
+"
+PRC_AUTO_RUN_CS	PROCEDURE	993	"        values
+"
+PRC_AUTO_RUN_CS	PROCEDURE	994	"          (v_Procedure_Name,
+"
+PRC_AUTO_RUN_CS	PROCEDURE	995	"           '决策分析_业务数据采集 zy_detail_charge curr_ks is null  数量为 patient_no',
+"
+PRC_AUTO_RUN_CS	PROCEDURE	996	"           v_count);
+"
+PRC_AUTO_RUN_CS	PROCEDURE	997	"        if sqlcode = 0 then
+"
+PRC_AUTO_RUN_CS	PROCEDURE	998	"          commit;
+"
+PRC_AUTO_RUN_CS	PROCEDURE	999	"        else
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1000	"          rollback;
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1001	"        end if;
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1002	"      
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1003	"        update zy_detail_charge x
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1004	"           set curr_ks = (select curr_ks
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1005	"                            from zy_patient_information
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1006	"                           where zy_patient_information.patient_No =
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1007	"                                 x.patient_No)
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1008	"         where x.curr_ks is null
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1009	"           and x.jcfx_date > sysdate - 3
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1010	"           and jcfx_date < trunc(sysdate)
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1011	"           and exists
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1012	"         (select 1
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1013	"                  from zy_patient_information
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1014	"                 where zy_patient_information.patient_No = x.patient_NO);
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1015	"        if sqlcode = 0 then
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1016	"          commit;
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1017	"        else
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1018	"          rollback;
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1019	"        end if;
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1020	"      end if;
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1021	"    
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1022	"      select count(*)
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1023	"        into v_count
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1024	"        from Zy_Detail_Charge
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1025	"       WHERE jcfx_date > sysdate - 3
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1026	"         and jcfx_date < trunc(sysdate)
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1027	"         and CURR_KS IS NULL;
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1028	"      if v_count > 0 then
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1029	"        insert into zy_jiaoyi_v1
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1030	"          (jiaoyilx, jylsh, patient_no)
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1031	"        values
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1032	"          (v_Procedure_Name,
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1033	"           '决策分析_业务数据采集 zy_detail_charge curr_ks is null 调整jcfx_date 数量为 patient_no',
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1034	"           v_count);
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1035	"        commit;
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1036	"      
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1037	"        update Zy_Detail_Charge
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1038	"           set jcfx_date = sysdate
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1039	"         WHERE jcfx_date > sysdate - 3
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1040	"           and jcfx_date < trunc(sysdate)
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1041	"           and CURR_KS IS NULL;
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1042	"        if sqlcode = 0 then
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1043	"          commit;
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1044	"        else
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1045	"          rollback;
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1046	"        end if;
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1047	"      end if;
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1048	"      --执行数据采集 存储过程
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1049	"      prc_sjcj();
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1050	"      /* insert into zy_jiaoyi_v1
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1051	"        (jiaoyilx, jylsh, flag)
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1052	"      values
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1053	"        (v_Procedure_Name, v_task, 1);*/
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1054	"      update zy_jiaoyi_v1
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1055	"         set flag = 1
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1056	"       where jiaoyilx = v_Procedure_Name
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1057	"         and jylsh = v_task
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1058	"         and jyrq > sysdate - 0.05;
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1059	"      if sqlcode = 0 then
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1060	"        commit;
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1061	"      else
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1062	"        rollback;
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1063	"      end if;
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1064	"    end if;
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1065	"  
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1066	"  end if;
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1067	"
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1068	"  --后台运行统计数据，发送短信  '02:01 - 02:02'
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1069	"  if 103 = 103 and ((ls_now > '03:01' and ls_now <= '03:02')) then
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1070	"  
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1071	"    select COUNT(*)
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1072	"      INTO v_count
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1073	"      from zy_jiaoyi_v1
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1074	"     where jyrq > sysdate - 0.002
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1075	"       and jyrq < sysdate
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1076	"       and jiaoyilx = 'PRC_AUTO_RUN_QUERY1';
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1077	"    if v_count = 0 then
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1078	"      PRC_AUTO_RUN_QUERY1();
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1079	"    end if;
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1080	"  
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1081	"  end if;
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1082	"
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1083	"  --执行失败任务查询  (存储过程，函数失效)
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1084	"  if ls_now > '07:01' and ls_now <= '07:02' then
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1085	"    if 0 = 0 then
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1086	"      -- '执行失败任务查询';
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1087	"      if 1 = 1 then
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1088	"        v_task := '执行失败任务查询';
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1089	"      
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1090	"        select count(*)
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1091	"          into v_count
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1092	"          from zy_jiaoyi_v1
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1093	"         where jiaoyilx = v_Procedure_Name
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1094	"           and jylsh = v_task
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1095	"           and jyrq > sysdate - 0.05;
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1096	"        --最近1小时已经执行过
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1097	"        if v_count > 0 then
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1098	"          v_task := ' ';
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1099	"        end if;
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1100	"      
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1101	"        if v_task = '执行失败任务查询' then
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1102	"          insert into zy_jiaoyi_v1
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1103	"            (jiaoyilx, jylsh, flag)
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1104	"          values
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1105	"            (v_Procedure_Name, v_task, 0);
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1106	"          if sqlcode = 0 then
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1107	"            commit;
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1108	"          else
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1109	"            rollback;
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1110	"          end if;
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1111	"        
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1112	"          select count(*)
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1113	"            into v_count
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1114	"            from zy_jiaoyi_v1
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1115	"           where jiaoyilx = v_Procedure_Name
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1116	"             and flag = -1
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1117	"             and jyrq > sysdate - 1.05;
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1118	"          if v_count > 0 then
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1119	"            select v_Procedure_Name || ',执行失败任务,sl:' || to_char(v_count)
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1120	"              into nr
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1121	"              from dual;
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1122	"            prc_sms_send('ts', lxdh, nr, v_bz);
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1123	"          end if;
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1124	"        end if;
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1125	"      
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1126	"      end if;
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1127	"    
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1128	"      -- (存储过程，函数失效)
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1129	"      if 2 = 2 then
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1130	"      
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1131	"        select nvl(to_char(wm_concat(object_name)), '')
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1132	"          into nr
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1133	"          from v_system_view_fail;
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1134	"        if length(nr) > 1 then
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1135	"          prc_sms_send('ts', lxdh, nr, v_bz);
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1136	"        end if;
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1137	"      
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1138	"        select count(object_name) into v_count from v_system_view_fail;
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1139	"        if v_count > 0 then
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1140	"          select v_Procedure_Name || ',存储过程，函数失效3,sl:' || to_char(v_count)
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1141	"            into nr
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1142	"            from dual;
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1143	"          prc_sms_send('ts', lxdh, nr, v_bz);
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1144	"        end if;
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1145	"      
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1146	"      end if;
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1147	"    
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1148	"    end if;
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1149	"  end if;
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1150	"
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1151	"  --- 后台短信发送日期调整
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1152	"  if (ls_now > '07:25' and ls_now <= '07:26') then
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1153	"    begin
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1154	"    
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1155	"      delete zy_jiaoyi_v1
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1156	"       where jiaoyilx in ('门诊记账病人查询', 'MZZJ', 'IP地址判断')
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1157	"         and jyrq < sysdate - 10;
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1158	"      commit;
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1159	"    
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1160	"      delete zy_jiaoyi_v1
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1161	"       where jiaoyilx in ('增加门诊病人修改记录')
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1162	"         and jyrq < sysdate - 70;
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1163	"      commit;
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1164	"    
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1165	"      --- 后台短信发送日期调整
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1166	"      if 3 = 3 then
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1167	"        select count(*)
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1168	"          into v_count
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1169	"          from auto_task_ywzx_send
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1170	"         where date_add = date_send
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1171	"           and lx = 'au'
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1172	"           and date_add > sysdate - 0.3
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1173	"           and date_add < sysdate - 0.0002;
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1174	"        --最近1小时已经执行过
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1175	"        if v_count > 0 then
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1176	"          update auto_task_ywzx_send
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1177	"             set date_send = null
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1178	"           where date_add = date_send
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1179	"             and lx = 'au'
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1180	"             and date_add > sysdate - 0.29
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1181	"             and date_add < sysdate - 0.0002;
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1182	"        end if;
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1183	"      
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1184	"      end if;
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1185	"    
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1186	"    end;
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1187	"  
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1188	"  end if;
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1189	"
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1190	"  --全院业务收入，发送短信  '07:30 - 07:31'
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1191	"  if (ls_now > '07:30' and ls_now <= '07:31') or
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1192	"     (ls_now > '07:45' and ls_now <= '07:46') then
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1193	"    if 104 = 104 then
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1194	"    
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1195	"      select COUNT(*)
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1196	"        INTO v_count
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1197	"        from zy_jiaoyi_v1
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1198	"       where jyrq > sysdate - 0.1
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1199	"         and jyrq < sysdate
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1200	"         and jiaoyilx = 'PRC_AUTO_RUN_GZL';
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1201	"      if v_count = 0 then
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1202	"        prc_auto_run_gzl();
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1203	"      end if;
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1204	"    end if;
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1205	"  
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1206	"  end if;
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1207	"
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1208	"  --空床 发送短信  '08:10'
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1209	"  if (ls_now > '08:10' and ls_now <= '08:11') or
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1210	"     (ls_now > '08:20' and ls_now <= '08:21') then
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1211	"    if 105 = 105 then
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1212	"    
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1213	"      select COUNT(*)
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1214	"        INTO v_count
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1215	"        from zy_jiaoyi_v1
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1216	"       where jyrq > sysdate - 0.01
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1217	"         and jyrq < sysdate
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1218	"         and jiaoyilx = 'PRC_AUTO_RUN_GZL_BED';
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1219	"      if v_count = 0 then
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1220	"        PRC_AUTO_RUN_GZL_BED();
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1221	"      
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1222	"        update auto_task_ywzx_send
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1223	"           set date_send = null
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1224	"         where date_add > sysdate - 0.5
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1225	"           and lx = 'a';
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1226	"        if sqlcode = 0 then
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1227	"          commit;
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1228	"        else
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1229	"          rollback;
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1230	"        end if;
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1231	"      
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1232	"      end if;
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1233	"    end if;
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1234	"  
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1235	"  end if;
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1236	"
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1237	"  --空床2 发送短信  '08:10'
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1238	"  v_temp := substr(ls_now, 4, 2);
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1239	"  --select  substr('08:02',4,2) from dual 
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1240	"  if v_temp > '56' and v_temp <= '57' and
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1241	"     (ls_now > '23:00' or ls_now <= '01:01') then
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1242	"    PRC_AUTO_RUN_GZL_BED2();
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1243	"  end if;
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1244	"  --  PRC_AUTO_RUN_GZL_BED2();
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1245	"  --dj <0  check
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1246	"
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1247	"  if (ls_now > '08:00' and ls_now <= '08:01') or
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1248	"     (ls_now > '08:30' and ls_now <= '08:31') or
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1249	"     (ls_now > '09:30' and ls_now <= '09:31') or
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1250	"     (ls_now > '10:30' and ls_now <= '10:31') or
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1251	"     (ls_now > '11:30' and ls_now <= '11:31') or
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1252	"     (ls_now > '12:30' and ls_now <= '12:31') or
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1253	"     (ls_now > '13:30' and ls_now <= '13:31') or
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1254	"     (ls_now > '14:30' and ls_now <= '14:31') or
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1255	"     (ls_now > '15:30' and ls_now <= '15:31') or
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1256	"     (ls_now > '19:30' and ls_now <= '19:31') or
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1257	"     (ls_now > '16:30' and ls_now <= '16:31') or
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1258	"     (ls_now > '17:00' and ls_now <= '17:01') or
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1259	"     (ls_now > '18:00' and ls_now <= '18:01') then
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1260	"    if 1 = 1 then
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1261	"    
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1262	"      if 1 = 1 then
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1263	"      
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1264	"        select count(*)
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1265	"          into v_count
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1266	"          From gy_jrjymx
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1267	"         where jyje > 0
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1268	"           and jysj > sysdate - 0.5
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1269	"           and nvl(zxlsh, shlsh) is null;
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1270	"        if v_count > 0 then
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1271	"          select 'gy_jrjymx记录异常,交易流水号空' into nr from dual;
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1272	"          lxdh := '13777929515';
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1273	"          prc_sms_send_mark('au', lxdh, nr, v_bz);
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1274	"        end if;
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1275	"      end if;
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1276	"    
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1277	"      -- 万达支付 诊间结算核查
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1278	"      if 1 = 0 then
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1279	"        v_temp := '';
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1280	"        select nvl(to_char(wm_concat(ipaddress)), '')
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1281	"          into v_temp
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1282	"          from (select distinct (a.ipaddress) ipaddress
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1283	"                
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1284	"                  from mz_mzsfk1 a
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1285	"                 where a.ipaddress is not null
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1286	"                   and qtsffs in (16, 17)
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1287	"                   and qtsfje > 0
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1288	"                   and czgh in ('AUTO4', 'AUTO5')
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1289	"                   AND a.sfrq > sysdate - 0.2);
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1290	"        if length(v_temp) > 2 then
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1291	"          select v_Procedure_Name || ',万达支付 诊间结算核查:' || v_temp
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1292	"            into nr
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1293	"            from dual;
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1294	"          prc_sms_send('ts', lxdh, nr, v_bz);
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1295	"        end if;
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1296	"      
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1297	"      end if;
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1298	"    
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1299	"      --执行失败任务查询  (存储过程，函数失效)    
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1300	"      if ls_now >= '07:01' and ls_now <= '07:02' then
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1301	"        if 1 = 1 then
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1302	"          if 1 = 1 then
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1303	"            v_task := '执行失败任务查询';
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1304	"          
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1305	"            select count(*)
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1306	"              into v_count
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1307	"              from zy_jiaoyi_v1
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1308	"             where jiaoyilx = v_Procedure_Name
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1309	"               and jylsh = v_task
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1310	"               and jyrq > sysdate - 0.05;
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1311	"            --最近1小时已经执行过
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1312	"            if v_count > 0 then
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1313	"              v_task := ' ';
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1314	"            end if;
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1315	"          
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1316	"            if v_task = '执行失败任务查询' then
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1317	"              insert into zy_jiaoyi_v1
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1318	"                (jiaoyilx, jylsh, flag)
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1319	"              values
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1320	"                (v_Procedure_Name, v_task, 0);
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1321	"              commit;
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1322	"            
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1323	"              select count(*)
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1324	"                into v_count
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1325	"                from zy_jiaoyi_v1
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1326	"               where jiaoyilx = v_Procedure_Name
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1327	"                 and flag = -1
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1328	"                 and jyrq > sysdate - 1.05;
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1329	"              if v_count > 0 then
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1330	"                select v_Procedure_Name || ',执行失败任务,sl:' ||
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1331	"                       to_char(v_count)
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1332	"                  into nr
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1333	"                  from dual;
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1334	"                prc_sms_send('ts', lxdh, nr, v_bz);
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1335	"              end if;
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1336	"            end if;
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1337	"          
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1338	"          end if;
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1339	"        
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1340	"        end if;
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1341	"      end if;
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1342	"    
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1343	"      --日间病人处理
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1344	"      --  PRO_ITEM_DO('日间病人处理', '00000006', v_bz);    
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1345	"      -- zy_detail_charge curr_ks is null 
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1346	"      if 1 <> 1 then
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1347	"        select COUNT(*)
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1348	"          INTO v_count
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1349	"          From zy_detail_charge
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1350	"         where js_NO = 0
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1351	"           and dj < 0
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1352	"           and jcfx_date > sysdate - 1
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1353	"           and jcfx_date < sysdate - 0.001;
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1354	"      
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1355	"        if v_count > 0 then
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1356	"          select v_Procedure_Name || ',curr_ks is nul,sl:' ||
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1357	"                 to_char(v_count)
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1358	"            into nr
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1359	"            from dual;
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1360	"          prc_sms_send('ts', lxdh, nr, v_bz);
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1361	"        
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1362	"          update zy_detail_charge
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1363	"             set dj = dj * -1, sl = sl * -1
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1364	"           where js_NO = 0
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1365	"             and dj < 0
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1366	"             and jcfx_date > sysdate - 1
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1367	"             and jcfx_date < sysdate - 0.001;
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1368	"          if sqlcode = 0 then
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1369	"            commit;
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1370	"          else
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1371	"            rollback;
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1372	"          end if;
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1373	"        end if;
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1374	"      end if;
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1375	"    
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1376	"      --住院预缴款退款失败    
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1377	"      if 3 = 3 and ls_now >= '09:01' and ls_now <= '09:02' then
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1378	"        select count(*)
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1379	"          into v_count
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1380	"          from zy_deposit_file
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1381	"         where depo_date > sysdate - 3
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1382	"           and AMOUNT < 0
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1383	"           and nvl(cdcs, 0) = 0
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1384	"           and length(bz) > 30
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1385	"           and depo_type > 1;
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1386	"      
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1387	"        if v_count > 0 then
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1388	"          select v_Procedure_Name || ',住院预缴款退款失败,sl:' || to_char(v_count)
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1389	"            into nr
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1390	"            from dual;
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1391	"          prc_sms_send('ts', lxdh, nr, v_bz);
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1392	"        
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1393	"        end if;
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1394	"      end if;
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1395	"    
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1396	"      -- (存储过程，函数失效)
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1397	"    
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1398	"    end if;
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1399	"  
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1400	"    --  zy_patient_information.jtbf_flag  is null 
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1401	"    if 2 <> 2 then
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1402	"      select count(*)
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1403	"        INTO v_count
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1404	"        from zy_patient_information y
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1405	"       where patient_No in (select patient_NO
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1406	"                              from zy_deposit_file
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1407	"                             where depo_date > sysdate - 2)
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1408	"         and jtbf_flag is null;
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1409	"      if v_count > 0 then
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1410	"        select v_Procedure_Name ||
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1411	"               ',zy_patient_information.jtbf_flag is nul,sl:' ||
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1412	"               to_char(v_count)
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1413	"          into nr
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1414	"          from dual;
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1415	"        prc_sms_send('ts', lxdh, nr, v_bz);
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1416	"      end if;
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1417	"      update zy_patient_information
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1418	"         set jtbf_flag = 0
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1419	"       where patient_No in
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1420	"             (select patient_NO
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1421	"                from zy_deposit_file
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1422	"               where depo_date > sysdate - 0.6
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1423	"                 and depo_date < sysdate - 0.001)
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1424	"         and jtbf_flag is null;
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1425	"      if sqlcode = 0 then
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1426	"        commit;
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1427	"      else
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1428	"        rollback;
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1429	"      end if;
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1430	"    
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1431	"      select count(*)
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1432	"        INTO v_count
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1433	"        From (select rb_date, sum(je1) aa, sum(je2) bb
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1434	"                from (select rb_date rb_date, sum(xmje2) je1, 0 je2
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1435	"                        From zy_rbk2
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1436	"                       where rb_date > sysdate - 2
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1437	"                         and hh in (27)
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1438	"                       group by rb_date
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1439	"                      union all
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1440	"                      select rb_date, 0 je1, sum(amount) je2
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1441	"                        from zy_deposit_file
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1442	"                       where rb_date > sysdate - 2
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1443	"                       group by rb_date)
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1444	"               group by rb_date)
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1445	"       where aa <> bb;
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1446	"      if v_count > 0 then
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1447	"        select v_Procedure_Name || ',住院日报预计款不平  ,sl:' || to_char(v_count)
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1448	"          into nr
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1449	"          from dual;
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1450	"        prc_sms_send('ts', lxdh, nr, v_bz);
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1451	"      end if;
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1452	"    
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1453	"    end if;
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1454	"  
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1455	"  end if;
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1456	"
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1457	"  --住院收费 调整工号  加上 2020抢号
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1458	"  if (ls_now > '17:00' and ls_now <= '17:01') or
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1459	"     (ls_now > '13:30' and ls_now <= '13:31') or
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1460	"     (ls_now > '10:30' and ls_now <= '10:31') or
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1461	"     (ls_now > '15:30' and ls_now <= '15:31') or
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1462	"     (ls_now > '07:30' and ls_now <= '07:31') or
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1463	"     (ls_now > '04:30' and ls_now <= '04:31') then
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1464	"  
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1465	"    --'2020抢号渠道'
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1466	"    if 1 = 1 then
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1467	"    
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1468	"      select count(*)
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1469	"        into v_count
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1470	"        from (select to_char(yyrq1, 'yyyy-mm-dd'), pbxh, count(*)
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1471	"                from gh_mzyyk
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1472	"               where zt >= 0
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1473	"                 and NVL(CZGH, '0') = 'ZSYY2'
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1474	"                 and yyrq1 >= trunc(sysdate)
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1475	"                 and xxczid = '2020抢号渠道'
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1476	"               group by to_char(yyrq1, 'yyyy-mm-dd'), pbxh
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1477	"              having count(*) > 3);
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1478	"      if v_count > 0 then
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1479	"        select v_Procedure_Name || ',2020抢号渠道  ysgh>3  '
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1480	"          into nr
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1481	"          from dual;
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1482	"        prc_sms_send('ts', lxdh, nr, v_bz);
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1483	"      end if;
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1484	"    
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1485	"      select count(*)
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1486	"        into v_count
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1487	"        from (select sfzh, count(*)
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1488	"                from gh_mzyyk
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1489	"               where zt >= 0
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1490	"                 and NVL(CZGH, '0') = 'ZSYY2'
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1491	"                 and yyrq1 >= trunc(to_date('20200511', 'yyyymmdd'))
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1492	"                 and xxczid = '2020抢号渠道'
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1493	"               group by sfzh
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1494	"              having count(*) > 1);
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1495	"      if v_count > 0 then
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1496	"        select v_Procedure_Name || ',2020抢号渠道 sfzh>1  '
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1497	"          into nr
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1498	"          from dual;
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1499	"        prc_sms_send('ts', lxdh, nr, v_bz);
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1500	"      end if;
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1501	"    end if;
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1502	"  
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1503	"    -- --L0482  L0449 L0481
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1504	"    update zy_total_fee
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1505	"       set fplx = 1
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1506	"     where
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1507	"    --op_id in ('L0259', 'L0484', 'L0481', 'L0480', 'L0482', 'L0449')
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1508	"     op_id in ('L0259', 'L0484', '', 'L0480', '', '')
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1509	"     and nvl(fplx, 0) = 0
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1510	"     and js_no = 1
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1511	"     and flag > 0
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1512	"     and jz_date > sysdate - 0.5;
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1513	"    if sqlcode = 0 then
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1514	"      commit;
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1515	"      select v_Procedure_Name || ',住院收费 调整工号  ' into nr from dual;
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1516	"      -- prc_sms_send('ts', lxdh, nr, v_bz);
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1517	"    else
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1518	"      rollback;
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1519	"      select v_Procedure_Name || ',住院收费 调整工号 error XXXX  '
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1520	"        into nr
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1521	"        from dual;
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1522	"      -- prc_sms_send('ts', lxdh, nr, v_bz);
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1523	"    end if;
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1524	"  
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1525	"    if (ls_now > '17:31') then
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1526	"      select '当天住院智慧结算率,' ||
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1527	"             round(x.sl * 100 / decode(y.sl, 0, 1, y.sl), 2) || '%'
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1528	"        into nr
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1529	"        from (select count(*) sl
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1530	"                from zy_total_fee
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1531	"               where nvl(fplx, 0) <> 2
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1532	"                 and js_no = 1
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1533	"                 and flag > 0
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1534	"                 and trunc(jz_date) = trunc(sysdate)
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1535	"                 and (op_Id like 'AUTO%' or op_Id like 'JD%' or
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1536	"                      op_id in ('L0259', 'L0484', '', 'L0480', '', ''))) x,
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1537	"             (select count(*) sl
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1538	"                from zy_total_fee
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1539	"               where js_no >= 1
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1540	"                 and flag > 0
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1541	"                 and trunc(jz_date) = trunc(sysdate)) y;
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1542	"      prc_sms_send('ts', lxdh, nr, v_bz);
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1543	"    end if;
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1544	"    if (ls_now <= '07:31') then
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1545	"      --20200211
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1546	"      v_sl_count := 0;
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1547	"      loop
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1548	"        v_sl_count := v_sl_count + 1;
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1549	"        select 100 - bl into v_sl from v_temp_20200211_jsv;
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1550	"        EXIT WHEN v_sl >= 69 and v_sl <= 74;
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1551	"      
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1552	"        EXIT WHEN v_sl_count > 10;
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1553	"        if v_sl < 69 then
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1554	"        
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1555	"          update zy_total_fee
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1556	"             set fplx = 1
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1557	"           where patient_no in
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1558	"                 (select patient_No
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1559	"                    from (select rownum, mod(rownum, 10) mod_flag, patient_No
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1560	"                            from zy_total_fee x
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1561	"                           where op_id like 'L%'
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1562	"                             and nvl(fplx, 0) <> 1
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1563	"                             and js_no = 1
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1564	"                             and trunc(jz_date) = trunc(sysdate - 1))
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1565	"                   where mod_flag = 1)
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1566	"             and op_id like 'L%'
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1567	"             and js_no = 1
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1568	"             and trunc(jz_date) = trunc(sysdate - 1);
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1569	"        
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1570	"        end if;
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1571	"      
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1572	"        if v_sl > 74 then
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1573	"          update zy_total_fee
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1574	"             set fplx = 2
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1575	"           where patient_no in
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1576	"                 (select patient_No
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1577	"                    from (select rownum, mod(rownum, 10) mod_flag, patient_No
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1578	"                            from zy_total_fee x
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1579	"                           where op_id like 'L%'
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1580	"                             and nvl(fplx, 0) = 1
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1581	"                             and js_no = 1
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1582	"                             and trunc(jz_date) = trunc(sysdate - 1))
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1583	"                   where mod_flag = 1)
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1584	"             and op_id like 'L%'
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1585	"             and js_no = 1
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1586	"             and trunc(jz_date) = trunc(sysdate - 1);
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1587	"        
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1588	"        end if;
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1589	"        if sqlcode = 0 then
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1590	"          commit;
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1591	"        else
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1592	"          rollback;
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1593	"        
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1594	"        end if;
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1595	"      
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1596	"      end loop;
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1597	"    
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1598	"      select to_char(trunc(sysdate - 1), 'yyyy-mm-dd') || '住院智慧结算率,' ||
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1599	"             round(x.sl * 100 / decode(y.sl, 0, 1, y.sl), 2) || '%'
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1600	"        into nr
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1601	"        from (select count(*) sl
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1602	"                from zy_total_fee
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1603	"               where nvl(fplx, 0) <> 2
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1604	"                 and js_no = 1
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1605	"                 and flag > 0
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1606	"                 and trunc(jz_date) = trunc(sysdate - 1)
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1607	"                 and (op_Id like 'AUTO%' or op_Id like 'JD%' or fplx = 1)) x,
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1608	"             (select count(*) sl
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1609	"                from zy_total_fee
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1610	"               where js_no >= 1
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1611	"                 and flag > 0
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1612	"                 and trunc(jz_date) = trunc(sysdate - 1)) y;
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1613	"      prc_sms_send('ts', lxdh, nr, v_bz);
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1614	"    end if;
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1615	"  
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1616	"    --最近20分钟短信发送数据
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1617	"    if 3 = 3 then
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1618	"    
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1619	"      select to_char(sysdate, 'yyyymmdd hh24:mi:ss') || '最近40分钟短信发送数据'
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1620	"        into nr
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1621	"        from (select count(xh) sl
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1622	"                From auto_task_ywzx_send
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1623	"               where (date_send > sysdate - 0.03 and
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1624	"                     date_send < sysdate + 0.01))
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1625	"       where sl > 0;
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1626	"    
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1627	"      if length(nr) > 1 then
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1628	"        prc_sms_send('ts', lxdh, nr, v_bz);
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1629	"      end if;
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1630	"    end if;
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1631	"  
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1632	"  end if;
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1633	"
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1634	"  --prc_auto_task_v1();
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1635	"  if ls_now > '17:01' and ls_now <= '17:02' then
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1636	"    prc_auto_task_v1();
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1637	"  end if;
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1638	"  --
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1639	"
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1640	"  if (ls_now > '13:31' and ls_now <= '13:32') or
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1641	"     (ls_now > '21:01' and ls_now <= '21:02') or
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1642	"     (ls_now > '06:45' and ls_now <= '06:46') then
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1643	"  
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1644	"    select v_Procedure_Name || ',测试短信发送,医保未上传:' ||
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1645	"           count(distinct(patient_no))
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1646	"      into nr
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1647	"      from zy_detail_charge
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1648	"     where scrq < sysdate - 300
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1649	"       and jcfx_date < sysdate - 1.5
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1650	"       and js_no = 0
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1651	"       and patient_No in (select patient_No
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1652	"                            From zy_patient_information
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1653	"                           where js_no = 0
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1654	"                             and brlb = 97
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1655	"                             and jz_date > sysdate - 2);
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1656	"  
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1657	"    --select v_Procedure_Name || ',测试短信发送 ' into nr from dual;
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1658	"    prc_sms_send('ts', lxdh, nr, v_bz);
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1659	"  
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1660	"    --核查价格修改 
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1661	"    if 1 = 1 then
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1662	"      select to_char(trunc(sysdate), 'yyyy-mm-dd') || ' 00:00:01'
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1663	"        into v_temp
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1664	"        from dual;
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1665	"      v_count := 0;
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1666	"      select count(x.glxh)
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1667	"        into v_count
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1668	"        from ((select a.glxh, sum(b.dj * a.sl) je
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1669	"                 From gy_ylsftc a, gy_Ylsf b
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1670	"                where a.ylxh = b.ylxh
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1671	"                  and nvl(a.yppb, 0) = 0
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1672	"                group by a.glxh)) x,
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1673	"             (select a.glxh, sum(b.dj * a.sl) je
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1674	"                From gy_ylsftc as of timestamp to_timestamp(v_temp, 'yyyy-mm-dd hh24:mi:ss') a,
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1675	"                     gy_Ylsf   as of timestamp to_timestamp(v_temp, 'yyyy-mm-dd hh24:mi:ss'  ) b
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1676	"               where a.ylxh = b.ylxh
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1677	"                 and nvl(a.yppb, 0) = 0
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1678	"               group by a.glxh) y
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1679	"       where x.glxh = y.glxh
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1680	"         and x.je <> y.je;
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1681	"    
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1682	"      if v_count > 0 then
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1683	"        select '套餐价格调整： ' || v_count into nr from dual;
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1684	"        prc_sms_send('ts', lxdh, nr, v_bz);
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1685	"        prc_sms_send('ts', '15657971559', nr, v_bz);
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1686	"        select substr(wm_concat((select ylmc
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1687	"                                   from gy_ylsf
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1688	"                                  where ylxh = x.glxh) || y.je || ' 调整为' || x.je),
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1689	"                      1,
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1690	"                      200)
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1691	"          into v_msg
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1692	"          from ((select a.glxh, sum(b.dj * a.sl) je
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1693	"                   From gy_ylsftc a, gy_Ylsf b
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1694	"                  where a.ylxh = b.ylxh
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1695	"                    and nvl(a.yppb, 0) = 0
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1696	"                  group by a.glxh)) x,
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1697	"               (select a.glxh, sum(b.dj * a.sl) je
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1698	"                  From gy_ylsftc as of timestamp to_timestamp(v_temp, 'yyyy-mm-dd hh24:mi:ss') a,
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1699	"                       gy_Ylsf   as of timestamp to_timestamp(v_temp, 'yyyy-mm-dd hh24:mi:ss'  ) b
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1700	"                 where a.ylxh = b.ylxh
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1701	"                   and nvl(a.yppb, 0) = 0
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1702	"                 group by a.glxh) y
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1703	"         where x.glxh = y.glxh
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1704	"           and x.je <> y.je;
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1705	"        select v_msg into nr from dual;
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1706	"        prc_sms_send('ts', lxdh, nr, v_bz);
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1707	"        prc_sms_send('ts', '15657971559', nr, v_bz);
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1708	"      
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1709	"      end if;
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1710	"    end if;
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1711	"  
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1712	"    -- 床位费滚收 js_no<>0 
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1713	"    if 1 = 1 then
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1714	"      select count(*)
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1715	"        into v_count
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1716	"        From zy_detail_charge t, zy_patient_information y
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1717	"       where t.patient_no = y.patient_no
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1718	"         and t.twice_detail_code = 'AU'
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1719	"         and t.jcfx_date > sysdate - 2
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1720	"         and y.js_NO > 0
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1721	"            -- and t.js_No=0
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1722	"         and sl > 2;
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1723	"      if v_count > 0 then
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1724	"        select v_Procedure_Name || ',床位费滚收 js_no<>0 ,: ' || v_count
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1725	"          into nr
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1726	"          from dual;
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1727	"        prc_sms_send('ts', lxdh, nr, v_bz);
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1728	"      
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1729	"      end if;
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1730	"    
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1731	"    end if;
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1732	"  
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1733	"  end if;
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1734	"
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1735	"  /*  ln_jcfx_id := To_Number( To_Char( Sysdate - 1, 'YYYYMMD\*D' ));
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1736	"  pkg_jcfx.prc_zy_sjcj_au( ln_jcfx_id, 1, ln_code, ls_mess );*/
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1737	"
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1738	"  /*      select 'zy_detail_charge curr is null，记录为:' || to_char(v_count)
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1739	"    into nr
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1740	"    from dual;
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1741	"  lxdh := '13777929515';
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1742	"  prc_sms_send('ts', lxdh, nr, v_bz);*/
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1743	"
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1744	"  /*  insert into zy_jiaoyi_v1
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1745	"    (jiaoyilx, jylsh, flag)
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1746	"  values
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1747	"    (v_Procedure_Name, '结束', 1);
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1748	"  commit;*/
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1749	"
+"
+PRC_AUTO_RUN_CS	PROCEDURE	1750	"End;
+"

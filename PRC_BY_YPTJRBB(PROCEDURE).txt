@@ -1,0 +1,87 @@
+PRC_BY_YPTJRBB	PROCEDURE	1	"PROCEDURE         ""PRC_BY_YPTJRBB"" (ARG_FRONT_DAY IN NUMBER,arg_tjrq in VARCHAR2)
+"
+PRC_BY_YPTJRBB	PROCEDURE	2	"IS
+"
+PRC_BY_YPTJRBB	PROCEDURE	3	"   p_xtxh number;
+"
+PRC_BY_YPTJRBB	PROCEDURE	4	"   p_crkdm number;
+"
+PRC_BY_YPTJRBB	PROCEDURE	5	"   p_zblb number;
+"
+PRC_BY_YPTJRBB	PROCEDURE	6	"   p_tjsj varchar2(20);
+"
+PRC_BY_YPTJRBB	PROCEDURE	7	"   p_ypxh number;
+"
+PRC_BY_YPTJRBB	PROCEDURE	8	"   p_ypcddm number;
+"
+PRC_BY_YPTJRBB	PROCEDURE	9	"   p_jcsl  number(10,2);
+"
+PRC_BY_YPTJRBB	PROCEDURE	10	"   p_sl    number(17,3);
+"
+PRC_BY_YPTJRBB	PROCEDURE	11	"   p_lsj   number(17,5);
+"
+PRC_BY_YPTJRBB	PROCEDURE	12	"   p_je   number(11,2);
+"
+PRC_BY_YPTJRBB	PROCEDURE	13	"   p_sysrq  date ;
+"
+PRC_BY_YPTJRBB	PROCEDURE	14	"   p_count number;
+"
+PRC_BY_YPTJRBB	PROCEDURE	15	"      CURSOR TOTALCUR IS /*按出入库进行分类汇总*/
+"
+PRC_BY_YPTJRBB	PROCEDURE	16	"      select xtxh,crkdm,to_number(f_bf_getypxx(ypxh,ypcddm,'zblb')),ypxh,ypcddm,nvl(lsj,0),f_bf_getkc_db(1,xtxh,ypxh,ypcddm,yplx),sum(sl),sum(round(sl*lsj,2))
+"
+PRC_BY_YPTJRBB	PROCEDURE	17	"        from by_ypmxz  where rq between to_date(to_char(TO_DATE(arg_tjrq,'YYYY/MM/DD HH24:MI:SS') - arg_front_day,'yyyy/mm/dd')||' '||'00:00:00','yyyy/mm/dd hh24:mi:ss') and 
+"
+PRC_BY_YPTJRBB	PROCEDURE	18	"                                        to_date(to_char(TO_DATE(arg_tjrq,'YYYY/MM/DD HH24:MI:SS') - arg_front_day,'yyyy/mm/dd')||' '||'23:59:59','yyyy/mm/dd hh24:mi:ss')
+"
+PRC_BY_YPTJRBB	PROCEDURE	19	"                                      
+"
+PRC_BY_YPTJRBB	PROCEDURE	20	"        group by xtxh,crkdm,to_number(f_bf_getypxx(ypxh,ypcddm,'zblb')),ypxh,ypcddm,lsj,f_bf_getkc_db(1,xtxh,ypxh,ypcddm,yplx);
+"
+PRC_BY_YPTJRBB	PROCEDURE	21	"  begin 
+"
+PRC_BY_YPTJRBB	PROCEDURE	22	"        select sysdate,to_char(TO_DATE(arg_tjrq,'YYYY/MM/DD HH24:MI:SS') - arg_front_day,'yyyy/mm/dd') into p_sysrq,p_tjsj from dual;
+"
+PRC_BY_YPTJRBB	PROCEDURE	23	"        select count(*) into p_count from by_yptjrbb where tjsj=p_tjsj;
+"
+PRC_BY_YPTJRBB	PROCEDURE	24	"       if p_count=0 then 
+"
+PRC_BY_YPTJRBB	PROCEDURE	25	"			 OPEN TOTALCUR;/*按出入库进行分类汇总*/
+"
+PRC_BY_YPTJRBB	PROCEDURE	26	"			 LOOP
+"
+PRC_BY_YPTJRBB	PROCEDURE	27	"				FETCH TOTALCUR INTO p_xtxh,p_crkdm,p_zblb,p_ypxh,p_ypcddm,p_lsj,p_jcsl,p_sl,p_je;
+"
+PRC_BY_YPTJRBB	PROCEDURE	28	"				EXIT WHEN TOTALCUR%NOTFOUND ;
+"
+PRC_BY_YPTJRBB	PROCEDURE	29	"				if p_count=0 then 
+"
+PRC_BY_YPTJRBB	PROCEDURE	30	"					INSERT INTO by_yptjrbbmx (xtxh,crkdm,zblb,tjsj,tjrq,ypxh,ypcddm,lsj,sl,je,jcsl)
+"
+PRC_BY_YPTJRBB	PROCEDURE	31	"					  VALUES (p_xtxh,p_crkdm,p_zblb,p_tjsj,p_sysrq,p_ypxh,p_ypcddm,p_lsj,p_sl,p_je,p_jcsl);
+"
+PRC_BY_YPTJRBB	PROCEDURE	32	"			  end if ;
+"
+PRC_BY_YPTJRBB	PROCEDURE	33	"			  END LOOP; 
+"
+PRC_BY_YPTJRBB	PROCEDURE	34	"			 CLOSE TOTALCUR;
+"
+PRC_BY_YPTJRBB	PROCEDURE	35	"           INSERT INTO by_yptjrbb (xtxh,crkdm,zblb,tjsj,tjrq,je)
+"
+PRC_BY_YPTJRBB	PROCEDURE	36	"		select xtxh,crkdm,zblb,tjsj,tjrq,sum(je)
+"
+PRC_BY_YPTJRBB	PROCEDURE	37	"		from  by_yptjrbbmx 
+"
+PRC_BY_YPTJRBB	PROCEDURE	38	"                where tjsj=p_tjsj
+"
+PRC_BY_YPTJRBB	PROCEDURE	39	"		group by xtxh,crkdm,zblb,tjsj,tjrq;
+"
+PRC_BY_YPTJRBB	PROCEDURE	40	"			 COMMIT;
+"
+PRC_BY_YPTJRBB	PROCEDURE	41	"    end if;
+"
+PRC_BY_YPTJRBB	PROCEDURE	42	"   END ;
+"
+PRC_BY_YPTJRBB	PROCEDURE	43	"
+"
+PRC_BY_YPTJRBB	PROCEDURE	44	 

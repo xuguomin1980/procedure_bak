@@ -1,0 +1,209 @@
+MY_YPCRKTJ_DAY	PROCEDURE	1	"procedure my_ypcrktj_day (arg_ts number) 
+"
+MY_YPCRKTJ_DAY	PROCEDURE	2	" is 
+"
+MY_YPCRKTJ_DAY	PROCEDURE	3	" begin 
+"
+MY_YPCRKTJ_DAY	PROCEDURE	4	" declare 
+"
+MY_YPCRKTJ_DAY	PROCEDURE	5	" ld_date1 date; 
+"
+MY_YPCRKTJ_DAY	PROCEDURE	6	" ld_date2 date; 
+"
+MY_YPCRKTJ_DAY	PROCEDURE	7	" ld_begin date; 
+"
+MY_YPCRKTJ_DAY	PROCEDURE	8	" ld_end   date; 
+"
+MY_YPCRKTJ_DAY	PROCEDURE	9	" ll_ypxh     number(6); 
+"
+MY_YPCRKTJ_DAY	PROCEDURE	10	" ll_ypcddm   number(4); 
+"
+MY_YPCRKTJ_DAY	PROCEDURE	11	" ll_ypxh_min number(6); 
+"
+MY_YPCRKTJ_DAY	PROCEDURE	12	" ll_fzfl     number(6); 
+"
+MY_YPCRKTJ_DAY	PROCEDURE	13	" ll_ypbzl    number(6); 
+"
+MY_YPCRKTJ_DAY	PROCEDURE	14	" li_xhpb     number(1); 
+"
+MY_YPCRKTJ_DAY	PROCEDURE	15	" li_ggpb     number(1); 
+"
+MY_YPCRKTJ_DAY	PROCEDURE	16	" li_xtxh     number(2); 
+"
+MY_YPCRKTJ_DAY	PROCEDURE	17	" li_crkdm    number(2); 
+"
+MY_YPCRKTJ_DAY	PROCEDURE	18	" lf_sl       number(11,3); 
+"
+MY_YPCRKTJ_DAY	PROCEDURE	19	" lf_skc      number(11,3); 
+"
+MY_YPCRKTJ_DAY	PROCEDURE	20	" cursor cur_ypmxz_hz is 
+"
+MY_YPCRKTJ_DAY	PROCEDURE	21	" select a.xtxh,a.crkdm,a.ypxh,a.ypcddm,sum(a.sl) 
+"
+MY_YPCRKTJ_DAY	PROCEDURE	22	"   from my_ypmxz a 
+"
+MY_YPCRKTJ_DAY	PROCEDURE	23	"  where a.rq between ld_begin and ld_end 
+"
+MY_YPCRKTJ_DAY	PROCEDURE	24	"  group by a.xtxh,a.crkdm,a.ypxh,a.ypcddm; 
+"
+MY_YPCRKTJ_DAY	PROCEDURE	25	" begin 
+"
+MY_YPCRKTJ_DAY	PROCEDURE	26	" select trunc(sysdate-arg_ts) into ld_date1 from dual; 
+"
+MY_YPCRKTJ_DAY	PROCEDURE	27	" select to_date(to_char(ld_date1,'yyyy/mm/dd')||' 23:59:59','yyyy/mm/dd hh24:mi:ss') 
+"
+MY_YPCRKTJ_DAY	PROCEDURE	28	"   into ld_date2 
+"
+MY_YPCRKTJ_DAY	PROCEDURE	29	"   from dual; 
+"
+MY_YPCRKTJ_DAY	PROCEDURE	30	" select min(xtrq) into ld_begin from my_kc_day where xtrq between ld_date1 and ld_date2; 
+"
+MY_YPCRKTJ_DAY	PROCEDURE	31	" if arg_ts=0 then 
+"
+MY_YPCRKTJ_DAY	PROCEDURE	32	"    select max(xtrq) into ld_end from my_kc_day where xtrq between ld_date1 and ld_date2;  
+"
+MY_YPCRKTJ_DAY	PROCEDURE	33	" else 
+"
+MY_YPCRKTJ_DAY	PROCEDURE	34	"    select min(xtrq) into ld_end from my_kc_day where xtrq between ld_date1+1 and ld_date2+1; 
+"
+MY_YPCRKTJ_DAY	PROCEDURE	35	" end if; 
+"
+MY_YPCRKTJ_DAY	PROCEDURE	36	" if ld_begin>=ld_date1 and ld_end >ld_date1 then 
+"
+MY_YPCRKTJ_DAY	PROCEDURE	37	"    update my_kc_day set hzrksl=0,hzcksl=0 
+"
+MY_YPCRKTJ_DAY	PROCEDURE	38	"     where xtrq=ld_begin; 
+"
+MY_YPCRKTJ_DAY	PROCEDURE	39	"    OPEN CUR_YPMXZ_HZ;  
+"
+MY_YPCRKTJ_DAY	PROCEDURE	40	"    LOOP  
+"
+MY_YPCRKTJ_DAY	PROCEDURE	41	"       FETCH CUR_YPMXZ_HZ INTO LI_XTXH,LI_CRKDM,LL_YPXH,LL_YPCDDM,LF_SL;  
+"
+MY_YPCRKTJ_DAY	PROCEDURE	42	"       EXIT WHEN CUR_YPMXZ_HZ%NOTFOUND;  
+"
+MY_YPCRKTJ_DAY	PROCEDURE	43	"       begin  
+"
+MY_YPCRKTJ_DAY	PROCEDURE	44	"       select abs(xhpb) into li_xhpb from my_crkfs where xtxh=li_xtxh and crkdm=li_crkdm and nvl(xhfs,0)<>0; 
+"
+MY_YPCRKTJ_DAY	PROCEDURE	45	"       exception  
+"
+MY_YPCRKTJ_DAY	PROCEDURE	46	"          WHEN NO_DATA_FOUND THEN 
+"
+MY_YPCRKTJ_DAY	PROCEDURE	47	"          li_xhpb:=0; 
+"
+MY_YPCRKTJ_DAY	PROCEDURE	48	"       end; 
+"
+MY_YPCRKTJ_DAY	PROCEDURE	49	"       IF ABS(LF_SL)>0 and (li_xhpb=1 or li_xhpb=2) THEN  
+"
+MY_YPCRKTJ_DAY	PROCEDURE	50	"          begin --IF1 
+"
+MY_YPCRKTJ_DAY	PROCEDURE	51	"             select skc into lf_skc from my_kc_day  
+"
+MY_YPCRKTJ_DAY	PROCEDURE	52	"              where xtrq=ld_begin and xtxh=li_xtxh and ypxh=ll_ypxh and ypcddm=ll_ypcddm; 
+"
+MY_YPCRKTJ_DAY	PROCEDURE	53	"             update my_kc_day set hzrksl=nvl(hzrksl,0)+decode(li_xhpb,1,nvl(lf_sl,0),0), 
+"
+MY_YPCRKTJ_DAY	PROCEDURE	54	"                                  hzcksl=nvl(hzcksl,0)+decode(li_xhpb,2,nvl(lf_sl,0),0) 
+"
+MY_YPCRKTJ_DAY	PROCEDURE	55	"              where xtrq=ld_begin and xtxh=li_xtxh and ypxh=ll_ypxh and ypcddm=ll_ypcddm; 
+"
+MY_YPCRKTJ_DAY	PROCEDURE	56	"             exception 
+"
+MY_YPCRKTJ_DAY	PROCEDURE	57	"                WHEN NO_DATA_FOUND THEN  
+"
+MY_YPCRKTJ_DAY	PROCEDURE	58	"                BEGIN --IF2 
+"
+MY_YPCRKTJ_DAY	PROCEDURE	59	"                   select skc into lf_skc from my_kc_day  
+"
+MY_YPCRKTJ_DAY	PROCEDURE	60	"                    where xtrq=ld_begin and xtxh=li_xtxh and fzfl=ll_ypxh and ypcddm=ll_ypcddm; 
+"
+MY_YPCRKTJ_DAY	PROCEDURE	61	"                   select ypbzl into ll_ypbzl from gy_ypmcggzd where ypxh=ll_ypxh; 
+"
+MY_YPCRKTJ_DAY	PROCEDURE	62	"                   update my_kc_day  
+"
+MY_YPCRKTJ_DAY	PROCEDURE	63	"                      set hzrksl=nvl(hzrksl,0)+decode(li_xhpb,1,nvl(lf_sl,0)*ll_ypbzl,0), 
+"
+MY_YPCRKTJ_DAY	PROCEDURE	64	"                          hzcksl=nvl(hzcksl,0)+decode(li_xhpb,2,nvl(lf_sl,0)*ll_ypbzl,0) 
+"
+MY_YPCRKTJ_DAY	PROCEDURE	65	"                    where xtrq=ld_begin and xtxh=li_xtxh and fzfl=ll_ypxh and ypcddm=ll_ypcddm; 
+"
+MY_YPCRKTJ_DAY	PROCEDURE	66	"                   EXCEPTION 
+"
+MY_YPCRKTJ_DAY	PROCEDURE	67	"                      WHEN NO_DATA_FOUND THEN 
+"
+MY_YPCRKTJ_DAY	PROCEDURE	68	"                      BEGIN 
+"
+MY_YPCRKTJ_DAY	PROCEDURE	69	"                         select decode(decode(substr(ypsx,2,2),'11','1')|| 
+"
+MY_YPCRKTJ_DAY	PROCEDURE	70	"                                       decode(substr(ypsx,5,2),'11','1')|| 
+"
+MY_YPCRKTJ_DAY	PROCEDURE	71	"                                       decode(substr(ypsx,8,2),'11','1')  , 
+"
+MY_YPCRKTJ_DAY	PROCEDURE	72	"                                       '000',decode(ypbzl,1,1,0),1),fzfl,ypbzl 
+"
+MY_YPCRKTJ_DAY	PROCEDURE	73	"                           into li_ggpb,ll_fzfl,ll_ypbzl 
+"
+MY_YPCRKTJ_DAY	PROCEDURE	74	"                           from gy_ypmcggzd where ypxh=ll_ypxh; 
+"
+MY_YPCRKTJ_DAY	PROCEDURE	75	"                         begin 
+"
+MY_YPCRKTJ_DAY	PROCEDURE	76	"                            if li_ggpb=0 and ll_fzfl=null then 
+"
+MY_YPCRKTJ_DAY	PROCEDURE	77	"                               select ypxh into ll_ypxh_min 
+"
+MY_YPCRKTJ_DAY	PROCEDURE	78	"                                 from gy_ypmcggzd  
+"
+MY_YPCRKTJ_DAY	PROCEDURE	79	"                                where fzfl=ll_ypxh and (substr(ypsx,2,2)='01' or  
+"
+MY_YPCRKTJ_DAY	PROCEDURE	80	"                                      substr(ypsx,5,2)='01' or substr(ypsx,8,2)='01') 
+"
+MY_YPCRKTJ_DAY	PROCEDURE	81	"                                  and ypbzl=1;  
+"
+MY_YPCRKTJ_DAY	PROCEDURE	82	"                               ll_fzfl:=ll_ypxh; 
+"
+MY_YPCRKTJ_DAY	PROCEDURE	83	"                               ll_ypxh:=ll_ypxh_min; 
+"
+MY_YPCRKTJ_DAY	PROCEDURE	84	"                               lf_sl:=lf_sl*ll_ypbzl; 
+"
+MY_YPCRKTJ_DAY	PROCEDURE	85	"                            end if; 
+"
+MY_YPCRKTJ_DAY	PROCEDURE	86	"                         end; 
+"
+MY_YPCRKTJ_DAY	PROCEDURE	87	"                         insert into my_kc_day 
+"
+MY_YPCRKTJ_DAY	PROCEDURE	88	"                                (XTRQ,XTXH,KSDM,YPXH,YPCDDM,FZFL,SKC,XSKC, 
+"
+MY_YPCRKTJ_DAY	PROCEDURE	89	"                                 HZRKSL,HZCKSL) 
+"
+MY_YPCRKTJ_DAY	PROCEDURE	90	"                          select xtrq,xtxh,ksdm,ll_ypxh,ll_ypcddm,ll_fzfl,0,0, 
+"
+MY_YPCRKTJ_DAY	PROCEDURE	91	"                                 decode(li_xhpb,1,nvl(lf_sl,0),0),decode(li_xhpb,2,nvl(lf_sl,0),0) 
+"
+MY_YPCRKTJ_DAY	PROCEDURE	92	"                            from my_kc_day 
+"
+MY_YPCRKTJ_DAY	PROCEDURE	93	"                           where xtrq=ld_begin and xtxh=li_xtxh and rownum=1; 
+"
+MY_YPCRKTJ_DAY	PROCEDURE	94	"                      END; 
+"
+MY_YPCRKTJ_DAY	PROCEDURE	95	"                END ; --IF2 
+"
+MY_YPCRKTJ_DAY	PROCEDURE	96	"          end; --IF1 
+"
+MY_YPCRKTJ_DAY	PROCEDURE	97	"       END IF; 
+"
+MY_YPCRKTJ_DAY	PROCEDURE	98	"    END LOOP; 
+"
+MY_YPCRKTJ_DAY	PROCEDURE	99	"    CLOSE CUR_YPMXZ_HZ; 
+"
+MY_YPCRKTJ_DAY	PROCEDURE	100	"    update my_kc_day_log set jsrq=ld_end    
+"
+MY_YPCRKTJ_DAY	PROCEDURE	101	"     where bbrq=to_char(ld_begin,'yyyy/mm/dd') and ksrq=ld_begin;    
+"
+MY_YPCRKTJ_DAY	PROCEDURE	102	"    COMMIT; 
+"
+MY_YPCRKTJ_DAY	PROCEDURE	103	" end if; 
+"
+MY_YPCRKTJ_DAY	PROCEDURE	104	" end; 
+"
+MY_YPCRKTJ_DAY	PROCEDURE	105	 end; 

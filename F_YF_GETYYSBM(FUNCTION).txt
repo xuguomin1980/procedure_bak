@@ -1,0 +1,23 @@
+F_YF_GETYYSBM	FUNCTION	1	"function f_yf_getyysbm 
+"
+F_YF_GETYYSBM	FUNCTION	2	"     return varchar2 
+"
+F_YF_GETYYSBM	FUNCTION	3	"     is 
+"
+F_YF_GETYYSBM	FUNCTION	4	"       ls_return varchar2(20); 
+"
+F_YF_GETYYSBM	FUNCTION	5	"     begin 
+"
+F_YF_GETYYSBM	FUNCTION	6	"     	select decode(csz,null,'/','','/',csz) into ls_return from yf_cssz 
+"
+F_YF_GETYYSBM	FUNCTION	7	"        	 where yyxh=0 and xtxh=0 and ckmc='app' and csmc='yysbm'; 
+"
+F_YF_GETYYSBM	FUNCTION	8	"            return(ls_return); 
+"
+F_YF_GETYYSBM	FUNCTION	9	"        EXCEPTION 
+"
+F_YF_GETYYSBM	FUNCTION	10	"          WHEN OTHERS THEN 
+"
+F_YF_GETYYSBM	FUNCTION	11	"            return '/'; 
+"
+F_YF_GETYYSBM	FUNCTION	12	     end; 

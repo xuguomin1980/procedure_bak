@@ -1,0 +1,27 @@
+F_GET_EMRZYZT	FUNCTION	1	"FUNCTION         ""F_GET_EMRZYZT"" 
+"
+F_GET_EMRZYZT	FUNCTION	2	"(arg_zybz in number)
+"
+F_GET_EMRZYZT	FUNCTION	3	"  return number
+"
+F_GET_EMRZYZT	FUNCTION	4	"  is
+"
+F_GET_EMRZYZT	FUNCTION	5	"    ls_return varchar2(30);
+"
+F_GET_EMRZYZT	FUNCTION	6	"  begin
+"
+F_GET_EMRZYZT	FUNCTION	7	"	if arg_zybz = 1 or arg_zybz = 2 or arg_zybz = 3 or arg_zybz = 8 then
+"
+F_GET_EMRZYZT	FUNCTION	8	"     return 1;
+"
+F_GET_EMRZYZT	FUNCTION	9	"  end if;
+"
+F_GET_EMRZYZT	FUNCTION	10	"	  return 0;
+"
+F_GET_EMRZYZT	FUNCTION	11	"  end;
+"
+F_GET_EMRZYZT	FUNCTION	12	"
+"
+F_GET_EMRZYZT	FUNCTION	13	"
+"
+F_GET_EMRZYZT	FUNCTION	14	 

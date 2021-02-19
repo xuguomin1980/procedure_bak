@@ -1,0 +1,14 @@
+TRI_GY_XITONGCSB	TRIGGER	1	"trigger tri_gy_xitongcsb
+"
+TRI_GY_XITONGCSB	TRIGGER	2	" before insert or  update on gy_xitongcsb
+"
+TRI_GY_XITONGCSB	TRIGGER	3	" for each row
+"
+TRI_GY_XITONGCSB	TRIGGER	4	"
+"
+TRI_GY_XITONGCSB	TRIGGER	5	"begin
+"
+TRI_GY_XITONGCSB	TRIGGER	6	"  select sysdate into :new.czrq from dual;
+"
+TRI_GY_XITONGCSB	TRIGGER	7	"end tri_gy_xitongcsb;
+"

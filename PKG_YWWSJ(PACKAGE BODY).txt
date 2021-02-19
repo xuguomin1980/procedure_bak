@@ -1,0 +1,1182 @@
+PKG_YWWSJ	PACKAGE BODY	1	"PACKAGE BODY         ""PKG_YWWSJ"" is
+"
+PKG_YWWSJ	PACKAGE BODY	2	"
+"
+PKG_YWWSJ	PACKAGE BODY	3	"Procedure prc_mz_sfxx ( in_jcfx_id   In    NUMBER,
+"
+PKG_YWWSJ	PACKAGE BODY	4	"                           on_code      Out   NUMBER,
+"
+PKG_YWWSJ	PACKAGE BODY	5	"                           os_mess      Out   VARCHAR2)
+"
+PKG_YWWSJ	PACKAGE BODY	6	"Is
+"
+PKG_YWWSJ	PACKAGE BODY	7	"Begin
+"
+PKG_YWWSJ	PACKAGE BODY	8	"  Declare
+"
+PKG_YWWSJ	PACKAGE BODY	9	"    e_input          EXCEPTION;
+"
+PKG_YWWSJ	PACKAGE BODY	10	"    ll_sfsb          NUMBER(10);
+"
+PKG_YWWSJ	PACKAGE BODY	11	"    ll_ghxh          NUMBER(20);
+"
+PKG_YWWSJ	PACKAGE BODY	12	"    ls_sfsb          VARCHAR2(10);
+"
+PKG_YWWSJ	PACKAGE BODY	13	"    ls_ghxh          VARCHAR2(20);
+"
+PKG_YWWSJ	PACKAGE BODY	14	"    ls_cfhm          VARCHAR2(8);
+"
+PKG_YWWSJ	PACKAGE BODY	15	"    ls_ksdm          VARCHAR2(10);
+"
+PKG_YWWSJ	PACKAGE BODY	16	"    ls_fphm          VARCHAR2(10);
+"
+PKG_YWWSJ	PACKAGE BODY	17	"    ls_jbdm          VARCHAR2(4);
+"
+PKG_YWWSJ	PACKAGE BODY	18	"    ldt_sfrq         Date;
+"
+PKG_YWWSJ	PACKAGE BODY	19	"    ls_jzkh          VARCHAR2(30);
+"
+PKG_YWWSJ	PACKAGE BODY	20	"    ls_yybh          VARCHAR2(30);
+"
+PKG_YWWSJ	PACKAGE BODY	21	"    Ll_CSMC          NUMBER(6);
+"
+PKG_YWWSJ	PACKAGE BODY	22	"    ln_sfxm          NUMBER(6);
+"
+PKG_YWWSJ	PACKAGE BODY	23	"    ld_xyf           NUMBER(10,2);
+"
+PKG_YWWSJ	PACKAGE BODY	24	"    ld_zyf           NUMBER(10,2);
+"
+PKG_YWWSJ	PACKAGE BODY	25	"    ld_cyf           NUMBER(10,2);
+"
+PKG_YWWSJ	PACKAGE BODY	26	"    ld_GHF           NUMBER(10,2);
+"
+PKG_YWWSJ	PACKAGE BODY	27	"    ld_ZCF           NUMBER(10,2);
+"
+PKG_YWWSJ	PACKAGE BODY	28	"    ld_JCF           NUMBER(10,2);
+"
+PKG_YWWSJ	PACKAGE BODY	29	"    ld_ZLF           NUMBER(10,2);
+"
+PKG_YWWSJ	PACKAGE BODY	30	"    ld_SSF           NUMBER(10,2);
+"
+PKG_YWWSJ	PACKAGE BODY	31	"    ld_HYF           NUMBER(10,2);
+"
+PKG_YWWSJ	PACKAGE BODY	32	"    ld_QTF           NUMBER(10,2);
+"
+PKG_YWWSJ	PACKAGE BODY	33	"    ld_je            NUMBER(10,2);
+"
+PKG_YWWSJ	PACKAGE BODY	34	"    ldt_jcfx_min     DATE;
+"
+PKG_YWWSJ	PACKAGE BODY	35	"    ldt_jcfx_max     DATE;
+"
+PKG_YWWSJ	PACKAGE BODY	36	"CURSOR cur_mz_sfxx Is
+"
+PKG_YWWSJ	PACKAGE BODY	37	"    select c.sfsb sfsb,  --收费识别NUMBER(10)
+"
+PKG_YWWSJ	PACKAGE BODY	38	"      	   c.jzkh jzkh,  --就诊号VARCHAR2(40)
+"
+PKG_YWWSJ	PACKAGE BODY	39	"      	   c.ghxh ghxh,  --挂号序号NUMBER(4)
+"
+PKG_YWWSJ	PACKAGE BODY	40	"      	   a.cfhm cfhm,  --处方号码VARCHAR2(8)
+"
+PKG_YWWSJ	PACKAGE BODY	41	"      	   a.ksdm ksdm,  --科室代码VARCHAR2(10) （名称：gy_ksdm）
+"
+PKG_YWWSJ	PACKAGE BODY	42	"      	   d.jbdm jbdm,  --疾病代码NUMBER(5)
+"
+PKG_YWWSJ	PACKAGE BODY	43	"      	   c.fphm fphm,  --发票号码VARCHAR2(8)
+"
+PKG_YWWSJ	PACKAGE BODY	44	"      	   c.sfrq sfrq,  --收费日期DATE
+"
+PKG_YWWSJ	PACKAGE BODY	45	"      	   b.fygb sfxm,  --收费项目NUMBER(6)
+"
+PKG_YWWSJ	PACKAGE BODY	46	"      	   sum(b.sl*b.dj) je --金额NUMBER(10,2)
+"
+PKG_YWWSJ	PACKAGE BODY	47	"     from mz_cfk1 a,mz_cfk2 b,mz_mzsfk1 c,gy_brjbxxk d
+"
+PKG_YWWSJ	PACKAGE BODY	48	"    where a.cfsb=b.cfsb
+"
+PKG_YWWSJ	PACKAGE BODY	49	"      and a.sfsb=c.sfsb
+"
+PKG_YWWSJ	PACKAGE BODY	50	"      and c.jzkh=d.jzkh
+"
+PKG_YWWSJ	PACKAGE BODY	51	"      and c.sfrq between ldt_jcfx_min and ldt_jcfx_max
+"
+PKG_YWWSJ	PACKAGE BODY	52	"    group by c.sfrq,c.jzkh,c.fphm,a.cfhm,c.sfsb,c.ghxh,a.ksdm,d.jbdm,b.fygb
+"
+PKG_YWWSJ	PACKAGE BODY	53	"    union all
+"
+PKG_YWWSJ	PACKAGE BODY	54	"    select c.sfsb sfsb,  --收费识别NUMBER(10)
+"
+PKG_YWWSJ	PACKAGE BODY	55	"      	   c.jzkh jzkh,  --就诊号VARCHAR2(40)
+"
+PKG_YWWSJ	PACKAGE BODY	56	"      	   c.ghxh ghxh,  --挂号序号NUMBER(4)
+"
+PKG_YWWSJ	PACKAGE BODY	57	"      	   a.jchm cfhm,  --处方号码VARCHAR2(8)
+"
+PKG_YWWSJ	PACKAGE BODY	58	"           a.sjksdm  ksdm,  --科室代码VARCHAR2(10) （名称：gy_ksdm）
+"
+PKG_YWWSJ	PACKAGE BODY	59	"      	   d.jbdm jbdm,  --疾病代码NUMBER(5)
+"
+PKG_YWWSJ	PACKAGE BODY	60	"      	   c.fphm fphm,  --发票号码VARCHAR2(8)
+"
+PKG_YWWSJ	PACKAGE BODY	61	"      	   c.sfrq sfrq,  --收费日期DATE
+"
+PKG_YWWSJ	PACKAGE BODY	62	"      	   b.fygb sfxm,  --收费项目NUMBER(6)
+"
+PKG_YWWSJ	PACKAGE BODY	63	"      	   sum(b.sl*b.dj) je --金额NUMBER(10,2)
+"
+PKG_YWWSJ	PACKAGE BODY	64	"     from yj_yjk1 a,yj_yjk2 b,mz_mzsfk1 c,gy_brjbxxk d
+"
+PKG_YWWSJ	PACKAGE BODY	65	"    where a.yjsb=b.yjsb
+"
+PKG_YWWSJ	PACKAGE BODY	66	"      and a.sfsb=c.sfsb
+"
+PKG_YWWSJ	PACKAGE BODY	67	"      and c.jzkh=d.jzkh
+"
+PKG_YWWSJ	PACKAGE BODY	68	"      and c.sfrq between ldt_jcfx_min and ldt_jcfx_max
+"
+PKG_YWWSJ	PACKAGE BODY	69	"    group by c.sfrq,c.jzkh,c.fphm,a.jchm,c.sfsb,c.ghxh,a.sjksdm,d.jbdm,b.fygb;
+"
+PKG_YWWSJ	PACKAGE BODY	70	" Begin
+"
+PKG_YWWSJ	PACKAGE BODY	71	"	 on_code := 1;                --成功
+"
+PKG_YWWSJ	PACKAGE BODY	72	"	 os_mess := '数据采集成功!';
+"
+PKG_YWWSJ	PACKAGE BODY	73	"   ldt_jcfx_min :=  to_date(to_char(in_jcfx_id), 'yyyy/mm/dd');
+"
+PKG_YWWSJ	PACKAGE BODY	74	"   ldt_jcfx_max :=  to_date(to_char(in_jcfx_id), 'yyyy/mm/dd')+86399/86400;
+"
+PKG_YWWSJ	PACKAGE BODY	75	"    IF in_jcfx_id = 0 THEN
+"
+PKG_YWWSJ	PACKAGE BODY	76	"      raise e_input;
+"
+PKG_YWWSJ	PACKAGE BODY	77	"    END IF;
+"
+PKG_YWWSJ	PACKAGE BODY	78	"    Select csz1
+"
+PKG_YWWSJ	PACKAGE BODY	79	"   	Into ls_Yybh
+"
+PKG_YWWSJ	PACKAGE BODY	80	"   	From gy_xtcs
+"
+PKG_YWWSJ	PACKAGE BODY	81	"  	Where xtxh = 0
+"
+PKG_YWWSJ	PACKAGE BODY	82	"   	 And csmc = 'YYBH';
+"
+PKG_YWWSJ	PACKAGE BODY	83	"delete mz_sfxx where yybh = ls_Yybh and sfrq between ldt_jcfx_min and ldt_jcfx_max;
+"
+PKG_YWWSJ	PACKAGE BODY	84	"commit;
+"
+PKG_YWWSJ	PACKAGE BODY	85	"OPEN cur_mz_sfxx;
+"
+PKG_YWWSJ	PACKAGE BODY	86	"Loop
+"
+PKG_YWWSJ	PACKAGE BODY	87	"FETCH cur_mz_sfxx INTO
+"
+PKG_YWWSJ	PACKAGE BODY	88	"      Ll_sfsb,Ls_jzkh,Ll_ghxh,Ls_cfhm,Ls_ksdm,Ls_jbdm,Ls_fphm,ldt_sfrq, ln_sfxm, ld_je;
+"
+PKG_YWWSJ	PACKAGE BODY	89	"EXIT WHEN cur_mz_sfxx %NOTFOUND;
+"
+PKG_YWWSJ	PACKAGE BODY	90	"   Begin
+"
+PKG_YWWSJ	PACKAGE BODY	91	"     select swsjsfxm
+"
+PKG_YWWSJ	PACKAGE BODY	92	"       into ll_csmc
+"
+PKG_YWWSJ	PACKAGE BODY	93	"       from gy_ylsf
+"
+PKG_YWWSJ	PACKAGE BODY	94	"      where ylxh = ln_sfxm;
+"
+PKG_YWWSJ	PACKAGE BODY	95	"   ls_sfsb :=to_char(ll_sfsb);
+"
+PKG_YWWSJ	PACKAGE BODY	96	"   ls_ghxh :=to_char(Ll_ghxh);
+"
+PKG_YWWSJ	PACKAGE BODY	97	"   If ll_csmc = 1 then
+"
+PKG_YWWSJ	PACKAGE BODY	98	"      ld_xyf :=  ld_je;
+"
+PKG_YWWSJ	PACKAGE BODY	99	"    	UPDATE mz_sfxx set xyf=xyf+ld_xyf,ypxj=ypxj+ld_xyf, hjje=hjje+ld_xyf
+"
+PKG_YWWSJ	PACKAGE BODY	100	"    	WHERE SFXH =Ls_sfsb;
+"
+PKG_YWWSJ	PACKAGE BODY	101	"      --	And  id=Ls_jzkh
+"
+PKG_YWWSJ	PACKAGE BODY	102	"      --	And  mzh=Ls_ghxh
+"
+PKG_YWWSJ	PACKAGE BODY	103	"      --	And  cfh=Ls_cfhm
+"
+PKG_YWWSJ	PACKAGE BODY	104	"      --	And  ksdm=Ls_ksdm
+"
+PKG_YWWSJ	PACKAGE BODY	105	"      --	And  jbdm=Ls_jbdm
+"
+PKG_YWWSJ	PACKAGE BODY	106	"      --  And  fphm=ls_fphm;
+"
+PKG_YWWSJ	PACKAGE BODY	107	"      --	And  sfrq=ldt_sfrq;
+"
+PKG_YWWSJ	PACKAGE BODY	108	"        IF SQL%NOTFOUND THEN
+"
+PKG_YWWSJ	PACKAGE BODY	109	"        	INSERT INTO mz_sfxx (yybh,sfxh,id,mzh,cfh,ksdm,jbdm,fphm,sfrq,xyf,zyf,cyf,ypxj,ghf,zcf,jcf,zlf,ssf,hyf,qtf,ylxj,hjje)
+"
+PKG_YWWSJ	PACKAGE BODY	110	"        	VALUES (Ls_yybh,Ls_sfsb,Ls_jzkh,Ls_ghxh,Ls_cfhm,Ls_ksdm,Ls_jbdm,Ls_fphm,ldt_sfrq,ld_xyf,0,0,ld_xyf,0,0,0,0,0,0,0,0,ld_xyf);
+"
+PKG_YWWSJ	PACKAGE BODY	111	"        END IF;
+"
+PKG_YWWSJ	PACKAGE BODY	112	"   Elsif ll_csmc = 3 then
+"
+PKG_YWWSJ	PACKAGE BODY	113	"      ld_cyf := ld_je;
+"
+PKG_YWWSJ	PACKAGE BODY	114	"    	UPDATE mz_sfxx set cyf=cyf+ld_cyf,ypxj=ypxj+ld_cyf, hjje=hjje+ld_cyf
+"
+PKG_YWWSJ	PACKAGE BODY	115	"    		WHERE SFXH =Ls_sfsb;
+"
+PKG_YWWSJ	PACKAGE BODY	116	"      --	And  id=Ls_jzkh
+"
+PKG_YWWSJ	PACKAGE BODY	117	"      --	And  mzh=Ls_ghxh
+"
+PKG_YWWSJ	PACKAGE BODY	118	"      --	And  cfh=Ls_cfhm
+"
+PKG_YWWSJ	PACKAGE BODY	119	"      --	And  ksdm=Ls_ksdm
+"
+PKG_YWWSJ	PACKAGE BODY	120	"      --	And  jbdm=Ls_jbdm
+"
+PKG_YWWSJ	PACKAGE BODY	121	"      --  And  fphm=ls_fphm;
+"
+PKG_YWWSJ	PACKAGE BODY	122	"      --	And  sfrq=ldt_sfrq;
+"
+PKG_YWWSJ	PACKAGE BODY	123	"        IF SQL%NOTFOUND THEN
+"
+PKG_YWWSJ	PACKAGE BODY	124	"        	INSERT INTO mz_sfxx (yybh,sfxh,id,mzh,cfh,ksdm,jbdm,fphm,sfrq,xyf,zyf,cyf,ypxj,ghf,zcf,jcf,zlf,ssf,hyf,qtf,ylxj,hjje)
+"
+PKG_YWWSJ	PACKAGE BODY	125	"        	VALUES (Ls_yybh,Ls_sfsb,Ls_jzkh,Ls_ghxh,Ls_cfhm,Ls_ksdm,Ls_jbdm,Ls_fphm,ldt_sfrq,0,0,ld_cyf,ld_cyf,0,0,0,0,0,0,0,0,ld_cyf);
+"
+PKG_YWWSJ	PACKAGE BODY	126	"        END IF;
+"
+PKG_YWWSJ	PACKAGE BODY	127	"   ElsIf ll_csmc = 2 then
+"
+PKG_YWWSJ	PACKAGE BODY	128	"      ld_zyf := ld_je;
+"
+PKG_YWWSJ	PACKAGE BODY	129	"    	UPDATE mz_sfxx set zyf=zyf+ld_zyf,ypxj=ypxj+ld_zyf, hjje=hjje+ld_zyf
+"
+PKG_YWWSJ	PACKAGE BODY	130	"    		WHERE SFXH =Ls_sfsb;
+"
+PKG_YWWSJ	PACKAGE BODY	131	"      --	And  id=Ls_jzkh
+"
+PKG_YWWSJ	PACKAGE BODY	132	"      --	And  mzh=Ls_ghxh
+"
+PKG_YWWSJ	PACKAGE BODY	133	"      --	And  cfh=Ls_cfhm
+"
+PKG_YWWSJ	PACKAGE BODY	134	"      --	And  ksdm=Ls_ksdm
+"
+PKG_YWWSJ	PACKAGE BODY	135	"      --	And  jbdm=Ls_jbdm
+"
+PKG_YWWSJ	PACKAGE BODY	136	"      --  And  fphm=ls_fphm;
+"
+PKG_YWWSJ	PACKAGE BODY	137	"      --	And  sfrq=ldt_sfrq;
+"
+PKG_YWWSJ	PACKAGE BODY	138	"        IF SQL%NOTFOUND THEN
+"
+PKG_YWWSJ	PACKAGE BODY	139	"        	INSERT INTO mz_sfxx (yybh,sfxh,id,mzh,cfh,ksdm,jbdm,fphm,sfrq,xyf,zyf,cyf,ypxj,ghf,zcf,jcf,zlf,ssf,hyf,qtf,ylxj,hjje)
+"
+PKG_YWWSJ	PACKAGE BODY	140	"        	VALUES (Ls_yybh,Ls_sfsb,Ls_jzkh,Ls_ghxh,Ls_cfhm,Ls_ksdm,Ls_jbdm,Ls_fphm,ldt_sfrq,0,ld_zyf,0,ld_zyf,0,0,0,0,0,0,0,0,ld_zyf);
+"
+PKG_YWWSJ	PACKAGE BODY	141	"        END IF;
+"
+PKG_YWWSJ	PACKAGE BODY	142	"   ElsIf ll_csmc = 5 then
+"
+PKG_YWWSJ	PACKAGE BODY	143	"      ld_ghf := ld_je;
+"
+PKG_YWWSJ	PACKAGE BODY	144	"    	UPDATE mz_sfxx set ghf=ghf+ld_ghf,ylxj=ylxj+ld_ghf, hjje=hjje+ld_ghf
+"
+PKG_YWWSJ	PACKAGE BODY	145	"    		WHERE SFXH =Ls_sfsb;
+"
+PKG_YWWSJ	PACKAGE BODY	146	"      --	And  id=Ls_jzkh
+"
+PKG_YWWSJ	PACKAGE BODY	147	"      --	And  mzh=Ls_ghxh
+"
+PKG_YWWSJ	PACKAGE BODY	148	"      --	And  cfh=Ls_cfhm
+"
+PKG_YWWSJ	PACKAGE BODY	149	"      --	And  ksdm=Ls_ksdm
+"
+PKG_YWWSJ	PACKAGE BODY	150	"      --	And  jbdm=Ls_jbdm
+"
+PKG_YWWSJ	PACKAGE BODY	151	"      --  And  fphm=ls_fphm;
+"
+PKG_YWWSJ	PACKAGE BODY	152	"      --	And  sfrq=ldt_sfrq;
+"
+PKG_YWWSJ	PACKAGE BODY	153	"        IF SQL%NOTFOUND THEN
+"
+PKG_YWWSJ	PACKAGE BODY	154	"        	INSERT INTO mz_sfxx (yybh,sfxh,id,mzh,cfh,ksdm,jbdm,fphm,sfrq,xyf,zyf,cyf,ypxj,ghf,zcf,jcf,zlf,ssf,hyf,qtf,ylxj,hjje)
+"
+PKG_YWWSJ	PACKAGE BODY	155	"        	VALUES (Ls_yybh,Ls_sfsb,Ls_jzkh,Ls_ghxh,Ls_cfhm,Ls_ksdm,Ls_jbdm,Ls_fphm,ldt_sfrq,0,0,0,0,ld_ghf,0,0,0,0,0,0,ld_ghf,ld_ghf);
+"
+PKG_YWWSJ	PACKAGE BODY	156	"        END IF;
+"
+PKG_YWWSJ	PACKAGE BODY	157	"   ElsIf ll_csmc = 6 then
+"
+PKG_YWWSJ	PACKAGE BODY	158	"      ld_zcf := ld_je;
+"
+PKG_YWWSJ	PACKAGE BODY	159	"    	UPDATE mz_sfxx set zcf=zcf+ld_zcf,ylxj=ylxj+ld_zcf, hjje=hjje+ld_zcf
+"
+PKG_YWWSJ	PACKAGE BODY	160	"    		WHERE SFXH =Ls_sfsb;
+"
+PKG_YWWSJ	PACKAGE BODY	161	"      --	And  id=Ls_jzkh
+"
+PKG_YWWSJ	PACKAGE BODY	162	"      --	And  mzh=Ls_ghxh
+"
+PKG_YWWSJ	PACKAGE BODY	163	"      --	And  cfh=Ls_cfhm
+"
+PKG_YWWSJ	PACKAGE BODY	164	"      --	And  ksdm=Ls_ksdm
+"
+PKG_YWWSJ	PACKAGE BODY	165	"      -- 	And  jbdm=Ls_jbdm
+"
+PKG_YWWSJ	PACKAGE BODY	166	"      --   And  fphm=ls_fphm;
+"
+PKG_YWWSJ	PACKAGE BODY	167	"      --	And  sfrq=ldt_sfrq;
+"
+PKG_YWWSJ	PACKAGE BODY	168	"        IF SQL%NOTFOUND THEN
+"
+PKG_YWWSJ	PACKAGE BODY	169	"        	INSERT INTO mz_sfxx (yybh,sfxh,id,mzh,cfh,ksdm,jbdm,fphm,sfrq,xyf,zyf,cyf,ypxj,ghf,zcf,jcf,zlf,ssf,hyf,qtf,ylxj,hjje)
+"
+PKG_YWWSJ	PACKAGE BODY	170	"        	VALUES (Ls_yybh,Ls_sfsb,Ls_jzkh,Ls_ghxh,Ls_cfhm,Ls_ksdm,Ls_jbdm,Ls_fphm,ldt_sfrq,0,0,0,0,0,ld_zcf,0,0,0,0,0,ld_zcf,ld_zcf);
+"
+PKG_YWWSJ	PACKAGE BODY	171	"        END IF;
+"
+PKG_YWWSJ	PACKAGE BODY	172	"   ElsIf ll_csmc = 7 then
+"
+PKG_YWWSJ	PACKAGE BODY	173	"      ld_jcf := ld_je;
+"
+PKG_YWWSJ	PACKAGE BODY	174	"    	UPDATE mz_sfxx set jcf=jcf+ld_jcf,ylxj=ylxj+ld_jcf, hjje=hjje+ld_jcf
+"
+PKG_YWWSJ	PACKAGE BODY	175	"    		WHERE SFXH =Ls_sfsb;
+"
+PKG_YWWSJ	PACKAGE BODY	176	"      --	And  id=Ls_jzkh
+"
+PKG_YWWSJ	PACKAGE BODY	177	"      --	And  mzh=Ls_ghxh
+"
+PKG_YWWSJ	PACKAGE BODY	178	"      --	And  cfh=Ls_cfhm
+"
+PKG_YWWSJ	PACKAGE BODY	179	"      --	And  ksdm=Ls_ksdm
+"
+PKG_YWWSJ	PACKAGE BODY	180	"      --	And  jbdm=Ls_jbdm
+"
+PKG_YWWSJ	PACKAGE BODY	181	"      --  And  fphm=ls_fphm;
+"
+PKG_YWWSJ	PACKAGE BODY	182	"      --	And  sfrq=ldt_sfrq;
+"
+PKG_YWWSJ	PACKAGE BODY	183	"        IF SQL%NOTFOUND THEN
+"
+PKG_YWWSJ	PACKAGE BODY	184	"        	INSERT INTO mz_sfxx (yybh,sfxh,id,mzh,cfh,ksdm,jbdm,fphm,sfrq,xyf,zyf,cyf,ypxj,ghf,zcf,jcf,zlf,ssf,hyf,qtf,ylxj,hjje)
+"
+PKG_YWWSJ	PACKAGE BODY	185	"        	VALUES (Ls_yybh,Ls_sfsb,Ls_jzkh,Ls_ghxh,Ls_cfhm,Ls_ksdm,Ls_jbdm,Ls_fphm,ldt_sfrq,0,0,0,0,0,0,ld_jcf,0,0,0,0,ld_jcf,ld_jcf);
+"
+PKG_YWWSJ	PACKAGE BODY	186	"        END IF;
+"
+PKG_YWWSJ	PACKAGE BODY	187	"Elsif ll_csmc = 8 then
+"
+PKG_YWWSJ	PACKAGE BODY	188	"      ld_zlf := ld_je;
+"
+PKG_YWWSJ	PACKAGE BODY	189	"    	UPDATE mz_sfxx set zlf=zlf+ld_zlf,ylxj=ylxj+ld_zlf, hjje=hjje+ld_zlf
+"
+PKG_YWWSJ	PACKAGE BODY	190	"    	WHERE SFXH =Ls_sfsb;
+"
+PKG_YWWSJ	PACKAGE BODY	191	"      --	And  id=Ls_jzkh
+"
+PKG_YWWSJ	PACKAGE BODY	192	"     -- 	And  mzh=Ls_ghxh
+"
+PKG_YWWSJ	PACKAGE BODY	193	"      --	And  cfh=Ls_cfhm
+"
+PKG_YWWSJ	PACKAGE BODY	194	"      --	And  ksdm=Ls_ksdm
+"
+PKG_YWWSJ	PACKAGE BODY	195	"      --	And  jbdm=Ls_jbdm
+"
+PKG_YWWSJ	PACKAGE BODY	196	"      --  And  fphm=ls_fphm;
+"
+PKG_YWWSJ	PACKAGE BODY	197	"      	--And  sfrq=ldt_sfrq;
+"
+PKG_YWWSJ	PACKAGE BODY	198	"        IF SQL%NOTFOUND THEN
+"
+PKG_YWWSJ	PACKAGE BODY	199	"        	INSERT INTO mz_sfxx (yybh,sfxh,id,mzh,cfh,ksdm,jbdm,fphm,sfrq,xyf,zyf,cyf,ypxj,ghf,zcf,jcf,zlf,ssf,hyf,qtf,ylxj,hjje)
+"
+PKG_YWWSJ	PACKAGE BODY	200	"        	VALUES (Ls_yybh,Ls_sfsb,Ls_jzkh,Ls_ghxh,Ls_cfhm,Ls_ksdm,Ls_jbdm,Ls_fphm,ldt_sfrq,0,0,0,0,0,0,0,ld_zlf,0,0,0,ld_zlf,ld_zlf);
+"
+PKG_YWWSJ	PACKAGE BODY	201	"        END IF;
+"
+PKG_YWWSJ	PACKAGE BODY	202	" elsif ll_csmc = 9 then
+"
+PKG_YWWSJ	PACKAGE BODY	203	"      ld_ssf := ld_je;
+"
+PKG_YWWSJ	PACKAGE BODY	204	"    	UPDATE mz_sfxx set ssf=ssf+ld_ssf,ylxj=ylxj+ld_ssf, hjje=hjje+ld_ssf
+"
+PKG_YWWSJ	PACKAGE BODY	205	"    		WHERE SFXH =Ls_sfsb;
+"
+PKG_YWWSJ	PACKAGE BODY	206	"      --	And  id=Ls_jzkh
+"
+PKG_YWWSJ	PACKAGE BODY	207	"      --	And  mzh=Ls_ghxh
+"
+PKG_YWWSJ	PACKAGE BODY	208	"      --	And  cfh=Ls_cfhm
+"
+PKG_YWWSJ	PACKAGE BODY	209	"      --	And  ksdm=Ls_ksdm
+"
+PKG_YWWSJ	PACKAGE BODY	210	"      --	And  jbdm=Ls_jbdm
+"
+PKG_YWWSJ	PACKAGE BODY	211	"      --  And  fphm=ls_fphm;
+"
+PKG_YWWSJ	PACKAGE BODY	212	"      	--And  sfrq=ldt_sfrq;
+"
+PKG_YWWSJ	PACKAGE BODY	213	"        IF SQL%NOTFOUND THEN
+"
+PKG_YWWSJ	PACKAGE BODY	214	"        	INSERT INTO mz_sfxx (yybh,sfxh,id,mzh,cfh,ksdm,jbdm,fphm,sfrq,xyf,zyf,cyf,ypxj,ghf,zcf,jcf,zlf,ssf,hyf,qtf,ylxj,hjje)
+"
+PKG_YWWSJ	PACKAGE BODY	215	"        	VALUES (Ls_yybh,Ls_sfsb,Ls_jzkh,Ls_ghxh,Ls_cfhm,Ls_ksdm,Ls_jbdm,Ls_fphm,ldt_sfrq,0,0,0,0,0,0,0,0,ld_ssf,0,0,ld_ssf,ld_ssf);
+"
+PKG_YWWSJ	PACKAGE BODY	216	"        END IF;
+"
+PKG_YWWSJ	PACKAGE BODY	217	" elsif ll_csmc = 10 then
+"
+PKG_YWWSJ	PACKAGE BODY	218	"       ld_hyf := ld_je;
+"
+PKG_YWWSJ	PACKAGE BODY	219	"    	UPDATE mz_sfxx set hyf=hyf+ld_hyf,ylxj=ylxj+ld_hyf, hjje=hjje+ld_hyf
+"
+PKG_YWWSJ	PACKAGE BODY	220	"    	WHERE SFXH =Ls_sfsb;
+"
+PKG_YWWSJ	PACKAGE BODY	221	"      --	And  id=Ls_jzkh
+"
+PKG_YWWSJ	PACKAGE BODY	222	"      --	And  mzh=Ls_ghxh
+"
+PKG_YWWSJ	PACKAGE BODY	223	"      --	And  cfh=Ls_cfhm
+"
+PKG_YWWSJ	PACKAGE BODY	224	"      --	And  ksdm=Ls_ksdm
+"
+PKG_YWWSJ	PACKAGE BODY	225	"      --	And  jbdm=Ls_jbdm
+"
+PKG_YWWSJ	PACKAGE BODY	226	"      --  And  fphm=ls_fphm;
+"
+PKG_YWWSJ	PACKAGE BODY	227	"      	--And  sfrq=ldt_sfrq;
+"
+PKG_YWWSJ	PACKAGE BODY	228	"        IF SQL%NOTFOUND THEN
+"
+PKG_YWWSJ	PACKAGE BODY	229	"        	INSERT INTO mz_sfxx (yybh,sfxh,id,mzh,cfh,ksdm,jbdm,fphm,sfrq,xyf,zyf,cyf,ypxj,ghf,zcf,jcf,zlf,ssf,hyf,qtf,ylxj,hjje)
+"
+PKG_YWWSJ	PACKAGE BODY	230	"        	VALUES (Ls_yybh,Ls_sfsb,Ls_jzkh,Ls_ghxh,Ls_cfhm,Ls_ksdm,Ls_jbdm,Ls_fphm,ldt_sfrq,0,0,0,0,0,0,0,0,0,ld_hyf,0,ld_hyf,ld_hyf);
+"
+PKG_YWWSJ	PACKAGE BODY	231	"        END IF;
+"
+PKG_YWWSJ	PACKAGE BODY	232	" Else
+"
+PKG_YWWSJ	PACKAGE BODY	233	"        ld_qtf := ld_je;
+"
+PKG_YWWSJ	PACKAGE BODY	234	"    	UPDATE mz_sfxx set qtf=qtf+ld_qtf,ylxj=ylxj+ld_qtf, hjje=hjje+ld_qtf
+"
+PKG_YWWSJ	PACKAGE BODY	235	"    		WHERE SFXH =Ls_sfsb;
+"
+PKG_YWWSJ	PACKAGE BODY	236	"      --	And  id=Ls_jzkh
+"
+PKG_YWWSJ	PACKAGE BODY	237	"      --	And  mzh=Ls_ghxh
+"
+PKG_YWWSJ	PACKAGE BODY	238	"      --	And  cfh=Ls_cfhm
+"
+PKG_YWWSJ	PACKAGE BODY	239	"      --	And  ksdm=Ls_ksdm
+"
+PKG_YWWSJ	PACKAGE BODY	240	"      --	And  jbdm=Ls_jbdm
+"
+PKG_YWWSJ	PACKAGE BODY	241	"      --  And  fphm=ls_fphm;
+"
+PKG_YWWSJ	PACKAGE BODY	242	"      	--And  sfrq=ldt_sfrq;
+"
+PKG_YWWSJ	PACKAGE BODY	243	"        IF SQL%NOTFOUND THEN
+"
+PKG_YWWSJ	PACKAGE BODY	244	"        	INSERT INTO mz_sfxx (yybh,sfxh,id,mzh,cfh,ksdm,jbdm,fphm,sfrq,xyf,zyf,cyf,ypxj,ghf,zcf,jcf,zlf,ssf,hyf,qtf,ylxj,hjje)
+"
+PKG_YWWSJ	PACKAGE BODY	245	"        	VALUES (Ls_yybh,Ls_sfsb,Ls_jzkh,Ls_ghxh,Ls_cfhm,Ls_ksdm,Ls_jbdm,Ls_fphm,ldt_sfrq,0,0,0,0,0,0,0,0,0,0,ld_qtf,ld_qtf,ld_qtf);
+"
+PKG_YWWSJ	PACKAGE BODY	246	"        END IF;
+"
+PKG_YWWSJ	PACKAGE BODY	247	"  End If;
+"
+PKG_YWWSJ	PACKAGE BODY	248	"
+"
+PKG_YWWSJ	PACKAGE BODY	249	"	EXCEPTION
+"
+PKG_YWWSJ	PACKAGE BODY	250	"		When Others Then
+"
+PKG_YWWSJ	PACKAGE BODY	251	"   Rollback;
+"
+PKG_YWWSJ	PACKAGE BODY	252	"      on_code := -1;
+"
+PKG_YWWSJ	PACKAGE BODY	253	"      os_mess := 'prc_mz_sfxx数据采集失败!';
+"
+PKG_YWWSJ	PACKAGE BODY	254	"End;
+"
+PKG_YWWSJ	PACKAGE BODY	255	"End Loop;
+"
+PKG_YWWSJ	PACKAGE BODY	256	"  Commit;
+"
+PKG_YWWSJ	PACKAGE BODY	257	"EXCEPTION
+"
+PKG_YWWSJ	PACKAGE BODY	258	"	WHEN e_input THEN
+"
+PKG_YWWSJ	PACKAGE BODY	259	"	     on_code :=  0;
+"
+PKG_YWWSJ	PACKAGE BODY	260	"	     os_mess := '输入参数错误!';
+"
+PKG_YWWSJ	PACKAGE BODY	261	"   	WHEN others THEN
+"
+PKG_YWWSJ	PACKAGE BODY	262	"     ROLLBACK;
+"
+PKG_YWWSJ	PACKAGE BODY	263	"	on_code := -1;
+"
+PKG_YWWSJ	PACKAGE BODY	264	"	os_mess := 'prc_mz_sfxx数据采集失败!';
+"
+PKG_YWWSJ	PACKAGE BODY	265	"End;
+"
+PKG_YWWSJ	PACKAGE BODY	266	"End prc_mz_sfxx;
+"
+PKG_YWWSJ	PACKAGE BODY	267	"
+"
+PKG_YWWSJ	PACKAGE BODY	268	"Procedure prc_zy_sfxx ( in_jcfx_id   In    NUMBER,
+"
+PKG_YWWSJ	PACKAGE BODY	269	"                           on_code      Out   NUMBER,
+"
+PKG_YWWSJ	PACKAGE BODY	270	"                           os_mess      Out   VARCHAR2)
+"
+PKG_YWWSJ	PACKAGE BODY	271	"Is
+"
+PKG_YWWSJ	PACKAGE BODY	272	"Begin
+"
+PKG_YWWSJ	PACKAGE BODY	273	"  Declare
+"
+PKG_YWWSJ	PACKAGE BODY	274	"    e_input          EXCEPTION;
+"
+PKG_YWWSJ	PACKAGE BODY	275	"    ll_ZYXH          NUMBER(10);
+"
+PKG_YWWSJ	PACKAGE BODY	276	"    ls_ZYXH          VARCHAR2(10);
+"
+PKG_YWWSJ	PACKAGE BODY	277	"    ls_JZKH          VARCHAR2(40);
+"
+PKG_YWWSJ	PACKAGE BODY	278	"    ls_BAH           VARCHAR2(10);
+"
+PKG_YWWSJ	PACKAGE BODY	279	"    ls_KSDM          VARCHAR2(10);
+"
+PKG_YWWSJ	PACKAGE BODY	280	"    ls_FPHM          VARCHAR2(10);
+"
+PKG_YWWSJ	PACKAGE BODY	281	"    ldt_SFRQ          DATE;
+"
+PKG_YWWSJ	PACKAGE BODY	282	"    ls_yybh          VARCHAR2(30);
+"
+PKG_YWWSJ	PACKAGE BODY	283	"    ll_csmc          VARCHAR2(30);
+"
+PKG_YWWSJ	PACKAGE BODY	284	"    ldt_jcfx_min     DATE;
+"
+PKG_YWWSJ	PACKAGE BODY	285	"    ll_sfxm          NUMBER(6);
+"
+PKG_YWWSJ	PACKAGE BODY	286	"    ld_XYF           NUMBER(10,2);
+"
+PKG_YWWSJ	PACKAGE BODY	287	"    ld_ZYF           NUMBER(10,2);
+"
+PKG_YWWSJ	PACKAGE BODY	288	"    ld_CYF           NUMBER(10,2);
+"
+PKG_YWWSJ	PACKAGE BODY	289	"    ld_CWf           NUMBER(10,2);
+"
+PKG_YWWSJ	PACKAGE BODY	290	"    ld_GHF           NUMBER(10,2);
+"
+PKG_YWWSJ	PACKAGE BODY	291	"    ld_ZCF           NUMBER(10,2);
+"
+PKG_YWWSJ	PACKAGE BODY	292	"    ld_JCF           NUMBER(10,2);
+"
+PKG_YWWSJ	PACKAGE BODY	293	"    ld_ZLF           NUMBER(10,2);
+"
+PKG_YWWSJ	PACKAGE BODY	294	"    ld_SSF           NUMBER(10,2);
+"
+PKG_YWWSJ	PACKAGE BODY	295	"    ld_HYF           NUMBER(10,2);
+"
+PKG_YWWSJ	PACKAGE BODY	296	"    ld_HLF           NUMBER(10,2);
+"
+PKG_YWWSJ	PACKAGE BODY	297	"    ld_QTF           NUMBER(10,2);
+"
+PKG_YWWSJ	PACKAGE BODY	298	"    ld_je            NUMBER(10,2);
+"
+PKG_YWWSJ	PACKAGE BODY	299	"    ldt_jcfx_max     DATE;
+"
+PKG_YWWSJ	PACKAGE BODY	300	"CURSOR cur_zy_sfxx Is
+"
+PKG_YWWSJ	PACKAGE BODY	301	"     select b.patient_no zyxh,                                --住院流水号
+"
+PKG_YWWSJ	PACKAGE BODY	302	"		        c.jzkh jzkh,                                      --就诊号
+"
+PKG_YWWSJ	PACKAGE BODY	303	"		        c.bah bah,                                        --病案号
+"
+PKG_YWWSJ	PACKAGE BODY	304	"		        b.curr_ks,                                        --科室
+"
+PKG_YWWSJ	PACKAGE BODY	305	"		        b.receipt_no fphm,
+"
+PKG_YWWSJ	PACKAGE BODY	306	"            b.rb_date cyrq,                               --发票号码
+"
+PKG_YWWSJ	PACKAGE BODY	307	"		        a.sfxm_code sfxm,                                 --收费项目
+"
+PKG_YWWSJ	PACKAGE BODY	308	"		         sum(nvl(a.je,0)) je                               --金额
+"
+PKG_YWWSJ	PACKAGE BODY	309	"      from  zy_bill_fee a,
+"
+PKG_YWWSJ	PACKAGE BODY	310	"	          zy_total_fee b,
+"
+PKG_YWWSJ	PACKAGE BODY	311	"		        zy_patient_information c
+"
+PKG_YWWSJ	PACKAGE BODY	312	"      where a.patient_no=b.patient_no
+"
+PKG_YWWSJ	PACKAGE BODY	313	"       and a.js_no=b.js_no
+"
+PKG_YWWSJ	PACKAGE BODY	314	"       and a.infant_flag=b.infant_flag
+"
+PKG_YWWSJ	PACKAGE BODY	315	"       and b.patient_no=c.patient_no
+"
+PKG_YWWSJ	PACKAGE BODY	316	"       and b.js_no=c.js_no
+"
+PKG_YWWSJ	PACKAGE BODY	317	"       and b.rb_date between ldt_jcfx_min and ldt_jcfx_max
+"
+PKG_YWWSJ	PACKAGE BODY	318	"  group by b.patient_no,c.jzkh ,
+"
+PKG_YWWSJ	PACKAGE BODY	319	"		       c.bah,
+"
+PKG_YWWSJ	PACKAGE BODY	320	"		       b.curr_ks,
+"
+PKG_YWWSJ	PACKAGE BODY	321	"		       b.receipt_no,
+"
+PKG_YWWSJ	PACKAGE BODY	322	"		       b.rb_date,
+"
+PKG_YWWSJ	PACKAGE BODY	323	"		       a.sfxm_code ;
+"
+PKG_YWWSJ	PACKAGE BODY	324	" Begin
+"
+PKG_YWWSJ	PACKAGE BODY	325	"	on_code := 1;                --成功
+"
+PKG_YWWSJ	PACKAGE BODY	326	"	os_mess := '数据采集成功!';
+"
+PKG_YWWSJ	PACKAGE BODY	327	"  ldt_jcfx_min :=  to_date(to_char(in_jcfx_id), 'yyyy/mm/dd');
+"
+PKG_YWWSJ	PACKAGE BODY	328	"   ldt_jcfx_max :=  to_date(to_char(in_jcfx_id), 'yyyy/mm/dd')+86399/86400;
+"
+PKG_YWWSJ	PACKAGE BODY	329	"    IF in_jcfx_id = 0 THEN
+"
+PKG_YWWSJ	PACKAGE BODY	330	"      raise e_input;
+"
+PKG_YWWSJ	PACKAGE BODY	331	"    END IF;
+"
+PKG_YWWSJ	PACKAGE BODY	332	"       Select csz1
+"
+PKG_YWWSJ	PACKAGE BODY	333	"   	Into ls_Yybh
+"
+PKG_YWWSJ	PACKAGE BODY	334	"   	From gy_xtcs
+"
+PKG_YWWSJ	PACKAGE BODY	335	"  	Where xtxh = 0
+"
+PKG_YWWSJ	PACKAGE BODY	336	"   	 And csmc = 'YYBH';
+"
+PKG_YWWSJ	PACKAGE BODY	337	"
+"
+PKG_YWWSJ	PACKAGE BODY	338	"delete zy_sfxx where yybh = ls_yybh and (sfrq between ldt_jcfx_min and ldt_jcfx_max);
+"
+PKG_YWWSJ	PACKAGE BODY	339	"commit;
+"
+PKG_YWWSJ	PACKAGE BODY	340	"OPEN cur_zy_sfxx;
+"
+PKG_YWWSJ	PACKAGE BODY	341	"Loop
+"
+PKG_YWWSJ	PACKAGE BODY	342	"FETCH cur_zy_sfxx INTO
+"
+PKG_YWWSJ	PACKAGE BODY	343	"      Ll_zyxh,Ls_jzkh,ls_bah,Ls_ksdm,Ls_fphm,ldt_sfrq, ll_sfxm, ld_je;
+"
+PKG_YWWSJ	PACKAGE BODY	344	"EXIT WHEN cur_zy_sfxx %NOTFOUND;
+"
+PKG_YWWSJ	PACKAGE BODY	345	"   Begin
+"
+PKG_YWWSJ	PACKAGE BODY	346	"    select swsjsfxm
+"
+PKG_YWWSJ	PACKAGE BODY	347	"       into ll_csmc
+"
+PKG_YWWSJ	PACKAGE BODY	348	"       from gy_ylsf
+"
+PKG_YWWSJ	PACKAGE BODY	349	"      where ylxh = ll_sfxm;
+"
+PKG_YWWSJ	PACKAGE BODY	350	"   ls_zyxh :=to_char(ll_zyxh);
+"
+PKG_YWWSJ	PACKAGE BODY	351	"   If ll_csmc = 1 then
+"
+PKG_YWWSJ	PACKAGE BODY	352	"      ld_xyf :=  ld_je;
+"
+PKG_YWWSJ	PACKAGE BODY	353	"    UPDATE zy_sfxx set xyf=xyf+ld_xyf,ypxj=ypxj+ld_xyf, hjje=hjje+ld_xyf
+"
+PKG_YWWSJ	PACKAGE BODY	354	"    WHERE zyXH =Ls_zyxh
+"
+PKG_YWWSJ	PACKAGE BODY	355	"        --  And  id=Ls_jzkh
+"
+PKG_YWWSJ	PACKAGE BODY	356	"          And  bah=ls_bah;
+"
+PKG_YWWSJ	PACKAGE BODY	357	"          --And  ksdm=Ls_ksdm ;
+"
+PKG_YWWSJ	PACKAGE BODY	358	"         -- And  fphm=ls_fphm;
+"
+PKG_YWWSJ	PACKAGE BODY	359	"        --  And  sfrq=ldt_sfrq;
+"
+PKG_YWWSJ	PACKAGE BODY	360	"        IF SQL%NOTFOUND THEN
+"
+PKG_YWWSJ	PACKAGE BODY	361	"          INSERT INTO zy_sfxx (yybh,zyxh,id,bah,ksdm,fphm,sfrq,xyf,zyf,cyf,ypxj,cwf,ghf,zcf,jcf,zlf,ssf,hyf,hlf,qtf,ylxj,hjje)
+"
+PKG_YWWSJ	PACKAGE BODY	362	"          VALUES (Ls_yybh,Ls_zyxh,Ls_jzkh,Ls_bah,Ls_ksdm,Ls_fphm,ldt_sfrq,ld_xyf,0,0,ld_xyf,0,0,0,0,0,0,0,0,0,0,ld_xyf);
+"
+PKG_YWWSJ	PACKAGE BODY	363	"        END IF;
+"
+PKG_YWWSJ	PACKAGE BODY	364	"   Elsif ll_csmc = 3 then
+"
+PKG_YWWSJ	PACKAGE BODY	365	"      ld_cyf := ld_je;
+"
+PKG_YWWSJ	PACKAGE BODY	366	"    UPDATE zy_sfxx set cyf=cyf+ld_cyf,ypxj=ypxj+ld_cyf, hjje=hjje+ld_cyf
+"
+PKG_YWWSJ	PACKAGE BODY	367	"     WHERE zyXH =Ls_zyxh
+"
+PKG_YWWSJ	PACKAGE BODY	368	"        --  And  id=Ls_jzkh
+"
+PKG_YWWSJ	PACKAGE BODY	369	"          And  bah=ls_bah;
+"
+PKG_YWWSJ	PACKAGE BODY	370	"          --And  ksdm=Ls_ksdm ;
+"
+PKG_YWWSJ	PACKAGE BODY	371	"         -- And  fphm=ls_fphm;
+"
+PKG_YWWSJ	PACKAGE BODY	372	"        --  And  sfrq=ldt_sfrq;
+"
+PKG_YWWSJ	PACKAGE BODY	373	"        IF SQL%NOTFOUND THEN
+"
+PKG_YWWSJ	PACKAGE BODY	374	"          INSERT INTO zy_sfxx (yybh,zyxh,id,bah,ksdm,fphm,sfrq,xyf,zyf,cyf,ypxj,cwf,ghf,zcf,jcf,zlf,ssf,hyf,hlf,qtf,ylxj,hjje)
+"
+PKG_YWWSJ	PACKAGE BODY	375	"          VALUES (Ls_yybh,Ls_zyxh,Ls_jzkh,Ls_bah,Ls_ksdm,Ls_fphm,ldt_sfrq,0,0,ld_cyf,ld_cyf,0,0,0,0,0,0,0,0,0,0,ld_cyf);
+"
+PKG_YWWSJ	PACKAGE BODY	376	"        END IF;
+"
+PKG_YWWSJ	PACKAGE BODY	377	"   ElsIf ll_csmc = 2 then
+"
+PKG_YWWSJ	PACKAGE BODY	378	"      ld_zyf := ld_je;
+"
+PKG_YWWSJ	PACKAGE BODY	379	"    UPDATE zy_sfxx set zyf=zyf+ld_zyf,ypxj=ypxj+ld_zyf, hjje=hjje+ld_zyf
+"
+PKG_YWWSJ	PACKAGE BODY	380	"     WHERE zyXH =Ls_zyxh
+"
+PKG_YWWSJ	PACKAGE BODY	381	"        --  And  id=Ls_jzkh
+"
+PKG_YWWSJ	PACKAGE BODY	382	"          And  bah=ls_bah;
+"
+PKG_YWWSJ	PACKAGE BODY	383	"          --And  ksdm=Ls_ksdm ;
+"
+PKG_YWWSJ	PACKAGE BODY	384	"         -- And  fphm=ls_fphm;
+"
+PKG_YWWSJ	PACKAGE BODY	385	"        --  And  sfrq=ldt_sfrq;
+"
+PKG_YWWSJ	PACKAGE BODY	386	"        IF SQL%NOTFOUND THEN
+"
+PKG_YWWSJ	PACKAGE BODY	387	"          INSERT INTO zy_sfxx (yybh,zyxh,id,bah,ksdm,fphm,sfrq,xyf,zyf,cyf,ypxj,cwf,ghf,zcf,jcf,zlf,ssf,hyf,hlf,qtf,ylxj,hjje)
+"
+PKG_YWWSJ	PACKAGE BODY	388	"          VALUES (Ls_yybh,Ls_zyxh,Ls_jzkh,Ls_bah,Ls_ksdm,Ls_fphm,ldt_sfrq,0,ld_zyf,0,ld_zyf,0,0,0,0,0,0,0,0,0,0,ld_zyf);
+"
+PKG_YWWSJ	PACKAGE BODY	389	"        END IF;
+"
+PKG_YWWSJ	PACKAGE BODY	390	"   ElsIf ll_csmc = 4 then
+"
+PKG_YWWSJ	PACKAGE BODY	391	"      ld_cwf := ld_je;
+"
+PKG_YWWSJ	PACKAGE BODY	392	"    UPDATE zy_sfxx set cwf=cwf+ld_cwf,ylxj=ylxj+ld_cwf, hjje=hjje+ld_cwf
+"
+PKG_YWWSJ	PACKAGE BODY	393	"    WHERE zyXH =Ls_zyxh
+"
+PKG_YWWSJ	PACKAGE BODY	394	"        --  And  id=Ls_jzkh
+"
+PKG_YWWSJ	PACKAGE BODY	395	"          And  bah=ls_bah;
+"
+PKG_YWWSJ	PACKAGE BODY	396	"          --And  ksdm=Ls_ksdm ;
+"
+PKG_YWWSJ	PACKAGE BODY	397	"         -- And  fphm=ls_fphm;
+"
+PKG_YWWSJ	PACKAGE BODY	398	"        --  And  sfrq=ldt_sfrq;
+"
+PKG_YWWSJ	PACKAGE BODY	399	"        IF SQL%NOTFOUND THEN
+"
+PKG_YWWSJ	PACKAGE BODY	400	"          INSERT INTO zy_sfxx (yybh,zyxh,id,bah,ksdm,fphm,sfrq,xyf,zyf,cyf,ypxj,cwf,ghf,zcf,jcf,zlf,ssf,hyf,hlf,qtf,ylxj,hjje)
+"
+PKG_YWWSJ	PACKAGE BODY	401	"          VALUES (Ls_yybh,Ls_zyxh,Ls_jzkh,Ls_bah,Ls_ksdm,Ls_fphm,ldt_sfrq,0,0,0,0,ld_cwf,0,0,0,0,0,0,0,0,ld_cwf,ld_cwf);
+"
+PKG_YWWSJ	PACKAGE BODY	402	"        END IF;
+"
+PKG_YWWSJ	PACKAGE BODY	403	"   ElsIf ll_csmc = 5 then
+"
+PKG_YWWSJ	PACKAGE BODY	404	"      ld_ghf := ld_je;
+"
+PKG_YWWSJ	PACKAGE BODY	405	"    UPDATE zy_sfxx set ghf=ghf+ld_ghf,ylxj=ylxj+ld_ghf, hjje=hjje+ld_ghf
+"
+PKG_YWWSJ	PACKAGE BODY	406	"    WHERE zyXH =Ls_zyxh
+"
+PKG_YWWSJ	PACKAGE BODY	407	"        --  And  id=Ls_jzkh
+"
+PKG_YWWSJ	PACKAGE BODY	408	"          And  bah=ls_bah;
+"
+PKG_YWWSJ	PACKAGE BODY	409	"          --And  ksdm=Ls_ksdm ;
+"
+PKG_YWWSJ	PACKAGE BODY	410	"         -- And  fphm=ls_fphm;
+"
+PKG_YWWSJ	PACKAGE BODY	411	"        --  And  sfrq=ldt_sfrq;
+"
+PKG_YWWSJ	PACKAGE BODY	412	"        IF SQL%NOTFOUND THEN
+"
+PKG_YWWSJ	PACKAGE BODY	413	"          INSERT INTO zy_sfxx (yybh,zyxh,id,bah,ksdm,fphm,sfrq,xyf,zyf,cyf,ypxj,cwf,ghf,zcf,jcf,zlf,ssf,hyf,hlf,qtf,ylxj,hjje)
+"
+PKG_YWWSJ	PACKAGE BODY	414	"          VALUES (Ls_yybh,Ls_zyxh,Ls_jzkh,Ls_bah,Ls_ksdm,Ls_fphm,ldt_sfrq,0,0,0,0,0,ld_ghf,0,0,0,0,0,0,0,ld_ghf,ld_ghf);
+"
+PKG_YWWSJ	PACKAGE BODY	415	"        END IF;
+"
+PKG_YWWSJ	PACKAGE BODY	416	"   ElsIf ll_csmc = 6 then
+"
+PKG_YWWSJ	PACKAGE BODY	417	"      ld_zcf := ld_je;
+"
+PKG_YWWSJ	PACKAGE BODY	418	"    UPDATE zy_sfxx set zcf=zcf+ld_zcf,ylxj=ylxj+ld_zcf, hjje=hjje+ld_zcf
+"
+PKG_YWWSJ	PACKAGE BODY	419	"     WHERE zyXH =Ls_zyxh
+"
+PKG_YWWSJ	PACKAGE BODY	420	"        --  And  id=Ls_jzkh
+"
+PKG_YWWSJ	PACKAGE BODY	421	"          And  bah=ls_bah;
+"
+PKG_YWWSJ	PACKAGE BODY	422	"          --And  ksdm=Ls_ksdm ;
+"
+PKG_YWWSJ	PACKAGE BODY	423	"         -- And  fphm=ls_fphm;
+"
+PKG_YWWSJ	PACKAGE BODY	424	"        --  And  sfrq=ldt_sfrq;
+"
+PKG_YWWSJ	PACKAGE BODY	425	"        IF SQL%NOTFOUND THEN
+"
+PKG_YWWSJ	PACKAGE BODY	426	"          INSERT INTO zy_sfxx (yybh,zyxh,id,bah,ksdm,fphm,sfrq,xyf,zyf,cyf,ypxj,cwf,ghf,zcf,jcf,zlf,ssf,hyf,hlf,qtf,ylxj,hjje)
+"
+PKG_YWWSJ	PACKAGE BODY	427	"          VALUES (Ls_yybh,Ls_zyxh,Ls_jzkh,Ls_bah,Ls_ksdm,Ls_fphm,ldt_sfrq,0,0,0,0,0,0,ld_zcf,0,0,0,0,0,0,ld_zcf,ld_zcf);
+"
+PKG_YWWSJ	PACKAGE BODY	428	"        END IF;
+"
+PKG_YWWSJ	PACKAGE BODY	429	"   ElsIf ll_csmc = 7 then
+"
+PKG_YWWSJ	PACKAGE BODY	430	"      ld_jcf := ld_je;
+"
+PKG_YWWSJ	PACKAGE BODY	431	"    UPDATE zy_sfxx set jcf=jcf+ld_jcf,ylxj=ylxj+ld_jcf, hjje=hjje+ld_jcf
+"
+PKG_YWWSJ	PACKAGE BODY	432	"     WHERE zyXH =Ls_zyxh
+"
+PKG_YWWSJ	PACKAGE BODY	433	"        --  And  id=Ls_jzkh
+"
+PKG_YWWSJ	PACKAGE BODY	434	"          And  bah=ls_bah;
+"
+PKG_YWWSJ	PACKAGE BODY	435	"          --And  ksdm=Ls_ksdm ;
+"
+PKG_YWWSJ	PACKAGE BODY	436	"         -- And  fphm=ls_fphm;
+"
+PKG_YWWSJ	PACKAGE BODY	437	"        --  And  sfrq=ldt_sfrq;
+"
+PKG_YWWSJ	PACKAGE BODY	438	"        IF SQL%NOTFOUND THEN
+"
+PKG_YWWSJ	PACKAGE BODY	439	"          INSERT INTO zy_sfxx (yybh,zyxh,id,bah,ksdm,fphm,sfrq,xyf,zyf,cyf,ypxj,cwf,ghf,zcf,jcf,zlf,ssf,hyf,hlf,qtf,ylxj,hjje)
+"
+PKG_YWWSJ	PACKAGE BODY	440	"          VALUES (Ls_yybh,Ls_zyxh,Ls_jzkh,Ls_bah,Ls_ksdm,Ls_fphm,ldt_sfrq,0,0,0,0,0,0,0,ld_jcf,0,0,0,0,0,ld_jcf,ld_jcf);
+"
+PKG_YWWSJ	PACKAGE BODY	441	"        END IF;
+"
+PKG_YWWSJ	PACKAGE BODY	442	"Elsif ll_csmc = 8 then
+"
+PKG_YWWSJ	PACKAGE BODY	443	"      ld_zlf := ld_je;
+"
+PKG_YWWSJ	PACKAGE BODY	444	"    UPDATE zy_sfxx set zlf=zlf+ld_zlf,ylxj=ylxj+ld_zlf, hjje=hjje+ld_zlf
+"
+PKG_YWWSJ	PACKAGE BODY	445	"     WHERE zyXH =Ls_zyxh
+"
+PKG_YWWSJ	PACKAGE BODY	446	"        --  And  id=Ls_jzkh
+"
+PKG_YWWSJ	PACKAGE BODY	447	"          And  bah=ls_bah;
+"
+PKG_YWWSJ	PACKAGE BODY	448	"          --And  ksdm=Ls_ksdm ;
+"
+PKG_YWWSJ	PACKAGE BODY	449	"         -- And  fphm=ls_fphm;
+"
+PKG_YWWSJ	PACKAGE BODY	450	"        --  And  sfrq=ldt_sfrq;
+"
+PKG_YWWSJ	PACKAGE BODY	451	"        IF SQL%NOTFOUND THEN
+"
+PKG_YWWSJ	PACKAGE BODY	452	"          INSERT INTO zy_sfxx (yybh,zyxh,id,bah,ksdm,fphm,sfrq,xyf,zyf,cyf,ypxj,cwf,ghf,zcf,jcf,zlf,ssf,hyf,hlf,qtf,ylxj,hjje)
+"
+PKG_YWWSJ	PACKAGE BODY	453	"          VALUES (Ls_yybh,Ls_zyxh,Ls_jzkh,Ls_bah,Ls_ksdm,Ls_fphm,ldt_sfrq,0,0,0,0,0,0,0,0,ld_zlf,0,0,0,0,ld_zlf,ld_zlf);
+"
+PKG_YWWSJ	PACKAGE BODY	454	"        END IF;
+"
+PKG_YWWSJ	PACKAGE BODY	455	" elsif ll_csmc = 9 then
+"
+PKG_YWWSJ	PACKAGE BODY	456	"      ld_ssf := ld_je;
+"
+PKG_YWWSJ	PACKAGE BODY	457	"    UPDATE zy_sfxx set ssf=ssf+ld_ssf,ylxj=ylxj+ld_ssf, hjje=hjje+ld_ssf
+"
+PKG_YWWSJ	PACKAGE BODY	458	"      WHERE zyXH =Ls_zyxh
+"
+PKG_YWWSJ	PACKAGE BODY	459	"        --  And  id=Ls_jzkh
+"
+PKG_YWWSJ	PACKAGE BODY	460	"          And  bah=ls_bah;
+"
+PKG_YWWSJ	PACKAGE BODY	461	"          --And  ksdm=Ls_ksdm ;
+"
+PKG_YWWSJ	PACKAGE BODY	462	"         -- And  fphm=ls_fphm;
+"
+PKG_YWWSJ	PACKAGE BODY	463	"        --  And  sfrq=ldt_sfrq;
+"
+PKG_YWWSJ	PACKAGE BODY	464	"        IF SQL%NOTFOUND THEN
+"
+PKG_YWWSJ	PACKAGE BODY	465	"          INSERT INTO zy_sfxx (yybh,zyxh,id,bah,ksdm,fphm,sfrq,xyf,zyf,cyf,ypxj,cwf,ghf,zcf,jcf,zlf,ssf,hyf,hlf,qtf,ylxj,hjje)
+"
+PKG_YWWSJ	PACKAGE BODY	466	"          VALUES (Ls_yybh,Ls_zyxh,Ls_jzkh,Ls_bah,Ls_ksdm,Ls_fphm,ldt_sfrq,0,0,0,0,0,0,0,0,0,ld_ssf,0,0,0,ld_ssf,ld_ssf);
+"
+PKG_YWWSJ	PACKAGE BODY	467	"        END IF;
+"
+PKG_YWWSJ	PACKAGE BODY	468	" elsif ll_csmc = 10 then
+"
+PKG_YWWSJ	PACKAGE BODY	469	"       ld_hyf := ld_je;
+"
+PKG_YWWSJ	PACKAGE BODY	470	"    UPDATE zy_sfxx set hyf=hyf+ld_hyf,ylxj=ylxj+ld_hyf, hjje=hjje+ld_hyf
+"
+PKG_YWWSJ	PACKAGE BODY	471	"    WHERE zyXH =Ls_zyxh
+"
+PKG_YWWSJ	PACKAGE BODY	472	"        --  And  id=Ls_jzkh
+"
+PKG_YWWSJ	PACKAGE BODY	473	"          And  bah=ls_bah
+"
+PKG_YWWSJ	PACKAGE BODY	474	"          And  ksdm=Ls_ksdm
+"
+PKG_YWWSJ	PACKAGE BODY	475	"          And  fphm=ls_fphm;
+"
+PKG_YWWSJ	PACKAGE BODY	476	"         -- And  sfrq=ldt_sfrq;
+"
+PKG_YWWSJ	PACKAGE BODY	477	"        IF SQL%NOTFOUND THEN
+"
+PKG_YWWSJ	PACKAGE BODY	478	"          INSERT INTO zy_sfxx (yybh,zyxh,id,bah,ksdm,fphm,sfrq,xyf,zyf,cyf,ypxj,cwf,ghf,zcf,jcf,zlf,ssf,hyf,hlf,qtf,ylxj,hjje)
+"
+PKG_YWWSJ	PACKAGE BODY	479	"          VALUES (Ls_yybh,Ls_zyxh,Ls_jzkh,Ls_bah,Ls_ksdm,Ls_fphm,ldt_sfrq,0,0,0,0,0,0,0,0,0,0,ld_hyf,0,0,ld_hyf,ld_hyf);
+"
+PKG_YWWSJ	PACKAGE BODY	480	"        END IF;
+"
+PKG_YWWSJ	PACKAGE BODY	481	" elsif ll_csmc = 11 then
+"
+PKG_YWWSJ	PACKAGE BODY	482	"       ld_hlf := ld_je;
+"
+PKG_YWWSJ	PACKAGE BODY	483	"    UPDATE zy_sfxx set hlf=hlf+ld_hlf,ylxj=ylxj+ld_hlf, hjje=hjje+ld_hlf
+"
+PKG_YWWSJ	PACKAGE BODY	484	"      WHERE zyXH =Ls_zyxh
+"
+PKG_YWWSJ	PACKAGE BODY	485	"        --  And  id=Ls_jzkh
+"
+PKG_YWWSJ	PACKAGE BODY	486	"          And  bah=ls_bah;
+"
+PKG_YWWSJ	PACKAGE BODY	487	"          --And  ksdm=Ls_ksdm ;
+"
+PKG_YWWSJ	PACKAGE BODY	488	"         -- And  fphm=ls_fphm;
+"
+PKG_YWWSJ	PACKAGE BODY	489	"        --  And  sfrq=ldt_sfrq;
+"
+PKG_YWWSJ	PACKAGE BODY	490	"        IF SQL%NOTFOUND THEN
+"
+PKG_YWWSJ	PACKAGE BODY	491	"          INSERT INTO zy_sfxx (yybh,zyxh,id,bah,ksdm,fphm,sfrq,xyf,zyf,cyf,ypxj,cwf,ghf,zcf,jcf,zlf,ssf,hyf,hlf,qtf,ylxj,hjje)
+"
+PKG_YWWSJ	PACKAGE BODY	492	"          VALUES (Ls_yybh,Ls_zyxh,Ls_jzkh,Ls_bah,Ls_ksdm,Ls_fphm,ldt_sfrq,0,0,0,0,0,0,0,0,0,0,0,ld_hlf,0,ld_hlf,ld_hlf);
+"
+PKG_YWWSJ	PACKAGE BODY	493	"        END IF;
+"
+PKG_YWWSJ	PACKAGE BODY	494	" Else
+"
+PKG_YWWSJ	PACKAGE BODY	495	"        ld_qtf := ld_je;
+"
+PKG_YWWSJ	PACKAGE BODY	496	"    UPDATE zy_sfxx set qtf=qtf+ld_qtf,ylxj=ylxj+ld_qtf, hjje=hjje+ld_qtf
+"
+PKG_YWWSJ	PACKAGE BODY	497	"     WHERE zyXH =Ls_zyxh
+"
+PKG_YWWSJ	PACKAGE BODY	498	"        --  And  id=Ls_jzkh
+"
+PKG_YWWSJ	PACKAGE BODY	499	"          And  bah=ls_bah;
+"
+PKG_YWWSJ	PACKAGE BODY	500	"          --And  ksdm=Ls_ksdm ;
+"
+PKG_YWWSJ	PACKAGE BODY	501	"         -- And  fphm=ls_fphm;
+"
+PKG_YWWSJ	PACKAGE BODY	502	"        --  And  sfrq=ldt_sfrq;
+"
+PKG_YWWSJ	PACKAGE BODY	503	"        IF SQL%NOTFOUND THEN
+"
+PKG_YWWSJ	PACKAGE BODY	504	"          INSERT INTO zy_sfxx (yybh,zyxh,id,bah,ksdm,fphm,sfrq,xyf,zyf,cyf,ypxj,cwf,ghf,zcf,jcf,zlf,ssf,hyf,hlf,qtf,ylxj,hjje)
+"
+PKG_YWWSJ	PACKAGE BODY	505	"          VALUES (Ls_yybh,Ls_zyxh,Ls_jzkh,Ls_bah,Ls_ksdm,Ls_fphm,ldt_sfrq,0,0,0,0,0,0,0,0,0,0,0,0,ld_qtf,ld_qtf,ld_qtf);
+"
+PKG_YWWSJ	PACKAGE BODY	506	"        END IF;
+"
+PKG_YWWSJ	PACKAGE BODY	507	"  End If;
+"
+PKG_YWWSJ	PACKAGE BODY	508	"
+"
+PKG_YWWSJ	PACKAGE BODY	509	"	EXCEPTION
+"
+PKG_YWWSJ	PACKAGE BODY	510	"		When Others Then
+"
+PKG_YWWSJ	PACKAGE BODY	511	"   Rollback;
+"
+PKG_YWWSJ	PACKAGE BODY	512	"      on_code := -1;
+"
+PKG_YWWSJ	PACKAGE BODY	513	"      os_mess := 'prc_zy_sfxx数据采集失败!';
+"
+PKG_YWWSJ	PACKAGE BODY	514	"End;
+"
+PKG_YWWSJ	PACKAGE BODY	515	"End Loop;
+"
+PKG_YWWSJ	PACKAGE BODY	516	" CLOSE cur_zy_sfxx;
+"
+PKG_YWWSJ	PACKAGE BODY	517	"         Commit;
+"
+PKG_YWWSJ	PACKAGE BODY	518	"EXCEPTION
+"
+PKG_YWWSJ	PACKAGE BODY	519	"	WHEN e_input THEN
+"
+PKG_YWWSJ	PACKAGE BODY	520	"	     on_code :=  0;
+"
+PKG_YWWSJ	PACKAGE BODY	521	"	     os_mess := '输入参数错误!';
+"
+PKG_YWWSJ	PACKAGE BODY	522	"   	WHEN others THEN
+"
+PKG_YWWSJ	PACKAGE BODY	523	"     ROLLBACK;
+"
+PKG_YWWSJ	PACKAGE BODY	524	"	on_code := -1;
+"
+PKG_YWWSJ	PACKAGE BODY	525	"	os_mess := 'prc_zy_sfxx数据采集失败!'||sqlerrm;
+"
+PKG_YWWSJ	PACKAGE BODY	526	"End;
+"
+PKG_YWWSJ	PACKAGE BODY	527	"End prc_zy_sfxx;
+"
+PKG_YWWSJ	PACKAGE BODY	528	"
+"
+PKG_YWWSJ	PACKAGE BODY	529	"
+"
+PKG_YWWSJ	PACKAGE BODY	530	"Procedure prc_sb_sbxx ( in_jcfx_id   In    NUMBER,
+"
+PKG_YWWSJ	PACKAGE BODY	531	"                           on_code      Out   NUMBER,
+"
+PKG_YWWSJ	PACKAGE BODY	532	"                           os_mess      Out   VARCHAR2)
+"
+PKG_YWWSJ	PACKAGE BODY	533	"Is
+"
+PKG_YWWSJ	PACKAGE BODY	534	"Begin
+"
+PKG_YWWSJ	PACKAGE BODY	535	"  Declare
+"
+PKG_YWWSJ	PACKAGE BODY	536	"    e_input          EXCEPTION;
+"
+PKG_YWWSJ	PACKAGE BODY	537	"    ls_Yybh          VARCHAR2(30);
+"
+PKG_YWWSJ	PACKAGE BODY	538	"    ldt_jcfx_min     Date;
+"
+PKG_YWWSJ	PACKAGE BODY	539	"    ldt_jcfx_max     Date;
+"
+PKG_YWWSJ	PACKAGE BODY	540	"  Begin
+"
+PKG_YWWSJ	PACKAGE BODY	541	"
+"
+PKG_YWWSJ	PACKAGE BODY	542	"    IF in_jcfx_id = 0 THEN
+"
+PKG_YWWSJ	PACKAGE BODY	543	"      raise e_input;
+"
+PKG_YWWSJ	PACKAGE BODY	544	"    END IF;
+"
+PKG_YWWSJ	PACKAGE BODY	545	"
+"
+PKG_YWWSJ	PACKAGE BODY	546	"    on_code := 1;
+"
+PKG_YWWSJ	PACKAGE BODY	547	"    os_mess :='数据采集成功!';
+"
+PKG_YWWSJ	PACKAGE BODY	548	"
+"
+PKG_YWWSJ	PACKAGE BODY	549	"    -- éè???eê?ê±??oí?áê?ê±??
+"
+PKG_YWWSJ	PACKAGE BODY	550	"    ldt_jcfx_min :=  to_date(to_char(in_jcfx_id), 'yyyy/mm/dd'); --?eê?ê±??
+"
+PKG_YWWSJ	PACKAGE BODY	551	"    ldt_jcfx_max :=  ldt_jcfx_min + 86399/86400;                 --?áê?ê±??
+"
+PKG_YWWSJ	PACKAGE BODY	552	" --è?ò??o′ú??
+"
+PKG_YWWSJ	PACKAGE BODY	553	" Select csz1
+"
+PKG_YWWSJ	PACKAGE BODY	554	"   Into ls_Yybh
+"
+PKG_YWWSJ	PACKAGE BODY	555	"   From gy_xtcs
+"
+PKG_YWWSJ	PACKAGE BODY	556	"  Where xtxh = 0
+"
+PKG_YWWSJ	PACKAGE BODY	557	"    And csmc = 'YYBH';
+"
+PKG_YWWSJ	PACKAGE BODY	558	"
+"
+PKG_YWWSJ	PACKAGE BODY	559	" --2?è?êy?Y
+"
+PKG_YWWSJ	PACKAGE BODY	560	" Insert Into sb_sbxx(YYBH,     YF,      FLDM,   SBBH,   SBMC,   GGXH,
+"
+PKG_YWWSJ	PACKAGE BODY	561	"                     JLDW,     ZJNX,    YZ,     JZ,     KSDM,   CDMC,
+"
+PKG_YWWSJ	PACKAGE BODY	562	"                     GHDW,     SCCS,    GRRQ,   CCBH,   SYQK)
+"
+PKG_YWWSJ	PACKAGE BODY	563	"             Select  ls_Yybh,  to_char(syrq, 'yyyy-mm'), b.bzbm, a.dabh, b.mc, a.ggxh,
+"
+PKG_YWWSJ	PACKAGE BODY	564	"                     b.dw,     c.zjnx,  a.dj, 0,  a.ksdm,  a.cdmc,
+"
+PKG_YWWSJ	PACKAGE BODY	565	"                     a.ghdw_mc,a.sccj_mc,    a.grrq, a.ccbh, decode(a.zt, '0', '在用', '1', '在用', '4', '待报损','B','退库', 6,'报损','在用')
+"
+PKG_YWWSJ	PACKAGE BODY	566	"               From  wz_da a,
+"
+PKG_YWWSJ	PACKAGE BODY	567	"                     wz_mcgg b,
+"
+PKG_YWWSJ	PACKAGE BODY	568	"                     wz_hslb c
+"
+PKG_YWWSJ	PACKAGE BODY	569	"              Where  a.xtxh = b.xtxh
+"
+PKG_YWWSJ	PACKAGE BODY	570	"                And  a.xtxh = c.xtxh
+"
+PKG_YWWSJ	PACKAGE BODY	571	"                And  a.wzxh = b.xh
+"
+PKG_YWWSJ	PACKAGE BODY	572	"                And  b.zblx = c.zblx
+"
+PKG_YWWSJ	PACKAGE BODY	573	"                and  b.hslb = c.hslb
+"
+PKG_YWWSJ	PACKAGE BODY	574	"                And  a.xtxh = 29
+"
+PKG_YWWSJ	PACKAGE BODY	575	"                And  a.syrq Between ldt_jcfx_min And ldt_jcfx_max;
+"
+PKG_YWWSJ	PACKAGE BODY	576	"  --ìá???á1?
+"
+PKG_YWWSJ	PACKAGE BODY	577	"  Commit;
+"
+PKG_YWWSJ	PACKAGE BODY	578	"
+"
+PKG_YWWSJ	PACKAGE BODY	579	"  EXCEPTION
+"
+PKG_YWWSJ	PACKAGE BODY	580	"    WHEN e_input THEN
+"
+PKG_YWWSJ	PACKAGE BODY	581	"      on_code :=  0;
+"
+PKG_YWWSJ	PACKAGE BODY	582	"      os_mess := '输入参数错误!';
+"
+PKG_YWWSJ	PACKAGE BODY	583	"    WHEN others THEN
+"
+PKG_YWWSJ	PACKAGE BODY	584	"      ROLLBACK;
+"
+PKG_YWWSJ	PACKAGE BODY	585	"      on_code := -1;
+"
+PKG_YWWSJ	PACKAGE BODY	586	"      os_mess := 'prc_sb_sbxx数据采集失败!'||SQLErrm;
+"
+PKG_YWWSJ	PACKAGE BODY	587	" End;
+"
+PKG_YWWSJ	PACKAGE BODY	588	"End prc_sb_sbxx;
+"
+PKG_YWWSJ	PACKAGE BODY	589	"
+"
+PKG_YWWSJ	PACKAGE BODY	590	"end PKG_YWWSJ;
+"
+PKG_YWWSJ	PACKAGE BODY	591	"
+"

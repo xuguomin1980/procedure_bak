@@ -1,0 +1,958 @@
+PKG_JCFX_REPORT	PACKAGE BODY	1	"PACKAGE BODY         ""PKG_JCFX_REPORT"" 
+"
+PKG_JCFX_REPORT	PACKAGE BODY	2	"Is
+"
+PKG_JCFX_REPORT	PACKAGE BODY	3	"
+"
+PKG_JCFX_REPORT	PACKAGE BODY	4	"/*=============================================================================
+"
+PKG_JCFX_REPORT	PACKAGE BODY	5	"|| 过程名称 ： 决策分析报表数据采集Pkg_Jcfx_Report
+"
+PKG_JCFX_REPORT	PACKAGE BODY	6	"||-----------------------------------------------------------------------------
+"
+PKG_JCFX_REPORT	PACKAGE BODY	7	"|| 功能说明 ： 把门诊、住院的数据采集成决策分析报表的数据、包含的子过程有：
+"
+PKG_JCFX_REPORT	PACKAGE BODY	8	"||             Prc_Zy_Report_01、Prc_Zy_Report_02、Prc_Mz_Report_01
+"
+PKG_JCFX_REPORT	PACKAGE BODY	9	"||-----------------------------------------------------------------------------
+"
+PKG_JCFX_REPORT	PACKAGE BODY	10	"|| 注意事项 ： 无
+"
+PKG_JCFX_REPORT	PACKAGE BODY	11	"||-----------------------------------------------------------------------------
+"
+PKG_JCFX_REPORT	PACKAGE BODY	12	"|| 作    者 ： 陈联      完成日期 ： 2001-12
+"
+PKG_JCFX_REPORT	PACKAGE BODY	13	"||-----------------------------------------------------------------------------
+"
+PKG_JCFX_REPORT	PACKAGE BODY	14	"|| 修改记录 ： 陈智鸿 @ 2002-10-21
+"
+PKG_JCFX_REPORT	PACKAGE BODY	15	"||             整理
+"
+PKG_JCFX_REPORT	PACKAGE BODY	16	"=============================================================================*/
+"
+PKG_JCFX_REPORT	PACKAGE BODY	17	"
+"
+PKG_JCFX_REPORT	PACKAGE BODY	18	"Procedure Prc_Zy_Report_01 ( prm_Start_Id   In    NUMBER,
+"
+PKG_JCFX_REPORT	PACKAGE BODY	19	"                             prm_End_Id     In    NUMBER,
+"
+PKG_JCFX_REPORT	PACKAGE BODY	20	"                             prm_Brlb       In    gy_brlb.xh%Type,
+"
+PKG_JCFX_REPORT	PACKAGE BODY	21	"                             prm_AppCode    Out   NUMBER,
+"
+PKG_JCFX_REPORT	PACKAGE BODY	22	"                             prm_ErrMsg     Out   VARCHAR2 )
+"
+PKG_JCFX_REPORT	PACKAGE BODY	23	"Is
+"
+PKG_JCFX_REPORT	PACKAGE BODY	24	"
+"
+PKG_JCFX_REPORT	PACKAGE BODY	25	"/*=============================================================================
+"
+PKG_JCFX_REPORT	PACKAGE BODY	26	"|| 过程名称 ： 决策分析住院报表数据采集1Prc_Zy_Report_01
+"
+PKG_JCFX_REPORT	PACKAGE BODY	27	"||-----------------------------------------------------------------------------
+"
+PKG_JCFX_REPORT	PACKAGE BODY	28	"|| 功能说明 ： 按月份、病人类别、病人单位统计住院入院人数、出院人数、在院人数、
+"
+PKG_JCFX_REPORT	PACKAGE BODY	29	"||             出院、金额、在院天数
+"
+PKG_JCFX_REPORT	PACKAGE BODY	30	"||-----------------------------------------------------------------------------
+"
+PKG_JCFX_REPORT	PACKAGE BODY	31	"|| 参数描述 ： 参数标识       输入/输出   类型       名称
+"
+PKG_JCFX_REPORT	PACKAGE BODY	32	"||            -----------------------------------------------------------------
+"
+PKG_JCFX_REPORT	PACKAGE BODY	33	"||             prm_Start_Id   IN          Number     开始日期
+"
+PKG_JCFX_REPORT	PACKAGE BODY	34	"||             prm_End_Id     IN          Number     结束日期
+"
+PKG_JCFX_REPORT	PACKAGE BODY	35	"||             prm_Brlb       IN          Number     病人类别
+"
+PKG_JCFX_REPORT	PACKAGE BODY	36	"||             prm_AppCode    OUT         Number     执行结果
+"
+PKG_JCFX_REPORT	PACKAGE BODY	37	"||             prm_ErrMsg     OUT         Varchar2   返回信息
+"
+PKG_JCFX_REPORT	PACKAGE BODY	38	"||-----------------------------------------------------------------------------
+"
+PKG_JCFX_REPORT	PACKAGE BODY	39	"|| 注意事项 ： 过程中不作提交处理，由前台提交处理
+"
+PKG_JCFX_REPORT	PACKAGE BODY	40	"||-----------------------------------------------------------------------------
+"
+PKG_JCFX_REPORT	PACKAGE BODY	41	"|| 作    者 ： 陈联      完成日期 ： 2001-12
+"
+PKG_JCFX_REPORT	PACKAGE BODY	42	"||-----------------------------------------------------------------------------
+"
+PKG_JCFX_REPORT	PACKAGE BODY	43	"|| 修改记录 ： 陈智鸿 @ 2002-10-21
+"
+PKG_JCFX_REPORT	PACKAGE BODY	44	"||             整理
+"
+PKG_JCFX_REPORT	PACKAGE BODY	45	"=============================================================================*/
+"
+PKG_JCFX_REPORT	PACKAGE BODY	46	"
+"
+PKG_JCFX_REPORT	PACKAGE BODY	47	"
+"
+PKG_JCFX_REPORT	PACKAGE BODY	48	"Begin
+"
+PKG_JCFX_REPORT	PACKAGE BODY	49	"
+"
+PKG_JCFX_REPORT	PACKAGE BODY	50	"  Declare
+"
+PKG_JCFX_REPORT	PACKAGE BODY	51	"    -- 变量声明 BEGIN--
+"
+PKG_JCFX_REPORT	PACKAGE BODY	52	"    ls_EmpName     zy_patient_information.emp_name%Type;
+"
+PKG_JCFX_REPORT	PACKAGE BODY	53	"    ln_ryrs        Number;   --入院人数
+"
+PKG_JCFX_REPORT	PACKAGE BODY	54	"    ln_cyrs        Number;   --出院人数
+"
+PKG_JCFX_REPORT	PACKAGE BODY	55	"    ln_zyrs        Number;   --在院人数
+"
+PKG_JCFX_REPORT	PACKAGE BODY	56	"    ln_cyje        Number;   --出院总费用
+"
+PKG_JCFX_REPORT	PACKAGE BODY	57	"    ln_zyts        Number;   --住院天数                               
+"
+PKG_JCFX_REPORT	PACKAGE BODY	58	"    ln_month       Number;   --月份
+"
+PKG_JCFX_REPORT	PACKAGE BODY	59	"    ldt_Start_Id   Date;
+"
+PKG_JCFX_REPORT	PACKAGE BODY	60	"    ldt_End_Id     Date;   
+"
+PKG_JCFX_REPORT	PACKAGE BODY	61	"    ldt_End_Id1    Date;   
+"
+PKG_JCFX_REPORT	PACKAGE BODY	62	"    
+"
+PKG_JCFX_REPORT	PACKAGE BODY	63	"    CURSOR cur_EmpName       --工作单位
+"
+PKG_JCFX_REPORT	PACKAGE BODY	64	"        IS
+"
+PKG_JCFX_REPORT	PACKAGE BODY	65	"    SELECT DISTINCT Emp_Name
+"
+PKG_JCFX_REPORT	PACKAGE BODY	66	"      FROM zy_patient_information 
+"
+PKG_JCFX_REPORT	PACKAGE BODY	67	"     WHERE ( admiss_date Between To_Date(To_Char(prm_Start_Id),'yyyy-mm-dd')
+"
+PKG_JCFX_REPORT	PACKAGE BODY	68	"       AND To_Date(To_Char(prm_End_Id),'yyyy-mm-dd')
+"
+PKG_JCFX_REPORT	PACKAGE BODY	69	"        OR Out_date Between To_Date(To_Char(prm_Start_Id),'yyyy-mm-dd')
+"
+PKG_JCFX_REPORT	PACKAGE BODY	70	"       AND To_Date(To_Char(prm_End_Id),'yyyy-mm-dd'))
+"
+PKG_JCFX_REPORT	PACKAGE BODY	71	"       AND brlb = prm_brlb
+"
+PKG_JCFX_REPORT	PACKAGE BODY	72	"       AND Emp_Name IS NOT NULl
+"
+PKG_JCFX_REPORT	PACKAGE BODY	73	"     ORDER BY Emp_Name;
+"
+PKG_JCFX_REPORT	PACKAGE BODY	74	"    -- 变量声明   END--
+"
+PKG_JCFX_REPORT	PACKAGE BODY	75	"   
+"
+PKG_JCFX_REPORT	PACKAGE BODY	76	"  Begin
+"
+PKG_JCFX_REPORT	PACKAGE BODY	77	"    prm_AppCode  := 1;
+"
+PKG_JCFX_REPORT	PACKAGE BODY	78	"    prm_ErrMsg   := '住院报表01统计成功!';
+"
+PKG_JCFX_REPORT	PACKAGE BODY	79	"    ldt_Start_Id := To_Date(To_Char(prm_Start_Id),'yyyy-mm-dd');
+"
+PKG_JCFX_REPORT	PACKAGE BODY	80	"    ldt_End_Id   := To_Date(To_Char(prm_End_Id),'yyyy-mm-dd') + 86399/86400;
+"
+PKG_JCFX_REPORT	PACKAGE BODY	81	"    ldt_End_Id1  := To_Date(To_Char(prm_End_Id),'yyyy-mm-dd') + 1/86400;
+"
+PKG_JCFX_REPORT	PACKAGE BODY	82	"    ln_month     := To_Number(Substr(To_Char(prm_Start_Id),1,6));
+"
+PKG_JCFX_REPORT	PACKAGE BODY	83	"    
+"
+PKG_JCFX_REPORT	PACKAGE BODY	84	"    -- 删除原有的数据（HONGER）
+"
+PKG_JCFX_REPORT	PACKAGE BODY	85	"    DELETE FROM jcfx_zy_report_01 
+"
+PKG_JCFX_REPORT	PACKAGE BODY	86	"     WHERE month = ln_month 
+"
+PKG_JCFX_REPORT	PACKAGE BODY	87	"       and brlb = prm_Brlb;
+"
+PKG_JCFX_REPORT	PACKAGE BODY	88	"
+"
+PKG_JCFX_REPORT	PACKAGE BODY	89	"    -- 利用游标循环处理每个单位（HONGER）
+"
+PKG_JCFX_REPORT	PACKAGE BODY	90	"    OPEN cur_EmpName; 
+"
+PKG_JCFX_REPORT	PACKAGE BODY	91	"    LOOP
+"
+PKG_JCFX_REPORT	PACKAGE BODY	92	"      FETCH cur_EmpName 
+"
+PKG_JCFX_REPORT	PACKAGE BODY	93	"      INTO ls_EmpName;
+"
+PKG_JCFX_REPORT	PACKAGE BODY	94	"      
+"
+PKG_JCFX_REPORT	PACKAGE BODY	95	"      EXIT WHEN cur_EmpName %NOTFOUND;
+"
+PKG_JCFX_REPORT	PACKAGE BODY	96	"      
+"
+PKG_JCFX_REPORT	PACKAGE BODY	97	"      -- 取入院人数（HONGER）
+"
+PKG_JCFX_REPORT	PACKAGE BODY	98	"      Begin
+"
+PKG_JCFX_REPORT	PACKAGE BODY	99	"        SELECT NVL(Count(*),0)                    --入院人数
+"
+PKG_JCFX_REPORT	PACKAGE BODY	100	"          INTO ln_ryrs
+"
+PKG_JCFX_REPORT	PACKAGE BODY	101	"          FROM zy_patient_information
+"
+PKG_JCFX_REPORT	PACKAGE BODY	102	"         WHERE admiss_date BETWEEN ldt_Start_Id AND ldt_End_Id
+"
+PKG_JCFX_REPORT	PACKAGE BODY	103	"           AND brlb     = prm_Brlb
+"
+PKG_JCFX_REPORT	PACKAGE BODY	104	"           AND emp_name = ls_EmpName;
+"
+PKG_JCFX_REPORT	PACKAGE BODY	105	"      
+"
+PKG_JCFX_REPORT	PACKAGE BODY	106	"      Exception
+"
+PKG_JCFX_REPORT	PACKAGE BODY	107	"        When Others Then
+"
+PKG_JCFX_REPORT	PACKAGE BODY	108	"          prm_AppCode   := -1;
+"
+PKG_JCFX_REPORT	PACKAGE BODY	109	"          prm_ErrMsg    :='获取入院人数失败!'||prm_brlb||ls_empname||SQLERRM;
+"
+PKG_JCFX_REPORT	PACKAGE BODY	110	"          Return;
+"
+PKG_JCFX_REPORT	PACKAGE BODY	111	"      End;
+"
+PKG_JCFX_REPORT	PACKAGE BODY	112	"      
+"
+PKG_JCFX_REPORT	PACKAGE BODY	113	"      -- 取出院人数（HONGER）
+"
+PKG_JCFX_REPORT	PACKAGE BODY	114	"      Begin
+"
+PKG_JCFX_REPORT	PACKAGE BODY	115	"        SELECT NVL(Count(*),0)                    --出院人数
+"
+PKG_JCFX_REPORT	PACKAGE BODY	116	"          INTO ln_cyrs
+"
+PKG_JCFX_REPORT	PACKAGE BODY	117	"          FROM zy_patient_information
+"
+PKG_JCFX_REPORT	PACKAGE BODY	118	"         WHERE out_date BETWEEN ldt_Start_Id AND ldt_End_Id
+"
+PKG_JCFX_REPORT	PACKAGE BODY	119	"           AND brlb     = prm_Brlb
+"
+PKG_JCFX_REPORT	PACKAGE BODY	120	"           AND emp_name = ls_empname;
+"
+PKG_JCFX_REPORT	PACKAGE BODY	121	"      
+"
+PKG_JCFX_REPORT	PACKAGE BODY	122	"      Exception
+"
+PKG_JCFX_REPORT	PACKAGE BODY	123	"        When Others Then
+"
+PKG_JCFX_REPORT	PACKAGE BODY	124	"          prm_AppCode   := -1;
+"
+PKG_JCFX_REPORT	PACKAGE BODY	125	"          prm_ErrMsg    :='获取出院人数失败!'||prm_brlb||ls_empname||SQLERRM;
+"
+PKG_JCFX_REPORT	PACKAGE BODY	126	"          Return;
+"
+PKG_JCFX_REPORT	PACKAGE BODY	127	"      End;
+"
+PKG_JCFX_REPORT	PACKAGE BODY	128	"      
+"
+PKG_JCFX_REPORT	PACKAGE BODY	129	"      -- 取在院人数（HONGER）
+"
+PKG_JCFX_REPORT	PACKAGE BODY	130	"      Begin
+"
+PKG_JCFX_REPORT	PACKAGE BODY	131	"        SELECT NVL(Count(*),0)                    --在院人数
+"
+PKG_JCFX_REPORT	PACKAGE BODY	132	"          INTO ln_zyrs
+"
+PKG_JCFX_REPORT	PACKAGE BODY	133	"          FROM zy_patient_information
+"
+PKG_JCFX_REPORT	PACKAGE BODY	134	"         WHERE admiss_date <= ldt_End_Id
+"
+PKG_JCFX_REPORT	PACKAGE BODY	135	"           AND (out_date > ldt_End_Id1
+"
+PKG_JCFX_REPORT	PACKAGE BODY	136	"            OR (out_date IS NULL AND preout_date IS NULL))
+"
+PKG_JCFX_REPORT	PACKAGE BODY	137	"           AND brlb     = prm_Brlb
+"
+PKG_JCFX_REPORT	PACKAGE BODY	138	"           AND emp_name = ls_empname;
+"
+PKG_JCFX_REPORT	PACKAGE BODY	139	"      
+"
+PKG_JCFX_REPORT	PACKAGE BODY	140	"      Exception
+"
+PKG_JCFX_REPORT	PACKAGE BODY	141	"        When Others Then
+"
+PKG_JCFX_REPORT	PACKAGE BODY	142	"          prm_AppCode   := -1;
+"
+PKG_JCFX_REPORT	PACKAGE BODY	143	"          prm_ErrMsg    :='获取在院人数失败!'||prm_brlb||ls_empname||SQLERRM;
+"
+PKG_JCFX_REPORT	PACKAGE BODY	144	"          Return;
+"
+PKG_JCFX_REPORT	PACKAGE BODY	145	"      End;                    
+"
+PKG_JCFX_REPORT	PACKAGE BODY	146	"      
+"
+PKG_JCFX_REPORT	PACKAGE BODY	147	"      -- 取总金额（HONGER）
+"
+PKG_JCFX_REPORT	PACKAGE BODY	148	"      Begin
+"
+PKG_JCFX_REPORT	PACKAGE BODY	149	"        SELECT Nvl(Sum(b.total_fee),0)
+"
+PKG_JCFX_REPORT	PACKAGE BODY	150	"          INTO ln_cyje
+"
+PKG_JCFX_REPORT	PACKAGE BODY	151	"          FROM zy_total_fee b,
+"
+PKG_JCFX_REPORT	PACKAGE BODY	152	"               zy_patient_information a
+"
+PKG_JCFX_REPORT	PACKAGE BODY	153	"         WHERE a.out_date BETWEEN ldt_Start_Id AND ldt_End_Id
+"
+PKG_JCFX_REPORT	PACKAGE BODY	154	"           AND a.brlb     = prm_Brlb
+"
+PKG_JCFX_REPORT	PACKAGE BODY	155	"           AND a.emp_name = ls_empname
+"
+PKG_JCFX_REPORT	PACKAGE BODY	156	"           AND a.patient_no = b.patient_no;
+"
+PKG_JCFX_REPORT	PACKAGE BODY	157	"           
+"
+PKG_JCFX_REPORT	PACKAGE BODY	158	"      Exception
+"
+PKG_JCFX_REPORT	PACKAGE BODY	159	"        When NO_DATA_FOUND Then
+"
+PKG_JCFX_REPORT	PACKAGE BODY	160	"          ln_cyje :=0;
+"
+PKG_JCFX_REPORT	PACKAGE BODY	161	"        When Others Then
+"
+PKG_JCFX_REPORT	PACKAGE BODY	162	"          prm_AppCode   := -1;
+"
+PKG_JCFX_REPORT	PACKAGE BODY	163	"          prm_ErrMsg    :='获取出院病人总金额失败!'||prm_brlb||ls_empname||SQLERRM;
+"
+PKG_JCFX_REPORT	PACKAGE BODY	164	"          Return;
+"
+PKG_JCFX_REPORT	PACKAGE BODY	165	"      End;
+"
+PKG_JCFX_REPORT	PACKAGE BODY	166	"      
+"
+PKG_JCFX_REPORT	PACKAGE BODY	167	"      -- 取总天数（HONGER）
+"
+PKG_JCFX_REPORT	PACKAGE BODY	168	"      Begin
+"
+PKG_JCFX_REPORT	PACKAGE BODY	169	"        SELECT Nvl(Sum(a.out_date - a.admiss_date),0)
+"
+PKG_JCFX_REPORT	PACKAGE BODY	170	"          INTO ln_zyts
+"
+PKG_JCFX_REPORT	PACKAGE BODY	171	"          FROM zy_patient_information a
+"
+PKG_JCFX_REPORT	PACKAGE BODY	172	"         WHERE a.out_date BETWEEN ldt_Start_Id AND ldt_End_Id
+"
+PKG_JCFX_REPORT	PACKAGE BODY	173	"           AND a.brlb     = prm_Brlb
+"
+PKG_JCFX_REPORT	PACKAGE BODY	174	"           AND a.emp_name = ls_empname;
+"
+PKG_JCFX_REPORT	PACKAGE BODY	175	"      
+"
+PKG_JCFX_REPORT	PACKAGE BODY	176	"      Exception
+"
+PKG_JCFX_REPORT	PACKAGE BODY	177	"        When NO_DATA_FOUND Then
+"
+PKG_JCFX_REPORT	PACKAGE BODY	178	"          Null;
+"
+PKG_JCFX_REPORT	PACKAGE BODY	179	"        When Others Then
+"
+PKG_JCFX_REPORT	PACKAGE BODY	180	"          prm_AppCode   := -1;
+"
+PKG_JCFX_REPORT	PACKAGE BODY	181	"          prm_ErrMsg    :='获取出院病人住院天数失败!'||SQLERRM;
+"
+PKG_JCFX_REPORT	PACKAGE BODY	182	"          Return;
+"
+PKG_JCFX_REPORT	PACKAGE BODY	183	"      End;
+"
+PKG_JCFX_REPORT	PACKAGE BODY	184	"      
+"
+PKG_JCFX_REPORT	PACKAGE BODY	185	"      -- 插入新的数据（HONGER）
+"
+PKG_JCFX_REPORT	PACKAGE BODY	186	"      -- 月份、病人类别、单位名称、入院人数、出院人数、在院人数、出院金额、在院天数（HONGER）
+"
+PKG_JCFX_REPORT	PACKAGE BODY	187	"      INSERT INTO jcfx_zy_report_01 ( month, brlb, dwmc,
+"
+PKG_JCFX_REPORT	PACKAGE BODY	188	"                                      ryrs, cyrs, zyrs,
+"
+PKG_JCFX_REPORT	PACKAGE BODY	189	"                                      je, zyts )
+"
+PKG_JCFX_REPORT	PACKAGE BODY	190	"      VALUES ( ln_month, prm_brlb, ls_EmpName,
+"
+PKG_JCFX_REPORT	PACKAGE BODY	191	"               ln_ryrs, ln_cyrs, ln_zyrs,
+"
+PKG_JCFX_REPORT	PACKAGE BODY	192	"               ln_cyje, ln_zyts);
+"
+PKG_JCFX_REPORT	PACKAGE BODY	193	"    END LOOP;
+"
+PKG_JCFX_REPORT	PACKAGE BODY	194	"    
+"
+PKG_JCFX_REPORT	PACKAGE BODY	195	"    CLOSE cur_EmpName;
+"
+PKG_JCFX_REPORT	PACKAGE BODY	196	"    
+"
+PKG_JCFX_REPORT	PACKAGE BODY	197	"  EXCEPTION
+"
+PKG_JCFX_REPORT	PACKAGE BODY	198	"    When OTHERS Then
+"
+PKG_JCFX_REPORT	PACKAGE BODY	199	"      prm_AppCode := -1;
+"
+PKG_JCFX_REPORT	PACKAGE BODY	200	"      prm_ErrMsg  := '住院报表01统计失败！'||SQLERRM;
+"
+PKG_JCFX_REPORT	PACKAGE BODY	201	"  End;
+"
+PKG_JCFX_REPORT	PACKAGE BODY	202	"End Prc_Zy_Report_01;
+"
+PKG_JCFX_REPORT	PACKAGE BODY	203	"
+"
+PKG_JCFX_REPORT	PACKAGE BODY	204	"
+"
+PKG_JCFX_REPORT	PACKAGE BODY	205	"
+"
+PKG_JCFX_REPORT	PACKAGE BODY	206	"Procedure Prc_Zy_Report_02 ( prm_Start_Id   In    NUMBER,
+"
+PKG_JCFX_REPORT	PACKAGE BODY	207	"                             prm_End_Id     In    NUMBER,
+"
+PKG_JCFX_REPORT	PACKAGE BODY	208	"                             prm_Brlb       In    gy_brlb.xh%Type,
+"
+PKG_JCFX_REPORT	PACKAGE BODY	209	"                             prm_AppCode    Out   NUMBER,
+"
+PKG_JCFX_REPORT	PACKAGE BODY	210	"                             prm_ErrMsg     Out   VARCHAR2)
+"
+PKG_JCFX_REPORT	PACKAGE BODY	211	"Is
+"
+PKG_JCFX_REPORT	PACKAGE BODY	212	"
+"
+PKG_JCFX_REPORT	PACKAGE BODY	213	"/*=============================================================================
+"
+PKG_JCFX_REPORT	PACKAGE BODY	214	"|| 过程名称 ： 决策分析住院报表数据采集2Prc_Zy_Report_02
+"
+PKG_JCFX_REPORT	PACKAGE BODY	215	"||-----------------------------------------------------------------------------
+"
+PKG_JCFX_REPORT	PACKAGE BODY	216	"|| 功能说明 ： 按月份、病人类别、病人单位统计住院的科室、科室名称、原有人数、
+"
+PKG_JCFX_REPORT	PACKAGE BODY	217	"||             入院人数、出院人数、住院天数、出院金额、出院总金额、入院总人数、
+"
+PKG_JCFX_REPORT	PACKAGE BODY	218	"||             出院总人数
+"
+PKG_JCFX_REPORT	PACKAGE BODY	219	"||-----------------------------------------------------------------------------
+"
+PKG_JCFX_REPORT	PACKAGE BODY	220	"|| 参数描述 ： 参数标识       输入/输出   类型       名称
+"
+PKG_JCFX_REPORT	PACKAGE BODY	221	"||            -----------------------------------------------------------------
+"
+PKG_JCFX_REPORT	PACKAGE BODY	222	"||             prm_Start_Id   IN          Number     开始日期
+"
+PKG_JCFX_REPORT	PACKAGE BODY	223	"||             prm_End_Id     IN          Number     结束日期
+"
+PKG_JCFX_REPORT	PACKAGE BODY	224	"||             prm_Brlb       IN          Number     病人类别
+"
+PKG_JCFX_REPORT	PACKAGE BODY	225	"||             prm_AppCode    OUT         Number     执行结果
+"
+PKG_JCFX_REPORT	PACKAGE BODY	226	"||             prm_ErrMsg     OUT         Varchar2   返回信息
+"
+PKG_JCFX_REPORT	PACKAGE BODY	227	"||-----------------------------------------------------------------------------
+"
+PKG_JCFX_REPORT	PACKAGE BODY	228	"|| 注意事项 ： 过程中不作提交处理，由前台提交处理
+"
+PKG_JCFX_REPORT	PACKAGE BODY	229	"||-----------------------------------------------------------------------------
+"
+PKG_JCFX_REPORT	PACKAGE BODY	230	"|| 作    者 ： 陈联      完成日期 ： 2001-12-10
+"
+PKG_JCFX_REPORT	PACKAGE BODY	231	"||-----------------------------------------------------------------------------
+"
+PKG_JCFX_REPORT	PACKAGE BODY	232	"|| 修改记录 ： 陈智鸿 @ 2002-10-21
+"
+PKG_JCFX_REPORT	PACKAGE BODY	233	"||             整理
+"
+PKG_JCFX_REPORT	PACKAGE BODY	234	"=============================================================================*/   
+"
+PKG_JCFX_REPORT	PACKAGE BODY	235	"
+"
+PKG_JCFX_REPORT	PACKAGE BODY	236	"Begin
+"
+PKG_JCFX_REPORT	PACKAGE BODY	237	"
+"
+PKG_JCFX_REPORT	PACKAGE BODY	238	"  Declare
+"
+PKG_JCFX_REPORT	PACKAGE BODY	239	"    ldt_Start_Id       Date;
+"
+PKG_JCFX_REPORT	PACKAGE BODY	240	"    ldt_End_Id         Date;
+"
+PKG_JCFX_REPORT	PACKAGE BODY	241	"    ldt_Previous_Min   Date;
+"
+PKG_JCFX_REPORT	PACKAGE BODY	242	"    ldt_Previous_Max   Date;
+"
+PKG_JCFX_REPORT	PACKAGE BODY	243	"    ln_yyrs            Number;
+"
+PKG_JCFX_REPORT	PACKAGE BODY	244	"    ln_ryrs            Number;
+"
+PKG_JCFX_REPORT	PACKAGE BODY	245	"    ln_cyrs            Number;
+"
+PKG_JCFX_REPORT	PACKAGE BODY	246	"    ln_zyts            Number;
+"
+PKG_JCFX_REPORT	PACKAGE BODY	247	"    ln_ryzrs           Number;
+"
+PKG_JCFX_REPORT	PACKAGE BODY	248	"    ln_cyzrs           Number;
+"
+PKG_JCFX_REPORT	PACKAGE BODY	249	"    ln_cyzje           Number;
+"
+PKG_JCFX_REPORT	PACKAGE BODY	250	"    ln_cyje            Number;
+"
+PKG_JCFX_REPORT	PACKAGE BODY	251	"    ln_month           Number;
+"
+PKG_JCFX_REPORT	PACKAGE BODY	252	"    ls_ksdm            gy_ksdm.ksdm%Type;
+"
+PKG_JCFX_REPORT	PACKAGE BODY	253	"    ls_ksmc            gy_ksdm.ksmc%Type;
+"
+PKG_JCFX_REPORT	PACKAGE BODY	254	"    
+"
+PKG_JCFX_REPORT	PACKAGE BODY	255	"    CURSOR cur_Ksdm   -- 科室
+"
+PKG_JCFX_REPORT	PACKAGE BODY	256	"        IS
+"
+PKG_JCFX_REPORT	PACKAGE BODY	257	"    SELECT DISTINCT a.Dept_Code,
+"
+PKG_JCFX_REPORT	PACKAGE BODY	258	"                    b.ksmc
+"
+PKG_JCFX_REPORT	PACKAGE BODY	259	"      FROM zy_bed a,
+"
+PKG_JCFX_REPORT	PACKAGE BODY	260	"           gy_ksdm b
+"
+PKG_JCFX_REPORT	PACKAGE BODY	261	"     WHERE a.dept_code = b.ksdm
+"
+PKG_JCFX_REPORT	PACKAGE BODY	262	"     ORDER BY b.ksmc;
+"
+PKG_JCFX_REPORT	PACKAGE BODY	263	"     
+"
+PKG_JCFX_REPORT	PACKAGE BODY	264	"  Begin
+"
+PKG_JCFX_REPORT	PACKAGE BODY	265	"    prm_AppCode := 1;
+"
+PKG_JCFX_REPORT	PACKAGE BODY	266	"    prm_ErrMsg  := '住院报表02统计成功!';
+"
+PKG_JCFX_REPORT	PACKAGE BODY	267	"    ln_month      := To_Number(Substr(To_Char(prm_Start_Id),1,6));     
+"
+PKG_JCFX_REPORT	PACKAGE BODY	268	"    ldt_Start_Id := To_Date(To_Char(prm_Start_Id),'yyyy-mm-dd');
+"
+PKG_JCFX_REPORT	PACKAGE BODY	269	"    ldt_End_Id   := To_Date(To_Char(prm_End_Id),'yyyy-mm-dd') + 86399/86400;
+"
+PKG_JCFX_REPORT	PACKAGE BODY	270	"    ldt_Previous_Min := ldt_Start_id - 1;               -- 前一天开始时间
+"
+PKG_JCFX_REPORT	PACKAGE BODY	271	"    ldt_Previous_Max := ldt_Previous_Min + 86399/86400; -- 前一天结束时间
+"
+PKG_JCFX_REPORT	PACKAGE BODY	272	"    
+"
+PKG_JCFX_REPORT	PACKAGE BODY	273	"    -- 删除旧的数据（HONGER）
+"
+PKG_JCFX_REPORT	PACKAGE BODY	274	"    DELETE FROM jcfx_zy_report_02 
+"
+PKG_JCFX_REPORT	PACKAGE BODY	275	"     WHERE month = ln_month 
+"
+PKG_JCFX_REPORT	PACKAGE BODY	276	"       and brlb = prm_Brlb;
+"
+PKG_JCFX_REPORT	PACKAGE BODY	277	"       
+"
+PKG_JCFX_REPORT	PACKAGE BODY	278	"    -- 利用游标循环处理每个科室的数据
+"
+PKG_JCFX_REPORT	PACKAGE BODY	279	"    OPEN cur_Ksdm;
+"
+PKG_JCFX_REPORT	PACKAGE BODY	280	"    LOOP
+"
+PKG_JCFX_REPORT	PACKAGE BODY	281	"      FETCH cur_Ksdm 
+"
+PKG_JCFX_REPORT	PACKAGE BODY	282	"       INTO ls_Ksdm,
+"
+PKG_JCFX_REPORT	PACKAGE BODY	283	"            ls_Ksmc;
+"
+PKG_JCFX_REPORT	PACKAGE BODY	284	"      
+"
+PKG_JCFX_REPORT	PACKAGE BODY	285	"      EXIT WHEN cur_Ksdm %NOTFOUND;
+"
+PKG_JCFX_REPORT	PACKAGE BODY	286	"      
+"
+PKG_JCFX_REPORT	PACKAGE BODY	287	"      -- 原有人数（HONGER）
+"
+PKG_JCFX_REPORT	PACKAGE BODY	288	"      SELECT NVL(Count(*),0)                    --原有人数
+"
+PKG_JCFX_REPORT	PACKAGE BODY	289	"        INTO ln_yyrs
+"
+PKG_JCFX_REPORT	PACKAGE BODY	290	"        FROM zy_patient_information
+"
+PKG_JCFX_REPORT	PACKAGE BODY	291	"       WHERE curr_ks = ls_ksdm
+"
+PKG_JCFX_REPORT	PACKAGE BODY	292	"         AND brlb = prm_brlb
+"
+PKG_JCFX_REPORT	PACKAGE BODY	293	"         AND admiss_date <= ldt_Previous_Max
+"
+PKG_JCFX_REPORT	PACKAGE BODY	294	"         AND (out_date >ldt_Previous_Min
+"
+PKG_JCFX_REPORT	PACKAGE BODY	295	"          OR (out_date IS NULL AND preout_date IS NULL));
+"
+PKG_JCFX_REPORT	PACKAGE BODY	296	"          
+"
+PKG_JCFX_REPORT	PACKAGE BODY	297	"      -- 入院总人数（HONGER）
+"
+PKG_JCFX_REPORT	PACKAGE BODY	298	"      SELECT NVL(Count(*),0)                    --入院总人数
+"
+PKG_JCFX_REPORT	PACKAGE BODY	299	"        INTO ln_ryzrs
+"
+PKG_JCFX_REPORT	PACKAGE BODY	300	"        FROM zy_patient_information
+"
+PKG_JCFX_REPORT	PACKAGE BODY	301	"       WHERE curr_ks = ls_ksdm
+"
+PKG_JCFX_REPORT	PACKAGE BODY	302	"         AND admiss_date BETWEEN ldt_Start_Id AND ldt_End_Id;
+"
+PKG_JCFX_REPORT	PACKAGE BODY	303	"         
+"
+PKG_JCFX_REPORT	PACKAGE BODY	304	"      -- 入院人数（HONGER）
+"
+PKG_JCFX_REPORT	PACKAGE BODY	305	"      SELECT NVL(Count(*),0)                    --入院人数
+"
+PKG_JCFX_REPORT	PACKAGE BODY	306	"        INTO ln_ryrs
+"
+PKG_JCFX_REPORT	PACKAGE BODY	307	"        FROM zy_patient_information
+"
+PKG_JCFX_REPORT	PACKAGE BODY	308	"       WHERE curr_ks = ls_ksdm
+"
+PKG_JCFX_REPORT	PACKAGE BODY	309	"         AND brlb = prm_brlb
+"
+PKG_JCFX_REPORT	PACKAGE BODY	310	"         AND admiss_date BETWEEN ldt_Start_Id AND ldt_End_Id;
+"
+PKG_JCFX_REPORT	PACKAGE BODY	311	"         
+"
+PKG_JCFX_REPORT	PACKAGE BODY	312	"      -- 出院总人数（HONGER）
+"
+PKG_JCFX_REPORT	PACKAGE BODY	313	"      SELECT NVL(Count(*),0)                    --出院总人数
+"
+PKG_JCFX_REPORT	PACKAGE BODY	314	"        INTO ln_cyzrs
+"
+PKG_JCFX_REPORT	PACKAGE BODY	315	"        FROM zy_patient_information
+"
+PKG_JCFX_REPORT	PACKAGE BODY	316	"       WHERE curr_ks = ls_ksdm
+"
+PKG_JCFX_REPORT	PACKAGE BODY	317	"         AND out_date BETWEEN ldt_Start_Id AND ldt_End_Id;
+"
+PKG_JCFX_REPORT	PACKAGE BODY	318	"         
+"
+PKG_JCFX_REPORT	PACKAGE BODY	319	"      -- 出院人数（HONGER）
+"
+PKG_JCFX_REPORT	PACKAGE BODY	320	"      SELECT NVL(Count(*),0)                    --出院人数
+"
+PKG_JCFX_REPORT	PACKAGE BODY	321	"        INTO ln_cyrs
+"
+PKG_JCFX_REPORT	PACKAGE BODY	322	"        FROM zy_patient_information
+"
+PKG_JCFX_REPORT	PACKAGE BODY	323	"       WHERE curr_ks = ls_ksdm
+"
+PKG_JCFX_REPORT	PACKAGE BODY	324	"         AND brlb = prm_brlb 
+"
+PKG_JCFX_REPORT	PACKAGE BODY	325	"         AND out_date BETWEEN ldt_Start_Id AND ldt_End_Id;
+"
+PKG_JCFX_REPORT	PACKAGE BODY	326	"      
+"
+PKG_JCFX_REPORT	PACKAGE BODY	327	"      -- 住院天数（HONGER）
+"
+PKG_JCFX_REPORT	PACKAGE BODY	328	"      Begin
+"
+PKG_JCFX_REPORT	PACKAGE BODY	329	"        SELECT Nvl(Sum(a.out_date - a.admiss_date),0)   -- 住院天数
+"
+PKG_JCFX_REPORT	PACKAGE BODY	330	"          INTO ln_zyts
+"
+PKG_JCFX_REPORT	PACKAGE BODY	331	"          FROM zy_patient_information a
+"
+PKG_JCFX_REPORT	PACKAGE BODY	332	"         WHERE a.out_date BETWEEN ldt_Start_Id AND ldt_End_Id
+"
+PKG_JCFX_REPORT	PACKAGE BODY	333	"           AND a.brlb   = prm_Brlb
+"
+PKG_JCFX_REPORT	PACKAGE BODY	334	"           AND curr_ks  = ls_ksdm;
+"
+PKG_JCFX_REPORT	PACKAGE BODY	335	"      
+"
+PKG_JCFX_REPORT	PACKAGE BODY	336	"      Exception
+"
+PKG_JCFX_REPORT	PACKAGE BODY	337	"        When NO_DATA_FOUND Then
+"
+PKG_JCFX_REPORT	PACKAGE BODY	338	"          ln_zyts := 0;
+"
+PKG_JCFX_REPORT	PACKAGE BODY	339	"        WHEN Others Then
+"
+PKG_JCFX_REPORT	PACKAGE BODY	340	"          prm_AppCode := -1;
+"
+PKG_JCFX_REPORT	PACKAGE BODY	341	"          prm_ErrMsg  := '住院报表02取住院天数时失败！'||SQLERRM;
+"
+PKG_JCFX_REPORT	PACKAGE BODY	342	"      End;
+"
+PKG_JCFX_REPORT	PACKAGE BODY	343	"      
+"
+PKG_JCFX_REPORT	PACKAGE BODY	344	"      -- 出院总金额（HONGER）
+"
+PKG_JCFX_REPORT	PACKAGE BODY	345	"      Begin
+"
+PKG_JCFX_REPORT	PACKAGE BODY	346	"        SELECT Nvl(Sum(b.total_fee),0)                   -- 出院总金额
+"
+PKG_JCFX_REPORT	PACKAGE BODY	347	"          INTO ln_cyzje
+"
+PKG_JCFX_REPORT	PACKAGE BODY	348	"          FROM zy_patient_information a,
+"
+PKG_JCFX_REPORT	PACKAGE BODY	349	"               zy_total_fee b
+"
+PKG_JCFX_REPORT	PACKAGE BODY	350	"         WHERE a.out_date BETWEEN ldt_Start_Id AND ldt_End_Id
+"
+PKG_JCFX_REPORT	PACKAGE BODY	351	"           AND a.curr_ks = ls_ksdm
+"
+PKG_JCFX_REPORT	PACKAGE BODY	352	"           AND a.patient_no = b.patient_no;
+"
+PKG_JCFX_REPORT	PACKAGE BODY	353	"           
+"
+PKG_JCFX_REPORT	PACKAGE BODY	354	"      Exception
+"
+PKG_JCFX_REPORT	PACKAGE BODY	355	"        When NO_DATA_FOUND Then
+"
+PKG_JCFX_REPORT	PACKAGE BODY	356	"          ln_cyzje := 0;
+"
+PKG_JCFX_REPORT	PACKAGE BODY	357	"        WHEN Others Then
+"
+PKG_JCFX_REPORT	PACKAGE BODY	358	"          prm_AppCode := -1;
+"
+PKG_JCFX_REPORT	PACKAGE BODY	359	"          prm_ErrMsg  := '住院报表02取出院总金额时失败！'||SQLERRM;
+"
+PKG_JCFX_REPORT	PACKAGE BODY	360	"      End;
+"
+PKG_JCFX_REPORT	PACKAGE BODY	361	"      
+"
+PKG_JCFX_REPORT	PACKAGE BODY	362	"      -- 出院金额（HONGER）
+"
+PKG_JCFX_REPORT	PACKAGE BODY	363	"      Begin
+"
+PKG_JCFX_REPORT	PACKAGE BODY	364	"        SELECT Nvl(Sum(b.total_fee),0)                   -- 出院金额
+"
+PKG_JCFX_REPORT	PACKAGE BODY	365	"          INTO ln_cyje
+"
+PKG_JCFX_REPORT	PACKAGE BODY	366	"          FROM zy_patient_information a,
+"
+PKG_JCFX_REPORT	PACKAGE BODY	367	"               zy_total_fee b
+"
+PKG_JCFX_REPORT	PACKAGE BODY	368	"         WHERE a.out_date BETWEEN ldt_Start_Id AND ldt_End_Id
+"
+PKG_JCFX_REPORT	PACKAGE BODY	369	"           AND a.brlb       = prm_Brlb
+"
+PKG_JCFX_REPORT	PACKAGE BODY	370	"           AND a.patient_no = b.patient_no
+"
+PKG_JCFX_REPORT	PACKAGE BODY	371	"           AND a.curr_ks    = ls_ksdm;
+"
+PKG_JCFX_REPORT	PACKAGE BODY	372	"           
+"
+PKG_JCFX_REPORT	PACKAGE BODY	373	"      Exception
+"
+PKG_JCFX_REPORT	PACKAGE BODY	374	"        When NO_DATA_FOUND Then
+"
+PKG_JCFX_REPORT	PACKAGE BODY	375	"          ln_cyje := 0;
+"
+PKG_JCFX_REPORT	PACKAGE BODY	376	"        WHEN Others Then
+"
+PKG_JCFX_REPORT	PACKAGE BODY	377	"          prm_AppCode := -1;
+"
+PKG_JCFX_REPORT	PACKAGE BODY	378	"          prm_ErrMsg  := '住院报表02取出院金额时失败！'||SQLERRM;
+"
+PKG_JCFX_REPORT	PACKAGE BODY	379	"      End;
+"
+PKG_JCFX_REPORT	PACKAGE BODY	380	"      
+"
+PKG_JCFX_REPORT	PACKAGE BODY	381	"      -- 插入新的数据（HONGER）
+"
+PKG_JCFX_REPORT	PACKAGE BODY	382	"      -- 月份、病人类别、科室、科室名称、原有人数、入院人数、出院人数、住院天数、出院金额
+"
+PKG_JCFX_REPORT	PACKAGE BODY	383	"      -- 出院总金额、入院总人数、出院总人数（HONGER）
+"
+PKG_JCFX_REPORT	PACKAGE BODY	384	"      INSERT INTO jcfx_zy_report_02 ( month, brlb, ksdm,
+"
+PKG_JCFX_REPORT	PACKAGE BODY	385	"                                      ksmc, yyrs, ryrs,
+"
+PKG_JCFX_REPORT	PACKAGE BODY	386	"                                      cyrs, zyts, cyje,
+"
+PKG_JCFX_REPORT	PACKAGE BODY	387	"                                      cyzje, ryzrs, cyzrs)
+"
+PKG_JCFX_REPORT	PACKAGE BODY	388	"      VALUES ( ln_month, prm_brlb, ls_ksdm,
+"
+PKG_JCFX_REPORT	PACKAGE BODY	389	"               ls_ksmc, ln_yyrs, ln_ryrs,
+"
+PKG_JCFX_REPORT	PACKAGE BODY	390	"               ln_cyrs, ln_zyts, ln_cyje,
+"
+PKG_JCFX_REPORT	PACKAGE BODY	391	"               ln_cyzje, ln_ryzrs, ln_cyzrs);
+"
+PKG_JCFX_REPORT	PACKAGE BODY	392	"    END LOOP;
+"
+PKG_JCFX_REPORT	PACKAGE BODY	393	"    CLOSE cur_Ksdm;
+"
+PKG_JCFX_REPORT	PACKAGE BODY	394	"  
+"
+PKG_JCFX_REPORT	PACKAGE BODY	395	"  EXCEPTION
+"
+PKG_JCFX_REPORT	PACKAGE BODY	396	"    When OTHERS Then
+"
+PKG_JCFX_REPORT	PACKAGE BODY	397	"      prm_AppCode := -1;
+"
+PKG_JCFX_REPORT	PACKAGE BODY	398	"      prm_ErrMsg  := '住院报表02统计失败！'||SQLERRM;
+"
+PKG_JCFX_REPORT	PACKAGE BODY	399	"    End;
+"
+PKG_JCFX_REPORT	PACKAGE BODY	400	"End Prc_Zy_Report_02;
+"
+PKG_JCFX_REPORT	PACKAGE BODY	401	"
+"
+PKG_JCFX_REPORT	PACKAGE BODY	402	"
+"
+PKG_JCFX_REPORT	PACKAGE BODY	403	"
+"
+PKG_JCFX_REPORT	PACKAGE BODY	404	"Procedure Prc_Mz_Report_01 ( prm_Start_Id    In   NUMBER,
+"
+PKG_JCFX_REPORT	PACKAGE BODY	405	"                             prm_End_Id      In   NUMBER,
+"
+PKG_JCFX_REPORT	PACKAGE BODY	406	"                             prm_Brlb        In   gy_brlb.xh%Type,
+"
+PKG_JCFX_REPORT	PACKAGE BODY	407	"                             prm_AppCode     Out  NUMBER,
+"
+PKG_JCFX_REPORT	PACKAGE BODY	408	"                             prm_ErrMsg      Out  VARCHAR2)
+"
+PKG_JCFX_REPORT	PACKAGE BODY	409	"Is
+"
+PKG_JCFX_REPORT	PACKAGE BODY	410	"
+"
+PKG_JCFX_REPORT	PACKAGE BODY	411	"/*=============================================================================
+"
+PKG_JCFX_REPORT	PACKAGE BODY	412	"|| 过程名称 ： 决策分析门诊报表数据采集1Prc_Mz_Report_01
+"
+PKG_JCFX_REPORT	PACKAGE BODY	413	"||-----------------------------------------------------------------------------
+"
+PKG_JCFX_REPORT	PACKAGE BODY	414	"|| 功能说明 ： 按月份、病人类别、病人单位统计门诊人次、金额
+"
+PKG_JCFX_REPORT	PACKAGE BODY	415	"||-----------------------------------------------------------------------------
+"
+PKG_JCFX_REPORT	PACKAGE BODY	416	"|| 参数描述 ： 参数标识       输入/输出   类型       名称
+"
+PKG_JCFX_REPORT	PACKAGE BODY	417	"||            -----------------------------------------------------------------
+"
+PKG_JCFX_REPORT	PACKAGE BODY	418	"||             prm_Start_Id   IN          Number     开始日期
+"
+PKG_JCFX_REPORT	PACKAGE BODY	419	"||             prm_End_Id     IN          Number     结束日期
+"
+PKG_JCFX_REPORT	PACKAGE BODY	420	"||             prm_Brlb       IN          Number     病人类别
+"
+PKG_JCFX_REPORT	PACKAGE BODY	421	"||             prm_AppCode    OUT         Number     执行结果
+"
+PKG_JCFX_REPORT	PACKAGE BODY	422	"||             prm_ErrMsg     OUT         Varchar2   返回信息
+"
+PKG_JCFX_REPORT	PACKAGE BODY	423	"||-----------------------------------------------------------------------------
+"
+PKG_JCFX_REPORT	PACKAGE BODY	424	"|| 注意事项 ： 过程中不作提交处理，由前台提交处理
+"
+PKG_JCFX_REPORT	PACKAGE BODY	425	"||-----------------------------------------------------------------------------
+"
+PKG_JCFX_REPORT	PACKAGE BODY	426	"|| 作    者 ： 陈联      完成日期 ： 2001-12-20
+"
+PKG_JCFX_REPORT	PACKAGE BODY	427	"||-----------------------------------------------------------------------------
+"
+PKG_JCFX_REPORT	PACKAGE BODY	428	"|| 修改记录 ： 陈智鸿 @ 2002-10-21
+"
+PKG_JCFX_REPORT	PACKAGE BODY	429	"||             整理
+"
+PKG_JCFX_REPORT	PACKAGE BODY	430	"||            -----------------------------------------------------------------
+"
+PKG_JCFX_REPORT	PACKAGE BODY	431	"||             陈智鸿 @ 2002-12-10
+"
+PKG_JCFX_REPORT	PACKAGE BODY	432	"||             MZ_MZSFK1和GY_BRJBXXK的JZKH不是一一对应的
+"
+PKG_JCFX_REPORT	PACKAGE BODY	433	"||             由于GY_BRJBXXK中的BRLB可能会改变改采集语句中条件中
+"
+PKG_JCFX_REPORT	PACKAGE BODY	434	"||             C.BRLB=PRM_BRLB为A.BRLB=PRM_BRLB
+"
+PKG_JCFX_REPORT	PACKAGE BODY	435	"=============================================================================*/
+"
+PKG_JCFX_REPORT	PACKAGE BODY	436	"
+"
+PKG_JCFX_REPORT	PACKAGE BODY	437	"Begin
+"
+PKG_JCFX_REPORT	PACKAGE BODY	438	"
+"
+PKG_JCFX_REPORT	PACKAGE BODY	439	"  Declare
+"
+PKG_JCFX_REPORT	PACKAGE BODY	440	"    ldt_Start_Id   Date;
+"
+PKG_JCFX_REPORT	PACKAGE BODY	441	"    ldt_End_Id     Date;
+"
+PKG_JCFX_REPORT	PACKAGE BODY	442	"    ln_month       Number;
+"
+PKG_JCFX_REPORT	PACKAGE BODY	443	"    
+"
+PKG_JCFX_REPORT	PACKAGE BODY	444	"  Begin
+"
+PKG_JCFX_REPORT	PACKAGE BODY	445	"    prm_AppCode  := 1;
+"
+PKG_JCFX_REPORT	PACKAGE BODY	446	"    prm_ErrMsg   := '门诊报表01统计失败!';
+"
+PKG_JCFX_REPORT	PACKAGE BODY	447	"    ldt_Start_Id := To_Date(To_Char(prm_Start_Id),'yyyy-mm-dd');
+"
+PKG_JCFX_REPORT	PACKAGE BODY	448	"    ldt_End_Id   := To_Date(To_Char(prm_End_Id),'yyyy-mm-dd') + 86399/86400;      
+"
+PKG_JCFX_REPORT	PACKAGE BODY	449	"    ln_month     := To_Number(Substr(To_Char(prm_Start_Id),1,6));
+"
+PKG_JCFX_REPORT	PACKAGE BODY	450	"    
+"
+PKG_JCFX_REPORT	PACKAGE BODY	451	"    -- 删除旧的数据（HONGER）
+"
+PKG_JCFX_REPORT	PACKAGE BODY	452	"    DELETE FROM jcfx_Mz_Report_01 
+"
+PKG_JCFX_REPORT	PACKAGE BODY	453	"     WHERE month = ln_month 
+"
+PKG_JCFX_REPORT	PACKAGE BODY	454	"       and brlb = prm_Brlb;
+"
+PKG_JCFX_REPORT	PACKAGE BODY	455	"       
+"
+PKG_JCFX_REPORT	PACKAGE BODY	456	"    -- 插入新的数据（HONGER)
+"
+PKG_JCFX_REPORT	PACKAGE BODY	457	"    -- 月份、病人类别、单位名称、人次、金额（HONGER）
+"
+PKG_JCFX_REPORT	PACKAGE BODY	458	"    INSERT INTO Jcfx_Mz_Report_01 ( month, brlb, dwmc,
+"
+PKG_JCFX_REPORT	PACKAGE BODY	459	"                                    rc, je)
+"
+PKG_JCFX_REPORT	PACKAGE BODY	460	"    SELECT ln_month, prm_Brlb, Nvl(c.dwmc,'无主单位'),
+"
+PKG_JCFX_REPORT	PACKAGE BODY	461	"           Count(Distinct a.jzkh) rc, Sum(Nvl(b.fyhj,0)) je -- 人次，金额
+"
+PKG_JCFX_REPORT	PACKAGE BODY	462	"      FROM mz_mzsfk1 a,
+"
+PKG_JCFX_REPORT	PACKAGE BODY	463	"           mz_mzsfk2 b,
+"
+PKG_JCFX_REPORT	PACKAGE BODY	464	"           gy_brjbxxk c
+"
+PKG_JCFX_REPORT	PACKAGE BODY	465	"     WHERE a.sfsb = b.sfsb
+"
+PKG_JCFX_REPORT	PACKAGE BODY	466	"       AND a.jzkh = c.jzkh(+)
+"
+PKG_JCFX_REPORT	PACKAGE BODY	467	"       AND a.sfrq BETWEEN ldt_Start_Id AND ldt_End_Id
+"
+PKG_JCFX_REPORT	PACKAGE BODY	468	"       AND a.brlb = prm_Brlb
+"
+PKG_JCFX_REPORT	PACKAGE BODY	469	"     GROUP BY c.dwmc;
+"
+PKG_JCFX_REPORT	PACKAGE BODY	470	"     
+"
+PKG_JCFX_REPORT	PACKAGE BODY	471	"  Exception
+"
+PKG_JCFX_REPORT	PACKAGE BODY	472	"    When Others Then
+"
+PKG_JCFX_REPORT	PACKAGE BODY	473	"      prm_AppCode := -1;
+"
+PKG_JCFX_REPORT	PACKAGE BODY	474	"      prm_ErrMsg  := '门诊报表01统计失败!';
+"
+PKG_JCFX_REPORT	PACKAGE BODY	475	"  End;
+"
+PKG_JCFX_REPORT	PACKAGE BODY	476	"
+"
+PKG_JCFX_REPORT	PACKAGE BODY	477	"End Prc_Mz_Report_01;
+"
+PKG_JCFX_REPORT	PACKAGE BODY	478	"
+"
+PKG_JCFX_REPORT	PACKAGE BODY	479	"End Pkg_Jcfx_Report;
+"

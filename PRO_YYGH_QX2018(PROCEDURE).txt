@@ -1,0 +1,66 @@
+PRO_YYGH_QX2018	PROCEDURE	1	"procedure ""PRO_YYGH_QX2018"" (in_jlxh in number, out_code out INTEGER, out_msg out varchar2 ) is
+"
+PRO_YYGH_QX2018	PROCEDURE	2	"
+"
+PRO_YYGH_QX2018	PROCEDURE	3	"
+"
+PRO_YYGH_QX2018	PROCEDURE	4	" v_sl number;
+"
+PRO_YYGH_QX2018	PROCEDURE	5	"
+"
+PRO_YYGH_QX2018	PROCEDURE	6	"begin
+"
+PRO_YYGH_QX2018	PROCEDURE	7	"   out_code:=-1 ;
+"
+PRO_YYGH_QX2018	PROCEDURE	8	"  out_msg:='´¦ÀíÊ§°Ü';
+"
+PRO_YYGH_QX2018	PROCEDURE	9	"  if in_jlxh>0 then
+"
+PRO_YYGH_QX2018	PROCEDURE	10	"     out_code:=-1 ;
+"
+PRO_YYGH_QX2018	PROCEDURE	11	"  else
+"
+PRO_YYGH_QX2018	PROCEDURE	12	"    return ;
+"
+PRO_YYGH_QX2018	PROCEDURE	13	"  end if;
+"
+PRO_YYGH_QX2018	PROCEDURE	14	"    
+"
+PRO_YYGH_QX2018	PROCEDURE	15	"  
+"
+PRO_YYGH_QX2018	PROCEDURE	16	"  
+"
+PRO_YYGH_QX2018	PROCEDURE	17	"   select count(yyxh) into v_sl  from gh_mzyyk where  yyrq1>sysdate   - 1 and    jlxh=in_jlxh   ;
+"
+PRO_YYGH_QX2018	PROCEDURE	18	"
+"
+PRO_YYGH_QX2018	PROCEDURE	19	"   if v_sl>=1 then
+"
+PRO_YYGH_QX2018	PROCEDURE	20	"
+"
+PRO_YYGH_QX2018	PROCEDURE	21	"  
+"
+PRO_YYGH_QX2018	PROCEDURE	22	"     delete   yj_Yjk1 where  ghxh=in_jlxh  and kdsj>sysdate  - 1;
+"
+PRO_YYGH_QX2018	PROCEDURE	23	"         delete  gh_ghk    where      jlxh=in_jlxh   ;
+"
+PRO_YYGH_QX2018	PROCEDURE	24	" 
+"
+PRO_YYGH_QX2018	PROCEDURE	25	"    update  gh_mzyyk set  zt=0 ,jlxh=null where yyrq1>sysdate   - 1 and     jlxh=in_jlxh   ;
+"
+PRO_YYGH_QX2018	PROCEDURE	26	"    commit;
+"
+PRO_YYGH_QX2018	PROCEDURE	27	"    out_code:=0;
+"
+PRO_YYGH_QX2018	PROCEDURE	28	"   out_msg:='ok';
+"
+PRO_YYGH_QX2018	PROCEDURE	29	"   return;
+"
+PRO_YYGH_QX2018	PROCEDURE	30	"   end if;
+"
+PRO_YYGH_QX2018	PROCEDURE	31	"
+"
+PRO_YYGH_QX2018	PROCEDURE	32	"return;
+"
+PRO_YYGH_QX2018	PROCEDURE	33	"end PRO_YYGH_QX2018;
+"

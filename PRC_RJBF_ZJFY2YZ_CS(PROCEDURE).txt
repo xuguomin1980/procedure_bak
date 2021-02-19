@@ -1,0 +1,602 @@
+PRC_RJBF_ZJFY2YZ_CS	PROCEDURE	1	"procedure prc_rjbf_zjfy2yz_cs(al_patient_no in number,
+"
+PRC_RJBF_ZJFY2YZ_CS	PROCEDURE	2	"                                             al_jzxh       in number,
+"
+PRC_RJBF_ZJFY2YZ_CS	PROCEDURE	3	"                                             as_jzkh       in varchar2,
+"
+PRC_RJBF_ZJFY2YZ_CS	PROCEDURE	4	"                                             al_brxh       in number,
+"
+PRC_RJBF_ZJFY2YZ_CS	PROCEDURE	5	"                                             al_code       out number,
+"
+PRC_RJBF_ZJFY2YZ_CS	PROCEDURE	6	"                                             as_Msg        out varchar2) is
+"
+PRC_RJBF_ZJFY2YZ_CS	PROCEDURE	7	"begin
+"
+PRC_RJBF_ZJFY2YZ_CS	PROCEDURE	8	"  declare
+"
+PRC_RJBF_ZJFY2YZ_CS	PROCEDURE	9	"    /*=============================================================================
+"
+PRC_RJBF_ZJFY2YZ_CS	PROCEDURE	10	"    ||  过程名称 ：院前门诊费用转住院费用 prc_rjbf_zjfy2yz
+"
+PRC_RJBF_ZJFY2YZ_CS	PROCEDURE	11	"    ||-----------------------------------------------------------------------------
+"
+PRC_RJBF_ZJFY2YZ_CS	PROCEDURE	12	"    ||  功能说明 ：根据医技库项目到住院费用；
+"
+PRC_RJBF_ZJFY2YZ_CS	PROCEDURE	13	"    ||       大概思路：1、取到检验，检查项目，
+"
+PRC_RJBF_ZJFY2YZ_CS	PROCEDURE	14	"    ||       2、插入到zy_detail_charge表
+"
+PRC_RJBF_ZJFY2YZ_CS	PROCEDURE	15	"    ||       4、zj_zysqd 增加标志 yscyz 已生成医嘱信息标志 1，2 已计费
+"
+PRC_RJBF_ZJFY2YZ_CS	PROCEDURE	16	"    ||-----------------------------------------------------------------------------
+"
+PRC_RJBF_ZJFY2YZ_CS	PROCEDURE	17	"    ||  参数描述 ：参数标识       输入/输出  类型      名称
+"
+PRC_RJBF_ZJFY2YZ_CS	PROCEDURE	18	"    ||            -----------------------------------------------------------------
+"
+PRC_RJBF_ZJFY2YZ_CS	PROCEDURE	19	"    ||             al_patient_no  IN         NUMBER  住院号
+"
+PRC_RJBF_ZJFY2YZ_CS	PROCEDURE	20	"    ||             al_jzxh        IN         NUMBER    就诊序号
+"
+PRC_RJBF_ZJFY2YZ_CS	PROCEDURE	21	"    ||             as_jzkh        IN         varchar2    就诊卡号
+"
+PRC_RJBF_ZJFY2YZ_CS	PROCEDURE	22	"    ||             al_brxh        IN         NUMBER    病人序号
+"
+PRC_RJBF_ZJFY2YZ_CS	PROCEDURE	23	"    ||             al_code        OUT        NUMBER  返回信息编码
+"
+PRC_RJBF_ZJFY2YZ_CS	PROCEDURE	24	"    ||             as_Msg         OUT        VARCHAR2  返回信息
+"
+PRC_RJBF_ZJFY2YZ_CS	PROCEDURE	25	"    ||-----------------------------------------------------------------------------
+"
+PRC_RJBF_ZJFY2YZ_CS	PROCEDURE	26	"    ||  作    者 ：赵月南     完成日期 ：2019-08-05
+"
+PRC_RJBF_ZJFY2YZ_CS	PROCEDURE	27	"    ||-----------------------------------------------------------------------------
+"
+PRC_RJBF_ZJFY2YZ_CS	PROCEDURE	28	"    ||  修改记录 ：
+"
+PRC_RJBF_ZJFY2YZ_CS	PROCEDURE	29	"    =============================================================================*/
+"
+PRC_RJBF_ZJFY2YZ_CS	PROCEDURE	30	"    ADT_KDSJ           DATE;
+"
+PRC_RJBF_ZJFY2YZ_CS	PROCEDURE	31	"    AL_YLXH            NUMBER;
+"
+PRC_RJBF_ZJFY2YZ_CS	PROCEDURE	32	"    AD_DJ              NUMBER(10, 2);
+"
+PRC_RJBF_ZJFY2YZ_CS	PROCEDURE	33	"    AD_SL              NUMBER(10, 2);
+"
+PRC_RJBF_ZJFY2YZ_CS	PROCEDURE	34	"    AL_FYGB            NUMBER;
+"
+PRC_RJBF_ZJFY2YZ_CS	PROCEDURE	35	"    AS_XMMC            VARCHAR2(50);
+"
+PRC_RJBF_ZJFY2YZ_CS	PROCEDURE	36	"    as_bah             VARCHAR2(50);
+"
+PRC_RJBF_ZJFY2YZ_CS	PROCEDURE	37	"    Al_jlxh            NUMBER;
+"
+PRC_RJBF_ZJFY2YZ_CS	PROCEDURE	38	"    AL_COUNT           NUMBER;
+"
+PRC_RJBF_ZJFY2YZ_CS	PROCEDURE	39	"    al_yjsb            NUMBER;
+"
+PRC_RJBF_ZJFY2YZ_CS	PROCEDURE	40	"    AS_CHARGE_NAME     VARCHAR2(100);
+"
+PRC_RJBF_ZJFY2YZ_CS	PROCEDURE	41	"    As_code            VARCHAR2(50);
+"
+PRC_RJBF_ZJFY2YZ_CS	PROCEDURE	42	"    AS_curr_bq         VARCHAR2(50);
+"
+PRC_RJBF_ZJFY2YZ_CS	PROCEDURE	43	"    AS_curr_ks         VARCHAR2(50);
+"
+PRC_RJBF_ZJFY2YZ_CS	PROCEDURE	44	"    AS_zx_ks           VARCHAR2(50);
+"
+PRC_RJBF_ZJFY2YZ_CS	PROCEDURE	45	"    AS_curr_bed        VARCHAR2(50);
+"
+PRC_RJBF_ZJFY2YZ_CS	PROCEDURE	46	"    AS_zzys            VARCHAR2(10);
+"
+PRC_RJBF_ZJFY2YZ_CS	PROCEDURE	47	"    as_ys_code         VARCHAR2(10);
+"
+PRC_RJBF_ZJFY2YZ_CS	PROCEDURE	48	"    AL_RETURN          NUMBER;
+"
+PRC_RJBF_ZJFY2YZ_CS	PROCEDURE	49	"    AL_cddm            NUMBER;
+"
+PRC_RJBF_ZJFY2YZ_CS	PROCEDURE	50	"    al_js_no           NUMBER;
+"
+PRC_RJBF_ZJFY2YZ_CS	PROCEDURE	51	"    as_twice_detail_id varchar2(25);
+"
+PRC_RJBF_ZJFY2YZ_CS	PROCEDURE	52	"    ls_jzkh            VARCHAR2(50);
+"
+PRC_RJBF_ZJFY2YZ_CS	PROCEDURE	53	"    cursor yjk is
+"
+PRC_RJBF_ZJFY2YZ_CS	PROCEDURE	54	"    SELECT b.ylxh,
+"
+PRC_RJBF_ZJFY2YZ_CS	PROCEDURE	55	"             b.sl,
+"
+PRC_RJBF_ZJFY2YZ_CS	PROCEDURE	56	"             b.dj,
+"
+PRC_RJBF_ZJFY2YZ_CS	PROCEDURE	57	"             b.fygb,
+"
+PRC_RJBF_ZJFY2YZ_CS	PROCEDURE	58	"             b.xmmc,
+"
+PRC_RJBF_ZJFY2YZ_CS	PROCEDURE	59	"             a.yjsb,
+"
+PRC_RJBF_ZJFY2YZ_CS	PROCEDURE	60	"             b.fhr,
+"
+PRC_RJBF_ZJFY2YZ_CS	PROCEDURE	61	"             0 YPCD,
+"
+PRC_RJBF_ZJFY2YZ_CS	PROCEDURE	62	"             b.zxksdm
+"
+PRC_RJBF_ZJFY2YZ_CS	PROCEDURE	63	"        FROM yj_yjk1 a, yj_yjk2 b
+"
+PRC_RJBF_ZJFY2YZ_CS	PROCEDURE	64	"       WHERE a.yjsb = b.yjsb
+"
+PRC_RJBF_ZJFY2YZ_CS	PROCEDURE	65	"         and nvl(b.zfpb, 0) = 0
+"
+PRC_RJBF_ZJFY2YZ_CS	PROCEDURE	66	"         and (a.zjpb in (13) and b.zjpb = 9)
+"
+PRC_RJBF_ZJFY2YZ_CS	PROCEDURE	67	"         and b.dj * b.sl <> 0
+"
+PRC_RJBF_ZJFY2YZ_CS	PROCEDURE	68	"         and nvl(a.brxh, 0) = al_brxh
+"
+PRC_RJBF_ZJFY2YZ_CS	PROCEDURE	69	"         and a.jzkh = ls_jzkh
+"
+PRC_RJBF_ZJFY2YZ_CS	PROCEDURE	70	"         and a.sfsb is null
+"
+PRC_RJBF_ZJFY2YZ_CS	PROCEDURE	71	"         and trunc(kdsj) >= trunc(adt_kdsj) and b.ylxh not in(select ylxh from gy_ylsf where ylmc like '%冠状%' and sfxm=9)
+"
+PRC_RJBF_ZJFY2YZ_CS	PROCEDURE	72	"      union all
+"
+PRC_RJBF_ZJFY2YZ_CS	PROCEDURE	73	"      select distinct c.ylxh,
+"
+PRC_RJBF_ZJFY2YZ_CS	PROCEDURE	74	"                      1 sl,
+"
+PRC_RJBF_ZJFY2YZ_CS	PROCEDURE	75	"                      c.dj DJ,
+"
+PRC_RJBF_ZJFY2YZ_CS	PROCEDURE	76	"                      9 fygb,
+"
+PRC_RJBF_ZJFY2YZ_CS	PROCEDURE	77	"                      c.ylmc XMMC,
+"
+PRC_RJBF_ZJFY2YZ_CS	PROCEDURE	78	"                      b.laborder YJSB,
+"
+PRC_RJBF_ZJFY2YZ_CS	PROCEDURE	79	"                      print FHR,
+"
+PRC_RJBF_ZJFY2YZ_CS	PROCEDURE	80	"                      0 YPCD,
+"
+PRC_RJBF_ZJFY2YZ_CS	PROCEDURE	81	"                      c.ksdm
+"
+PRC_RJBF_ZJFY2YZ_CS	PROCEDURE	82	"        from gy_ylsftc a,
+"
+PRC_RJBF_ZJFY2YZ_CS	PROCEDURE	83	"             gy_ylsf c,
+"
+PRC_RJBF_ZJFY2YZ_CS	PROCEDURE	84	"             (select to_number(substr(a.testdescribe,
+"
+PRC_RJBF_ZJFY2YZ_CS	PROCEDURE	85	"                                      1,
+"
+PRC_RJBF_ZJFY2YZ_CS	PROCEDURE	86	"                                      instr(a.testdescribe || '+', '+') - 1)) tcylxh,
+"
+PRC_RJBF_ZJFY2YZ_CS	PROCEDURE	87	"                     1 sl,
+"
+PRC_RJBF_ZJFY2YZ_CS	PROCEDURE	88	"                     price,
+"
+PRC_RJBF_ZJFY2YZ_CS	PROCEDURE	89	"                     9 fygb,
+"
+PRC_RJBF_ZJFY2YZ_CS	PROCEDURE	90	"                     examitem,
+"
+PRC_RJBF_ZJFY2YZ_CS	PROCEDURE	91	"                     laborder,
+"
+PRC_RJBF_ZJFY2YZ_CS	PROCEDURE	92	"                     '803' print,
+"
+PRC_RJBF_ZJFY2YZ_CS	PROCEDURE	93	"                     C.SL,
+"
+PRC_RJBF_ZJFY2YZ_CS	PROCEDURE	94	"                     C.DJ,
+"
+PRC_RJBF_ZJFY2YZ_CS	PROCEDURE	95	"                     C.YJSB
+"
+PRC_RJBF_ZJFY2YZ_CS	PROCEDURE	96	"                from l_laborder a, YJ_yJK1 B, YJ_YJK2 C
+"
+PRC_RJBF_ZJFY2YZ_CS	PROCEDURE	97	"               where patientid = ls_jzkh
+"
+PRC_RJBF_ZJFY2YZ_CS	PROCEDURE	98	"                 AND A.YJSB = B.YJSB
+"
+PRC_RJBF_ZJFY2YZ_CS	PROCEDURE	99	"                 AND A.YJSB = C.YJSB
+"
+PRC_RJBF_ZJFY2YZ_CS	PROCEDURE	100	"                 AND to_number(substr(a.testdescribe,
+"
+PRC_RJBF_ZJFY2YZ_CS	PROCEDURE	101	"                                      1,
+"
+PRC_RJBF_ZJFY2YZ_CS	PROCEDURE	102	"                                      instr(a.testdescribe || '+', '+') - 1)) =
+"
+PRC_RJBF_ZJFY2YZ_CS	PROCEDURE	103	"                     C.TCYLXH
+"
+PRC_RJBF_ZJFY2YZ_CS	PROCEDURE	104	"                 and nvl(printtime, tmprinttime) is not null
+"
+PRC_RJBF_ZJFY2YZ_CS	PROCEDURE	105	"                 AND C.DJ * C.SL <> 0
+"
+PRC_RJBF_ZJFY2YZ_CS	PROCEDURE	106	"                 and nvl(printtime, tmprinttime) > trunc(adt_kdsj)
+"
+PRC_RJBF_ZJFY2YZ_CS	PROCEDURE	107	"                 and laborderorg = al_brxh) b
+"
+PRC_RJBF_ZJFY2YZ_CS	PROCEDURE	108	"       where a.glxh = b.tcylxh
+"
+PRC_RJBF_ZJFY2YZ_CS	PROCEDURE	109	"         and a.ylxh = c.ylxh  and c.ylxh not in(select ylxh from gy_ylsf where ylmc like '%冠状%' and sfxm=9)
+"
+PRC_RJBF_ZJFY2YZ_CS	PROCEDURE	110	"      union all
+"
+PRC_RJBF_ZJFY2YZ_CS	PROCEDURE	111	"      select b.ypxh, sl, dj, a.cflx, xmmc, b.cfsb, a.ysgh, YPCDDM, ksdm
+"
+PRC_RJBF_ZJFY2YZ_CS	PROCEDURE	112	"        from mz_cfk1 a, mz_cfk2 b
+"
+PRC_RJBF_ZJFY2YZ_CS	PROCEDURE	113	"       where a.cfsb = b.cfsb
+"
+PRC_RJBF_ZJFY2YZ_CS	PROCEDURE	114	"         and nvl(a.brxh, 0) = al_brxh
+"
+PRC_RJBF_ZJFY2YZ_CS	PROCEDURE	115	"         and cfrq > trunc(adt_kdsj)
+"
+PRC_RJBF_ZJFY2YZ_CS	PROCEDURE	116	"         and a.jzkh = ls_jzkh
+"
+PRC_RJBF_ZJFY2YZ_CS	PROCEDURE	117	"         and a.sfsb is null
+"
+PRC_RJBF_ZJFY2YZ_CS	PROCEDURE	118	"         and a.fypb = 9;
+"
+PRC_RJBF_ZJFY2YZ_CS	PROCEDURE	119	"  
+"
+PRC_RJBF_ZJFY2YZ_CS	PROCEDURE	120	"  begin
+"
+PRC_RJBF_ZJFY2YZ_CS	PROCEDURE	121	"    al_code := 1;
+"
+PRC_RJBF_ZJFY2YZ_CS	PROCEDURE	122	"    as_Msg  := 'Ok!';
+"
+PRC_RJBF_ZJFY2YZ_CS	PROCEDURE	123	"    --查找住院申请单获取到开单时间
+"
+PRC_RJBF_ZJFY2YZ_CS	PROCEDURE	124	"    BEGIN
+"
+PRC_RJBF_ZJFY2YZ_CS	PROCEDURE	125	"      if al_jzxh > 0 then
+"
+PRC_RJBF_ZJFY2YZ_CS	PROCEDURE	126	"        as_Msg := 'Ok!';
+"
+PRC_RJBF_ZJFY2YZ_CS	PROCEDURE	127	"      else
+"
+PRC_RJBF_ZJFY2YZ_CS	PROCEDURE	128	"        return;
+"
+PRC_RJBF_ZJFY2YZ_CS	PROCEDURE	129	"      end if;
+"
+PRC_RJBF_ZJFY2YZ_CS	PROCEDURE	130	"    
+"
+PRC_RJBF_ZJFY2YZ_CS	PROCEDURE	131	"      select sqrq, jzkh
+"
+PRC_RJBF_ZJFY2YZ_CS	PROCEDURE	132	"        into adt_kdsj, ls_jzkh
+"
+PRC_RJBF_ZJFY2YZ_CS	PROCEDURE	133	"        from zj_zysqd
+"
+PRC_RJBF_ZJFY2YZ_CS	PROCEDURE	134	"       where patient_No = al_patient_no
+"
+PRC_RJBF_ZJFY2YZ_CS	PROCEDURE	135	"         and (jiuzhenxh = al_jzxh or jzxh = al_jzxh)
+"
+PRC_RJBF_ZJFY2YZ_CS	PROCEDURE	136	"            -- and nvl(sfrj, 0) > 0
+"
+PRC_RJBF_ZJFY2YZ_CS	PROCEDURE	137	"         and nvl(djzt, 0) <> 4
+"
+PRC_RJBF_ZJFY2YZ_CS	PROCEDURE	138	"         and nvl(zfpb, 0) = 0
+"
+PRC_RJBF_ZJFY2YZ_CS	PROCEDURE	139	"         and rownum = 1;
+"
+PRC_RJBF_ZJFY2YZ_CS	PROCEDURE	140	"    EXCEPTION
+"
+PRC_RJBF_ZJFY2YZ_CS	PROCEDURE	141	"      WHEN NO_DATA_FOUND THEN
+"
+PRC_RJBF_ZJFY2YZ_CS	PROCEDURE	142	"        al_code := 1; --20200426
+"
+PRC_RJBF_ZJFY2YZ_CS	PROCEDURE	143	"        as_Msg  := '住院申请单，未找到数据!!';
+"
+PRC_RJBF_ZJFY2YZ_CS	PROCEDURE	144	"        return; --20200426
+"
+PRC_RJBF_ZJFY2YZ_CS	PROCEDURE	145	"    END;
+"
+PRC_RJBF_ZJFY2YZ_CS	PROCEDURE	146	"    --判断是否已经办理了正式入院，没有则不进行转费用
+"
+PRC_RJBF_ZJFY2YZ_CS	PROCEDURE	147	"    BEGIN
+"
+PRC_RJBF_ZJFY2YZ_CS	PROCEDURE	148	"      /*  Select count(1) into al_count From zy_patient_information where patient_no =al_patient_no ;
+"
+PRC_RJBF_ZJFY2YZ_CS	PROCEDURE	149	"      If AL_COUNT > 0 THEN
+"
+PRC_RJBF_ZJFY2YZ_CS	PROCEDURE	150	"        al_code:=-1;
+"
+PRC_RJBF_ZJFY2YZ_CS	PROCEDURE	151	"        as_Msg:='该病人未办理入院登记，不能进行转费用!';
+"
+PRC_RJBF_ZJFY2YZ_CS	PROCEDURE	152	"       END iF;*/
+"
+PRC_RJBF_ZJFY2YZ_CS	PROCEDURE	153	"    
+"
+PRC_RJBF_ZJFY2YZ_CS	PROCEDURE	154	"      select curr_bq, curr_ks, curr_bed, js_no, zzys
+"
+PRC_RJBF_ZJFY2YZ_CS	PROCEDURE	155	"        into AS_curr_bq, AS_curr_ks, AS_curr_bed, al_js_no, AS_zzys
+"
+PRC_RJBF_ZJFY2YZ_CS	PROCEDURE	156	"        from zy_patient_information
+"
+PRC_RJBF_ZJFY2YZ_CS	PROCEDURE	157	"       where patient_no = al_patient_no
+"
+PRC_RJBF_ZJFY2YZ_CS	PROCEDURE	158	"            --and js_no = 0
+"
+PRC_RJBF_ZJFY2YZ_CS	PROCEDURE	159	"         and rownum = 1;
+"
+PRC_RJBF_ZJFY2YZ_CS	PROCEDURE	160	"      select nvl(max(jzys), '0')
+"
+PRC_RJBF_ZJFY2YZ_CS	PROCEDURE	161	"        into as_ys_code
+"
+PRC_RJBF_ZJFY2YZ_CS	PROCEDURE	162	"        From zj_jzxx
+"
+PRC_RJBF_ZJFY2YZ_CS	PROCEDURE	163	"       where jzxh = al_jzxh;
+"
+PRC_RJBF_ZJFY2YZ_CS	PROCEDURE	164	"    
+"
+PRC_RJBF_ZJFY2YZ_CS	PROCEDURE	165	"    END;
+"
+PRC_RJBF_ZJFY2YZ_CS	PROCEDURE	166	"    open YJK;
+"
+PRC_RJBF_ZJFY2YZ_CS	PROCEDURE	167	"    loop
+"
+PRC_RJBF_ZJFY2YZ_CS	PROCEDURE	168	"      fetch YJK
+"
+PRC_RJBF_ZJFY2YZ_CS	PROCEDURE	169	"        into AL_YLXH, AD_SL, AD_DJ, AL_FYGB, AS_XMMC, al_yjsb, AS_code, AL_cddm, as_zx_ks;
+"
+PRC_RJBF_ZJFY2YZ_CS	PROCEDURE	170	"      exit when YJK%NOTFOUND;
+"
+PRC_RJBF_ZJFY2YZ_CS	PROCEDURE	171	"      if al_cddm <> 0 then
+"
+PRC_RJBF_ZJFY2YZ_CS	PROCEDURE	172	"        if length(AL_YLXH) = 2 then
+"
+PRC_RJBF_ZJFY2YZ_CS	PROCEDURE	173	"          as_twice_detail_id := '        ';
+"
+PRC_RJBF_ZJFY2YZ_CS	PROCEDURE	174	"        end if;
+"
+PRC_RJBF_ZJFY2YZ_CS	PROCEDURE	175	"        if length(AL_YLXH) = 3 then
+"
+PRC_RJBF_ZJFY2YZ_CS	PROCEDURE	176	"          as_twice_detail_id := '       ';
+"
+PRC_RJBF_ZJFY2YZ_CS	PROCEDURE	177	"        end if;
+"
+PRC_RJBF_ZJFY2YZ_CS	PROCEDURE	178	"        if length(AL_YLXH) = 4 then
+"
+PRC_RJBF_ZJFY2YZ_CS	PROCEDURE	179	"          as_twice_detail_id := '      ';
+"
+PRC_RJBF_ZJFY2YZ_CS	PROCEDURE	180	"        end if;
+"
+PRC_RJBF_ZJFY2YZ_CS	PROCEDURE	181	"        if length(AL_YLXH) = 5 then
+"
+PRC_RJBF_ZJFY2YZ_CS	PROCEDURE	182	"          as_twice_detail_id := '     ';
+"
+PRC_RJBF_ZJFY2YZ_CS	PROCEDURE	183	"        end if;
+"
+PRC_RJBF_ZJFY2YZ_CS	PROCEDURE	184	"        as_twice_detail_id := to_char(al_ylxh) || as_twice_detail_id ||
+"
+PRC_RJBF_ZJFY2YZ_CS	PROCEDURE	185	"                              to_char(al_cddm);
+"
+PRC_RJBF_ZJFY2YZ_CS	PROCEDURE	186	"        al_ylxh            := 1;
+"
+PRC_RJBF_ZJFY2YZ_CS	PROCEDURE	187	"        AL_FYGB            := 1;
+"
+PRC_RJBF_ZJFY2YZ_CS	PROCEDURE	188	"      else
+"
+PRC_RJBF_ZJFY2YZ_CS	PROCEDURE	189	"        as_twice_detail_id := '';
+"
+PRC_RJBF_ZJFY2YZ_CS	PROCEDURE	190	"      end if;
+"
+PRC_RJBF_ZJFY2YZ_CS	PROCEDURE	191	"      if as_ys_code > '0' then
+"
+PRC_RJBF_ZJFY2YZ_CS	PROCEDURE	192	"        null;
+"
+PRC_RJBF_ZJFY2YZ_CS	PROCEDURE	193	"      else
+"
+PRC_RJBF_ZJFY2YZ_CS	PROCEDURE	194	"        as_ys_code := AS_code;
+"
+PRC_RJBF_ZJFY2YZ_CS	PROCEDURE	195	"      end if;
+"
+PRC_RJBF_ZJFY2YZ_CS	PROCEDURE	196	"    
+"
+PRC_RJBF_ZJFY2YZ_CS	PROCEDURE	197	"      select zy_detail_charge_jlxh.nextval into Al_jlxh from dual;
+"
+PRC_RJBF_ZJFY2YZ_CS	PROCEDURE	198	"      --select ylmc into AS_CHARGE_NAME FROM GY_YLSF WHERE YLXH = Al_YLXH;
+"
+PRC_RJBF_ZJFY2YZ_CS	PROCEDURE	199	"    
+"
+PRC_RJBF_ZJFY2YZ_CS	PROCEDURE	200	"      insert into zy_detail_charge
+"
+PRC_RJBF_ZJFY2YZ_CS	PROCEDURE	201	"        (jlxh,
+"
+PRC_RJBF_ZJFY2YZ_CS	PROCEDURE	202	"         patient_no,
+"
+PRC_RJBF_ZJFY2YZ_CS	PROCEDURE	203	"         js_no,
+"
+PRC_RJBF_ZJFY2YZ_CS	PROCEDURE	204	"         infant_flag,
+"
+PRC_RJBF_ZJFY2YZ_CS	PROCEDURE	205	"         charge_name,
+"
+PRC_RJBF_ZJFY2YZ_CS	PROCEDURE	206	"         charge_code,
+"
+PRC_RJBF_ZJFY2YZ_CS	PROCEDURE	207	"         fygl,
+"
+PRC_RJBF_ZJFY2YZ_CS	PROCEDURE	208	"         twice_detail_code,
+"
+PRC_RJBF_ZJFY2YZ_CS	PROCEDURE	209	"         charge_date,
+"
+PRC_RJBF_ZJFY2YZ_CS	PROCEDURE	210	"         sl,
+"
+PRC_RJBF_ZJFY2YZ_CS	PROCEDURE	211	"         dj,
+"
+PRC_RJBF_ZJFY2YZ_CS	PROCEDURE	212	"         je,
+"
+PRC_RJBF_ZJFY2YZ_CS	PROCEDURE	213	"         ys_code,
+"
+PRC_RJBF_ZJFY2YZ_CS	PROCEDURE	214	"         zzys,
+"
+PRC_RJBF_ZJFY2YZ_CS	PROCEDURE	215	"         zx_ks,
+"
+PRC_RJBF_ZJFY2YZ_CS	PROCEDURE	216	"         curr_ks,
+"
+PRC_RJBF_ZJFY2YZ_CS	PROCEDURE	217	"         curr_bed,
+"
+PRC_RJBF_ZJFY2YZ_CS	PROCEDURE	218	"         op_id,
+"
+PRC_RJBF_ZJFY2YZ_CS	PROCEDURE	219	"         fhr,
+"
+PRC_RJBF_ZJFY2YZ_CS	PROCEDURE	220	"         gfbz,
+"
+PRC_RJBF_ZJFY2YZ_CS	PROCEDURE	221	"         start_date,
+"
+PRC_RJBF_ZJFY2YZ_CS	PROCEDURE	222	"         bqdm,
+"
+PRC_RJBF_ZJFY2YZ_CS	PROCEDURE	223	"         twice_detail_id,
+"
+PRC_RJBF_ZJFY2YZ_CS	PROCEDURE	224	"         self_percent)
+"
+PRC_RJBF_ZJFY2YZ_CS	PROCEDURE	225	"      values
+"
+PRC_RJBF_ZJFY2YZ_CS	PROCEDURE	226	"        (al_jlxh,
+"
+PRC_RJBF_ZJFY2YZ_CS	PROCEDURE	227	"         al_patient_no,
+"
+PRC_RJBF_ZJFY2YZ_CS	PROCEDURE	228	"         al_js_No,
+"
+PRC_RJBF_ZJFY2YZ_CS	PROCEDURE	229	"         0,
+"
+PRC_RJBF_ZJFY2YZ_CS	PROCEDURE	230	"         AS_XMMC,
+"
+PRC_RJBF_ZJFY2YZ_CS	PROCEDURE	231	"         AL_YLXH,
+"
+PRC_RJBF_ZJFY2YZ_CS	PROCEDURE	232	"         AL_FYGB,
+"
+PRC_RJBF_ZJFY2YZ_CS	PROCEDURE	233	"         'ZY',
+"
+PRC_RJBF_ZJFY2YZ_CS	PROCEDURE	234	"         SYSDATE,
+"
+PRC_RJBF_ZJFY2YZ_CS	PROCEDURE	235	"         AD_SL,
+"
+PRC_RJBF_ZJFY2YZ_CS	PROCEDURE	236	"         AD_DJ,
+"
+PRC_RJBF_ZJFY2YZ_CS	PROCEDURE	237	"         AD_SL * AD_DJ,
+"
+PRC_RJBF_ZJFY2YZ_CS	PROCEDURE	238	"         as_ys_code,
+"
+PRC_RJBF_ZJFY2YZ_CS	PROCEDURE	239	"         AS_zzys,
+"
+PRC_RJBF_ZJFY2YZ_CS	PROCEDURE	240	"         AS_zx_ks,
+"
+PRC_RJBF_ZJFY2YZ_CS	PROCEDURE	241	"         AS_curr_ks,
+"
+PRC_RJBF_ZJFY2YZ_CS	PROCEDURE	242	"         AS_curr_bed,
+"
+PRC_RJBF_ZJFY2YZ_CS	PROCEDURE	243	"         AS_code,
+"
+PRC_RJBF_ZJFY2YZ_CS	PROCEDURE	244	"         AS_code,
+"
+PRC_RJBF_ZJFY2YZ_CS	PROCEDURE	245	"         0,
+"
+PRC_RJBF_ZJFY2YZ_CS	PROCEDURE	246	"         SYSDATE,
+"
+PRC_RJBF_ZJFY2YZ_CS	PROCEDURE	247	"         AS_curr_bq,
+"
+PRC_RJBF_ZJFY2YZ_CS	PROCEDURE	248	"         as_twice_detail_id,
+"
+PRC_RJBF_ZJFY2YZ_CS	PROCEDURE	249	"         1);
+"
+PRC_RJBF_ZJFY2YZ_CS	PROCEDURE	250	"      AL_RETURN := 1;
+"
+PRC_RJBF_ZJFY2YZ_CS	PROCEDURE	251	"    
+"
+PRC_RJBF_ZJFY2YZ_CS	PROCEDURE	252	"    END LOOP;
+"
+PRC_RJBF_ZJFY2YZ_CS	PROCEDURE	253	"    close yjk;
+"
+PRC_RJBF_ZJFY2YZ_CS	PROCEDURE	254	"    iF 1 = 1 or AL_RETURN = 1 Then
+"
+PRC_RJBF_ZJFY2YZ_CS	PROCEDURE	255	"      UPDATE ZJ_ZYSQD
+"
+PRC_RJBF_ZJFY2YZ_CS	PROCEDURE	256	"         SET DJZT = 4, zypb = 1
+"
+PRC_RJBF_ZJFY2YZ_CS	PROCEDURE	257	"       WHERE PATIENT_NO = AL_PATIENT_NO
+"
+PRC_RJBF_ZJFY2YZ_CS	PROCEDURE	258	"         AND jiuzhenxh = AL_JZXH;
+"
+PRC_RJBF_ZJFY2YZ_CS	PROCEDURE	259	"    
+"
+PRC_RJBF_ZJFY2YZ_CS	PROCEDURE	260	"      update yj_Yjk2
+"
+PRC_RJBF_ZJFY2YZ_CS	PROCEDURE	261	"         set yjsb = -1 * yjsb
+"
+PRC_RJBF_ZJFY2YZ_CS	PROCEDURE	262	"       where yjsb < 0
+"
+PRC_RJBF_ZJFY2YZ_CS	PROCEDURE	263	"         and yjsb in (select yjsb * -1
+"
+PRC_RJBF_ZJFY2YZ_CS	PROCEDURE	264	"                        from yj_Yjk1
+"
+PRC_RJBF_ZJFY2YZ_CS	PROCEDURE	265	"                       where jzxh = al_jzxh
+"
+PRC_RJBF_ZJFY2YZ_CS	PROCEDURE	266	"                         and brxh = al_brxh);
+"
+PRC_RJBF_ZJFY2YZ_CS	PROCEDURE	267	"    
+"
+PRC_RJBF_ZJFY2YZ_CS	PROCEDURE	268	"      update yj_Yjk1
+"
+PRC_RJBF_ZJFY2YZ_CS	PROCEDURE	269	"         set yjsb = -1 * yjsb
+"
+PRC_RJBF_ZJFY2YZ_CS	PROCEDURE	270	"       where jzxh = al_jzxh
+"
+PRC_RJBF_ZJFY2YZ_CS	PROCEDURE	271	"         and brxh = al_brxh;
+"
+PRC_RJBF_ZJFY2YZ_CS	PROCEDURE	272	"      update mz_cfk1
+"
+PRC_RJBF_ZJFY2YZ_CS	PROCEDURE	273	"         set cfsb = -1 * cfsb
+"
+PRC_RJBF_ZJFY2YZ_CS	PROCEDURE	274	"       where jzxh = al_jzxh
+"
+PRC_RJBF_ZJFY2YZ_CS	PROCEDURE	275	"         and brxh = al_brxh
+"
+PRC_RJBF_ZJFY2YZ_CS	PROCEDURE	276	"         and fypb = 9;
+"
+PRC_RJBF_ZJFY2YZ_CS	PROCEDURE	277	"      select bah
+"
+PRC_RJBF_ZJFY2YZ_CS	PROCEDURE	278	"        into as_bah
+"
+PRC_RJBF_ZJFY2YZ_CS	PROCEDURE	279	"        from zy_patient_information
+"
+PRC_RJBF_ZJFY2YZ_CS	PROCEDURE	280	"       where patient_no = AL_PATIENT_NO;
+"
+PRC_RJBF_ZJFY2YZ_CS	PROCEDURE	281	"      update l_patientinfo
+"
+PRC_RJBF_ZJFY2YZ_CS	PROCEDURE	282	"         set stayhospitalmode = 2, patientid = as_bah
+"
+PRC_RJBF_ZJFY2YZ_CS	PROCEDURE	283	"       where doctadviseno in (select laborder
+"
+PRC_RJBF_ZJFY2YZ_CS	PROCEDURE	284	"                                from l_laborder
+"
+PRC_RJBF_ZJFY2YZ_CS	PROCEDURE	285	"                               where patientid = ls_jzkh
+"
+PRC_RJBF_ZJFY2YZ_CS	PROCEDURE	286	"                                 and laborderorg = al_brxh);
+"
+PRC_RJBF_ZJFY2YZ_CS	PROCEDURE	287	"      update l_Laborder
+"
+PRC_RJBF_ZJFY2YZ_CS	PROCEDURE	288	"         set stayhospitalmode = 2,
+"
+PRC_RJBF_ZJFY2YZ_CS	PROCEDURE	289	"             patientid        = as_bah,
+"
+PRC_RJBF_ZJFY2YZ_CS	PROCEDURE	290	"             sendry           = executor,
+"
+PRC_RJBF_ZJFY2YZ_CS	PROCEDURE	291	"             sendtime         = executetime,
+"
+PRC_RJBF_ZJFY2YZ_CS	PROCEDURE	292	"             printflag        = 1
+"
+PRC_RJBF_ZJFY2YZ_CS	PROCEDURE	293	"       where patientid = ls_JZKH
+"
+PRC_RJBF_ZJFY2YZ_CS	PROCEDURE	294	"         and laborderorg = al_brxh;
+"
+PRC_RJBF_ZJFY2YZ_CS	PROCEDURE	295	"      update zy_total_fee
+"
+PRC_RJBF_ZJFY2YZ_CS	PROCEDURE	296	"         set curr_ks = AS_curr_ks
+"
+PRC_RJBF_ZJFY2YZ_CS	PROCEDURE	297	"       where PATIENT_NO = AL_PATIENT_NO;
+"
+PRC_RJBF_ZJFY2YZ_CS	PROCEDURE	298	"      commit;
+"
+PRC_RJBF_ZJFY2YZ_CS	PROCEDURE	299	"    End If;
+"
+PRC_RJBF_ZJFY2YZ_CS	PROCEDURE	300	"  end;
+"
+PRC_RJBF_ZJFY2YZ_CS	PROCEDURE	301	"end;
+"

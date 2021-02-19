@@ -1,0 +1,206 @@
+GH_GHK_FKMF	PROCEDURE	1	"PROCEDURE GH_GHK_FKMF as
+"
+GH_GHK_FKMF	PROCEDURE	2	"  RQ     NVARCHAR2(20);
+"
+GH_GHK_FKMF	PROCEDURE	3	"  v_yyxh number;
+"
+GH_GHK_FKMF	PROCEDURE	4	"  v_lxdh NVARCHAR2(30);
+"
+GH_GHK_FKMF	PROCEDURE	5	"  v_msg  NVARCHAR2(500);
+"
+GH_GHK_FKMF	PROCEDURE	6	"  v_msg2 NVARCHAR2(500);
+"
+GH_GHK_FKMF	PROCEDURE	7	"  cursor cur_mzyyk is
+"
+GH_GHK_FKMF	PROCEDURE	8	"    select yyxh
+"
+GH_GHK_FKMF	PROCEDURE	9	"      from gh_mzyyk
+"
+GH_GHK_FKMF	PROCEDURE	10	"     where djrq > sysdate - 0.5
+"
+GH_GHK_FKMF	PROCEDURE	11	"       and djrq < sysdate - 0.001
+"
+GH_GHK_FKMF	PROCEDURE	12	"       and czgh < 'Z'
+"
+GH_GHK_FKMF	PROCEDURE	13	"       and czgh >= 'B'
+"
+GH_GHK_FKMF	PROCEDURE	14	"       and yyxh not in (
+"
+GH_GHK_FKMF	PROCEDURE	15	"                        
+"
+GH_GHK_FKMF	PROCEDURE	16	"                        select yyxh
+"
+GH_GHK_FKMF	PROCEDURE	17	"                          from (select yyxh, lxdh
+"
+GH_GHK_FKMF	PROCEDURE	18	"                                   From gh_mzyyk
+"
+GH_GHK_FKMF	PROCEDURE	19	"                                  where djrq >= sysdate - 0.511
+"
+GH_GHK_FKMF	PROCEDURE	20	"                                    and czgh < 'Z'
+"
+GH_GHK_FKMF	PROCEDURE	21	"                                    and czgh >= 'B') x,
+"
+GH_GHK_FKMF	PROCEDURE	22	"                                auto_task_ywzx_send y
+"
+GH_GHK_FKMF	PROCEDURE	23	"                         where instr(y.bz, x.yyxh) > 0
+"
+GH_GHK_FKMF	PROCEDURE	24	"                           and y.date_add > sysdate - 0.511
+"
+GH_GHK_FKMF	PROCEDURE	25	"                           and x.lxdh = y.lxdh);
+"
+GH_GHK_FKMF	PROCEDURE	26	"
+"
+GH_GHK_FKMF	PROCEDURE	27	"begin
+"
+GH_GHK_FKMF	PROCEDURE	28	"
+"
+GH_GHK_FKMF	PROCEDURE	29	"  --人工电话预约 漏发短信
+"
+GH_GHK_FKMF	PROCEDURE	30	"  IF 1 = 1 THEN
+"
+GH_GHK_FKMF	PROCEDURE	31	"  
+"
+GH_GHK_FKMF	PROCEDURE	32	"    open cur_mzyyk;
+"
+GH_GHK_FKMF	PROCEDURE	33	"    loop
+"
+GH_GHK_FKMF	PROCEDURE	34	"      fetch cur_mzyyk
+"
+GH_GHK_FKMF	PROCEDURE	35	"        into v_yyxh;
+"
+GH_GHK_FKMF	PROCEDURE	36	"    
+"
+GH_GHK_FKMF	PROCEDURE	37	"      exit when cur_mzyyk%NOTFOUND;
+"
+GH_GHK_FKMF	PROCEDURE	38	"      select lxdh,
+"
+GH_GHK_FKMF	PROCEDURE	39	"             '就诊科室:' || (select ksmc from gy_ksdm where ksdm = t.ksdm) || ' ' ||
+"
+GH_GHK_FKMF	PROCEDURE	40	"             (select '就诊医师:' || xm from gy_zgxx where zgid = ysgh) ||
+"
+GH_GHK_FKMF	PROCEDURE	41	"             ',预约号为:' || yyxh || ',预约日期' || to_char(yyrq1, 'yyyy-mm-dd') ||
+"
+GH_GHK_FKMF	PROCEDURE	42	"             decode(yysj, 1, '上午', '下午') || ghxh || '号'
+"
+GH_GHK_FKMF	PROCEDURE	43	"        into v_lxdh, v_msg
+"
+GH_GHK_FKMF	PROCEDURE	44	"        from gh_mzyyk t
+"
+GH_GHK_FKMF	PROCEDURE	45	"       where yyxh = v_yyxh;
+"
+GH_GHK_FKMF	PROCEDURE	46	"      v_lxdh := '13777929515';
+"
+GH_GHK_FKMF	PROCEDURE	47	"      prc_sms_send('gh', v_lxdh, v_msg, v_msg2);
+"
+GH_GHK_FKMF	PROCEDURE	48	"    
+"
+GH_GHK_FKMF	PROCEDURE	49	"    end loop;
+"
+GH_GHK_FKMF	PROCEDURE	50	"    close cur_mzyyk;
+"
+GH_GHK_FKMF	PROCEDURE	51	"  
+"
+GH_GHK_FKMF	PROCEDURE	52	"  end if;
+"
+GH_GHK_FKMF	PROCEDURE	53	"  -- end 人工电话预约 漏发短信
+"
+GH_GHK_FKMF	PROCEDURE	54	"
+"
+GH_GHK_FKMF	PROCEDURE	55	"  SELECT TO_CHAR(SYSDATE, 'YYYYMMDD') INTO RQ FROM DUAL;
+"
+GH_GHK_FKMF	PROCEDURE	56	"  IF RQ <= '20200818' THEN
+"
+GH_GHK_FKMF	PROCEDURE	57	"    insert into auto_task_ywzx_send
+"
+GH_GHK_FKMF	PROCEDURE	58	"      (xh, lxdh, bz, date_add, lx)
+"
+GH_GHK_FKMF	PROCEDURE	59	"      select SEQ_AUTO_TASK_YWZX_SEND_XH.NEXTVAL,
+"
+GH_GHK_FKMF	PROCEDURE	60	"             a.lxdh,
+"
+GH_GHK_FKMF	PROCEDURE	61	"             a.xm || '您好,为了庆祝医师节，医院推出前五名挂号免费活动，您预约的' || a.YYXH ||
+"
+GH_GHK_FKMF	PROCEDURE	62	"             '单号已为您免除挂号费，请于' || '2020-08-19' || ' ' ||
+"
+GH_GHK_FKMF	PROCEDURE	63	"             decode(a.yysj, 1, '上午', '下午') || ',拿该卡直接去诊间签到就诊,无需再次取号。',
+"
+GH_GHK_FKMF	PROCEDURE	64	"             sysdate,
+"
+GH_GHK_FKMF	PROCEDURE	65	"             a.yylb
+"
+GH_GHK_FKMF	PROCEDURE	66	"        from gh_mzyyk a, gy_brjbxxk b
+"
+GH_GHK_FKMF	PROCEDURE	67	"       where a.mzlbxh > 3
+"
+GH_GHK_FKMF	PROCEDURE	68	"         and yysj = 1
+"
+GH_GHK_FKMF	PROCEDURE	69	"         and ghxh < 6 --a.ksdm in('2100002','2010022','2010021','2020011','2011001','4010013','2100004','2100005','2011003') --a.YSGH IN('A0604' ,'A0646','A0640','A0643','A0608','A0556','10067','A0489','A0687','A0605') 
+"
+GH_GHK_FKMF	PROCEDURE	70	"         AND to_char(YYRQ1, 'yyyy-mm-dd') = '2020-08-19'
+"
+GH_GHK_FKMF	PROCEDURE	71	"         and to_char(a.djrq, 'yyyy-mm-dd') < '2020-08-19'
+"
+GH_GHK_FKMF	PROCEDURE	72	"         and zt = 0
+"
+GH_GHK_FKMF	PROCEDURE	73	"         and a.jzkh = b.jzkh
+"
+GH_GHK_FKMF	PROCEDURE	74	"         AND NVL(MESSAGE, 0) = 0; --and substr(a.sfzh,17,1) in('0','2','4','6','8');
+"
+GH_GHK_FKMF	PROCEDURE	75	"    insert into auto_task_ywzx_send
+"
+GH_GHK_FKMF	PROCEDURE	76	"      (xh, lxdh, bz, date_add, lx)
+"
+GH_GHK_FKMF	PROCEDURE	77	"      select SEQ_AUTO_TASK_YWZX_SEND_XH.NEXTVAL,
+"
+GH_GHK_FKMF	PROCEDURE	78	"             a.lxdh,
+"
+GH_GHK_FKMF	PROCEDURE	79	"             a.xm || ', 您好,为了庆祝医师节，医院推出前五名挂号免费活动，您预约的' || a.YYXH ||
+"
+GH_GHK_FKMF	PROCEDURE	80	"             '单号已为您免除挂号费，请于' || '2020-08-19' || ' ' ||
+"
+GH_GHK_FKMF	PROCEDURE	81	"             decode(a.yysj, 1, '上午', '下午') || ',去挂号人工窗口制卡,并免费取号就诊。',
+"
+GH_GHK_FKMF	PROCEDURE	82	"             Sysdate,
+"
+GH_GHK_FKMF	PROCEDURE	83	"             a.yylb
+"
+GH_GHK_FKMF	PROCEDURE	84	"        from gh_mzyyk a
+"
+GH_GHK_FKMF	PROCEDURE	85	"       where a.mzlbxh > 3
+"
+GH_GHK_FKMF	PROCEDURE	86	"         and yysj = 1
+"
+GH_GHK_FKMF	PROCEDURE	87	"         and ghxh < 6 --a.ksdm in('2100002','2010022','2010021','2020011','2011001','4010013','2100004','2100005','2011003')--a.YSGH IN('A0604' ,'A0646','A0640','A0643','A0608','A0556','10067','A0489','A0687','A0605') 
+"
+GH_GHK_FKMF	PROCEDURE	88	"         AND to_char(YYRQ1, 'yyyy-mm-dd') = '2020-08-19'
+"
+GH_GHK_FKMF	PROCEDURE	89	"         and to_char(a.djrq, 'yyyy-mm-dd') < '2020-08-19'
+"
+GH_GHK_FKMF	PROCEDURE	90	"         and zt = 0
+"
+GH_GHK_FKMF	PROCEDURE	91	"         and a.jzkh is null
+"
+GH_GHK_FKMF	PROCEDURE	92	"         AND NVL(MESSAGE, 0) = 0; --and substr(a.sfzh,17,1) in('0','2','4','6','8');
+"
+GH_GHK_FKMF	PROCEDURE	93	"    UPDATE gh_mzyyk a
+"
+GH_GHK_FKMF	PROCEDURE	94	"       SET MESSAGE = 1, xxlyid = 'qianghao', xxczid = '2020抢号渠道'
+"
+GH_GHK_FKMF	PROCEDURE	95	"     where a.mzlbxh > 3
+"
+GH_GHK_FKMF	PROCEDURE	96	"       and yysj = 1
+"
+GH_GHK_FKMF	PROCEDURE	97	"       and ghxh < 6 --a.ksdm in('2100002','2010022','2010021','2020011','2011001','4010013','2100004','2100005','2011003') 
+"
+GH_GHK_FKMF	PROCEDURE	98	"       AND to_char(YYRQ1, 'yyyy-mm-dd') = '2020-08-19'
+"
+GH_GHK_FKMF	PROCEDURE	99	"       AND ZT = 0
+"
+GH_GHK_FKMF	PROCEDURE	100	"       AND NVL(MESSAGE, 0) = 0; --and substr(a.sfzh,17,1) in('0','2','4','6','8');
+"
+GH_GHK_FKMF	PROCEDURE	101	"    COMMIT;
+"
+GH_GHK_FKMF	PROCEDURE	102	"  END IF;
+"
+GH_GHK_FKMF	PROCEDURE	103	"end;
+"

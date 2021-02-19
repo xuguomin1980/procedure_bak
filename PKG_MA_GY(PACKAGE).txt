@@ -1,0 +1,157 @@
+PKG_MA_GY	PACKAGE	1	"PACKAGE         ""PKG_MA_GY"" is
+"
+PKG_MA_GY	PACKAGE	2	"/*
+"
+PKG_MA_GY	PACKAGE	3	"项目：PDA
+"
+PKG_MA_GY	PACKAGE	4	"系统：系统公用
+"
+PKG_MA_GY	PACKAGE	5	"创建：2008-05-28
+"
+PKG_MA_GY	PACKAGE	6	"*/
+"
+PKG_MA_GY	PACKAGE	7	"
+"
+PKG_MA_GY	PACKAGE	8	"Type t_DataResult is ref cursor;
+"
+PKG_MA_GY	PACKAGE	9	"-- return pda_br%rowtype;
+"
+PKG_MA_GY	PACKAGE	10	"
+"
+PKG_MA_GY	PACKAGE	11	"--获取用户信息
+"
+PKG_MA_GY	PACKAGE	12	"Procedure Prc_GetYhxx  (prm_FuncID     in  Varchar2,              --功能ID（1：身份验证）
+"
+PKG_MA_GY	PACKAGE	13	"                        prm_InBuffer   in  Varchar2,              --入参
+"
+PKG_MA_GY	PACKAGE	14	"                        prm_AppCode    out Number,                --执行结果
+"
+PKG_MA_GY	PACKAGE	15	"                        prm_SessionID  out Varchar2,              --进程ID
+"
+PKG_MA_GY	PACKAGE	16	"                        prm_OutBuffer  out Varchar2,              --执行文本输出
+"
+PKG_MA_GY	PACKAGE	17	"                        prm_DataResult out t_DataResult           --执行结果集输出
+"
+PKG_MA_GY	PACKAGE	18	"                        );
+"
+PKG_MA_GY	PACKAGE	19	"--获取病区信息
+"
+PKG_MA_GY	PACKAGE	20	"Procedure Prc_GetBqxx  (prm_FuncID     in  Varchar2,              --功能ID（1：病区列表）
+"
+PKG_MA_GY	PACKAGE	21	"                        prm_InBuffer   in  Varchar2,              --入参
+"
+PKG_MA_GY	PACKAGE	22	"                        prm_AppCode    out Number,                --执行结果
+"
+PKG_MA_GY	PACKAGE	23	"                        prm_SessionID  out Varchar2,              --进程ID
+"
+PKG_MA_GY	PACKAGE	24	"                        prm_OutBuffer  out Varchar2,              --执行文本输出
+"
+PKG_MA_GY	PACKAGE	25	"                        prm_DataResult out t_DataResult           --执行结果集输出
+"
+PKG_MA_GY	PACKAGE	26	"                        );
+"
+PKG_MA_GY	PACKAGE	27	"
+"
+PKG_MA_GY	PACKAGE	28	"--获取床位列表
+"
+PKG_MA_GY	PACKAGE	29	"Procedure Prc_GetCwlb  (Prm_FuncID     in  Varchar2,              --功能ID
+"
+PKG_MA_GY	PACKAGE	30	"                        prm_InBuffer   in  Varchar2,              --范围类型|范围内容（1：病区，2：医疗组，3：主治医生，4：责任护士）
+"
+PKG_MA_GY	PACKAGE	31	"                        Prm_AppCode    out Number,                --执行结果
+"
+PKG_MA_GY	PACKAGE	32	"                        Prm_SessionID  out Varchar2,              --进程ID
+"
+PKG_MA_GY	PACKAGE	33	"                        Prm_OutBuffer  out Varchar2,              --执行文本输出
+"
+PKG_MA_GY	PACKAGE	34	"                        Prm_DataResult out t_DataResult           --执行结果集输出
+"
+PKG_MA_GY	PACKAGE	35	"                        ) ;
+"
+PKG_MA_GY	PACKAGE	36	"--获取系统参数
+"
+PKG_MA_GY	PACKAGE	37	"Procedure Prc_GetXtcs  (prm_FuncID     in  Varchar2,              --功能ID（1：指定参数，2：指定应用）
+"
+PKG_MA_GY	PACKAGE	38	"                       prm_InBuffer   in  Varchar2,              --病人住院ID
+"
+PKG_MA_GY	PACKAGE	39	"                       prm_AppCode    out Number,                --执行结果
+"
+PKG_MA_GY	PACKAGE	40	"                       prm_SessionID  out Varchar2,              --进程ID
+"
+PKG_MA_GY	PACKAGE	41	"                       prm_OutBuffer  out Varchar2,              --执行文本输出
+"
+PKG_MA_GY	PACKAGE	42	"                       prm_DataResult out t_DataResult           --执行结果集输出
+"
+PKG_MA_GY	PACKAGE	43	"                       );
+"
+PKG_MA_GY	PACKAGE	44	"/*
+"
+PKG_MA_GY	PACKAGE	45	"-- 获取常用语
+"
+PKG_MA_GY	PACKAGE	46	"Procedure Prc_GetCYY(prm_FuncID     in  Varchar2,              --功能ID
+"
+PKG_MA_GY	PACKAGE	47	"                    prm_InBuffer   in  Varchar2,              --入参
+"
+PKG_MA_GY	PACKAGE	48	"                    prm_AppCode    out Number,                --执行结果
+"
+PKG_MA_GY	PACKAGE	49	"                    prm_SessionID  out Varchar2,              --进程ID
+"
+PKG_MA_GY	PACKAGE	50	"                    prm_OutBuffer  out Varchar2,              --执行文本输出
+"
+PKG_MA_GY	PACKAGE	51	"                    prm_DataResult out t_DataResult           --执行结果集输出
+"
+PKG_MA_GY	PACKAGE	52	"                    );
+"
+PKG_MA_GY	PACKAGE	53	"                    */
+"
+PKG_MA_GY	PACKAGE	54	"--获取病人信息
+"
+PKG_MA_GY	PACKAGE	55	"Procedure Prc_GetBrxx  (prm_FuncID     in  Varchar2,              --功能ID（1：病人概要，2：费用明细，3：过敏史）
+"
+PKG_MA_GY	PACKAGE	56	"                        prm_InBuffer   in  Varchar2,              --病人住院ID
+"
+PKG_MA_GY	PACKAGE	57	"                        prm_AppCode    out Number,                --执行结果
+"
+PKG_MA_GY	PACKAGE	58	"                        prm_SessionID  out Varchar2,              --进程ID
+"
+PKG_MA_GY	PACKAGE	59	"                        prm_OutBuffer  out Varchar2,              --执行文本输出
+"
+PKG_MA_GY	PACKAGE	60	"                        prm_DataResult out t_DataResult           --执行结果集输出
+"
+PKG_MA_GY	PACKAGE	61	"                        );
+"
+PKG_MA_GY	PACKAGE	62	"
+"
+PKG_MA_GY	PACKAGE	63	"--按指定分隔符拆分字符串
+"
+PKG_MA_GY	PACKAGE	64	"Function Fun_GetToken(Prm_source    in out Varchar2,
+"
+PKG_MA_GY	PACKAGE	65	"                      Prm_separator in Varchar2) Return Varchar2;
+"
+PKG_MA_GY	PACKAGE	66	"
+"
+PKG_MA_GY	PACKAGE	67	"-- 函数：返回指定sql的结果集
+"
+PKG_MA_GY	PACKAGE	68	"Function   Fun_GetData(prm_Sql       Varchar2,
+"
+PKG_MA_GY	PACKAGE	69	"                          prm_AppCode   in Out Number,
+"
+PKG_MA_GY	PACKAGE	70	"                          prm_OutBuffer Out Varchar2
+"
+PKG_MA_GY	PACKAGE	71	"                          )   Return   t_DataResult;
+"
+PKG_MA_GY	PACKAGE	72	"
+"
+PKG_MA_GY	PACKAGE	73	"--用指定分隔符切割输入的字符串，返回一维数组
+"
+PKG_MA_GY	PACKAGE	74	"FUNCTION Fun_split (p_str IN VARCHAR2, p_delimiter IN VARCHAR2)  RETURN ty_str_split;
+"
+PKG_MA_GY	PACKAGE	75	"Function Fun_ToDate(Prm_Date in Varchar2) Return Date ;
+"
+PKG_MA_GY	PACKAGE	76	"
+"
+PKG_MA_GY	PACKAGE	77	"end PKG_MA_GY;
+"
+PKG_MA_GY	PACKAGE	78	"
+"
+PKG_MA_GY	PACKAGE	79	 

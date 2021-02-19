@@ -1,0 +1,66 @@
+FUN_GET_TINGZHENPB	FUNCTION	1	"FUNCTION FUN_GET_TINGZHENPB(is_ksrq IN VARCHAR2,
+"
+FUN_GET_TINGZHENPB	FUNCTION	2	"                                             is_ts IN number,
+"
+FUN_GET_TINGZHENPB	FUNCTION	3	"                                              is_ksdm  IN VARCHAR2,
+"
+FUN_GET_TINGZHENPB	FUNCTION	4	"                                              is_ysdm in VARCHAR2,
+"
+FUN_GET_TINGZHENPB	FUNCTION	5	"                                              is_mzlbxh in VARCHAR2,
+"
+FUN_GET_TINGZHENPB	FUNCTION	6	"                                              is_xq in VARCHAR2
+"
+FUN_GET_TINGZHENPB	FUNCTION	7	"                                             )
+"
+FUN_GET_TINGZHENPB	FUNCTION	8	"  RETURN NUMBER IS
+"
+FUN_GET_TINGZHENPB	FUNCTION	9	"  ls_return  NUMBER;
+"
+FUN_GET_TINGZHENPB	FUNCTION	10	"  ls_zt        NUMBER;
+"
+FUN_GET_TINGZHENPB	FUNCTION	11	"  ls_ts     number;
+"
+FUN_GET_TINGZHENPB	FUNCTION	12	"
+"
+FUN_GET_TINGZHENPB	FUNCTION	13	"  begin
+"
+FUN_GET_TINGZHENPB	FUNCTION	14	"    ls_ts:=0;
+"
+FUN_GET_TINGZHENPB	FUNCTION	15	"
+"
+FUN_GET_TINGZHENPB	FUNCTION	16	"    ls_return:=0;
+"
+FUN_GET_TINGZHENPB	FUNCTION	17	"    while ls_ts<is_ts  loop
+"
+FUN_GET_TINGZHENPB	FUNCTION	18	"      ls_zt:=0;
+"
+FUN_GET_TINGZHENPB	FUNCTION	19	"    ls_ts:=ls_ts+1;
+"
+FUN_GET_TINGZHENPB	FUNCTION	20	"    select count(*) into ls_zt from gh_mbzhgl
+"
+FUN_GET_TINGZHENPB	FUNCTION	21	"    where  ksdm = is_ksdm
+"
+FUN_GET_TINGZHENPB	FUNCTION	22	"     and mzlbxh =is_mzlbxh
+"
+FUN_GET_TINGZHENPB	FUNCTION	23	"    and ksrq <= to_date(is_ksrq,'yyyy-mm-dd')+ls_ts and
+"
+FUN_GET_TINGZHENPB	FUNCTION	24	"     jsrq >=to_date(is_ksrq,'yyyy-mm-dd')+ls_ts
+"
+FUN_GET_TINGZHENPB	FUNCTION	25	"     and nvl(ysgh,'*') =nvl(is_ysdm,'*')
+"
+FUN_GET_TINGZHENPB	FUNCTION	26	"     and swjsh<'0' and xwjsh<'0' and nvl(zfpb,0)<>1
+"
+FUN_GET_TINGZHENPB	FUNCTION	27	"      and xq=decode(to_number(to_char(to_date(is_ksrq,'yyyy-mm-dd')+ls_ts,'d')) - 1,0,7,to_number(to_char(to_date(is_ksrq,'yyyy-mm-dd')+ls_ts,'d')) - 1)
+"
+FUN_GET_TINGZHENPB	FUNCTION	28	"      and xq=is_xq;
+"
+FUN_GET_TINGZHENPB	FUNCTION	29	"
+"
+FUN_GET_TINGZHENPB	FUNCTION	30	"    ls_return:=ls_return+ls_zt;
+"
+FUN_GET_TINGZHENPB	FUNCTION	31	"    END LOOP;
+"
+FUN_GET_TINGZHENPB	FUNCTION	32	"    RETURN ls_return;
+"
+FUN_GET_TINGZHENPB	FUNCTION	33	"    end ;
+"

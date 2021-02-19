@@ -1,0 +1,31 @@
+F_GYS_GETKC	FUNCTION	1	"FUNCTION         ""F_GYS_GETKC"" (p_wpxh in number) 
+"
+F_GYS_GETKC	FUNCTION	2	"  return number
+"
+F_GYS_GETKC	FUNCTION	3	"  is
+"
+F_GYS_GETKC	FUNCTION	4	"    result number(14,4);
+"
+F_GYS_GETKC	FUNCTION	5	"  begin 
+"
+F_GYS_GETKC	FUNCTION	6	"    begin 
+"
+F_GYS_GETKC	FUNCTION	7	"      select sum(kcsl) into result 
+"
+F_GYS_GETKC	FUNCTION	8	"      from gys_kczz 
+"
+F_GYS_GETKC	FUNCTION	9	"      where wpxh = p_wpxh; 
+"
+F_GYS_GETKC	FUNCTION	10	"    exception 
+"
+F_GYS_GETKC	FUNCTION	11	"      when others then 
+"
+F_GYS_GETKC	FUNCTION	12	"        result := 0; 
+"
+F_GYS_GETKC	FUNCTION	13	"    end; 
+"
+F_GYS_GETKC	FUNCTION	14	"    return(result); 
+"
+F_GYS_GETKC	FUNCTION	15	"  end;
+"
+F_GYS_GETKC	FUNCTION	16	 

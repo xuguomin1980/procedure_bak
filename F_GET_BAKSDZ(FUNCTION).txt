@@ -1,0 +1,16 @@
+F_GET_BAKSDZ	FUNCTION	1	"FUNCTION f_get_baksdz  (arg_ksdm in varchar2)
+"
+F_GET_BAKSDZ	FUNCTION	2	"return varchar2
+"
+F_GET_BAKSDZ	FUNCTION	3	"   is
+"
+F_GET_BAKSDZ	FUNCTION	4	"     ls_return varchar2(30);
+"
+F_GET_BAKSDZ	FUNCTION	5	"begin
+"
+F_GET_BAKSDZ	FUNCTION	6	"   select badzks into ls_return from ba_ksdm_dz where ksdm = arg_ksdm;
+"
+F_GET_BAKSDZ	FUNCTION	7	"   return(ls_return);
+"
+F_GET_BAKSDZ	FUNCTION	8	"end;
+"

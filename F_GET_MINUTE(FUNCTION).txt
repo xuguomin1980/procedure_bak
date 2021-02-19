@@ -1,0 +1,27 @@
+F_GET_MINUTE	FUNCTION	1	"FUNCTION         ""F_GET_MINUTE"" (ARG_KSSJ IN date,ARG_PSSJ  IN number )
+"
+F_GET_MINUTE	FUNCTION	2	" return varchar2
+"
+F_GET_MINUTE	FUNCTION	3	"is
+"
+F_GET_MINUTE	FUNCTION	4	"  s number;
+"
+F_GET_MINUTE	FUNCTION	5	"begin
+"
+F_GET_MINUTE	FUNCTION	6	"  s:=trunc(arg_pssj*60-(sysdate-arg_kssj)*24*3600);
+"
+F_GET_MINUTE	FUNCTION	7	"  if s<0 then
+"
+F_GET_MINUTE	FUNCTION	8	"    return '';
+"
+F_GET_MINUTE	FUNCTION	9	"  else
+"
+F_GET_MINUTE	FUNCTION	10	"    return trunc(s/60)||':'||mod(s,60);
+"
+F_GET_MINUTE	FUNCTION	11	"  end if;
+"
+F_GET_MINUTE	FUNCTION	12	"end;
+"
+F_GET_MINUTE	FUNCTION	13	"
+"
+F_GET_MINUTE	FUNCTION	14	 

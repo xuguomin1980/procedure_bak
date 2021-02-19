@@ -1,0 +1,56 @@
+FUNC_SFZH18TO15	FUNCTION	1	"FUNCTION ""FUNC_SFZH18TO15"" (p_sfzh in varchar2)
+"
+FUNC_SFZH18TO15	FUNCTION	2	"return varchar2
+"
+FUNC_SFZH18TO15	FUNCTION	3	"/*=============================================================================
+"
+FUNC_SFZH18TO15	FUNCTION	4	"||  函数名称 ：浙二身份证18位转15位 func_sfzh18to15
+"
+FUNC_SFZH18TO15	FUNCTION	5	"||-----------------------------------------------------------------------------
+"
+FUNC_SFZH18TO15	FUNCTION	6	"|| 功能说明 ： 浙二身份证18位转15位
+"
+FUNC_SFZH18TO15	FUNCTION	7	"||-----------------------------------------------------------------------------
+"
+FUNC_SFZH18TO15	FUNCTION	8	"||  参数描述 ：参数标识       输入/输出  类型     名称
+"
+FUNC_SFZH18TO15	FUNCTION	9	"||            -----------------------------------------------------------------
+"
+FUNC_SFZH18TO15	FUNCTION	10	"||            p_sfzh           IN      varchar2   原身份证号
+"
+FUNC_SFZH18TO15	FUNCTION	11	"||            result           OUT     varchar2   新身份证号
+"
+FUNC_SFZH18TO15	FUNCTION	12	"||-----------------------------------------------------------------------------
+"
+FUNC_SFZH18TO15	FUNCTION	13	"||  作    者 ：巴国伟       完成日期 ：2012-11-13
+"
+FUNC_SFZH18TO15	FUNCTION	14	"||-----------------------------------------------------------------------------
+"
+FUNC_SFZH18TO15	FUNCTION	15	"|| 修改记录 ：
+"
+FUNC_SFZH18TO15	FUNCTION	16	"=============================================================================*/
+"
+FUNC_SFZH18TO15	FUNCTION	17	"is
+"
+FUNC_SFZH18TO15	FUNCTION	18	"  v_length number;
+"
+FUNC_SFZH18TO15	FUNCTION	19	"  Result   varchar2(20);
+"
+FUNC_SFZH18TO15	FUNCTION	20	"begin
+"
+FUNC_SFZH18TO15	FUNCTION	21	"  v_length := Length(p_sfzh);
+"
+FUNC_SFZH18TO15	FUNCTION	22	"  IF v_length = 18 THEN
+"
+FUNC_SFZH18TO15	FUNCTION	23	"     select substr(p_sfzh,1,6)||substr(p_sfzh,9,9) Into result from dual;
+"
+FUNC_SFZH18TO15	FUNCTION	24	"  Else
+"
+FUNC_SFZH18TO15	FUNCTION	25	"     result := p_sfzh;
+"
+FUNC_SFZH18TO15	FUNCTION	26	"  END IF;
+"
+FUNC_SFZH18TO15	FUNCTION	27	"  return(Result);
+"
+FUNC_SFZH18TO15	FUNCTION	28	"end ;
+"

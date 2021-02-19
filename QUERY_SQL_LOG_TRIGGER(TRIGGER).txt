@@ -1,0 +1,16 @@
+QUERY_SQL_LOG_TRIGGER	TRIGGER	1	"TRIGGER ""ZJHIS"".query_sql_log_trigger
+"
+QUERY_SQL_LOG_TRIGGER	TRIGGER	2	"before insert on query_sql_log
+"
+QUERY_SQL_LOG_TRIGGER	TRIGGER	3	"for each row
+"
+QUERY_SQL_LOG_TRIGGER	TRIGGER	4	" 
+"
+QUERY_SQL_LOG_TRIGGER	TRIGGER	5	"begin
+"
+QUERY_SQL_LOG_TRIGGER	TRIGGER	6	"
+"
+QUERY_SQL_LOG_TRIGGER	TRIGGER	7	" select query_sql_log_seq.nextval into :new.id from sys.dual;
+"
+QUERY_SQL_LOG_TRIGGER	TRIGGER	8	" end;
+"

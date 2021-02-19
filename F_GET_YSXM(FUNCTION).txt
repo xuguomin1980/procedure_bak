@@ -1,0 +1,24 @@
+F_GET_YSXM	FUNCTION	1	"FUNCTION ""F_GET_YSXM"" (p_ZZYS  in varchar2,p_flag varchar2)
+"
+F_GET_YSXM	FUNCTION	2	"return varchar
+"
+F_GET_YSXM	FUNCTION	3	"is
+"
+F_GET_YSXM	FUNCTION	4	"ls_return varchar2(20);
+"
+F_GET_YSXM	FUNCTION	5	"ls_flag   varchar2(20);
+"
+F_GET_YSXM	FUNCTION	6	"  begin
+"
+F_GET_YSXM	FUNCTION	7	"      ls_flag:=lower(RTRIM(LTRIM(p_flag)));
+"
+F_GET_YSXM	FUNCTION	8	"      if ls_flag='xm' then
+"
+F_GET_YSXM	FUNCTION	9	"         select xm into ls_return from gy_zgxx where zgid=p_ZZYS;
+"
+F_GET_YSXM	FUNCTION	10	"      end if;
+"
+F_GET_YSXM	FUNCTION	11	"      return ls_return;
+"
+F_GET_YSXM	FUNCTION	12	"  end;
+"

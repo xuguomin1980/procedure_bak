@@ -1,0 +1,14 @@
+TRI_GY_XTCS	TRIGGER	1	"trigger tri_gy_xtcs
+"
+TRI_GY_XTCS	TRIGGER	2	" before insert or  update on gy_xtcs
+"
+TRI_GY_XTCS	TRIGGER	3	" for each row
+"
+TRI_GY_XTCS	TRIGGER	4	"
+"
+TRI_GY_XTCS	TRIGGER	5	"begin
+"
+TRI_GY_XTCS	TRIGGER	6	"  select sysdate into :new.czrq from dual;
+"
+TRI_GY_XTCS	TRIGGER	7	"end tri_gy_xtcs;
+"

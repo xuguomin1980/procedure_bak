@@ -1,0 +1,143 @@
+GH_RB_HISTORY	PROCEDURE	1	"PROCEDURE         ""GH_RB_HISTORY"" (vxh in number,vczgh in varchar2)
+"
+GH_RB_HISTORY	PROCEDURE	2	"as
+"
+GH_RB_HISTORY	PROCEDURE	3	"begin
+"
+GH_RB_HISTORY	PROCEDURE	4	"declare
+"
+GH_RB_HISTORY	PROCEDURE	5	" mc    varchar2(10) ;
+"
+GH_RB_HISTORY	PROCEDURE	6	"begin
+"
+GH_RB_HISTORY	PROCEDURE	7	"delete from gh_rb_temp where gh=vczgh;
+"
+GH_RB_HISTORY	PROCEDURE	8	"commit;
+"
+GH_RB_HISTORY	PROCEDURE	9	"select count(mzlbmc) into mc from gh_mzlbk where mzlbxh=1;
+"
+GH_RB_HISTORY	PROCEDURE	10	"if mc>0 then 
+"
+GH_RB_HISTORY	PROCEDURE	11	"insert into gh_rb_temp (ksmc,ksdm,mzlbxh,mzlbmc,rc,gh)
+"
+GH_RB_HISTORY	PROCEDURE	12	"select a.ksmc,a.ksdm,b.mzlbxh,b.mzlbmc||'人次',c.ptrc,vczgh from gy_ksdm a,gh_mzlbk b,gh_cwrbmx c where a.ksdm=c.ksdm and c.rbxh=vxh and b.mzlbxh=1 ;
+"
+GH_RB_HISTORY	PROCEDURE	13	"end if ;
+"
+GH_RB_HISTORY	PROCEDURE	14	"
+"
+GH_RB_HISTORY	PROCEDURE	15	"select count(mzlbmc) into mc from gh_mzlbk where mzlbxh=2;
+"
+GH_RB_HISTORY	PROCEDURE	16	"if mc>0 then
+"
+GH_RB_HISTORY	PROCEDURE	17	"insert into gh_rb_temp (ksmc,ksdm,mzlbxh,mzlbmc,rc,gh)
+"
+GH_RB_HISTORY	PROCEDURE	18	"select a.ksmc,a.ksdm,b.mzlbxh,b.mzlbmc||'人次',c.jzrc,vczgh from gy_ksdm a,gh_mzlbk b,gh_cwrbmx c where a.ksdm=c.ksdm and c.rbxh=vxh and b.mzlbxh=2 ;
+"
+GH_RB_HISTORY	PROCEDURE	19	"end if ;
+"
+GH_RB_HISTORY	PROCEDURE	20	"
+"
+GH_RB_HISTORY	PROCEDURE	21	"select count(mzlbmc) into mc from gh_mzlbk where mzlbxh=3;
+"
+GH_RB_HISTORY	PROCEDURE	22	"if mc>0 then
+"
+GH_RB_HISTORY	PROCEDURE	23	"insert into gh_rb_temp (ksmc,ksdm,mzlbxh,mzlbmc,rc,gh)
+"
+GH_RB_HISTORY	PROCEDURE	24	"select a.ksmc,a.ksdm,b.mzlbxh,b.mzlbmc||'人次',c.zkrc,vczgh from gy_ksdm a,gh_mzlbk b,gh_cwrbmx c where a.ksdm=c.ksdm and c.rbxh=vxh and b.mzlbxh=3 ;
+"
+GH_RB_HISTORY	PROCEDURE	25	"end if;
+"
+GH_RB_HISTORY	PROCEDURE	26	"
+"
+GH_RB_HISTORY	PROCEDURE	27	"select count(mzlbmc) into mc from gh_mzlbk where mzlbxh=4;
+"
+GH_RB_HISTORY	PROCEDURE	28	"if mc>0 then
+"
+GH_RB_HISTORY	PROCEDURE	29	"insert into gh_rb_temp (ksmc,ksdm,mzlbxh,mzlbmc,rc,gh)
+"
+GH_RB_HISTORY	PROCEDURE	30	"select a.ksmc,a.ksdm,b.mzlbxh,b.mzlbmc||'人次',c.zxrc,vczgh from gy_ksdm a,gh_mzlbk b,gh_cwrbmx c where a.ksdm=c.ksdm and c.rbxh=vxh and b.mzlbxh=4 ;
+"
+GH_RB_HISTORY	PROCEDURE	31	"end if;
+"
+GH_RB_HISTORY	PROCEDURE	32	"
+"
+GH_RB_HISTORY	PROCEDURE	33	"select count(mzlbmc) into mc from gh_mzlbk where mzlbxh=5;
+"
+GH_RB_HISTORY	PROCEDURE	34	"if mc>0 then
+"
+GH_RB_HISTORY	PROCEDURE	35	"insert into gh_rb_temp (ksmc,ksdm,mzlbxh,mzlbmc,rc,gh)
+"
+GH_RB_HISTORY	PROCEDURE	36	"select a.ksmc,a.ksdm,b.mzlbxh,b.mzlbmc||'人次',c.myrc,vczgh from gy_ksdm a,gh_mzlbk b,gh_cwrbmx c where a.ksdm=c.ksdm and c.rbxh=vxh and b.mzlbxh=5 ;
+"
+GH_RB_HISTORY	PROCEDURE	37	"end if ;
+"
+GH_RB_HISTORY	PROCEDURE	38	"
+"
+GH_RB_HISTORY	PROCEDURE	39	"select count(mzlbmc) into mc from gh_mzlbk where mzlbxh=6;
+"
+GH_RB_HISTORY	PROCEDURE	40	"if mc>0 then
+"
+GH_RB_HISTORY	PROCEDURE	41	"insert into gh_rb_temp (ksmc,ksdm,mzlbxh,mzlbmc,rc,gh)
+"
+GH_RB_HISTORY	PROCEDURE	42	"select a.ksmc,a.ksdm,b.mzlbxh,b.mzlbmc||'人次',c.sjrc,vczgh from gy_ksdm a,gh_mzlbk b,gh_cwrbmx c where a.ksdm=c.ksdm and c.rbxh=vxh and b.mzlbxh=6 ;
+"
+GH_RB_HISTORY	PROCEDURE	43	"end if ;
+"
+GH_RB_HISTORY	PROCEDURE	44	"
+"
+GH_RB_HISTORY	PROCEDURE	45	"select count(mzlbmc) into mc from gh_mzlbk where mzlbxh=7;
+"
+GH_RB_HISTORY	PROCEDURE	46	"if mc>0 then
+"
+GH_RB_HISTORY	PROCEDURE	47	"insert into gh_rb_temp (ksmc,ksdm,mzlbxh,mzlbmc,rc,gh)
+"
+GH_RB_HISTORY	PROCEDURE	48	"select a.ksmc,a.ksdm,b.mzlbxh,b.mzlbmc||'人次',c.gjjrc,vczgh from gy_ksdm a,gh_mzlbk b,gh_cwrbmx c where a.ksdm=c.ksdm and c.rbxh=vxh and b.mzlbxh=7 ;
+"
+GH_RB_HISTORY	PROCEDURE	49	"end if ;
+"
+GH_RB_HISTORY	PROCEDURE	50	"
+"
+GH_RB_HISTORY	PROCEDURE	51	"select count(mzlbmc) into mc from gh_mzlbk where mzlbxh=8;
+"
+GH_RB_HISTORY	PROCEDURE	52	"if mc>0 then
+"
+GH_RB_HISTORY	PROCEDURE	53	"insert into gh_rb_temp (ksmc,ksdm,mzlbxh,mzlbmc,rc,gh)
+"
+GH_RB_HISTORY	PROCEDURE	54	"select a.ksmc,a.ksdm,b.mzlbxh,b.mzlbmc||'人次',c.txrc,vczgh from gy_ksdm a,gh_mzlbk b,gh_cwrbmx c where a.ksdm=c.ksdm and c.rbxh=vxh and b.mzlbxh=8 ;
+"
+GH_RB_HISTORY	PROCEDURE	55	"end if ;
+"
+GH_RB_HISTORY	PROCEDURE	56	"
+"
+GH_RB_HISTORY	PROCEDURE	57	"select count(mzlbmc) into mc from gh_mzlbk where mzlbxh=9;
+"
+GH_RB_HISTORY	PROCEDURE	58	"if mc>0 then
+"
+GH_RB_HISTORY	PROCEDURE	59	"insert into gh_rb_temp (ksmc,ksdm,mzlbxh,mzlbmc,rc,gh)
+"
+GH_RB_HISTORY	PROCEDURE	60	"select a.ksmc,a.ksdm,b.mzlbxh,b.mzlbmc||'人次',c.cjrc,vczgh from gy_ksdm a,gh_mzlbk b,gh_cwrbmx c where a.ksdm=c.ksdm and c.rbxh=vxh and b.mzlbxh=9 ;
+"
+GH_RB_HISTORY	PROCEDURE	61	"end if ;
+"
+GH_RB_HISTORY	PROCEDURE	62	"
+"
+GH_RB_HISTORY	PROCEDURE	63	"insert into gh_rb_temp (ksmc,ksdm,mzlbxh,mzlbmc,rc,gh)
+"
+GH_RB_HISTORY	PROCEDURE	64	"select a.ksmc,a.ksdm,10,'挂号费',c.ghf,vczgh from gy_ksdm a,gh_cwrbmx c where a.ksdm=c.ksdm and c.rbxh=vxh ;
+"
+GH_RB_HISTORY	PROCEDURE	65	"insert into gh_rb_temp (ksmc,ksdm,mzlbxh,mzlbmc,rc,gh)
+"
+GH_RB_HISTORY	PROCEDURE	66	"select a.ksmc,a.ksdm,11,'诊疗费',c.zlf,vczgh from gy_ksdm a,gh_cwrbmx c where a.ksdm=c.ksdm and c.rbxh=vxh ;
+"
+GH_RB_HISTORY	PROCEDURE	67	"commit;
+"
+GH_RB_HISTORY	PROCEDURE	68	"end ;
+"
+GH_RB_HISTORY	PROCEDURE	69	"end ;
+"
+GH_RB_HISTORY	PROCEDURE	70	"
+"
+GH_RB_HISTORY	PROCEDURE	71	"
+"
+GH_RB_HISTORY	PROCEDURE	72	 

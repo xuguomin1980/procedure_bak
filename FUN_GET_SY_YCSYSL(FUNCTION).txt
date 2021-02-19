@@ -1,0 +1,79 @@
+FUN_GET_SY_YCSYSL	FUNCTION	1	"FUNCTION         ""FUN_GET_SY_YCSYSL"" 
+"
+FUN_GET_SY_YCSYSL	FUNCTION	2	" (arg_order_no in number, arg_performance_time in date
+"
+FUN_GET_SY_YCSYSL	FUNCTION	3	" )
+"
+FUN_GET_SY_YCSYSL	FUNCTION	4	" return number
+"
+FUN_GET_SY_YCSYSL	FUNCTION	5	"
+"
+FUN_GET_SY_YCSYSL	FUNCTION	6	" is
+"
+FUN_GET_SY_YCSYSL	FUNCTION	7	"   ln_ycsysl number;
+"
+FUN_GET_SY_YCSYSL	FUNCTION	8	"   ls_dw varchar2(20);
+"
+FUN_GET_SY_YCSYSL	FUNCTION	9	"   ln_ypxh number;
+"
+FUN_GET_SY_YCSYSL	FUNCTION	10	"   ln_zhbl number;
+"
+FUN_GET_SY_YCSYSL	FUNCTION	11	" begin
+"
+FUN_GET_SY_YCSYSL	FUNCTION	12	"    begin
+"
+FUN_GET_SY_YCSYSL	FUNCTION	13	"        select nvl(drug_quan,0), lower(zxdw), ypxh  into ln_ycsysl, ls_dw, ln_ypxh
+"
+FUN_GET_SY_YCSYSL	FUNCTION	14	"          from yz_order_occ
+"
+FUN_GET_SY_YCSYSL	FUNCTION	15	"         where order_no = arg_order_no
+"
+FUN_GET_SY_YCSYSL	FUNCTION	16	"           and performance_time = arg_performance_time and rownum = 1;
+"
+FUN_GET_SY_YCSYSL	FUNCTION	17	"    exception
+"
+FUN_GET_SY_YCSYSL	FUNCTION	18	"        -- 出错时 yzpbbz返回为0
+"
+FUN_GET_SY_YCSYSL	FUNCTION	19	"        when others  then
+"
+FUN_GET_SY_YCSYSL	FUNCTION	20	"          ln_ycsysl:=0;
+"
+FUN_GET_SY_YCSYSL	FUNCTION	21	"    end ;
+"
+FUN_GET_SY_YCSYSL	FUNCTION	22	"
+"
+FUN_GET_SY_YCSYSL	FUNCTION	23	"    ln_zhbl := 0;
+"
+FUN_GET_SY_YCSYSL	FUNCTION	24	"    if instr(lower(ls_dw),'ml') <= 0 then
+"
+FUN_GET_SY_YCSYSL	FUNCTION	25	"       begin
+"
+FUN_GET_SY_YCSYSL	FUNCTION	26	"         select zhbl into ln_zhbl from yz_ypdwdz where ypxh = ln_ypxh and zddw = ls_dw and rownum = 1    ;
+"
+FUN_GET_SY_YCSYSL	FUNCTION	27	"       exception
+"
+FUN_GET_SY_YCSYSL	FUNCTION	28	"         when others then
+"
+FUN_GET_SY_YCSYSL	FUNCTION	29	"         ln_zhbl := 1;
+"
+FUN_GET_SY_YCSYSL	FUNCTION	30	"       end;
+"
+FUN_GET_SY_YCSYSL	FUNCTION	31	"       if ln_zhbl=0 then
+"
+FUN_GET_SY_YCSYSL	FUNCTION	32	"         ln_zhbl:=1;
+"
+FUN_GET_SY_YCSYSL	FUNCTION	33	"       end if;
+"
+FUN_GET_SY_YCSYSL	FUNCTION	34	"       ln_ycsysl := ln_ycsysl*ln_zhbl;
+"
+FUN_GET_SY_YCSYSL	FUNCTION	35	"    end if;
+"
+FUN_GET_SY_YCSYSL	FUNCTION	36	"
+"
+FUN_GET_SY_YCSYSL	FUNCTION	37	"    return(ln_ycsysl);
+"
+FUN_GET_SY_YCSYSL	FUNCTION	38	" end;
+"
+FUN_GET_SY_YCSYSL	FUNCTION	39	"
+"
+FUN_GET_SY_YCSYSL	FUNCTION	40	 

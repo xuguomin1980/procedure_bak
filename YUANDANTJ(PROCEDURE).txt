@@ -1,0 +1,28 @@
+YUANDANTJ	PROCEDURE	1	"PROCEDURE ""YUANDANTJ"" as
+"
+YUANDANTJ	PROCEDURE	2	"begin
+"
+YUANDANTJ	PROCEDURE	3	"
+"
+YUANDANTJ	PROCEDURE	4	"update gy_ylsf set dj=dj4  where dj4>0  ;
+"
+YUANDANTJ	PROCEDURE	5	"commit;
+"
+YUANDANTJ	PROCEDURE	6	"update gh_mzlbk set ghf=14 where mzlbxh=4;
+"
+YUANDANTJ	PROCEDURE	7	"commit;
+"
+YUANDANTJ	PROCEDURE	8	"update gh_mzlbk set ghf=16 where mzlbxh=5;
+"
+YUANDANTJ	PROCEDURE	9	"commit;
+"
+YUANDANTJ	PROCEDURE	10	"update gh_mzlbk set ghf=6 where mzlbxh=2;
+"
+YUANDANTJ	PROCEDURE	11	"COMMIT;
+"
+YUANDANTJ	PROCEDURE	12	"update gy_ksdm set jiagelb ='' where jiagelb=3;
+"
+YUANDANTJ	PROCEDURE	13	"commit;
+"
+YUANDANTJ	PROCEDURE	14	"end;
+"

@@ -1,0 +1,28 @@
+INSERT_RKD	TRIGGER	1	"TRIGGER ""ZJHIS"".""INSERT_RKD"" 
+"
+INSERT_RKD	TRIGGER	2	"  Before Insert Or Update  on wz_rkd  
+"
+INSERT_RKD	TRIGGER	3	"  REFERENCING OLD AS OLD NEW AS NEW
+"
+INSERT_RKD	TRIGGER	4	"  for each row
+"
+INSERT_RKD	TRIGGER	5	"declare
+"
+INSERT_RKD	TRIGGER	6	"  -- local variables here
+"
+INSERT_RKD	TRIGGER	7	"begin
+"
+INSERT_RKD	TRIGGER	8	"  --Update wz_rkd Set cgfs = 0 Where cgfs Is Null;
+"
+INSERT_RKD	TRIGGER	9	"  If :new.cgfs Is Null Then
+"
+INSERT_RKD	TRIGGER	10	"     :new.cgfs := '0';
+"
+INSERT_RKD	TRIGGER	11	"  End If;
+"
+INSERT_RKD	TRIGGER	12	" 
+"
+INSERT_RKD	TRIGGER	13	"end insert_rkd;
+"
+INSERT_RKD	TRIGGER	14	"
+"

@@ -1,0 +1,35 @@
+F_BF_GETXHPB	FUNCTION	1	"FUNCTION         ""F_BF_GETXHPB"" 
+"
+F_BF_GETXHPB	FUNCTION	2	"(arg_yflb in number,arg_xtxh in number,arg_crkdm in  number)
+"
+F_BF_GETXHPB	FUNCTION	3	"   return number
+"
+F_BF_GETXHPB	FUNCTION	4	"   is
+"
+F_BF_GETXHPB	FUNCTION	5	"     li_return number(2);
+"
+F_BF_GETXHPB	FUNCTION	6	"   begin
+"
+F_BF_GETXHPB	FUNCTION	7	"    if arg_yflb=1 then 
+"
+F_BF_GETXHPB	FUNCTION	8	"       select xhfs into li_return from my_crkfs
+"
+F_BF_GETXHPB	FUNCTION	9	"        where xtxh=arg_xtxh and crkdm=arg_crkdm;
+"
+F_BF_GETXHPB	FUNCTION	10	"    elsif arg_yflb=2 then 
+"
+F_BF_GETXHPB	FUNCTION	11	"         select xhpb into li_return from by_crkfs
+"
+F_BF_GETXHPB	FUNCTION	12	"        where xtxh=arg_xtxh and crkdm=arg_crkdm and rownum=1;
+"
+F_BF_GETXHPB	FUNCTION	13	"    end if ;
+"
+F_BF_GETXHPB	FUNCTION	14	"   return(li_return);
+"
+F_BF_GETXHPB	FUNCTION	15	"   end;
+"
+F_BF_GETXHPB	FUNCTION	16	"
+"
+F_BF_GETXHPB	FUNCTION	17	"
+"
+F_BF_GETXHPB	FUNCTION	18	 

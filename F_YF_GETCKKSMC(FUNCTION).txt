@@ -1,0 +1,19 @@
+F_YF_GETCKKSMC	FUNCTION	1	"FUNCTION         ""F_YF_GETCKKSMC"" 
+"
+F_YF_GETCKKSMC	FUNCTION	2	"  (arg_ksdm in varchar2) 
+"
+F_YF_GETCKKSMC	FUNCTION	3	"  return varchar2
+"
+F_YF_GETCKKSMC	FUNCTION	4	"  is
+"
+F_YF_GETCKKSMC	FUNCTION	5	"    ls_return varchar2(20);
+"
+F_YF_GETCKKSMC	FUNCTION	6	"  begin
+"
+F_YF_GETCKKSMC	FUNCTION	7	"	  select ksmc into ls_return from MY_CKXH where ksdm=rtrim(ltrim(arg_ksdm));
+"
+F_YF_GETCKKSMC	FUNCTION	8	"        return(ls_return);
+"
+F_YF_GETCKKSMC	FUNCTION	9	"  end;
+"
+F_YF_GETCKKSMC	FUNCTION	10	 

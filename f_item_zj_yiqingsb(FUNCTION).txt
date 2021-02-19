@@ -1,0 +1,16 @@
+f_item_zj_yiqingsb	FUNCTION	1	"FUNCTION ""f_item_zj_yiqingsb"" (arg_xzdm in varchar2)
+"
+f_item_zj_yiqingsb	FUNCTION	2	"  return varchar2
+"
+f_item_zj_yiqingsb	FUNCTION	3	"  is
+"
+f_item_zj_yiqingsb	FUNCTION	4	"    ls_return varchar2(160);
+"
+f_item_zj_yiqingsb	FUNCTION	5	"  begin
+"
+f_item_zj_yiqingsb	FUNCTION	6	"    select xzmc into ls_return from gy_brxz where xzdm=arg_xzdm;
+"
+f_item_zj_yiqingsb	FUNCTION	7	"   return(ls_return);
+"
+f_item_zj_yiqingsb	FUNCTION	8	"  end;
+"

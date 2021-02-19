@@ -1,0 +1,16 @@
+F_GET_GYDMMC	FUNCTION	1	"FUNCTION f_get_gydmmc (arg_dmlb in number,arg_dm in number)
+"
+F_GET_GYDMMC	FUNCTION	2	"return Varchar2
+"
+F_GET_GYDMMC	FUNCTION	3	"Is
+"
+F_GET_GYDMMC	FUNCTION	4	"     ls_return varchar2(100);
+"
+F_GET_GYDMMC	FUNCTION	5	"Begin
+"
+F_GET_GYDMMC	FUNCTION	6	"   Select Mc into ls_return From Gy_Gydm Where Dmlb = arg_Dmlb And Dm = arg_Dm;
+"
+F_GET_GYDMMC	FUNCTION	7	"   Return(ls_return);
+"
+F_GET_GYDMMC	FUNCTION	8	"End;
+"

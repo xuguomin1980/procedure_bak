@@ -1,0 +1,64 @@
+F_GET_XH_TONGDE	FUNCTION	1	"function ""F_GET_XH_TONGDE""(in_xtxh in number, tabName in VARCHAR2 ) return
+"
+F_GET_XH_TONGDE	FUNCTION	2	"number
+"
+F_GET_XH_TONGDE	FUNCTION	3	"  as
+"
+F_GET_XH_TONGDE	FUNCTION	4	"   v_dqz   NUMBER := NULL;
+"
+F_GET_XH_TONGDE	FUNCTION	5	"begin
+"
+F_GET_XH_TONGDE	FUNCTION	6	"  begin
+"
+F_GET_XH_TONGDE	FUNCTION	7	"    /*if(in_xtxh is null) then*/
+"
+F_GET_XH_TONGDE	FUNCTION	8	"   /*   SELECT nvl(dqz,0) INTO v_dqz  FROM wz_xh WHERE bm = tabName and xtxh='29' FOR UPDATE;
+"
+F_GET_XH_TONGDE	FUNCTION	9	"    else*/
+"
+F_GET_XH_TONGDE	FUNCTION	10	"
+"
+F_GET_XH_TONGDE	FUNCTION	11	"      SELECT nvl(dqz,0) INTO v_dqz  FROM wz_xh WHERE bm = tabName and xtxh=in_xtxh FOR UPDATE;
+"
+F_GET_XH_TONGDE	FUNCTION	12	"    /*end if;*/
+"
+F_GET_XH_TONGDE	FUNCTION	13	"
+"
+F_GET_XH_TONGDE	FUNCTION	14	"    Exception
+"
+F_GET_XH_TONGDE	FUNCTION	15	"    When Others Then
+"
+F_GET_XH_TONGDE	FUNCTION	16	"         v_dqz := null;
+"
+F_GET_XH_TONGDE	FUNCTION	17	"  end;
+"
+F_GET_XH_TONGDE	FUNCTION	18	"
+"
+F_GET_XH_TONGDE	FUNCTION	19	"  IF v_dqz IS NOT NULL THEN
+"
+F_GET_XH_TONGDE	FUNCTION	20	"     v_dqz := v_dqz + 1;
+"
+F_GET_XH_TONGDE	FUNCTION	21	"
+"
+F_GET_XH_TONGDE	FUNCTION	22	"     UPDATE wz_xh SET dqz = v_dqz WHERE bm = tabName;
+"
+F_GET_XH_TONGDE	FUNCTION	23	"  ELSE
+"
+F_GET_XH_TONGDE	FUNCTION	24	"     v_dqz := 1;
+"
+F_GET_XH_TONGDE	FUNCTION	25	"     insert into wz_xh(xtxh,bm,dqz,dqz_date) values(in_xtxh,tabName,v_dqz,sysdate);
+"
+F_GET_XH_TONGDE	FUNCTION	26	"
+"
+F_GET_XH_TONGDE	FUNCTION	27	"  END IF;
+"
+F_GET_XH_TONGDE	FUNCTION	28	"  COMMIT;
+"
+F_GET_XH_TONGDE	FUNCTION	29	"
+"
+F_GET_XH_TONGDE	FUNCTION	30	"  Return v_dqz;
+"
+F_GET_XH_TONGDE	FUNCTION	31	"
+"
+F_GET_XH_TONGDE	FUNCTION	32	"end F_GET_XH_TONGDE;
+"

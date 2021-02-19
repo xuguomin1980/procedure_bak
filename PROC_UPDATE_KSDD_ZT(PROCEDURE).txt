@@ -1,0 +1,184 @@
+PROC_UPDATE_KSDD_ZT	PROCEDURE	1	"procedure proc_update_ksdd_zt( in_xtxh in number,
+"
+PROC_UPDATE_KSDD_ZT	PROCEDURE	2	"                                                 in_ksddid in varchar2,
+"
+PROC_UPDATE_KSDD_ZT	PROCEDURE	3	"                                                 out_a out number
+"
+PROC_UPDATE_KSDD_ZT	PROCEDURE	4	"                                                ) is
+"
+PROC_UPDATE_KSDD_ZT	PROCEDURE	5	"ll_count number(10);
+"
+PROC_UPDATE_KSDD_ZT	PROCEDURE	6	"ll_qlsl number(14,4);
+"
+PROC_UPDATE_KSDD_ZT	PROCEDURE	7	"ls_zt_temp varchar2(100);
+"
+PROC_UPDATE_KSDD_ZT	PROCEDURE	8	"ll_zt number(1);
+"
+PROC_UPDATE_KSDD_ZT	PROCEDURE	9	"ll_pos1 number(10);
+"
+PROC_UPDATE_KSDD_ZT	PROCEDURE	10	"ll_pos2 number(10);
+"
+PROC_UPDATE_KSDD_ZT	PROCEDURE	11	"ll_pos3 number(10);
+"
+PROC_UPDATE_KSDD_ZT	PROCEDURE	12	"ll_mxxh number(10);
+"
+PROC_UPDATE_KSDD_ZT	PROCEDURE	13	"ll_ypssl number(14,4);
+"
+PROC_UPDATE_KSDD_ZT	PROCEDURE	14	"
+"
+PROC_UPDATE_KSDD_ZT	PROCEDURE	15	"--定义明细状态数组语法
+"
+PROC_UPDATE_KSDD_ZT	PROCEDURE	16	"type type_array is table of number(10) index by binary_integer;
+"
+PROC_UPDATE_KSDD_ZT	PROCEDURE	17	"ls_zt_array type_array;
+"
+PROC_UPDATE_KSDD_ZT	PROCEDURE	18	"
+"
+PROC_UPDATE_KSDD_ZT	PROCEDURE	19	"cursor my_cur is
+"
+PROC_UPDATE_KSDD_ZT	PROCEDURE	20	"    select mxxh,sl,ypssl
+"
+PROC_UPDATE_KSDD_ZT	PROCEDURE	21	"      from wz_zj_ksddmx
+"
+PROC_UPDATE_KSDD_ZT	PROCEDURE	22	"     where xtxh = in_xtxh
+"
+PROC_UPDATE_KSDD_ZT	PROCEDURE	23	"       and ksddid = in_ksddid
+"
+PROC_UPDATE_KSDD_ZT	PROCEDURE	24	"       and zfpb = 0;
+"
+PROC_UPDATE_KSDD_ZT	PROCEDURE	25	"--ls_zt:1 未配送；2 部分配送  4 完成配送
+"
+PROC_UPDATE_KSDD_ZT	PROCEDURE	26	"begin
+"
+PROC_UPDATE_KSDD_ZT	PROCEDURE	27	"  ll_count := 0;
+"
+PROC_UPDATE_KSDD_ZT	PROCEDURE	28	"  open my_cur;
+"
+PROC_UPDATE_KSDD_ZT	PROCEDURE	29	"  loop
+"
+PROC_UPDATE_KSDD_ZT	PROCEDURE	30	"    fetch my_cur into ll_mxxh,ll_qlsl,ll_ypssl;
+"
+PROC_UPDATE_KSDD_ZT	PROCEDURE	31	"    IF my_cur %NOTFOUND THEN
+"
+PROC_UPDATE_KSDD_ZT	PROCEDURE	32	"      EXIT;
+"
+PROC_UPDATE_KSDD_ZT	PROCEDURE	33	"    END IF;
+"
+PROC_UPDATE_KSDD_ZT	PROCEDURE	34	"    ll_count := ll_count + 1;
+"
+PROC_UPDATE_KSDD_ZT	PROCEDURE	35	"    if ll_qlsl > ll_ypssl and ll_ypssl > 0 then
+"
+PROC_UPDATE_KSDD_ZT	PROCEDURE	36	"       ls_zt_array(ll_count) := 2;
+"
+PROC_UPDATE_KSDD_ZT	PROCEDURE	37	"    elsif ll_qlsl <= ll_ypssl and ll_ypssl > 0 then
+"
+PROC_UPDATE_KSDD_ZT	PROCEDURE	38	"       ls_zt_array(ll_count) := 4;
+"
+PROC_UPDATE_KSDD_ZT	PROCEDURE	39	"    else
+"
+PROC_UPDATE_KSDD_ZT	PROCEDURE	40	"       ls_zt_array(ll_count) := 1;
+"
+PROC_UPDATE_KSDD_ZT	PROCEDURE	41	"    end if;
+"
+PROC_UPDATE_KSDD_ZT	PROCEDURE	42	"
+"
+PROC_UPDATE_KSDD_ZT	PROCEDURE	43	"  end loop;
+"
+PROC_UPDATE_KSDD_ZT	PROCEDURE	44	"  close my_cur;
+"
+PROC_UPDATE_KSDD_ZT	PROCEDURE	45	"
+"
+PROC_UPDATE_KSDD_ZT	PROCEDURE	46	"  for ll_count in 1..ls_zt_array.count loop
+"
+PROC_UPDATE_KSDD_ZT	PROCEDURE	47	"      ls_zt_temp := ls_zt_temp || ls_zt_array(ll_count);
+"
+PROC_UPDATE_KSDD_ZT	PROCEDURE	48	"  end loop;
+"
+PROC_UPDATE_KSDD_ZT	PROCEDURE	49	"
+"
+PROC_UPDATE_KSDD_ZT	PROCEDURE	50	"  ll_pos1 := instr(ls_zt_temp,'1',1);
+"
+PROC_UPDATE_KSDD_ZT	PROCEDURE	51	"  ll_pos2 := instr(ls_zt_temp,'2',1);
+"
+PROC_UPDATE_KSDD_ZT	PROCEDURE	52	"  ll_pos3 := instr(ls_zt_temp,'4',1);
+"
+PROC_UPDATE_KSDD_ZT	PROCEDURE	53	"
+"
+PROC_UPDATE_KSDD_ZT	PROCEDURE	54	"  --全部是暂未配送
+"
+PROC_UPDATE_KSDD_ZT	PROCEDURE	55	"  if ll_pos1 > 0 and ll_pos2 = 0 and ll_pos3 = 0 then
+"
+PROC_UPDATE_KSDD_ZT	PROCEDURE	56	"     ll_zt := 1;
+"
+PROC_UPDATE_KSDD_ZT	PROCEDURE	57	"  end if;
+"
+PROC_UPDATE_KSDD_ZT	PROCEDURE	58	"
+"
+PROC_UPDATE_KSDD_ZT	PROCEDURE	59	"  if ll_pos1 > 0 and ll_pos2 = 0 and ll_pos3 > 0 then
+"
+PROC_UPDATE_KSDD_ZT	PROCEDURE	60	"     ll_zt := 2;
+"
+PROC_UPDATE_KSDD_ZT	PROCEDURE	61	"  end if;
+"
+PROC_UPDATE_KSDD_ZT	PROCEDURE	62	"
+"
+PROC_UPDATE_KSDD_ZT	PROCEDURE	63	"  if ll_pos1 > 0 and ll_pos2 > 0 and ll_pos3 = 0 then
+"
+PROC_UPDATE_KSDD_ZT	PROCEDURE	64	"     ll_zt := 2;
+"
+PROC_UPDATE_KSDD_ZT	PROCEDURE	65	"  end if;
+"
+PROC_UPDATE_KSDD_ZT	PROCEDURE	66	"
+"
+PROC_UPDATE_KSDD_ZT	PROCEDURE	67	"  if ll_pos1 > 0 and ll_pos2 > 0 and ll_pos3 > 0 then
+"
+PROC_UPDATE_KSDD_ZT	PROCEDURE	68	"     ll_zt := 2;
+"
+PROC_UPDATE_KSDD_ZT	PROCEDURE	69	"  end if;
+"
+PROC_UPDATE_KSDD_ZT	PROCEDURE	70	"
+"
+PROC_UPDATE_KSDD_ZT	PROCEDURE	71	"  if ll_pos1 = 0 and ll_pos2 = 0 and ll_pos3 = 0 then
+"
+PROC_UPDATE_KSDD_ZT	PROCEDURE	72	"     ll_zt := 1;
+"
+PROC_UPDATE_KSDD_ZT	PROCEDURE	73	"  end if;
+"
+PROC_UPDATE_KSDD_ZT	PROCEDURE	74	"
+"
+PROC_UPDATE_KSDD_ZT	PROCEDURE	75	"  if ll_pos1 = 0 and ll_pos2 = 0 and ll_pos3 > 0 then
+"
+PROC_UPDATE_KSDD_ZT	PROCEDURE	76	"     ll_zt := 4;
+"
+PROC_UPDATE_KSDD_ZT	PROCEDURE	77	"  end if;
+"
+PROC_UPDATE_KSDD_ZT	PROCEDURE	78	"
+"
+PROC_UPDATE_KSDD_ZT	PROCEDURE	79	"  if ll_pos1 = 0 and ll_pos2 > 0 and ll_pos3 = 0 then
+"
+PROC_UPDATE_KSDD_ZT	PROCEDURE	80	"     ll_zt := 2;
+"
+PROC_UPDATE_KSDD_ZT	PROCEDURE	81	"  end if;
+"
+PROC_UPDATE_KSDD_ZT	PROCEDURE	82	"
+"
+PROC_UPDATE_KSDD_ZT	PROCEDURE	83	"  if ll_pos1 = 0 and ll_pos2 > 0 and ll_pos3 > 0 then
+"
+PROC_UPDATE_KSDD_ZT	PROCEDURE	84	"     ll_zt := 2;
+"
+PROC_UPDATE_KSDD_ZT	PROCEDURE	85	"  end if;
+"
+PROC_UPDATE_KSDD_ZT	PROCEDURE	86	"   update wz_zj_ksdd
+"
+PROC_UPDATE_KSDD_ZT	PROCEDURE	87	"      set zt = ll_zt
+"
+PROC_UPDATE_KSDD_ZT	PROCEDURE	88	"   where  xtxh = in_xtxh
+"
+PROC_UPDATE_KSDD_ZT	PROCEDURE	89	"     and ksddid = in_ksddid
+"
+PROC_UPDATE_KSDD_ZT	PROCEDURE	90	"     and zfpb = 0;
+"
+PROC_UPDATE_KSDD_ZT	PROCEDURE	91	"  out_a := 0;
+"
+PROC_UPDATE_KSDD_ZT	PROCEDURE	92	"end proc_update_ksdd_zt;
+"

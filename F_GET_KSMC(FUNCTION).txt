@@ -1,0 +1,16 @@
+F_GET_KSMC	FUNCTION	1	"FUNCTION f_get_ksmc (arg_ksdm in varchar2)
+"
+F_GET_KSMC	FUNCTION	2	"return varchar2
+"
+F_GET_KSMC	FUNCTION	3	"   is
+"
+F_GET_KSMC	FUNCTION	4	"     ls_return varchar2(30);
+"
+F_GET_KSMC	FUNCTION	5	"begin
+"
+F_GET_KSMC	FUNCTION	6	"   select ksmc into ls_return from gy_ksdm where ksdm = arg_ksdm;
+"
+F_GET_KSMC	FUNCTION	7	"   return(ls_return);
+"
+F_GET_KSMC	FUNCTION	8	"end;
+"

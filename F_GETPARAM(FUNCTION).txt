@@ -1,0 +1,66 @@
+F_GETPARAM	FUNCTION	1	"function f_getparam(as_inchar in varchar2, as_sp in varchar2, ai_pos in number) return varchar2 is
+"
+F_GETPARAM	FUNCTION	2	"  as_outchar varchar2(4000);
+"
+F_GETPARAM	FUNCTION	3	"  ai_pos1 number(10);
+"
+F_GETPARAM	FUNCTION	4	"  ai_pos2 number(10);
+"
+F_GETPARAM	FUNCTION	5	"  ai_Num number(10);
+"
+F_GETPARAM	FUNCTION	6	"begin
+"
+F_GETPARAM	FUNCTION	7	"  If ai_pos <=0 Or ai_pos Is Null Then
+"
+F_GETPARAM	FUNCTION	8	"    Return '';
+"
+F_GETPARAM	FUNCTION	9	"  End If;
+"
+F_GETPARAM	FUNCTION	10	"
+"
+F_GETPARAM	FUNCTION	11	"  ai_pos1 :=1;
+"
+F_GETPARAM	FUNCTION	12	"  ai_Num :=0;
+"
+F_GETPARAM	FUNCTION	13	"  Loop
+"
+F_GETPARAM	FUNCTION	14	"    If ai_Num >= ai_pos -1 Then
+"
+F_GETPARAM	FUNCTION	15	"      Exit;
+"
+F_GETPARAM	FUNCTION	16	"    End If;
+"
+F_GETPARAM	FUNCTION	17	"    ai_pos1 := Instr(as_inchar,as_sp,ai_pos1);
+"
+F_GETPARAM	FUNCTION	18	"    If ai_pos1 <= 0 Then
+"
+F_GETPARAM	FUNCTION	19	"      Return '';
+"
+F_GETPARAM	FUNCTION	20	"    End If;
+"
+F_GETPARAM	FUNCTION	21	"    ai_pos1 := ai_pos1 + Length(as_sp);
+"
+F_GETPARAM	FUNCTION	22	"    ai_Num := ai_Num + 1;
+"
+F_GETPARAM	FUNCTION	23	"  End Loop;
+"
+F_GETPARAM	FUNCTION	24	"
+"
+F_GETPARAM	FUNCTION	25	"  ai_pos2 := Instr(as_inchar,as_sp,ai_pos1);
+"
+F_GETPARAM	FUNCTION	26	"  If ai_pos2 <= 0 Then
+"
+F_GETPARAM	FUNCTION	27	"    ai_pos2 := ai_pos2 + Length(as_inchar) +1;
+"
+F_GETPARAM	FUNCTION	28	"  End If;
+"
+F_GETPARAM	FUNCTION	29	"
+"
+F_GETPARAM	FUNCTION	30	"  as_outchar := Substr(as_inchar,ai_pos1,ai_pos2 -ai_pos1);
+"
+F_GETPARAM	FUNCTION	31	"
+"
+F_GETPARAM	FUNCTION	32	"  Return(as_outchar);
+"
+F_GETPARAM	FUNCTION	33	"End f_getparam;
+"

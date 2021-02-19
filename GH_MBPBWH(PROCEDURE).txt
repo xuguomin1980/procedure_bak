@@ -1,0 +1,185 @@
+GH_MBPBWH	PROCEDURE	1	"PROCEDURE         ""GH_MBPBWH"" 
+"
+GH_MBPBWH	PROCEDURE	2	"as
+"
+GH_MBPBWH	PROCEDURE	3	"begin
+"
+GH_MBPBWH	PROCEDURE	4	"declare
+"
+GH_MBPBWH	PROCEDURE	5	"  vjlxh number ;
+"
+GH_MBPBWH	PROCEDURE	6	"  i number ;
+"
+GH_MBPBWH	PROCEDURE	7	"  li_count number ;
+"
+GH_MBPBWH	PROCEDURE	8	"  vxq number ;
+"
+GH_MBPBWH	PROCEDURE	9	"  vdtxq number ;
+"
+GH_MBPBWH	PROCEDURE	10	"  vmzlbxh number ;
+"
+GH_MBPBWH	PROCEDURE	11	"  vswjsh number ;
+"
+GH_MBPBWH	PROCEDURE	12	"  vswzgxh number ;
+"
+GH_MBPBWH	PROCEDURE	13	"  vxwjsh number ;
+"
+GH_MBPBWH	PROCEDURE	14	"  vxwzgxh number ;
+"
+GH_MBPBWH	PROCEDURE	15	"  vksdm varchar2(20) ;
+"
+GH_MBPBWH	PROCEDURE	16	"  vysgh varchar2(8) ;
+"
+GH_MBPBWH	PROCEDURE	17	"  vysxm varchar2(10) ;
+"
+GH_MBPBWH	PROCEDURE	18	"  cursor c1 is
+"
+GH_MBPBWH	PROCEDURE	19	"    select ksdm,mzlbxh,ysgh,swjsh,swzgxh,xwjsh,xwzgxh,xq
+"
+GH_MBPBWH	PROCEDURE	20	"    from gh_mbzhgl
+"
+GH_MBPBWH	PROCEDURE	21	"    where  ( trunc(jsrq) >= trunc(sysdate) ) and
+"
+GH_MBPBWH	PROCEDURE	22	"          ( trunc(ksrq) <= trunc(sysdate) ) and nvl(zfpb,0) = 0;
+"
+GH_MBPBWH	PROCEDURE	23	"
+"
+GH_MBPBWH	PROCEDURE	24	"begin
+"
+GH_MBPBWH	PROCEDURE	25	"  select to_number(to_char(sysdate,'D')) into vdtxq from dual;
+"
+GH_MBPBWH	PROCEDURE	26	"  vdtxq:=vdtxq - 1 ;
+"
+GH_MBPBWH	PROCEDURE	27	"  if vdtxq = 0 then
+"
+GH_MBPBWH	PROCEDURE	28	"     vdtxq:=7 ;
+"
+GH_MBPBWH	PROCEDURE	29	"  end if ;
+"
+GH_MBPBWH	PROCEDURE	30	"  lock table gh_mzpbk in exclusive mode ;      --锁表GH_MZPBK
+"
+GH_MBPBWH	PROCEDURE	31	"      open c1 ;
+"
+GH_MBPBWH	PROCEDURE	32	"      loop
+"
+GH_MBPBWH	PROCEDURE	33	"        fetch c1 into vksdm,vmzlbxh,vysgh,vswjsh,vswzgxh,vxwjsh,vxwzgxh,vxq;
+"
+GH_MBPBWH	PROCEDURE	34	"        exit when c1%notfound ;
+"
+GH_MBPBWH	PROCEDURE	35	"        If vxq = vdtxq Then
+"
+GH_MBPBWH	PROCEDURE	36	"          if (vswjsh>=0 or vxwjsh>=0) then
+"
+GH_MBPBWH	PROCEDURE	37	"	     if vmzlbxh=3 then --2 专科
+"
+GH_MBPBWH	PROCEDURE	38	"		select Nvl(count(*),0)
+"
+GH_MBPBWH	PROCEDURE	39	"		  into li_count
+"
+GH_MBPBWH	PROCEDURE	40	"		  from gh_mzpbk
+"
+GH_MBPBWH	PROCEDURE	41	"		 where ksdm = vksdm
+"
+GH_MBPBWH	PROCEDURE	42	"                   and mzlbxh = vmzlbxh
+"
+GH_MBPBWH	PROCEDURE	43	"                   and trunc(rq) = trunc(sysdate) ;
+"
+GH_MBPBWH	PROCEDURE	44	"
+"
+GH_MBPBWH	PROCEDURE	45	"		  if li_count = 0 then --1
+"
+GH_MBPBWH	PROCEDURE	46	"		     update gy_xhb set dqz=dqz+1 where bm='GH_MZPBK' ;
+"
+GH_MBPBWH	PROCEDURE	47	"	             select dqz into vjlxh from gy_xhb where bm='GH_MZPBK' ;
+"
+GH_MBPBWH	PROCEDURE	48	"		     insert into gh_mzpbk (rq,ksdm,mzlbxh,swjsh,swzgxh,swdqh,swths,xwjsh,
+"
+GH_MBPBWH	PROCEDURE	49	"					   xwzgxh,xwdqh,xwths,jlxh)
+"
+GH_MBPBWH	PROCEDURE	50	"			           values (sysdate,vksdm,vmzlbxh,vswjsh,vswzgxh,0,0,
+"
+GH_MBPBWH	PROCEDURE	51	"                                           vxwjsh,vxwzgxh,0,0,vjlxh);
+"
+GH_MBPBWH	PROCEDURE	52	"		    end if; --1
+"
+GH_MBPBWH	PROCEDURE	53	"
+"
+GH_MBPBWH	PROCEDURE	54	"	   else --3 专家
+"
+GH_MBPBWH	PROCEDURE	55	"	      select xm into vysxm from gy_zgxx where zgid=vysgh;
+"
+GH_MBPBWH	PROCEDURE	56	"	      select Nvl(count(*),0)
+"
+GH_MBPBWH	PROCEDURE	57	"		into li_count
+"
+GH_MBPBWH	PROCEDURE	58	"                from gh_mzpbk
+"
+GH_MBPBWH	PROCEDURE	59	"	        where ksdm=vksdm
+"
+GH_MBPBWH	PROCEDURE	60	"                  and mzlbxh=vmzlbxh and ysgh=vysgh and to_char(rq,'yyyymmdd')=to_char(sysdate,'yyyymmdd');
+"
+GH_MBPBWH	PROCEDURE	61	"
+"
+GH_MBPBWH	PROCEDURE	62	"		   if li_count = 0 then
+"
+GH_MBPBWH	PROCEDURE	63	"			   update gy_xhb set dqz=dqz+1 where bm='GH_MZPBK' ;
+"
+GH_MBPBWH	PROCEDURE	64	"                           select dqz into vjlxh from gy_xhb where bm='GH_MZPBK' ;
+"
+GH_MBPBWH	PROCEDURE	65	"			   insert into gh_mzpbk (rq,ksdm,mzlbxh,swjsh,swzgxh,swdqh,swths,xwjsh,
+"
+GH_MBPBWH	PROCEDURE	66	"					 xwzgxh,xwdqh,xwths,ysgh,ysxm,jlxh)
+"
+GH_MBPBWH	PROCEDURE	67	"			   values (sysdate,vksdm,vmzlbxh,vswjsh,vswzgxh,0,0,vxwjsh,
+"
+GH_MBPBWH	PROCEDURE	68	"				    vxwzgxh,0,0,vysgh,vysxm,vjlxh);
+"
+GH_MBPBWH	PROCEDURE	69	"                   else
+"
+GH_MBPBWH	PROCEDURE	70	"                          update gh_mzpbk set swjsh=vswjsh,swzgxh=vswzgxh,xwjsh=vxwjsh,xwzgxh=vxwzgxh where ksdm=vksdm and mzlbxh=vmzlbxh and ysgh=vysgh and to_char(rq,'yyyymmdd')=to_char(sysdate,'yyyymmdd');
+"
+GH_MBPBWH	PROCEDURE	71	"
+"
+GH_MBPBWH	PROCEDURE	72	"		   end if;
+"
+GH_MBPBWH	PROCEDURE	73	"	     end if; --2
+"
+GH_MBPBWH	PROCEDURE	74	"	   end if;--3
+"
+GH_MBPBWH	PROCEDURE	75	"
+"
+GH_MBPBWH	PROCEDURE	76	"       if (vswjsh<0 and vxwjsh<0) then
+"
+GH_MBPBWH	PROCEDURE	77	"	  if vmzlbxh = 3 then
+"
+GH_MBPBWH	PROCEDURE	78	"	     delete from gh_mzpbk where ksdm=vksdm and mzlbxh=vmzlbxh and to_char(rq,'yyyymmdd')=to_char(sysdate,'yyyymmdd');
+"
+GH_MBPBWH	PROCEDURE	79	"	  else
+"
+GH_MBPBWH	PROCEDURE	80	"	     delete from gh_mzpbk where ksdm=vksdm and mzlbxh=vmzlbxh and ysgh=vysgh and  to_char(rq,'yyyymmdd')=to_char(sysdate,'yyyymmdd');
+"
+GH_MBPBWH	PROCEDURE	81	"	  end if;
+"
+GH_MBPBWH	PROCEDURE	82	"       end if;
+"
+GH_MBPBWH	PROCEDURE	83	"
+"
+GH_MBPBWH	PROCEDURE	84	"       Commit ;
+"
+GH_MBPBWH	PROCEDURE	85	"     End If;
+"
+GH_MBPBWH	PROCEDURE	86	"   End Loop ;
+"
+GH_MBPBWH	PROCEDURE	87	"   close c1 ;
+"
+GH_MBPBWH	PROCEDURE	88	"
+"
+GH_MBPBWH	PROCEDURE	89	" end ;
+"
+GH_MBPBWH	PROCEDURE	90	"end ;
+"
+GH_MBPBWH	PROCEDURE	91	"
+"
+GH_MBPBWH	PROCEDURE	92	"
+"
+GH_MBPBWH	PROCEDURE	93	 

@@ -1,0 +1,45 @@
+PKG_GY	PACKAGE	1	"PACKAGE         ""PKG_GY"" IS
+"
+PKG_GY	PACKAGE	2	"
+"
+PKG_GY	PACKAGE	3	"  -- Author  : QIANXIAOLONG
+"
+PKG_GY	PACKAGE	4	"  -- Created : 2008-11-24 13:23:55
+"
+PKG_GY	PACKAGE	5	"  -- Purpose : 公用基础包
+"
+PKG_GY	PACKAGE	6	"
+"
+PKG_GY	PACKAGE	7	"  -- 字符串截取
+"
+PKG_GY	PACKAGE	8	"  FUNCTION Fun_StrGetToken(prm_Source IN OUT VARCHAR2,prm_Separator IN VARCHAR2) RETURN VARCHAR2;
+"
+PKG_GY	PACKAGE	9	" PRAGMA RESTRICT_REFERENCES (Fun_StrGetToken,  WNDS, RNPS);
+"
+PKG_GY	PACKAGE	10	"
+"
+PKG_GY	PACKAGE	11	"  -- 生成输入码
+"
+PKG_GY	PACKAGE	12	"  PROCEDURE Prc_Str_ShuRuMSc(prm_HanZi      IN  VARCHAR2,
+"
+PKG_GY	PACKAGE	13	"                              prm_ShuRuMa1   OUT VARCHAR2,
+"
+PKG_GY	PACKAGE	14	"                              prm_ShuRuMa2   OUT VARCHAR2,
+"
+PKG_GY	PACKAGE	15	"                              prm_ShuRuMa3   OUT VARCHAR2,
+"
+PKG_GY	PACKAGE	16	"                              prm_Appcode    OUT NUMBER,
+"
+PKG_GY	PACKAGE	17	"                              prm_Databuffer OUT VARCHAR2);
+"
+PKG_GY	PACKAGE	18	"
+"
+PKG_GY	PACKAGE	19	"
+"
+PKG_GY	PACKAGE	20	"END PKG_GY;
+"
+PKG_GY	PACKAGE	21	"
+"
+PKG_GY	PACKAGE	22	"
+"
+PKG_GY	PACKAGE	23	 

@@ -1,0 +1,126 @@
+UPDATE_KCZZ_TJCKSL	PROCEDURE	1	"procedure update_kczz_tjcksl is
+"
+UPDATE_KCZZ_TJCKSL	PROCEDURE	2	"ll_xtxh number(10);
+"
+UPDATE_KCZZ_TJCKSL	PROCEDURE	3	"ll_kcxh number(10);
+"
+UPDATE_KCZZ_TJCKSL	PROCEDURE	4	"ll_wzxh number(10);
+"
+UPDATE_KCZZ_TJCKSL	PROCEDURE	5	"ll_sl number(10,4);
+"
+UPDATE_KCZZ_TJCKSL	PROCEDURE	6	"
+"
+UPDATE_KCZZ_TJCKSL	PROCEDURE	7	"cursor cur_sl is
+"
+UPDATE_KCZZ_TJCKSL	PROCEDURE	8	"  select xtxh,xh,wzxh
+"
+UPDATE_KCZZ_TJCKSL	PROCEDURE	9	"    from wz_kczz
+"
+UPDATE_KCZZ_TJCKSL	PROCEDURE	10	"   where kfjb = 1
+"
+UPDATE_KCZZ_TJCKSL	PROCEDURE	11	"     and kcsl > 0;
+"
+UPDATE_KCZZ_TJCKSL	PROCEDURE	12	"begin
+"
+UPDATE_KCZZ_TJCKSL	PROCEDURE	13	"   OPEN cur_sl ;
+"
+UPDATE_KCZZ_TJCKSL	PROCEDURE	14	"   LOOP
+"
+UPDATE_KCZZ_TJCKSL	PROCEDURE	15	"     FETCH cur_sl
+"
+UPDATE_KCZZ_TJCKSL	PROCEDURE	16	"      INTO ll_xtxh,ll_kcxh,ll_wzxh;
+"
+UPDATE_KCZZ_TJCKSL	PROCEDURE	17	"     IF cur_sl %NOTFOUND THEN
+"
+UPDATE_KCZZ_TJCKSL	PROCEDURE	18	"        EXIT;
+"
+UPDATE_KCZZ_TJCKSL	PROCEDURE	19	"     END IF;
+"
+UPDATE_KCZZ_TJCKSL	PROCEDURE	20	"
+"
+UPDATE_KCZZ_TJCKSL	PROCEDURE	21	"    begin
+"
+UPDATE_KCZZ_TJCKSL	PROCEDURE	22	"     select sl
+"
+UPDATE_KCZZ_TJCKSL	PROCEDURE	23	"       into ll_sl
+"
+UPDATE_KCZZ_TJCKSL	PROCEDURE	24	"       from (
+"
+UPDATE_KCZZ_TJCKSL	PROCEDURE	25	"     select a.xtxh,a.kcxh,a.wzxh,sum(a.sl) sl
+"
+UPDATE_KCZZ_TJCKSL	PROCEDURE	26	"       from wz_ckdmx a, wz_ckd b
+"
+UPDATE_KCZZ_TJCKSL	PROCEDURE	27	"      where a.xtxh = b.xtxh
+"
+UPDATE_KCZZ_TJCKSL	PROCEDURE	28	"        and a.ckdxh = b.xh
+"
+UPDATE_KCZZ_TJCKSL	PROCEDURE	29	"        and b.jzbz = 0
+"
+UPDATE_KCZZ_TJCKSL	PROCEDURE	30	"        and b.zfbz = 0
+"
+UPDATE_KCZZ_TJCKSL	PROCEDURE	31	"        and a.xtxh = ll_xtxh
+"
+UPDATE_KCZZ_TJCKSL	PROCEDURE	32	"        and a.kcxh = ll_kcxh
+"
+UPDATE_KCZZ_TJCKSL	PROCEDURE	33	"        and a.wzxh = ll_wzxh
+"
+UPDATE_KCZZ_TJCKSL	PROCEDURE	34	"       group by a.xtxh,a.kcxh,a.wzxh) t;
+"
+UPDATE_KCZZ_TJCKSL	PROCEDURE	35	"
+"
+UPDATE_KCZZ_TJCKSL	PROCEDURE	36	"     EXCEPTION
+"
+UPDATE_KCZZ_TJCKSL	PROCEDURE	37	"     when NO_DATA_FOUND then
+"
+UPDATE_KCZZ_TJCKSL	PROCEDURE	38	"        ll_sl := 0;
+"
+UPDATE_KCZZ_TJCKSL	PROCEDURE	39	"      end ;
+"
+UPDATE_KCZZ_TJCKSL	PROCEDURE	40	"
+"
+UPDATE_KCZZ_TJCKSL	PROCEDURE	41	"
+"
+UPDATE_KCZZ_TJCKSL	PROCEDURE	42	"     if nvl(ll_sl,0) >= 0 or ll_sl is not null then
+"
+UPDATE_KCZZ_TJCKSL	PROCEDURE	43	"       update wz_kczz
+"
+UPDATE_KCZZ_TJCKSL	PROCEDURE	44	"          set tjcksl = kcsl - ll_sl
+"
+UPDATE_KCZZ_TJCKSL	PROCEDURE	45	"       where  xtxh = ll_xtxh
+"
+UPDATE_KCZZ_TJCKSL	PROCEDURE	46	"         and  xh = ll_kcxh
+"
+UPDATE_KCZZ_TJCKSL	PROCEDURE	47	"         and  kfjb = 1
+"
+UPDATE_KCZZ_TJCKSL	PROCEDURE	48	"         and  wzxh = ll_wzxh;
+"
+UPDATE_KCZZ_TJCKSL	PROCEDURE	49	"         commit;
+"
+UPDATE_KCZZ_TJCKSL	PROCEDURE	50	"     else
+"
+UPDATE_KCZZ_TJCKSL	PROCEDURE	51	"        update wz_kczz
+"
+UPDATE_KCZZ_TJCKSL	PROCEDURE	52	"          set tjcksl = kcsl
+"
+UPDATE_KCZZ_TJCKSL	PROCEDURE	53	"       where  xtxh = ll_xtxh
+"
+UPDATE_KCZZ_TJCKSL	PROCEDURE	54	"         and  xh = ll_kcxh
+"
+UPDATE_KCZZ_TJCKSL	PROCEDURE	55	"         and kfjb = 1
+"
+UPDATE_KCZZ_TJCKSL	PROCEDURE	56	"         and  wzxh = ll_wzxh;
+"
+UPDATE_KCZZ_TJCKSL	PROCEDURE	57	"         commit;
+"
+UPDATE_KCZZ_TJCKSL	PROCEDURE	58	"     end if;
+"
+UPDATE_KCZZ_TJCKSL	PROCEDURE	59	"
+"
+UPDATE_KCZZ_TJCKSL	PROCEDURE	60	"
+"
+UPDATE_KCZZ_TJCKSL	PROCEDURE	61	"     END LOOP;
+"
+UPDATE_KCZZ_TJCKSL	PROCEDURE	62	"   CLOSE cur_sl;
+"
+UPDATE_KCZZ_TJCKSL	PROCEDURE	63	"end ;
+"

@@ -1,0 +1,62 @@
+PRC_DJKF_DJKFQY	PROCEDURE	1	"Procedure prc_djkf_djkfqy
+"
+PRC_DJKF_DJKFQY	PROCEDURE	2	"(in_yqid in number,in_xtxh in number,in_djkfjb in number, in_ksdm in varchar,out_ret out varchar )
+"
+PRC_DJKF_DJKFQY	PROCEDURE	3	"
+"
+PRC_DJKF_DJKFQY	PROCEDURE	4	"as
+"
+PRC_DJKF_DJKFQY	PROCEDURE	5	"  ll_cnt number;
+"
+PRC_DJKF_DJKFQY	PROCEDURE	6	"  ll_djkfjb number;
+"
+PRC_DJKF_DJKFQY	PROCEDURE	7	"begin
+"
+PRC_DJKF_DJKFQY	PROCEDURE	8	"
+"
+PRC_DJKF_DJKFQY	PROCEDURE	9	"
+"
+PRC_DJKF_DJKFQY	PROCEDURE	10	"    ll_cnt := null;
+"
+PRC_DJKF_DJKFQY	PROCEDURE	11	"
+"
+PRC_DJKF_DJKFQY	PROCEDURE	12	"    ll_djkfjb := in_djkfjb + 1 ;
+"
+PRC_DJKF_DJKFQY	PROCEDURE	13	"
+"
+PRC_DJKF_DJKFQY	PROCEDURE	14	" select count(*)
+"
+PRC_DJKF_DJKFQY	PROCEDURE	15	"      into ll_cnt
+"
+PRC_DJKF_DJKFQY	PROCEDURE	16	"      from ylsb_djkf.wz_djkfsz
+"
+PRC_DJKF_DJKFQY	PROCEDURE	17	"     where yqid = in_yqid
+"
+PRC_DJKF_DJKFQY	PROCEDURE	18	"       and xtxh = in_xtxh
+"
+PRC_DJKF_DJKFQY	PROCEDURE	19	"       and ksdm = in_ksdm
+"
+PRC_DJKF_DJKFQY	PROCEDURE	20	"       --and djkfjb = ll_djkfjb
+"
+PRC_DJKF_DJKFQY	PROCEDURE	21	"       ;
+"
+PRC_DJKF_DJKFQY	PROCEDURE	22	"
+"
+PRC_DJKF_DJKFQY	PROCEDURE	23	"    if isnull(ll_cnt, -111) = -111 or ll_cnt = 0 then
+"
+PRC_DJKF_DJKFQY	PROCEDURE	24	"      out_ret := '0';
+"
+PRC_DJKF_DJKFQY	PROCEDURE	25	"    else
+"
+PRC_DJKF_DJKFQY	PROCEDURE	26	"      out_ret := '1';
+"
+PRC_DJKF_DJKFQY	PROCEDURE	27	"    end if;
+"
+PRC_DJKF_DJKFQY	PROCEDURE	28	"
+"
+PRC_DJKF_DJKFQY	PROCEDURE	29	"    --out_ret := '0';
+"
+PRC_DJKF_DJKFQY	PROCEDURE	30	"
+"
+PRC_DJKF_DJKFQY	PROCEDURE	31	"end prc_djkf_djkfqy;
+"

@@ -1,0 +1,23 @@
+F_BF_GETZBMC	FUNCTION	1	"FUNCTION         ""F_BF_GETZBMC"" (p_xtxh in number,p_zblb  in number)
+"
+F_BF_GETZBMC	FUNCTION	2	"return  varchar2
+"
+F_BF_GETZBMC	FUNCTION	3	"is 
+"
+F_BF_GETZBMC	FUNCTION	4	"  ls_return varchar2(12);
+"
+F_BF_GETZBMC	FUNCTION	5	" begin 
+"
+F_BF_GETZBMC	FUNCTION	6	"      select zbmc into ls_return  from yk_zblb  where  xtxh in
+"
+F_BF_GETZBMC	FUNCTION	7	"       (select ykxh from yf_yplxdz  where  xtxh=p_xtxh)  and 
+"
+F_BF_GETZBMC	FUNCTION	8	"       zblb=p_zblb;
+"
+F_BF_GETZBMC	FUNCTION	9	"     return(ls_return);
+"
+F_BF_GETZBMC	FUNCTION	10	" end;
+"
+F_BF_GETZBMC	FUNCTION	11	"
+"
+F_BF_GETZBMC	FUNCTION	12	 

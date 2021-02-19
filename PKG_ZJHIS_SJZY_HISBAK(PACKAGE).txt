@@ -1,0 +1,87 @@
+PKG_ZJHIS_SJZY_HISBAK	PACKAGE	1	"PACKAGE         ""PKG_ZJHIS_SJZY_HISBAK"" is
+"
+PKG_ZJHIS_SJZY_HISBAK	PACKAGE	2	"
+"
+PKG_ZJHIS_SJZY_HISBAK	PACKAGE	3	"  -- Author  : 金震
+"
+PKG_ZJHIS_SJZY_HISBAK	PACKAGE	4	"  -- Created : 2002-7-31 10:33:45
+"
+PKG_ZJHIS_SJZY_HISBAK	PACKAGE	5	"  -- Purpose : 从ZJHIS数据迁移到HISBAK
+"
+PKG_ZJHIS_SJZY_HISBAK	PACKAGE	6	"  
+"
+PKG_ZJHIS_SJZY_HISBAK	PACKAGE	7	"  -- Public type declarations
+"
+PKG_ZJHIS_SJZY_HISBAK	PACKAGE	8	"  
+"
+PKG_ZJHIS_SJZY_HISBAK	PACKAGE	9	"  -- Public constant declarations
+"
+PKG_ZJHIS_SJZY_HISBAK	PACKAGE	10	"
+"
+PKG_ZJHIS_SJZY_HISBAK	PACKAGE	11	"  -- Public variable declarations
+"
+PKG_ZJHIS_SJZY_HISBAK	PACKAGE	12	"   str_zjhis CONSTANT char(5) := 'ZJHIS' ;   ----被转移数据的用户名,常量,必须大写
+"
+PKG_ZJHIS_SJZY_HISBAK	PACKAGE	13	"   str_hisbak CONSTANT char(6) := 'HISBAK' ; ----接收转移数据的用户名,常量,必须大写
+"
+PKG_ZJHIS_SJZY_HISBAK	PACKAGE	14	"   n_my_qysj CONSTANT number(3) := 732 ;     ----制定门诊药房必须是多少天前的数据方可迁移
+"
+PKG_ZJHIS_SJZY_HISBAK	PACKAGE	15	"   n_mz_qysj CONSTANT number(3) := 732  ;     ----制定门诊收费必须是多少天前的数据方可迁移
+"
+PKG_ZJHIS_SJZY_HISBAK	PACKAGE	16	"   n_by_qysj CONSTANT number(3) := 732 ;     ----制定病区药房必须是多少天前的数据方可迁移
+"
+PKG_ZJHIS_SJZY_HISBAK	PACKAGE	17	"   n_yz_qysj CONSTANT number(3) := 366 ;     ----制定病区医嘱必须是多少天前的数据方可迁移
+"
+PKG_ZJHIS_SJZY_HISBAK	PACKAGE	18	"   n_zy_qysj CONSTANT number(3) := 732 ;     ----制定住院收费必须是多少天前的数据方可迁移
+"
+PKG_ZJHIS_SJZY_HISBAK	PACKAGE	19	"   n_return number(1) ;
+"
+PKG_ZJHIS_SJZY_HISBAK	PACKAGE	20	"   n_err_code number ;
+"
+PKG_ZJHIS_SJZY_HISBAK	PACKAGE	21	"   str_err_msg varchar2(250) ;
+"
+PKG_ZJHIS_SJZY_HISBAK	PACKAGE	22	"   n_qycs number(2) ; 
+"
+PKG_ZJHIS_SJZY_HISBAK	PACKAGE	23	"   
+"
+PKG_ZJHIS_SJZY_HISBAK	PACKAGE	24	"  -- Public function and procedure declarations
+"
+PKG_ZJHIS_SJZY_HISBAK	PACKAGE	25	"   Function   Fun_Gy_Lmsc (prm_Bm In varchar2) return varchar2 ;  --生成给定表的列名字符串
+"
+PKG_ZJHIS_SJZY_HISBAK	PACKAGE	26	"
+"
+PKG_ZJHIS_SJZY_HISBAK	PACKAGE	27	"   Procedure  Prc_Gy_Bjgjy (prm_Bm In varchar2) ;   --表结构校验
+"
+PKG_ZJHIS_SJZY_HISBAK	PACKAGE	28	"           
+"
+PKG_ZJHIS_SJZY_HISBAK	PACKAGE	29	"   Procedure  Prc_My_Sjzy ;
+"
+PKG_ZJHIS_SJZY_HISBAK	PACKAGE	30	"   
+"
+PKG_ZJHIS_SJZY_HISBAK	PACKAGE	31	"   Procedure  Prc_Mz_Sjzy ;
+"
+PKG_ZJHIS_SJZY_HISBAK	PACKAGE	32	"
+"
+PKG_ZJHIS_SJZY_HISBAK	PACKAGE	33	"   Procedure  Prc_By_Sjzy ;
+"
+PKG_ZJHIS_SJZY_HISBAK	PACKAGE	34	"
+"
+PKG_ZJHIS_SJZY_HISBAK	PACKAGE	35	"   Procedure  Prc_Yz_Sjzy ;
+"
+PKG_ZJHIS_SJZY_HISBAK	PACKAGE	36	"
+"
+PKG_ZJHIS_SJZY_HISBAK	PACKAGE	37	"   Procedure  Prc_Zy_Sjzy ;
+"
+PKG_ZJHIS_SJZY_HISBAK	PACKAGE	38	"   
+"
+PKG_ZJHIS_SJZY_HISBAK	PACKAGE	39	"   Procedure Prc_sjzy ;
+"
+PKG_ZJHIS_SJZY_HISBAK	PACKAGE	40	"
+"
+PKG_ZJHIS_SJZY_HISBAK	PACKAGE	41	"end Pkg_Zjhis_Sjzy_Hisbak;
+"
+PKG_ZJHIS_SJZY_HISBAK	PACKAGE	42	"
+"
+PKG_ZJHIS_SJZY_HISBAK	PACKAGE	43	"
+"
+PKG_ZJHIS_SJZY_HISBAK	PACKAGE	44	 

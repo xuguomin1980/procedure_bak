@@ -1,0 +1,52 @@
+F_GET_YWTJXX	FUNCTION	1	"function f_get_ywtjxx(is_jzkh In Varchar2,li_falg in int) return varchar2
+"
+F_GET_YWTJXX	FUNCTION	2	" is
+"
+F_GET_YWTJXX	FUNCTION	3	"  ls_tjxx varchar2(2000);
+"
+F_GET_YWTJXX	FUNCTION	4	"  ls_sfzh varchar2(20);
+"
+F_GET_YWTJXX	FUNCTION	5	"  begin
+"
+F_GET_YWTJXX	FUNCTION	6	"
+"
+F_GET_YWTJXX	FUNCTION	7	"    SELECT sfzh INTO ls_sfzh FROM gy_brjbxxk WHERE jzkh = is_jzkh;
+"
+F_GET_YWTJXX	FUNCTION	8	"    begin
+"
+F_GET_YWTJXX	FUNCTION	9	"    if li_falg= 1 then
+"
+F_GET_YWTJXX	FUNCTION	10	"
+"
+F_GET_YWTJXX	FUNCTION	11	"       select tjycjg into ls_tjxx  from V_ywtjxx_tjjg where sfzh = ls_sfzh and tjrq> sysdate -200;
+"
+F_GET_YWTJXX	FUNCTION	12	"
+"
+F_GET_YWTJXX	FUNCTION	13	"
+"
+F_GET_YWTJXX	FUNCTION	14	"    end if ;
+"
+F_GET_YWTJXX	FUNCTION	15	"    if li_falg= 2 then
+"
+F_GET_YWTJXX	FUNCTION	16	"      select tjzd into ls_tjxx  from V_ywtjxx_tjjg where sfzh = ls_sfzh and tjrq> sysdate -200;
+"
+F_GET_YWTJXX	FUNCTION	17	"    end if ;
+"
+F_GET_YWTJXX	FUNCTION	18	"    if li_falg= 3 then
+"
+F_GET_YWTJXX	FUNCTION	19	"      select tjjy into ls_tjxx  from V_ywtjxx_tjjg where sfzh = ls_sfzh and tjrq> sysdate -200;
+"
+F_GET_YWTJXX	FUNCTION	20	"    end if ;
+"
+F_GET_YWTJXX	FUNCTION	21	"     exception
+"
+F_GET_YWTJXX	FUNCTION	22	"        when others  then
+"
+F_GET_YWTJXX	FUNCTION	23	"             ls_tjxx:='';
+"
+F_GET_YWTJXX	FUNCTION	24	"         End ;
+"
+F_GET_YWTJXX	FUNCTION	25	"      return(ls_tjxx);
+"
+F_GET_YWTJXX	FUNCTION	26	"end f_get_ywtjxx;
+"

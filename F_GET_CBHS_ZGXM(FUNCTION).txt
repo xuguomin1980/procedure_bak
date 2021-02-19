@@ -1,0 +1,21 @@
+F_GET_CBHS_ZGXM	FUNCTION	1	"FUNCTION         ""F_GET_CBHS_ZGXM"" 
+"
+F_GET_CBHS_ZGXM	FUNCTION	2	"(arg_zgid in varchar2,arg_flag in varchar2)
+"
+F_GET_CBHS_ZGXM	FUNCTION	3	"return varchar2
+"
+F_GET_CBHS_ZGXM	FUNCTION	4	"is
+"
+F_GET_CBHS_ZGXM	FUNCTION	5	"   ls_return varchar2(60);
+"
+F_GET_CBHS_ZGXM	FUNCTION	6	"begin
+"
+F_GET_CBHS_ZGXM	FUNCTION	7	"   select xm into ls_return from gy_zgxx where zgid=arg_zgid;
+"
+F_GET_CBHS_ZGXM	FUNCTION	8	"   return(ls_return);
+"
+F_GET_CBHS_ZGXM	FUNCTION	9	"end;
+"
+F_GET_CBHS_ZGXM	FUNCTION	10	"
+"
+F_GET_CBHS_ZGXM	FUNCTION	11	 

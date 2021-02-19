@@ -1,0 +1,14 @@
+PKG_GY_YINYIJK	PACKAGE	1	"Package PKG_GY_YINYIJK Is
+"
+PKG_GY_YINYIJK	PACKAGE	2	"  /*  移动支付的挂号数据保存*/
+"
+PKG_GY_YINYIJK	PACKAGE	3	"  Procedure PRC_GUAHAOYDZF(Prm_Guahaoid  In Varchar2,
+"
+PKG_GY_YINYIJK	PACKAGE	4	"                         Prm_Yibaomsg  In Varchar2,
+"
+PKG_GY_YINYIJK	PACKAGE	5	"                         Prm_Appcode   Out Number,
+"
+PKG_GY_YINYIJK	PACKAGE	6	"                         Prm_Outbuffer Out Varchar2);
+"
+PKG_GY_YINYIJK	PACKAGE	7	"End PKG_GY_YINYIJK;
+"

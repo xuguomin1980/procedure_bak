@@ -1,0 +1,250 @@
+F_YB_ZNSHCL_5_SHBZ	FUNCTION	1	"FUNCTION ""F_YB_ZNSHCL_5_SHBZ""(arg_patient_no Number,
+"
+F_YB_ZNSHCL_5_SHBZ	FUNCTION	2	"                                                arg_shbz       Varchar2,
+"
+F_YB_ZNSHCL_5_SHBZ	FUNCTION	3	"                                                arg_jcfx_date  Varchar2)
+"
+F_YB_ZNSHCL_5_SHBZ	FUNCTION	4	"  return Number Is
+"
+F_YB_ZNSHCL_5_SHBZ	FUNCTION	5	"  ll_count  number;
+"
+F_YB_ZNSHCL_5_SHBZ	FUNCTION	6	"  ll_pos    number;
+"
+F_YB_ZNSHCL_5_SHBZ	FUNCTION	7	"  ls_syzldm varchar2(200);
+"
+F_YB_ZNSHCL_5_SHBZ	FUNCTION	8	"  ls_ybdm   varchar2(50);
+"
+F_YB_ZNSHCL_5_SHBZ	FUNCTION	9	"Begin
+"
+F_YB_ZNSHCL_5_SHBZ	FUNCTION	10	"  ls_syzldm := arg_shbz;
+"
+F_YB_ZNSHCL_5_SHBZ	FUNCTION	11	"
+"
+F_YB_ZNSHCL_5_SHBZ	FUNCTION	12	"  ll_pos := instr(ls_syzldm, '^');
+"
+F_YB_ZNSHCL_5_SHBZ	FUNCTION	13	"  if ll_pos > 0 then
+"
+F_YB_ZNSHCL_5_SHBZ	FUNCTION	14	"    Loop
+"
+F_YB_ZNSHCL_5_SHBZ	FUNCTION	15	"      ll_pos := instr(ls_syzldm, '^');
+"
+F_YB_ZNSHCL_5_SHBZ	FUNCTION	16	"      if ll_pos > 0 then
+"
+F_YB_ZNSHCL_5_SHBZ	FUNCTION	17	"        ls_ybdm   := substr(ls_syzldm, 1, ll_pos - 1);
+"
+F_YB_ZNSHCL_5_SHBZ	FUNCTION	18	"        ls_syzldm := substr(ls_syzldm, ll_pos + 1);
+"
+F_YB_ZNSHCL_5_SHBZ	FUNCTION	19	"      else
+"
+F_YB_ZNSHCL_5_SHBZ	FUNCTION	20	"        ls_ybdm   := ls_syzldm;
+"
+F_YB_ZNSHCL_5_SHBZ	FUNCTION	21	"        ls_syzldm := null;
+"
+F_YB_ZNSHCL_5_SHBZ	FUNCTION	22	"      end if;
+"
+F_YB_ZNSHCL_5_SHBZ	FUNCTION	23	"    
+"
+F_YB_ZNSHCL_5_SHBZ	FUNCTION	24	"      if instr(ls_ybdm, 'f') = 0 then
+"
+F_YB_ZNSHCL_5_SHBZ	FUNCTION	25	"        ls_ybdm := 'f' || ls_ybdm;
+"
+F_YB_ZNSHCL_5_SHBZ	FUNCTION	26	"      end if;
+"
+F_YB_ZNSHCL_5_SHBZ	FUNCTION	27	"    
+"
+F_YB_ZNSHCL_5_SHBZ	FUNCTION	28	"      select sum(sl1)
+"
+F_YB_ZNSHCL_5_SHBZ	FUNCTION	29	"        into ll_count
+"
+F_YB_ZNSHCL_5_SHBZ	FUNCTION	30	"        from (Select Sum(a.sl) sl1
+"
+F_YB_ZNSHCL_5_SHBZ	FUNCTION	31	"              
+"
+F_YB_ZNSHCL_5_SHBZ	FUNCTION	32	"                From zy_detail_charge a, yb_duizhaoml b
+"
+F_YB_ZNSHCL_5_SHBZ	FUNCTION	33	"               Where a.charge_code = b.xiangmuxh
+"
+F_YB_ZNSHCL_5_SHBZ	FUNCTION	34	"                 And a.patient_no = arg_patient_no
+"
+F_YB_ZNSHCL_5_SHBZ	FUNCTION	35	"                 and trunc(jcfx_date) = trunc(sysdate)
+"
+F_YB_ZNSHCL_5_SHBZ	FUNCTION	36	"                 And b.yaopinpb = 0
+"
+F_YB_ZNSHCL_5_SHBZ	FUNCTION	37	"                 And instr(b.yibaodm, ls_ybdm) = 1
+"
+F_YB_ZNSHCL_5_SHBZ	FUNCTION	38	"              union all
+"
+F_YB_ZNSHCL_5_SHBZ	FUNCTION	39	"              Select Sum(a.sl) sl1
+"
+F_YB_ZNSHCL_5_SHBZ	FUNCTION	40	"              
+"
+F_YB_ZNSHCL_5_SHBZ	FUNCTION	41	"                From zy_detail_charge_yb_20190409 a, yb_duizhaoml b
+"
+F_YB_ZNSHCL_5_SHBZ	FUNCTION	42	"               Where a.charge_code = b.xiangmuxh
+"
+F_YB_ZNSHCL_5_SHBZ	FUNCTION	43	"                 And a.patient_no = arg_patient_no
+"
+F_YB_ZNSHCL_5_SHBZ	FUNCTION	44	"                 and to_char(a.jcfx_date, 'yyyy-mm-dd hh24:mi:ss') =
+"
+F_YB_ZNSHCL_5_SHBZ	FUNCTION	45	"                     arg_jcfx_date
+"
+F_YB_ZNSHCL_5_SHBZ	FUNCTION	46	"                 And b.yaopinpb = 0
+"
+F_YB_ZNSHCL_5_SHBZ	FUNCTION	47	"                 And instr(b.yibaodm, ls_ybdm) = 1);
+"
+F_YB_ZNSHCL_5_SHBZ	FUNCTION	48	"    
+"
+F_YB_ZNSHCL_5_SHBZ	FUNCTION	49	"      if ll_count > 0 then
+"
+F_YB_ZNSHCL_5_SHBZ	FUNCTION	50	"        return 1;
+"
+F_YB_ZNSHCL_5_SHBZ	FUNCTION	51	"      end if;
+"
+F_YB_ZNSHCL_5_SHBZ	FUNCTION	52	"      Exit When ls_syzldm Is Null;
+"
+F_YB_ZNSHCL_5_SHBZ	FUNCTION	53	"    End Loop;
+"
+F_YB_ZNSHCL_5_SHBZ	FUNCTION	54	"  
+"
+F_YB_ZNSHCL_5_SHBZ	FUNCTION	55	"  end if;
+"
+F_YB_ZNSHCL_5_SHBZ	FUNCTION	56	"
+"
+F_YB_ZNSHCL_5_SHBZ	FUNCTION	57	"  ll_pos := instr(ls_syzldm, '·ÖÀàÏÂ');
+"
+F_YB_ZNSHCL_5_SHBZ	FUNCTION	58	"  if ll_pos > 0 then
+"
+F_YB_ZNSHCL_5_SHBZ	FUNCTION	59	"    ls_ybdm := substr(ls_syzldm, 1, ll_pos - 1);
+"
+F_YB_ZNSHCL_5_SHBZ	FUNCTION	60	"    if instr(ls_ybdm, 'f') = 0 then
+"
+F_YB_ZNSHCL_5_SHBZ	FUNCTION	61	"      ls_ybdm := 'f' || ls_ybdm;
+"
+F_YB_ZNSHCL_5_SHBZ	FUNCTION	62	"    end if;
+"
+F_YB_ZNSHCL_5_SHBZ	FUNCTION	63	"  
+"
+F_YB_ZNSHCL_5_SHBZ	FUNCTION	64	"    select sum(sl1)
+"
+F_YB_ZNSHCL_5_SHBZ	FUNCTION	65	"      into ll_count
+"
+F_YB_ZNSHCL_5_SHBZ	FUNCTION	66	"      from (Select Sum(a.sl) sl1
+"
+F_YB_ZNSHCL_5_SHBZ	FUNCTION	67	"            
+"
+F_YB_ZNSHCL_5_SHBZ	FUNCTION	68	"              From zy_detail_charge a, yb_duizhaoml b
+"
+F_YB_ZNSHCL_5_SHBZ	FUNCTION	69	"             Where a.charge_code = b.xiangmuxh
+"
+F_YB_ZNSHCL_5_SHBZ	FUNCTION	70	"               And a.patient_no = arg_patient_no
+"
+F_YB_ZNSHCL_5_SHBZ	FUNCTION	71	"               and trunc(jcfx_date) = trunc(sysdate)
+"
+F_YB_ZNSHCL_5_SHBZ	FUNCTION	72	"               And b.yaopinpb = 0
+"
+F_YB_ZNSHCL_5_SHBZ	FUNCTION	73	"               And instr(b.yibaodm, ls_ybdm) = 1
+"
+F_YB_ZNSHCL_5_SHBZ	FUNCTION	74	"            union all
+"
+F_YB_ZNSHCL_5_SHBZ	FUNCTION	75	"            Select Sum(a.sl) sl1
+"
+F_YB_ZNSHCL_5_SHBZ	FUNCTION	76	"            
+"
+F_YB_ZNSHCL_5_SHBZ	FUNCTION	77	"              From zy_detail_charge_yb_20190409 a, yb_duizhaoml b
+"
+F_YB_ZNSHCL_5_SHBZ	FUNCTION	78	"             Where a.charge_code = b.xiangmuxh
+"
+F_YB_ZNSHCL_5_SHBZ	FUNCTION	79	"               And a.patient_no = arg_patient_no
+"
+F_YB_ZNSHCL_5_SHBZ	FUNCTION	80	"               and to_char(a.jcfx_date, 'yyyy-mm-dd hh24:mi:ss') =
+"
+F_YB_ZNSHCL_5_SHBZ	FUNCTION	81	"                   arg_jcfx_date
+"
+F_YB_ZNSHCL_5_SHBZ	FUNCTION	82	"               And b.yaopinpb = 0
+"
+F_YB_ZNSHCL_5_SHBZ	FUNCTION	83	"               And instr(b.yibaodm, ls_ybdm) = 1);
+"
+F_YB_ZNSHCL_5_SHBZ	FUNCTION	84	"  
+"
+F_YB_ZNSHCL_5_SHBZ	FUNCTION	85	"    if ll_count > 0 then
+"
+F_YB_ZNSHCL_5_SHBZ	FUNCTION	86	"      return 1;
+"
+F_YB_ZNSHCL_5_SHBZ	FUNCTION	87	"    end if;
+"
+F_YB_ZNSHCL_5_SHBZ	FUNCTION	88	"  
+"
+F_YB_ZNSHCL_5_SHBZ	FUNCTION	89	"  end if;
+"
+F_YB_ZNSHCL_5_SHBZ	FUNCTION	90	"
+"
+F_YB_ZNSHCL_5_SHBZ	FUNCTION	91	"  if ll_pos = 0 then
+"
+F_YB_ZNSHCL_5_SHBZ	FUNCTION	92	"    ls_ybdm := ls_syzldm;
+"
+F_YB_ZNSHCL_5_SHBZ	FUNCTION	93	"    if instr(ls_ybdm, 'f') = 0 then
+"
+F_YB_ZNSHCL_5_SHBZ	FUNCTION	94	"      ls_ybdm := 'f' || ls_ybdm;
+"
+F_YB_ZNSHCL_5_SHBZ	FUNCTION	95	"    end if;
+"
+F_YB_ZNSHCL_5_SHBZ	FUNCTION	96	"  
+"
+F_YB_ZNSHCL_5_SHBZ	FUNCTION	97	"    select sum(sl1)
+"
+F_YB_ZNSHCL_5_SHBZ	FUNCTION	98	"      into ll_count
+"
+F_YB_ZNSHCL_5_SHBZ	FUNCTION	99	"      from (Select Sum(a.sl) sl1
+"
+F_YB_ZNSHCL_5_SHBZ	FUNCTION	100	"            
+"
+F_YB_ZNSHCL_5_SHBZ	FUNCTION	101	"              From zy_detail_charge a, yb_duizhaoml b
+"
+F_YB_ZNSHCL_5_SHBZ	FUNCTION	102	"             Where a.charge_code = b.xiangmuxh
+"
+F_YB_ZNSHCL_5_SHBZ	FUNCTION	103	"               And a.patient_no = arg_patient_no
+"
+F_YB_ZNSHCL_5_SHBZ	FUNCTION	104	"               and trunc(jcfx_date) = trunc(sysdate)
+"
+F_YB_ZNSHCL_5_SHBZ	FUNCTION	105	"               And b.yaopinpb = 0
+"
+F_YB_ZNSHCL_5_SHBZ	FUNCTION	106	"               And instr(b.yibaodm, ls_ybdm) = 1
+"
+F_YB_ZNSHCL_5_SHBZ	FUNCTION	107	"            union all
+"
+F_YB_ZNSHCL_5_SHBZ	FUNCTION	108	"            Select Sum(a.sl) sl1
+"
+F_YB_ZNSHCL_5_SHBZ	FUNCTION	109	"            
+"
+F_YB_ZNSHCL_5_SHBZ	FUNCTION	110	"              From zy_detail_charge_yb_20190409 a, yb_duizhaoml b
+"
+F_YB_ZNSHCL_5_SHBZ	FUNCTION	111	"             Where a.charge_code = b.xiangmuxh
+"
+F_YB_ZNSHCL_5_SHBZ	FUNCTION	112	"               And a.patient_no = arg_patient_no
+"
+F_YB_ZNSHCL_5_SHBZ	FUNCTION	113	"               and to_char(a.jcfx_date, 'yyyy-mm-dd hh24:mi:ss') =
+"
+F_YB_ZNSHCL_5_SHBZ	FUNCTION	114	"                   arg_jcfx_date
+"
+F_YB_ZNSHCL_5_SHBZ	FUNCTION	115	"               And b.yaopinpb = 0
+"
+F_YB_ZNSHCL_5_SHBZ	FUNCTION	116	"               And instr(b.yibaodm, ls_ybdm) = 1);
+"
+F_YB_ZNSHCL_5_SHBZ	FUNCTION	117	"  
+"
+F_YB_ZNSHCL_5_SHBZ	FUNCTION	118	"    if ll_count > 0 then
+"
+F_YB_ZNSHCL_5_SHBZ	FUNCTION	119	"      return 1;
+"
+F_YB_ZNSHCL_5_SHBZ	FUNCTION	120	"    end if;
+"
+F_YB_ZNSHCL_5_SHBZ	FUNCTION	121	"  
+"
+F_YB_ZNSHCL_5_SHBZ	FUNCTION	122	"  end if;
+"
+F_YB_ZNSHCL_5_SHBZ	FUNCTION	123	"
+"
+F_YB_ZNSHCL_5_SHBZ	FUNCTION	124	"  Return 0;
+"
+F_YB_ZNSHCL_5_SHBZ	FUNCTION	125	"End;
+"

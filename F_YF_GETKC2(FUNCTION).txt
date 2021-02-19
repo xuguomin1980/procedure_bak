@@ -1,0 +1,45 @@
+F_YF_GETKC2	FUNCTION	1	"FUNCTION         ""F_YF_GETKC2"" 
+"
+F_YF_GETKC2	FUNCTION	2	"(arg_XTXH in NUMBER,arg_ypxh in number,arg_ypcddm in number,arg_ypbzl in number) 
+"
+F_YF_GETKC2	FUNCTION	3	"return number 
+"
+F_YF_GETKC2	FUNCTION	4	"is 
+"
+F_YF_GETKC2	FUNCTION	5	"  ls_ksdm   varchar2(10); 
+"
+F_YF_GETKC2	FUNCTION	6	"  ls_return number(11,3); 
+"
+F_YF_GETKC2	FUNCTION	7	"begin 
+"
+F_YF_GETKC2	FUNCTION	8	"  begin 
+"
+F_YF_GETKC2	FUNCTION	9	"	  select skc into ls_return from my_ypkcz 
+"
+F_YF_GETKC2	FUNCTION	10	"		  where  ypxh=arg_ypxh and ypcddm=arg_ypcddm AND XTXH=ARG_XTXH; 
+"
+F_YF_GETKC2	FUNCTION	11	"	  EXCEPTION 
+"
+F_YF_GETKC2	FUNCTION	12	"	  WHEN OTHERS THEN 
+"
+F_YF_GETKC2	FUNCTION	13	"	  begin 
+"
+F_YF_GETKC2	FUNCTION	14	"		  select skc/arg_ypbzl into ls_return from my_ypkcz 
+"
+F_YF_GETKC2	FUNCTION	15	"			  where  fzfl=arg_ypxh and ypcddm=arg_ypcddm AND XTXH=ARG_XTXH; 
+"
+F_YF_GETKC2	FUNCTION	16	"		  EXCEPTION 
+"
+F_YF_GETKC2	FUNCTION	17	"		  WHEN OTHERS THEN 
+"
+F_YF_GETKC2	FUNCTION	18	"       ls_return:=0; 
+"
+F_YF_GETKC2	FUNCTION	19	"	  end;  
+"
+F_YF_GETKC2	FUNCTION	20	"  end; 
+"
+F_YF_GETKC2	FUNCTION	21	"return(ls_return); 
+"
+F_YF_GETKC2	FUNCTION	22	"end;
+"
+F_YF_GETKC2	FUNCTION	23	 

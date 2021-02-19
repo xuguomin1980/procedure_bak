@@ -1,0 +1,39 @@
+F_YF_GETXTXH	FUNCTION	1	"FUNCTION         ""F_YF_GETXTXH"" (arg_yplx in number,arg_jzyf number,arg_yflb in number,arg_flag in varchar2)
+"
+F_YF_GETXTXH	FUNCTION	2	" return  number 
+"
+F_YF_GETXTXH	FUNCTION	3	" is  
+"
+F_YF_GETXTXH	FUNCTION	4	" ls_return  number(5);
+"
+F_YF_GETXTXH	FUNCTION	5	"  begin 
+"
+F_YF_GETXTXH	FUNCTION	6	"    begin 
+"
+F_YF_GETXTXH	FUNCTION	7	"     If  lower(substr(arg_flag,1,2))='by' Then 
+"
+F_YF_GETXTXH	FUNCTION	8	"       Select xtxh into  ls_return from  by_ckxh where  ksdm=substr(arg_flag,3) And rownum=1;
+"
+F_YF_GETXTXH	FUNCTION	9	"          Else  
+"
+F_YF_GETXTXH	FUNCTION	10	"       select a.xtxh into ls_return  from yf_xtdz a,yf_yplxdz b  
+"
+F_YF_GETXTXH	FUNCTION	11	"        where a.xtxh=b.xtxh And nvl(a.jzyf,0)=nvl(arg_jzyf,0) 
+"
+F_YF_GETXTXH	FUNCTION	12	"          and  a.yflb=arg_yflb and  b.yplx=arg_yplx  and  rownum=1;
+"
+F_YF_GETXTXH	FUNCTION	13	"         End If;   
+"
+F_YF_GETXTXH	FUNCTION	14	"      exception  
+"
+F_YF_GETXTXH	FUNCTION	15	"        when  no_data_found then 
+"
+F_YF_GETXTXH	FUNCTION	16	"         ls_return:=0;  
+"
+F_YF_GETXTXH	FUNCTION	17	"    end;
+"
+F_YF_GETXTXH	FUNCTION	18	"  return(ls_return);
+"
+F_YF_GETXTXH	FUNCTION	19	" end;
+"
+F_YF_GETXTXH	FUNCTION	20	 

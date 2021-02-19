@@ -1,0 +1,5 @@
+F_GETBQDM	FUNCTION	1	"FUNCTION         ""F_GETBQDM"" (arg_ksdm in varchar2)  return varchar2 Is  ls_return varchar2(10);  begin   select bqdm into ls_return from gy_ksdm where ksdm=arg_ksdm;  return(ls_return);  end;
+"
+F_GETBQDM	FUNCTION	2	"
+"
+F_GETBQDM	FUNCTION	3	 

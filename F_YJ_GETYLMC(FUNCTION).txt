@@ -1,0 +1,20 @@
+F_YJ_GETYLMC	FUNCTION	1	"FUNCTION ""F_YJ_GETYLMC"" (arg_ylxh in number)
+"
+F_YJ_GETYLMC	FUNCTION	2	"  return varchar2
+"
+F_YJ_GETYLMC	FUNCTION	3	"  is
+"
+F_YJ_GETYLMC	FUNCTION	4	"    ls_return varchar2(80);
+"
+F_YJ_GETYLMC	FUNCTION	5	"  begin
+"
+F_YJ_GETYLMC	FUNCTION	6	"	  select ylmc into ls_return from gy_ylsf where ylxh=arg_ylxh;
+"
+F_YJ_GETYLMC	FUNCTION	7	"	  return(ls_return);
+"
+F_YJ_GETYLMC	FUNCTION	8	"  end;
+"
+F_YJ_GETYLMC	FUNCTION	9	"
+"
+F_YJ_GETYLMC	FUNCTION	10	" 
+"

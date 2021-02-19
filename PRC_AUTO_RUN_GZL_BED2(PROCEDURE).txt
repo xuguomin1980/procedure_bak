@@ -1,0 +1,110 @@
+PRC_AUTO_RUN_GZL_BED2	PROCEDURE	1	"PROCEDURE ""PRC_AUTO_RUN_GZL_BED2""
+"
+PRC_AUTO_RUN_GZL_BED2	PROCEDURE	2	"
+"
+PRC_AUTO_RUN_GZL_BED2	PROCEDURE	3	"  --(in_d1 in date, --交易类型
+"
+PRC_AUTO_RUN_GZL_BED2	PROCEDURE	4	"  --                                             in_d2 in date)
+"
+PRC_AUTO_RUN_GZL_BED2	PROCEDURE	5	"
+"
+PRC_AUTO_RUN_GZL_BED2	PROCEDURE	6	" Is
+"
+PRC_AUTO_RUN_GZL_BED2	PROCEDURE	7	"
+"
+PRC_AUTO_RUN_GZL_BED2	PROCEDURE	8	"  /*=============================================================================
+"
+PRC_AUTO_RUN_GZL_BED2	PROCEDURE	9	"  || 过程名称 ： PRC_AUTO_RUN_QUERY1 后台自动运行
+"
+PRC_AUTO_RUN_GZL_BED2	PROCEDURE	10	"  ||-----------------------------------------------------------------------------
+"
+PRC_AUTO_RUN_GZL_BED2	PROCEDURE	11	"  || 功能说明 ：  JOB 定时10分钟 执行 后台任务
+"
+PRC_AUTO_RUN_GZL_BED2	PROCEDURE	12	"  ||-----------------------------------------------------------------------------
+"
+PRC_AUTO_RUN_GZL_BED2	PROCEDURE	13	"  || 参数描述 ： 无
+"
+PRC_AUTO_RUN_GZL_BED2	PROCEDURE	14	"  ------------------------------------------------------------
+"
+PRC_AUTO_RUN_GZL_BED2	PROCEDURE	15	"  ||-----------------------------------------------------------------------------
+"
+PRC_AUTO_RUN_GZL_BED2	PROCEDURE	16	"  || 注意事项 ：
+"
+PRC_AUTO_RUN_GZL_BED2	PROCEDURE	17	"  ||-----------------------------------------------------------------------------
+"
+PRC_AUTO_RUN_GZL_BED2	PROCEDURE	18	"  || 作    者 ：       完成日期 ：
+"
+PRC_AUTO_RUN_GZL_BED2	PROCEDURE	19	"  ||-----------------------------------------------------------------------------
+"
+PRC_AUTO_RUN_GZL_BED2	PROCEDURE	20	"  || 修改记录 ：
+"
+PRC_AUTO_RUN_GZL_BED2	PROCEDURE	21	"  =============================================================================*/
+"
+PRC_AUTO_RUN_GZL_BED2	PROCEDURE	22	"
+"
+PRC_AUTO_RUN_GZL_BED2	PROCEDURE	23	"  v_mess_all Varchar2(400);
+"
+PRC_AUTO_RUN_GZL_BED2	PROCEDURE	24	"
+"
+PRC_AUTO_RUN_GZL_BED2	PROCEDURE	25	"  v_bz             Varchar2(100);
+"
+PRC_AUTO_RUN_GZL_BED2	PROCEDURE	26	"  v_task           Varchar2(100);
+"
+PRC_AUTO_RUN_GZL_BED2	PROCEDURE	27	"  lxdh             Varchar2(100);
+"
+PRC_AUTO_RUN_GZL_BED2	PROCEDURE	28	"  v_Procedure_Name Varchar2(100);
+"
+PRC_AUTO_RUN_GZL_BED2	PROCEDURE	29	"
+"
+PRC_AUTO_RUN_GZL_BED2	PROCEDURE	30	"Begin
+"
+PRC_AUTO_RUN_GZL_BED2	PROCEDURE	31	"  v_Procedure_Name := 'PRC_AUTO_RUN_GZL_BED';
+"
+PRC_AUTO_RUN_GZL_BED2	PROCEDURE	32	"  v_task           := ' ';
+"
+PRC_AUTO_RUN_GZL_BED2	PROCEDURE	33	"  lxdh             := '13777929515';
+"
+PRC_AUTO_RUN_GZL_BED2	PROCEDURE	34	"
+"
+PRC_AUTO_RUN_GZL_BED2	PROCEDURE	35	"  insert into zy_jiaoyi_v1
+"
+PRC_AUTO_RUN_GZL_BED2	PROCEDURE	36	"    (jiaoyilx, jylsh, flag)
+"
+PRC_AUTO_RUN_GZL_BED2	PROCEDURE	37	"  values
+"
+PRC_AUTO_RUN_GZL_BED2	PROCEDURE	38	"    (v_Procedure_Name, '开始', 0);
+"
+PRC_AUTO_RUN_GZL_BED2	PROCEDURE	39	"  commit;
+"
+PRC_AUTO_RUN_GZL_BED2	PROCEDURE	40	"
+"
+PRC_AUTO_RUN_GZL_BED2	PROCEDURE	41	"  SELECT to_char(sysdate, 'yyyy-mm-dd hh24:mi:ss') || ',在院病人:' || sl ||
+"
+PRC_AUTO_RUN_GZL_BED2	PROCEDURE	42	"         ' ,,,空床:' || kc
+"
+PRC_AUTO_RUN_GZL_BED2	PROCEDURE	43	"    into v_mess_all
+"
+PRC_AUTO_RUN_GZL_BED2	PROCEDURE	44	"    FROM v_temp_kc_0305hz;
+"
+PRC_AUTO_RUN_GZL_BED2	PROCEDURE	45	"  lxdh := '13777929515';
+"
+PRC_AUTO_RUN_GZL_BED2	PROCEDURE	46	"  if lxdh > '0' then
+"
+PRC_AUTO_RUN_GZL_BED2	PROCEDURE	47	"    prc_sms_send_mark('a', lxdh, v_mess_all, v_bz);
+"
+PRC_AUTO_RUN_GZL_BED2	PROCEDURE	48	"  end if;
+"
+PRC_AUTO_RUN_GZL_BED2	PROCEDURE	49	"
+"
+PRC_AUTO_RUN_GZL_BED2	PROCEDURE	50	"  lxdh := '13738908760';
+"
+PRC_AUTO_RUN_GZL_BED2	PROCEDURE	51	"  if lxdh > '0' then
+"
+PRC_AUTO_RUN_GZL_BED2	PROCEDURE	52	"    prc_sms_send_mark('a', lxdh, v_mess_all, v_bz);
+"
+PRC_AUTO_RUN_GZL_BED2	PROCEDURE	53	"  end if;
+"
+PRC_AUTO_RUN_GZL_BED2	PROCEDURE	54	"
+"
+PRC_AUTO_RUN_GZL_BED2	PROCEDURE	55	"End;
+"

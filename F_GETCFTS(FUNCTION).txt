@@ -1,0 +1,30 @@
+F_GETCFTS	FUNCTION	1	"function f_getcfts(p_w varchar2)        --p_w 为传入参数
+"
+F_GETCFTS	FUNCTION	2	"return varchar2                                                   --返回类型
+"
+F_GETCFTS	FUNCTION	3	"as
+"
+F_GETCFTS	FUNCTION	4	"v_pos1 number;                        --定义变量v_f
+"
+F_GETCFTS	FUNCTION	5	"v_pos2 number;
+"
+F_GETCFTS	FUNCTION	6	"v_a varchar2(500);            --定义变量v_a
+"
+F_GETCFTS	FUNCTION	7	"begin
+"
+F_GETCFTS	FUNCTION	8	"return '99';
+"
+F_GETCFTS	FUNCTION	9	"if p_w='41700' then
+"
+F_GETCFTS	FUNCTION	10	"   return '14';
+"
+F_GETCFTS	FUNCTION	11	"else
+"
+F_GETCFTS	FUNCTION	12	"   return '7';
+"
+F_GETCFTS	FUNCTION	13	"end if;
+"
+F_GETCFTS	FUNCTION	14	"return v_a;
+"
+F_GETCFTS	FUNCTION	15	"end;
+"

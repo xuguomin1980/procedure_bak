@@ -1,0 +1,297 @@
+YK_YMJZ	PROCEDURE	1	"PROCEDURE         ""YK_YMJZ"" (vxtxh in number) as
+"
+YK_YMJZ	PROCEDURE	2	"begin
+"
+YK_YMJZ	PROCEDURE	3	"declare
+"
+YK_YMJZ	PROCEDURE	4	"  kjqj varchar2(10);
+"
+YK_YMJZ	PROCEDURE	5	"  ksrq date ;
+"
+YK_YMJZ	PROCEDURE	6	"  xypxh number ;
+"
+YK_YMJZ	PROCEDURE	7	"  xypcddm number ;
+"
+YK_YMJZ	PROCEDURE	8	"  zsl number ;
+"
+YK_YMJZ	PROCEDURE	9	"  hjje number ;
+"
+YK_YMJZ	PROCEDURE	10	"  xpfj number ;
+"
+YK_YMJZ	PROCEDURE	11	"  xlsj number ;
+"
+YK_YMJZ	PROCEDURE	12	"  xzblb number ;
+"
+YK_YMJZ	PROCEDURE	13	"  vjgxh number ;
+"
+YK_YMJZ	PROCEDURE	14	"  i number ;
+"
+YK_YMJZ	PROCEDURE	15	"  j number ;
+"
+YK_YMJZ	PROCEDURE	16	"  vsdate date;
+"
+YK_YMJZ	PROCEDURE	17	"  vedate date;
+"
+YK_YMJZ	PROCEDURE	18	"  vcrkfsdm number ;
+"
+YK_YMJZ	PROCEDURE	19	"  crkdh varchar2(8) ;
+"
+YK_YMJZ	PROCEDURE	20	"  yjdh varchar2(8) ;
+"
+YK_YMJZ	PROCEDURE	21	"  newdh varchar2(8);
+"
+YK_YMJZ	PROCEDURE	22	"  vysdjh varchar2(8);
+"
+YK_YMJZ	PROCEDURE	23	"  cursor yjcursor is
+"
+YK_YMJZ	PROCEDURE	24	"     select ypxh,ypcddm,sum(round(nvl(jfsl,0)-nvl(dfsl,0),3)),
+"
+YK_YMJZ	PROCEDURE	25	"            sum(round(nvl(jfje,0)-nvl(dfje,0),2))
+"
+YK_YMJZ	PROCEDURE	26	"       from yk_kcmxzb
+"
+YK_YMJZ	PROCEDURE	27	"      where xtxh=vxtxh and crkfsdm <> 83 and crkdh like yjdh||'%'
+"
+YK_YMJZ	PROCEDURE	28	"      group by ypxh,ypcddm ;
+"
+YK_YMJZ	PROCEDURE	29	"  cursor wdzrkd is
+"
+YK_YMJZ	PROCEDURE	30	"     select crkfsdm,rkdh from yk_yprkd where xtxh=vxtxh and ydzbz=0;
+"
+YK_YMJZ	PROCEDURE	31	"  cursor wdzckd is
+"
+YK_YMJZ	PROCEDURE	32	"     select crkfsdm,ckdh from yk_ypckd where xtxh=vxtxh and ydzbz=0;
+"
+YK_YMJZ	PROCEDURE	33	"  cursor wdztjd is
+"
+YK_YMJZ	PROCEDURE	34	"     select tjdh from yk_yktjd where xtxh=vxtxh and jzr is null;
+"
+YK_YMJZ	PROCEDURE	35	"
+"
+YK_YMJZ	PROCEDURE	36	"begin
+"
+YK_YMJZ	PROCEDURE	37	"  select rtrim(dqdh) into yjdh from yk_crkfs where xtxh=vxtxh and crkfsdm=83 ;
+"
+YK_YMJZ	PROCEDURE	38	"  select to_date(to_char(jsrq,'yyyymmdd')||'23:59','yyyymmdd hh24:mi') into vedate
+"
+YK_YMJZ	PROCEDURE	39	"    from yk_kjrl where xtxh=vxtxh and rtrim(kjqj)=yjdh ;
+"
+YK_YMJZ	PROCEDURE	40	"  if substr(yjdh,3,2)='12' then
+"
+YK_YMJZ	PROCEDURE	41	"--     delete from yk_kjrl where xtxh=vxtxh;
+"
+YK_YMJZ	PROCEDURE	42	"     newdh:=(substr(yjdh,1,2)+1)||'01';
+"
+YK_YMJZ	PROCEDURE	43	"     if length(newdh)<=4 then
+"
+YK_YMJZ	PROCEDURE	44	"        newdh:=lpad(newdh,4,'0') ;
+"
+YK_YMJZ	PROCEDURE	45	"     else
+"
+YK_YMJZ	PROCEDURE	46	"        newdh:=substr(newdh,length(newdh)-3,4) ;
+"
+YK_YMJZ	PROCEDURE	47	"     end if ;
+"
+YK_YMJZ	PROCEDURE	48	"/*
+"
+YK_YMJZ	PROCEDURE	49	"     if to_char(sysdate,'yymm')=newdh then
+"
+YK_YMJZ	PROCEDURE	50	"         ksrq:=to_date(to_char(sysdate,'yyyy')||'-01-01','yyyy-mm-dd');
+"
+YK_YMJZ	PROCEDURE	51	"     else
+"
+YK_YMJZ	PROCEDURE	52	"         ksrq:=last_day(sysdate)+1 ;
+"
+YK_YMJZ	PROCEDURE	53	"     end if ;
+"
+YK_YMJZ	PROCEDURE	54	"*/
+"
+YK_YMJZ	PROCEDURE	55	"/*
+"
+YK_YMJZ	PROCEDURE	56	"     i:=0 ;
+"
+YK_YMJZ	PROCEDURE	57	"     loop
+"
+YK_YMJZ	PROCEDURE	58	"        exit when i>11 ;
+"
+YK_YMJZ	PROCEDURE	59	"        insert into yk_kjrl (xtxh,kjqj,ksrq,jsrq)
+"
+YK_YMJZ	PROCEDURE	60	"          values (vxtxh,lpad(newdh+i,4,'0'),ksrq,last_day(ksrq)) ;
+"
+YK_YMJZ	PROCEDURE	61	"        ksrq:=last_day(ksrq)+1 ;
+"
+YK_YMJZ	PROCEDURE	62	"        i:=i+1 ;
+"
+YK_YMJZ	PROCEDURE	63	"     end loop ;
+"
+YK_YMJZ	PROCEDURE	64	"*/
+"
+YK_YMJZ	PROCEDURE	65	"-- modified by georgewang 2000.12.06
+"
+YK_YMJZ	PROCEDURE	66	"
+"
+YK_YMJZ	PROCEDURE	67	"	update yk_kjrl
+"
+YK_YMJZ	PROCEDURE	68	"	set kjqj = substr(newdh,1,2)||substr(kjqj,3,2),
+"
+YK_YMJZ	PROCEDURE	69	"	    ksrq = add_months(ksrq,12),
+"
+YK_YMJZ	PROCEDURE	70	"	    jsrq = add_months(jsrq,12)
+"
+YK_YMJZ	PROCEDURE	71	"	where xtxh = vxtxh;
+"
+YK_YMJZ	PROCEDURE	72	"
+"
+YK_YMJZ	PROCEDURE	73	"  else
+"
+YK_YMJZ	PROCEDURE	74	"     newdh:=lpad(yjdh+1,4,'0') ;
+"
+YK_YMJZ	PROCEDURE	75	"  end if;
+"
+YK_YMJZ	PROCEDURE	76	"  select to_date(to_char(ksrq,'yyyymmdd')||'00:01','yyyymmdd hh24:mi') into vsdate
+"
+YK_YMJZ	PROCEDURE	77	"    from yk_kjrl where xtxh=vxtxh and rtrim(kjqj)=newdh ;
+"
+YK_YMJZ	PROCEDURE	78	"  open yjcursor ;
+"
+YK_YMJZ	PROCEDURE	79	"  i:=1 ;
+"
+YK_YMJZ	PROCEDURE	80	"  j:=1 ;
+"
+YK_YMJZ	PROCEDURE	81	"  loop
+"
+YK_YMJZ	PROCEDURE	82	"    fetch yjcursor into xypxh,xypcddm,zsl,hjje ;
+"
+YK_YMJZ	PROCEDURE	83	"    exit when yjcursor%NOTFOUND ;
+"
+YK_YMJZ	PROCEDURE	84	"    select xh,pfj,lsj,zblb into vjgxh,xpfj,xlsj,xzblb from gy_ypcdjg
+"
+YK_YMJZ	PROCEDURE	85	"     where ypxh=xypxh and ypcddm=xypcddm and bmxh is null
+"
+YK_YMJZ	PROCEDURE	86	"           and rownum=1 order by substr(ypsx,10,1);
+"
+YK_YMJZ	PROCEDURE	87	"    insert into yk_ypmxz (xtxh,crkfsdm,crkdh,xh,jgxh,ypxh,ypcddm,rq,zy,sl,pfj,lsj,zblb)
+"
+YK_YMJZ	PROCEDURE	88	"	      values (vxtxh,83,yjdh,i,vjgxh,xypxh,xypcddm,vedate,'本月合计',zsl,xpfj,xlsj,xzblb) ;
+"
+YK_YMJZ	PROCEDURE	89	"    insert into yk_kcmxzb (xtxh,crkfsdm,crkdh,ypxh,ypcddm,rq,zy,jfsl,jfdj,jfje,zblb)
+"
+YK_YMJZ	PROCEDURE	90	"	      values (vxtxh,83,yjdh,xypxh,xypcddm,vedate,'本月合计',zsl,xlsj,hjje,xzblb) ;
+"
+YK_YMJZ	PROCEDURE	91	"    insert into yk_ypmxz (xtxh,crkfsdm,crkdh,xh,jgxh,ypxh,ypcddm,rq,zy,sl,pfj,lsj,zblb)
+"
+YK_YMJZ	PROCEDURE	92	"	      values (vxtxh,82,newdh,j,vjgxh,xypxh,xypcddm,vsdate,'上期结存',zsl,xpfj,xlsj,xzblb) ;
+"
+YK_YMJZ	PROCEDURE	93	"    insert into yk_kcmxzb (xtxh,crkfsdm,crkdh,ypxh,ypcddm,rq,zy,jfsl,jfdj,jfje,zblb)
+"
+YK_YMJZ	PROCEDURE	94	"	      values (vxtxh,82,newdh,xypxh,xypcddm,vsdate,'上期结存',zsl,xlsj,hjje,xzblb) ;
+"
+YK_YMJZ	PROCEDURE	95	"    i:=i+1 ;
+"
+YK_YMJZ	PROCEDURE	96	"    j:=j+1 ;
+"
+YK_YMJZ	PROCEDURE	97	"  end loop ;
+"
+YK_YMJZ	PROCEDURE	98	"  close yjcursor ;
+"
+YK_YMJZ	PROCEDURE	99	"  update yk_crkfs set dqdh=newdh||'0000',dqzdh=newdh||'1000',hbdh=newdh||'0000' where xtxh=vxtxh;
+"
+YK_YMJZ	PROCEDURE	100	"  update yk_crkfs set dqdh=newdh,dqzdh=newdh,hbdh=newdh where xtxh=vxtxh and crkfsdm in (81,82,83) ;
+"
+YK_YMJZ	PROCEDURE	101	"  update gy_xtcs set csz2=0 where xtxh=vxtxh and csmc='WCTZ' ;
+"
+YK_YMJZ	PROCEDURE	102	"  i:=0 ;
+"
+YK_YMJZ	PROCEDURE	103	"  open wdzrkd ;
+"
+YK_YMJZ	PROCEDURE	104	"  loop
+"
+YK_YMJZ	PROCEDURE	105	"    fetch wdzrkd into vcrkfsdm,crkdh ;
+"
+YK_YMJZ	PROCEDURE	106	"    exit when wdzrkd%NOTFOUND ;
+"
+YK_YMJZ	PROCEDURE	107	"    vysdjh:=crkdh;
+"
+YK_YMJZ	PROCEDURE	108	"    yjdh:=newdh||'1'||lpad(i,3,'0') ;
+"
+YK_YMJZ	PROCEDURE	109	"    update yk_yprkd set rkdh=yjdh,ysdjh=vysdjh where xtxh=vxtxh and crkfsdm=vcrkfsdm and rkdh=crkdh ;
+"
+YK_YMJZ	PROCEDURE	110	"    update yk_yprkdmx set rkdh=yjdh,ysdjh=vysdjh where xtxh=vxtxh and crkfsdm=vcrkfsdm and rkdh=crkdh ;
+"
+YK_YMJZ	PROCEDURE	111	"    update yk_crkfs set dqzdh=yjdh where xtxh=vxtxh and crkfsdm=vcrkfsdm ;
+"
+YK_YMJZ	PROCEDURE	112	"    i:=i+1 ;
+"
+YK_YMJZ	PROCEDURE	113	"  end loop ;
+"
+YK_YMJZ	PROCEDURE	114	"  close wdzrkd ;
+"
+YK_YMJZ	PROCEDURE	115	"  i:=0 ;
+"
+YK_YMJZ	PROCEDURE	116	"  open wdzckd ;
+"
+YK_YMJZ	PROCEDURE	117	"  loop
+"
+YK_YMJZ	PROCEDURE	118	"    fetch wdzckd into vcrkfsdm,crkdh ;
+"
+YK_YMJZ	PROCEDURE	119	"    exit when wdzckd%NOTFOUND ;
+"
+YK_YMJZ	PROCEDURE	120	"    yjdh:=newdh||'1'||lpad(i,3,'0') ;
+"
+YK_YMJZ	PROCEDURE	121	"    update yk_ypckd set ckdh=yjdh where xtxh=vxtxh and crkfsdm=vcrkfsdm and ckdh=crkdh ;
+"
+YK_YMJZ	PROCEDURE	122	"    update yk_ypckdmx set ckdh=yjdh where xtxh=vxtxh and crkfsdm=vcrkfsdm and ckdh=crkdh ;
+"
+YK_YMJZ	PROCEDURE	123	"    update yk_crkfs set dqzdh=yjdh where xtxh=vxtxh and crkfsdm=vcrkfsdm ;
+"
+YK_YMJZ	PROCEDURE	124	"    i:=i+1 ;
+"
+YK_YMJZ	PROCEDURE	125	"  end loop ;
+"
+YK_YMJZ	PROCEDURE	126	"  close wdzckd ;
+"
+YK_YMJZ	PROCEDURE	127	"  i:=0 ;
+"
+YK_YMJZ	PROCEDURE	128	"  open wdztjd ;
+"
+YK_YMJZ	PROCEDURE	129	"  loop
+"
+YK_YMJZ	PROCEDURE	130	"    fetch wdztjd into crkdh ;
+"
+YK_YMJZ	PROCEDURE	131	"    exit when wdztjd%NOTFOUND ;
+"
+YK_YMJZ	PROCEDURE	132	"    yjdh:=newdh||'1'||lpad(i,3,'0') ;
+"
+YK_YMJZ	PROCEDURE	133	"    update yk_yktjd set tjdh=yjdh where xtxh=vxtxh and tjdh=crkdh ;
+"
+YK_YMJZ	PROCEDURE	134	"    update yk_yktjdmx set tjdh=yjdh where xtxh=vxtxh and tjdh=crkdh ;
+"
+YK_YMJZ	PROCEDURE	135	"    update yk_crkfs set dqzdh=yjdh where xtxh=vxtxh and crkfsdm=vcrkfsdm ;
+"
+YK_YMJZ	PROCEDURE	136	"    i:=i+1 ;
+"
+YK_YMJZ	PROCEDURE	137	"  end loop ;
+"
+YK_YMJZ	PROCEDURE	138	"  close wdztjd ;
+"
+YK_YMJZ	PROCEDURE	139	"  commit ;
+"
+YK_YMJZ	PROCEDURE	140	"--end ;
+"
+YK_YMJZ	PROCEDURE	141	"EXCEPTION  -- exception handlers begin
+"
+YK_YMJZ	PROCEDURE	142	"   WHEN OTHERS THEN  -- handles all other errors
+"
+YK_YMJZ	PROCEDURE	143	"        ROLLBACK;
+"
+YK_YMJZ	PROCEDURE	144	"	RAISE_APPLICATION_ERROR(-20801,'月结不成功!');
+"
+YK_YMJZ	PROCEDURE	145	"END;
+"
+YK_YMJZ	PROCEDURE	146	"
+"
+YK_YMJZ	PROCEDURE	147	"end ;
+"
+YK_YMJZ	PROCEDURE	148	"
+"
+YK_YMJZ	PROCEDURE	149	 

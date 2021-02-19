@@ -1,0 +1,184 @@
+PKG_EMR	PACKAGE	1	"PACKAGE ""PKG_EMR"" is
+"
+PKG_EMR	PACKAGE	2	"  --函数名称 ：获取年龄 FUN_GET_NL add by xiefl
+"
+PKG_EMR	PACKAGE	3	"  --根据需要可扩展
+"
+PKG_EMR	PACKAGE	4	"  FUNCTION Fun_get_nl(ad_csrq IN date,ad_dqrq IN date,as_xz IN VARCHAR2)Return Varchar2;
+"
+PKG_EMR	PACKAGE	5	"  pragma RESTRICT_REFERENCES(Fun_get_nl, WNDS, WNPS,RNPS);
+"
+PKG_EMR	PACKAGE	6	"  --取模板自动绑定code对应的绑定内容 add by xiefl
+"
+PKG_EMR	PACKAGE	7	"  --根据需要可扩展
+"
+PKG_EMR	PACKAGE	8	"  FUNCTION Fun_get_zdbdxmnr(prm_brxh number,prm_mblx in varchar2,prm_code in varchar2) return
+"
+PKG_EMR	PACKAGE	9	"
+"
+PKG_EMR	PACKAGE	10	"varchar2;
+"
+PKG_EMR	PACKAGE	11	"   pragma RESTRICT_REFERENCES(Fun_get_zdbdxmnr, WNDS, WNPS,RNPS);
+"
+PKG_EMR	PACKAGE	12	"  --取病人相关信息 add by xiefl
+"
+PKG_EMR	PACKAGE	13	"  --根据需要可扩展
+"
+PKG_EMR	PACKAGE	14	"  FUNCTION Fun_get_brxx(as_lb IN VARCHAR2,as_brid IN VARCHAR2,as_xx IN VARCHAR2) Return Varchar2;
+"
+PKG_EMR	PACKAGE	15	"    pragma RESTRICT_REFERENCES(Fun_get_brxx, WNDS, WNPS,RNPS);
+"
+PKG_EMR	PACKAGE	16	"  --取医嘱相关信息 add by xiefl
+"
+PKG_EMR	PACKAGE	17	"  --根据需要可扩展
+"
+PKG_EMR	PACKAGE	18	"  FUNCTION Fun_get_yzxx(an_order_no IN NUMBER,as_hospitalid IN VARCHAR2) Return Varchar2;
+"
+PKG_EMR	PACKAGE	19	"    pragma RESTRICT_REFERENCES(Fun_get_yzxx, WNDS, WNPS,RNPS);
+"
+PKG_EMR	PACKAGE	20	"
+"
+PKG_EMR	PACKAGE	21	"    --取医生名称bywky
+"
+PKG_EMR	PACKAGE	22	"  FUNCTION FUN_GET_ZhiGongMc(In_ZhiGongId IN VARCHAR2,
+"
+PKG_EMR	PACKAGE	23	"                              In_Flag IN VARCHAR2) RETURN VARCHAR2;
+"
+PKG_EMR	PACKAGE	24	"  pragma RESTRICT_REFERENCES(FUN_GET_ZhiGongMc, WNDS, WNPS,RNPS);
+"
+PKG_EMR	PACKAGE	25	"
+"
+PKG_EMR	PACKAGE	26	"  --取科室名称
+"
+PKG_EMR	PACKAGE	27	"  Function Fun_Get_KeShiMc(p_KeShiDm in Varchar2) Return Varchar2;
+"
+PKG_EMR	PACKAGE	28	"    pragma RESTRICT_REFERENCES(Fun_Get_KeShiMc, WNDS, WNPS,RNPS);
+"
+PKG_EMR	PACKAGE	29	"
+"
+PKG_EMR	PACKAGE	30	"  --取病区名称
+"
+PKG_EMR	PACKAGE	31	"  Function Fun_Get_BingQuMc(p_BingQuDm in Varchar2) Return Varchar2;
+"
+PKG_EMR	PACKAGE	32	"    pragma RESTRICT_REFERENCES(Fun_Get_BingQuMc, WNDS, WNPS,RNPS);
+"
+PKG_EMR	PACKAGE	33	"  --取病人标志
+"
+PKG_EMR	PACKAGE	34	"  --add by xiefl 2010-2-4
+"
+PKG_EMR	PACKAGE	35	"  FUNCTION FUN_GET_BINGRENBZ(PRM_TYPE in varchar2,PRM_BRID in number)  return varchar2;
+"
+PKG_EMR	PACKAGE	36	"  PRAGMA RESTRICT_REFERENCES (FUN_GET_BINGRENBZ,  WNDS, RNPS);
+"
+PKG_EMR	PACKAGE	37	"    --取模板需自动绑定的code
+"
+PKG_EMR	PACKAGE	38	"  --add by xiefl 2009-2-3
+"
+PKG_EMR	PACKAGE	39	"  FUNCTION fun_get_mbbzxm(prm_mbdm in varchar2,prm_xmlx in varchar2) return varchar2;
+"
+PKG_EMR	PACKAGE	40	"    PRAGMA RESTRICT_REFERENCES (fun_get_mbbzxm,  WNDS, RNPS);
+"
+PKG_EMR	PACKAGE	41	"  --add by xiefl 医嘱单 取医嘱首次执行人
+"
+PKG_EMR	PACKAGE	42	"   FUNCTION FUN_YZ_GET_FIRSTZXR(A_ORDERNO IN NUMBER) RETURN VARCHAR2;
+"
+PKG_EMR	PACKAGE	43	"    PRAGMA RESTRICT_REFERENCES (FUN_YZ_GET_FIRSTZXR,  WNDS, RNPS);
+"
+PKG_EMR	PACKAGE	44	"  --add by xiefl 医嘱单取医嘱首次执行时间
+"
+PKG_EMR	PACKAGE	45	"  FUNCTION FUN_YZ_GET_FIRSTZXSJ(A_ORDERNO IN NUMBER) RETURN DATE;
+"
+PKG_EMR	PACKAGE	46	"  PRAGMA RESTRICT_REFERENCES (FUN_YZ_GET_FIRSTZXSJ,  WNDS, RNPS);
+"
+PKG_EMR	PACKAGE	47	"
+"
+PKG_EMR	PACKAGE	48	"  --add by sunjiqi 取入院天数
+"
+PKG_EMR	PACKAGE	49	"
+"
+PKG_EMR	PACKAGE	50	"  function Fun_Get_RuYuanTs(arg_patient_no IN NUMBER,as_chanshuz in varchar2) return NUMBER ;
+"
+PKG_EMR	PACKAGE	51	"   PRAGMA RESTRICT_REFERENCES (Fun_Get_RuYuanTs,  WNDS, WNPS, RNPS);
+"
+PKG_EMR	PACKAGE	52	"
+"
+PKG_EMR	PACKAGE	53	"     --add by sunjiqi 取手术后天数
+"
+PKG_EMR	PACKAGE	54	"  function Fun_Get_ShuHouTs(arg_patient_no IN NUMBER,as_chanshuz in varchar2) return NUMBER ;
+"
+PKG_EMR	PACKAGE	55	"   PRAGMA RESTRICT_REFERENCES (Fun_Get_ShuHouTs,  WNDS, RNPS);
+"
+PKG_EMR	PACKAGE	56	"        --add by yangyan 根据病人所在病区年龄算法取年龄
+"
+PKG_EMR	PACKAGE	57	"  function Fun_Get_NianLing_NlSf(BINGQUDM IN VARCHAR2,CHUSHENGRQ IN DATE,DANGQIANRQ IN DATE) return
+"
+PKG_EMR	PACKAGE	58	"
+"
+PKG_EMR	PACKAGE	59	"varchar2 ;
+"
+PKG_EMR	PACKAGE	60	"   PRAGMA RESTRICT_REFERENCES (Fun_Get_NianLing_NlSf,  WNDS, RNPS);
+"
+PKG_EMR	PACKAGE	61	"  --add by gexiangdong 2010-11-23 取手术级别
+"
+PKG_EMR	PACKAGE	62	"  function FUN_GET_SHOUSHUJBMC(A_DM IN NUMBER) return varchar2 ;
+"
+PKG_EMR	PACKAGE	63	"   PRAGMA RESTRICT_REFERENCES (FUN_GET_SHOUSHUJBMC,  WNDS, RNPS);
+"
+PKG_EMR	PACKAGE	64	"  --add by gexiangdong 2010-11-23 取手术类别
+"
+PKG_EMR	PACKAGE	65	"  function FUN_GET_SHOUSHULBMC(A_DM IN NUMBER) return varchar2 ;
+"
+PKG_EMR	PACKAGE	66	"   PRAGMA RESTRICT_REFERENCES (FUN_GET_SHOUSHULBMC,  WNDS, RNPS);
+"
+PKG_EMR	PACKAGE	67	"  --add by gexiangdong 2010-11-23 取麻醉方法
+"
+PKG_EMR	PACKAGE	68	"  function FUN_GET_MAZUIFFMC(A_DM IN NUMBER) return varchar2 ;
+"
+PKG_EMR	PACKAGE	69	"   PRAGMA RESTRICT_REFERENCES (FUN_GET_MAZUIFFMC,  WNDS, RNPS);
+"
+PKG_EMR	PACKAGE	70	"  --add by gexiangdong 2010-11-23 取职工姓名
+"
+PKG_EMR	PACKAGE	71	"  function FUN_GET_ZHIGONGXM(S_DM IN varchar2) return varchar2 ;
+"
+PKG_EMR	PACKAGE	72	"   PRAGMA RESTRICT_REFERENCES (FUN_GET_ZHIGONGXM,  WNDS, RNPS);
+"
+PKG_EMR	PACKAGE	73	"  --add by gexiangdong 2010-11-23 取费用类别(医保类别)
+"
+PKG_EMR	PACKAGE	74	"  function FUN_GET_FEIYONGLBMC(S_DM IN NUMBER) return varchar2 ;
+"
+PKG_EMR	PACKAGE	75	"   PRAGMA RESTRICT_REFERENCES (FUN_GET_FEIYONGLBMC,  WNDS, RNPS);
+"
+PKG_EMR	PACKAGE	76	"
+"
+PKG_EMR	PACKAGE	77	"    --按检查单号取医嘱信息  add by sunjiqi
+"
+PKG_EMR	PACKAGE	78	"
+"
+PKG_EMR	PACKAGE	79	"  FUNCTION Fun_get_jcyzxx(as_hospitalid IN VARCHAR2,a_lb in number , as_nr in varchar2, a_jcdxh IN
+"
+PKG_EMR	PACKAGE	80	"
+"
+PKG_EMR	PACKAGE	81	"NUMBER) Return Varchar2;
+"
+PKG_EMR	PACKAGE	82	"    pragma RESTRICT_REFERENCES(Fun_get_jcyzxx, WNDS, WNPS,RNPS);
+"
+PKG_EMR	PACKAGE	83	"
+"
+PKG_EMR	PACKAGE	84	"
+"
+PKG_EMR	PACKAGE	85	"  FUNCTION Fun_StrGetToken(prm_Source IN OUT VARCHAR2,prm_Separator IN VARCHAR2) RETURN VARCHAR2;
+"
+PKG_EMR	PACKAGE	86	" PRAGMA RESTRICT_REFERENCES (Fun_StrGetToken,  WNDS, RNPS);
+"
+PKG_EMR	PACKAGE	87	" FUNCTION Fun_Get_ChuBuZd(prm_bingrenxh in number) RETURN VARCHAR2;
+"
+PKG_EMR	PACKAGE	88	" PRAGMA RESTRICT_REFERENCES (Fun_Get_ChuBuZd,  WNDS, RNPS);
+"
+PKG_EMR	PACKAGE	89	"end Pkg_EMR;
+"
+PKG_EMR	PACKAGE	90	"
+"
+PKG_EMR	PACKAGE	91	"
+"
+PKG_EMR	PACKAGE	92	" 
+"

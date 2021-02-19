@@ -1,0 +1,156 @@
+PKG_GY	PACKAGE BODY	1	"PACKAGE BODY         ""PKG_GY"" IS
+"
+PKG_GY	PACKAGE BODY	2	"
+"
+PKG_GY	PACKAGE BODY	3	"   /*=====================================================================================
+"
+PKG_GY	PACKAGE BODY	4	"   || 函数名称 ：  Fun_StrGetToken
+"
+PKG_GY	PACKAGE BODY	5	"   ||-------------------------------------------------------------------------------------
+"
+PKG_GY	PACKAGE BODY	6	"   || 功能说明 ： 字符串截取
+"
+PKG_GY	PACKAGE BODY	7	"   ||-------------------------------------------------------------------------------------
+"
+PKG_GY	PACKAGE BODY	8	"   || 注意事项 ：
+"
+PKG_GY	PACKAGE BODY	9	"   ||-------------------------------------------------------------------------------------
+"
+PKG_GY	PACKAGE BODY	10	"   || 作    者 ： qxl      完成日期 ： 2008-11-24
+"
+PKG_GY	PACKAGE BODY	11	"   ||-------------------------------------------------------------------------------------
+"
+PKG_GY	PACKAGE BODY	12	"   || 修改记录 ：
+"
+PKG_GY	PACKAGE BODY	13	"   =====================================================================================*/
+"
+PKG_GY	PACKAGE BODY	14	"   FUNCTION Fun_StrGetToken(prm_Source IN OUT VARCHAR2,
+"
+PKG_GY	PACKAGE BODY	15	"                            prm_Separator IN VARCHAR2)
+"
+PKG_GY	PACKAGE BODY	16	"   RETURN VARCHAR2
+"
+PKG_GY	PACKAGE BODY	17	"   IS
+"
+PKG_GY	PACKAGE BODY	18	"      RESULT VARCHAR2(600);
+"
+PKG_GY	PACKAGE BODY	19	"      n_p        NUMBER(3);
+"
+PKG_GY	PACKAGE BODY	20	"      n_i        NUMBER(3);
+"
+PKG_GY	PACKAGE BODY	21	"   BEGIN
+"
+PKG_GY	PACKAGE BODY	22	"      IF prm_Source IS NULL THEN
+"
+PKG_GY	PACKAGE BODY	23	"         prm_Source := '';
+"
+PKG_GY	PACKAGE BODY	24	"         RESULT := '';
+"
+PKG_GY	PACKAGE BODY	25	"         RETURN(RESULT);
+"
+PKG_GY	PACKAGE BODY	26	"      END IF;
+"
+PKG_GY	PACKAGE BODY	27	"
+"
+PKG_GY	PACKAGE BODY	28	"      n_p := Instr(prm_Source,prm_Separator,1,1);
+"
+PKG_GY	PACKAGE BODY	29	"      n_i := Length(prm_Separator);
+"
+PKG_GY	PACKAGE BODY	30	"
+"
+PKG_GY	PACKAGE BODY	31	"      IF n_p = 0 THEN
+"
+PKG_GY	PACKAGE BODY	32	"         RESULT := prm_Source;
+"
+PKG_GY	PACKAGE BODY	33	"         prm_Source := '';
+"
+PKG_GY	PACKAGE BODY	34	"      ELSE
+"
+PKG_GY	PACKAGE BODY	35	"         RESULT := SUBSTR(prm_Source,1,n_p - 1);
+"
+PKG_GY	PACKAGE BODY	36	"         prm_Source := Substr(prm_Source,n_p+n_i);
+"
+PKG_GY	PACKAGE BODY	37	"      END IF;
+"
+PKG_GY	PACKAGE BODY	38	"
+"
+PKG_GY	PACKAGE BODY	39	"      RETURN(RESULT);
+"
+PKG_GY	PACKAGE BODY	40	"   END Fun_StrGetToken;
+"
+PKG_GY	PACKAGE BODY	41	"
+"
+PKG_GY	PACKAGE BODY	42	"   /*============================================================
+"
+PKG_GY	PACKAGE BODY	43	"   ||函数名称：生成汉字对应的输入码
+"
+PKG_GY	PACKAGE BODY	44	"   ||------------------------------------------------------------
+"
+PKG_GY	PACKAGE BODY	45	"   ||功能说明：
+"
+PKG_GY	PACKAGE BODY	46	"   ||------------------------------------------------------------
+"
+PKG_GY	PACKAGE BODY	47	"   ||参数描述：参数标识         输入/输出     类型         名称
+"
+PKG_GY	PACKAGE BODY	48	"   ||------------------------------------------------------------
+"
+PKG_GY	PACKAGE BODY	49	"   ||注意事项：
+"
+PKG_GY	PACKAGE BODY	50	"   ||------------------------------------------------------------
+"
+PKG_GY	PACKAGE BODY	51	"   ||作    者：qxl            完成时间：2008-12-24
+"
+PKG_GY	PACKAGE BODY	52	"   ||------------------------------------------------------------
+"
+PKG_GY	PACKAGE BODY	53	"   ||修改记录：
+"
+PKG_GY	PACKAGE BODY	54	"   ||
+"
+PKG_GY	PACKAGE BODY	55	"   ==============================================================*/
+"
+PKG_GY	PACKAGE BODY	56	"   PROCEDURE Prc_Str_ShuRuMSc(prm_HanZi      IN  VARCHAR2,
+"
+PKG_GY	PACKAGE BODY	57	"                              prm_ShuRuMa1   OUT VARCHAR2,
+"
+PKG_GY	PACKAGE BODY	58	"                              prm_ShuRuMa2   OUT VARCHAR2,
+"
+PKG_GY	PACKAGE BODY	59	"                              prm_ShuRuMa3   OUT VARCHAR2,
+"
+PKG_GY	PACKAGE BODY	60	"                              prm_Appcode    OUT NUMBER,
+"
+PKG_GY	PACKAGE BODY	61	"                              prm_Databuffer OUT VARCHAR2)
+"
+PKG_GY	PACKAGE BODY	62	"   IS
+"
+PKG_GY	PACKAGE BODY	63	"      s_ShuRuMa1     VARCHAR2(10);
+"
+PKG_GY	PACKAGE BODY	64	"      s_ShuRuMa2     VARCHAR2(10);
+"
+PKG_GY	PACKAGE BODY	65	"      s_ShuRuMa3     VARCHAR2(10);
+"
+PKG_GY	PACKAGE BODY	66	"   BEGIN
+"
+PKG_GY	PACKAGE BODY	67	"      prm_Appcode    := 1;
+"
+PKG_GY	PACKAGE BODY	68	"      prm_Databuffer := '';
+"
+PKG_GY	PACKAGE BODY	69	"
+"
+PKG_GY	PACKAGE BODY	70	"      -- todo...
+"
+PKG_GY	PACKAGE BODY	71	"
+"
+PKG_GY	PACKAGE BODY	72	"   EXCEPTION
+"
+PKG_GY	PACKAGE BODY	73	"      WHEN OTHERS THEN
+"
+PKG_GY	PACKAGE BODY	74	"         prm_Appcode := -1;
+"
+PKG_GY	PACKAGE BODY	75	"         prm_Databuffer := 'Prc_Str_ShuRuMSc出错：' ||Sqlerrm;
+"
+PKG_GY	PACKAGE BODY	76	"   END Prc_Str_ShuRuMSc;
+"
+PKG_GY	PACKAGE BODY	77	"END PKG_GY;
+"
+PKG_GY	PACKAGE BODY	78	"
+"

@@ -1,0 +1,81 @@
+PKG_JC_JIANCHABG	PACKAGE	1	"PACKAGE         ""PKG_JC_JIANCHABG"" IS
+"
+PKG_JC_JIANCHABG	PACKAGE	2	"
+"
+PKG_JC_JIANCHABG	PACKAGE	3	"  -- Author  : gexiangdong
+"
+PKG_JC_JIANCHABG	PACKAGE	4	"  -- Created : 2009-04-15 18:25:55
+"
+PKG_JC_JIANCHABG	PACKAGE	5	"  -- Purpose : 检查报告处理
+"
+PKG_JC_JIANCHABG	PACKAGE	6	"
+"
+PKG_JC_JIANCHABG	PACKAGE	7	"  -- 字符串截取
+"
+PKG_JC_JIANCHABG	PACKAGE	8	"
+"
+PKG_JC_JIANCHABG	PACKAGE	9	"  -- 录入检查报告
+"
+PKG_JC_JIANCHABG	PACKAGE	10	"  PROCEDURE Prc_jc_jianchabglr(
+"
+PKG_JC_JIANCHABG	PACKAGE	11	"        prm_jiluxhin        in  number,       --记录序号 新增传0 如修改则传jc_jianchabglr.jiluxh
+"
+PKG_JC_JIANCHABG	PACKAGE	12	"        S_shenqingdh        IN  Varchar2,     --申请单号
+"
+PKG_JC_JIANCHABG	PACKAGE	13	"        S_zhuyuanhao        IN  Varchar2,     --住院号
+"
+PKG_JC_JIANCHABG	PACKAGE	14	"        S_menzhenhao        IN  Varchar2,     --门诊号
+"
+PKG_JC_JIANCHABG	PACKAGE	15	"        S_motai             in  varchar2,     --模态 如 CR CT MR 等
+"
+PKG_JC_JIANCHABG	PACKAGE	16	"        S_motaihao          in  varchar2,     --模态号
+"
+PKG_JC_JIANCHABG	PACKAGE	17	"        S_baogaomc          in  varchar2,     --报告名称
+"
+PKG_JC_JIANCHABG	PACKAGE	18	"        S_jianchasj         in  Varchar2,     --检查所见
+"
+PKG_JC_JIANCHABG	PACKAGE	19	"        S_jianchajg         in  varchar2,     --检查结果
+"
+PKG_JC_JIANCHABG	PACKAGE	20	"        S_yingxiangid       in  varchar2,     --影像id 可以用来调用影像信息
+"
+PKG_JC_JIANCHABG	PACKAGE	21	"        S_jiancharen        in  varchar2,     --检查人
+"
+PKG_JC_JIANCHABG	PACKAGE	22	"        S_jiancharq         in  varchar2,     --检查时间
+"
+PKG_JC_JIANCHABG	PACKAGE	23	"        S_baogaoren         in  varchar2,     --报告人
+"
+PKG_JC_JIANCHABG	PACKAGE	24	"        S_baogaorq          in  varchar2,     --报告日期
+"
+PKG_JC_JIANCHABG	PACKAGE	25	"        S_shenheren         in  varchar2,     --审核人
+"
+PKG_JC_JIANCHABG	PACKAGE	26	"        S_shenherq          in  varchar2,     --审核日期
+"
+PKG_JC_JIANCHABG	PACKAGE	27	"        S_zuofeibz          in  varchar2,     --作废标志
+"
+PKG_JC_JIANCHABG	PACKAGE	28	"        S_zuofeiren         in  varchar2,     --作废人
+"
+PKG_JC_JIANCHABG	PACKAGE	29	"        S_zuofeirq          in  varchar2,     --作废时间
+"
+PKG_JC_JIANCHABG	PACKAGE	30	"        S_zuofeiyy          in  varchar2,     --作废原因
+"
+PKG_JC_JIANCHABG	PACKAGE	31	"        S_jiluren           in  varchar2,     --记录人
+"
+PKG_JC_JIANCHABG	PACKAGE	32	"        S_beizhu            in  varchar2,     --备注
+"
+PKG_JC_JIANCHABG	PACKAGE	33	"        prm_Return         OUT  NUMBER,       --返回值  成功返回1  否则返回 -1
+"
+PKG_JC_JIANCHABG	PACKAGE	34	"        prm_jiluxh         OUT  NUMBER,       --返回新增记录的 jiluxh
+"
+PKG_JC_JIANCHABG	PACKAGE	35	"        prm_CuoWuxx        OUT  VARCHAR2 );   --出错信息
+"
+PKG_JC_JIANCHABG	PACKAGE	36	"
+"
+PKG_JC_JIANCHABG	PACKAGE	37	"
+"
+PKG_JC_JIANCHABG	PACKAGE	38	"END PKG_jc_jianchabg;
+"
+PKG_JC_JIANCHABG	PACKAGE	39	"
+"
+PKG_JC_JIANCHABG	PACKAGE	40	"
+"
+PKG_JC_JIANCHABG	PACKAGE	41	 

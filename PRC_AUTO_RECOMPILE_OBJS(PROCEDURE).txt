@@ -1,0 +1,70 @@
+PRC_AUTO_RECOMPILE_OBJS	PROCEDURE	1	"procedure prc_auto_recompile_objs as
+"
+PRC_AUTO_RECOMPILE_OBJS	PROCEDURE	2	"  cursor objects_list is
+"
+PRC_AUTO_RECOMPILE_OBJS	PROCEDURE	3	"    select object_name, object_type from v_system_view_fail;
+"
+PRC_AUTO_RECOMPILE_OBJS	PROCEDURE	4	"begin
+"
+PRC_AUTO_RECOMPILE_OBJS	PROCEDURE	5	"
+"
+PRC_AUTO_RECOMPILE_OBJS	PROCEDURE	6	"  insert into zy_jiaoyi_v1
+"
+PRC_AUTO_RECOMPILE_OBJS	PROCEDURE	7	"    (jiaoyilx, bz)
+"
+PRC_AUTO_RECOMPILE_OBJS	PROCEDURE	8	"  values
+"
+PRC_AUTO_RECOMPILE_OBJS	PROCEDURE	9	"    ('prc_auto_recompile_objs', 'begin');
+"
+PRC_AUTO_RECOMPILE_OBJS	PROCEDURE	10	"  if sqlcode = 0 then
+"
+PRC_AUTO_RECOMPILE_OBJS	PROCEDURE	11	"    commit;
+"
+PRC_AUTO_RECOMPILE_OBJS	PROCEDURE	12	"  else
+"
+PRC_AUTO_RECOMPILE_OBJS	PROCEDURE	13	"    rollback;
+"
+PRC_AUTO_RECOMPILE_OBJS	PROCEDURE	14	"  end if;
+"
+PRC_AUTO_RECOMPILE_OBJS	PROCEDURE	15	"
+"
+PRC_AUTO_RECOMPILE_OBJS	PROCEDURE	16	"  for v_object in objects_list loop
+"
+PRC_AUTO_RECOMPILE_OBJS	PROCEDURE	17	"    if v_object.object_type = 'PROCEDURE' then
+"
+PRC_AUTO_RECOMPILE_OBJS	PROCEDURE	18	"      execute immediate 'alter procedure ' || v_object.object_name ||
+"
+PRC_AUTO_RECOMPILE_OBJS	PROCEDURE	19	"                        ' compile';
+"
+PRC_AUTO_RECOMPILE_OBJS	PROCEDURE	20	"    end if;
+"
+PRC_AUTO_RECOMPILE_OBJS	PROCEDURE	21	"  
+"
+PRC_AUTO_RECOMPILE_OBJS	PROCEDURE	22	"    if v_object.object_type = 'FUNCTION' then
+"
+PRC_AUTO_RECOMPILE_OBJS	PROCEDURE	23	"    
+"
+PRC_AUTO_RECOMPILE_OBJS	PROCEDURE	24	"      execute immediate 'alter function ' || v_object.object_name ||
+"
+PRC_AUTO_RECOMPILE_OBJS	PROCEDURE	25	"                        ' compile';
+"
+PRC_AUTO_RECOMPILE_OBJS	PROCEDURE	26	"    end if;
+"
+PRC_AUTO_RECOMPILE_OBJS	PROCEDURE	27	"    if v_object.object_type = 'VIEW' then
+"
+PRC_AUTO_RECOMPILE_OBJS	PROCEDURE	28	"      execute immediate 'alter view ' || v_object.object_name || ' compile';
+"
+PRC_AUTO_RECOMPILE_OBJS	PROCEDURE	29	"    end if;
+"
+PRC_AUTO_RECOMPILE_OBJS	PROCEDURE	30	"    if v_object.object_type = 'MATERIALIZED VIEW' then
+"
+PRC_AUTO_RECOMPILE_OBJS	PROCEDURE	31	"      execute immediate 'alter materialized view ' || v_object.object_name ||
+"
+PRC_AUTO_RECOMPILE_OBJS	PROCEDURE	32	"                        ' compile';
+"
+PRC_AUTO_RECOMPILE_OBJS	PROCEDURE	33	"    end if;
+"
+PRC_AUTO_RECOMPILE_OBJS	PROCEDURE	34	"  end loop;
+"
+PRC_AUTO_RECOMPILE_OBJS	PROCEDURE	35	"end;
+"

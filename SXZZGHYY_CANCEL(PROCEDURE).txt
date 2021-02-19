@@ -1,0 +1,78 @@
+SXZZGHYY_CANCEL	PROCEDURE	1	"PROCEDURE ""SXZZGHYY_CANCEL"" (
+"
+SXZZGHYY_CANCEL	PROCEDURE	2	"       reg_id IN VARCHAR,
+"
+SXZZGHYY_CANCEL	PROCEDURE	3	"       ret_code out INTEGER,
+"
+SXZZGHYY_CANCEL	PROCEDURE	4	"       ret_info out VARCHAR
+"
+SXZZGHYY_CANCEL	PROCEDURE	5	") AS
+"
+SXZZGHYY_CANCEL	PROCEDURE	6	"  v_yyxx gh_mzyyk%rowtype;
+"
+SXZZGHYY_CANCEL	PROCEDURE	7	"BEGIN
+"
+SXZZGHYY_CANCEL	PROCEDURE	8	"  begin
+"
+SXZZGHYY_CANCEL	PROCEDURE	9	"    select * into v_yyxx from gh_mzyyk where yyxh=to_number(reg_id);
+"
+SXZZGHYY_CANCEL	PROCEDURE	10	"  exception
+"
+SXZZGHYY_CANCEL	PROCEDURE	11	"    when others then
+"
+SXZZGHYY_CANCEL	PROCEDURE	12	"      ret_code:=-1;
+"
+SXZZGHYY_CANCEL	PROCEDURE	13	"      ret_info:='该预约号不存在'||sqlerrm;
+"
+SXZZGHYY_CANCEL	PROCEDURE	14	"      rollback;
+"
+SXZZGHYY_CANCEL	PROCEDURE	15	"      return;
+"
+SXZZGHYY_CANCEL	PROCEDURE	16	"  end;
+"
+SXZZGHYY_CANCEL	PROCEDURE	17	"  if v_yyxx.zt=1 or v_yyxx.jlxh>0 then
+"
+SXZZGHYY_CANCEL	PROCEDURE	18	"    ret_code:=-1;
+"
+SXZZGHYY_CANCEL	PROCEDURE	19	"    ret_info:='该预约号已正式挂号';
+"
+SXZZGHYY_CANCEL	PROCEDURE	20	"    rollback;
+"
+SXZZGHYY_CANCEL	PROCEDURE	21	"    return;
+"
+SXZZGHYY_CANCEL	PROCEDURE	22	"  end if;
+"
+SXZZGHYY_CANCEL	PROCEDURE	23	"  if v_yyxx.zt=-1 then
+"
+SXZZGHYY_CANCEL	PROCEDURE	24	"    ret_code:=-1;
+"
+SXZZGHYY_CANCEL	PROCEDURE	25	"    ret_info:='该预约号已经取消,不可重复取消';
+"
+SXZZGHYY_CANCEL	PROCEDURE	26	"    rollback;
+"
+SXZZGHYY_CANCEL	PROCEDURE	27	"    return;
+"
+SXZZGHYY_CANCEL	PROCEDURE	28	"  end if;
+"
+SXZZGHYY_CANCEL	PROCEDURE	29	"  update gh_mzyyk set zt=-1 where yyxh=v_yyxx.yyxh;
+"
+SXZZGHYY_CANCEL	PROCEDURE	30	"  ret_code:=0;
+"
+SXZZGHYY_CANCEL	PROCEDURE	31	"  ret_info:='取消预约成功';
+"
+SXZZGHYY_CANCEL	PROCEDURE	32	"  commit;
+"
+SXZZGHYY_CANCEL	PROCEDURE	33	"EXCEPTION
+"
+SXZZGHYY_CANCEL	PROCEDURE	34	"  when others then
+"
+SXZZGHYY_CANCEL	PROCEDURE	35	"    ret_code:=-1;
+"
+SXZZGHYY_CANCEL	PROCEDURE	36	"    ret_info:='取消预约失败'||sqlerrm;
+"
+SXZZGHYY_CANCEL	PROCEDURE	37	"    rollback;
+"
+SXZZGHYY_CANCEL	PROCEDURE	38	"    return;
+"
+SXZZGHYY_CANCEL	PROCEDURE	39	"END;
+"

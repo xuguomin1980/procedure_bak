@@ -1,0 +1,182 @@
+PRC_YB_CHECK2021	PROCEDURE	1	"procedure prc_yb_check2021(in_jiaoyilx in varchar2, --交易类型
+"
+PRC_YB_CHECK2021	PROCEDURE	2	"                                             in_ksdm     in varchar2,
+"
+PRC_YB_CHECK2021	PROCEDURE	3	"                                             in_caozuogh in varchar2, --操作工号
+"
+PRC_YB_CHECK2021	PROCEDURE	4	"                                             in_jzkh     in varchar2, --就诊卡号
+"
+PRC_YB_CHECK2021	PROCEDURE	5	"                                             in_ypxh     in varchar2, --药品序号
+"
+PRC_YB_CHECK2021	PROCEDURE	6	"                                             in_Ypcddm   in varchar2, --药品产地
+"
+PRC_YB_CHECK2021	PROCEDURE	7	"                                             out_code    out INTEGER, -- 返回结果 0为执行成功
+"
+PRC_YB_CHECK2021	PROCEDURE	8	"                                             out_msg     out varchar2) is
+"
+PRC_YB_CHECK2021	PROCEDURE	9	"  --2020-01-21
+"
+PRC_YB_CHECK2021	PROCEDURE	10	"
+"
+PRC_YB_CHECK2021	PROCEDURE	11	"  v_ypxh   number(10);
+"
+PRC_YB_CHECK2021	PROCEDURE	12	"  v_count  number(10);
+"
+PRC_YB_CHECK2021	PROCEDURE	13	"  v_count2 number(10);
+"
+PRC_YB_CHECK2021	PROCEDURE	14	"
+"
+PRC_YB_CHECK2021	PROCEDURE	15	"begin
+"
+PRC_YB_CHECK2021	PROCEDURE	16	"
+"
+PRC_YB_CHECK2021	PROCEDURE	17	"  -- 特殊疫苗库存控制
+"
+PRC_YB_CHECK2021	PROCEDURE	18	"  if 1 = 1 then
+"
+PRC_YB_CHECK2021	PROCEDURE	19	"  
+"
+PRC_YB_CHECK2021	PROCEDURE	20	"    if 0 = 0 then
+"
+PRC_YB_CHECK2021	PROCEDURE	21	"      select count(ypxh)
+"
+PRC_YB_CHECK2021	PROCEDURE	22	"        into v_count
+"
+PRC_YB_CHECK2021	PROCEDURE	23	"        From v_zj_yimiaoypml
+"
+PRC_YB_CHECK2021	PROCEDURE	24	"       where yimiaolx = 'HPV'
+"
+PRC_YB_CHECK2021	PROCEDURE	25	"         and ypxh = in_ypxh;
+"
+PRC_YB_CHECK2021	PROCEDURE	26	"    
+"
+PRC_YB_CHECK2021	PROCEDURE	27	"      --判断 特殊疫苗
+"
+PRC_YB_CHECK2021	PROCEDURE	28	"      if v_count > 0 then
+"
+PRC_YB_CHECK2021	PROCEDURE	29	"        --控制公卫科开立
+"
+PRC_YB_CHECK2021	PROCEDURE	30	"        if in_caozuogh = 'A1702' or  in_caozuogh = 'DBA' then
+"
+PRC_YB_CHECK2021	PROCEDURE	31	"          null;
+"
+PRC_YB_CHECK2021	PROCEDURE	32	"        else
+"
+PRC_YB_CHECK2021	PROCEDURE	33	"        
+"
+PRC_YB_CHECK2021	PROCEDURE	34	"          out_code := -1;
+"
+PRC_YB_CHECK2021	PROCEDURE	35	"          out_msg  := '该特殊疫苗未开放，不允许开立[prc_yb_check2021]';
+"
+PRC_YB_CHECK2021	PROCEDURE	36	"          return;
+"
+PRC_YB_CHECK2021	PROCEDURE	37	"        end if;
+"
+PRC_YB_CHECK2021	PROCEDURE	38	"      
+"
+PRC_YB_CHECK2021	PROCEDURE	39	"        select nvl(sum(sl2), 0)
+"
+PRC_YB_CHECK2021	PROCEDURE	40	"          into v_count2
+"
+PRC_YB_CHECK2021	PROCEDURE	41	"          from (select jylsh_out,
+"
+PRC_YB_CHECK2021	PROCEDURE	42	"                       count(jylsh_out),
+"
+PRC_YB_CHECK2021	PROCEDURE	43	"                       decode(count(jylsh_out), 3, 0, 2, 1, 1, 2) sl2
+"
+PRC_YB_CHECK2021	PROCEDURE	44	"                  from zy_jiaoyi_v1_bak
+"
+PRC_YB_CHECK2021	PROCEDURE	45	"                 where bz = to_char(in_ypxh)
+"
+PRC_YB_CHECK2021	PROCEDURE	46	"                   and jiaoyilx = '疫苗库存控制'
+"
+PRC_YB_CHECK2021	PROCEDURE	47	"                 group by jylsh_out);
+"
+PRC_YB_CHECK2021	PROCEDURE	48	"        out_msg := '预约病人需要留用:' || v_count2;
+"
+PRC_YB_CHECK2021	PROCEDURE	49	"      
+"
+PRC_YB_CHECK2021	PROCEDURE	50	"        select nvl(sum(skc), 0) - v_count2
+"
+PRC_YB_CHECK2021	PROCEDURE	51	"          into v_count
+"
+PRC_YB_CHECK2021	PROCEDURE	52	"          From my_ypkcz
+"
+PRC_YB_CHECK2021	PROCEDURE	53	"         where ypxh = in_ypxh;
+"
+PRC_YB_CHECK2021	PROCEDURE	54	"        --库存控制，小于3，没有1人份 ,只允许历史病人开单   
+"
+PRC_YB_CHECK2021	PROCEDURE	55	"        if 1 = 1 and v_count < 3 then
+"
+PRC_YB_CHECK2021	PROCEDURE	56	"        
+"
+PRC_YB_CHECK2021	PROCEDURE	57	"          select count(distinct(jylsh_out))
+"
+PRC_YB_CHECK2021	PROCEDURE	58	"            into v_count
+"
+PRC_YB_CHECK2021	PROCEDURE	59	"            from zy_jiaoyi_v1_bak
+"
+PRC_YB_CHECK2021	PROCEDURE	60	"           where jylsh_out in
+"
+PRC_YB_CHECK2021	PROCEDURE	61	"                 (select jzkh
+"
+PRC_YB_CHECK2021	PROCEDURE	62	"                    from gy_brjbxxk
+"
+PRC_YB_CHECK2021	PROCEDURE	63	"                   where empi is not null
+"
+PRC_YB_CHECK2021	PROCEDURE	64	"                     and empi in (select a.empi
+"
+PRC_YB_CHECK2021	PROCEDURE	65	"                                    from gy_brjbxxk a
+"
+PRC_YB_CHECK2021	PROCEDURE	66	"                                   where a.jzkh = in_jzkh))
+"
+PRC_YB_CHECK2021	PROCEDURE	67	"             and bz = to_char(in_ypxh)
+"
+PRC_YB_CHECK2021	PROCEDURE	68	"             and jiaoyilx = '疫苗库存控制'
+"
+PRC_YB_CHECK2021	PROCEDURE	69	"             and nvl(flag, 0) >= 0;
+"
+PRC_YB_CHECK2021	PROCEDURE	70	"          if v_count = 0 then
+"
+PRC_YB_CHECK2021	PROCEDURE	71	"            out_code := -1;
+"
+PRC_YB_CHECK2021	PROCEDURE	72	"            select out_msg || ',数量不足,仅仅允许 预约过的病人开立[prc_yb_check2021]'
+"
+PRC_YB_CHECK2021	PROCEDURE	73	"              into out_msg
+"
+PRC_YB_CHECK2021	PROCEDURE	74	"              from dual;
+"
+PRC_YB_CHECK2021	PROCEDURE	75	"            return;
+"
+PRC_YB_CHECK2021	PROCEDURE	76	"          end if;
+"
+PRC_YB_CHECK2021	PROCEDURE	77	"        end if;
+"
+PRC_YB_CHECK2021	PROCEDURE	78	"      
+"
+PRC_YB_CHECK2021	PROCEDURE	79	"      end if;
+"
+PRC_YB_CHECK2021	PROCEDURE	80	"    
+"
+PRC_YB_CHECK2021	PROCEDURE	81	"    end if;
+"
+PRC_YB_CHECK2021	PROCEDURE	82	"  
+"
+PRC_YB_CHECK2021	PROCEDURE	83	"  end if;
+"
+PRC_YB_CHECK2021	PROCEDURE	84	"
+"
+PRC_YB_CHECK2021	PROCEDURE	85	"  -- end 特殊疫苗库存控制
+"
+PRC_YB_CHECK2021	PROCEDURE	86	"
+"
+PRC_YB_CHECK2021	PROCEDURE	87	"  out_code := 0;
+"
+PRC_YB_CHECK2021	PROCEDURE	88	"  out_msg  := '';
+"
+PRC_YB_CHECK2021	PROCEDURE	89	"  return;
+"
+PRC_YB_CHECK2021	PROCEDURE	90	"
+"
+PRC_YB_CHECK2021	PROCEDURE	91	"end;
+"

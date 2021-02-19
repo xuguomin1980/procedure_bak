@@ -1,0 +1,45 @@
+MY_KC_DAY_HZ	PROCEDURE	1	"PROCEDURE MY_KC_DAY_HZ 
+"
+MY_KC_DAY_HZ	PROCEDURE	2	" as  
+"
+MY_KC_DAY_HZ	PROCEDURE	3	" lS_BBRQ varchar2(10);  
+"
+MY_KC_DAY_HZ	PROCEDURE	4	" ld_date date;  
+"
+MY_KC_DAY_HZ	PROCEDURE	5	" begin 
+"
+MY_KC_DAY_HZ	PROCEDURE	6	"  select BBRQ INTO LS_BBRQ from my_kc_day_log where BBRQ=to_char(sysdate,'yyyy/mm/dd'); 
+"
+MY_KC_DAY_HZ	PROCEDURE	7	"  exception 
+"
+MY_KC_DAY_HZ	PROCEDURE	8	"     WHEN NO_DATA_FOUND THEN 
+"
+MY_KC_DAY_HZ	PROCEDURE	9	"     begin 
+"
+MY_KC_DAY_HZ	PROCEDURE	10	"        select sysdate into ld_date from dual;  
+"
+MY_KC_DAY_HZ	PROCEDURE	11	"	      insert into my_kc_day  
+"
+MY_KC_DAY_HZ	PROCEDURE	12	"           (XTRQ,XTXH,KSDM,YPXH,YPCDDM,FZFL,SKC,XSKC)  
+"
+MY_KC_DAY_HZ	PROCEDURE	13	"	      select ld_date,XTXH,KSDM,YPXH,YPCDDM,FZFL,SKC,NVL(XSKC,0)   
+"
+MY_KC_DAY_HZ	PROCEDURE	14	"          from my_ypkcz;  
+"
+MY_KC_DAY_HZ	PROCEDURE	15	"        insert into my_kc_day_log(bbrq,ksrq)  
+"
+MY_KC_DAY_HZ	PROCEDURE	16	"               values (to_char(ld_date,'yyyy/mm/dd'),ld_date);  
+"
+MY_KC_DAY_HZ	PROCEDURE	17	"        delete from my_kc_day 
+"
+MY_KC_DAY_HZ	PROCEDURE	18	"         where xtrq=ld_date 
+"
+MY_KC_DAY_HZ	PROCEDURE	19	"          and xtxh not in (select xtxh from yf_xtdz  
+"
+MY_KC_DAY_HZ	PROCEDURE	20	"              where yflb=1 and xtxh in (select xtxh from my_ckxh)); 
+"
+MY_KC_DAY_HZ	PROCEDURE	21	"        COMMIT;  
+"
+MY_KC_DAY_HZ	PROCEDURE	22	"      end;  
+"
+MY_KC_DAY_HZ	PROCEDURE	23	 end; 

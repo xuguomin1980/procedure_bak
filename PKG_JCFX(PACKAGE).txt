@@ -1,0 +1,219 @@
+PKG_JCFX	PACKAGE	1	"PACKAGE         ""PKG_JCFX"" Is
+"
+PKG_JCFX	PACKAGE	2	"
+"
+PKG_JCFX	PACKAGE	3	"/*=============================================================================
+"
+PKG_JCFX	PACKAGE	4	"|| 包头名称 ： 决策分析数据采集Pkg_Jcfx
+"
+PKG_JCFX	PACKAGE	5	"||-----------------------------------------------------------------------------
+"
+PKG_JCFX	PACKAGE	6	"|| 功能说明 ： 把挂号、门诊、住院的数据采集成决策分析的数据、包含的子过程有：
+"
+PKG_JCFX	PACKAGE	7	"||             prc_mz_sjcj_jy、prc_gh_sjcj1、prc_mz_sjcj1、prc_mz_sjcj2、
+"
+PKG_JCFX	PACKAGE	8	"||             prc_mz_sjcj3、prc_mz_sjcj4、prc_mz_sjcj5、prc_mz_sjcj、
+"
+PKG_JCFX	PACKAGE	9	"||             prc_zy_zhxx、prc_zy_au_sjcj1、prc_zy_au_sjcj2、prc_zy_au_sjcj、
+"
+PKG_JCFX	PACKAGE	10	"||             prc_zy_sjcj1、prc_zy_sjcj2、prc_zy_sjcj3、prc_zy_sjcj4、
+"
+PKG_JCFX	PACKAGE	11	"||             prc_zy_sjcj5、prc_zy_sjcj7、prc_zy_sjcj_au、prc_zy_sjcj、
+"
+PKG_JCFX	PACKAGE	12	"||-----------------------------------------------------------------------------
+"
+PKG_JCFX	PACKAGE	13	"|| 注意事项 ： 无
+"
+PKG_JCFX	PACKAGE	14	"||-----------------------------------------------------------------------------
+"
+PKG_JCFX	PACKAGE	15	"|| 作    者 ： 陈联      完成日期 ： 2001-04
+"
+PKG_JCFX	PACKAGE	16	"||-----------------------------------------------------------------------------
+"
+PKG_JCFX	PACKAGE	17	"|| 修改记录 ： 陈智鸿 @ 2002-10-18
+"
+PKG_JCFX	PACKAGE	18	"||             prc_zy_au_sjcj1、prc_zy_au_sjcj2、prc_zy_au_sjcj3、prc_zy_sjcj1、
+"
+PKG_JCFX	PACKAGE	19	"||             prc_zy_sjcj2、prc_zy_sjcj3、prc_zy_sjcj4增加参数os_mess
+"
+PKG_JCFX	PACKAGE	20	"=============================================================================*/
+"
+PKG_JCFX	PACKAGE	21	"
+"
+PKG_JCFX	PACKAGE	22	"Procedure prc_mz_sjcj_jy ( in_jcfx_id   In    NUMBER,
+"
+PKG_JCFX	PACKAGE	23	"                           on_code      Out   NUMBER,
+"
+PKG_JCFX	PACKAGE	24	"                           os_mess      Out   VARCHAR2);
+"
+PKG_JCFX	PACKAGE	25	"
+"
+PKG_JCFX	PACKAGE	26	"Procedure prc_gh_sjcj1 ( in_jcfx_id   In    NUMBER,
+"
+PKG_JCFX	PACKAGE	27	"                         on_code      Out   NUMBER,
+"
+PKG_JCFX	PACKAGE	28	"                         os_mess      Out   VARCHAR2);
+"
+PKG_JCFX	PACKAGE	29	"
+"
+PKG_JCFX	PACKAGE	30	"
+"
+PKG_JCFX	PACKAGE	31	"Procedure prc_mz_sjcj1 ( in_jcfx_id   In    NUMBER,
+"
+PKG_JCFX	PACKAGE	32	"                         on_code      Out   NUMBER,
+"
+PKG_JCFX	PACKAGE	33	"                         os_mess      Out   VARCHAR2);
+"
+PKG_JCFX	PACKAGE	34	"
+"
+PKG_JCFX	PACKAGE	35	"Procedure prc_mz_sjcj2 ( in_jcfx_id   In    NUMBER,
+"
+PKG_JCFX	PACKAGE	36	"                         on_code      Out   NUMBER,
+"
+PKG_JCFX	PACKAGE	37	"                         os_mess      Out   VARCHAR2);
+"
+PKG_JCFX	PACKAGE	38	"
+"
+PKG_JCFX	PACKAGE	39	"Procedure prc_mz_sjcj3 ( in_jcfx_id   In    NUMBER,
+"
+PKG_JCFX	PACKAGE	40	"                         on_code      Out   NUMBER,
+"
+PKG_JCFX	PACKAGE	41	"                         os_mess      Out   VARCHAR2);
+"
+PKG_JCFX	PACKAGE	42	"
+"
+PKG_JCFX	PACKAGE	43	"Procedure prc_mz_sjcj4 ( in_jcfx_id   In    NUMBER,
+"
+PKG_JCFX	PACKAGE	44	"                         on_code      Out   NUMBER,
+"
+PKG_JCFX	PACKAGE	45	"                         os_mess      Out   VARCHAR2);
+"
+PKG_JCFX	PACKAGE	46	"
+"
+PKG_JCFX	PACKAGE	47	"Procedure prc_mz_sjcj5 ( in_jcfx_id   In    NUMBER,
+"
+PKG_JCFX	PACKAGE	48	"                         on_code      Out   NUMBER,
+"
+PKG_JCFX	PACKAGE	49	"                         os_mess      Out   VARCHAR2);
+"
+PKG_JCFX	PACKAGE	50	"
+"
+PKG_JCFX	PACKAGE	51	"
+"
+PKG_JCFX	PACKAGE	52	"
+"
+PKG_JCFX	PACKAGE	53	"Procedure prc_mz_sjcj ( in_start_id   In    NUMBER,
+"
+PKG_JCFX	PACKAGE	54	"                        in_day        In    NUMBER   default   1,
+"
+PKG_JCFX	PACKAGE	55	"                        on_code       Out   NUMBER,
+"
+PKG_JCFX	PACKAGE	56	"                        os_mess       Out   Varchar2);
+"
+PKG_JCFX	PACKAGE	57	"
+"
+PKG_JCFX	PACKAGE	58	"Procedure prc_zy_zhxx ( in_jcfx_id   In    NUMBER,
+"
+PKG_JCFX	PACKAGE	59	"                        on_code      Out   NUMBER,
+"
+PKG_JCFX	PACKAGE	60	"                        os_mess      Out   VARCHAR2);
+"
+PKG_JCFX	PACKAGE	61	"
+"
+PKG_JCFX	PACKAGE	62	"Procedure prc_zy_au_sjcj1 ( in_jcfx_id   In    NUMBER,
+"
+PKG_JCFX	PACKAGE	63	"                            on_code      Out   NUMBER,
+"
+PKG_JCFX	PACKAGE	64	"                            os_mess      Out   VARCHAR2);
+"
+PKG_JCFX	PACKAGE	65	"
+"
+PKG_JCFX	PACKAGE	66	"Procedure prc_zy_au_sjcj2 ( in_jcfx_id   In    NUMBER,
+"
+PKG_JCFX	PACKAGE	67	"                            on_code      Out   NUMBER,
+"
+PKG_JCFX	PACKAGE	68	"                            os_mess      Out   VARCHAR2);
+"
+PKG_JCFX	PACKAGE	69	"
+"
+PKG_JCFX	PACKAGE	70	"Procedure prc_zy_au_sjcj3 ( in_jcfx_id   In    NUMBER,
+"
+PKG_JCFX	PACKAGE	71	"                            on_code      Out   NUMBER,
+"
+PKG_JCFX	PACKAGE	72	"                            os_mess      Out   VARCHAR2);
+"
+PKG_JCFX	PACKAGE	73	"
+"
+PKG_JCFX	PACKAGE	74	"Procedure prc_zy_sjcj1 ( in_jcfx_id   In    NUMBER,
+"
+PKG_JCFX	PACKAGE	75	"                         on_code      Out   NUMBER,
+"
+PKG_JCFX	PACKAGE	76	"                         os_mess      Out   VARCHAR2);
+"
+PKG_JCFX	PACKAGE	77	"
+"
+PKG_JCFX	PACKAGE	78	"Procedure prc_zy_sjcj2 ( in_jcfx_id   In    NUMBER,
+"
+PKG_JCFX	PACKAGE	79	"                         on_code      Out   NUMBER,
+"
+PKG_JCFX	PACKAGE	80	"                         os_mess      Out   VARCHAR2);
+"
+PKG_JCFX	PACKAGE	81	"
+"
+PKG_JCFX	PACKAGE	82	"Procedure prc_zy_sjcj3 ( in_jcfx_id   In    NUMBER,
+"
+PKG_JCFX	PACKAGE	83	"                         on_code      Out   NUMBER,
+"
+PKG_JCFX	PACKAGE	84	"                         os_mess      Out   VARCHAR2);
+"
+PKG_JCFX	PACKAGE	85	"
+"
+PKG_JCFX	PACKAGE	86	"Procedure prc_zy_sjcj4 ( in_jcfx_id   In    NUMBER,
+"
+PKG_JCFX	PACKAGE	87	"                         on_code      Out   NUMBER,
+"
+PKG_JCFX	PACKAGE	88	"                         os_mess      Out   VARCHAR2);
+"
+PKG_JCFX	PACKAGE	89	"
+"
+PKG_JCFX	PACKAGE	90	"Procedure prc_zy_sjcj5 ( in_jcfx_id   In    NUMBER,
+"
+PKG_JCFX	PACKAGE	91	"                         on_code      Out   NUMBER,
+"
+PKG_JCFX	PACKAGE	92	"                         os_mess      Out   VARCHAR2);
+"
+PKG_JCFX	PACKAGE	93	"
+"
+PKG_JCFX	PACKAGE	94	"Procedure prc_zy_sjcj11 ( in_jcfx_id   In    NUMBER,
+"
+PKG_JCFX	PACKAGE	95	"                         on_code      Out   NUMBER,
+"
+PKG_JCFX	PACKAGE	96	"                         os_mess      Out   VARCHAR2);
+"
+PKG_JCFX	PACKAGE	97	"Procedure prc_zy_sjcj_au ( in_start_id   In    NUMBER,
+"
+PKG_JCFX	PACKAGE	98	"                           in_day        In    NUMBER   default   1,
+"
+PKG_JCFX	PACKAGE	99	"                           on_code       Out   NUMBER,
+"
+PKG_JCFX	PACKAGE	100	"                           os_mess       Out   Varchar2);
+"
+PKG_JCFX	PACKAGE	101	"
+"
+PKG_JCFX	PACKAGE	102	"Procedure prc_zy_sjcj ( in_start_id   In    NUMBER,
+"
+PKG_JCFX	PACKAGE	103	"                        in_day        In    NUMBER   default   1,
+"
+PKG_JCFX	PACKAGE	104	"                        on_code       Out   NUMBER,
+"
+PKG_JCFX	PACKAGE	105	"                        os_mess       Out   Varchar2);
+"
+PKG_JCFX	PACKAGE	106	"
+"
+PKG_JCFX	PACKAGE	107	"
+"
+PKG_JCFX	PACKAGE	108	"END Pkg_Jcfx;
+"
+PKG_JCFX	PACKAGE	109	"
+"
+PKG_JCFX	PACKAGE	110	 

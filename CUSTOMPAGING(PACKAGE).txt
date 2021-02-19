@@ -1,0 +1,51 @@
+CUSTOMPAGING	PACKAGE	1	"PACKAGE         ""CUSTOMPAGING"" is
+"
+CUSTOMPAGING	PACKAGE	2	"
+"
+CUSTOMPAGING	PACKAGE	3	"  -- Author  : Roy
+"
+CUSTOMPAGING	PACKAGE	4	"  -- Created : 2011
+"
+CUSTOMPAGING	PACKAGE	5	"  -- Purpose :
+"
+CUSTOMPAGING	PACKAGE	6	"
+"
+CUSTOMPAGING	PACKAGE	7	"  TYPE type_cur IS REF CURSOR;     --定义游标变量用于返回记录集
+"
+CUSTOMPAGING	PACKAGE	8	"
+"
+CUSTOMPAGING	PACKAGE	9	"  PROCEDURE Pagination(
+"
+CUSTOMPAGING	PACKAGE	10	"  Pindex in number,                --分页索引
+"
+CUSTOMPAGING	PACKAGE	11	"  Psql in varchar2,                --产生dataset的sql语句
+"
+CUSTOMPAGING	PACKAGE	12	"  Psize in number,                 --页面大小
+"
+CUSTOMPAGING	PACKAGE	13	"  Pcount out number,                --返回分页总数
+"
+CUSTOMPAGING	PACKAGE	14	"  Pallcount out number,               --返回总记录数
+"
+CUSTOMPAGING	PACKAGE	15	"  cur_OUT out type_cur               --返回当前页数据记录
+"
+CUSTOMPAGING	PACKAGE	16	"  );
+"
+CUSTOMPAGING	PACKAGE	17	"
+"
+CUSTOMPAGING	PACKAGE	18	"  procedure PageRecordsCount(
+"
+CUSTOMPAGING	PACKAGE	19	"  Psqlcount in varchar2,           --产生dataset的sql语句
+"
+CUSTOMPAGING	PACKAGE	20	"  Prcount   out number             --返回记录总数
+"
+CUSTOMPAGING	PACKAGE	21	"  );
+"
+CUSTOMPAGING	PACKAGE	22	"
+"
+CUSTOMPAGING	PACKAGE	23	"
+"
+CUSTOMPAGING	PACKAGE	24	"end CustomPaging;
+"
+CUSTOMPAGING	PACKAGE	25	"
+"
+CUSTOMPAGING	PACKAGE	26	 

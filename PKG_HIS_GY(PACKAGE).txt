@@ -1,0 +1,114 @@
+PKG_HIS_GY	PACKAGE	1	"package Pkg_His_Gy is
+"
+PKG_HIS_GY	PACKAGE	2	"
+"
+PKG_HIS_GY	PACKAGE	3	"  --获取病人基本信息 code 门诊就诊卡号， 住院住院序号， mzzy 标识获取门诊还是住院信息, flag 标识具体什么类型的信息
+"
+PKG_HIS_GY	PACKAGE	4	"  Function f_get_brxx(prm_code in varchar2,
+"
+PKG_HIS_GY	PACKAGE	5	"                      prm_mzzy In number,
+"
+PKG_HIS_GY	PACKAGE	6	"                      prm_flag varchar2) return varchar2;
+"
+PKG_HIS_GY	PACKAGE	7	"  --获取门诊病人就诊信息
+"
+PKG_HIS_GY	PACKAGE	8	"  Function f_get_jzxx(prm_jzxh in varchar2, prm_flag varchar2)
+"
+PKG_HIS_GY	PACKAGE	9	"    return varchar2;
+"
+PKG_HIS_GY	PACKAGE	10	"
+"
+PKG_HIS_GY	PACKAGE	11	"  --获取科室名称
+"
+PKG_HIS_GY	PACKAGE	12	"  Function f_get_ksmc(prm_ksdm In Varchar2) Return Varchar2;
+"
+PKG_HIS_GY	PACKAGE	13	"
+"
+PKG_HIS_GY	PACKAGE	14	"  --获取病区名称
+"
+PKG_HIS_GY	PACKAGE	15	"  Function f_get_bqmc(prm_bqdm In Varchar2) Return Varchar2;
+"
+PKG_HIS_GY	PACKAGE	16	"
+"
+PKG_HIS_GY	PACKAGE	17	"  --获取医嘱一组药的用法
+"
+PKG_HIS_GY	PACKAGE	18	"  Function f_yf_getyzyf(prm_yzxh In Yz_Inpatient_Order.Order_No%type)
+"
+PKG_HIS_GY	PACKAGE	19	"    Return Varchar2;
+"
+PKG_HIS_GY	PACKAGE	20	"  --获取职工姓名
+"
+PKG_HIS_GY	PACKAGE	21	"  Function f_get_zgxm(prm_zgid In Varchar2) Return Varchar2;
+"
+PKG_HIS_GY	PACKAGE	22	"  --获取处方类别名称
+"
+PKG_HIS_GY	PACKAGE	23	"  Function f_zj_get_cflbmc(prm_zgid In number) Return Varchar2;
+"
+PKG_HIS_GY	PACKAGE	24	"  --获取医院名称
+"
+PKG_HIS_GY	PACKAGE	25	"  function f_get_yymc return varchar2;
+"
+PKG_HIS_GY	PACKAGE	26	"  --获取处方特殊服法
+"
+PKG_HIS_GY	PACKAGE	27	"  function f_zj_get_tsff(prm_tsff in gy_gydm.dm%type) return varchar2;
+"
+PKG_HIS_GY	PACKAGE	28	"  --获取医生核算科室
+"
+PKG_HIS_GY	PACKAGE	29	"  function f_get_hsks(prm_zgid in varchar2) return varchar2;
+"
+PKG_HIS_GY	PACKAGE	30	"  --获取病人年龄
+"
+PKG_HIS_GY	PACKAGE	31	"  function f_get_nl(prm_csrq in date, prm_rq in date) return varchar2;
+"
+PKG_HIS_GY	PACKAGE	32	"
+"
+PKG_HIS_GY	PACKAGE	33	"  --获取药房药品摆放位置
+"
+PKG_HIS_GY	PACKAGE	34	"
+"
+PKG_HIS_GY	PACKAGE	35	"  --获取药库药品库位
+"
+PKG_HIS_GY	PACKAGE	36	"
+"
+PKG_HIS_GY	PACKAGE	37	"  --获取药品信息
+"
+PKG_HIS_GY	PACKAGE	38	"  function f_get_ypxx(prm_ypxh   in number,
+"
+PKG_HIS_GY	PACKAGE	39	"                      prm_ypcddm in number,
+"
+PKG_HIS_GY	PACKAGE	40	"                      prm_jgxh   in number,
+"
+PKG_HIS_GY	PACKAGE	41	"                      prm_flag   in varchar2) return varchar2;
+"
+PKG_HIS_GY	PACKAGE	42	"
+"
+PKG_HIS_GY	PACKAGE	43	"  function f_get_yszh(prm_ysgh in varchar2) return varchar2;
+"
+PKG_HIS_GY	PACKAGE	44	"
+"
+PKG_HIS_GY	PACKAGE	45	"  --获取体重
+"
+PKG_HIS_GY	PACKAGE	46	"  function f_get_brtz(prm_jzxh in zj_jzxx.jzxh%type, prm_flag in number)
+"
+PKG_HIS_GY	PACKAGE	47	"    return varchar2;
+"
+PKG_HIS_GY	PACKAGE	48	"
+"
+PKG_HIS_GY	PACKAGE	49	"  --取注射费
+"
+PKG_HIS_GY	PACKAGE	50	"  function f_get_zsf(prm_cfsb in mz_cfk1.cfsb%type) return number;
+"
+PKG_HIS_GY	PACKAGE	51	"  --取药品摆放位置
+"
+PKG_HIS_GY	PACKAGE	52	"  function f_get_ypwz(prm_xtxh   in number,
+"
+PKG_HIS_GY	PACKAGE	53	"                      prm_ypxh   in number,
+"
+PKG_HIS_GY	PACKAGE	54	"                      prm_ypcddm in number) return varchar;
+"
+PKG_HIS_GY	PACKAGE	55	"  Function f_get_brxzmc(prm_xzdm In Varchar2) Return Varchar2;
+"
+PKG_HIS_GY	PACKAGE	56	"  Function f_get_gydmmc(prm_dmlb In number, prm_dm in number) Return Varchar2;
+"
+PKG_HIS_GY	PACKAGE	57	"End Pkg_His_Gy;
+"

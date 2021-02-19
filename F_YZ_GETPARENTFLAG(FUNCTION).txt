@@ -1,0 +1,69 @@
+F_YZ_GETPARENTFLAG	FUNCTION	1	"FUNCTION         ""F_YZ_GETPARENTFLAG"" ( arg_order_no in number,arg_djxh in number,arg_group_no in number) return number is
+"
+F_YZ_GETPARENTFLAG	FUNCTION	2	"  ll_order_no yz_inpatient_order.order_no%type;
+"
+F_YZ_GETPARENTFLAG	FUNCTION	3	"  ll_RowCount Integer;
+"
+F_YZ_GETPARENTFLAG	FUNCTION	4	"  i Integer;
+"
+F_YZ_GETPARENTFLAG	FUNCTION	5	"  --定义游标
+"
+F_YZ_GETPARENTFLAG	FUNCTION	6	"  Cursor cur_order Is select order_no from yz_inpatient_order
+"
+F_YZ_GETPARENTFLAG	FUNCTION	7	"  where djxh = arg_djxh and group_no = arg_group_no and ypxh is not null
+"
+F_YZ_GETPARENTFLAG	FUNCTION	8	"  order by nvl(parent_no , 0) asc , order_no asc;
+"
+F_YZ_GETPARENTFLAG	FUNCTION	9	"begin
+"
+F_YZ_GETPARENTFLAG	FUNCTION	10	"  --一条记录的无子医嘱
+"
+F_YZ_GETPARENTFLAG	FUNCTION	11	"  select count(order_no) into ll_RowCount from yz_inpatient_order where djxh = arg_djxh and group_no = arg_group_no and ypxh is not null;
+"
+F_YZ_GETPARENTFLAG	FUNCTION	12	"  if ll_RowCount <= 1 then
+"
+F_YZ_GETPARENTFLAG	FUNCTION	13	"     return 2;
+"
+F_YZ_GETPARENTFLAG	FUNCTION	14	"  end if;
+"
+F_YZ_GETPARENTFLAG	FUNCTION	15	"  i := 0;
+"
+F_YZ_GETPARENTFLAG	FUNCTION	16	"  open cur_order;
+"
+F_YZ_GETPARENTFLAG	FUNCTION	17	"  loop
+"
+F_YZ_GETPARENTFLAG	FUNCTION	18	"    i := i+1;
+"
+F_YZ_GETPARENTFLAG	FUNCTION	19	"    fetch cur_order into ll_order_no;
+"
+F_YZ_GETPARENTFLAG	FUNCTION	20	"    exit when cur_order%Notfound;
+"
+F_YZ_GETPARENTFLAG	FUNCTION	21	"    if arg_order_no = ll_order_no then
+"
+F_YZ_GETPARENTFLAG	FUNCTION	22	"       exit;
+"
+F_YZ_GETPARENTFLAG	FUNCTION	23	"    end if;
+"
+F_YZ_GETPARENTFLAG	FUNCTION	24	"  end loop;
+"
+F_YZ_GETPARENTFLAG	FUNCTION	25	"  close cur_order;
+"
+F_YZ_GETPARENTFLAG	FUNCTION	26	"  if i = 1 then
+"
+F_YZ_GETPARENTFLAG	FUNCTION	27	"     return 1;
+"
+F_YZ_GETPARENTFLAG	FUNCTION	28	"  elsif i = ll_RowCount then
+"
+F_YZ_GETPARENTFLAG	FUNCTION	29	"     return -1;
+"
+F_YZ_GETPARENTFLAG	FUNCTION	30	"  else
+"
+F_YZ_GETPARENTFLAG	FUNCTION	31	"     return 0;
+"
+F_YZ_GETPARENTFLAG	FUNCTION	32	"  end if;
+"
+F_YZ_GETPARENTFLAG	FUNCTION	33	"end F_YZ_GetParentFlag;
+"
+F_YZ_GETPARENTFLAG	FUNCTION	34	"
+"
+F_YZ_GETPARENTFLAG	FUNCTION	35	 

@@ -1,0 +1,46 @@
+F_ZJ_GET_ZDMC	FUNCTION	1	"FUNCTION f_zj_Get_Zdmc (al_Jzxh in number)
+"
+F_ZJ_GET_ZDMC	FUNCTION	2	"return varchar2
+"
+F_ZJ_GET_ZDMC	FUNCTION	3	"   is
+"
+F_ZJ_GET_ZDMC	FUNCTION	4	"     ls_return varchar2(2000);
+"
+F_ZJ_GET_ZDMC	FUNCTION	5	"     ls_Zdmc zj_zdxx.zdmc%type;
+"
+F_ZJ_GET_ZDMC	FUNCTION	6	"     Cursor Cur_Zj_Zdxx
+"
+F_ZJ_GET_ZDMC	FUNCTION	7	"      Is
+"
+F_ZJ_GET_ZDMC	FUNCTION	8	"      Select ""ZJ_ZDXX"".""ZDMC""
+"
+F_ZJ_GET_ZDMC	FUNCTION	9	"        From ""ZJ_ZDXX""
+"
+F_ZJ_GET_ZDMC	FUNCTION	10	"       Where ""ZJ_ZDXX"".""JZXH"" = al_Jzxh;
+"
+F_ZJ_GET_ZDMC	FUNCTION	11	"begin
+"
+F_ZJ_GET_ZDMC	FUNCTION	12	"     Open Cur_Zj_Zdxx;
+"
+F_ZJ_GET_ZDMC	FUNCTION	13	"     ls_return:='';
+"
+F_ZJ_GET_ZDMC	FUNCTION	14	"      Loop
+"
+F_ZJ_GET_ZDMC	FUNCTION	15	"      Fetch Cur_Zj_Zdxx
+"
+F_ZJ_GET_ZDMC	FUNCTION	16	"       Into ls_Zdmc;
+"
+F_ZJ_GET_ZDMC	FUNCTION	17	"       Exit When Cur_Zj_Zdxx%NOTFOUND;
+"
+F_ZJ_GET_ZDMC	FUNCTION	18	"       ls_return:=ls_Return || ',' || ls_Zdmc;
+"
+F_ZJ_GET_ZDMC	FUNCTION	19	"     End Loop;
+"
+F_ZJ_GET_ZDMC	FUNCTION	20	"     ls_Return:=substr(ls_return,2);
+"
+F_ZJ_GET_ZDMC	FUNCTION	21	"      Close Cur_Zj_Zdxx;
+"
+F_ZJ_GET_ZDMC	FUNCTION	22	"   return(ls_return);
+"
+F_ZJ_GET_ZDMC	FUNCTION	23	"end;
+"

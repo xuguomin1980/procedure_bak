@@ -1,0 +1,68 @@
+F_ZJ_GET_ZDLBDM	FUNCTION	1	"FUNCTION f_zj_Get_zdlbdm (al_Jzxh in number)
+"
+F_ZJ_GET_ZDLBDM	FUNCTION	2	"return varchar2
+"
+F_ZJ_GET_ZDLBDM	FUNCTION	3	"   is
+"
+F_ZJ_GET_ZDLBDM	FUNCTION	4	"     ls_return varchar2(2000);
+"
+F_ZJ_GET_ZDLBDM	FUNCTION	5	"     ls_ZdDm zj_zdxx.zddm%type;
+"
+F_ZJ_GET_ZDLBDM	FUNCTION	6	"     ll_jblbdm gy_jbdm.jblbdm%type;
+"
+F_ZJ_GET_ZDLBDM	FUNCTION	7	"     Cursor Cur_Zj_Zdxx
+"
+F_ZJ_GET_ZDLBDM	FUNCTION	8	"      Is
+"
+F_ZJ_GET_ZDLBDM	FUNCTION	9	"      Select ""ZJ_ZDXX"".""ZDDM""
+"
+F_ZJ_GET_ZDLBDM	FUNCTION	10	"        From ""ZJ_ZDXX""
+"
+F_ZJ_GET_ZDLBDM	FUNCTION	11	"       Where  ""ZJ_ZDXX"".""JZXH"" = al_Jzxh;
+"
+F_ZJ_GET_ZDLBDM	FUNCTION	12	"begin
+"
+F_ZJ_GET_ZDLBDM	FUNCTION	13	"     Open Cur_Zj_Zdxx;
+"
+F_ZJ_GET_ZDLBDM	FUNCTION	14	"     ls_return:='';
+"
+F_ZJ_GET_ZDLBDM	FUNCTION	15	"      Loop
+"
+F_ZJ_GET_ZDLBDM	FUNCTION	16	"      Fetch Cur_Zj_Zdxx
+"
+F_ZJ_GET_ZDLBDM	FUNCTION	17	"       Into ls_ZdDm;
+"
+F_ZJ_GET_ZDLBDM	FUNCTION	18	"       Exit When Cur_Zj_Zdxx%NOTFOUND;
+"
+F_ZJ_GET_ZDLBDM	FUNCTION	19	"       if (isnumber(ls_zddm)=1) then
+"
+F_ZJ_GET_ZDLBDM	FUNCTION	20	"         Select   jblbdm
+"
+F_ZJ_GET_ZDLBDM	FUNCTION	21	"        Into ll_jblbdm
+"
+F_ZJ_GET_ZDLBDM	FUNCTION	22	"        From gy_Jbdm
+"
+F_ZJ_GET_ZDLBDM	FUNCTION	23	"        Where Code = To_number(ls_Zddm);
+"
+F_ZJ_GET_ZDLBDM	FUNCTION	24	"        if ll_jblbdm is not null then
+"
+F_ZJ_GET_ZDLBDM	FUNCTION	25	"         ls_return:=ls_Return || ',' || to_char(ll_jblbdm);
+"
+F_ZJ_GET_ZDLBDM	FUNCTION	26	"         end if;
+"
+F_ZJ_GET_ZDLBDM	FUNCTION	27	"       end if;
+"
+F_ZJ_GET_ZDLBDM	FUNCTION	28	"     End Loop;
+"
+F_ZJ_GET_ZDLBDM	FUNCTION	29	"         if ls_return is not null then
+"
+F_ZJ_GET_ZDLBDM	FUNCTION	30	"        ls_Return:=ls_return || ',';
+"
+F_ZJ_GET_ZDLBDM	FUNCTION	31	"     end if;
+"
+F_ZJ_GET_ZDLBDM	FUNCTION	32	"      Close Cur_Zj_Zdxx;
+"
+F_ZJ_GET_ZDLBDM	FUNCTION	33	"   return(ls_return);
+"
+F_ZJ_GET_ZDLBDM	FUNCTION	34	"end;
+"

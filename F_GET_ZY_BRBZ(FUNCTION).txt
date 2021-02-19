@@ -1,0 +1,22 @@
+F_GET_ZY_BRBZ	FUNCTION	1	"FUNCTION ""F_GET_ZY_BRBZ""(in_patient_no in number)
+"
+F_GET_ZY_BRBZ	FUNCTION	2	"  return varchar2 is
+"
+F_GET_ZY_BRBZ	FUNCTION	3	"  ls_return varchar2(160);
+"
+F_GET_ZY_BRBZ	FUNCTION	4	"begin
+"
+F_GET_ZY_BRBZ	FUNCTION	5	"  --获取住院病人标志 日间病人
+"
+F_GET_ZY_BRBZ	FUNCTION	6	"  select decode(rjbfbz, 1, '日间病人', '')
+"
+F_GET_ZY_BRBZ	FUNCTION	7	"    into ls_return
+"
+F_GET_ZY_BRBZ	FUNCTION	8	"    from zy_patient_information
+"
+F_GET_ZY_BRBZ	FUNCTION	9	"   where patient_no = in_patient_no;
+"
+F_GET_ZY_BRBZ	FUNCTION	10	"  return(ls_return);
+"
+F_GET_ZY_BRBZ	FUNCTION	11	"end;
+"

@@ -1,0 +1,1334 @@
+PRC_HIS_DO	PROCEDURE	1	"procedure ""PRC_HIS_DO""(in_item   in varchar2,
+"
+PRC_HIS_DO	PROCEDURE	2	"                                         in_source in varchar2,
+"
+PRC_HIS_DO	PROCEDURE	3	"                                         in_czgh   in varchar2,
+"
+PRC_HIS_DO	PROCEDURE	4	"                                         out_msg   out varchar2) is
+"
+PRC_HIS_DO	PROCEDURE	5	"
+"
+PRC_HIS_DO	PROCEDURE	6	"  v_data     varchar2(200);
+"
+PRC_HIS_DO	PROCEDURE	7	"  v_str1     varchar2(100);
+"
+PRC_HIS_DO	PROCEDURE	8	"  v_str2     varchar2(100);
+"
+PRC_HIS_DO	PROCEDURE	9	"  v_str3     varchar2(100);
+"
+PRC_HIS_DO	PROCEDURE	10	"  v_str4     varchar2(100);
+"
+PRC_HIS_DO	PROCEDURE	11	"  v_str5     varchar2(100);
+"
+PRC_HIS_DO	PROCEDURE	12	"  v_str6     varchar2(100);
+"
+PRC_HIS_DO	PROCEDURE	13	"  v_str7     varchar2(100);
+"
+PRC_HIS_DO	PROCEDURE	14	"  v_str8     varchar2(100);
+"
+PRC_HIS_DO	PROCEDURE	15	"  v_str9     varchar2(100);
+"
+PRC_HIS_DO	PROCEDURE	16	"  v_pos      number;
+"
+PRC_HIS_DO	PROCEDURE	17	"  v_flag     varchar2(50);
+"
+PRC_HIS_DO	PROCEDURE	18	"  v_flag_len number;
+"
+PRC_HIS_DO	PROCEDURE	19	"  v_sl       number;
+"
+PRC_HIS_DO	PROCEDURE	20	"  v_je       number;
+"
+PRC_HIS_DO	PROCEDURE	21	"
+"
+PRC_HIS_DO	PROCEDURE	22	"  v_cfsb     number;
+"
+PRC_HIS_DO	PROCEDURE	23	"  v_cfk1_new number;
+"
+PRC_HIS_DO	PROCEDURE	24	"  v_jzkh     varchar(20);
+"
+PRC_HIS_DO	PROCEDURE	25	"  v_brxm     varchar(50);
+"
+PRC_HIS_DO	PROCEDURE	26	"  v_sl_tf    number;
+"
+PRC_HIS_DO	PROCEDURE	27	"  v_fypb     number;
+"
+PRC_HIS_DO	PROCEDURE	28	"  brlb       number;
+"
+PRC_HIS_DO	PROCEDURE	29	"  sfsb       number;
+"
+PRC_HIS_DO	PROCEDURE	30	"  je_sfk1    number(10, 2);
+"
+PRC_HIS_DO	PROCEDURE	31	"  je_sfk2    number(10, 2);
+"
+PRC_HIS_DO	PROCEDURE	32	"
+"
+PRC_HIS_DO	PROCEDURE	33	"  v_success varchar(20);
+"
+PRC_HIS_DO	PROCEDURE	34	"
+"
+PRC_HIS_DO	PROCEDURE	35	"  v_fail varchar(20);
+"
+PRC_HIS_DO	PROCEDURE	36	"  v_show varchar(20);
+"
+PRC_HIS_DO	PROCEDURE	37	"
+"
+PRC_HIS_DO	PROCEDURE	38	"  v_str_temp varchar2(100);
+"
+PRC_HIS_DO	PROCEDURE	39	"
+"
+PRC_HIS_DO	PROCEDURE	40	"  v_mz_mzsfk1 mz_mzsfk1%rowtype;
+"
+PRC_HIS_DO	PROCEDURE	41	"begin
+"
+PRC_HIS_DO	PROCEDURE	42	"
+"
+PRC_HIS_DO	PROCEDURE	43	"  insert into zy_jiaoyi_v1
+"
+PRC_HIS_DO	PROCEDURE	44	"    (jiaoyilx, jylsh, CAOZUOGH)
+"
+PRC_HIS_DO	PROCEDURE	45	"  values
+"
+PRC_HIS_DO	PROCEDURE	46	"    (in_item, in_source, in_czgh);
+"
+PRC_HIS_DO	PROCEDURE	47	"  commit;
+"
+PRC_HIS_DO	PROCEDURE	48	"  --#成功# #失败#  #提示#
+"
+PRC_HIS_DO	PROCEDURE	49	"  v_success := '#成功#';
+"
+PRC_HIS_DO	PROCEDURE	50	"  v_fail    := '#失败#';
+"
+PRC_HIS_DO	PROCEDURE	51	"  v_show    := '#提示#';
+"
+PRC_HIS_DO	PROCEDURE	52	"
+"
+PRC_HIS_DO	PROCEDURE	53	"  out_msg := v_show || '没有处理的内容';
+"
+PRC_HIS_DO	PROCEDURE	54	"
+"
+PRC_HIS_DO	PROCEDURE	55	"  --获取入参的值
+"
+PRC_HIS_DO	PROCEDURE	56	"  if 1 = 1 then
+"
+PRC_HIS_DO	PROCEDURE	57	"  
+"
+PRC_HIS_DO	PROCEDURE	58	"    v_flag     := '##';
+"
+PRC_HIS_DO	PROCEDURE	59	"    v_flag_len := 2;
+"
+PRC_HIS_DO	PROCEDURE	60	"    v_data     := in_source || v_flag;
+"
+PRC_HIS_DO	PROCEDURE	61	"    --1
+"
+PRC_HIS_DO	PROCEDURE	62	"    v_pos  := to_number(instr(v_data, v_flag));
+"
+PRC_HIS_DO	PROCEDURE	63	"    v_str1 := ltrim(rtrim(substr(v_data, 1, v_pos - 1)));
+"
+PRC_HIS_DO	PROCEDURE	64	"    v_data := substr(v_data, v_pos + v_flag_len);
+"
+PRC_HIS_DO	PROCEDURE	65	"    --2
+"
+PRC_HIS_DO	PROCEDURE	66	"    v_pos  := to_number(instr(v_data, v_flag));
+"
+PRC_HIS_DO	PROCEDURE	67	"    v_str2 := ltrim(rtrim(substr(v_data, 1, v_pos - 1)));
+"
+PRC_HIS_DO	PROCEDURE	68	"    v_data := substr(v_data, v_pos + v_flag_len);
+"
+PRC_HIS_DO	PROCEDURE	69	"    --//3
+"
+PRC_HIS_DO	PROCEDURE	70	"    v_pos  := to_number(instr(v_data, v_flag));
+"
+PRC_HIS_DO	PROCEDURE	71	"    v_str3 := ltrim(rtrim(substr(v_data, 1, v_pos - 1)));
+"
+PRC_HIS_DO	PROCEDURE	72	"    v_data := substr(v_data, v_pos + v_flag_len);
+"
+PRC_HIS_DO	PROCEDURE	73	"    --//4
+"
+PRC_HIS_DO	PROCEDURE	74	"    v_pos  := to_number(instr(v_data, v_flag));
+"
+PRC_HIS_DO	PROCEDURE	75	"    v_str4 := ltrim(rtrim(substr(v_data, 1, v_pos - 1)));
+"
+PRC_HIS_DO	PROCEDURE	76	"    v_data := substr(v_data, v_pos + v_flag_len);
+"
+PRC_HIS_DO	PROCEDURE	77	"    -- //5
+"
+PRC_HIS_DO	PROCEDURE	78	"    v_pos  := to_number(instr(v_data, v_flag));
+"
+PRC_HIS_DO	PROCEDURE	79	"    v_str5 := ltrim(rtrim(substr(v_data, 1, v_pos - 1)));
+"
+PRC_HIS_DO	PROCEDURE	80	"    v_data := substr(v_data, v_pos + v_flag_len);
+"
+PRC_HIS_DO	PROCEDURE	81	"    -- //
+"
+PRC_HIS_DO	PROCEDURE	82	"    v_pos  := to_number(instr(v_data, v_flag));
+"
+PRC_HIS_DO	PROCEDURE	83	"    v_str6 := ltrim(rtrim(substr(v_data, 1, v_pos - 1)));
+"
+PRC_HIS_DO	PROCEDURE	84	"    v_data := substr(v_data, v_pos + v_flag_len);
+"
+PRC_HIS_DO	PROCEDURE	85	"    --//
+"
+PRC_HIS_DO	PROCEDURE	86	"    v_pos  := to_number(instr(v_data, v_flag));
+"
+PRC_HIS_DO	PROCEDURE	87	"    v_str7 := ltrim(rtrim(substr(v_data, 1, v_pos - 1)));
+"
+PRC_HIS_DO	PROCEDURE	88	"    v_data := substr(v_data, v_pos + v_flag_len);
+"
+PRC_HIS_DO	PROCEDURE	89	"    --//
+"
+PRC_HIS_DO	PROCEDURE	90	"    v_pos  := to_number(instr(v_data, v_flag));
+"
+PRC_HIS_DO	PROCEDURE	91	"    v_str8 := ltrim(rtrim(substr(v_data, 1, v_pos - 1)));
+"
+PRC_HIS_DO	PROCEDURE	92	"    v_data := substr(v_data, v_pos + v_flag_len);
+"
+PRC_HIS_DO	PROCEDURE	93	"    --//9
+"
+PRC_HIS_DO	PROCEDURE	94	"    v_pos  := to_number(instr(v_data, v_flag));
+"
+PRC_HIS_DO	PROCEDURE	95	"    v_str9 := ltrim(rtrim(substr(v_data, 1, v_pos - 1)));
+"
+PRC_HIS_DO	PROCEDURE	96	"    v_data := substr(v_data, v_pos + v_flag_len);
+"
+PRC_HIS_DO	PROCEDURE	97	"  
+"
+PRC_HIS_DO	PROCEDURE	98	"  end if;
+"
+PRC_HIS_DO	PROCEDURE	99	"
+"
+PRC_HIS_DO	PROCEDURE	100	"  --采集检查人次 begin
+"
+PRC_HIS_DO	PROCEDURE	101	"  if in_item = '大屏展示数据采集' then
+"
+PRC_HIS_DO	PROCEDURE	102	"    insert into zy_jiaoyi_v1
+"
+PRC_HIS_DO	PROCEDURE	103	"      (jiaoyilx, caozuogh, bz, flag)
+"
+PRC_HIS_DO	PROCEDURE	104	"    values
+"
+PRC_HIS_DO	PROCEDURE	105	"      ('后台执行_pro_his_do', 'DBA', '大屏展示数据采集', 0);
+"
+PRC_HIS_DO	PROCEDURE	106	"    commit;
+"
+PRC_HIS_DO	PROCEDURE	107	"  
+"
+PRC_HIS_DO	PROCEDURE	108	"    delete temp_dpzs_jcyyrc20190701
+"
+PRC_HIS_DO	PROCEDURE	109	"     where rq = to_char(sysdate - 1, 'yyyy-mm-dd');
+"
+PRC_HIS_DO	PROCEDURE	110	"    insert into temp_dpzs_jcyyrc20190701
+"
+PRC_HIS_DO	PROCEDURE	111	"      (rq, rc_qubu, rc_sanyue, rc_jizhong, rc_zhengjian, rc_zhizhu)
+"
+PRC_HIS_DO	PROCEDURE	112	"      select rq, rc_qubu, rc_sanyue, rc_jizhong, rc_zhengjian, rc_zhizhu
+"
+PRC_HIS_DO	PROCEDURE	113	"        From V_DPZS_JCYYRC20190630
+"
+PRC_HIS_DO	PROCEDURE	114	"       where rq = to_char(sysdate - 1, 'yyyy-mm-dd');
+"
+PRC_HIS_DO	PROCEDURE	115	"    if sqlcode = 0 then
+"
+PRC_HIS_DO	PROCEDURE	116	"      commit;
+"
+PRC_HIS_DO	PROCEDURE	117	"      insert into zy_jiaoyi_v1
+"
+PRC_HIS_DO	PROCEDURE	118	"        (jiaoyilx, caozuogh, bz, flag)
+"
+PRC_HIS_DO	PROCEDURE	119	"      values
+"
+PRC_HIS_DO	PROCEDURE	120	"        ('后台执行_pro_his_do', 'DBA', '大屏展示数据采集', 1);
+"
+PRC_HIS_DO	PROCEDURE	121	"      commit;
+"
+PRC_HIS_DO	PROCEDURE	122	"    else
+"
+PRC_HIS_DO	PROCEDURE	123	"      rollback;
+"
+PRC_HIS_DO	PROCEDURE	124	"      insert into zy_jiaoyi_v1
+"
+PRC_HIS_DO	PROCEDURE	125	"        (jiaoyilx, caozuogh, bz, flag)
+"
+PRC_HIS_DO	PROCEDURE	126	"      values
+"
+PRC_HIS_DO	PROCEDURE	127	"        ('后台执行_pro_his_do', 'DBA', '大屏展示数据采集', -1);
+"
+PRC_HIS_DO	PROCEDURE	128	"      commit;
+"
+PRC_HIS_DO	PROCEDURE	129	"    end if;
+"
+PRC_HIS_DO	PROCEDURE	130	"  end if;
+"
+PRC_HIS_DO	PROCEDURE	131	"  --采集检查人次  end 
+"
+PRC_HIS_DO	PROCEDURE	132	"
+"
+PRC_HIS_DO	PROCEDURE	133	"  --医保限制条件提示 begin
+"
+PRC_HIS_DO	PROCEDURE	134	"  --is_jzkh+'##诊疗##'+string(ll_ylxh)
+"
+PRC_HIS_DO	PROCEDURE	135	"  if in_item = '医保限制条件提示' then
+"
+PRC_HIS_DO	PROCEDURE	136	"    out_msg := v_success || '没有处理的内容';
+"
+PRC_HIS_DO	PROCEDURE	137	"  
+"
+PRC_HIS_DO	PROCEDURE	138	"    select wm_concat((nvl(gzmc, '') || ':' || nvl(bz, '')))
+"
+PRC_HIS_DO	PROCEDURE	139	"      into v_str_temp
+"
+PRC_HIS_DO	PROCEDURE	140	"      From yb_znshgz
+"
+PRC_HIS_DO	PROCEDURE	141	"     where xmbh in
+"
+PRC_HIS_DO	PROCEDURE	142	"           (select yibaodm From v_yb_duizhaoml_ylxh where xiangmuxh = v_str3);
+"
+PRC_HIS_DO	PROCEDURE	143	"  
+"
+PRC_HIS_DO	PROCEDURE	144	"    if length(v_str_temp) > 0 then
+"
+PRC_HIS_DO	PROCEDURE	145	"    
+"
+PRC_HIS_DO	PROCEDURE	146	"      select v_str_temp || '[PRC_HIS_DO]' into v_str_temp from dual;
+"
+PRC_HIS_DO	PROCEDURE	147	"    else
+"
+PRC_HIS_DO	PROCEDURE	148	"      v_str_temp := '';
+"
+PRC_HIS_DO	PROCEDURE	149	"    end if;
+"
+PRC_HIS_DO	PROCEDURE	150	"    out_msg := v_success || v_show || v_str_temp;
+"
+PRC_HIS_DO	PROCEDURE	151	"    return;
+"
+PRC_HIS_DO	PROCEDURE	152	"  end if;
+"
+PRC_HIS_DO	PROCEDURE	153	"  --医保限制条件提示 end
+"
+PRC_HIS_DO	PROCEDURE	154	"
+"
+PRC_HIS_DO	PROCEDURE	155	"  --增加门诊病人修改日志 begin
+"
+PRC_HIS_DO	PROCEDURE	156	"  if in_item = '增加门诊病人修改记录' then
+"
+PRC_HIS_DO	PROCEDURE	157	"    -- //sfsb,qtsfje
+"
+PRC_HIS_DO	PROCEDURE	158	"    out_msg := v_success || '没有处理的内容';
+"
+PRC_HIS_DO	PROCEDURE	159	"    --return;
+"
+PRC_HIS_DO	PROCEDURE	160	"  
+"
+PRC_HIS_DO	PROCEDURE	161	"    if length(v_str1) > 0 then
+"
+PRC_HIS_DO	PROCEDURE	162	"      null;
+"
+PRC_HIS_DO	PROCEDURE	163	"    else
+"
+PRC_HIS_DO	PROCEDURE	164	"      out_msg := '#成功#';
+"
+PRC_HIS_DO	PROCEDURE	165	"      out_msg := v_success || '没有处理的内容';
+"
+PRC_HIS_DO	PROCEDURE	166	"      return;
+"
+PRC_HIS_DO	PROCEDURE	167	"    end if;
+"
+PRC_HIS_DO	PROCEDURE	168	"  
+"
+PRC_HIS_DO	PROCEDURE	169	"    v_jzkh := v_str1;
+"
+PRC_HIS_DO	PROCEDURE	170	"  
+"
+PRC_HIS_DO	PROCEDURE	171	"    select count(jzkh) into v_sl from gy_brjbxxk where jzkh = v_jzkh;
+"
+PRC_HIS_DO	PROCEDURE	172	"  
+"
+PRC_HIS_DO	PROCEDURE	173	"    if v_sl = 1 then
+"
+PRC_HIS_DO	PROCEDURE	174	"      out_msg := '';
+"
+PRC_HIS_DO	PROCEDURE	175	"    else
+"
+PRC_HIS_DO	PROCEDURE	176	"      --out_msg:='找不到这个卡号的病人信息,'||v_str1 ;
+"
+PRC_HIS_DO	PROCEDURE	177	"      out_msg := '#成功#';
+"
+PRC_HIS_DO	PROCEDURE	178	"      out_msg := v_success || v_show || '没有处理的内容';
+"
+PRC_HIS_DO	PROCEDURE	179	"      return;
+"
+PRC_HIS_DO	PROCEDURE	180	"    end if;
+"
+PRC_HIS_DO	PROCEDURE	181	"  
+"
+PRC_HIS_DO	PROCEDURE	182	"    insert into gy_brjbxxk_log
+"
+PRC_HIS_DO	PROCEDURE	183	"      (jzkh,
+"
+PRC_HIS_DO	PROCEDURE	184	"       ybkh,
+"
+PRC_HIS_DO	PROCEDURE	185	"       xm,
+"
+PRC_HIS_DO	PROCEDURE	186	"       xb,
+"
+PRC_HIS_DO	PROCEDURE	187	"       csrq,
+"
+PRC_HIS_DO	PROCEDURE	188	"       brlb,
+"
+PRC_HIS_DO	PROCEDURE	189	"       brxzdm,
+"
+PRC_HIS_DO	PROCEDURE	190	"       sfzh,
+"
+PRC_HIS_DO	PROCEDURE	191	"       lxdh,
+"
+PRC_HIS_DO	PROCEDURE	192	"       jtzz,
+"
+PRC_HIS_DO	PROCEDURE	193	"       lxdz,
+"
+PRC_HIS_DO	PROCEDURE	194	"       dwmc,
+"
+PRC_HIS_DO	PROCEDURE	195	"       gj,
+"
+PRC_HIS_DO	PROCEDURE	196	"       mz,
+"
+PRC_HIS_DO	PROCEDURE	197	"       sfdm,
+"
+PRC_HIS_DO	PROCEDURE	198	"       jgdm,
+"
+PRC_HIS_DO	PROCEDURE	199	"       gdbzpb,
+"
+PRC_HIS_DO	PROCEDURE	200	"       ldrq,
+"
+PRC_HIS_DO	PROCEDURE	201	"       ldrgh,
+"
+PRC_HIS_DO	PROCEDURE	202	"       czgh,
+"
+PRC_HIS_DO	PROCEDURE	203	"       czrq,
+"
+PRC_HIS_DO	PROCEDURE	204	"       xgrq)
+"
+PRC_HIS_DO	PROCEDURE	205	"      select a.jzkh,
+"
+PRC_HIS_DO	PROCEDURE	206	"             a.ybkh,
+"
+PRC_HIS_DO	PROCEDURE	207	"             a.xm,
+"
+PRC_HIS_DO	PROCEDURE	208	"             a.xb,
+"
+PRC_HIS_DO	PROCEDURE	209	"             a.csrq,
+"
+PRC_HIS_DO	PROCEDURE	210	"             a.brlb,
+"
+PRC_HIS_DO	PROCEDURE	211	"             a.brxzdm,
+"
+PRC_HIS_DO	PROCEDURE	212	"             a.sfzh,
+"
+PRC_HIS_DO	PROCEDURE	213	"             a.lxdh,
+"
+PRC_HIS_DO	PROCEDURE	214	"             a.jtzz,
+"
+PRC_HIS_DO	PROCEDURE	215	"             a.lxdz,
+"
+PRC_HIS_DO	PROCEDURE	216	"             a.dwmc,
+"
+PRC_HIS_DO	PROCEDURE	217	"             a.gj,
+"
+PRC_HIS_DO	PROCEDURE	218	"             a.mz,
+"
+PRC_HIS_DO	PROCEDURE	219	"             a.sfdm,
+"
+PRC_HIS_DO	PROCEDURE	220	"             a.jgdm,
+"
+PRC_HIS_DO	PROCEDURE	221	"             a.gdbzpb,
+"
+PRC_HIS_DO	PROCEDURE	222	"             a.ldrq,
+"
+PRC_HIS_DO	PROCEDURE	223	"             a.ldrgh,
+"
+PRC_HIS_DO	PROCEDURE	224	"             a.czgh,
+"
+PRC_HIS_DO	PROCEDURE	225	"             a.czrq,
+"
+PRC_HIS_DO	PROCEDURE	226	"             a.xgrq
+"
+PRC_HIS_DO	PROCEDURE	227	"        from gy_brjbxxk a
+"
+PRC_HIS_DO	PROCEDURE	228	"       where jzkh = v_jzkh;
+"
+PRC_HIS_DO	PROCEDURE	229	"    commit;
+"
+PRC_HIS_DO	PROCEDURE	230	"  
+"
+PRC_HIS_DO	PROCEDURE	231	"    out_msg := v_success || '增加门诊病人修改日志成功';
+"
+PRC_HIS_DO	PROCEDURE	232	"    return;
+"
+PRC_HIS_DO	PROCEDURE	233	"  end if;
+"
+PRC_HIS_DO	PROCEDURE	234	"  --增加门诊病人修改日志  end
+"
+PRC_HIS_DO	PROCEDURE	235	"
+"
+PRC_HIS_DO	PROCEDURE	236	"  --个人日报 begin   czgh=in_czgh
+"
+PRC_HIS_DO	PROCEDURE	237	"  if 1 = 0 and in_item = '个人日报' then
+"
+PRC_HIS_DO	PROCEDURE	238	"  
+"
+PRC_HIS_DO	PROCEDURE	239	"    --存在支付方式不对的记录
+"
+PRC_HIS_DO	PROCEDURE	240	"    if 1 = 1 then
+"
+PRC_HIS_DO	PROCEDURE	241	"      v_sl := 0;
+"
+PRC_HIS_DO	PROCEDURE	242	"      select count(qtsffs)
+"
+PRC_HIS_DO	PROCEDURE	243	"        into v_sl
+"
+PRC_HIS_DO	PROCEDURE	244	"        From MZ_MZSFK1
+"
+PRC_HIS_DO	PROCEDURE	245	"       where nvl(qtsffs, 0) not in (
+"
+PRC_HIS_DO	PROCEDURE	246	"                                    
+"
+PRC_HIS_DO	PROCEDURE	247	"                                    17,
+"
+PRC_HIS_DO	PROCEDURE	248	"                                    16,
+"
+PRC_HIS_DO	PROCEDURE	249	"                                    24,
+"
+PRC_HIS_DO	PROCEDURE	250	"                                    18,
+"
+PRC_HIS_DO	PROCEDURE	251	"                                    19,
+"
+PRC_HIS_DO	PROCEDURE	252	"                                    26)
+"
+PRC_HIS_DO	PROCEDURE	253	"         and nvl(qtsfje, 0) <> 0
+"
+PRC_HIS_DO	PROCEDURE	254	"         and RBRQ IS NULL
+"
+PRC_HIS_DO	PROCEDURE	255	"         and czgh = in_czgh
+"
+PRC_HIS_DO	PROCEDURE	256	"         and sfrq > sysdate - 3;
+"
+PRC_HIS_DO	PROCEDURE	257	"      if v_sl > 0 then
+"
+PRC_HIS_DO	PROCEDURE	258	"      
+"
+PRC_HIS_DO	PROCEDURE	259	"        select v_show || 'mz_mzsfk1支付方式不对(16,17,18,19,24,26)[PRC_HIS_DO]:' ||
+"
+PRC_HIS_DO	PROCEDURE	260	"               sfsb1
+"
+PRC_HIS_DO	PROCEDURE	261	"          into out_msg
+"
+PRC_HIS_DO	PROCEDURE	262	"          from (select to_char(wm_concat(sfsb)) sfsb1
+"
+PRC_HIS_DO	PROCEDURE	263	"                  From MZ_MZSFK1
+"
+PRC_HIS_DO	PROCEDURE	264	"                 where nvl(qtsffs, 0) not in (
+"
+PRC_HIS_DO	PROCEDURE	265	"                                              
+"
+PRC_HIS_DO	PROCEDURE	266	"                                              17,
+"
+PRC_HIS_DO	PROCEDURE	267	"                                              16,
+"
+PRC_HIS_DO	PROCEDURE	268	"                                              24,
+"
+PRC_HIS_DO	PROCEDURE	269	"                                              18,
+"
+PRC_HIS_DO	PROCEDURE	270	"                                              19,
+"
+PRC_HIS_DO	PROCEDURE	271	"                                              26)
+"
+PRC_HIS_DO	PROCEDURE	272	"                   and nvl(qtsfje, 0) <> 0
+"
+PRC_HIS_DO	PROCEDURE	273	"                   and RBRQ IS NULL
+"
+PRC_HIS_DO	PROCEDURE	274	"                   and czgh = in_czgh
+"
+PRC_HIS_DO	PROCEDURE	275	"                   and sfrq > sysdate - 3);
+"
+PRC_HIS_DO	PROCEDURE	276	"      
+"
+PRC_HIS_DO	PROCEDURE	277	"        --out_msg := v_show || 'mz_mzsfk1存在支付方式不对的记录(16,17,18,19,24,26)';
+"
+PRC_HIS_DO	PROCEDURE	278	"        return;
+"
+PRC_HIS_DO	PROCEDURE	279	"      end if;
+"
+PRC_HIS_DO	PROCEDURE	280	"    end if;
+"
+PRC_HIS_DO	PROCEDURE	281	"  
+"
+PRC_HIS_DO	PROCEDURE	282	"    --日报不平
+"
+PRC_HIS_DO	PROCEDURE	283	"    if 1 = 1 then
+"
+PRC_HIS_DO	PROCEDURE	284	"      v_sl := 0;
+"
+PRC_HIS_DO	PROCEDURE	285	"    
+"
+PRC_HIS_DO	PROCEDURE	286	"      select count(*)
+"
+PRC_HIS_DO	PROCEDURE	287	"        into v_sl
+"
+PRC_HIS_DO	PROCEDURE	288	"        from (SELECT jzkh,
+"
+PRC_HIS_DO	PROCEDURE	289	"                     yhje1,
+"
+PRC_HIS_DO	PROCEDURE	290	"                     qtsffs,
+"
+PRC_HIS_DO	PROCEDURE	291	"                     qtsfje,
+"
+PRC_HIS_DO	PROCEDURE	292	"                     xj,
+"
+PRC_HIS_DO	PROCEDURE	293	"                     ybxjzf,
+"
+PRC_HIS_DO	PROCEDURE	294	"                     yinhangje,
+"
+PRC_HIS_DO	PROCEDURE	295	"                     brlb,
+"
+PRC_HIS_DO	PROCEDURE	296	"                     sfrq,
+"
+PRC_HIS_DO	PROCEDURE	297	"                     fjxx,
+"
+PRC_HIS_DO	PROCEDURE	298	"                     ipaddress,
+"
+PRC_HIS_DO	PROCEDURE	299	"                     czgh,
+"
+PRC_HIS_DO	PROCEDURE	300	"                     SFSB,
+"
+PRC_HIS_DO	PROCEDURE	301	"                     NVL(YHJE1, 0) + NVL(XJ, 0) + NVL(ZPJE, 0) +
+"
+PRC_HIS_DO	PROCEDURE	302	"                     NVL(QTSFJE, 0) + NVL(JZJE, 0) + NVL(ICKJE, 0) +
+"
+PRC_HIS_DO	PROCEDURE	303	"                     NVL(LNZHJE, 0) + NVL(ZBBZJE, 0) + NVL(TCJJJE, 0) +
+"
+PRC_HIS_DO	PROCEDURE	304	"                     NVL(TCJJJ, 0) + NVL(YJJE, 0) + nvl(mzbzje, 0) +
+"
+PRC_HIS_DO	PROCEDURE	305	"                     nvl(sybxje, 0) + nvl(GWYJE, 0) + NVL(bljj, 0) +
+"
+PRC_HIS_DO	PROCEDURE	306	"                     NVL(dbjzzf, 0) + NVL(yinhangje, 0) + NVL(bzjjzf, 0) +
+"
+PRC_HIS_DO	PROCEDURE	307	"                     NVL(qtzhzf, 0) + nvl(Lxjsje, 0) + nvl(Knbzje, 0) +
+"
+PRC_HIS_DO	PROCEDURE	308	"                     nvl(zntcje, 0) + nvl(lnzhje1, 0) + nvl(jtjzje, 0) +
+"
+PRC_HIS_DO	PROCEDURE	309	"                     nvl(jzje2, 0) + nvl(tcje, 0) + nvl(lnzhje2, 0) +
+"
+PRC_HIS_DO	PROCEDURE	310	"                     nvl(lmbzj, 0) + nvl(lxjj, 0) je_sfk1,
+"
+PRC_HIS_DO	PROCEDURE	311	"                     (select sum(fyhj) from mz_mzsfk2 where sfsb = a.sfsb) je_sfk2,
+"
+PRC_HIS_DO	PROCEDURE	312	"                     NVL(YHJE1, 0) + NVL(XJ, 0) + NVL(ZPJE, 0) +
+"
+PRC_HIS_DO	PROCEDURE	313	"                     NVL(QTSFJE, 0) + NVL(JZJE, 0) + NVL(ICKJE, 0) +
+"
+PRC_HIS_DO	PROCEDURE	314	"                     NVL(LNZHJE, 0) + NVL(ZBBZJE, 0) + NVL(TCJJJE, 0) +
+"
+PRC_HIS_DO	PROCEDURE	315	"                     NVL(TCJJJ, 0) + NVL(YJJE, 0) + nvl(mzbzje, 0) +
+"
+PRC_HIS_DO	PROCEDURE	316	"                     nvl(sybxje, 0) + nvl(GWYJE, 0) + NVL(bljj, 0) +
+"
+PRC_HIS_DO	PROCEDURE	317	"                     NVL(dbjzzf, 0) + NVL(yinhangje, 0) + NVL(bzjjzf, 0) +
+"
+PRC_HIS_DO	PROCEDURE	318	"                     NVL(qtzhzf, 0) + nvl(Lxjsje, 0) + nvl(Knbzje, 0) +
+"
+PRC_HIS_DO	PROCEDURE	319	"                     nvl(zntcje, 0) + nvl(lnzhje1, 0) + nvl(jtjzje, 0) +
+"
+PRC_HIS_DO	PROCEDURE	320	"                     nvl(jzje2, 0) + nvl(tcje, 0) + nvl(lnzhje2, 0) +
+"
+PRC_HIS_DO	PROCEDURE	321	"                     nvl(lmbzj, 0) + nvl(lxjj, 0) -
+"
+PRC_HIS_DO	PROCEDURE	322	"                     (select sum(fyhj) from mz_mzsfk2 where sfsb = a.sfsb)
+"
+PRC_HIS_DO	PROCEDURE	323	"                FROM MZ_MZSFK1 A
+"
+PRC_HIS_DO	PROCEDURE	324	"               WHERE NVL(YHJE1, 0) + NVL(XJ, 0) + NVL(ZPJE, 0) +
+"
+PRC_HIS_DO	PROCEDURE	325	"                     NVL(QTSFJE, 0) + NVL(JZJE, 0) + NVL(ICKJE, 0) +
+"
+PRC_HIS_DO	PROCEDURE	326	"                     NVL(LNZHJE, 0) + NVL(ZBBZJE, 0) + NVL(TCJJJ, 0) +
+"
+PRC_HIS_DO	PROCEDURE	327	"                     NVL(TCJJJE, 0) + NVL(YJJE, 0) + nvl(mzbzje, 0) +
+"
+PRC_HIS_DO	PROCEDURE	328	"                     nvl(sybxje, 0) + nvl(GWYJE, 0) + NVL(bljj, 0) +
+"
+PRC_HIS_DO	PROCEDURE	329	"                     NVL(dbjzzf, 0) + NVL(yinhangje, 0) + NVL(bzjjzf, 0) +
+"
+PRC_HIS_DO	PROCEDURE	330	"                     NVL(qtzhzf, 0) + nvl(Lxjsje, 0) + nvl(Knbzje, 0) +
+"
+PRC_HIS_DO	PROCEDURE	331	"                     nvl(zntcje, 0) + nvl(lnzhje1, 0) + nvl(jtjzje, 0) +
+"
+PRC_HIS_DO	PROCEDURE	332	"                     nvl(jzje2, 0) + nvl(tcje, 0) + nvl(lnzhje2, 0) +
+"
+PRC_HIS_DO	PROCEDURE	333	"                     nvl(lmbzj, 0) + nvl(lxjj, 0) <>
+"
+PRC_HIS_DO	PROCEDURE	334	"                     (SELECT SUM(DECODE(A.BRLB,
+"
+PRC_HIS_DO	PROCEDURE	335	"                                        27,
+"
+PRC_HIS_DO	PROCEDURE	336	"                                        FYHJ,
+"
+PRC_HIS_DO	PROCEDURE	337	"                                        63,
+"
+PRC_HIS_DO	PROCEDURE	338	"                                        FYHJ,
+"
+PRC_HIS_DO	PROCEDURE	339	"                                        97,
+"
+PRC_HIS_DO	PROCEDURE	340	"                                        FYHJ,
+"
+PRC_HIS_DO	PROCEDURE	341	"                                        99,
+"
+PRC_HIS_DO	PROCEDURE	342	"                                        FYHJ,
+"
+PRC_HIS_DO	PROCEDURE	343	"                                        ROUND(ZFJE, 2)))
+"
+PRC_HIS_DO	PROCEDURE	344	"                        FROM MZ_MZSFK2
+"
+PRC_HIS_DO	PROCEDURE	345	"                       WHERE SFSB = A.SFSB)
+"
+PRC_HIS_DO	PROCEDURE	346	"                 and czgh = in_czgh
+"
+PRC_HIS_DO	PROCEDURE	347	"                 AND RBRQ IS NULL
+"
+PRC_HIS_DO	PROCEDURE	348	"                 and sfrq > sysdate - 3)
+"
+PRC_HIS_DO	PROCEDURE	349	"       where je_sfk1 <> je_sfk2
+"
+PRC_HIS_DO	PROCEDURE	350	"          or yinhangje <> 0;
+"
+PRC_HIS_DO	PROCEDURE	351	"    
+"
+PRC_HIS_DO	PROCEDURE	352	"      if v_sl > 0 then
+"
+PRC_HIS_DO	PROCEDURE	353	"        select v_show || 'mz_mzsfk1不平[PRC_HIS_DO]:' || sfsb1
+"
+PRC_HIS_DO	PROCEDURE	354	"          into out_msg
+"
+PRC_HIS_DO	PROCEDURE	355	"          from (select to_char(wm_concat(sfsb)) sfsb1
+"
+PRC_HIS_DO	PROCEDURE	356	"                  from (SELECT jzkh,
+"
+PRC_HIS_DO	PROCEDURE	357	"                               yhje1,
+"
+PRC_HIS_DO	PROCEDURE	358	"                               qtsffs,
+"
+PRC_HIS_DO	PROCEDURE	359	"                               qtsfje,
+"
+PRC_HIS_DO	PROCEDURE	360	"                               xj,
+"
+PRC_HIS_DO	PROCEDURE	361	"                               ybxjzf,
+"
+PRC_HIS_DO	PROCEDURE	362	"                               yinhangje,
+"
+PRC_HIS_DO	PROCEDURE	363	"                               brlb,
+"
+PRC_HIS_DO	PROCEDURE	364	"                               sfrq,
+"
+PRC_HIS_DO	PROCEDURE	365	"                               fjxx,
+"
+PRC_HIS_DO	PROCEDURE	366	"                               ipaddress,
+"
+PRC_HIS_DO	PROCEDURE	367	"                               czgh,
+"
+PRC_HIS_DO	PROCEDURE	368	"                               SFSB,
+"
+PRC_HIS_DO	PROCEDURE	369	"                               NVL(YHJE1, 0) + NVL(XJ, 0) + NVL(ZPJE, 0) +
+"
+PRC_HIS_DO	PROCEDURE	370	"                               NVL(QTSFJE, 0) + NVL(JZJE, 0) + NVL(ICKJE, 0) +
+"
+PRC_HIS_DO	PROCEDURE	371	"                               NVL(LNZHJE, 0) + NVL(ZBBZJE, 0) +
+"
+PRC_HIS_DO	PROCEDURE	372	"                               NVL(TCJJJE, 0) + NVL(TCJJJ, 0) + NVL(YJJE, 0) +
+"
+PRC_HIS_DO	PROCEDURE	373	"                               nvl(mzbzje, 0) + nvl(sybxje, 0) +
+"
+PRC_HIS_DO	PROCEDURE	374	"                               nvl(GWYJE, 0) + NVL(bljj, 0) + NVL(dbjzzf, 0) +
+"
+PRC_HIS_DO	PROCEDURE	375	"                               NVL(yinhangje, 0) + NVL(bzjjzf, 0) +
+"
+PRC_HIS_DO	PROCEDURE	376	"                               NVL(qtzhzf, 0) + nvl(Lxjsje, 0) +
+"
+PRC_HIS_DO	PROCEDURE	377	"                               nvl(Knbzje, 0) + nvl(zntcje, 0) +
+"
+PRC_HIS_DO	PROCEDURE	378	"                               nvl(lnzhje1, 0) + nvl(jtjzje, 0) +
+"
+PRC_HIS_DO	PROCEDURE	379	"                               nvl(jzje2, 0) + nvl(tcje, 0) + nvl(lnzhje2, 0) +
+"
+PRC_HIS_DO	PROCEDURE	380	"                               nvl(lmbzj, 0) + nvl(lxjj, 0) je_sfk1,
+"
+PRC_HIS_DO	PROCEDURE	381	"                               (select sum(fyhj)
+"
+PRC_HIS_DO	PROCEDURE	382	"                                  from mz_mzsfk2
+"
+PRC_HIS_DO	PROCEDURE	383	"                                 where sfsb = a.sfsb) je_sfk2,
+"
+PRC_HIS_DO	PROCEDURE	384	"                               NVL(YHJE1, 0) + NVL(XJ, 0) + NVL(ZPJE, 0) +
+"
+PRC_HIS_DO	PROCEDURE	385	"                               NVL(QTSFJE, 0) + NVL(JZJE, 0) + NVL(ICKJE, 0) +
+"
+PRC_HIS_DO	PROCEDURE	386	"                               NVL(LNZHJE, 0) + NVL(ZBBZJE, 0) +
+"
+PRC_HIS_DO	PROCEDURE	387	"                               NVL(TCJJJE, 0) + NVL(TCJJJ, 0) + NVL(YJJE, 0) +
+"
+PRC_HIS_DO	PROCEDURE	388	"                               nvl(mzbzje, 0) + nvl(sybxje, 0) +
+"
+PRC_HIS_DO	PROCEDURE	389	"                               nvl(GWYJE, 0) + NVL(bljj, 0) + NVL(dbjzzf, 0) +
+"
+PRC_HIS_DO	PROCEDURE	390	"                               NVL(yinhangje, 0) + NVL(bzjjzf, 0) +
+"
+PRC_HIS_DO	PROCEDURE	391	"                               NVL(qtzhzf, 0) + nvl(Lxjsje, 0) +
+"
+PRC_HIS_DO	PROCEDURE	392	"                               nvl(Knbzje, 0) + nvl(zntcje, 0) +
+"
+PRC_HIS_DO	PROCEDURE	393	"                               nvl(lnzhje1, 0) + nvl(jtjzje, 0) +
+"
+PRC_HIS_DO	PROCEDURE	394	"                               nvl(jzje2, 0) + nvl(tcje, 0) + nvl(lnzhje2, 0) +
+"
+PRC_HIS_DO	PROCEDURE	395	"                               nvl(lmbzj, 0) + nvl(lxjj, 0) -
+"
+PRC_HIS_DO	PROCEDURE	396	"                               (select sum(fyhj)
+"
+PRC_HIS_DO	PROCEDURE	397	"                                  from mz_mzsfk2
+"
+PRC_HIS_DO	PROCEDURE	398	"                                 where sfsb = a.sfsb)
+"
+PRC_HIS_DO	PROCEDURE	399	"                          FROM MZ_MZSFK1 A
+"
+PRC_HIS_DO	PROCEDURE	400	"                         WHERE NVL(YHJE1, 0) + NVL(XJ, 0) + NVL(ZPJE, 0) +
+"
+PRC_HIS_DO	PROCEDURE	401	"                               NVL(QTSFJE, 0) + NVL(JZJE, 0) + NVL(ICKJE, 0) +
+"
+PRC_HIS_DO	PROCEDURE	402	"                               NVL(LNZHJE, 0) + NVL(ZBBZJE, 0) +
+"
+PRC_HIS_DO	PROCEDURE	403	"                               NVL(TCJJJ, 0) + NVL(TCJJJE, 0) + NVL(YJJE, 0) +
+"
+PRC_HIS_DO	PROCEDURE	404	"                               nvl(mzbzje, 0) + nvl(sybxje, 0) +
+"
+PRC_HIS_DO	PROCEDURE	405	"                               nvl(GWYJE, 0) + NVL(bljj, 0) + NVL(dbjzzf, 0) +
+"
+PRC_HIS_DO	PROCEDURE	406	"                               NVL(yinhangje, 0) + NVL(bzjjzf, 0) +
+"
+PRC_HIS_DO	PROCEDURE	407	"                               NVL(qtzhzf, 0) + nvl(Lxjsje, 0) +
+"
+PRC_HIS_DO	PROCEDURE	408	"                               nvl(Knbzje, 0) + nvl(zntcje, 0) +
+"
+PRC_HIS_DO	PROCEDURE	409	"                               nvl(lnzhje1, 0) + nvl(jtjzje, 0) +
+"
+PRC_HIS_DO	PROCEDURE	410	"                               nvl(jzje2, 0) + nvl(tcje, 0) + nvl(lnzhje2, 0) +
+"
+PRC_HIS_DO	PROCEDURE	411	"                               nvl(lmbzj, 0) + nvl(lxjj, 0) <>
+"
+PRC_HIS_DO	PROCEDURE	412	"                               (SELECT SUM(DECODE(A.BRLB,
+"
+PRC_HIS_DO	PROCEDURE	413	"                                                  27,
+"
+PRC_HIS_DO	PROCEDURE	414	"                                                  FYHJ,
+"
+PRC_HIS_DO	PROCEDURE	415	"                                                  63,
+"
+PRC_HIS_DO	PROCEDURE	416	"                                                  FYHJ,
+"
+PRC_HIS_DO	PROCEDURE	417	"                                                  97,
+"
+PRC_HIS_DO	PROCEDURE	418	"                                                  FYHJ,
+"
+PRC_HIS_DO	PROCEDURE	419	"                                                  99,
+"
+PRC_HIS_DO	PROCEDURE	420	"                                                  FYHJ,
+"
+PRC_HIS_DO	PROCEDURE	421	"                                                  ROUND(ZFJE, 2)))
+"
+PRC_HIS_DO	PROCEDURE	422	"                                  FROM MZ_MZSFK2
+"
+PRC_HIS_DO	PROCEDURE	423	"                                 WHERE SFSB = A.SFSB)
+"
+PRC_HIS_DO	PROCEDURE	424	"                           and czgh = in_czgh
+"
+PRC_HIS_DO	PROCEDURE	425	"                           AND RBRQ IS NULL
+"
+PRC_HIS_DO	PROCEDURE	426	"                           and sfrq > sysdate - 3)
+"
+PRC_HIS_DO	PROCEDURE	427	"                 where je_sfk1 <> je_sfk2
+"
+PRC_HIS_DO	PROCEDURE	428	"                    or yinhangje <> 0);
+"
+PRC_HIS_DO	PROCEDURE	429	"        return;
+"
+PRC_HIS_DO	PROCEDURE	430	"      end if;
+"
+PRC_HIS_DO	PROCEDURE	431	"    
+"
+PRC_HIS_DO	PROCEDURE	432	"    end if;
+"
+PRC_HIS_DO	PROCEDURE	433	"  
+"
+PRC_HIS_DO	PROCEDURE	434	"    --日报不平 gh_ghk  金华医保
+"
+PRC_HIS_DO	PROCEDURE	435	"    if 1 = 1 then
+"
+PRC_HIS_DO	PROCEDURE	436	"      v_sl := 0;
+"
+PRC_HIS_DO	PROCEDURE	437	"      select count(jlxh)
+"
+PRC_HIS_DO	PROCEDURE	438	"        into v_sl
+"
+PRC_HIS_DO	PROCEDURE	439	"        from (select (nvl(jtjzje, 0) + nvl(jzje2, 0) + nvl(JZJE, 0) +
+"
+PRC_HIS_DO	PROCEDURE	440	"                     nvl(LXJJ, 0) + nvl(TCJJJE, 0) + nvl(TCJJJ, 0) +
+"
+PRC_HIS_DO	PROCEDURE	441	"                     nvl(tcje, 0) + nvl(scjrbzj, 0) + nvl(lnzhje2, 0) +
+"
+PRC_HIS_DO	PROCEDURE	442	"                     nvl(Knbzje, 0) + nvl(zntcje, 0) + nvl(lnzhje1, 0) +
+"
+PRC_HIS_DO	PROCEDURE	443	"                     nvl(DBJZZF, 0) + nvl(LNZHJE, 0) + nvl(LMBZJ, 0) +
+"
+PRC_HIS_DO	PROCEDURE	444	"                     nvl(SYBXJE, 0) + nvl(MZBZJE, 0) + nvl(GWYJE, 0) +
+"
+PRC_HIS_DO	PROCEDURE	445	"                     nvl(ZBBZJE, 0) + nvl(Lxjsje, 0) + nvl(ybxjzf, 0) +
+"
+PRC_HIS_DO	PROCEDURE	446	"                     nvl(ickje, 0))
+"
+PRC_HIS_DO	PROCEDURE	447	"                     
+"
+PRC_HIS_DO	PROCEDURE	448	"                    ,
+"
+PRC_HIS_DO	PROCEDURE	449	"                     czgh,
+"
+PRC_HIS_DO	PROCEDURE	450	"                     jlxh,
+"
+PRC_HIS_DO	PROCEDURE	451	"                     brlb,
+"
+PRC_HIS_DO	PROCEDURE	452	"                     (ghf + zlf) -
+"
+PRC_HIS_DO	PROCEDURE	453	"                     (+nvl(TCJJJ, 0) +
+"
+PRC_HIS_DO	PROCEDURE	454	"                     (nvl(jtjzje, 0) + nvl(jzje2, 0) + nvl(JZJE, 0) +
+"
+PRC_HIS_DO	PROCEDURE	455	"                     nvl(LXJJ, 0) + nvl(TCJJJE, 0) + nvl(tcje, 0) +
+"
+PRC_HIS_DO	PROCEDURE	456	"                     nvl(scjrbzj, 0) + nvl(lnzhje2, 0) + nvl(Knbzje, 0) +
+"
+PRC_HIS_DO	PROCEDURE	457	"                     nvl(zntcje, 0) + nvl(lnzhje1, 0) + nvl(DBJZZF, 0) +
+"
+PRC_HIS_DO	PROCEDURE	458	"                     nvl(LNZHJE, 0) + nvl(LMBZJ, 0) + nvl(SYBXJE, 0) +
+"
+PRC_HIS_DO	PROCEDURE	459	"                     nvl(MZBZJE, 0) + nvl(GWYJE, 0) + nvl(ZBBZJE, 0) +
+"
+PRC_HIS_DO	PROCEDURE	460	"                     nvl(Lxjsje, 0) + nvl(ybxjzf, 0) + nvl(ickje, 0))),
+"
+PRC_HIS_DO	PROCEDURE	461	"                     (ghf + zlf),
+"
+PRC_HIS_DO	PROCEDURE	462	"                     nvl(yhje1, 0) + nvl(qtsfje, 0) +
+"
+PRC_HIS_DO	PROCEDURE	463	"                     (nvl(jtjzje, 0) + nvl(jzje2, 0) + nvl(JZJE, 0) +
+"
+PRC_HIS_DO	PROCEDURE	464	"                      nvl(LXJJ, 0) + nvl(TCJJJE, 0) + nvl(tcje, 0) +
+"
+PRC_HIS_DO	PROCEDURE	465	"                      nvl(scjrbzj, 0) + nvl(lnzhje2, 0) + nvl(Knbzje, 0) +
+"
+PRC_HIS_DO	PROCEDURE	466	"                      nvl(zntcje, 0) + nvl(lnzhje1, 0) + nvl(DBJZZF, 0) +
+"
+PRC_HIS_DO	PROCEDURE	467	"                      nvl(LNZHJE, 0) + nvl(LMBZJ, 0) + nvl(SYBXJE, 0) +
+"
+PRC_HIS_DO	PROCEDURE	468	"                      nvl(MZBZJE, 0) + nvl(GWYJE, 0) + nvl(ZBBZJE, 0) +
+"
+PRC_HIS_DO	PROCEDURE	469	"                      nvl(Lxjsje, 0) + nvl(ybxjzf, 0) + nvl(ickje, 0)),
+"
+PRC_HIS_DO	PROCEDURE	470	"                     nvl(yhje1, 0),
+"
+PRC_HIS_DO	PROCEDURE	471	"                     nvl(qtsfje, 0),
+"
+PRC_HIS_DO	PROCEDURE	472	"                     nvl(jtjzje, 0),
+"
+PRC_HIS_DO	PROCEDURE	473	"                     nvl(jzje2, 0),
+"
+PRC_HIS_DO	PROCEDURE	474	"                     nvl(JZJE, 0),
+"
+PRC_HIS_DO	PROCEDURE	475	"                     nvl(LXJJ, 0),
+"
+PRC_HIS_DO	PROCEDURE	476	"                     nvl(TCJJJE, 0),
+"
+PRC_HIS_DO	PROCEDURE	477	"                     nvl(TCJJJ, 0),
+"
+PRC_HIS_DO	PROCEDURE	478	"                     nvl(tcje, 0),
+"
+PRC_HIS_DO	PROCEDURE	479	"                     nvl(scjrbzj, 0),
+"
+PRC_HIS_DO	PROCEDURE	480	"                     nvl(lnzhje2, 0),
+"
+PRC_HIS_DO	PROCEDURE	481	"                     nvl(Knbzje, 0),
+"
+PRC_HIS_DO	PROCEDURE	482	"                     nvl(zntcje, 0),
+"
+PRC_HIS_DO	PROCEDURE	483	"                     nvl(lnzhje1, 0),
+"
+PRC_HIS_DO	PROCEDURE	484	"                     nvl(DBJZZF, 0),
+"
+PRC_HIS_DO	PROCEDURE	485	"                     nvl(LNZHJE, 0),
+"
+PRC_HIS_DO	PROCEDURE	486	"                     nvl(LMBZJ, 0),
+"
+PRC_HIS_DO	PROCEDURE	487	"                     nvl(SYBXJE, 0),
+"
+PRC_HIS_DO	PROCEDURE	488	"                     nvl(MZBZJE, 0),
+"
+PRC_HIS_DO	PROCEDURE	489	"                     nvl(GWYJE, 0),
+"
+PRC_HIS_DO	PROCEDURE	490	"                     nvl(ZBBZJE, 0),
+"
+PRC_HIS_DO	PROCEDURE	491	"                     nvl(Lxjsje, 0),
+"
+PRC_HIS_DO	PROCEDURE	492	"                     nvl(ybxjzf, 0),
+"
+PRC_HIS_DO	PROCEDURE	493	"                     nvl(ickje, 0)
+"
+PRC_HIS_DO	PROCEDURE	494	"                From gh_ghk t
+"
+PRC_HIS_DO	PROCEDURE	495	"               where ghrq > sysdate - 3
+"
+PRC_HIS_DO	PROCEDURE	496	"                 and brlb = 97
+"
+PRC_HIS_DO	PROCEDURE	497	"                 and (ghf + zlf) <>
+"
+PRC_HIS_DO	PROCEDURE	498	"                     (nvl(jtjzje, 0) + nvl(jzje2, 0) + nvl(JZJE, 0) +
+"
+PRC_HIS_DO	PROCEDURE	499	"                     nvl(LXJJ, 0) + nvl(TCJJJE, 0) + nvl(TCJJJ, 0) +
+"
+PRC_HIS_DO	PROCEDURE	500	"                     nvl(tcje, 0) + nvl(scjrbzj, 0) + nvl(lnzhje2, 0) +
+"
+PRC_HIS_DO	PROCEDURE	501	"                     nvl(Knbzje, 0) + nvl(zntcje, 0) + nvl(lnzhje1, 0) +
+"
+PRC_HIS_DO	PROCEDURE	502	"                     nvl(DBJZZF, 0) + nvl(LNZHJE, 0) + nvl(LMBZJ, 0) +
+"
+PRC_HIS_DO	PROCEDURE	503	"                     nvl(SYBXJE, 0) + nvl(MZBZJE, 0) + nvl(GWYJE, 0) +
+"
+PRC_HIS_DO	PROCEDURE	504	"                     nvl(ZBBZJE, 0) + nvl(Lxjsje, 0) + nvl(ybxjzf, 0) +
+"
+PRC_HIS_DO	PROCEDURE	505	"                     nvl(ickje, 0))
+"
+PRC_HIS_DO	PROCEDURE	506	"                 and czgh = in_czgh
+"
+PRC_HIS_DO	PROCEDURE	507	"                 and sfrbxh is null);
+"
+PRC_HIS_DO	PROCEDURE	508	"    
+"
+PRC_HIS_DO	PROCEDURE	509	"      if v_sl > 0 then
+"
+PRC_HIS_DO	PROCEDURE	510	"        select v_show || 'gh_ghk金额不一致[PRC_HIS_DO]:' || jlxh1
+"
+PRC_HIS_DO	PROCEDURE	511	"          into out_msg
+"
+PRC_HIS_DO	PROCEDURE	512	"          from (select to_char(wm_concat(jlxh)) jlxh1
+"
+PRC_HIS_DO	PROCEDURE	513	"                  from (select (nvl(jtjzje, 0) + nvl(jzje2, 0) + nvl(JZJE, 0) +
+"
+PRC_HIS_DO	PROCEDURE	514	"                               nvl(LXJJ, 0) + nvl(TCJJJE, 0) + nvl(TCJJJ, 0) +
+"
+PRC_HIS_DO	PROCEDURE	515	"                               nvl(tcje, 0) + nvl(scjrbzj, 0) +
+"
+PRC_HIS_DO	PROCEDURE	516	"                               nvl(lnzhje2, 0) + nvl(Knbzje, 0) +
+"
+PRC_HIS_DO	PROCEDURE	517	"                               nvl(zntcje, 0) + nvl(lnzhje1, 0) +
+"
+PRC_HIS_DO	PROCEDURE	518	"                               nvl(DBJZZF, 0) + nvl(LNZHJE, 0) +
+"
+PRC_HIS_DO	PROCEDURE	519	"                               nvl(LMBZJ, 0) + nvl(SYBXJE, 0) +
+"
+PRC_HIS_DO	PROCEDURE	520	"                               nvl(MZBZJE, 0) + nvl(GWYJE, 0) +
+"
+PRC_HIS_DO	PROCEDURE	521	"                               nvl(ZBBZJE, 0) + nvl(Lxjsje, 0) +
+"
+PRC_HIS_DO	PROCEDURE	522	"                               nvl(ybxjzf, 0) + nvl(ickje, 0))
+"
+PRC_HIS_DO	PROCEDURE	523	"                               
+"
+PRC_HIS_DO	PROCEDURE	524	"                              ,
+"
+PRC_HIS_DO	PROCEDURE	525	"                               czgh,
+"
+PRC_HIS_DO	PROCEDURE	526	"                               jlxh,
+"
+PRC_HIS_DO	PROCEDURE	527	"                               brlb,
+"
+PRC_HIS_DO	PROCEDURE	528	"                               (ghf + zlf) -
+"
+PRC_HIS_DO	PROCEDURE	529	"                               (+nvl(TCJJJ, 0) +
+"
+PRC_HIS_DO	PROCEDURE	530	"                               (nvl(jtjzje, 0) + nvl(jzje2, 0) +
+"
+PRC_HIS_DO	PROCEDURE	531	"                               nvl(JZJE, 0) + nvl(LXJJ, 0) + nvl(TCJJJE, 0) +
+"
+PRC_HIS_DO	PROCEDURE	532	"                               nvl(tcje, 0) + nvl(scjrbzj, 0) +
+"
+PRC_HIS_DO	PROCEDURE	533	"                               nvl(lnzhje2, 0) + nvl(Knbzje, 0) +
+"
+PRC_HIS_DO	PROCEDURE	534	"                               nvl(zntcje, 0) + nvl(lnzhje1, 0) +
+"
+PRC_HIS_DO	PROCEDURE	535	"                               nvl(DBJZZF, 0) + nvl(LNZHJE, 0) +
+"
+PRC_HIS_DO	PROCEDURE	536	"                               nvl(LMBZJ, 0) + nvl(SYBXJE, 0) +
+"
+PRC_HIS_DO	PROCEDURE	537	"                               nvl(MZBZJE, 0) + nvl(GWYJE, 0) +
+"
+PRC_HIS_DO	PROCEDURE	538	"                               nvl(ZBBZJE, 0) + nvl(Lxjsje, 0) +
+"
+PRC_HIS_DO	PROCEDURE	539	"                               nvl(ybxjzf, 0) + nvl(ickje, 0))),
+"
+PRC_HIS_DO	PROCEDURE	540	"                               (ghf + zlf),
+"
+PRC_HIS_DO	PROCEDURE	541	"                               nvl(yhje1, 0) + nvl(qtsfje, 0) +
+"
+PRC_HIS_DO	PROCEDURE	542	"                               (nvl(jtjzje, 0) + nvl(jzje2, 0) + nvl(JZJE, 0) +
+"
+PRC_HIS_DO	PROCEDURE	543	"                                nvl(LXJJ, 0) + nvl(TCJJJE, 0) + nvl(tcje, 0) +
+"
+PRC_HIS_DO	PROCEDURE	544	"                                nvl(scjrbzj, 0) + nvl(lnzhje2, 0) +
+"
+PRC_HIS_DO	PROCEDURE	545	"                                nvl(Knbzje, 0) + nvl(zntcje, 0) +
+"
+PRC_HIS_DO	PROCEDURE	546	"                                nvl(lnzhje1, 0) + nvl(DBJZZF, 0) +
+"
+PRC_HIS_DO	PROCEDURE	547	"                                nvl(LNZHJE, 0) + nvl(LMBZJ, 0) +
+"
+PRC_HIS_DO	PROCEDURE	548	"                                nvl(SYBXJE, 0) + nvl(MZBZJE, 0) +
+"
+PRC_HIS_DO	PROCEDURE	549	"                                nvl(GWYJE, 0) + nvl(ZBBZJE, 0) +
+"
+PRC_HIS_DO	PROCEDURE	550	"                                nvl(Lxjsje, 0) + nvl(ybxjzf, 0) +
+"
+PRC_HIS_DO	PROCEDURE	551	"                                nvl(ickje, 0)),
+"
+PRC_HIS_DO	PROCEDURE	552	"                               nvl(yhje1, 0),
+"
+PRC_HIS_DO	PROCEDURE	553	"                               nvl(qtsfje, 0),
+"
+PRC_HIS_DO	PROCEDURE	554	"                               nvl(jtjzje, 0),
+"
+PRC_HIS_DO	PROCEDURE	555	"                               nvl(jzje2, 0),
+"
+PRC_HIS_DO	PROCEDURE	556	"                               nvl(JZJE, 0),
+"
+PRC_HIS_DO	PROCEDURE	557	"                               nvl(LXJJ, 0),
+"
+PRC_HIS_DO	PROCEDURE	558	"                               nvl(TCJJJE, 0),
+"
+PRC_HIS_DO	PROCEDURE	559	"                               nvl(TCJJJ, 0),
+"
+PRC_HIS_DO	PROCEDURE	560	"                               nvl(tcje, 0),
+"
+PRC_HIS_DO	PROCEDURE	561	"                               nvl(scjrbzj, 0),
+"
+PRC_HIS_DO	PROCEDURE	562	"                               nvl(lnzhje2, 0),
+"
+PRC_HIS_DO	PROCEDURE	563	"                               nvl(Knbzje, 0),
+"
+PRC_HIS_DO	PROCEDURE	564	"                               nvl(zntcje, 0),
+"
+PRC_HIS_DO	PROCEDURE	565	"                               nvl(lnzhje1, 0),
+"
+PRC_HIS_DO	PROCEDURE	566	"                               nvl(DBJZZF, 0),
+"
+PRC_HIS_DO	PROCEDURE	567	"                               nvl(LNZHJE, 0),
+"
+PRC_HIS_DO	PROCEDURE	568	"                               nvl(LMBZJ, 0),
+"
+PRC_HIS_DO	PROCEDURE	569	"                               nvl(SYBXJE, 0),
+"
+PRC_HIS_DO	PROCEDURE	570	"                               nvl(MZBZJE, 0),
+"
+PRC_HIS_DO	PROCEDURE	571	"                               nvl(GWYJE, 0),
+"
+PRC_HIS_DO	PROCEDURE	572	"                               nvl(ZBBZJE, 0),
+"
+PRC_HIS_DO	PROCEDURE	573	"                               nvl(Lxjsje, 0),
+"
+PRC_HIS_DO	PROCEDURE	574	"                               nvl(ybxjzf, 0),
+"
+PRC_HIS_DO	PROCEDURE	575	"                               nvl(ickje, 0)
+"
+PRC_HIS_DO	PROCEDURE	576	"                          From gh_ghk t
+"
+PRC_HIS_DO	PROCEDURE	577	"                         where ghrq > sysdate - 3
+"
+PRC_HIS_DO	PROCEDURE	578	"                           and brlb = 97
+"
+PRC_HIS_DO	PROCEDURE	579	"                           and (ghf + zlf) <>
+"
+PRC_HIS_DO	PROCEDURE	580	"                               (nvl(jtjzje, 0) + nvl(jzje2, 0) + nvl(JZJE, 0) +
+"
+PRC_HIS_DO	PROCEDURE	581	"                               nvl(LXJJ, 0) + nvl(TCJJJE, 0) + nvl(TCJJJ, 0) +
+"
+PRC_HIS_DO	PROCEDURE	582	"                               nvl(tcje, 0) + nvl(scjrbzj, 0) +
+"
+PRC_HIS_DO	PROCEDURE	583	"                               nvl(lnzhje2, 0) + nvl(Knbzje, 0) +
+"
+PRC_HIS_DO	PROCEDURE	584	"                               nvl(zntcje, 0) + nvl(lnzhje1, 0) +
+"
+PRC_HIS_DO	PROCEDURE	585	"                               nvl(DBJZZF, 0) + nvl(LNZHJE, 0) +
+"
+PRC_HIS_DO	PROCEDURE	586	"                               nvl(LMBZJ, 0) + nvl(SYBXJE, 0) +
+"
+PRC_HIS_DO	PROCEDURE	587	"                               nvl(MZBZJE, 0) + nvl(GWYJE, 0) +
+"
+PRC_HIS_DO	PROCEDURE	588	"                               nvl(ZBBZJE, 0) + nvl(Lxjsje, 0) +
+"
+PRC_HIS_DO	PROCEDURE	589	"                               nvl(ybxjzf, 0) + nvl(ickje, 0))
+"
+PRC_HIS_DO	PROCEDURE	590	"                           and czgh = in_czgh
+"
+PRC_HIS_DO	PROCEDURE	591	"                           and sfrbxh is null));
+"
+PRC_HIS_DO	PROCEDURE	592	"        return;
+"
+PRC_HIS_DO	PROCEDURE	593	"      end if;
+"
+PRC_HIS_DO	PROCEDURE	594	"    
+"
+PRC_HIS_DO	PROCEDURE	595	"    end if;
+"
+PRC_HIS_DO	PROCEDURE	596	"  
+"
+PRC_HIS_DO	PROCEDURE	597	"    --日报不平 gh_ghk  全国医保
+"
+PRC_HIS_DO	PROCEDURE	598	"    if 1 = 1 then
+"
+PRC_HIS_DO	PROCEDURE	599	"      v_sl := 0;
+"
+PRC_HIS_DO	PROCEDURE	600	"      select count(jlxh)
+"
+PRC_HIS_DO	PROCEDURE	601	"        into v_sl
+"
+PRC_HIS_DO	PROCEDURE	602	"        from (select jlxh
+"
+PRC_HIS_DO	PROCEDURE	603	"                From gh_ghk
+"
+PRC_HIS_DO	PROCEDURE	604	"               where ghrq > sysdate - 3
+"
+PRC_HIS_DO	PROCEDURE	605	"                 and brlb = 99
+"
+PRC_HIS_DO	PROCEDURE	606	"                 and (ghf + zlf) <> (nvl(ybxjzf, 0) + nvl(ybbxje, 0))
+"
+PRC_HIS_DO	PROCEDURE	607	"                 and czgh = in_czgh
+"
+PRC_HIS_DO	PROCEDURE	608	"                 and sfrbxh is null);
+"
+PRC_HIS_DO	PROCEDURE	609	"    
+"
+PRC_HIS_DO	PROCEDURE	610	"      if v_sl > 0 then
+"
+PRC_HIS_DO	PROCEDURE	611	"        select v_show || 'gh_ghk金额不一致[PRC_HIS_DO]:' || jlxh1
+"
+PRC_HIS_DO	PROCEDURE	612	"          into out_msg
+"
+PRC_HIS_DO	PROCEDURE	613	"          from (select to_char(wm_concat(jlxh)) jlxh1
+"
+PRC_HIS_DO	PROCEDURE	614	"                  from (select jlxh
+"
+PRC_HIS_DO	PROCEDURE	615	"                        
+"
+PRC_HIS_DO	PROCEDURE	616	"                          From gh_ghk t
+"
+PRC_HIS_DO	PROCEDURE	617	"                         where ghrq > sysdate - 3
+"
+PRC_HIS_DO	PROCEDURE	618	"                           and brlb = 99
+"
+PRC_HIS_DO	PROCEDURE	619	"                           and ghrq > sysdate - 3
+"
+PRC_HIS_DO	PROCEDURE	620	"                           and brlb = 99
+"
+PRC_HIS_DO	PROCEDURE	621	"                           and (ghf + zlf) <>
+"
+PRC_HIS_DO	PROCEDURE	622	"                               (nvl(ybxjzf, 0) + nvl(ybbxje, 0))
+"
+PRC_HIS_DO	PROCEDURE	623	"                           and czgh = in_czgh
+"
+PRC_HIS_DO	PROCEDURE	624	"                           and sfrbxh is null));
+"
+PRC_HIS_DO	PROCEDURE	625	"        return;
+"
+PRC_HIS_DO	PROCEDURE	626	"      end if;
+"
+PRC_HIS_DO	PROCEDURE	627	"    
+"
+PRC_HIS_DO	PROCEDURE	628	"    end if;
+"
+PRC_HIS_DO	PROCEDURE	629	"  
+"
+PRC_HIS_DO	PROCEDURE	630	"    --yinghangje
+"
+PRC_HIS_DO	PROCEDURE	631	"    if 1 = 1 then
+"
+PRC_HIS_DO	PROCEDURE	632	"    
+"
+PRC_HIS_DO	PROCEDURE	633	"      v_sl := 0;
+"
+PRC_HIS_DO	PROCEDURE	634	"      select count(sfsb)
+"
+PRC_HIS_DO	PROCEDURE	635	"        into v_sl
+"
+PRC_HIS_DO	PROCEDURE	636	"        from mz_mzsfk1
+"
+PRC_HIS_DO	PROCEDURE	637	"       where rbrq is null
+"
+PRC_HIS_DO	PROCEDURE	638	"         and czgh = in_czgh
+"
+PRC_HIS_DO	PROCEDURE	639	"         and sfrq > sysdate - 7
+"
+PRC_HIS_DO	PROCEDURE	640	"         and yinhangje <> 0;
+"
+PRC_HIS_DO	PROCEDURE	641	"      if v_sl > 0 then
+"
+PRC_HIS_DO	PROCEDURE	642	"        select v_show || 'mz_mzsfk1:yinhangje金额有误[PRC_HIS_DO]:' || sfsb1
+"
+PRC_HIS_DO	PROCEDURE	643	"          into out_msg
+"
+PRC_HIS_DO	PROCEDURE	644	"          from (select to_char(wm_concat(sfsb)) sfsb1
+"
+PRC_HIS_DO	PROCEDURE	645	"                  from mz_mzsfk1
+"
+PRC_HIS_DO	PROCEDURE	646	"                 where czgh = in_czgh
+"
+PRC_HIS_DO	PROCEDURE	647	"                   and sfrq > sysdate - 7
+"
+PRC_HIS_DO	PROCEDURE	648	"                   and rbrq is null
+"
+PRC_HIS_DO	PROCEDURE	649	"                   and yinhangje <> 0);
+"
+PRC_HIS_DO	PROCEDURE	650	"        return;
+"
+PRC_HIS_DO	PROCEDURE	651	"      end if;
+"
+PRC_HIS_DO	PROCEDURE	652	"    end if;
+"
+PRC_HIS_DO	PROCEDURE	653	"  
+"
+PRC_HIS_DO	PROCEDURE	654	"    out_msg := v_success;
+"
+PRC_HIS_DO	PROCEDURE	655	"  
+"
+PRC_HIS_DO	PROCEDURE	656	"    -- return;
+"
+PRC_HIS_DO	PROCEDURE	657	"  end if;
+"
+PRC_HIS_DO	PROCEDURE	658	"  --个人日报 end 
+"
+PRC_HIS_DO	PROCEDURE	659	"
+"
+PRC_HIS_DO	PROCEDURE	660	"  --EXCEPTION
+"
+PRC_HIS_DO	PROCEDURE	661	"  --  WHEN OTHERS Then
+"
+PRC_HIS_DO	PROCEDURE	662	"  --   Rollback;
+"
+PRC_HIS_DO	PROCEDURE	663	"  -- out_msg:=v_fail||v_show||'处理失败,'||in_item||v_str1;
+"
+PRC_HIS_DO	PROCEDURE	664	"  out_msg := v_success || '';
+"
+PRC_HIS_DO	PROCEDURE	665	"
+"
+PRC_HIS_DO	PROCEDURE	666	"  return;
+"
+PRC_HIS_DO	PROCEDURE	667	"end PRC_HIS_DO;
+"

@@ -1,0 +1,115 @@
+F_GET_ACTION_AGE	FUNCTION	1	"FUNCTION         ""F_GET_ACTION_AGE"" (ai_type in number,arg_action in date,arg_csrq in date)
+"
+F_GET_ACTION_AGE	FUNCTION	2	"       return varchar2
+"
+F_GET_ACTION_AGE	FUNCTION	3	"  is
+"
+F_GET_ACTION_AGE	FUNCTION	4	"       ls_return varchar2(50);
+"
+F_GET_ACTION_AGE	FUNCTION	5	"       ll_month  number(6);
+"
+F_GET_ACTION_AGE	FUNCTION	6	"       ls_age    varchar2(10);
+"
+F_GET_ACTION_AGE	FUNCTION	7	"       ls_dw     varchar2(10);
+"
+F_GET_ACTION_AGE	FUNCTION	8	"       ld_tempaction date;
+"
+F_GET_ACTION_AGE	FUNCTION	9	"  begin
+"
+F_GET_ACTION_AGE	FUNCTION	10	"      if arg_csrq is null then
+"
+F_GET_ACTION_AGE	FUNCTION	11	"        return null;
+"
+F_GET_ACTION_AGE	FUNCTION	12	"      end if;
+"
+F_GET_ACTION_AGE	FUNCTION	13	"      if(arg_csrq>arg_action) then
+"
+F_GET_ACTION_AGE	FUNCTION	14	"          return null;
+"
+F_GET_ACTION_AGE	FUNCTION	15	"      end if;
+"
+F_GET_ACTION_AGE	FUNCTION	16	"      ld_tempaction :=arg_action;
+"
+F_GET_ACTION_AGE	FUNCTION	17	"      if arg_action is null then
+"
+F_GET_ACTION_AGE	FUNCTION	18	"        ld_tempaction := sysdate;
+"
+F_GET_ACTION_AGE	FUNCTION	19	"      end if;
+"
+F_GET_ACTION_AGE	FUNCTION	20	"      /*select (to_number(to_char(ld_tempaction,'YYYY')) * 12 + to_number(to_char(ld_tempaction,'MM'))) -
+"
+F_GET_ACTION_AGE	FUNCTION	21	"             (to_number(to_char(arg_csrq,'YYYY')) * 12 + to_number(to_char(arg_csrq,'MM')))
+"
+F_GET_ACTION_AGE	FUNCTION	22	"        into ll_month
+"
+F_GET_ACTION_AGE	FUNCTION	23	"        from dual;*/
+"
+F_GET_ACTION_AGE	FUNCTION	24	"      select MONTHS_BETWEEN(ld_tempaction,arg_csrq) into ll_month from dual;
+"
+F_GET_ACTION_AGE	FUNCTION	25	"
+"
+F_GET_ACTION_AGE	FUNCTION	26	"      if ll_month <0 or ll_month >=2000 then
+"
+F_GET_ACTION_AGE	FUNCTION	27	"         -- 月份为负数、或大于2000（170岁），均为0
+"
+F_GET_ACTION_AGE	FUNCTION	28	"         ls_age :='0';
+"
+F_GET_ACTION_AGE	FUNCTION	29	"         ls_dw :='岁';
+"
+F_GET_ACTION_AGE	FUNCTION	30	"      elsif ll_month >= 12 then
+"
+F_GET_ACTION_AGE	FUNCTION	31	"         select To_Char(Trunc(ll_month / 12,0)) into ls_age from dual;
+"
+F_GET_ACTION_AGE	FUNCTION	32	"         ls_dw := '岁';
+"
+F_GET_ACTION_AGE	FUNCTION	33	"      elsif ll_month >= 1 And ll_month < 12 then
+"
+F_GET_ACTION_AGE	FUNCTION	34	"         select To_Char(ll_month)               into ls_age from dual;
+"
+F_GET_ACTION_AGE	FUNCTION	35	"         ls_dw := '月';
+"
+F_GET_ACTION_AGE	FUNCTION	36	"      elsif ll_month>=0 then
+"
+F_GET_ACTION_AGE	FUNCTION	37	"        select To_Char(floor(ld_tempaction - nvl(arg_csrq,ld_tempaction))) into ls_age from dual;
+"
+F_GET_ACTION_AGE	FUNCTION	38	"        ls_dw := '日';
+"
+F_GET_ACTION_AGE	FUNCTION	39	"      else
+"
+F_GET_ACTION_AGE	FUNCTION	40	"        ls_age :='0';
+"
+F_GET_ACTION_AGE	FUNCTION	41	"        ls_dw :='岁';
+"
+F_GET_ACTION_AGE	FUNCTION	42	"      end if;
+"
+F_GET_ACTION_AGE	FUNCTION	43	"
+"
+F_GET_ACTION_AGE	FUNCTION	44	"      if ai_type = 1 then
+"
+F_GET_ACTION_AGE	FUNCTION	45	"        ls_return := ls_age;
+"
+F_GET_ACTION_AGE	FUNCTION	46	"      else
+"
+F_GET_ACTION_AGE	FUNCTION	47	"        if ai_type = 2 then
+"
+F_GET_ACTION_AGE	FUNCTION	48	"           ls_return := ls_dw;
+"
+F_GET_ACTION_AGE	FUNCTION	49	"        else
+"
+F_GET_ACTION_AGE	FUNCTION	50	"           ls_return := ls_age || ls_dw;
+"
+F_GET_ACTION_AGE	FUNCTION	51	"        end if;
+"
+F_GET_ACTION_AGE	FUNCTION	52	"      end if;
+"
+F_GET_ACTION_AGE	FUNCTION	53	"
+"
+F_GET_ACTION_AGE	FUNCTION	54	"    Return(ls_return);
+"
+F_GET_ACTION_AGE	FUNCTION	55	"  end;
+"
+F_GET_ACTION_AGE	FUNCTION	56	"
+"
+F_GET_ACTION_AGE	FUNCTION	57	"
+"
+F_GET_ACTION_AGE	FUNCTION	58	 

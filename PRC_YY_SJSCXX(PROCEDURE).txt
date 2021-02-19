@@ -1,0 +1,173 @@
+PRC_YY_SJSCXX	PROCEDURE	1	"PROCEDURE         ""PRC_YY_SJSCXX"" (on_return      Out   NUMBER,
+"
+PRC_YY_SJSCXX	PROCEDURE	2	"                                          os_mess        Out   VARCHAR2 
+"
+PRC_YY_SJSCXX	PROCEDURE	3	"                                         ) 
+"
+PRC_YY_SJSCXX	PROCEDURE	4	" is
+"
+PRC_YY_SJSCXX	PROCEDURE	5	" /*
+"
+PRC_YY_SJSCXX	PROCEDURE	6	" ---上传调用 用于插入新的预约科室代码,医生代码信息等
+"
+PRC_YY_SJSCXX	PROCEDURE	7	" create  daq  2011/06/30
+"
+PRC_YY_SJSCXX	PROCEDURE	8	" */
+"
+PRC_YY_SJSCXX	PROCEDURE	9	" li_yylxdm  GH_YYGHLX.YYLXDM%Type;
+"
+PRC_YY_SJSCXX	PROCEDURE	10	" str_err_msg  gy_logs.bz%Type;
+"
+PRC_YY_SJSCXX	PROCEDURE	11	" li_code      number(4);
+"
+PRC_YY_SJSCXX	PROCEDURE	12	" ---定义cursor
+"
+PRC_YY_SJSCXX	PROCEDURE	13	" CURSOR CUR_YYLXDM  IS
+"
+PRC_YY_SJSCXX	PROCEDURE	14	"    SELECT  yylxdm
+"
+PRC_YY_SJSCXX	PROCEDURE	15	"     from  gh_yyghlx 
+"
+PRC_YY_SJSCXX	PROCEDURE	16	"     where nvl(sfzfpb,0)=0 
+"
+PRC_YY_SJSCXX	PROCEDURE	17	"      and  yylxdm>0 
+"
+PRC_YY_SJSCXX	PROCEDURE	18	"      and  yylxdm in (6,11); 
+"
+PRC_YY_SJSCXX	PROCEDURE	19	"begin
+"
+PRC_YY_SJSCXX	PROCEDURE	20	"   --打开游标
+"
+PRC_YY_SJSCXX	PROCEDURE	21	"  OPEN CUR_YYLXDM;
+"
+PRC_YY_SJSCXX	PROCEDURE	22	"  LOOP
+"
+PRC_YY_SJSCXX	PROCEDURE	23	"     FETCH CUR_YYLXDM INTO li_yylxdm;
+"
+PRC_YY_SJSCXX	PROCEDURE	24	"     EXIT WHEN CUR_YYLXDM%NOTFOUND;
+"
+PRC_YY_SJSCXX	PROCEDURE	25	"     ---ksdm
+"
+PRC_YY_SJSCXX	PROCEDURE	26	"     Begin
+"
+PRC_YY_SJSCXX	PROCEDURE	27	"      insert into yy_ksdmxx (yylxdm,yyksdm,yyksmc,bzksdm,ghnlxz,xxscpb,xgyhdm,zhxgsj) 
+"
+PRC_YY_SJSCXX	PROCEDURE	28	"      select distinct li_yylxdm,a.ksdm,b.ksmc,b.KSDM,0,1,'DBA',Sysdate
+"
+PRC_YY_SJSCXX	PROCEDURE	29	"      From gh_yzpbk a,gy_ksdm b 
+"
+PRC_YY_SJSCXX	PROCEDURE	30	"      Where a.ksdm =b.ksdm
+"
+PRC_YY_SJSCXX	PROCEDURE	31	"        And  a.jlxh In (Select pbjlxh From gh_yypbmx Where yylxdm=li_yylxdm) 
+"
+PRC_YY_SJSCXX	PROCEDURE	32	"        And  Not Exists (Select * from  yy_ksdmxx c  where c.yylxdm=li_yylxdm and  c.yyksdm=a.ksdm); 
+"
+PRC_YY_SJSCXX	PROCEDURE	33	"       EXCEPTION   
+"
+PRC_YY_SJSCXX	PROCEDURE	34	"      When others  Then 
+"
+PRC_YY_SJSCXX	PROCEDURE	35	"               Rollback;
+"
+PRC_YY_SJSCXX	PROCEDURE	36	"               li_code := SQLCODE ;
+"
+PRC_YY_SJSCXX	PROCEDURE	37	"               str_err_msg :='错误代码:'||to_char(li_code)||' '||SQLERRM ;
+"
+PRC_YY_SJSCXX	PROCEDURE	38	"               insert into gy_logs (terminal,curr_time,table_name, COLUMN_NAME ,bz)
+"
+PRC_YY_SJSCXX	PROCEDURE	39	"                    values (userenv('terminal'),sysdate,'prc_yy_sjscx','yy_ksdmxx',str_err_msg) ;
+"
+PRC_YY_SJSCXX	PROCEDURE	40	"               commit ; 
+"
+PRC_YY_SJSCXX	PROCEDURE	41	"               on_return := -1 ;
+"
+PRC_YY_SJSCXX	PROCEDURE	42	"               return ;
+"
+PRC_YY_SJSCXX	PROCEDURE	43	"         end;
+"
+PRC_YY_SJSCXX	PROCEDURE	44	"           
+"
+PRC_YY_SJSCXX	PROCEDURE	45	"          
+"
+PRC_YY_SJSCXX	PROCEDURE	46	"      Begin 
+"
+PRC_YY_SJSCXX	PROCEDURE	47	"      ---ysdm
+"
+PRC_YY_SJSCXX	PROCEDURE	48	"        insert into yy_ysdmxx(yylxdm,yyysgh,yyysxm,yyysxb,xxzfpb,xxscpb,xgyhdm,zhxgsj) 
+"
+PRC_YY_SJSCXX	PROCEDURE	49	"        Select Distinct li_yylxdm,a.zgid,a.xm,a.xb,0,1,'DBA',Sysdate
+"
+PRC_YY_SJSCXX	PROCEDURE	50	"        From gh_yzpbk b,gy_zgxx a 
+"
+PRC_YY_SJSCXX	PROCEDURE	51	"        Where a.zgid =b.ysgh 
+"
+PRC_YY_SJSCXX	PROCEDURE	52	"        And  b.jlxh In (Select pbjlxh From gh_yypbmx Where yylxdm =li_yylxdm)
+"
+PRC_YY_SJSCXX	PROCEDURE	53	"        And  Not Exists (Select  * from  yy_ysdmxx c  where  c.yylxdm=li_yylxdm  and  c.yyysgh=a.zgid);
+"
+PRC_YY_SJSCXX	PROCEDURE	54	"        EXCEPTION   
+"
+PRC_YY_SJSCXX	PROCEDURE	55	"      When others  Then 
+"
+PRC_YY_SJSCXX	PROCEDURE	56	"               Rollback;
+"
+PRC_YY_SJSCXX	PROCEDURE	57	"               li_code := SQLCODE ;
+"
+PRC_YY_SJSCXX	PROCEDURE	58	"               str_err_msg :='错误代码:'||to_char(li_code)||' '||SQLERRM ;
+"
+PRC_YY_SJSCXX	PROCEDURE	59	"                insert into gy_logs (terminal,curr_time,table_name, COLUMN_NAME ,bz)
+"
+PRC_YY_SJSCXX	PROCEDURE	60	"                    values (userenv('terminal'),sysdate,'prc_yy_sjscx','yy_ysdmxx',str_err_msg) ;
+"
+PRC_YY_SJSCXX	PROCEDURE	61	"               commit ; 
+"
+PRC_YY_SJSCXX	PROCEDURE	62	"               on_return := -1 ;
+"
+PRC_YY_SJSCXX	PROCEDURE	63	"               return ;
+"
+PRC_YY_SJSCXX	PROCEDURE	64	"         end;        
+"
+PRC_YY_SJSCXX	PROCEDURE	65	"
+"
+PRC_YY_SJSCXX	PROCEDURE	66	"     
+"
+PRC_YY_SJSCXX	PROCEDURE	67	"    
+"
+PRC_YY_SJSCXX	PROCEDURE	68	"  END LOOP;
+"
+PRC_YY_SJSCXX	PROCEDURE	69	"  CLOSE CUR_YYLXDM;  
+"
+PRC_YY_SJSCXX	PROCEDURE	70	"  --提交
+"
+PRC_YY_SJSCXX	PROCEDURE	71	"  Commit;
+"
+PRC_YY_SJSCXX	PROCEDURE	72	"  on_return :=1;
+"
+PRC_YY_SJSCXX	PROCEDURE	73	"  Return;
+"
+PRC_YY_SJSCXX	PROCEDURE	74	"  
+"
+PRC_YY_SJSCXX	PROCEDURE	75	"  EXCEPTION 
+"
+PRC_YY_SJSCXX	PROCEDURE	76	"   When others  Then 
+"
+PRC_YY_SJSCXX	PROCEDURE	77	"               Rollback;
+"
+PRC_YY_SJSCXX	PROCEDURE	78	"               li_code := SQLCODE ;
+"
+PRC_YY_SJSCXX	PROCEDURE	79	"               str_err_msg :='错误代码:'||to_char(li_code)||' '||SQLERRM ;
+"
+PRC_YY_SJSCXX	PROCEDURE	80	"               insert into gy_logs (terminal,curr_time,table_name, COLUMN_NAME ,bz)
+"
+PRC_YY_SJSCXX	PROCEDURE	81	"                    values (userenv('terminal'),sysdate,'prc_yy_sjscx','prc_yy_sjscx',str_err_msg) ;
+"
+PRC_YY_SJSCXX	PROCEDURE	82	"               commit ; 
+"
+PRC_YY_SJSCXX	PROCEDURE	83	"               on_return := -1 ;
+"
+PRC_YY_SJSCXX	PROCEDURE	84	"               return ;
+"
+PRC_YY_SJSCXX	PROCEDURE	85	"end prc_yy_sjscxx;
+"
+PRC_YY_SJSCXX	PROCEDURE	86	"
+"
+PRC_YY_SJSCXX	PROCEDURE	87	 

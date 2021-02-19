@@ -1,0 +1,196 @@
+PRC_FENGXIANSC	PROCEDURE	1	"procedure prc_fengxiansc(in_jiaoyilx in varchar2, --交易类型
+"
+PRC_FENGXIANSC	PROCEDURE	2	"                                              in_caozuogh in varchar2, --操作工号
+"
+PRC_FENGXIANSC	PROCEDURE	3	"                                              in_jzkh     in varchar2, --卡号
+"
+PRC_FENGXIANSC	PROCEDURE	4	"                                              in_jylsh    in varchar2, --其它参数
+"
+PRC_FENGXIANSC	PROCEDURE	5	"                                              out_code    out INTEGER, -- 返回结果 0为执行成功
+"
+PRC_FENGXIANSC	PROCEDURE	6	"                                              out_msg     out varchar2) is
+"
+PRC_FENGXIANSC	PROCEDURE	7	"  -- prc_check_process  (in_jiaoyilx业务节点名称，in_caozuogh操作人员工号，in_jzkh就诊卡号，in_other其它参数，out_code返回值interger值，out_msg返回文本内容)
+"
+PRC_FENGXIANSC	PROCEDURE	8	"  --out_code <0 说明没有通过业务检查
+"
+PRC_FENGXIANSC	PROCEDURE	9	"  --out_msg 提示消息，如果为空，不显示给医生看
+"
+PRC_FENGXIANSC	PROCEDURE	10	"  --入参说明：
+"
+PRC_FENGXIANSC	PROCEDURE	11	"
+"
+PRC_FENGXIANSC	PROCEDURE	12	"  --病人类别
+"
+PRC_FENGXIANSC	PROCEDURE	13	"  v_brlb number;
+"
+PRC_FENGXIANSC	PROCEDURE	14	"  --结算标志
+"
+PRC_FENGXIANSC	PROCEDURE	15	"  v_js_no     number;
+"
+PRC_FENGXIANSC	PROCEDURE	16	"  v_total_fee number;
+"
+PRC_FENGXIANSC	PROCEDURE	17	"  --预出院日期
+"
+PRC_FENGXIANSC	PROCEDURE	18	"  v_preout_date varchar2(20);
+"
+PRC_FENGXIANSC	PROCEDURE	19	"  --病人性质
+"
+PRC_FENGXIANSC	PROCEDURE	20	"  v_brxz       varchar2(20);
+"
+PRC_FENGXIANSC	PROCEDURE	21	"  v_icd10      varchar2(30);
+"
+PRC_FENGXIANSC	PROCEDURE	22	"  v_icd10_from varchar2(30);
+"
+PRC_FENGXIANSC	PROCEDURE	23	"  v_data       varchar2(300);
+"
+PRC_FENGXIANSC	PROCEDURE	24	"  v_jylsh      varchar2(2000);
+"
+PRC_FENGXIANSC	PROCEDURE	25	"  v_data_temp  varchar2(200);
+"
+PRC_FENGXIANSC	PROCEDURE	26	"  v_sfzh       varchar2(50);
+"
+PRC_FENGXIANSC	PROCEDURE	27	"  v_str1       varchar2(20);
+"
+PRC_FENGXIANSC	PROCEDURE	28	"  v_str2       varchar2(20);
+"
+PRC_FENGXIANSC	PROCEDURE	29	"  v_str3       varchar2(20);
+"
+PRC_FENGXIANSC	PROCEDURE	30	"  v_str4       varchar2(20);
+"
+PRC_FENGXIANSC	PROCEDURE	31	"  v_str5       varchar2(20);
+"
+PRC_FENGXIANSC	PROCEDURE	32	"  v_str6       varchar2(20);
+"
+PRC_FENGXIANSC	PROCEDURE	33	"  v_str7       varchar2(20);
+"
+PRC_FENGXIANSC	PROCEDURE	34	"  v_temp       varchar2(50);
+"
+PRC_FENGXIANSC	PROCEDURE	35	"  ls_color     varchar2(20);
+"
+PRC_FENGXIANSC	PROCEDURE	36	"  v_czgh       varchar2(20);
+"
+PRC_FENGXIANSC	PROCEDURE	37	"  --临时的统计的数量
+"
+PRC_FENGXIANSC	PROCEDURE	38	"  v_count      number;
+"
+PRC_FENGXIANSC	PROCEDURE	39	"  v_count2     number;
+"
+PRC_FENGXIANSC	PROCEDURE	40	"  v_count_temp number;
+"
+PRC_FENGXIANSC	PROCEDURE	41	"  --操作工号
+"
+PRC_FENGXIANSC	PROCEDURE	42	"  --v_caozuogh varchar2(20);
+"
+PRC_FENGXIANSC	PROCEDURE	43	"
+"
+PRC_FENGXIANSC	PROCEDURE	44	"begin
+"
+PRC_FENGXIANSC	PROCEDURE	45	"
+"
+PRC_FENGXIANSC	PROCEDURE	46	"  if in_jiaoyilx = '风险筛查' then
+"
+PRC_FENGXIANSC	PROCEDURE	47	"     out_code := 0;
+"
+PRC_FENGXIANSC	PROCEDURE	48	"   
+"
+PRC_FENGXIANSC	PROCEDURE	49	"     select f_spit(in_jylsh,'&','jiankangm') into v_str1 from dual;
+"
+PRC_FENGXIANSC	PROCEDURE	50	"     select f_spit(in_jylsh,'&','seka') into v_str2 from dual;
+"
+PRC_FENGXIANSC	PROCEDURE	51	"     select f_spit(in_jylsh,'&','fare') into v_str3 from dual;
+"
+PRC_FENGXIANSC	PROCEDURE	52	"     select f_spit(in_jylsh,'&','ct') into v_str4 from dual;
+"
+PRC_FENGXIANSC	PROCEDURE	53	"     select f_spit(in_jylsh,'&','sz') into v_str5 from dual;
+"
+PRC_FENGXIANSC	PROCEDURE	54	"     select f_spit(in_jylsh,'&','yf') into v_str6 from dual;
+"
+PRC_FENGXIANSC	PROCEDURE	55	"     select f_spit(in_jylsh,'&','xinguanxqkt') into v_str7 from dual;
+"
+PRC_FENGXIANSC	PROCEDURE	56	"     if v_str1='绿色' then
+"
+PRC_FENGXIANSC	PROCEDURE	57	"        out_msg:='1';
+"
+PRC_FENGXIANSC	PROCEDURE	58	"     else
+"
+PRC_FENGXIANSC	PROCEDURE	59	"        out_msg:='风险型';
+"
+PRC_FENGXIANSC	PROCEDURE	60	"        return;
+"
+PRC_FENGXIANSC	PROCEDURE	61	"     end if ;
+"
+PRC_FENGXIANSC	PROCEDURE	62	"     if v_str2='黄色' or v_str2='橙色' or v_str2='绿色' then
+"
+PRC_FENGXIANSC	PROCEDURE	63	"         out_msg:='15';
+"
+PRC_FENGXIANSC	PROCEDURE	64	"     else
+"
+PRC_FENGXIANSC	PROCEDURE	65	"        out_msg:='风险型';
+"
+PRC_FENGXIANSC	PROCEDURE	66	"        return; 
+"
+PRC_FENGXIANSC	PROCEDURE	67	"     end if;
+"
+PRC_FENGXIANSC	PROCEDURE	68	"     IF v_str3='异常' then
+"
+PRC_FENGXIANSC	PROCEDURE	69	"        out_msg:='风险型';
+"
+PRC_FENGXIANSC	PROCEDURE	70	"        return; 
+"
+PRC_FENGXIANSC	PROCEDURE	71	"     end if;
+"
+PRC_FENGXIANSC	PROCEDURE	72	"     if v_str4='无殊' then
+"
+PRC_FENGXIANSC	PROCEDURE	73	"        out_msg:=out_msg+'10';
+"
+PRC_FENGXIANSC	PROCEDURE	74	"     else
+"
+PRC_FENGXIANSC	PROCEDURE	75	"        out_msg:='风险型';
+"
+PRC_FENGXIANSC	PROCEDURE	76	"        return; 
+"
+PRC_FENGXIANSC	PROCEDURE	77	"     end if;
+"
+PRC_FENGXIANSC	PROCEDURE	78	"     if v_str5 ='未送检' then
+"
+PRC_FENGXIANSC	PROCEDURE	79	"        out_msg:='风险型';
+"
+PRC_FENGXIANSC	PROCEDURE	80	"        return;
+"
+PRC_FENGXIANSC	PROCEDURE	81	"     else
+"
+PRC_FENGXIANSC	PROCEDURE	82	"        out_msg:=out_msg+'12';
+"
+PRC_FENGXIANSC	PROCEDURE	83	"     end if;
+"
+PRC_FENGXIANSC	PROCEDURE	84	"     if v_str7<>'阴性' then
+"
+PRC_FENGXIANSC	PROCEDURE	85	"        out_msg:='风险型';
+"
+PRC_FENGXIANSC	PROCEDURE	86	"        return;
+"
+PRC_FENGXIANSC	PROCEDURE	87	"     else
+"
+PRC_FENGXIANSC	PROCEDURE	88	"        out_msg:=out_msg+'12';
+"
+PRC_FENGXIANSC	PROCEDURE	89	"     end if;
+"
+PRC_FENGXIANSC	PROCEDURE	90	"     out_msg:='普通型';
+"
+PRC_FENGXIANSC	PROCEDURE	91	"     return;
+"
+PRC_FENGXIANSC	PROCEDURE	92	"  end if;
+"
+PRC_FENGXIANSC	PROCEDURE	93	"
+"
+PRC_FENGXIANSC	PROCEDURE	94	"  out_code := 0;
+"
+PRC_FENGXIANSC	PROCEDURE	95	"  out_msg  := '';
+"
+PRC_FENGXIANSC	PROCEDURE	96	"  return;
+"
+PRC_FENGXIANSC	PROCEDURE	97	"
+"
+PRC_FENGXIANSC	PROCEDURE	98	"end;
+"

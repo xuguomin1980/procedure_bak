@@ -1,0 +1,224 @@
+F_ZJ_GET_DZDXX	FUNCTION	1	"Function f_Zj_Get_Dzdxx(Arg_Instr In Varchar2)
+"
+F_ZJ_GET_DZDXX	FUNCTION	2	"  Return Varchar2 Is
+"
+F_ZJ_GET_DZDXX	FUNCTION	3	"  Ls_Outstr    Varchar2(2000);
+"
+F_ZJ_GET_DZDXX	FUNCTION	4	"  Ls_Instr     Varchar2(1000);
+"
+F_ZJ_GET_DZDXX	FUNCTION	5	"  Ls_Fenleimc  Varchar2(50); --分类名称
+"
+F_ZJ_GET_DZDXX	FUNCTION	6	"  Ls_Xiangmumc Varchar2(100); --项目名称
+"
+F_ZJ_GET_DZDXX	FUNCTION	7	"  Ls_Daozhenxx Varchar2(500); --导诊信息
+"
+F_ZJ_GET_DZDXX	FUNCTION	8	"  Ls_Zhuyisx   Varchar2(500); --注意事项
+"
+F_ZJ_GET_DZDXX	FUNCTION	9	"  Ls_Shifouxs  Varchar2(2); --是否显示
+"
+F_ZJ_GET_DZDXX	FUNCTION	10	"  Ln_Jiuzhenxh Number(10); --就诊序号
+"
+F_ZJ_GET_DZDXX	FUNCTION	11	"  Ln_Jilus     Number(10); --记录数
+"
+F_ZJ_GET_DZDXX	FUNCTION	12	"  Ln_Chufanglx Number(10); --处方类型
+"
+F_ZJ_GET_DZDXX	FUNCTION	13	"  --Ls_Xiangmuxh  Varchar2(20); --项目序号
+"
+F_ZJ_GET_DZDXX	FUNCTION	14	"  Ls_Jizhenyfbz Varchar2(20); --急诊药房标志
+"
+F_ZJ_GET_DZDXX	FUNCTION	15	"Begin
+"
+F_ZJ_GET_DZDXX	FUNCTION	16	"  Ls_Instr     := '|' || Arg_Instr || '|';
+"
+F_ZJ_GET_DZDXX	FUNCTION	17	"  Ln_Jiuzhenxh := To_Number(f_Get_Equal(Ls_Instr, '就诊序号=', '|'));
+"
+F_ZJ_GET_DZDXX	FUNCTION	18	"  Ls_Fenleimc  := f_Get_Equal(Ls_Instr, '分类名称=', '|');
+"
+F_ZJ_GET_DZDXX	FUNCTION	19	"  Ls_Shifouxs  := '是';
+"
+F_ZJ_GET_DZDXX	FUNCTION	20	"  If Ls_Fenleimc = '西药' Or Ls_Fenleimc = '成药' Or Ls_Fenleimc = '草药' Then
+"
+F_ZJ_GET_DZDXX	FUNCTION	21	"    If Ls_Fenleimc = '西药' Then
+"
+F_ZJ_GET_DZDXX	FUNCTION	22	"      Ln_Chufanglx := 1;
+"
+F_ZJ_GET_DZDXX	FUNCTION	23	"    Elsif Ls_Fenleimc = '成药' Then
+"
+F_ZJ_GET_DZDXX	FUNCTION	24	"      Ln_Chufanglx := 2;
+"
+F_ZJ_GET_DZDXX	FUNCTION	25	"    Elsif Ls_Fenleimc = '草药' Then
+"
+F_ZJ_GET_DZDXX	FUNCTION	26	"      Ln_Chufanglx := 4;
+"
+F_ZJ_GET_DZDXX	FUNCTION	27	"    End If;
+"
+F_ZJ_GET_DZDXX	FUNCTION	28	"    --检索有无记录，并取得急诊药房标志
+"
+F_ZJ_GET_DZDXX	FUNCTION	29	"    Select Count(*), ',' || Wmsys.Wm_Concat(To_Char(Nvl(Jzyf, 0))) || ','
+"
+F_ZJ_GET_DZDXX	FUNCTION	30	"      Into Ln_Jilus, Ls_Jizhenyfbz
+"
+F_ZJ_GET_DZDXX	FUNCTION	31	"      From Mz_Cfk1
+"
+F_ZJ_GET_DZDXX	FUNCTION	32	"     Where Jzxh = Ln_Jiuzhenxh
+"
+F_ZJ_GET_DZDXX	FUNCTION	33	"       And Cflx = Ln_Chufanglx
+"
+F_ZJ_GET_DZDXX	FUNCTION	34	"       And Sfsb Is Null;
+"
+F_ZJ_GET_DZDXX	FUNCTION	35	"    If Ln_Jilus > 0 Then
+"
+F_ZJ_GET_DZDXX	FUNCTION	36	"      Ls_Xiangmumc := '';
+"
+F_ZJ_GET_DZDXX	FUNCTION	37	"      --取药窗口名称
+"
+F_ZJ_GET_DZDXX	FUNCTION	38	"      Begin
+"
+F_ZJ_GET_DZDXX	FUNCTION	39	"        Select To_Char(Wmsys.Wm_Concat(Ksbm))
+"
+F_ZJ_GET_DZDXX	FUNCTION	40	"          Into Ls_Daozhenxx
+"
+F_ZJ_GET_DZDXX	FUNCTION	41	"          From My_Ckxh
+"
+F_ZJ_GET_DZDXX	FUNCTION	42	"         Where Kssx = 1
+"
+F_ZJ_GET_DZDXX	FUNCTION	43	"           And Xtxh In
+"
+F_ZJ_GET_DZDXX	FUNCTION	44	"               (Select Xtxh
+"
+F_ZJ_GET_DZDXX	FUNCTION	45	"                  From Yf_Xtdz
+"
+F_ZJ_GET_DZDXX	FUNCTION	46	"                 Where Yflb = 1
+"
+F_ZJ_GET_DZDXX	FUNCTION	47	"                   And Instr(Ls_Jizhenyfbz, To_Char(Nvl(Jzyf, 0))) > 0
+"
+F_ZJ_GET_DZDXX	FUNCTION	48	"                   And Xtxh In
+"
+F_ZJ_GET_DZDXX	FUNCTION	49	"                       (Select Xtxh From Yf_Yplxdz Where Yplx = Ln_Chufanglx));
+"
+F_ZJ_GET_DZDXX	FUNCTION	50	"        If Ls_Daozhenxx Is Null Then
+"
+F_ZJ_GET_DZDXX	FUNCTION	51	"          Ls_Daozhenxx := '';
+"
+F_ZJ_GET_DZDXX	FUNCTION	52	"        End If;
+"
+F_ZJ_GET_DZDXX	FUNCTION	53	"        Ls_Daozhenxx := '请到 ' || Ls_Daozhenxx || ' 取药';
+"
+F_ZJ_GET_DZDXX	FUNCTION	54	"      Exception
+"
+F_ZJ_GET_DZDXX	FUNCTION	55	"        When Others Then
+"
+F_ZJ_GET_DZDXX	FUNCTION	56	"          Null;
+"
+F_ZJ_GET_DZDXX	FUNCTION	57	"      End;
+"
+F_ZJ_GET_DZDXX	FUNCTION	58	"    Else
+"
+F_ZJ_GET_DZDXX	FUNCTION	59	"      --无记录不显示
+"
+F_ZJ_GET_DZDXX	FUNCTION	60	"      Ls_Shifouxs := '否';
+"
+F_ZJ_GET_DZDXX	FUNCTION	61	"    End If;
+"
+F_ZJ_GET_DZDXX	FUNCTION	62	"  End If;
+"
+F_ZJ_GET_DZDXX	FUNCTION	63	"  /*Elsif Ls_Fenleimc = '检查项目' Then
+"
+F_ZJ_GET_DZDXX	FUNCTION	64	"    Begin
+"
+F_ZJ_GET_DZDXX	FUNCTION	65	"      --取检查项目打印名称、科室地址
+"
+F_ZJ_GET_DZDXX	FUNCTION	66	"      Select b.Dayinmc, c.Keshidz
+"
+F_ZJ_GET_DZDXX	FUNCTION	67	"        Into Ls_Xiangmumc, Ls_Daozhenxx
+"
+F_ZJ_GET_DZDXX	FUNCTION	68	"        From Jc_Shenqingd a, Jc_Shenqingdmx b, Jc_Xiangmufl c
+"
+F_ZJ_GET_DZDXX	FUNCTION	69	"       Where a.Shenqingdh = b.Shenqingdh
+"
+F_ZJ_GET_DZDXX	FUNCTION	70	"         And b.Fenleidm = c.Fenleidm
+"
+F_ZJ_GET_DZDXX	FUNCTION	71	"         And a.Jiuzhenxh = Ln_Jiuzhenxh
+"
+F_ZJ_GET_DZDXX	FUNCTION	72	"         And b.Jianchaxmbh = Ls_Xiangmuxh;
+"
+F_ZJ_GET_DZDXX	FUNCTION	73	"    Exception
+"
+F_ZJ_GET_DZDXX	FUNCTION	74	"      When Others Then
+"
+F_ZJ_GET_DZDXX	FUNCTION	75	"        Ls_Shifouxs := '否';
+"
+F_ZJ_GET_DZDXX	FUNCTION	76	"    End;
+"
+F_ZJ_GET_DZDXX	FUNCTION	77	"  Elsif Ls_Fenleimc = '检验项目' Then
+"
+F_ZJ_GET_DZDXX	FUNCTION	78	"    Begin
+"
+F_ZJ_GET_DZDXX	FUNCTION	79	"      Select Distinct Xiangmumc, Daozhenxx
+"
+F_ZJ_GET_DZDXX	FUNCTION	80	"        Into Ls_Xiangmumc, Ls_Daozhenxx
+"
+F_ZJ_GET_DZDXX	FUNCTION	81	"        From (Select b.Dymc Xiangmumc,
+"
+F_ZJ_GET_DZDXX	FUNCTION	82	"                     Nvl(c.Qbgsj, '') || Nvl(c.Qbgdd, '') Daozhenxx
+"
+F_ZJ_GET_DZDXX	FUNCTION	83	"                From Yj_Yjk1 a, Yj_Yjk2 b, Gy_Ylsf c
+"
+F_ZJ_GET_DZDXX	FUNCTION	84	"               Where a.Yjsb = b.Yjsb
+"
+F_ZJ_GET_DZDXX	FUNCTION	85	"                 And b.Tcylxh = c.Ylxh
+"
+F_ZJ_GET_DZDXX	FUNCTION	86	"                 And a.Jzkh = Ls_Jiuzhenkh
+"
+F_ZJ_GET_DZDXX	FUNCTION	87	"                 And a.Jzxh = Ln_Jiuzhenxh
+"
+F_ZJ_GET_DZDXX	FUNCTION	88	"                 And a.Zjpb = 5
+"
+F_ZJ_GET_DZDXX	FUNCTION	89	"                 And a.Sfsb Is Null
+"
+F_ZJ_GET_DZDXX	FUNCTION	90	"                 And Nvl(b.Tcylxh, 0) > 0
+"
+F_ZJ_GET_DZDXX	FUNCTION	91	"              Union All
+"
+F_ZJ_GET_DZDXX	FUNCTION	92	"              Select b.Dymc Xiangmumc,
+"
+F_ZJ_GET_DZDXX	FUNCTION	93	"                     Nvl(c.Qbgsj, '') || Nvl(c.Qbgdd, '') Daozhenxx
+"
+F_ZJ_GET_DZDXX	FUNCTION	94	"                From Yj_Yjk1 a, Yj_Yjk2 b, Gy_Ylsf c
+"
+F_ZJ_GET_DZDXX	FUNCTION	95	"               Where a.Yjsb = b.Yjsb
+"
+F_ZJ_GET_DZDXX	FUNCTION	96	"                 And b.Ylxh = c.Ylxh
+"
+F_ZJ_GET_DZDXX	FUNCTION	97	"                 And a.Jzkh = Ls_Jiuzhenkh
+"
+F_ZJ_GET_DZDXX	FUNCTION	98	"                 And a.Jzxh = Ln_Jiuzhenxh
+"
+F_ZJ_GET_DZDXX	FUNCTION	99	"                 And a.Zjpb = 5
+"
+F_ZJ_GET_DZDXX	FUNCTION	100	"                 And a.Sfsb Is Null
+"
+F_ZJ_GET_DZDXX	FUNCTION	101	"                 And Nvl(b.Tcylxh, 0) = 0);
+"
+F_ZJ_GET_DZDXX	FUNCTION	102	"    Exception
+"
+F_ZJ_GET_DZDXX	FUNCTION	103	"      When Others Then
+"
+F_ZJ_GET_DZDXX	FUNCTION	104	"        Ls_Shifouxs := '否';
+"
+F_ZJ_GET_DZDXX	FUNCTION	105	"    End;
+"
+F_ZJ_GET_DZDXX	FUNCTION	106	"
+"
+F_ZJ_GET_DZDXX	FUNCTION	107	"  End If;*/
+"
+F_ZJ_GET_DZDXX	FUNCTION	108	"  Ls_Outstr := '|分类名称=' || Ls_Fenleimc || '|项目名称=' || Ls_Xiangmumc ||
+"
+F_ZJ_GET_DZDXX	FUNCTION	109	"               '|导诊信息=' || Ls_Daozhenxx || '|注意事项=' || Ls_Zhuyisx ||
+"
+F_ZJ_GET_DZDXX	FUNCTION	110	"               '|是否显示=' || Ls_Shifouxs || '|';
+"
+F_ZJ_GET_DZDXX	FUNCTION	111	"  Return Ls_Outstr;
+"
+F_ZJ_GET_DZDXX	FUNCTION	112	"End f_Zj_Get_Dzdxx;
+"

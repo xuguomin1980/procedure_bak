@@ -1,0 +1,36 @@
+GETCLOB	FUNCTION	1	"function getclob(table_name in varchar2, --表名
+"
+GETCLOB	FUNCTION	2	"                                    field_name in varchar2, --CLOB字段名
+"
+GETCLOB	FUNCTION	3	"                                    v_tj       in varchar2, --表查询条件
+"
+GETCLOB	FUNCTION	4	"                                    v_pos      in number) --字符起始位置
+"
+GETCLOB	FUNCTION	5	"   return varchar2
+"
+GETCLOB	FUNCTION	6	"    is
+"
+GETCLOB	FUNCTION	7	"   buffer         varchar2(32767);
+"
+GETCLOB	FUNCTION	8	"   lobloc         clob;
+"
+GETCLOB	FUNCTION	9	"   amount         number := 2000;
+"
+GETCLOB	FUNCTION	10	"   query_str      varchar2(1000);
+"
+GETCLOB	FUNCTION	11	"   begin
+"
+GETCLOB	FUNCTION	12	"     query_str := 'select ' || field_name || ' from ' || table_name || ' where ' || v_tj || ''; --initialize buffer with data to be found
+"
+GETCLOB	FUNCTION	13	"   EXECUTE
+"
+GETCLOB	FUNCTION	14	"     IMMEDIATE query_str INTO lobloc; --read 2000 varchar2 from the buffer
+"
+GETCLOB	FUNCTION	15	"   dbms_lob.read (lobloc, amount, v_pos + 1, buffer);
+"
+GETCLOB	FUNCTION	16	"   return         buffer;
+"
+GETCLOB	FUNCTION	17	"   exception      when no_data_found then return buffer;
+"
+GETCLOB	FUNCTION	18	" end;
+"

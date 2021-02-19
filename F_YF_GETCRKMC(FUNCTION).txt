@@ -1,0 +1,19 @@
+F_YF_GETCRKMC	FUNCTION	1	"FUNCTION         ""F_YF_GETCRKMC"" (arg_xtxh number,arg_crkdm in number) 
+"
+F_YF_GETCRKMC	FUNCTION	2	"   return varchar2
+"
+F_YF_GETCRKMC	FUNCTION	3	"   is
+"
+F_YF_GETCRKMC	FUNCTION	4	"     ls_return varchar2(20);
+"
+F_YF_GETCRKMC	FUNCTION	5	"   begin
+"
+F_YF_GETCRKMC	FUNCTION	6	"       select crkmc into ls_return from my_crkfs
+"
+F_YF_GETCRKMC	FUNCTION	7	"        where xtxh=arg_xtxh and crkdm=arg_crkdm;
+"
+F_YF_GETCRKMC	FUNCTION	8	"   return(ls_return);
+"
+F_YF_GETCRKMC	FUNCTION	9	"   end;
+"
+F_YF_GETCRKMC	FUNCTION	10	 

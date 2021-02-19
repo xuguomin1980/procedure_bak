@@ -1,0 +1,37 @@
+F_YF_GETJGYPXX	FUNCTION	1	"FUNCTION         ""F_YF_GETJGYPXX"" (arg_xh in number,arg_flag in varchar2) 
+"
+F_YF_GETJGYPXX	FUNCTION	2	"  return varchar2
+"
+F_YF_GETJGYPXX	FUNCTION	3	"  is
+"
+F_YF_GETJGYPXX	FUNCTION	4	"    ls_return varchar2(60);
+"
+F_YF_GETJGYPXX	FUNCTION	5	"  begin
+"
+F_YF_GETJGYPXX	FUNCTION	6	"  if arg_flag = 'pmgg' then
+"
+F_YF_GETJGYPXX	FUNCTION	7	"      select ypmc||ypgg into ls_return from gy_ypcdjg where xh=arg_xh;
+"
+F_YF_GETJGYPXX	FUNCTION	8	"  elsif arg_flag = 'dw' then
+"
+F_YF_GETJGYPXX	FUNCTION	9	"      select ypbzdw into ls_return from gy_ypcdjg where xh=arg_xh;
+"
+F_YF_GETJGYPXX	FUNCTION	10	"  elsif arg_flag = 'cd' then
+"
+F_YF_GETJGYPXX	FUNCTION	11	"      select cdmc into ls_return from gy_ypcdjg where xh=arg_xh;
+"
+F_YF_GETJGYPXX	FUNCTION	12	"  elsif arg_flag = 'ypmc' then
+"
+F_YF_GETJGYPXX	FUNCTION	13	"      select ypmc into ls_return from gy_ypcdjg where xh=arg_xh;
+"
+F_YF_GETJGYPXX	FUNCTION	14	"  elsif arg_flag ='ypgg' then
+"
+F_YF_GETJGYPXX	FUNCTION	15	"       select ypgg into ls_return from gy_ypcdjg where xh=arg_xh;
+"
+F_YF_GETJGYPXX	FUNCTION	16	"  end if;
+"
+F_YF_GETJGYPXX	FUNCTION	17	"  return(ls_return);
+"
+F_YF_GETJGYPXX	FUNCTION	18	"  end;
+"
+F_YF_GETJGYPXX	FUNCTION	19	 

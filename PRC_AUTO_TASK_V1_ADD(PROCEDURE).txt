@@ -1,0 +1,538 @@
+PRC_AUTO_TASK_V1_ADD	PROCEDURE	1	"procedure prc_auto_task_v1_add is
+"
+PRC_AUTO_TASK_V1_ADD	PROCEDURE	2	"
+"
+PRC_AUTO_TASK_V1_ADD	PROCEDURE	3	"  v_icd10      varchar2(30);
+"
+PRC_AUTO_TASK_V1_ADD	PROCEDURE	4	"  v_icd10_from varchar2(30);
+"
+PRC_AUTO_TASK_V1_ADD	PROCEDURE	5	"  v_bz         varchar2(300);
+"
+PRC_AUTO_TASK_V1_ADD	PROCEDURE	6	"  v_nr         varchar2(200);
+"
+PRC_AUTO_TASK_V1_ADD	PROCEDURE	7	"  v_sfzh       varchar2(50);
+"
+PRC_AUTO_TASK_V1_ADD	PROCEDURE	8	"  v_str1       varchar2(20);
+"
+PRC_AUTO_TASK_V1_ADD	PROCEDURE	9	"  v_str2       varchar2(20);
+"
+PRC_AUTO_TASK_V1_ADD	PROCEDURE	10	"  v_str3       varchar2(20);
+"
+PRC_AUTO_TASK_V1_ADD	PROCEDURE	11	"  v_str4       varchar2(20);
+"
+PRC_AUTO_TASK_V1_ADD	PROCEDURE	12	"  v_str5       varchar2(20);
+"
+PRC_AUTO_TASK_V1_ADD	PROCEDURE	13	"  v_str6       varchar2(20);
+"
+PRC_AUTO_TASK_V1_ADD	PROCEDURE	14	"  v_str7       varchar2(20);
+"
+PRC_AUTO_TASK_V1_ADD	PROCEDURE	15	"  v_str8       varchar2(20);
+"
+PRC_AUTO_TASK_V1_ADD	PROCEDURE	16	"  v_str9       varchar2(20);
+"
+PRC_AUTO_TASK_V1_ADD	PROCEDURE	17	"  v_temp       varchar2(200);
+"
+PRC_AUTO_TASK_V1_ADD	PROCEDURE	18	"  v_flag1      varchar2(10);
+"
+PRC_AUTO_TASK_V1_ADD	PROCEDURE	19	"  v_flag2      varchar2(10);
+"
+PRC_AUTO_TASK_V1_ADD	PROCEDURE	20	"  v_ysgh       varchar2(20);
+"
+PRC_AUTO_TASK_V1_ADD	PROCEDURE	21	"  v_lxdh       varchar2(20);
+"
+PRC_AUTO_TASK_V1_ADD	PROCEDURE	22	"  v_lxdh2      varchar2(20);
+"
+PRC_AUTO_TASK_V1_ADD	PROCEDURE	23	"  v_jzkh       varchar2(50);
+"
+PRC_AUTO_TASK_V1_ADD	PROCEDURE	24	"  v_ksdm       varchar2(30);
+"
+PRC_AUTO_TASK_V1_ADD	PROCEDURE	25	"  v_jzys       varchar2(30);
+"
+PRC_AUTO_TASK_V1_ADD	PROCEDURE	26	"  --临时的统计的数量
+"
+PRC_AUTO_TASK_V1_ADD	PROCEDURE	27	"  v_count    number;
+"
+PRC_AUTO_TASK_V1_ADD	PROCEDURE	28	"  v_count2   number;
+"
+PRC_AUTO_TASK_V1_ADD	PROCEDURE	29	"  v_order_no number;
+"
+PRC_AUTO_TASK_V1_ADD	PROCEDURE	30	"  v_dqz      number;
+"
+PRC_AUTO_TASK_V1_ADD	PROCEDURE	31	"  v_sfsb     number;
+"
+PRC_AUTO_TASK_V1_ADD	PROCEDURE	32	"  v_ysfsb    number;
+"
+PRC_AUTO_TASK_V1_ADD	PROCEDURE	33	"  v_ghrq     date;
+"
+PRC_AUTO_TASK_V1_ADD	PROCEDURE	34	"  v_mzrq     date;
+"
+PRC_AUTO_TASK_V1_ADD	PROCEDURE	35	"  v_jlxh     number;
+"
+PRC_AUTO_TASK_V1_ADD	PROCEDURE	36	"  v_jzxh     number;
+"
+PRC_AUTO_TASK_V1_ADD	PROCEDURE	37	"  v_je       number;
+"
+PRC_AUTO_TASK_V1_ADD	PROCEDURE	38	"  --计费
+"
+PRC_AUTO_TASK_V1_ADD	PROCEDURE	39	"
+"
+PRC_AUTO_TASK_V1_ADD	PROCEDURE	40	"  --定义游标 -- 金华医保 mz_mzsfk1 jgbm 更新
+"
+PRC_AUTO_TASK_V1_ADD	PROCEDURE	41	"  CURSOR cursor_jhyb_jbgm IS
+"
+PRC_AUTO_TASK_V1_ADD	PROCEDURE	42	"  
+"
+PRC_AUTO_TASK_V1_ADD	PROCEDURE	43	"    select sfsb, ysfsb
+"
+PRC_AUTO_TASK_V1_ADD	PROCEDURE	44	"      from mz_mzsfk1
+"
+PRC_AUTO_TASK_V1_ADD	PROCEDURE	45	"     where brlb = 97
+"
+PRC_AUTO_TASK_V1_ADD	PROCEDURE	46	"       and jgbm is null
+"
+PRC_AUTO_TASK_V1_ADD	PROCEDURE	47	"       and sfrq >= sysdate - 5
+"
+PRC_AUTO_TASK_V1_ADD	PROCEDURE	48	"       and sfrq < trunc(sysdate);
+"
+PRC_AUTO_TASK_V1_ADD	PROCEDURE	49	"
+"
+PRC_AUTO_TASK_V1_ADD	PROCEDURE	50	"  CURSOR cursor_ghk IS
+"
+PRC_AUTO_TASK_V1_ADD	PROCEDURE	51	"  
+"
+PRC_AUTO_TASK_V1_ADD	PROCEDURE	52	"    select ghrq, mzrq, jlxh, jzkh
+"
+PRC_AUTO_TASK_V1_ADD	PROCEDURE	53	"    --fphm, fyze,ghrq, mzrq,   jlxh, jzkh 
+"
+PRC_AUTO_TASK_V1_ADD	PROCEDURE	54	"      from gh_ghk t
+"
+PRC_AUTO_TASK_V1_ADD	PROCEDURE	55	"     where nvl(zfpb, 0) = 0
+"
+PRC_AUTO_TASK_V1_ADD	PROCEDURE	56	"       and nvl(thbz, 0) = 0
+"
+PRC_AUTO_TASK_V1_ADD	PROCEDURE	57	"       and fphm is null
+"
+PRC_AUTO_TASK_V1_ADD	PROCEDURE	58	"       and ysgh is null
+"
+PRC_AUTO_TASK_V1_ADD	PROCEDURE	59	"       and mzrq is not null
+"
+PRC_AUTO_TASK_V1_ADD	PROCEDURE	60	"       and ghrq >= trunc(sysdate - 5)
+"
+PRC_AUTO_TASK_V1_ADD	PROCEDURE	61	"       and ghrq < trunc(sysdate);
+"
+PRC_AUTO_TASK_V1_ADD	PROCEDURE	62	"
+"
+PRC_AUTO_TASK_V1_ADD	PROCEDURE	63	"  CURSOR cursor_yjk IS
+"
+PRC_AUTO_TASK_V1_ADD	PROCEDURE	64	"  
+"
+PRC_AUTO_TASK_V1_ADD	PROCEDURE	65	"    select ghrq, mzrq, jlxh, jzkh
+"
+PRC_AUTO_TASK_V1_ADD	PROCEDURE	66	"    --fphm, fyze,ghrq, mzrq,   jlxh, jzkh 
+"
+PRC_AUTO_TASK_V1_ADD	PROCEDURE	67	"      from gh_ghk t
+"
+PRC_AUTO_TASK_V1_ADD	PROCEDURE	68	"     where nvl(zfpb, 0) = 0
+"
+PRC_AUTO_TASK_V1_ADD	PROCEDURE	69	"       and nvl(thbz, 0) = 0
+"
+PRC_AUTO_TASK_V1_ADD	PROCEDURE	70	"       and nvl(fyze, 0) = 0
+"
+PRC_AUTO_TASK_V1_ADD	PROCEDURE	71	"       and (nvl(zlf, 0) + nvl(ghf, 0)) = 0
+"
+PRC_AUTO_TASK_V1_ADD	PROCEDURE	72	"       and mzrq is not null
+"
+PRC_AUTO_TASK_V1_ADD	PROCEDURE	73	"       and ghrq >= trunc(sysdate - 5)
+"
+PRC_AUTO_TASK_V1_ADD	PROCEDURE	74	"       and ghrq < trunc(sysdate);
+"
+PRC_AUTO_TASK_V1_ADD	PROCEDURE	75	"
+"
+PRC_AUTO_TASK_V1_ADD	PROCEDURE	76	"begin
+"
+PRC_AUTO_TASK_V1_ADD	PROCEDURE	77	"
+"
+PRC_AUTO_TASK_V1_ADD	PROCEDURE	78	"  -- 金华医保 mz_mzsfk1 jgbm 更新
+"
+PRC_AUTO_TASK_V1_ADD	PROCEDURE	79	"  if 1 = 1 then
+"
+PRC_AUTO_TASK_V1_ADD	PROCEDURE	80	"  
+"
+PRC_AUTO_TASK_V1_ADD	PROCEDURE	81	"    v_count := 0;
+"
+PRC_AUTO_TASK_V1_ADD	PROCEDURE	82	"    --循环开始
+"
+PRC_AUTO_TASK_V1_ADD	PROCEDURE	83	"    LOOP
+"
+PRC_AUTO_TASK_V1_ADD	PROCEDURE	84	"    
+"
+PRC_AUTO_TASK_V1_ADD	PROCEDURE	85	"      IF NOT cursor_jhyb_jbgm%ISOPEN THEN
+"
+PRC_AUTO_TASK_V1_ADD	PROCEDURE	86	"        --打开游标
+"
+PRC_AUTO_TASK_V1_ADD	PROCEDURE	87	"        OPEN cursor_jhyb_jbgm;
+"
+PRC_AUTO_TASK_V1_ADD	PROCEDURE	88	"      END IF;
+"
+PRC_AUTO_TASK_V1_ADD	PROCEDURE	89	"    
+"
+PRC_AUTO_TASK_V1_ADD	PROCEDURE	90	"      FETCH cursor_jhyb_jbgm
+"
+PRC_AUTO_TASK_V1_ADD	PROCEDURE	91	"        INTO v_sfsb, v_ysfsb;
+"
+PRC_AUTO_TASK_V1_ADD	PROCEDURE	92	"      --退出循环的条件
+"
+PRC_AUTO_TASK_V1_ADD	PROCEDURE	93	"      EXIT WHEN cursor_jhyb_jbgm%NOTFOUND OR cursor_jhyb_jbgm%NOTFOUND IS NULL;
+"
+PRC_AUTO_TASK_V1_ADD	PROCEDURE	94	"    
+"
+PRC_AUTO_TASK_V1_ADD	PROCEDURE	95	"      if sqlcode <> 0 then
+"
+PRC_AUTO_TASK_V1_ADD	PROCEDURE	96	"        rollback;
+"
+PRC_AUTO_TASK_V1_ADD	PROCEDURE	97	"        --关闭游标
+"
+PRC_AUTO_TASK_V1_ADD	PROCEDURE	98	"        close cursor_jhyb_jbgm;
+"
+PRC_AUTO_TASK_V1_ADD	PROCEDURE	99	"      
+"
+PRC_AUTO_TASK_V1_ADD	PROCEDURE	100	"      end if;
+"
+PRC_AUTO_TASK_V1_ADD	PROCEDURE	101	"    
+"
+PRC_AUTO_TASK_V1_ADD	PROCEDURE	102	"      if v_ysfsb > 0 then
+"
+PRC_AUTO_TASK_V1_ADD	PROCEDURE	103	"        null;
+"
+PRC_AUTO_TASK_V1_ADD	PROCEDURE	104	"      else
+"
+PRC_AUTO_TASK_V1_ADD	PROCEDURE	105	"        v_ysfsb := v_sfsb;
+"
+PRC_AUTO_TASK_V1_ADD	PROCEDURE	106	"      end if;
+"
+PRC_AUTO_TASK_V1_ADD	PROCEDURE	107	"      update mz_mzsfk1 t
+"
+PRC_AUTO_TASK_V1_ADD	PROCEDURE	108	"         set jgbm = (select substr(black,
+"
+PRC_AUTO_TASK_V1_ADD	PROCEDURE	109	"                                   instr(black, '""yytcq"":""') +
+"
+PRC_AUTO_TASK_V1_ADD	PROCEDURE	110	"                                   length('""yytcq"":""'),
+"
+PRC_AUTO_TASK_V1_ADD	PROCEDURE	111	"                                   6)
+"
+PRC_AUTO_TASK_V1_ADD	PROCEDURE	112	"                       from mz_ybjsxx
+"
+PRC_AUTO_TASK_V1_ADD	PROCEDURE	113	"                      where sfsb = v_ysfsb
+"
+PRC_AUTO_TASK_V1_ADD	PROCEDURE	114	"                        and rownum = 1)
+"
+PRC_AUTO_TASK_V1_ADD	PROCEDURE	115	"       where brlb = 97
+"
+PRC_AUTO_TASK_V1_ADD	PROCEDURE	116	"         and jgbm is null
+"
+PRC_AUTO_TASK_V1_ADD	PROCEDURE	117	"         and sfsb = v_sfsb;
+"
+PRC_AUTO_TASK_V1_ADD	PROCEDURE	118	"    
+"
+PRC_AUTO_TASK_V1_ADD	PROCEDURE	119	"      if sqlcode = 0 then
+"
+PRC_AUTO_TASK_V1_ADD	PROCEDURE	120	"        commit;
+"
+PRC_AUTO_TASK_V1_ADD	PROCEDURE	121	"      else
+"
+PRC_AUTO_TASK_V1_ADD	PROCEDURE	122	"        rollback;
+"
+PRC_AUTO_TASK_V1_ADD	PROCEDURE	123	"      end if;
+"
+PRC_AUTO_TASK_V1_ADD	PROCEDURE	124	"    
+"
+PRC_AUTO_TASK_V1_ADD	PROCEDURE	125	"    END LOOP;
+"
+PRC_AUTO_TASK_V1_ADD	PROCEDURE	126	"  
+"
+PRC_AUTO_TASK_V1_ADD	PROCEDURE	127	"  end if;
+"
+PRC_AUTO_TASK_V1_ADD	PROCEDURE	128	"  -- end 金华医保 mz_mzsfk1 jgbm 更新
+"
+PRC_AUTO_TASK_V1_ADD	PROCEDURE	129	"
+"
+PRC_AUTO_TASK_V1_ADD	PROCEDURE	130	"  -- gh_ghk ysgh =null   更新
+"
+PRC_AUTO_TASK_V1_ADD	PROCEDURE	131	"  if 1 = 1 then
+"
+PRC_AUTO_TASK_V1_ADD	PROCEDURE	132	"    v_count := 0;
+"
+PRC_AUTO_TASK_V1_ADD	PROCEDURE	133	"    LOOP
+"
+PRC_AUTO_TASK_V1_ADD	PROCEDURE	134	"    
+"
+PRC_AUTO_TASK_V1_ADD	PROCEDURE	135	"      IF NOT cursor_ghk%ISOPEN THEN
+"
+PRC_AUTO_TASK_V1_ADD	PROCEDURE	136	"        --打开游标
+"
+PRC_AUTO_TASK_V1_ADD	PROCEDURE	137	"        OPEN cursor_ghk;
+"
+PRC_AUTO_TASK_V1_ADD	PROCEDURE	138	"      END IF;
+"
+PRC_AUTO_TASK_V1_ADD	PROCEDURE	139	"    
+"
+PRC_AUTO_TASK_V1_ADD	PROCEDURE	140	"      FETCH cursor_ghk
+"
+PRC_AUTO_TASK_V1_ADD	PROCEDURE	141	"        INTO v_ghrq, v_mzrq, v_jlxh, v_jzkh;
+"
+PRC_AUTO_TASK_V1_ADD	PROCEDURE	142	"      --退出循环的条件
+"
+PRC_AUTO_TASK_V1_ADD	PROCEDURE	143	"      EXIT WHEN cursor_ghk%NOTFOUND OR cursor_ghk%NOTFOUND IS NULL;
+"
+PRC_AUTO_TASK_V1_ADD	PROCEDURE	144	"      if sqlcode <> 0 then
+"
+PRC_AUTO_TASK_V1_ADD	PROCEDURE	145	"        rollback;
+"
+PRC_AUTO_TASK_V1_ADD	PROCEDURE	146	"        --关闭游标
+"
+PRC_AUTO_TASK_V1_ADD	PROCEDURE	147	"        close cursor_ghk;
+"
+PRC_AUTO_TASK_V1_ADD	PROCEDURE	148	"      
+"
+PRC_AUTO_TASK_V1_ADD	PROCEDURE	149	"      end if;
+"
+PRC_AUTO_TASK_V1_ADD	PROCEDURE	150	"    
+"
+PRC_AUTO_TASK_V1_ADD	PROCEDURE	151	"      select min(jzxh)
+"
+PRC_AUTO_TASK_V1_ADD	PROCEDURE	152	"        into v_jzxh
+"
+PRC_AUTO_TASK_V1_ADD	PROCEDURE	153	"        from zj_jzxx
+"
+PRC_AUTO_TASK_V1_ADD	PROCEDURE	154	"       where jlxh = v_jlxh
+"
+PRC_AUTO_TASK_V1_ADD	PROCEDURE	155	"         and jzrq > v_ghrq - 1
+"
+PRC_AUTO_TASK_V1_ADD	PROCEDURE	156	"         and jzrq < v_mzrq + 1
+"
+PRC_AUTO_TASK_V1_ADD	PROCEDURE	157	"         and jzkh = v_jzkh;
+"
+PRC_AUTO_TASK_V1_ADD	PROCEDURE	158	"      if v_jzxh > 0 then
+"
+PRC_AUTO_TASK_V1_ADD	PROCEDURE	159	"        select jzys into v_jzys from zj_jzxx where jzxh = v_jzxh;
+"
+PRC_AUTO_TASK_V1_ADD	PROCEDURE	160	"        update gh_ghk set fphm = v_jzys where jlxh = v_jlxh;
+"
+PRC_AUTO_TASK_V1_ADD	PROCEDURE	161	"        if sqlcode = 0 then
+"
+PRC_AUTO_TASK_V1_ADD	PROCEDURE	162	"          commit;
+"
+PRC_AUTO_TASK_V1_ADD	PROCEDURE	163	"        else
+"
+PRC_AUTO_TASK_V1_ADD	PROCEDURE	164	"          rollback;
+"
+PRC_AUTO_TASK_V1_ADD	PROCEDURE	165	"        end if;
+"
+PRC_AUTO_TASK_V1_ADD	PROCEDURE	166	"      end if;
+"
+PRC_AUTO_TASK_V1_ADD	PROCEDURE	167	"    
+"
+PRC_AUTO_TASK_V1_ADD	PROCEDURE	168	"    END LOOP;
+"
+PRC_AUTO_TASK_V1_ADD	PROCEDURE	169	"  
+"
+PRC_AUTO_TASK_V1_ADD	PROCEDURE	170	"  end if;
+"
+PRC_AUTO_TASK_V1_ADD	PROCEDURE	171	"  -- end gh_ghk ysgh =null   更新
+"
+PRC_AUTO_TASK_V1_ADD	PROCEDURE	172	"
+"
+PRC_AUTO_TASK_V1_ADD	PROCEDURE	173	"  -- gh_yjk fyze =null   更新
+"
+PRC_AUTO_TASK_V1_ADD	PROCEDURE	174	"  if 1 = 1 then
+"
+PRC_AUTO_TASK_V1_ADD	PROCEDURE	175	"    v_count := 0;
+"
+PRC_AUTO_TASK_V1_ADD	PROCEDURE	176	"    LOOP
+"
+PRC_AUTO_TASK_V1_ADD	PROCEDURE	177	"    
+"
+PRC_AUTO_TASK_V1_ADD	PROCEDURE	178	"      IF NOT cursor_yjk%ISOPEN THEN
+"
+PRC_AUTO_TASK_V1_ADD	PROCEDURE	179	"        --打开游标
+"
+PRC_AUTO_TASK_V1_ADD	PROCEDURE	180	"        OPEN cursor_yjk;
+"
+PRC_AUTO_TASK_V1_ADD	PROCEDURE	181	"      END IF;
+"
+PRC_AUTO_TASK_V1_ADD	PROCEDURE	182	"    
+"
+PRC_AUTO_TASK_V1_ADD	PROCEDURE	183	"      FETCH cursor_yjk
+"
+PRC_AUTO_TASK_V1_ADD	PROCEDURE	184	"        INTO v_ghrq, v_mzrq, v_jlxh, v_jzkh;
+"
+PRC_AUTO_TASK_V1_ADD	PROCEDURE	185	"      --退出循环的条件
+"
+PRC_AUTO_TASK_V1_ADD	PROCEDURE	186	"      EXIT WHEN cursor_yjk%NOTFOUND OR cursor_yjk%NOTFOUND IS NULL;
+"
+PRC_AUTO_TASK_V1_ADD	PROCEDURE	187	"      if sqlcode <> 0 then
+"
+PRC_AUTO_TASK_V1_ADD	PROCEDURE	188	"        rollback;
+"
+PRC_AUTO_TASK_V1_ADD	PROCEDURE	189	"        --关闭游标
+"
+PRC_AUTO_TASK_V1_ADD	PROCEDURE	190	"        close cursor_yjk;
+"
+PRC_AUTO_TASK_V1_ADD	PROCEDURE	191	"      
+"
+PRC_AUTO_TASK_V1_ADD	PROCEDURE	192	"      end if;
+"
+PRC_AUTO_TASK_V1_ADD	PROCEDURE	193	"    
+"
+PRC_AUTO_TASK_V1_ADD	PROCEDURE	194	"      select nvl(min(a.yjsb), 0)
+"
+PRC_AUTO_TASK_V1_ADD	PROCEDURE	195	"        into v_jzxh
+"
+PRC_AUTO_TASK_V1_ADD	PROCEDURE	196	"        from yj_yjk1 a, yj_yjk2 b
+"
+PRC_AUTO_TASK_V1_ADD	PROCEDURE	197	"       where a.yjsb = b.yjsb
+"
+PRC_AUTO_TASK_V1_ADD	PROCEDURE	198	"         and b.sl > 0
+"
+PRC_AUTO_TASK_V1_ADD	PROCEDURE	199	"         and b.fygb in (13, 14)
+"
+PRC_AUTO_TASK_V1_ADD	PROCEDURE	200	"         and a.sfsb is not null
+"
+PRC_AUTO_TASK_V1_ADD	PROCEDURE	201	"         and a.ghxh = v_jlxh
+"
+PRC_AUTO_TASK_V1_ADD	PROCEDURE	202	"         and a.kdsj > v_ghrq - 1
+"
+PRC_AUTO_TASK_V1_ADD	PROCEDURE	203	"         and a.kdsj < v_mzrq + 1
+"
+PRC_AUTO_TASK_V1_ADD	PROCEDURE	204	"         and a.jzkh = v_jzkh;
+"
+PRC_AUTO_TASK_V1_ADD	PROCEDURE	205	"      if v_jzxh > 0 then
+"
+PRC_AUTO_TASK_V1_ADD	PROCEDURE	206	"      
+"
+PRC_AUTO_TASK_V1_ADD	PROCEDURE	207	"        select sum(round(b.dj * b.sl, 2))
+"
+PRC_AUTO_TASK_V1_ADD	PROCEDURE	208	"          into v_je
+"
+PRC_AUTO_TASK_V1_ADD	PROCEDURE	209	"          from yj_yjk1 a, yj_yjk2 b
+"
+PRC_AUTO_TASK_V1_ADD	PROCEDURE	210	"         where a.yjsb = b.yjsb
+"
+PRC_AUTO_TASK_V1_ADD	PROCEDURE	211	"           and b.sl > 0
+"
+PRC_AUTO_TASK_V1_ADD	PROCEDURE	212	"           and b.fygb in (13, 14)
+"
+PRC_AUTO_TASK_V1_ADD	PROCEDURE	213	"           and a.sfsb is not null
+"
+PRC_AUTO_TASK_V1_ADD	PROCEDURE	214	"           and a.jzkh = v_jzkh
+"
+PRC_AUTO_TASK_V1_ADD	PROCEDURE	215	"           and a.yjsb = v_jzxh;
+"
+PRC_AUTO_TASK_V1_ADD	PROCEDURE	216	"      
+"
+PRC_AUTO_TASK_V1_ADD	PROCEDURE	217	"        update gh_ghk set fyze = v_je where jlxh = v_jlxh;
+"
+PRC_AUTO_TASK_V1_ADD	PROCEDURE	218	"        if sqlcode = 0 then
+"
+PRC_AUTO_TASK_V1_ADD	PROCEDURE	219	"          commit;
+"
+PRC_AUTO_TASK_V1_ADD	PROCEDURE	220	"        else
+"
+PRC_AUTO_TASK_V1_ADD	PROCEDURE	221	"          rollback;
+"
+PRC_AUTO_TASK_V1_ADD	PROCEDURE	222	"        end if;
+"
+PRC_AUTO_TASK_V1_ADD	PROCEDURE	223	"      end if;
+"
+PRC_AUTO_TASK_V1_ADD	PROCEDURE	224	"    
+"
+PRC_AUTO_TASK_V1_ADD	PROCEDURE	225	"      if v_jzxh = 0 then
+"
+PRC_AUTO_TASK_V1_ADD	PROCEDURE	226	"      
+"
+PRC_AUTO_TASK_V1_ADD	PROCEDURE	227	"        select nvl(min(a.yjsb), 0)
+"
+PRC_AUTO_TASK_V1_ADD	PROCEDURE	228	"          into v_jzxh
+"
+PRC_AUTO_TASK_V1_ADD	PROCEDURE	229	"          from yj_yjk1 a, yj_yjk2 b
+"
+PRC_AUTO_TASK_V1_ADD	PROCEDURE	230	"         where a.yjsb = b.yjsb
+"
+PRC_AUTO_TASK_V1_ADD	PROCEDURE	231	"           and b.sl > 0
+"
+PRC_AUTO_TASK_V1_ADD	PROCEDURE	232	"           and b.fygb in (13, 14)
+"
+PRC_AUTO_TASK_V1_ADD	PROCEDURE	233	"           and a.sfsb is not null
+"
+PRC_AUTO_TASK_V1_ADD	PROCEDURE	234	"           and a.ghjlxh = v_jlxh
+"
+PRC_AUTO_TASK_V1_ADD	PROCEDURE	235	"           and a.kdsj > v_ghrq - 1
+"
+PRC_AUTO_TASK_V1_ADD	PROCEDURE	236	"           and a.kdsj < v_mzrq + 1
+"
+PRC_AUTO_TASK_V1_ADD	PROCEDURE	237	"           and a.jzkh = v_jzkh;
+"
+PRC_AUTO_TASK_V1_ADD	PROCEDURE	238	"      
+"
+PRC_AUTO_TASK_V1_ADD	PROCEDURE	239	"        if v_jzxh > 0 then
+"
+PRC_AUTO_TASK_V1_ADD	PROCEDURE	240	"        
+"
+PRC_AUTO_TASK_V1_ADD	PROCEDURE	241	"          select sum(round(b.dj * b.sl, 2))
+"
+PRC_AUTO_TASK_V1_ADD	PROCEDURE	242	"            into v_je
+"
+PRC_AUTO_TASK_V1_ADD	PROCEDURE	243	"            from yj_yjk1 a, yj_yjk2 b
+"
+PRC_AUTO_TASK_V1_ADD	PROCEDURE	244	"           where a.yjsb = b.yjsb
+"
+PRC_AUTO_TASK_V1_ADD	PROCEDURE	245	"             and b.sl > 0
+"
+PRC_AUTO_TASK_V1_ADD	PROCEDURE	246	"             and b.fygb in (13, 14)
+"
+PRC_AUTO_TASK_V1_ADD	PROCEDURE	247	"             and a.sfsb is not null
+"
+PRC_AUTO_TASK_V1_ADD	PROCEDURE	248	"             and a.jzkh = v_jzkh
+"
+PRC_AUTO_TASK_V1_ADD	PROCEDURE	249	"             and a.yjsb = v_jzxh;
+"
+PRC_AUTO_TASK_V1_ADD	PROCEDURE	250	"        
+"
+PRC_AUTO_TASK_V1_ADD	PROCEDURE	251	"          update gh_ghk set fyze = v_je where jlxh = v_jlxh;
+"
+PRC_AUTO_TASK_V1_ADD	PROCEDURE	252	"          if sqlcode = 0 then
+"
+PRC_AUTO_TASK_V1_ADD	PROCEDURE	253	"            commit;
+"
+PRC_AUTO_TASK_V1_ADD	PROCEDURE	254	"          else
+"
+PRC_AUTO_TASK_V1_ADD	PROCEDURE	255	"            rollback;
+"
+PRC_AUTO_TASK_V1_ADD	PROCEDURE	256	"          end if;
+"
+PRC_AUTO_TASK_V1_ADD	PROCEDURE	257	"        end if;
+"
+PRC_AUTO_TASK_V1_ADD	PROCEDURE	258	"      
+"
+PRC_AUTO_TASK_V1_ADD	PROCEDURE	259	"      end if;
+"
+PRC_AUTO_TASK_V1_ADD	PROCEDURE	260	"    
+"
+PRC_AUTO_TASK_V1_ADD	PROCEDURE	261	"    END LOOP;
+"
+PRC_AUTO_TASK_V1_ADD	PROCEDURE	262	"  
+"
+PRC_AUTO_TASK_V1_ADD	PROCEDURE	263	"  end if;
+"
+PRC_AUTO_TASK_V1_ADD	PROCEDURE	264	"  -- end gh_yjk fyze =null   更新
+"
+PRC_AUTO_TASK_V1_ADD	PROCEDURE	265	"
+"
+PRC_AUTO_TASK_V1_ADD	PROCEDURE	266	"  select '调用成功 prc_auto_task_v1_add  ' into v_nr from dual;
+"
+PRC_AUTO_TASK_V1_ADD	PROCEDURE	267	"  prc_sms_send_mark('au', '13777929515', v_nr, v_bz);
+"
+PRC_AUTO_TASK_V1_ADD	PROCEDURE	268	"
+"
+PRC_AUTO_TASK_V1_ADD	PROCEDURE	269	"end;
+"

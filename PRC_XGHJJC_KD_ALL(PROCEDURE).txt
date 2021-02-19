@@ -1,0 +1,320 @@
+PRC_XGHJJC_KD_ALL	PROCEDURE	1	"PROCEDURE ""PRC_XGHJJC_KD_ALL""(sctmid   in VARCHAR,
+"
+PRC_XGHJJC_KD_ALL	PROCEDURE	2	"                                               sctmxm   in VARCHAR,
+"
+PRC_XGHJJC_KD_ALL	PROCEDURE	3	"                                               ret_code out INTEGER,
+"
+PRC_XGHJJC_KD_ALL	PROCEDURE	4	"                                               ret_info out VARCHAR) AS
+"
+PRC_XGHJJC_KD_ALL	PROCEDURE	5	"  ----环境监测开立新冠
+"
+PRC_XGHJJC_KD_ALL	PROCEDURE	6	"  v_count     number(10);
+"
+PRC_XGHJJC_KD_ALL	PROCEDURE	7	"  sysdate_now date;
+"
+PRC_XGHJJC_KD_ALL	PROCEDURE	8	"BEGIN
+"
+PRC_XGHJJC_KD_ALL	PROCEDURE	9	"
+"
+PRC_XGHJJC_KD_ALL	PROCEDURE	10	"  select sysdate into sysdate_now from dual;
+"
+PRC_XGHJJC_KD_ALL	PROCEDURE	11	"
+"
+PRC_XGHJJC_KD_ALL	PROCEDURE	12	"  insert into zy_jiaoyi_v1
+"
+PRC_XGHJJC_KD_ALL	PROCEDURE	13	"    (jiaoyilx, bz)
+"
+PRC_XGHJJC_KD_ALL	PROCEDURE	14	"    select '新冠环境监测开单', 'PRC_XGHJJC_KD_ALL' from dual;
+"
+PRC_XGHJJC_KD_ALL	PROCEDURE	15	"  commit;
+"
+PRC_XGHJJC_KD_ALL	PROCEDURE	16	"
+"
+PRC_XGHJJC_KD_ALL	PROCEDURE	17	"  select count(*)
+"
+PRC_XGHJJC_KD_ALL	PROCEDURE	18	"    into v_count
+"
+PRC_XGHJJC_KD_ALL	PROCEDURE	19	"    from ywzxyy_xg_hjxx
+"
+PRC_XGHJJC_KD_ALL	PROCEDURE	20	"   where 'HJJC' || BIANHAO not in (select jzkh from gy_brjbxxk)
+"
+PRC_XGHJJC_KD_ALL	PROCEDURE	21	"     and nvl(FLAG, 0) = 0;
+"
+PRC_XGHJJC_KD_ALL	PROCEDURE	22	"  if v_count > 0 then
+"
+PRC_XGHJJC_KD_ALL	PROCEDURE	23	"    INSERT INTO GY_BRJBXXK t
+"
+PRC_XGHJJC_KD_ALL	PROCEDURE	24	"      (T.JZKH,
+"
+PRC_XGHJJC_KD_ALL	PROCEDURE	25	"       t.jzcs,
+"
+PRC_XGHJJC_KD_ALL	PROCEDURE	26	"       t.zycs,
+"
+PRC_XGHJJC_KD_ALL	PROCEDURE	27	"       t.xm,
+"
+PRC_XGHJJC_KD_ALL	PROCEDURE	28	"       t.xb,
+"
+PRC_XGHJJC_KD_ALL	PROCEDURE	29	"       t.brxzdm,
+"
+PRC_XGHJJC_KD_ALL	PROCEDURE	30	"       t.brlb,
+"
+PRC_XGHJJC_KD_ALL	PROCEDURE	31	"       t.jtzz,
+"
+PRC_XGHJJC_KD_ALL	PROCEDURE	32	"       t.lxdh,
+"
+PRC_XGHJJC_KD_ALL	PROCEDURE	33	"       t.dwmc,
+"
+PRC_XGHJJC_KD_ALL	PROCEDURE	34	"       t.sfzh,
+"
+PRC_XGHJJC_KD_ALL	PROCEDURE	35	"       t.ldrq,
+"
+PRC_XGHJJC_KD_ALL	PROCEDURE	36	"       gj,
+"
+PRC_XGHJJC_KD_ALL	PROCEDURE	37	"       mz,
+"
+PRC_XGHJJC_KD_ALL	PROCEDURE	38	"       sfdm,
+"
+PRC_XGHJJC_KD_ALL	PROCEDURE	39	"       jgdm,
+"
+PRC_XGHJJC_KD_ALL	PROCEDURE	40	"       ldrgh)
+"
+PRC_XGHJJC_KD_ALL	PROCEDURE	41	"      select distinct 'HJJC' || BIANHAO,
+"
+PRC_XGHJJC_KD_ALL	PROCEDURE	42	"                      0,
+"
+PRC_XGHJJC_KD_ALL	PROCEDURE	43	"                      0,
+"
+PRC_XGHJJC_KD_ALL	PROCEDURE	44	"                      WEIZHI,
+"
+PRC_XGHJJC_KD_ALL	PROCEDURE	45	"                      1,
+"
+PRC_XGHJJC_KD_ALL	PROCEDURE	46	"                      '1',
+"
+PRC_XGHJJC_KD_ALL	PROCEDURE	47	"                      '1',
+"
+PRC_XGHJJC_KD_ALL	PROCEDURE	48	"                      QUYU,
+"
+PRC_XGHJJC_KD_ALL	PROCEDURE	49	"                      '13312345678',
+"
+PRC_XGHJJC_KD_ALL	PROCEDURE	50	"                      '义乌市中心医院',
+"
+PRC_XGHJJC_KD_ALL	PROCEDURE	51	"                      '330782012345678900',
+"
+PRC_XGHJJC_KD_ALL	PROCEDURE	52	"                      sysdate_now,
+"
+PRC_XGHJJC_KD_ALL	PROCEDURE	53	"                      40,
+"
+PRC_XGHJJC_KD_ALL	PROCEDURE	54	"                      1,
+"
+PRC_XGHJJC_KD_ALL	PROCEDURE	55	"                      11,
+"
+PRC_XGHJJC_KD_ALL	PROCEDURE	56	"                      651,
+"
+PRC_XGHJJC_KD_ALL	PROCEDURE	57	"                      'DBA'
+"
+PRC_XGHJJC_KD_ALL	PROCEDURE	58	"
+"
+PRC_XGHJJC_KD_ALL	PROCEDURE	59	"        from ywzxyy_xg_hjxx
+"
+PRC_XGHJJC_KD_ALL	PROCEDURE	60	"       where  'HJJC' || BIANHAO not in  (select jzkh from gy_brjbxxk)
+"
+PRC_XGHJJC_KD_ALL	PROCEDURE	61	"            and nvl(FLAG, 0) = 0;
+"
+PRC_XGHJJC_KD_ALL	PROCEDURE	62	"
+"
+PRC_XGHJJC_KD_ALL	PROCEDURE	63	"    if sqlcode = 0 then
+"
+PRC_XGHJJC_KD_ALL	PROCEDURE	64	"      commit;
+"
+PRC_XGHJJC_KD_ALL	PROCEDURE	65	"    else
+"
+PRC_XGHJJC_KD_ALL	PROCEDURE	66	"      rollback;
+"
+PRC_XGHJJC_KD_ALL	PROCEDURE	67	"      ret_code := -1;
+"
+PRC_XGHJJC_KD_ALL	PROCEDURE	68	"      ret_info := '插入gy_brjbxxk失败[PRC_XGHJJC_KD_ALL]';
+"
+PRC_XGHJJC_KD_ALL	PROCEDURE	69	"      return;
+"
+PRC_XGHJJC_KD_ALL	PROCEDURE	70	"
+"
+PRC_XGHJJC_KD_ALL	PROCEDURE	71	"    end if;
+"
+PRC_XGHJJC_KD_ALL	PROCEDURE	72	"
+"
+PRC_XGHJJC_KD_ALL	PROCEDURE	73	"  end if;
+"
+PRC_XGHJJC_KD_ALL	PROCEDURE	74	"
+"
+PRC_XGHJJC_KD_ALL	PROCEDURE	75	"  insert into l_laborder o
+"
+PRC_XGHJJC_KD_ALL	PROCEDURE	76	"    (o.laborder,
+"
+PRC_XGHJJC_KD_ALL	PROCEDURE	77	"     o.laborderorg,
+"
+PRC_XGHJJC_KD_ALL	PROCEDURE	78	"     o.stayhospitalmode,
+"
+PRC_XGHJJC_KD_ALL	PROCEDURE	79	"     o.patientid,
+"
+PRC_XGHJJC_KD_ALL	PROCEDURE	80	"     o.sex,
+"
+PRC_XGHJJC_KD_ALL	PROCEDURE	81	"     o.currentdepartment,
+"
+PRC_XGHJJC_KD_ALL	PROCEDURE	82	"     o.specimen,
+"
+PRC_XGHJJC_KD_ALL	PROCEDURE	83	"     o.examitem,
+"
+PRC_XGHJJC_KD_ALL	PROCEDURE	84	"     o.testdescribe,
+"
+PRC_XGHJJC_KD_ALL	PROCEDURE	85	"     o.patientname,
+"
+PRC_XGHJJC_KD_ALL	PROCEDURE	86	"     o.printflag,
+"
+PRC_XGHJJC_KD_ALL	PROCEDURE	87	"     o.receiveflag,
+"
+PRC_XGHJJC_KD_ALL	PROCEDURE	88	"     o.typeflag,
+"
+PRC_XGHJJC_KD_ALL	PROCEDURE	89	"     o.requester,
+"
+PRC_XGHJJC_KD_ALL	PROCEDURE	90	"     o.requestetime,
+"
+PRC_XGHJJC_KD_ALL	PROCEDURE	91	"     o.labdepartment,
+"
+PRC_XGHJJC_KD_ALL	PROCEDURE	92	"     o.diagnostic,
+"
+PRC_XGHJJC_KD_ALL	PROCEDURE	93	"     o.feestatus,
+"
+PRC_XGHJJC_KD_ALL	PROCEDURE	94	"     o.beizhu,
+"
+PRC_XGHJJC_KD_ALL	PROCEDURE	95	"     O.KEZHIXBZ
+"
+PRC_XGHJJC_KD_ALL	PROCEDURE	96	"     -- ,     o.birthday
+"
+PRC_XGHJJC_KD_ALL	PROCEDURE	97	"     )
+"
+PRC_XGHJJC_KD_ALL	PROCEDURE	98	"    select seq_l_tiaomahao.nextval,
+"
+PRC_XGHJJC_KD_ALL	PROCEDURE	99	"           8,
+"
+PRC_XGHJJC_KD_ALL	PROCEDURE	100	"           1,
+"
+PRC_XGHJJC_KD_ALL	PROCEDURE	101	"           'HJJC' || BIANHAO,
+"
+PRC_XGHJJC_KD_ALL	PROCEDURE	102	"           1,
+"
+PRC_XGHJJC_KD_ALL	PROCEDURE	103	"           '1140000',
+"
+PRC_XGHJJC_KD_ALL	PROCEDURE	104	"           'R',
+"
+PRC_XGHJJC_KD_ALL	PROCEDURE	105	"           '新型冠状病毒核酸检测（咽拭子）',
+"
+PRC_XGHJJC_KD_ALL	PROCEDURE	106	"           '31513',
+"
+PRC_XGHJJC_KD_ALL	PROCEDURE	107	"           WEIZHI,
+"
+PRC_XGHJJC_KD_ALL	PROCEDURE	108	"           0,
+"
+PRC_XGHJJC_KD_ALL	PROCEDURE	109	"           0,
+"
+PRC_XGHJJC_KD_ALL	PROCEDURE	110	"           0,
+"
+PRC_XGHJJC_KD_ALL	PROCEDURE	111	"           'DBA',
+"
+PRC_XGHJJC_KD_ALL	PROCEDURE	112	"           sysdate_now,
+"
+PRC_XGHJJC_KD_ALL	PROCEDURE	113	"           '3020005',
+"
+PRC_XGHJJC_KD_ALL	PROCEDURE	114	"           '排查0',
+"
+PRC_XGHJJC_KD_ALL	PROCEDURE	115	"           6,
+"
+PRC_XGHJJC_KD_ALL	PROCEDURE	116	"           QUYU,
+"
+PRC_XGHJJC_KD_ALL	PROCEDURE	117	"           1
+"
+PRC_XGHJJC_KD_ALL	PROCEDURE	118	"    -- , to_date(substr(sfzh, 7, 8), 'yyyymmdd')
+"
+PRC_XGHJJC_KD_ALL	PROCEDURE	119	"      from ywzxyy_xg_hjxx
+"
+PRC_XGHJJC_KD_ALL	PROCEDURE	120	"     where nvl(FLAG, 0) = 0;
+"
+PRC_XGHJJC_KD_ALL	PROCEDURE	121	"
+"
+PRC_XGHJJC_KD_ALL	PROCEDURE	122	"
+"
+PRC_XGHJJC_KD_ALL	PROCEDURE	123	"  if sqlcode = 0 then
+"
+PRC_XGHJJC_KD_ALL	PROCEDURE	124	"    NULL;
+"
+PRC_XGHJJC_KD_ALL	PROCEDURE	125	"  else
+"
+PRC_XGHJJC_KD_ALL	PROCEDURE	126	"    rollback;
+"
+PRC_XGHJJC_KD_ALL	PROCEDURE	127	"    ret_code := -1;
+"
+PRC_XGHJJC_KD_ALL	PROCEDURE	128	"    ret_info := '生成检验条码失败[PRC_XGHJJC_KD_ALL]';
+"
+PRC_XGHJJC_KD_ALL	PROCEDURE	129	"    return;
+"
+PRC_XGHJJC_KD_ALL	PROCEDURE	130	"
+"
+PRC_XGHJJC_KD_ALL	PROCEDURE	131	"  end if;
+"
+PRC_XGHJJC_KD_ALL	PROCEDURE	132	"
+"
+PRC_XGHJJC_KD_ALL	PROCEDURE	133	"  update ywzxyy_xg_hjxx
+"
+PRC_XGHJJC_KD_ALL	PROCEDURE	134	"     set FLAG = 1, TMSCZGID = sctmid,  TMSCZGXM = sctmxm, TMSCSJ = sysdate_now
+"
+PRC_XGHJJC_KD_ALL	PROCEDURE	135	"   where nvl(FLAG, 0) = 0;
+"
+PRC_XGHJJC_KD_ALL	PROCEDURE	136	"
+"
+PRC_XGHJJC_KD_ALL	PROCEDURE	137	"  if sqlcode = 0 then
+"
+PRC_XGHJJC_KD_ALL	PROCEDURE	138	"    NULL;
+"
+PRC_XGHJJC_KD_ALL	PROCEDURE	139	"  else
+"
+PRC_XGHJJC_KD_ALL	PROCEDURE	140	"    rollback;
+"
+PRC_XGHJJC_KD_ALL	PROCEDURE	141	"    ret_code := -1;
+"
+PRC_XGHJJC_KD_ALL	PROCEDURE	142	"    ret_info := '更新flag[ywzxyy_xg_hjxx]失败，[PRC_XGHJJC_KD_ALL]';
+"
+PRC_XGHJJC_KD_ALL	PROCEDURE	143	"    return;
+"
+PRC_XGHJJC_KD_ALL	PROCEDURE	144	"  end if;
+"
+PRC_XGHJJC_KD_ALL	PROCEDURE	145	"
+"
+PRC_XGHJJC_KD_ALL	PROCEDURE	146	"  commit;
+"
+PRC_XGHJJC_KD_ALL	PROCEDURE	147	"
+"
+PRC_XGHJJC_KD_ALL	PROCEDURE	148	"  ret_code := 0;
+"
+PRC_XGHJJC_KD_ALL	PROCEDURE	149	"  ret_info := '生成检验条码成功';
+"
+PRC_XGHJJC_KD_ALL	PROCEDURE	150	"
+"
+PRC_XGHJJC_KD_ALL	PROCEDURE	151	"  return;
+"
+PRC_XGHJJC_KD_ALL	PROCEDURE	152	"
+"
+PRC_XGHJJC_KD_ALL	PROCEDURE	153	"EXCEPTION
+"
+PRC_XGHJJC_KD_ALL	PROCEDURE	154	"
+"
+PRC_XGHJJC_KD_ALL	PROCEDURE	155	"  when others then
+"
+PRC_XGHJJC_KD_ALL	PROCEDURE	156	"    ret_code := -1;
+"
+PRC_XGHJJC_KD_ALL	PROCEDURE	157	"    ret_info := '插入l_laborder失败[PRC_XGHJJC_KD_ALL]';
+"
+PRC_XGHJJC_KD_ALL	PROCEDURE	158	"    rollback;
+"
+PRC_XGHJJC_KD_ALL	PROCEDURE	159	"    return;
+"
+PRC_XGHJJC_KD_ALL	PROCEDURE	160	"END;
+"

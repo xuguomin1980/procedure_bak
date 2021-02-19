@@ -1,0 +1,59 @@
+GH_QXYY	PROCEDURE	1	"PROCEDURE         ""GH_QXYY"" as
+"
+GH_QXYY	PROCEDURE	2	"begin
+"
+GH_QXYY	PROCEDURE	3	"declare
+"
+GH_QXYY	PROCEDURE	4	"   as_swyyqxsj varchar2(10);
+"
+GH_QXYY	PROCEDURE	5	"   as_xwyyqxsj varchar2(10);
+"
+GH_QXYY	PROCEDURE	6	"   as_xtsj varchar2(20);
+"
+GH_QXYY	PROCEDURE	7	"   as_rq varchar2(10);
+"
+GH_QXYY	PROCEDURE	8	"begin
+"
+GH_QXYY	PROCEDURE	9	"  select csz1 into as_swyyqxsj from gy_xtcs where xtxh=23 and csmc='SWYYQXSJ' ;
+"
+GH_QXYY	PROCEDURE	10	"  select csz1 into as_xwyyqxsj from gy_xtcs where xtxh=23 and csmc='XWYYQXSJ' ;
+"
+GH_QXYY	PROCEDURE	11	"  select to_char(sysdate,'yyyy/mm/dd hh24:mi') into as_xtsj from dual;
+"
+GH_QXYY	PROCEDURE	12	"  as_rq:=substr(as_xtsj,1,10);
+"
+GH_QXYY	PROCEDURE	13	"  as_xtsj:=substr(as_xtsj,12,5);
+"
+GH_QXYY	PROCEDURE	14	"  if as_swyyqxsj<=as_xtsj and as_xtsj<as_xwyyqxsj then
+"
+GH_QXYY	PROCEDURE	15	"     update gh_mzpbk set swths=swths+ swyyxh - swyyyh where to_char(rq,'yyyy/mm/dd')=as_rq;
+"
+GH_QXYY	PROCEDURE	16	"     update gh_mzyyk set zt=2 where to_char(djrq,'yyyy/mm/dd')=as_rq and yylb=2 and yysj=1 and zt is null;--取消口头预约
+"
+GH_QXYY	PROCEDURE	17	"     commit; 
+"
+GH_QXYY	PROCEDURE	18	" end if;
+"
+GH_QXYY	PROCEDURE	19	"
+"
+GH_QXYY	PROCEDURE	20	"  if as_xwyyqxsj<=as_xtsj then
+"
+GH_QXYY	PROCEDURE	21	"     update gh_mzpbk set xwths=xwths+ xwyyxh - xwyyyh where to_char(rq,'yyyy/mm/dd')=as_rq;
+"
+GH_QXYY	PROCEDURE	22	"     update gh_mzyyk set zt=2 where to_char(djrq,'yyyy/mm/dd')=as_rq and yylb=2 and yysj=2 and zt is null;--取消口头预约
+"
+GH_QXYY	PROCEDURE	23	"     commit;
+"
+GH_QXYY	PROCEDURE	24	"  end if;
+"
+GH_QXYY	PROCEDURE	25	"end;
+"
+GH_QXYY	PROCEDURE	26	"end;
+"
+GH_QXYY	PROCEDURE	27	"
+"
+GH_QXYY	PROCEDURE	28	"
+"
+GH_QXYY	PROCEDURE	29	"
+"
+GH_QXYY	PROCEDURE	30	 

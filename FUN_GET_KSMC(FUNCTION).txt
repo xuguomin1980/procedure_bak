@@ -1,0 +1,24 @@
+FUN_GET_KSMC	FUNCTION	1	"FUNCTION ""FUN_GET_KSMC"" (p_KeShiDm in Varchar2) Return Varchar2 is
+"
+FUN_GET_KSMC	FUNCTION	2	"   Result varchar2(30);
+"
+FUN_GET_KSMC	FUNCTION	3	"   Begin
+"
+FUN_GET_KSMC	FUNCTION	4	"     SELECT KSMC INTO Result FROM GY_KSDM WHERE KSDM=p_KeShiDm;
+"
+FUN_GET_KSMC	FUNCTION	5	"     Return(Result);
+"
+FUN_GET_KSMC	FUNCTION	6	"   Exception
+"
+FUN_GET_KSMC	FUNCTION	7	"    when others then
+"
+FUN_GET_KSMC	FUNCTION	8	"      RESULT := p_KeShiDm;
+"
+FUN_GET_KSMC	FUNCTION	9	"      Return(Result);
+"
+FUN_GET_KSMC	FUNCTION	10	"   End FUN_GET_KSMC;
+"
+FUN_GET_KSMC	FUNCTION	11	"
+"
+FUN_GET_KSMC	FUNCTION	12	" 
+"

@@ -1,0 +1,19 @@
+F_JCFX_GET_KSMC	FUNCTION	1	"FUNCTION         ""F_JCFX_GET_KSMC"" (is_ksdm In Varchar2)
+"
+F_JCFX_GET_KSMC	FUNCTION	2	"return varchar2
+"
+F_JCFX_GET_KSMC	FUNCTION	3	"is
+"
+F_JCFX_GET_KSMC	FUNCTION	4	"  ls_ksmc Varchar2(30) ;
+"
+F_JCFX_GET_KSMC	FUNCTION	5	"begin
+"
+F_JCFX_GET_KSMC	FUNCTION	6	"  select ksmc into ls_ksmc from gy_ksdm where ksdm = is_ksdm;
+"
+F_JCFX_GET_KSMC	FUNCTION	7	"  return(ls_ksmc);
+"
+F_JCFX_GET_KSMC	FUNCTION	8	"end f_jcfx_get_ksmc;
+"
+F_JCFX_GET_KSMC	FUNCTION	9	"
+"
+F_JCFX_GET_KSMC	FUNCTION	10	 

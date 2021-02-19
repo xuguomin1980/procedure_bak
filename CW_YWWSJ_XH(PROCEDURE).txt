@@ -1,0 +1,37 @@
+CW_YWWSJ_XH	PROCEDURE	1	"PROCEDURE         ""CW_YWWSJ_XH"" (ad_ks In Number,ad_js In Number) As
+"
+CW_YWWSJ_XH	PROCEDURE	2	"out_code number;
+"
+CW_YWWSJ_XH	PROCEDURE	3	"out_char varchar2(500);
+"
+CW_YWWSJ_XH	PROCEDURE	4	"ld_rq Date;
+"
+CW_YWWSJ_XH	PROCEDURE	5	"in_rq1 Number;
+"
+CW_YWWSJ_XH	PROCEDURE	6	"Begin
+"
+CW_YWWSJ_XH	PROCEDURE	7	"   ld_rq  := to_date(to_char(ad_ks),'yyyymmdd');
+"
+CW_YWWSJ_XH	PROCEDURE	8	"   in_rq1 := To_Number( To_Char( ld_rq, 'YYYYMMDD' ));
+"
+CW_YWWSJ_XH	PROCEDURE	9	"   While in_rq1 <= ad_js Loop
+"
+CW_YWWSJ_XH	PROCEDURE	10	"     --pkg_ywwsj.prc_mz_sfxx(in_rq1,out_code,out_char);
+"
+CW_YWWSJ_XH	PROCEDURE	11	"     --pkg_ywwsj.prc_zy_sfxx(in_rq1,out_code,out_char);
+"
+CW_YWWSJ_XH	PROCEDURE	12	"     --pkg_ywwsj.prc_sb_sbxx(in_rq1,out_code,out_char);
+"
+CW_YWWSJ_XH	PROCEDURE	13	"     pkg_jcfx.prc_zy_zhxx(in_rq1,out_code,out_char);
+"
+CW_YWWSJ_XH	PROCEDURE	14	"     ld_rq  := ld_rq + 1;
+"
+CW_YWWSJ_XH	PROCEDURE	15	"     in_rq1 := To_Number( To_Char( ld_rq, 'YYYYMMDD' ));
+"
+CW_YWWSJ_XH	PROCEDURE	16	"   End Loop;
+"
+CW_YWWSJ_XH	PROCEDURE	17	"end cw_ywwsj_xh;
+"
+CW_YWWSJ_XH	PROCEDURE	18	"
+"
+CW_YWWSJ_XH	PROCEDURE	19	 

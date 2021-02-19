@@ -1,0 +1,39 @@
+PAD_FUN_CHANGQILSBZ	FUNCTION	1	"FUNCTION         ""PAD_FUN_CHANGQILSBZ"" (strCode   varchar2,strGeiYaoFSMC varchar2)   return   varchar2
+"
+PAD_FUN_CHANGQILSBZ	FUNCTION	2	"  is
+"
+PAD_FUN_CHANGQILSBZ	FUNCTION	3	"  str_changQiLSBZ VARCHAR2(10);
+"
+PAD_FUN_CHANGQILSBZ	FUNCTION	4	"  tempCout number;
+"
+PAD_FUN_CHANGQILSBZ	FUNCTION	5	"  begin
+"
+PAD_FUN_CHANGQILSBZ	FUNCTION	6	"
+"
+PAD_FUN_CHANGQILSBZ	FUNCTION	7	"      select instr(strGeiYaoFSMC,'³öÔº´øÒ©',1,1) into tempCout from dual;
+"
+PAD_FUN_CHANGQILSBZ	FUNCTION	8	"      IF   tempCout>0 then
+"
+PAD_FUN_CHANGQILSBZ	FUNCTION	9	"         str_changQiLSBZ:='2';
+"
+PAD_FUN_CHANGQILSBZ	FUNCTION	10	"      else
+"
+PAD_FUN_CHANGQILSBZ	FUNCTION	11	"         select decode(strCode,'ONCE',2,1) into str_changQiLSBZ from dual;
+"
+PAD_FUN_CHANGQILSBZ	FUNCTION	12	"      end if;
+"
+PAD_FUN_CHANGQILSBZ	FUNCTION	13	"
+"
+PAD_FUN_CHANGQILSBZ	FUNCTION	14	"      return   str_changQiLSBZ;
+"
+PAD_FUN_CHANGQILSBZ	FUNCTION	15	"  exception
+"
+PAD_FUN_CHANGQILSBZ	FUNCTION	16	"                when   others   then
+"
+PAD_FUN_CHANGQILSBZ	FUNCTION	17	"                return   '2';
+"
+PAD_FUN_CHANGQILSBZ	FUNCTION	18	"  end   ;
+"
+PAD_FUN_CHANGQILSBZ	FUNCTION	19	"
+"
+PAD_FUN_CHANGQILSBZ	FUNCTION	20	 

@@ -1,0 +1,47 @@
+FUN_GET_ZY_YINGERBZ	FUNCTION	1	"FUNCTION         ""FUN_GET_ZY_YINGERBZ"" (PARM_BINGRENID IN NUMBER) return number  is
+"
+FUN_GET_ZY_YINGERBZ	FUNCTION	2	"  n_yingerbz number(1);
+"
+FUN_GET_ZY_YINGERBZ	FUNCTION	3	"  n_canshuzhi number(2);
+"
+FUN_GET_ZY_YINGERBZ	FUNCTION	4	" begin
+"
+FUN_GET_ZY_YINGERBZ	FUNCTION	5	"    begin
+"
+FUN_GET_ZY_YINGERBZ	FUNCTION	6	"         select csz2 into n_canshuzhi  from gy_xtcs where csmc = 'YEBZHQFS';
+"
+FUN_GET_ZY_YINGERBZ	FUNCTION	7	"     EXCEPTION
+"
+FUN_GET_ZY_YINGERBZ	FUNCTION	8	"      WHEN OTHERS THEN
+"
+FUN_GET_ZY_YINGERBZ	FUNCTION	9	"        n_canshuzhi := 1;
+"
+FUN_GET_ZY_YINGERBZ	FUNCTION	10	"    end;
+"
+FUN_GET_ZY_YINGERBZ	FUNCTION	11	"    if n_canshuzhi = 2 Then
+"
+FUN_GET_ZY_YINGERBZ	FUNCTION	12	"      select decode(count(*),0,0,1) into n_yingerbz from zy_patient_information b where b.mpatient_no = PARM_BINGRENID and  b.infant_flag > 0;
+"
+FUN_GET_ZY_YINGERBZ	FUNCTION	13	"
+"
+FUN_GET_ZY_YINGERBZ	FUNCTION	14	"    else
+"
+FUN_GET_ZY_YINGERBZ	FUNCTION	15	"       select  a.infant_flag  into n_yingerbz from zy_patient_information a where patient_no = parm_bingrenid;
+"
+FUN_GET_ZY_YINGERBZ	FUNCTION	16	"
+"
+FUN_GET_ZY_YINGERBZ	FUNCTION	17	"    End If ;
+"
+FUN_GET_ZY_YINGERBZ	FUNCTION	18	"    if n_yingerbz is null then
+"
+FUN_GET_ZY_YINGERBZ	FUNCTION	19	"       n_yingerbz := 0;
+"
+FUN_GET_ZY_YINGERBZ	FUNCTION	20	"    End If ;
+"
+FUN_GET_ZY_YINGERBZ	FUNCTION	21	"    return(n_yingerbz);
+"
+FUN_GET_ZY_YINGERBZ	FUNCTION	22	"end;
+"
+FUN_GET_ZY_YINGERBZ	FUNCTION	23	"
+"
+FUN_GET_ZY_YINGERBZ	FUNCTION	24	 

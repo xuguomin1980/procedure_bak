@@ -1,0 +1,168 @@
+GHPKG	PACKAGE	1	"PACKAGE ""GHPKG"" is
+"
+GHPKG	PACKAGE	2	"
+"
+GHPKG	PACKAGE	3	"  gn_Type Number(1);
+"
+GHPKG	PACKAGE	4	"
+"
+GHPKG	PACKAGE	5	"  --卡类型
+"
+GHPKG	PACKAGE	6	"  Procedure GetCardType(Prm_CardNO   In Varchar2,
+"
+GHPKG	PACKAGE	7	"                        Prm_PatType  In Number,
+"
+GHPKG	PACKAGE	8	"                        Prm_CardType Out Number);
+"
+GHPKG	PACKAGE	9	"
+"
+GHPKG	PACKAGE	10	"  --截取字符串(OK)
+"
+GHPKG	PACKAGE	11	"  Procedure GetToken(Prm_Source    In Varchar2,
+"
+GHPKG	PACKAGE	12	"                     Prm_Separator In Varchar2,
+"
+GHPKG	PACKAGE	13	"                     Prm_ReturnStr Out Varchar2,
+"
+GHPKG	PACKAGE	14	"                     Prm_RetSource Out Varchar2);
+"
+GHPKG	PACKAGE	15	"
+"
+GHPKG	PACKAGE	16	"  --取预约号(OK)
+"
+GHPKG	PACKAGE	17	"  Procedure GetRegNo(Prm_PlanID      In Number,
+"
+GHPKG	PACKAGE	18	"                     Prm_RegDate     In Varchar2,
+"
+GHPKG	PACKAGE	19	"                     Prm_RegTimeType In Number,
+"
+GHPKG	PACKAGE	20	"                     Prm_RegisterNO  In Number,
+"
+GHPKG	PACKAGE	21	"                     Prm_AppCode     Out Number,
+"
+GHPKG	PACKAGE	22	"                     Prm_Errmsg      Out Varchar2);
+"
+GHPKG	PACKAGE	23	"
+"
+GHPKG	PACKAGE	24	"  --用户原子交易
+"
+GHPKG	PACKAGE	25	"  Procedure BizExec(Prm_TradeType In Number,
+"
+GHPKG	PACKAGE	26	"                    Prm_InData    In Varchar2,
+"
+GHPKG	PACKAGE	27	"                    Prm_AppCode   Out Number,
+"
+GHPKG	PACKAGE	28	"                    Prm_OutData   Out Varchar2);
+"
+GHPKG	PACKAGE	29	"
+"
+GHPKG	PACKAGE	30	"  --用户注册(OK)
+"
+GHPKG	PACKAGE	31	"  Procedure p_gh_register(Prm_InData  In Varchar2,
+"
+GHPKG	PACKAGE	32	"                          Prm_AppCode Out Number,
+"
+GHPKG	PACKAGE	33	"                          Prm_OutData Out Varchar2);
+"
+GHPKG	PACKAGE	34	"  --单个号查询预约结果
+"
+GHPKG	PACKAGE	35	"  Procedure p_gh_queryBook(Prm_InData  In Varchar2,
+"
+GHPKG	PACKAGE	36	"                           Prm_AppCode Out Number,
+"
+GHPKG	PACKAGE	37	"                           Prm_OutData Out Varchar2);
+"
+GHPKG	PACKAGE	38	"
+"
+GHPKG	PACKAGE	39	"  --用户取消预约挂号
+"
+GHPKG	PACKAGE	40	"  Procedure p_gh_cancel(Prm_InData  In Varchar2,
+"
+GHPKG	PACKAGE	41	"                        Prm_AppCode Out Number,
+"
+GHPKG	PACKAGE	42	"                        Prm_OutData Out Varchar2);
+"
+GHPKG	PACKAGE	43	"  --患者姓名修改
+"
+GHPKG	PACKAGE	44	"  Procedure p_gh_modifyName(Prm_InData  In Varchar2,
+"
+GHPKG	PACKAGE	45	"                            Prm_AppCode Out Number,
+"
+GHPKG	PACKAGE	46	"                            Prm_OutData Out Varchar2);
+"
+GHPKG	PACKAGE	47	"
+"
+GHPKG	PACKAGE	48	"  --用户预约挂号
+"
+GHPKG	PACKAGE	49	"  Procedure p_gh_book(Prm_InData  In Varchar2,
+"
+GHPKG	PACKAGE	50	"                      Prm_AppCode Out Number,
+"
+GHPKG	PACKAGE	51	"                      Prm_OutData Out Varchar2);
+"
+GHPKG	PACKAGE	52	"  --上传医院信息
+"
+GHPKG	PACKAGE	53	"  Procedure UploadHospital(Prm_InData  In Varchar2,
+"
+GHPKG	PACKAGE	54	"                           Prm_AppCode Out Number,
+"
+GHPKG	PACKAGE	55	"                           Prm_OutData Out Varchar2);
+"
+GHPKG	PACKAGE	56	"  --上传科室信息
+"
+GHPKG	PACKAGE	57	"  Procedure UploadDepart(Prm_InData  In Varchar2,
+"
+GHPKG	PACKAGE	58	"                         Prm_AppCode Out Number,
+"
+GHPKG	PACKAGE	59	"                         Prm_OutData Out Varchar2);
+"
+GHPKG	PACKAGE	60	"  --上传医生信息
+"
+GHPKG	PACKAGE	61	"  Procedure UploadDoctor(Prm_InData  In Varchar2,
+"
+GHPKG	PACKAGE	62	"                         Prm_AppCode Out Number,
+"
+GHPKG	PACKAGE	63	"                         Prm_OutData Out Varchar2);
+"
+GHPKG	PACKAGE	64	"  --上传停诊排班
+"
+GHPKG	PACKAGE	65	"  Procedure UploadStopScheme(Prm_InData  In Varchar2,
+"
+GHPKG	PACKAGE	66	"                             Prm_AppCode Out Number,
+"
+GHPKG	PACKAGE	67	"                             Prm_OutData Out Varchar2);
+"
+GHPKG	PACKAGE	68	"  --病人姓名修改上传
+"
+GHPKG	PACKAGE	69	"  Procedure UploadUserName(Prm_InData  In Varchar2,
+"
+GHPKG	PACKAGE	70	"                           Prm_AppCode Out Number,
+"
+GHPKG	PACKAGE	71	"                           Prm_OutData Out Varchar2);
+"
+GHPKG	PACKAGE	72	"  --上传就诊信息
+"
+GHPKG	PACKAGE	73	"  Procedure UploadTakeNum(Prm_InData  In Varchar2,
+"
+GHPKG	PACKAGE	74	"                          Prm_AppCode Out Number,
+"
+GHPKG	PACKAGE	75	"                          Prm_OutData Out Varchar2);
+"
+GHPKG	PACKAGE	76	"
+"
+GHPKG	PACKAGE	77	"  --上传排班信息
+"
+GHPKG	PACKAGE	78	"  Procedure UploadScheme(Prm_InData  In Varchar2,
+"
+GHPKG	PACKAGE	79	"                         Prm_AppCode Out Number,
+"
+GHPKG	PACKAGE	80	"                         Prm_OutData Out Varchar2);
+"
+GHPKG	PACKAGE	81	"
+"
+GHPKG	PACKAGE	82	"end ghPkg;
+"
+GHPKG	PACKAGE	83	"
+"
+GHPKG	PACKAGE	84	" 
+"

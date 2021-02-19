@@ -1,0 +1,18 @@
+TRI_yz_pattern_name	TRIGGER	1	"trigger ""TRI_yz_pattern_name""
+"
+TRI_yz_pattern_name	TRIGGER	2	"before delete on yz_pattern_name
+"
+TRI_yz_pattern_name	TRIGGER	3	"for each row
+"
+TRI_yz_pattern_name	TRIGGER	4	"
+"
+TRI_yz_pattern_name	TRIGGER	5	"begin
+"
+TRI_yz_pattern_name	TRIGGER	6	"raise_application_error(-20300,'YOU CAN NOT DELETE ANY DATA!!!');
+"
+TRI_yz_pattern_name	TRIGGER	7	"rollback;
+"
+TRI_yz_pattern_name	TRIGGER	8	"
+"
+TRI_yz_pattern_name	TRIGGER	9	"end TRI_yz_pattern_name;
+"

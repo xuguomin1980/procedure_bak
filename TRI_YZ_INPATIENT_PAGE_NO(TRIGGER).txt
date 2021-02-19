@@ -1,0 +1,32 @@
+TRI_YZ_INPATIENT_PAGE_NO	TRIGGER	1	"TRIGGER ""ZJHIS"".tri_yz_inpatient_page_no
+"
+TRI_YZ_INPATIENT_PAGE_NO	TRIGGER	2	"Before  Update On yz_inpatient_order 
+"
+TRI_YZ_INPATIENT_PAGE_NO	TRIGGER	3	"For Each Row
+"
+TRI_YZ_INPATIENT_PAGE_NO	TRIGGER	4	"
+"
+TRI_YZ_INPATIENT_PAGE_NO	TRIGGER	5	"Declare
+"
+TRI_YZ_INPATIENT_PAGE_NO	TRIGGER	6	"  Ls_zzys    Varchar2(10);
+"
+TRI_YZ_INPATIENT_PAGE_NO	TRIGGER	7	"Begin
+"
+TRI_YZ_INPATIENT_PAGE_NO	TRIGGER	8	"
+"
+TRI_YZ_INPATIENT_PAGE_NO	TRIGGER	9	"    If :Old.page_no > 0 And   
+"
+TRI_YZ_INPATIENT_PAGE_NO	TRIGGER	10	"          Updating('page_no') and updating and (  :new.page_no is null or :new.page_no = 0  ) Then
+"
+TRI_YZ_INPATIENT_PAGE_NO	TRIGGER	11	"      raise_application_error(-20300,'YOU CAN NOT updating ANY DATA!!!');
+"
+TRI_YZ_INPATIENT_PAGE_NO	TRIGGER	12	"      rollback;
+"
+TRI_YZ_INPATIENT_PAGE_NO	TRIGGER	13	"    End If;
+"
+TRI_YZ_INPATIENT_PAGE_NO	TRIGGER	14	"
+"
+TRI_YZ_INPATIENT_PAGE_NO	TRIGGER	15	"
+"
+TRI_YZ_INPATIENT_PAGE_NO	TRIGGER	16	"End tri_yz_inpatient_page_no;
+"

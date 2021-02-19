@@ -1,0 +1,23 @@
+F_GET_ZY_DEPOSIT	FUNCTION	1	"FUNCTION         ""F_GET_ZY_DEPOSIT"" (a_patient_no in number)
+"
+F_GET_ZY_DEPOSIT	FUNCTION	2	"return  number
+"
+F_GET_ZY_DEPOSIT	FUNCTION	3	"is 
+"
+F_GET_ZY_DEPOSIT	FUNCTION	4	"  ld_Return number;
+"
+F_GET_ZY_DEPOSIT	FUNCTION	5	" begin 
+"
+F_GET_ZY_DEPOSIT	FUNCTION	6	"      select sum(amount) into ld_Return  from zy_deposit_file
+"
+F_GET_ZY_DEPOSIT	FUNCTION	7	"        where patient_no=a_patient_no
+"
+F_GET_ZY_DEPOSIT	FUNCTION	8	"          and js_no=0;
+"
+F_GET_ZY_DEPOSIT	FUNCTION	9	"     return(ld_Return);
+"
+F_GET_ZY_DEPOSIT	FUNCTION	10	" end;
+"
+F_GET_ZY_DEPOSIT	FUNCTION	11	"
+"
+F_GET_ZY_DEPOSIT	FUNCTION	12	 

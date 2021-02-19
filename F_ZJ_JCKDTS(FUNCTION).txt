@@ -1,0 +1,56 @@
+F_ZJ_JCKDTS	FUNCTION	1	"function f_zj_jckdts(as_xiangmuxh varchar2) --p_w 为传入参数
+"
+F_ZJ_JCKDTS	FUNCTION	2	" return varchar2 --返回类型
+"
+F_ZJ_JCKDTS	FUNCTION	3	" as
+"
+F_ZJ_JCKDTS	FUNCTION	4	"  al_fenleidm number;
+"
+F_ZJ_JCKDTS	FUNCTION	5	"  al_shentibw number;
+"
+F_ZJ_JCKDTS	FUNCTION	6	"  al_xiangmumc varchar2(100);
+"
+F_ZJ_JCKDTS	FUNCTION	7	"  as_message  varchar2(100);
+"
+F_ZJ_JCKDTS	FUNCTION	8	"begin
+"
+F_ZJ_JCKDTS	FUNCTION	9	"  select fenleidm, shentibwdm,xiangmumc
+"
+F_ZJ_JCKDTS	FUNCTION	10	"    into al_fenleidm, al_shentibw,al_xiangmumc
+"
+F_ZJ_JCKDTS	FUNCTION	11	"    from jc_xiangmuxx
+"
+F_ZJ_JCKDTS	FUNCTION	12	"   where jianchaxmbh = as_xiangmuxh;
+"
+F_ZJ_JCKDTS	FUNCTION	13	"  if al_fenleidm in (12, 5, 4) then
+"
+F_ZJ_JCKDTS	FUNCTION	14	"    as_message := '请开立‘侵入性、术前安检（门诊）’、‘严重急性呼吸综合症冠状病毒抗体检测’。';
+"
+F_ZJ_JCKDTS	FUNCTION	15	"  end if;
+"
+F_ZJ_JCKDTS	FUNCTION	16	"  if as_xiangmuxh in ('470') or al_fenleidm = 11 then
+"
+F_ZJ_JCKDTS	FUNCTION	17	"    if as_xiangmuxh = '470' then
+"
+F_ZJ_JCKDTS	FUNCTION	18	"      as_message := '';
+"
+F_ZJ_JCKDTS	FUNCTION	19	"    else
+"
+F_ZJ_JCKDTS	FUNCTION	20	"      as_message := '请开立‘严重急性呼吸综合症冠状病毒抗体检测’。';
+"
+F_ZJ_JCKDTS	FUNCTION	21	"    end if;
+"
+F_ZJ_JCKDTS	FUNCTION	22	"  end if;
+"
+F_ZJ_JCKDTS	FUNCTION	23	"  if (al_fenleidm in (7,8) and  al_xiangmumc like '%增强%') or al_shentibw = 64 then
+"
+F_ZJ_JCKDTS	FUNCTION	24	"    as_message := '请开立‘肾功能常规检查’。';
+"
+F_ZJ_JCKDTS	FUNCTION	25	"  end if;
+"
+F_ZJ_JCKDTS	FUNCTION	26	"
+"
+F_ZJ_JCKDTS	FUNCTION	27	"  return as_message;
+"
+F_ZJ_JCKDTS	FUNCTION	28	"end;
+"

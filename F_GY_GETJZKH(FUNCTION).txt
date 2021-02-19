@@ -1,0 +1,69 @@
+F_GY_GETJZKH	FUNCTION	1	"FUNCTION         ""F_GY_GETJZKH"" (Arg_Input In Varchar2,Arg_Lx In Varchar2)
+"
+F_GY_GETJZKH	FUNCTION	2	"--Arg_Kh :传入的原始卡号
+"
+F_GY_GETJZKH	FUNCTION	3	"--Arg_Lx :传入的卡类型，默认传入R
+"
+F_GY_GETJZKH	FUNCTION	4	"Return Varchar2
+"
+F_GY_GETJZKH	FUNCTION	5	"Is
+"
+F_GY_GETJZKH	FUNCTION	6	"  Ls_Jzkh Varchar2(50);
+"
+F_GY_GETJZKH	FUNCTION	7	"  li_Pos Integer;
+"
+F_GY_GETJZKH	FUNCTION	8	"  li_Brlb Integer;
+"
+F_GY_GETJZKH	FUNCTION	9	"Begin
+"
+F_GY_GETJZKH	FUNCTION	10	"  --ls_Jzkh := Arg_Input;
+"
+F_GY_GETJZKH	FUNCTION	11	"  li_Pos  := Instr(arg_Input,'=',1);
+"
+F_GY_GETJZKH	FUNCTION	12	"  If Arg_Lx = 'R' Then
+"
+F_GY_GETJZKH	FUNCTION	13	"    If li_Pos > 0 Then
+"
+F_GY_GETJZKH	FUNCTION	14	"      ls_Jzkh := Substring(arg_Input,1,li_Pos - 1);
+"
+F_GY_GETJZKH	FUNCTION	15	"    Else
+"
+F_GY_GETJZKH	FUNCTION	16	"      ls_Jzkh := Arg_Input;
+"
+F_GY_GETJZKH	FUNCTION	17	"      Begin
+"
+F_GY_GETJZKH	FUNCTION	18	"        Select Brlb,NewJzkh Into li_Brlb,ls_Jzkh From Gy_Brjbxxk Where Jzkh = ls_Jzkh;
+"
+F_GY_GETJZKH	FUNCTION	19	"        If ls_Jzkh Is Null Or ls_Jzkh = '' Or li_Brlb <> 25 Then
+"
+F_GY_GETJZKH	FUNCTION	20	"           ls_Jzkh :=Arg_Input;
+"
+F_GY_GETJZKH	FUNCTION	21	"        End If;
+"
+F_GY_GETJZKH	FUNCTION	22	"        Exception
+"
+F_GY_GETJZKH	FUNCTION	23	"        When NO_DATA_FOUND Then
+"
+F_GY_GETJZKH	FUNCTION	24	"           Return(Arg_Input);
+"
+F_GY_GETJZKH	FUNCTION	25	"      End ;
+"
+F_GY_GETJZKH	FUNCTION	26	"    End If;
+"
+F_GY_GETJZKH	FUNCTION	27	"    --有些卡刷出会带99,临时处理
+"
+F_GY_GETJZKH	FUNCTION	28	"    If SubString(ls_Jzkh,1,2)='99' Then
+"
+F_GY_GETJZKH	FUNCTION	29	"      ls_Jzkh :=SubString(ls_Jzkh,3,19);
+"
+F_GY_GETJZKH	FUNCTION	30	"    End If;
+"
+F_GY_GETJZKH	FUNCTION	31	"  End If;
+"
+F_GY_GETJZKH	FUNCTION	32	"  Return ls_Jzkh;
+"
+F_GY_GETJZKH	FUNCTION	33	"End;
+"
+F_GY_GETJZKH	FUNCTION	34	"
+"
+F_GY_GETJZKH	FUNCTION	35	 

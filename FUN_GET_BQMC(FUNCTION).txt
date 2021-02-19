@@ -1,0 +1,20 @@
+FUN_GET_BQMC	FUNCTION	1	"FUNCTION ""FUN_GET_BQMC"" (p_BingQuDm in Varchar2) Return Varchar2 is
+"
+FUN_GET_BQMC	FUNCTION	2	"   Result varchar2(30);
+"
+FUN_GET_BQMC	FUNCTION	3	"   Begin
+"
+FUN_GET_BQMC	FUNCTION	4	"     SELECT bqmc INTO Result FROM GY_bqdm WHERE BQDM=p_BingQuDm;
+"
+FUN_GET_BQMC	FUNCTION	5	"     Return(Result);
+"
+FUN_GET_BQMC	FUNCTION	6	"   Exception
+"
+FUN_GET_BQMC	FUNCTION	7	"    when others then
+"
+FUN_GET_BQMC	FUNCTION	8	"      RESULT := p_BingQuDm;
+"
+FUN_GET_BQMC	FUNCTION	9	"      Return(Result);
+"
+FUN_GET_BQMC	FUNCTION	10	"   End FUN_GET_BQMC;
+"

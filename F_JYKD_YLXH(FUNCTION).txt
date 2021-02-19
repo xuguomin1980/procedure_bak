@@ -1,0 +1,32 @@
+F_JYKD_YLXH	FUNCTION	1	"function f_jykd_ylxh(ylxh number,bqdm varchar2)        --p_w 为传入参数
+"
+F_JYKD_YLXH	FUNCTION	2	"return varchar2                                                   --返回类型
+"
+F_JYKD_YLXH	FUNCTION	3	"as
+"
+F_JYKD_YLXH	FUNCTION	4	"v_pos1 number;                        --定义变量v_f
+"
+F_JYKD_YLXH	FUNCTION	5	"v_pos2 number;
+"
+F_JYKD_YLXH	FUNCTION	6	"v_a varchar2(500);            --定义变量v_a
+"
+F_JYKD_YLXH	FUNCTION	7	"begin
+"
+F_JYKD_YLXH	FUNCTION	8	"--判断是否有数据
+"
+F_JYKD_YLXH	FUNCTION	9	"if ylxh=19326  then
+"
+F_JYKD_YLXH	FUNCTION	10	"   if bqdm<>'16' then
+"
+F_JYKD_YLXH	FUNCTION	11	"      v_a:='新型冠状病毒核酸检测(收费）只能在传染科开!';
+"
+F_JYKD_YLXH	FUNCTION	12	"   end if;
+"
+F_JYKD_YLXH	FUNCTION	13	"end if;
+"
+F_JYKD_YLXH	FUNCTION	14	"
+"
+F_JYKD_YLXH	FUNCTION	15	"return v_a;
+"
+F_JYKD_YLXH	FUNCTION	16	"end;
+"

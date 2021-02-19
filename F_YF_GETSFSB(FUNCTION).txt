@@ -1,0 +1,23 @@
+F_YF_GETSFSB	FUNCTION	1	"FUNCTION         ""F_YF_GETSFSB"" 
+"
+F_YF_GETSFSB	FUNCTION	2	"  (arg_crkdm in number,arg_cfsb in varchar2)
+"
+F_YF_GETSFSB	FUNCTION	3	"     return number
+"
+F_YF_GETSFSB	FUNCTION	4	"     is
+"
+F_YF_GETSFSB	FUNCTION	5	"       ll_sfsb   number(10);
+"
+F_YF_GETSFSB	FUNCTION	6	"     begin
+"
+F_YF_GETSFSB	FUNCTION	7	"       if arg_crkdm=59 or arg_crkdm=61 then
+"
+F_YF_GETSFSB	FUNCTION	8	"  	select sfsb into ll_sfsb from mz_cfk1 where cfsb=to_number(arg_cfsb);
+"
+F_YF_GETSFSB	FUNCTION	9	"       end if;
+"
+F_YF_GETSFSB	FUNCTION	10	"      return(ll_sfsb);
+"
+F_YF_GETSFSB	FUNCTION	11	"  end;
+"
+F_YF_GETSFSB	FUNCTION	12	 

@@ -1,0 +1,188 @@
+f_zyxt_jiesuan_bak	FUNCTION	1	"FUNCTION ""f_zyxt_jiesuan_bak""(arg_patient_no Number)
+"
+f_zyxt_jiesuan_bak	FUNCTION	2	"  return varchar2 Is
+"
+f_zyxt_jiesuan_bak	FUNCTION	3	"  ll_count  number;
+"
+f_zyxt_jiesuan_bak	FUNCTION	4	"  ll_count2 number;
+"
+f_zyxt_jiesuan_bak	FUNCTION	5	"  ll_brlb   number;
+"
+f_zyxt_jiesuan_bak	FUNCTION	6	"  ls_show   varchar2(500);
+"
+f_zyxt_jiesuan_bak	FUNCTION	7	"  ls_time   varchar2(20);
+"
+f_zyxt_jiesuan_bak	FUNCTION	8	"  --  ll_pos         number;
+"
+f_zyxt_jiesuan_bak	FUNCTION	9	"  --ls_syzldm      varchar2(200);
+"
+f_zyxt_jiesuan_bak	FUNCTION	10	"  -- ls_ybdm        varchar2(50);
+"
+f_zyxt_jiesuan_bak	FUNCTION	11	"Begin
+"
+f_zyxt_jiesuan_bak	FUNCTION	12	"  --return 有内容时 进行控制。如果 内容前面+‘’空格 放行
+"
+f_zyxt_jiesuan_bak	FUNCTION	13	"  select COUNT(*)
+"
+f_zyxt_jiesuan_bak	FUNCTION	14	"    INTO ll_count
+"
+f_zyxt_jiesuan_bak	FUNCTION	15	"    From zy_detail_charge
+"
+f_zyxt_jiesuan_bak	FUNCTION	16	"   where patient_no = arg_patient_no
+"
+f_zyxt_jiesuan_bak	FUNCTION	17	"     and dj < 0;
+"
+f_zyxt_jiesuan_bak	FUNCTION	18	"
+"
+f_zyxt_jiesuan_bak	FUNCTION	19	"  IF ll_count > 0 then
+"
+f_zyxt_jiesuan_bak	FUNCTION	20	"  
+"
+f_zyxt_jiesuan_bak	FUNCTION	21	"    return '存在单价小于0的记录';
+"
+f_zyxt_jiesuan_bak	FUNCTION	22	"  end if;
+"
+f_zyxt_jiesuan_bak	FUNCTION	23	"
+"
+f_zyxt_jiesuan_bak	FUNCTION	24	"  select count(*)
+"
+f_zyxt_jiesuan_bak	FUNCTION	25	"    into ll_count
+"
+f_zyxt_jiesuan_bak	FUNCTION	26	"    From gy_charge_interface
+"
+f_zyxt_jiesuan_bak	FUNCTION	27	"   where bingrenzyid = (select bah
+"
+f_zyxt_jiesuan_bak	FUNCTION	28	"                          from zy_patient_information
+"
+f_zyxt_jiesuan_bak	FUNCTION	29	"                         where patient_no = arg_patient_no
+"
+f_zyxt_jiesuan_bak	FUNCTION	30	"                           and nvl(sendflag, 0) = 0);
+"
+f_zyxt_jiesuan_bak	FUNCTION	31	"
+"
+f_zyxt_jiesuan_bak	FUNCTION	32	"  if ll_count > 0 then
+"
+f_zyxt_jiesuan_bak	FUNCTION	33	"    return '有费用未记账上传,gy_charge_interface!';
+"
+f_zyxt_jiesuan_bak	FUNCTION	34	"  end if;
+"
+f_zyxt_jiesuan_bak	FUNCTION	35	"
+"
+f_zyxt_jiesuan_bak	FUNCTION	36	"  --判断 用血记录
+"
+f_zyxt_jiesuan_bak	FUNCTION	37	"  select COUNT(*)
+"
+f_zyxt_jiesuan_bak	FUNCTION	38	"    INTO ll_count
+"
+f_zyxt_jiesuan_bak	FUNCTION	39	"    from zy_detail_charge
+"
+f_zyxt_jiesuan_bak	FUNCTION	40	"   where patient_no = arg_patient_no
+"
+f_zyxt_jiesuan_bak	FUNCTION	41	"     and fygl = 11;
+"
+f_zyxt_jiesuan_bak	FUNCTION	42	"
+"
+f_zyxt_jiesuan_bak	FUNCTION	43	"  IF ll_count > 0 then
+"
+f_zyxt_jiesuan_bak	FUNCTION	44	"  
+"
+f_zyxt_jiesuan_bak	FUNCTION	45	"    select COUNT(*)
+"
+f_zyxt_jiesuan_bak	FUNCTION	46	"      INTO ll_count
+"
+f_zyxt_jiesuan_bak	FUNCTION	47	"      from temp_sfzh_xianxue20191010
+"
+f_zyxt_jiesuan_bak	FUNCTION	48	"     where s2 in (select social_id
+"
+f_zyxt_jiesuan_bak	FUNCTION	49	"                    From zy_patient_information
+"
+f_zyxt_jiesuan_bak	FUNCTION	50	"                   where patient_no = arg_patient_no);
+"
+f_zyxt_jiesuan_bak	FUNCTION	51	"  
+"
+f_zyxt_jiesuan_bak	FUNCTION	52	"    IF ll_count > 0 then
+"
+f_zyxt_jiesuan_bak	FUNCTION	53	"    
+"
+f_zyxt_jiesuan_bak	FUNCTION	54	"      return ' 该病人有用血记录,同时有献血证';
+"
+f_zyxt_jiesuan_bak	FUNCTION	55	"    end if;
+"
+f_zyxt_jiesuan_bak	FUNCTION	56	"    return ' 该病人有用血记录,核实是否符合用血直免';
+"
+f_zyxt_jiesuan_bak	FUNCTION	57	"  end if;
+"
+f_zyxt_jiesuan_bak	FUNCTION	58	"
+"
+f_zyxt_jiesuan_bak	FUNCTION	59	"  --判断献血着
+"
+f_zyxt_jiesuan_bak	FUNCTION	60	"  select COUNT(*)
+"
+f_zyxt_jiesuan_bak	FUNCTION	61	"    INTO ll_count
+"
+f_zyxt_jiesuan_bak	FUNCTION	62	"    from temp_sfzh_xianxue20191010
+"
+f_zyxt_jiesuan_bak	FUNCTION	63	"   where s2 in (select social_id
+"
+f_zyxt_jiesuan_bak	FUNCTION	64	"                  From zy_patient_information
+"
+f_zyxt_jiesuan_bak	FUNCTION	65	"                 where patient_no = arg_patient_no);
+"
+f_zyxt_jiesuan_bak	FUNCTION	66	"
+"
+f_zyxt_jiesuan_bak	FUNCTION	67	"  IF ll_count > 0 then
+"
+f_zyxt_jiesuan_bak	FUNCTION	68	"  
+"
+f_zyxt_jiesuan_bak	FUNCTION	69	"    return ' 该病人有献血证';
+"
+f_zyxt_jiesuan_bak	FUNCTION	70	"  end if;
+"
+f_zyxt_jiesuan_bak	FUNCTION	71	"
+"
+f_zyxt_jiesuan_bak	FUNCTION	72	"  --材料费 单价不一致
+"
+f_zyxt_jiesuan_bak	FUNCTION	73	"  select ' ' || charge_name || '单价不一致'
+"
+f_zyxt_jiesuan_bak	FUNCTION	74	"    into ls_show
+"
+f_zyxt_jiesuan_bak	FUNCTION	75	"    from (select charge_name, count(distinct(dj))
+"
+f_zyxt_jiesuan_bak	FUNCTION	76	"            From zy_detail_charge
+"
+f_zyxt_jiesuan_bak	FUNCTION	77	"           where charge_name in
+"
+f_zyxt_jiesuan_bak	FUNCTION	78	"                 (select charge_name
+"
+f_zyxt_jiesuan_bak	FUNCTION	79	"                    from zy_detail_charge a
+"
+f_zyxt_jiesuan_bak	FUNCTION	80	"                   where sl < 0
+"
+f_zyxt_jiesuan_bak	FUNCTION	81	"                     and patient_NO = arg_patient_no)
+"
+f_zyxt_jiesuan_bak	FUNCTION	82	"             and fygl = 25
+"
+f_zyxt_jiesuan_bak	FUNCTION	83	"             and patient_NO = arg_patient_no
+"
+f_zyxt_jiesuan_bak	FUNCTION	84	"           group by charge_name
+"
+f_zyxt_jiesuan_bak	FUNCTION	85	"          having count(distinct(dj)) > 1);
+"
+f_zyxt_jiesuan_bak	FUNCTION	86	"
+"
+f_zyxt_jiesuan_bak	FUNCTION	87	"  IF ls_show > ' ' then
+"
+f_zyxt_jiesuan_bak	FUNCTION	88	"  
+"
+f_zyxt_jiesuan_bak	FUNCTION	89	"    return ls_show;
+"
+f_zyxt_jiesuan_bak	FUNCTION	90	"  end if;
+"
+f_zyxt_jiesuan_bak	FUNCTION	91	"
+"
+f_zyxt_jiesuan_bak	FUNCTION	92	"  Return '';
+"
+f_zyxt_jiesuan_bak	FUNCTION	93	"
+"
+f_zyxt_jiesuan_bak	FUNCTION	94	"End;
+"

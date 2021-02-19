@@ -1,0 +1,118 @@
+MZ_MZSFK1_QTSFFS_UPDATE	PROCEDURE	1	"procedure mz_mzsfk1_qtsffs_update(in_sfsb in number,in_qtsfje in number,in_qtsffs in number,in_bz in varchar2,out_msg out varchar2 ) is
+"
+MZ_MZSFK1_QTSFFS_UPDATE	PROCEDURE	2	"
+"
+MZ_MZSFK1_QTSFFS_UPDATE	PROCEDURE	3	"v_sl number;
+"
+MZ_MZSFK1_QTSFFS_UPDATE	PROCEDURE	4	"v_qtsfje number;
+"
+MZ_MZSFK1_QTSFFS_UPDATE	PROCEDURE	5	"
+"
+MZ_MZSFK1_QTSFFS_UPDATE	PROCEDURE	6	"begin
+"
+MZ_MZSFK1_QTSFFS_UPDATE	PROCEDURE	7	" 
+"
+MZ_MZSFK1_QTSFFS_UPDATE	PROCEDURE	8	" 
+"
+MZ_MZSFK1_QTSFFS_UPDATE	PROCEDURE	9	"     if in_qtsffs=1 or in_qtsffs=26 then
+"
+MZ_MZSFK1_QTSFFS_UPDATE	PROCEDURE	10	"         out_msg:='';
+"
+MZ_MZSFK1_QTSFFS_UPDATE	PROCEDURE	11	"     else
+"
+MZ_MZSFK1_QTSFFS_UPDATE	PROCEDURE	12	"       
+"
+MZ_MZSFK1_QTSFFS_UPDATE	PROCEDURE	13	"        out_msg:='只能修改为现金，银行卡方式';
+"
+MZ_MZSFK1_QTSFFS_UPDATE	PROCEDURE	14	"        return;
+"
+MZ_MZSFK1_QTSFFS_UPDATE	PROCEDURE	15	"    end if;
+"
+MZ_MZSFK1_QTSFFS_UPDATE	PROCEDURE	16	"
+"
+MZ_MZSFK1_QTSFFS_UPDATE	PROCEDURE	17	"
+"
+MZ_MZSFK1_QTSFFS_UPDATE	PROCEDURE	18	"    select count(sfsb) into v_sl  from mz_mzsfk1 where    sfsb=in_sfsb and  rbrq is null ;
+"
+MZ_MZSFK1_QTSFFS_UPDATE	PROCEDURE	19	"
+"
+MZ_MZSFK1_QTSFFS_UPDATE	PROCEDURE	20	"
+"
+MZ_MZSFK1_QTSFFS_UPDATE	PROCEDURE	21	"   if v_sl=1 then
+"
+MZ_MZSFK1_QTSFFS_UPDATE	PROCEDURE	22	"    out_msg:='';
+"
+MZ_MZSFK1_QTSFFS_UPDATE	PROCEDURE	23	"     else
+"
+MZ_MZSFK1_QTSFFS_UPDATE	PROCEDURE	24	"        out_msg:='找不到这个电脑号的记录'||out_msg||','||in_qtsfje ;
+"
+MZ_MZSFK1_QTSFFS_UPDATE	PROCEDURE	25	"        return;
+"
+MZ_MZSFK1_QTSFFS_UPDATE	PROCEDURE	26	"   end if;
+"
+MZ_MZSFK1_QTSFFS_UPDATE	PROCEDURE	27	"
+"
+MZ_MZSFK1_QTSFFS_UPDATE	PROCEDURE	28	"
+"
+MZ_MZSFK1_QTSFFS_UPDATE	PROCEDURE	29	"
+"
+MZ_MZSFK1_QTSFFS_UPDATE	PROCEDURE	30	"  select nvl(xj,0.00)+nvl(qtsfje,0.00) into v_qtsfje  from mz_mzsfk1 where    sfsb=in_sfsb and rownum=1;
+"
+MZ_MZSFK1_QTSFFS_UPDATE	PROCEDURE	31	"
+"
+MZ_MZSFK1_QTSFFS_UPDATE	PROCEDURE	32	"
+"
+MZ_MZSFK1_QTSFFS_UPDATE	PROCEDURE	33	"        
+"
+MZ_MZSFK1_QTSFFS_UPDATE	PROCEDURE	34	"   if v_qtsfje=in_qtsfje then
+"
+MZ_MZSFK1_QTSFFS_UPDATE	PROCEDURE	35	"        out_msg:='';
+"
+MZ_MZSFK1_QTSFFS_UPDATE	PROCEDURE	36	"     else
+"
+MZ_MZSFK1_QTSFFS_UPDATE	PROCEDURE	37	"    
+"
+MZ_MZSFK1_QTSFFS_UPDATE	PROCEDURE	38	"        out_msg:=to_char(in_sfsb)||'输入的金额不符:qtsfje='||to_char(v_qtsfje) ;
+"
+MZ_MZSFK1_QTSFFS_UPDATE	PROCEDURE	39	"        return;
+"
+MZ_MZSFK1_QTSFFS_UPDATE	PROCEDURE	40	"   end if;
+"
+MZ_MZSFK1_QTSFFS_UPDATE	PROCEDURE	41	"
+"
+MZ_MZSFK1_QTSFFS_UPDATE	PROCEDURE	42	"
+"
+MZ_MZSFK1_QTSFFS_UPDATE	PROCEDURE	43	"if in_qtsffs=1 then
+"
+MZ_MZSFK1_QTSFFS_UPDATE	PROCEDURE	44	"
+"
+MZ_MZSFK1_QTSFFS_UPDATE	PROCEDURE	45	"   update mz_mzsfk1  set   xj=nvl(xj,0)+nvl(qtsfje,0),qtsfje=0  where sfsb=in_sfsb and  rbrq is null ;
+"
+MZ_MZSFK1_QTSFFS_UPDATE	PROCEDURE	46	"    commit;
+"
+MZ_MZSFK1_QTSFFS_UPDATE	PROCEDURE	47	"  out_msg:=in_sfsb||'修改成现金，处理成功';
+"
+MZ_MZSFK1_QTSFFS_UPDATE	PROCEDURE	48	"end if;
+"
+MZ_MZSFK1_QTSFFS_UPDATE	PROCEDURE	49	"
+"
+MZ_MZSFK1_QTSFFS_UPDATE	PROCEDURE	50	"if in_qtsffs=26 then
+"
+MZ_MZSFK1_QTSFFS_UPDATE	PROCEDURE	51	"   update mz_mzsfk1  set   qtsfje=nvl(xj,0)+nvl(qtsfje,0),xj=0  where sfsb=in_sfsb and  rbrq is null ;
+"
+MZ_MZSFK1_QTSFFS_UPDATE	PROCEDURE	52	"   commit;
+"
+MZ_MZSFK1_QTSFFS_UPDATE	PROCEDURE	53	"  out_msg:=in_sfsb||'修改成银行刷卡，处理成功';
+"
+MZ_MZSFK1_QTSFFS_UPDATE	PROCEDURE	54	"end if;
+"
+MZ_MZSFK1_QTSFFS_UPDATE	PROCEDURE	55	"
+"
+MZ_MZSFK1_QTSFFS_UPDATE	PROCEDURE	56	"
+"
+MZ_MZSFK1_QTSFFS_UPDATE	PROCEDURE	57	"return;
+"
+MZ_MZSFK1_QTSFFS_UPDATE	PROCEDURE	58	"
+"
+MZ_MZSFK1_QTSFFS_UPDATE	PROCEDURE	59	"end mz_mzsfk1_qtsffs_update;
+"

@@ -1,0 +1,174 @@
+PRC_SAVE_C	PROCEDURE	1	"procedure prc_save_c(in_jiaoyilx in varchar2, --交易类型
+"
+PRC_SAVE_C	PROCEDURE	2	"                                       in_jzxh     in varchar2, --就诊序号
+"
+PRC_SAVE_C	PROCEDURE	3	"                                       in_jzkh     in varchar2, --卡号
+"
+PRC_SAVE_C	PROCEDURE	4	"                                       in_jylsh    in varchar2, --其它参数
+"
+PRC_SAVE_C	PROCEDURE	5	"                                       out_code    out INTEGER, -- 返回结果 0为执行成功
+"
+PRC_SAVE_C	PROCEDURE	6	"                                       out_msg     out varchar2) is
+"
+PRC_SAVE_C	PROCEDURE	7	"  -- prc_check_process  (in_jiaoyilx业务节点名称，in_caozuogh操作人员工号，in_jzkh就诊卡号，in_other其它参数，out_code返回值interger值，out_msg返回文本内容)
+"
+PRC_SAVE_C	PROCEDURE	8	"  --out_code <0 说明没有通过业务检查
+"
+PRC_SAVE_C	PROCEDURE	9	"  --out_msg 提示消息，如果为空，不显示给医生看
+"
+PRC_SAVE_C	PROCEDURE	10	"  --入参说明：
+"
+PRC_SAVE_C	PROCEDURE	11	"
+"
+PRC_SAVE_C	PROCEDURE	12	"  v_sfrj  number;
+"
+PRC_SAVE_C	PROCEDURE	13	"  v_sqdh  number;
+"
+PRC_SAVE_C	PROCEDURE	14	"  v_brxm  varchar2(10);
+"
+PRC_SAVE_C	PROCEDURE	15	"  v_ysgh  varchar2(10);
+"
+PRC_SAVE_C	PROCEDURE	16	"  v_ksdm  varchar2(10);
+"
+PRC_SAVE_C	PROCEDURE	17	"  v_mxxh  number;
+"
+PRC_SAVE_C	PROCEDURE	18	"  v_yjsb  number;
+"
+PRC_SAVE_C	PROCEDURE	19	"  v_brxh  varchar2(10);
+"
+PRC_SAVE_C	PROCEDURE	20	"  v_count number;
+"
+PRC_SAVE_C	PROCEDURE	21	"begin
+"
+PRC_SAVE_C	PROCEDURE	22	"
+"
+PRC_SAVE_C	PROCEDURE	23	"  if in_jiaoyilx = '住院申请单' then
+"
+PRC_SAVE_C	PROCEDURE	24	"    select count(*)
+"
+PRC_SAVE_C	PROCEDURE	25	"      into v_count
+"
+PRC_SAVE_C	PROCEDURE	26	"      from zj_zysqd
+"
+PRC_SAVE_C	PROCEDURE	27	"     where jiuzhenxh = in_jzxh
+"
+PRC_SAVE_C	PROCEDURE	28	"       and nvl(zfpb,0)=0;
+"
+PRC_SAVE_C	PROCEDURE	29	"    if v_count > 0 then
+"
+PRC_SAVE_C	PROCEDURE	30	"        select count(*)
+"
+PRC_SAVE_C	PROCEDURE	31	"        into v_count
+"
+PRC_SAVE_C	PROCEDURE	32	"          from mz_cfk1 a, mz_cfk2 b
+"
+PRC_SAVE_C	PROCEDURE	33	"         where instr((select canshuz1
+"
+PRC_SAVE_C	PROCEDURE	34	"                       from gy_xitongcsb a
+"
+PRC_SAVE_C	PROCEDURE	35	"                      where canshumc = 'ZJ_ZYSQD_YPLR'),
+"
+PRC_SAVE_C	PROCEDURE	36	"                     '+' || b.ypxh || '+') = 0
+"
+PRC_SAVE_C	PROCEDURE	37	"           and a.cfsb = b.cfsb
+"
+PRC_SAVE_C	PROCEDURE	38	"           and jzxh= in_jzxh;
+"
+PRC_SAVE_C	PROCEDURE	39	"           if v_count > 0 then
+"
+PRC_SAVE_C	PROCEDURE	40	"                 out_code := -1;
+"
+PRC_SAVE_C	PROCEDURE	41	"                 out_msg  := '开住院申请单的时候只能开特定药品';
+"
+PRC_SAVE_C	PROCEDURE	42	"                  return;
+"
+PRC_SAVE_C	PROCEDURE	43	"           end if;
+"
+PRC_SAVE_C	PROCEDURE	44	"    end if ;
+"
+PRC_SAVE_C	PROCEDURE	45	"    select count(*)
+"
+PRC_SAVE_C	PROCEDURE	46	"      into v_count
+"
+PRC_SAVE_C	PROCEDURE	47	"      from zj_zysqd
+"
+PRC_SAVE_C	PROCEDURE	48	"     where jiuzhenxh = in_jzxh
+"
+PRC_SAVE_C	PROCEDURE	49	"       and sfrj in(1,4);
+"
+PRC_SAVE_C	PROCEDURE	50	"    if v_count = 0 then
+"
+PRC_SAVE_C	PROCEDURE	51	"      select count(*)
+"
+PRC_SAVE_C	PROCEDURE	52	"        into v_count
+"
+PRC_SAVE_C	PROCEDURE	53	"        from yj_yjk1
+"
+PRC_SAVE_C	PROCEDURE	54	"       where jzxh = in_jzxh
+"
+PRC_SAVE_C	PROCEDURE	55	"         and （sjksdm in (2010040, 2270006, 2100005) or sjksdm in(select ksdm from gh_ghpb a where ghlxpb=2)）;
+"
+PRC_SAVE_C	PROCEDURE	56	"      if v_count > 0 then
+"
+PRC_SAVE_C	PROCEDURE	57	"        out_code := 0;
+"
+PRC_SAVE_C	PROCEDURE	58	"        out_msg  := '';
+"
+PRC_SAVE_C	PROCEDURE	59	"        return;
+"
+PRC_SAVE_C	PROCEDURE	60	"      end if;
+"
+PRC_SAVE_C	PROCEDURE	61	"      select count(*)
+"
+PRC_SAVE_C	PROCEDURE	62	"        into v_count
+"
+PRC_SAVE_C	PROCEDURE	63	"        from yj_yjk1 a, yj_yjk2 b
+"
+PRC_SAVE_C	PROCEDURE	64	"       where a.yjsb = b.yjsb
+"
+PRC_SAVE_C	PROCEDURE	65	"         and jzxh = in_jzxh
+"
+PRC_SAVE_C	PROCEDURE	66	"         and tcylxh in (24539, 30991, 30993);
+"
+PRC_SAVE_C	PROCEDURE	67	"      if v_count > 0 then
+"
+PRC_SAVE_C	PROCEDURE	68	"        out_code := -1;
+"
+PRC_SAVE_C	PROCEDURE	69	"        out_msg  := '只有特殊住院病人才能开 陪护新型冠状病毒核酸检测（痰液），新型冠状病毒核酸检测（咽拭子），新型冠状病毒核酸检测（痰液）';
+"
+PRC_SAVE_C	PROCEDURE	70	"        return;
+"
+PRC_SAVE_C	PROCEDURE	71	"      end if;
+"
+PRC_SAVE_C	PROCEDURE	72	"
+"
+PRC_SAVE_C	PROCEDURE	73	"      out_code := 0;
+"
+PRC_SAVE_C	PROCEDURE	74	"      out_msg  := '';
+"
+PRC_SAVE_C	PROCEDURE	75	"      return;
+"
+PRC_SAVE_C	PROCEDURE	76	"    else
+"
+PRC_SAVE_C	PROCEDURE	77	"      out_code := 0;
+"
+PRC_SAVE_C	PROCEDURE	78	"      out_msg  := '';
+"
+PRC_SAVE_C	PROCEDURE	79	"      return;
+"
+PRC_SAVE_C	PROCEDURE	80	"
+"
+PRC_SAVE_C	PROCEDURE	81	"    end if;
+"
+PRC_SAVE_C	PROCEDURE	82	"  end if;
+"
+PRC_SAVE_C	PROCEDURE	83	"  out_code := 0;
+"
+PRC_SAVE_C	PROCEDURE	84	"  out_msg  := '';
+"
+PRC_SAVE_C	PROCEDURE	85	"  return;
+"
+PRC_SAVE_C	PROCEDURE	86	"
+"
+PRC_SAVE_C	PROCEDURE	87	"end;
+"

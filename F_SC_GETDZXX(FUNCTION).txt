@@ -1,0 +1,59 @@
+F_SC_GETDZXX	FUNCTION	1	"FUNCTION         ""F_SC_GETDZXX"" (P_Type in Varchar2, P_Name in Varchar2, P_Key in Varchar2) return varchar2 is
+"
+F_SC_GETDZXX	FUNCTION	2	"  ls_Type Jk_Qyjk_Zd.Dm%Type;
+"
+F_SC_GETDZXX	FUNCTION	3	"  ls_Name Varchar2(100);
+"
+F_SC_GETDZXX	FUNCTION	4	"  ls_Key Jk_Qyjk_Dz.Hisdm%Type;
+"
+F_SC_GETDZXX	FUNCTION	5	"  ls_Dm Jk_Qyjk_Dz.Zddm%Type;
+"
+F_SC_GETDZXX	FUNCTION	6	"  ls_Mc Jk_Qyjk_Zdmx.Mc%Type;
+"
+F_SC_GETDZXX	FUNCTION	7	"begin
+"
+F_SC_GETDZXX	FUNCTION	8	"  ls_Type:=P_Type;
+"
+F_SC_GETDZXX	FUNCTION	9	"  ls_Name:=Upper(P_Name);
+"
+F_SC_GETDZXX	FUNCTION	10	"  ls_Key:=P_Key;
+"
+F_SC_GETDZXX	FUNCTION	11	"  Select ZDDM
+"
+F_SC_GETDZXX	FUNCTION	12	"    Into ls_Dm
+"
+F_SC_GETDZXX	FUNCTION	13	"    From Jk_Qyjk_Dz
+"
+F_SC_GETDZXX	FUNCTION	14	"   Where Dmlx=ls_Type
+"
+F_SC_GETDZXX	FUNCTION	15	"     And Hisdm=ls_Key;
+"
+F_SC_GETDZXX	FUNCTION	16	"  If ls_Name in ('DM') Then
+"
+F_SC_GETDZXX	FUNCTION	17	"    Return ls_Dm;
+"
+F_SC_GETDZXX	FUNCTION	18	"  End If;
+"
+F_SC_GETDZXX	FUNCTION	19	"  Select Mc
+"
+F_SC_GETDZXX	FUNCTION	20	"    Into ls_Mc
+"
+F_SC_GETDZXX	FUNCTION	21	"    From Jk_Qyjk_Zdmx
+"
+F_SC_GETDZXX	FUNCTION	22	"   Where Dm=ls_Type
+"
+F_SC_GETDZXX	FUNCTION	23	"     And Dmxx=ls_Dm;
+"
+F_SC_GETDZXX	FUNCTION	24	"  If ls_Name in ('MC') Then
+"
+F_SC_GETDZXX	FUNCTION	25	"    Return ls_Mc;
+"
+F_SC_GETDZXX	FUNCTION	26	"  End If;
+"
+F_SC_GETDZXX	FUNCTION	27	"  Return null;
+"
+F_SC_GETDZXX	FUNCTION	28	"end f_sc_getdzxx;
+"
+F_SC_GETDZXX	FUNCTION	29	"
+"
+F_SC_GETDZXX	FUNCTION	30	 

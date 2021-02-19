@@ -1,0 +1,69 @@
+F_YJ_GET_BQYF_YPMX	FUNCTION	1	"FUNCTION         ""F_YJ_GET_BQYF_YPMX"" 
+"
+F_YJ_GET_BQYF_YPMX	FUNCTION	2	"(arg_djxh in number,arg_twice_detail_code in varchar2,arg_twice_detail_id in VARCHAR2,arg_ypkz in varchar2)
+"
+F_YJ_GET_BQYF_YPMX	FUNCTION	3	"  return varchar2
+"
+F_YJ_GET_BQYF_YPMX	FUNCTION	4	"  is
+"
+F_YJ_GET_BQYF_YPMX	FUNCTION	5	"    ls_return varchar2(1000);
+"
+F_YJ_GET_BQYF_YPMX	FUNCTION	6	"    ls_ypmc   varchar2(60);
+"
+F_YJ_GET_BQYF_YPMX	FUNCTION	7	"    ls_ckdh   varchar2(10);
+"
+F_YJ_GET_BQYF_YPMX	FUNCTION	8	"    ll_fyxh   number(20);
+"
+F_YJ_GET_BQYF_YPMX	FUNCTION	9	"    cursor cur_ypmc is
+"
+F_YJ_GET_BQYF_YPMX	FUNCTION	10	"           select '  '||f_yf_getypmc(ypxh,ypcddm,'pmgg')||'\'||cksl||'\'||lsj
+"
+F_YJ_GET_BQYF_YPMX	FUNCTION	11	"             from by_ckd
+"
+F_YJ_GET_BQYF_YPMX	FUNCTION	12	"            where djxh=arg_djxh and ckdh=ls_ckdh and fyxh=ll_fyxh and ypkz=RTRIM(arg_ypkz);
+"
+F_YJ_GET_BQYF_YPMX	FUNCTION	13	"  begin
+"
+F_YJ_GET_BQYF_YPMX	FUNCTION	14	"      if arg_twice_detail_code<>'by' then
+"
+F_YJ_GET_BQYF_YPMX	FUNCTION	15	"			return(ls_return);
+"
+F_YJ_GET_BQYF_YPMX	FUNCTION	16	"      end if;
+"
+F_YJ_GET_BQYF_YPMX	FUNCTION	17	"
+"
+F_YJ_GET_BQYF_YPMX	FUNCTION	18	"      select RTRIM(substr(arg_twice_detail_id,11,20)),to_number(substr(arg_twice_detail_id,1,10))
+"
+F_YJ_GET_BQYF_YPMX	FUNCTION	19	"        into ls_ckdh,ll_fyxh
+"
+F_YJ_GET_BQYF_YPMX	FUNCTION	20	"        from dual;
+"
+F_YJ_GET_BQYF_YPMX	FUNCTION	21	"
+"
+F_YJ_GET_BQYF_YPMX	FUNCTION	22	"      open cur_ypmc;
+"
+F_YJ_GET_BQYF_YPMX	FUNCTION	23	"      loop
+"
+F_YJ_GET_BQYF_YPMX	FUNCTION	24	"           fetch cur_ypmc into ls_ypmc;
+"
+F_YJ_GET_BQYF_YPMX	FUNCTION	25	"           exit when cur_ypmc%notfound;
+"
+F_YJ_GET_BQYF_YPMX	FUNCTION	26	"	        IF ls_ypmc is not null THEN
+"
+F_YJ_GET_BQYF_YPMX	FUNCTION	27	"              ls_return:=ls_return || ls_ypmc;
+"
+F_YJ_GET_BQYF_YPMX	FUNCTION	28	"           end if;
+"
+F_YJ_GET_BQYF_YPMX	FUNCTION	29	"      end loop;
+"
+F_YJ_GET_BQYF_YPMX	FUNCTION	30	"      close cur_ypmc;
+"
+F_YJ_GET_BQYF_YPMX	FUNCTION	31	"
+"
+F_YJ_GET_BQYF_YPMX	FUNCTION	32	"      return(ls_return);
+"
+F_YJ_GET_BQYF_YPMX	FUNCTION	33	"  end;
+"
+F_YJ_GET_BQYF_YPMX	FUNCTION	34	"
+"
+F_YJ_GET_BQYF_YPMX	FUNCTION	35	 

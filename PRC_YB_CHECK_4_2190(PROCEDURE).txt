@@ -1,0 +1,514 @@
+PRC_YB_CHECK_4_2190	PROCEDURE	1	"procedure ""PRC_YB_CHECK_4_2190""(in_ksdm       in varchar2,
+"
+PRC_YB_CHECK_4_2190	PROCEDURE	2	"                                                  in_patient_no in number,
+"
+PRC_YB_CHECK_4_2190	PROCEDURE	3	"                                                  out_msg       out varchar2) is
+"
+PRC_YB_CHECK_4_2190	PROCEDURE	4	"
+"
+PRC_YB_CHECK_4_2190	PROCEDURE	5	"  v_data       varchar2(600);
+"
+PRC_YB_CHECK_4_2190	PROCEDURE	6	"  v_patient_no number;
+"
+PRC_YB_CHECK_4_2190	PROCEDURE	7	"  v_count      number;
+"
+PRC_YB_CHECK_4_2190	PROCEDURE	8	"  v_xb         number;
+"
+PRC_YB_CHECK_4_2190	PROCEDURE	9	"  v_rq         varchar2(50);
+"
+PRC_YB_CHECK_4_2190	PROCEDURE	10	"  v_xmmc       varchar2(50);
+"
+PRC_YB_CHECK_4_2190	PROCEDURE	11	"  v_xmbh       varchar2(50);
+"
+PRC_YB_CHECK_4_2190	PROCEDURE	12	"  v_sl_sum     number(10, 4);
+"
+PRC_YB_CHECK_4_2190	PROCEDURE	13	"  v_kzsl_zy    number(10, 4);
+"
+PRC_YB_CHECK_4_2190	PROCEDURE	14	"  v_add1       varchar2(50);
+"
+PRC_YB_CHECK_4_2190	PROCEDURE	15	"  v_add2       varchar2(50);
+"
+PRC_YB_CHECK_4_2190	PROCEDURE	16	"  v_add3       varchar2(50);
+"
+PRC_YB_CHECK_4_2190	PROCEDURE	17	"  v_add4       varchar2(50);
+"
+PRC_YB_CHECK_4_2190	PROCEDURE	18	"  v_ksdm       varchar2(50);
+"
+PRC_YB_CHECK_4_2190	PROCEDURE	19	"  --定义游标
+"
+PRC_YB_CHECK_4_2190	PROCEDURE	20	"  --   rq || "","" || xmmc || ""["" ||xmbh ||""],使用数量"" || sl_sum || "",超过限定数量"" || kzsl_zy || "";""
+"
+PRC_YB_CHECK_4_2190	PROCEDURE	21	"  --select patient_no, rq, xmmc, xmbh, sl_sum, kzsl_zy
+"
+PRC_YB_CHECK_4_2190	PROCEDURE	22	"
+"
+PRC_YB_CHECK_4_2190	PROCEDURE	23	"  CURSOR yb_check1_cursor IS
+"
+PRC_YB_CHECK_4_2190	PROCEDURE	24	"  
+"
+PRC_YB_CHECK_4_2190	PROCEDURE	25	"    select patient_no, wm_concat(rq || ':' || xmmc || ':限儿童6周岁使用')
+"
+PRC_YB_CHECK_4_2190	PROCEDURE	26	"      from (select a.patient_no,
+"
+PRC_YB_CHECK_4_2190	PROCEDURE	27	"                   to_char(a.charge_date, 'yyyy-mm-dd') rq,
+"
+PRC_YB_CHECK_4_2190	PROCEDURE	28	"                   e.xmmc,
+"
+PRC_YB_CHECK_4_2190	PROCEDURE	29	"                   sum(a.sl) sl
+"
+PRC_YB_CHECK_4_2190	PROCEDURE	30	"              from zy_detail_charge       a,
+"
+PRC_YB_CHECK_4_2190	PROCEDURE	31	"                   yb_znshgz              e,
+"
+PRC_YB_CHECK_4_2190	PROCEDURE	32	"                   yb_duizhaoml           d,
+"
+PRC_YB_CHECK_4_2190	PROCEDURE	33	"                   zy_patient_information c
+"
+PRC_YB_CHECK_4_2190	PROCEDURE	34	"             where d.yibaodm = e.xmbh
+"
+PRC_YB_CHECK_4_2190	PROCEDURE	35	"               and substr(d.yibaodm, 1, 12) = substr(e.xmbh, 1, 12)
+"
+PRC_YB_CHECK_4_2190	PROCEDURE	36	"               and e.gzbh = 4
+"
+PRC_YB_CHECK_4_2190	PROCEDURE	37	"               and (instr(e.shbz, '6周岁') > 0)
+"
+PRC_YB_CHECK_4_2190	PROCEDURE	38	"               and e.ypzlpb = 0
+"
+PRC_YB_CHECK_4_2190	PROCEDURE	39	"               and a.patient_no = c.patient_no
+"
+PRC_YB_CHECK_4_2190	PROCEDURE	40	"               and a.js_no = c.js_no
+"
+PRC_YB_CHECK_4_2190	PROCEDURE	41	"               and a.infant_flag = 0
+"
+PRC_YB_CHECK_4_2190	PROCEDURE	42	"               and nvl(a.spbh, 0) <> -10
+"
+PRC_YB_CHECK_4_2190	PROCEDURE	43	"               and a.charge_code = d.xiangmuxh
+"
+PRC_YB_CHECK_4_2190	PROCEDURE	44	"               and d.yaopinpb = 0
+"
+PRC_YB_CHECK_4_2190	PROCEDURE	45	"               and a.fygl > 3
+"
+PRC_YB_CHECK_4_2190	PROCEDURE	46	"               and (sysdate - nvl(c.birthday, sysdate)) > 2190
+"
+PRC_YB_CHECK_4_2190	PROCEDURE	47	"               and d.yibaolx = '9997'
+"
+PRC_YB_CHECK_4_2190	PROCEDURE	48	"               and d.tingyongrq is null
+"
+PRC_YB_CHECK_4_2190	PROCEDURE	49	"               and c.js_no = 0
+"
+PRC_YB_CHECK_4_2190	PROCEDURE	50	"               and c.patient_No in
+"
+PRC_YB_CHECK_4_2190	PROCEDURE	51	"                   (select patient_no
+"
+PRC_YB_CHECK_4_2190	PROCEDURE	52	"                      from zy_patient_information
+"
+PRC_YB_CHECK_4_2190	PROCEDURE	53	"                     where out_date is null
+"
+PRC_YB_CHECK_4_2190	PROCEDURE	54	"                       and preout_date is null
+"
+PRC_YB_CHECK_4_2190	PROCEDURE	55	"                       and cwfp_date is not null)
+"
+PRC_YB_CHECK_4_2190	PROCEDURE	56	"             group by a.patient_no,
+"
+PRC_YB_CHECK_4_2190	PROCEDURE	57	"                      to_char(a.charge_date, 'yyyy-mm-dd'),
+"
+PRC_YB_CHECK_4_2190	PROCEDURE	58	"                      e.xmmc
+"
+PRC_YB_CHECK_4_2190	PROCEDURE	59	"            having sum(a.sl) > 0)
+"
+PRC_YB_CHECK_4_2190	PROCEDURE	60	"     group by patient_no;
+"
+PRC_YB_CHECK_4_2190	PROCEDURE	61	"
+"
+PRC_YB_CHECK_4_2190	PROCEDURE	62	"begin
+"
+PRC_YB_CHECK_4_2190	PROCEDURE	63	"
+"
+PRC_YB_CHECK_4_2190	PROCEDURE	64	"  --  限儿童
+"
+PRC_YB_CHECK_4_2190	PROCEDURE	65	"  --1  限工伤保险   16 单病种费用控制 2限生育, 4 限儿童,5 材料与项目不符, 6限性别,7 限定频次,8重复收费,82 重复用药
+"
+PRC_YB_CHECK_4_2190	PROCEDURE	66	"  -- shbz
+"
+PRC_YB_CHECK_4_2190	PROCEDURE	67	"  insert into zy_jiaoyi_v1
+"
+PRC_YB_CHECK_4_2190	PROCEDURE	68	"    (jiaoyilx, jylsh, patient_no)
+"
+PRC_YB_CHECK_4_2190	PROCEDURE	69	"  values
+"
+PRC_YB_CHECK_4_2190	PROCEDURE	70	"    ('PRC_YB_CHECK_4', in_ksdm, in_patient_no);
+"
+PRC_YB_CHECK_4_2190	PROCEDURE	71	"  commit;
+"
+PRC_YB_CHECK_4_2190	PROCEDURE	72	"
+"
+PRC_YB_CHECK_4_2190	PROCEDURE	73	"  out_msg := '没有处理的内容';
+"
+PRC_YB_CHECK_4_2190	PROCEDURE	74	"  if in_patient_no > 0 then
+"
+PRC_YB_CHECK_4_2190	PROCEDURE	75	"    v_patient_no := in_patient_no;
+"
+PRC_YB_CHECK_4_2190	PROCEDURE	76	"  else
+"
+PRC_YB_CHECK_4_2190	PROCEDURE	77	"    v_patient_no := 0;
+"
+PRC_YB_CHECK_4_2190	PROCEDURE	78	"  end if;
+"
+PRC_YB_CHECK_4_2190	PROCEDURE	79	"
+"
+PRC_YB_CHECK_4_2190	PROCEDURE	80	"  if in_ksdm > '0' then
+"
+PRC_YB_CHECK_4_2190	PROCEDURE	81	"    v_ksdm := in_ksdm;
+"
+PRC_YB_CHECK_4_2190	PROCEDURE	82	"  else
+"
+PRC_YB_CHECK_4_2190	PROCEDURE	83	"    v_ksdm := '0';
+"
+PRC_YB_CHECK_4_2190	PROCEDURE	84	"  end if;
+"
+PRC_YB_CHECK_4_2190	PROCEDURE	85	"
+"
+PRC_YB_CHECK_4_2190	PROCEDURE	86	"  -- 全院 v_patient_no = 0   v_ksdm = '0'
+"
+PRC_YB_CHECK_4_2190	PROCEDURE	87	"  if 1 = 1 and v_patient_no = 0 then
+"
+PRC_YB_CHECK_4_2190	PROCEDURE	88	"  
+"
+PRC_YB_CHECK_4_2190	PROCEDURE	89	"    LOOP
+"
+PRC_YB_CHECK_4_2190	PROCEDURE	90	"    
+"
+PRC_YB_CHECK_4_2190	PROCEDURE	91	"      IF NOT yb_check1_cursor%ISOPEN THEN
+"
+PRC_YB_CHECK_4_2190	PROCEDURE	92	"        --打开游标
+"
+PRC_YB_CHECK_4_2190	PROCEDURE	93	"        OPEN yb_check1_cursor;
+"
+PRC_YB_CHECK_4_2190	PROCEDURE	94	"      END IF;
+"
+PRC_YB_CHECK_4_2190	PROCEDURE	95	"    
+"
+PRC_YB_CHECK_4_2190	PROCEDURE	96	"      FETCH yb_check1_cursor
+"
+PRC_YB_CHECK_4_2190	PROCEDURE	97	"        INTO v_patient_no, v_data;
+"
+PRC_YB_CHECK_4_2190	PROCEDURE	98	"      --退出循环的条件
+"
+PRC_YB_CHECK_4_2190	PROCEDURE	99	"      EXIT WHEN yb_check1_cursor%NOTFOUND OR yb_check1_cursor%NOTFOUND IS NULL;
+"
+PRC_YB_CHECK_4_2190	PROCEDURE	100	"    
+"
+PRC_YB_CHECK_4_2190	PROCEDURE	101	"      /*  select v_rq || ':' || v_xmmc || '[' || v_xmbh || '],使用数量' || v_sl_sum ||
+"
+PRC_YB_CHECK_4_2190	PROCEDURE	102	"           ',超过限定数量' || v_kzsl_zy
+"
+PRC_YB_CHECK_4_2190	PROCEDURE	103	"      into v_data
+"
+PRC_YB_CHECK_4_2190	PROCEDURE	104	"      from dual;*/
+"
+PRC_YB_CHECK_4_2190	PROCEDURE	105	"      if v_patient_no > 0 then
+"
+PRC_YB_CHECK_4_2190	PROCEDURE	106	"        select count(*)
+"
+PRC_YB_CHECK_4_2190	PROCEDURE	107	"          into v_count
+"
+PRC_YB_CHECK_4_2190	PROCEDURE	108	"          From yb_znshgz_zybr
+"
+PRC_YB_CHECK_4_2190	PROCEDURE	109	"         where patient_no = v_patient_no;
+"
+PRC_YB_CHECK_4_2190	PROCEDURE	110	"      
+"
+PRC_YB_CHECK_4_2190	PROCEDURE	111	"        if v_count > 0 then
+"
+PRC_YB_CHECK_4_2190	PROCEDURE	112	"          update yb_znshgz_zybr
+"
+PRC_YB_CHECK_4_2190	PROCEDURE	113	"             set rq = sysdate, bz = nvl(bz, ' ') || v_data
+"
+PRC_YB_CHECK_4_2190	PROCEDURE	114	"           where patient_no = v_patient_no;
+"
+PRC_YB_CHECK_4_2190	PROCEDURE	115	"        end if;
+"
+PRC_YB_CHECK_4_2190	PROCEDURE	116	"        if v_count = 0 then
+"
+PRC_YB_CHECK_4_2190	PROCEDURE	117	"          insert into yb_znshgz_zybr
+"
+PRC_YB_CHECK_4_2190	PROCEDURE	118	"            (patient_no, bz)
+"
+PRC_YB_CHECK_4_2190	PROCEDURE	119	"          values
+"
+PRC_YB_CHECK_4_2190	PROCEDURE	120	"            (v_patient_no, v_data);
+"
+PRC_YB_CHECK_4_2190	PROCEDURE	121	"        end if;
+"
+PRC_YB_CHECK_4_2190	PROCEDURE	122	"        if sqlcode = 0 then
+"
+PRC_YB_CHECK_4_2190	PROCEDURE	123	"          commit;
+"
+PRC_YB_CHECK_4_2190	PROCEDURE	124	"        else
+"
+PRC_YB_CHECK_4_2190	PROCEDURE	125	"          rollback;
+"
+PRC_YB_CHECK_4_2190	PROCEDURE	126	"        end if;
+"
+PRC_YB_CHECK_4_2190	PROCEDURE	127	"      end if;
+"
+PRC_YB_CHECK_4_2190	PROCEDURE	128	"    
+"
+PRC_YB_CHECK_4_2190	PROCEDURE	129	"      if sqlcode <> 0 then
+"
+PRC_YB_CHECK_4_2190	PROCEDURE	130	"        rollback;
+"
+PRC_YB_CHECK_4_2190	PROCEDURE	131	"        --关闭游标
+"
+PRC_YB_CHECK_4_2190	PROCEDURE	132	"        close yb_check1_cursor;
+"
+PRC_YB_CHECK_4_2190	PROCEDURE	133	"      
+"
+PRC_YB_CHECK_4_2190	PROCEDURE	134	"      end if;
+"
+PRC_YB_CHECK_4_2190	PROCEDURE	135	"    
+"
+PRC_YB_CHECK_4_2190	PROCEDURE	136	"      --dbms_output.put_line('员工编号为' || v_yhdm|| '的' || v_xm|| '系统序号为:' ||v_xtxh); 
+"
+PRC_YB_CHECK_4_2190	PROCEDURE	137	"    
+"
+PRC_YB_CHECK_4_2190	PROCEDURE	138	"    END LOOP;
+"
+PRC_YB_CHECK_4_2190	PROCEDURE	139	"  
+"
+PRC_YB_CHECK_4_2190	PROCEDURE	140	"  end if;
+"
+PRC_YB_CHECK_4_2190	PROCEDURE	141	"
+"
+PRC_YB_CHECK_4_2190	PROCEDURE	142	"  -- 个人 v_patient_no > 0   
+"
+PRC_YB_CHECK_4_2190	PROCEDURE	143	"  if 3 = 3 and in_patient_no > 0 then
+"
+PRC_YB_CHECK_4_2190	PROCEDURE	144	"    v_patient_no := in_patient_no;
+"
+PRC_YB_CHECK_4_2190	PROCEDURE	145	"  
+"
+PRC_YB_CHECK_4_2190	PROCEDURE	146	"    if v_ksdm = '9999' then
+"
+PRC_YB_CHECK_4_2190	PROCEDURE	147	"      null;
+"
+PRC_YB_CHECK_4_2190	PROCEDURE	148	"    
+"
+PRC_YB_CHECK_4_2190	PROCEDURE	149	"      update zy_detail_charge
+"
+PRC_YB_CHECK_4_2190	PROCEDURE	150	"         set spbh = -10
+"
+PRC_YB_CHECK_4_2190	PROCEDURE	151	"       where charge_code in
+"
+PRC_YB_CHECK_4_2190	PROCEDURE	152	"             (select a.charge_code
+"
+PRC_YB_CHECK_4_2190	PROCEDURE	153	"                from zy_detail_charge       a,
+"
+PRC_YB_CHECK_4_2190	PROCEDURE	154	"                     yb_znshgz              e,
+"
+PRC_YB_CHECK_4_2190	PROCEDURE	155	"                     yb_duizhaoml           d,
+"
+PRC_YB_CHECK_4_2190	PROCEDURE	156	"                     zy_patient_information c
+"
+PRC_YB_CHECK_4_2190	PROCEDURE	157	"               where d.yibaodm = e.xmbh
+"
+PRC_YB_CHECK_4_2190	PROCEDURE	158	"                 and substr(d.yibaodm, 1, 12) = substr(e.xmbh, 1, 12)
+"
+PRC_YB_CHECK_4_2190	PROCEDURE	159	"                 and e.gzbh = 4
+"
+PRC_YB_CHECK_4_2190	PROCEDURE	160	"                 and (instr(e.shbz, '6周岁') > 0)
+"
+PRC_YB_CHECK_4_2190	PROCEDURE	161	"                 and e.ypzlpb = 0
+"
+PRC_YB_CHECK_4_2190	PROCEDURE	162	"                 and a.patient_no = c.patient_no
+"
+PRC_YB_CHECK_4_2190	PROCEDURE	163	"                 and a.js_no = c.js_no
+"
+PRC_YB_CHECK_4_2190	PROCEDURE	164	"                 and a.infant_flag = 0
+"
+PRC_YB_CHECK_4_2190	PROCEDURE	165	"                 and nvl(a.spbh, 0) <> -10
+"
+PRC_YB_CHECK_4_2190	PROCEDURE	166	"                 and a.charge_code = d.xiangmuxh
+"
+PRC_YB_CHECK_4_2190	PROCEDURE	167	"                 and d.yaopinpb = 0
+"
+PRC_YB_CHECK_4_2190	PROCEDURE	168	"                 and a.fygl > 3
+"
+PRC_YB_CHECK_4_2190	PROCEDURE	169	"                 and (sysdate - nvl(c.birthday, sysdate)) > 2190
+"
+PRC_YB_CHECK_4_2190	PROCEDURE	170	"                 and d.yibaolx = '9997'
+"
+PRC_YB_CHECK_4_2190	PROCEDURE	171	"                 and d.tingyongrq is null
+"
+PRC_YB_CHECK_4_2190	PROCEDURE	172	"                 and c.js_no = 0
+"
+PRC_YB_CHECK_4_2190	PROCEDURE	173	"                 and c.patient_No = in_patient_no
+"
+PRC_YB_CHECK_4_2190	PROCEDURE	174	"              
+"
+PRC_YB_CHECK_4_2190	PROCEDURE	175	"              )
+"
+PRC_YB_CHECK_4_2190	PROCEDURE	176	"            
+"
+PRC_YB_CHECK_4_2190	PROCEDURE	177	"         and jcfx_date > sysdate - 0.1
+"
+PRC_YB_CHECK_4_2190	PROCEDURE	178	"         and patient_no = in_patient_no;
+"
+PRC_YB_CHECK_4_2190	PROCEDURE	179	"    
+"
+PRC_YB_CHECK_4_2190	PROCEDURE	180	"      if sqlcode = 0 then
+"
+PRC_YB_CHECK_4_2190	PROCEDURE	181	"        commit;
+"
+PRC_YB_CHECK_4_2190	PROCEDURE	182	"      else
+"
+PRC_YB_CHECK_4_2190	PROCEDURE	183	"        rollback;
+"
+PRC_YB_CHECK_4_2190	PROCEDURE	184	"      end if;
+"
+PRC_YB_CHECK_4_2190	PROCEDURE	185	"      out_msg := '';
+"
+PRC_YB_CHECK_4_2190	PROCEDURE	186	"      return;
+"
+PRC_YB_CHECK_4_2190	PROCEDURE	187	"    else
+"
+PRC_YB_CHECK_4_2190	PROCEDURE	188	"    
+"
+PRC_YB_CHECK_4_2190	PROCEDURE	189	"      select patient_no, wm_concat(rq || ':' || xmmc || ':限儿童6周岁使用')
+"
+PRC_YB_CHECK_4_2190	PROCEDURE	190	"        into v_patient_no, v_data
+"
+PRC_YB_CHECK_4_2190	PROCEDURE	191	"      
+"
+PRC_YB_CHECK_4_2190	PROCEDURE	192	"        from (select a.patient_no,
+"
+PRC_YB_CHECK_4_2190	PROCEDURE	193	"                     to_char(a.charge_date, 'yyyy-mm-dd') rq,
+"
+PRC_YB_CHECK_4_2190	PROCEDURE	194	"                     e.xmmc,
+"
+PRC_YB_CHECK_4_2190	PROCEDURE	195	"                     sum(a.sl) sl
+"
+PRC_YB_CHECK_4_2190	PROCEDURE	196	"                from zy_detail_charge       a,
+"
+PRC_YB_CHECK_4_2190	PROCEDURE	197	"                     yb_znshgz              e,
+"
+PRC_YB_CHECK_4_2190	PROCEDURE	198	"                     yb_duizhaoml           d,
+"
+PRC_YB_CHECK_4_2190	PROCEDURE	199	"                     zy_patient_information c
+"
+PRC_YB_CHECK_4_2190	PROCEDURE	200	"               where d.yibaodm = e.xmbh
+"
+PRC_YB_CHECK_4_2190	PROCEDURE	201	"                 and substr(d.yibaodm, 1, 12) = substr(e.xmbh, 1, 12)
+"
+PRC_YB_CHECK_4_2190	PROCEDURE	202	"                 and e.gzbh = 4
+"
+PRC_YB_CHECK_4_2190	PROCEDURE	203	"                 and (instr(e.shbz, '6周岁') > 0)
+"
+PRC_YB_CHECK_4_2190	PROCEDURE	204	"                 and e.ypzlpb = 0
+"
+PRC_YB_CHECK_4_2190	PROCEDURE	205	"                 and a.patient_no = c.patient_no
+"
+PRC_YB_CHECK_4_2190	PROCEDURE	206	"                 and a.js_no = c.js_no
+"
+PRC_YB_CHECK_4_2190	PROCEDURE	207	"                 and a.infant_flag = 0
+"
+PRC_YB_CHECK_4_2190	PROCEDURE	208	"                 and nvl(a.spbh, 0) <> -10
+"
+PRC_YB_CHECK_4_2190	PROCEDURE	209	"                 and a.charge_code = d.xiangmuxh
+"
+PRC_YB_CHECK_4_2190	PROCEDURE	210	"                 and d.yaopinpb = 0
+"
+PRC_YB_CHECK_4_2190	PROCEDURE	211	"                 and a.fygl > 3
+"
+PRC_YB_CHECK_4_2190	PROCEDURE	212	"                 and (sysdate - nvl(c.birthday, sysdate)) > 2190
+"
+PRC_YB_CHECK_4_2190	PROCEDURE	213	"                 and d.yibaolx = '9997'
+"
+PRC_YB_CHECK_4_2190	PROCEDURE	214	"                 and d.tingyongrq is null
+"
+PRC_YB_CHECK_4_2190	PROCEDURE	215	"                 and c.js_no = 0
+"
+PRC_YB_CHECK_4_2190	PROCEDURE	216	"                 and c.patient_No = in_patient_no
+"
+PRC_YB_CHECK_4_2190	PROCEDURE	217	"               group by a.patient_no,
+"
+PRC_YB_CHECK_4_2190	PROCEDURE	218	"                        to_char(a.charge_date, 'yyyy-mm-dd'),
+"
+PRC_YB_CHECK_4_2190	PROCEDURE	219	"                        e.xmmc
+"
+PRC_YB_CHECK_4_2190	PROCEDURE	220	"              having sum(a.sl) > 0)
+"
+PRC_YB_CHECK_4_2190	PROCEDURE	221	"       group by patient_no;
+"
+PRC_YB_CHECK_4_2190	PROCEDURE	222	"    
+"
+PRC_YB_CHECK_4_2190	PROCEDURE	223	"      --
+"
+PRC_YB_CHECK_4_2190	PROCEDURE	224	"    
+"
+PRC_YB_CHECK_4_2190	PROCEDURE	225	"      --length(out_msg)>1
+"
+PRC_YB_CHECK_4_2190	PROCEDURE	226	"      if length(v_data) > 1 and v_patient_no > 0 then
+"
+PRC_YB_CHECK_4_2190	PROCEDURE	227	"        select count(*)
+"
+PRC_YB_CHECK_4_2190	PROCEDURE	228	"          into v_count
+"
+PRC_YB_CHECK_4_2190	PROCEDURE	229	"          From yb_znshgz_zybr
+"
+PRC_YB_CHECK_4_2190	PROCEDURE	230	"         where patient_no = v_patient_no;
+"
+PRC_YB_CHECK_4_2190	PROCEDURE	231	"        if v_count > 0 then
+"
+PRC_YB_CHECK_4_2190	PROCEDURE	232	"          update yb_znshgz_zybr
+"
+PRC_YB_CHECK_4_2190	PROCEDURE	233	"             set rq = sysdate, bz = nvl(bz, ' ') || v_data
+"
+PRC_YB_CHECK_4_2190	PROCEDURE	234	"           where patient_no = v_patient_no;
+"
+PRC_YB_CHECK_4_2190	PROCEDURE	235	"        end if;
+"
+PRC_YB_CHECK_4_2190	PROCEDURE	236	"        if v_count = 0 then
+"
+PRC_YB_CHECK_4_2190	PROCEDURE	237	"          insert into yb_znshgz_zybr
+"
+PRC_YB_CHECK_4_2190	PROCEDURE	238	"            (patient_no, bz)
+"
+PRC_YB_CHECK_4_2190	PROCEDURE	239	"          values
+"
+PRC_YB_CHECK_4_2190	PROCEDURE	240	"            (v_patient_no, v_data);
+"
+PRC_YB_CHECK_4_2190	PROCEDURE	241	"        end if;
+"
+PRC_YB_CHECK_4_2190	PROCEDURE	242	"        if sqlcode = 0 then
+"
+PRC_YB_CHECK_4_2190	PROCEDURE	243	"          commit;
+"
+PRC_YB_CHECK_4_2190	PROCEDURE	244	"        else
+"
+PRC_YB_CHECK_4_2190	PROCEDURE	245	"          rollback;
+"
+PRC_YB_CHECK_4_2190	PROCEDURE	246	"        end if;
+"
+PRC_YB_CHECK_4_2190	PROCEDURE	247	"      end if;
+"
+PRC_YB_CHECK_4_2190	PROCEDURE	248	"    end if;
+"
+PRC_YB_CHECK_4_2190	PROCEDURE	249	"  
+"
+PRC_YB_CHECK_4_2190	PROCEDURE	250	"  end if;
+"
+PRC_YB_CHECK_4_2190	PROCEDURE	251	"
+"
+PRC_YB_CHECK_4_2190	PROCEDURE	252	"EXCEPTION
+"
+PRC_YB_CHECK_4_2190	PROCEDURE	253	"  WHEN OTHERS Then
+"
+PRC_YB_CHECK_4_2190	PROCEDURE	254	"    Rollback;
+"
+PRC_YB_CHECK_4_2190	PROCEDURE	255	"    out_msg := '处理失败,PRC_YB_CHECK_4_2190';
+"
+PRC_YB_CHECK_4_2190	PROCEDURE	256	"    return;
+"
+PRC_YB_CHECK_4_2190	PROCEDURE	257	"end PRC_YB_CHECK_4_2190;
+"

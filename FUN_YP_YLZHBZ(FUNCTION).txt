@@ -1,0 +1,144 @@
+FUN_YP_YLZHBZ	FUNCTION	1	"function fun_Yp_YlZhBZ(Prm_Ypxh In Number,
+"
+FUN_YP_YLZHBZ	FUNCTION	2	"                                             Prm_Ypyl In Varchar2,
+"
+FUN_YP_YLZHBZ	FUNCTION	3	"                                             prm_Yldw In Varchar2,
+"
+FUN_YP_YLZHBZ	FUNCTION	4	"                                             prm_lx   In number
+"
+FUN_YP_YLZHBZ	FUNCTION	5	"                                             )
+"
+FUN_YP_YLZHBZ	FUNCTION	6	"  RETURN varchar2 IS
+"
+FUN_YP_YLZHBZ	FUNCTION	7	"  Prm_return Varchar2(20);
+"
+FUN_YP_YLZHBZ	FUNCTION	8	"  ls_Ypyl    Varchar2(20);
+"
+FUN_YP_YLZHBZ	FUNCTION	9	"  ls_Yldw    Varchar2(20);
+"
+FUN_YP_YLZHBZ	FUNCTION	10	"  ld_Ypyl    Number(13, 5);
+"
+FUN_YP_YLZHBZ	FUNCTION	11	"  ls_Zl      zjhis.Gy_Ypmcggzd.zl%type;
+"
+FUN_YP_YLZHBZ	FUNCTION	12	"  ls_zldw    zjhis.Gy_Ypmcggzd.zldw%type;
+"
+FUN_YP_YLZHBZ	FUNCTION	13	"  ls_Tj      zjhis.Gy_Ypmcggzd.tj%type;
+"
+FUN_YP_YLZHBZ	FUNCTION	14	"  ls_Tjdw    zjhis.Gy_Ypmcggzd.tjdw%type;
+"
+FUN_YP_YLZHBZ	FUNCTION	15	"  ls_bzdw    zjhis.Gy_Ypmcggzd.ypbzdw%type;
+"
+FUN_YP_YLZHBZ	FUNCTION	16	"  ls_bzl     zjhis.Gy_Ypmcggzd.ypbzl%type;
+"
+FUN_YP_YLZHBZ	FUNCTION	17	"  ls_YpzxDw  zjhis.Gy_Ypmcggzd.ypzxdw%type;
+"
+FUN_YP_YLZHBZ	FUNCTION	18	"  ld_ypbzl  Number(13, 5);
+"
+FUN_YP_YLZHBZ	FUNCTION	19	"
+"
+FUN_YP_YLZHBZ	FUNCTION	20	"Begin
+"
+FUN_YP_YLZHBZ	FUNCTION	21	"
+"
+FUN_YP_YLZHBZ	FUNCTION	22	"  ld_Ypyl := To_Number(Prm_Ypyl);
+"
+FUN_YP_YLZHBZ	FUNCTION	23	"  ls_Yldw := Prm_Yldw;
+"
+FUN_YP_YLZHBZ	FUNCTION	24	"
+"
+FUN_YP_YLZHBZ	FUNCTION	25	"  If Prm_Ypxh is null or trim(Prm_Ypxh) = '' THEN
+"
+FUN_YP_YLZHBZ	FUNCTION	26	"     RETURN NULL;
+"
+FUN_YP_YLZHBZ	FUNCTION	27	"  END IF;
+"
+FUN_YP_YLZHBZ	FUNCTION	28	"
+"
+FUN_YP_YLZHBZ	FUNCTION	29	"  Select zl, zldw, tj, tjdw, ypzxdw, ypbzl, ypbzdw
+"
+FUN_YP_YLZHBZ	FUNCTION	30	"    Into ls_zl, ls_zldw, ls_tj, ls_tjdw, ls_YpzxDw, ls_bzl, ls_bzdw
+"
+FUN_YP_YLZHBZ	FUNCTION	31	"    From zjhis.gy_ypmcggzd
+"
+FUN_YP_YLZHBZ	FUNCTION	32	"   Where ypxh = Prm_Ypxh;
+"
+FUN_YP_YLZHBZ	FUNCTION	33	"
+"
+FUN_YP_YLZHBZ	FUNCTION	34	"  If   ls_Yldw =ls_Ypzxdw and To_Number(ls_bzl) >0 Then
+"
+FUN_YP_YLZHBZ	FUNCTION	35	"    --最小单位和用量单位一致,不用转换
+"
+FUN_YP_YLZHBZ	FUNCTION	36	"    ld_ypbzl := To_Number(ls_bzl);
+"
+FUN_YP_YLZHBZ	FUNCTION	37	"    ls_YpYl   := to_char(round(ld_Ypyl/ld_ypbzl,2));
+"
+FUN_YP_YLZHBZ	FUNCTION	38	"    ls_Yldw   := ls_bzdw;
+"
+FUN_YP_YLZHBZ	FUNCTION	39	"  ElsIf ls_Yldw = ls_Tjdw and To_Number(ls_tj) > 0 and To_Number(ls_bzl) >0 Then
+"
+FUN_YP_YLZHBZ	FUNCTION	40	"    --- 判断zl,zldw  ,用zl,zldw转换
+"
+FUN_YP_YLZHBZ	FUNCTION	41	"    ld_ypbzl := To_Number(ls_bzl);
+"
+FUN_YP_YLZHBZ	FUNCTION	42	"    ls_YpYl   := To_char(round((ld_Ypyl / To_Number(ls_tj))/ld_ypbzl,2));
+"
+FUN_YP_YLZHBZ	FUNCTION	43	"    ls_Yldw   := ls_bzdw;
+"
+FUN_YP_YLZHBZ	FUNCTION	44	"  ElsIf ls_Yldw = ls_zldw and To_Number(ls_zl) > 0 and To_Number(ls_bzl) >0 Then
+"
+FUN_YP_YLZHBZ	FUNCTION	45	"    --- 判断zl,zldw  ,用zl,zldw转换
+"
+FUN_YP_YLZHBZ	FUNCTION	46	"    ld_ypbzl := To_Number(ls_bzl);
+"
+FUN_YP_YLZHBZ	FUNCTION	47	"    ls_YpYl   := To_char(round((ld_Ypyl / To_Number(ls_zl))/ld_ypbzl,2));
+"
+FUN_YP_YLZHBZ	FUNCTION	48	"    ls_Yldw   := ls_bzdw;
+"
+FUN_YP_YLZHBZ	FUNCTION	49	"  Else
+"
+FUN_YP_YLZHBZ	FUNCTION	50	"    ---取传过来的数据
+"
+FUN_YP_YLZHBZ	FUNCTION	51	"    ls_YpYl := Prm_YpYl;
+"
+FUN_YP_YLZHBZ	FUNCTION	52	"    ls_Yldw := Prm_Yldw;
+"
+FUN_YP_YLZHBZ	FUNCTION	53	"  End If;
+"
+FUN_YP_YLZHBZ	FUNCTION	54	"  --对Out 变量进行复值
+"
+FUN_YP_YLZHBZ	FUNCTION	55	"  IF prm_lx = 1 THEN
+"
+FUN_YP_YLZHBZ	FUNCTION	56	"     Prm_return := ls_Ypyl;
+"
+FUN_YP_YLZHBZ	FUNCTION	57	"  ELSE
+"
+FUN_YP_YLZHBZ	FUNCTION	58	"     Prm_return := ls_Yldw;
+"
+FUN_YP_YLZHBZ	FUNCTION	59	"  END IF;
+"
+FUN_YP_YLZHBZ	FUNCTION	60	"  return Prm_return;
+"
+FUN_YP_YLZHBZ	FUNCTION	61	"Exception
+"
+FUN_YP_YLZHBZ	FUNCTION	62	"  When Others Then
+"
+FUN_YP_YLZHBZ	FUNCTION	63	"    --出错取传过来的数据
+"
+FUN_YP_YLZHBZ	FUNCTION	64	"    -- Prm_Ypyl:=ls_Ypyl;
+"
+FUN_YP_YLZHBZ	FUNCTION	65	"    -- prm_Yldw:=ls_Yldw;
+"
+FUN_YP_YLZHBZ	FUNCTION	66	"   IF prm_lx = 1 THEN
+"
+FUN_YP_YLZHBZ	FUNCTION	67	"     Prm_return := prm_Ypyl;
+"
+FUN_YP_YLZHBZ	FUNCTION	68	"  ELSE
+"
+FUN_YP_YLZHBZ	FUNCTION	69	"     Prm_return := prm_Yldw;
+"
+FUN_YP_YLZHBZ	FUNCTION	70	"  END IF;
+"
+FUN_YP_YLZHBZ	FUNCTION	71	"   return Prm_return;
+"
+FUN_YP_YLZHBZ	FUNCTION	72	"End;
+"

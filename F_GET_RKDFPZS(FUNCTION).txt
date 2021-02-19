@@ -1,0 +1,101 @@
+F_GET_RKDFPZS	FUNCTION	1	"FUNCTION         ""F_GET_RKDFPZS"" (as_xtxh string,ad_rkdxh NUMBER) RETURN NUMBER 
+"
+F_GET_RKDFPZS	FUNCTION	2	" AS 
+"
+F_GET_RKDFPZS	FUNCTION	3	" --功能说明：根据传入的入库单序号取发票张数 
+"
+F_GET_RKDFPZS	FUNCTION	4	"   li_fpzs NUMBER(2); 
+"
+F_GET_RKDFPZS	FUNCTION	5	"   ls_syfp VARCHAR2(4000); 
+"
+F_GET_RKDFPZS	FUNCTION	6	"   ls_fphm VARCHAR2(1000); 
+"
+F_GET_RKDFPZS	FUNCTION	7	"   ls_hm VARCHAR2(100); 
+"
+F_GET_RKDFPZS	FUNCTION	8	"   li_pos NUMBER(5); 
+"
+F_GET_RKDFPZS	FUNCTION	9	"   li_in NUMBER(5); 
+"
+F_GET_RKDFPZS	FUNCTION	10	" --定义入库单明细数据游标
+"
+F_GET_RKDFPZS	FUNCTION	11	"   CURSOR c_mx IS 
+"
+F_GET_RKDFPZS	FUNCTION	12	"   SELECT distinct fphm FROM wz_rkdmx 
+"
+F_GET_RKDFPZS	FUNCTION	13	"   WHERE xtxh = as_xtxh and rkdxh = ad_rkdxh; 
+"
+F_GET_RKDFPZS	FUNCTION	14	" BEGIN 
+"
+F_GET_RKDFPZS	FUNCTION	15	"   ls_syfp :=''; 
+"
+F_GET_RKDFPZS	FUNCTION	16	"   li_fpzs :=0; 
+"
+F_GET_RKDFPZS	FUNCTION	17	" --取锁定时间范围
+"
+F_GET_RKDFPZS	FUNCTION	18	"   OPEN c_mx; 
+"
+F_GET_RKDFPZS	FUNCTION	19	"   LOOP 
+"
+F_GET_RKDFPZS	FUNCTION	20	"     FETCH c_mx INTO ls_fphm; 
+"
+F_GET_RKDFPZS	FUNCTION	21	"     IF c_mx %NOTFOUND THEN EXIT; END IF; 
+"
+F_GET_RKDFPZS	FUNCTION	22	"  --分解发票号码
+"
+F_GET_RKDFPZS	FUNCTION	23	"     li_pos := instr(ls_fphm,'/'); 
+"
+F_GET_RKDFPZS	FUNCTION	24	"     while li_pos > 0 loop 
+"
+F_GET_RKDFPZS	FUNCTION	25	"        ls_hm := substr(ls_fphm,1,li_pos -1)||'/'; 
+"
+F_GET_RKDFPZS	FUNCTION	26	"        li_in := instr(ls_syfp,ls_hm); 
+"
+F_GET_RKDFPZS	FUNCTION	27	"        if li_in <= 0 or li_in is null then 
+"
+F_GET_RKDFPZS	FUNCTION	28	"           li_fpzs := li_fpzs + 1; 
+"
+F_GET_RKDFPZS	FUNCTION	29	"           ls_syfp := ls_syfp||ls_hm; 
+"
+F_GET_RKDFPZS	FUNCTION	30	"         end if; 
+"
+F_GET_RKDFPZS	FUNCTION	31	"         ls_fphm := substr(ls_fphm,li_pos+1,Length(ls_fphm)); 
+"
+F_GET_RKDFPZS	FUNCTION	32	"         li_pos := instr(ls_fphm,'/'); 
+"
+F_GET_RKDFPZS	FUNCTION	33	"     end Loop; 
+"
+F_GET_RKDFPZS	FUNCTION	34	"     if length(ls_fphm) > 0 then 
+"
+F_GET_RKDFPZS	FUNCTION	35	"      ls_hm := ls_fphm||'/'; 
+"
+F_GET_RKDFPZS	FUNCTION	36	"       li_in := instr(ls_syfp,ls_hm); 
+"
+F_GET_RKDFPZS	FUNCTION	37	"       if li_in <= 0 or li_in is null then 
+"
+F_GET_RKDFPZS	FUNCTION	38	"         li_fpzs := li_fpzs + 1; 
+"
+F_GET_RKDFPZS	FUNCTION	39	"         ls_syfp := ls_syfp||ls_hm; 
+"
+F_GET_RKDFPZS	FUNCTION	40	"       end if; 
+"
+F_GET_RKDFPZS	FUNCTION	41	"      end if; 
+"
+F_GET_RKDFPZS	FUNCTION	42	"   END LOOP; 
+"
+F_GET_RKDFPZS	FUNCTION	43	"   CLOSE c_mx; 
+"
+F_GET_RKDFPZS	FUNCTION	44	"   ls_syfp := substr(ls_syfp,length(ls_syfp) -1); 
+"
+F_GET_RKDFPZS	FUNCTION	45	"   RETURN li_fpzs; 
+"
+F_GET_RKDFPZS	FUNCTION	46	"  --异常处理
+"
+F_GET_RKDFPZS	FUNCTION	47	"   Exception 
+"
+F_GET_RKDFPZS	FUNCTION	48	"   When Others Then 
+"
+F_GET_RKDFPZS	FUNCTION	49	"    RETURN 0; 
+"
+F_GET_RKDFPZS	FUNCTION	50	" END F_GET_RKDFPZS; 
+"
+F_GET_RKDFPZS	FUNCTION	51	 

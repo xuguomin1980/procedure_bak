@@ -1,0 +1,62 @@
+F_ZYXT_JIESUAN_INFANT	FUNCTION	1	"FUNCTION ""F_ZYXT_JIESUAN_INFANT""(arg_patient_no Number)
+"
+F_ZYXT_JIESUAN_INFANT	FUNCTION	2	"  return number Is
+"
+F_ZYXT_JIESUAN_INFANT	FUNCTION	3	"  ll_count  number;
+"
+F_ZYXT_JIESUAN_INFANT	FUNCTION	4	"  infant_je number;
+"
+F_ZYXT_JIESUAN_INFANT	FUNCTION	5	"  ll_brlb   number;
+"
+F_ZYXT_JIESUAN_INFANT	FUNCTION	6	"  je_infant number;
+"
+F_ZYXT_JIESUAN_INFANT	FUNCTION	7	"  ls_show   varchar2(500);
+"
+F_ZYXT_JIESUAN_INFANT	FUNCTION	8	"  ls_time   varchar2(20);
+"
+F_ZYXT_JIESUAN_INFANT	FUNCTION	9	"  --  ll_pos         number;
+"
+F_ZYXT_JIESUAN_INFANT	FUNCTION	10	"  --ls_syzldm      varchar2(200);
+"
+F_ZYXT_JIESUAN_INFANT	FUNCTION	11	"  -- ls_ybdm        varchar2(50);
+"
+F_ZYXT_JIESUAN_INFANT	FUNCTION	12	"Begin
+"
+F_ZYXT_JIESUAN_INFANT	FUNCTION	13	"
+"
+F_ZYXT_JIESUAN_INFANT	FUNCTION	14	"  select sum(zje)
+"
+F_ZYXT_JIESUAN_INFANT	FUNCTION	15	"    into infant_je
+"
+F_ZYXT_JIESUAN_INFANT	FUNCTION	16	"    from (select sum(dj * sl) zje
+"
+F_ZYXT_JIESUAN_INFANT	FUNCTION	17	"            from zy_detail_charge
+"
+F_ZYXT_JIESUAN_INFANT	FUNCTION	18	"           where infant_flag = 1
+"
+F_ZYXT_JIESUAN_INFANT	FUNCTION	19	"             and js_no = 1
+"
+F_ZYXT_JIESUAN_INFANT	FUNCTION	20	"             and patient_no = arg_patient_no
+"
+F_ZYXT_JIESUAN_INFANT	FUNCTION	21	"          union all
+"
+F_ZYXT_JIESUAN_INFANT	FUNCTION	22	"          select sum(dj * sl) zje
+"
+F_ZYXT_JIESUAN_INFANT	FUNCTION	23	"            from zy_detail_charge
+"
+F_ZYXT_JIESUAN_INFANT	FUNCTION	24	"           where infant_flag = 1
+"
+F_ZYXT_JIESUAN_INFANT	FUNCTION	25	"             and js_no = 0
+"
+F_ZYXT_JIESUAN_INFANT	FUNCTION	26	"             and patient_no = arg_patient_no
+"
+F_ZYXT_JIESUAN_INFANT	FUNCTION	27	"          union all
+"
+F_ZYXT_JIESUAN_INFANT	FUNCTION	28	"          select 0 from dual);
+"
+F_ZYXT_JIESUAN_INFANT	FUNCTION	29	"  return infant_je;
+"
+F_ZYXT_JIESUAN_INFANT	FUNCTION	30	"
+"
+F_ZYXT_JIESUAN_INFANT	FUNCTION	31	"End;
+"

@@ -1,0 +1,33 @@
+F_YF_BQMC	FUNCTION	1	"FUNCTION         ""F_YF_BQMC"" ( as_bqdm  varchar2) return varchar2
+"
+F_YF_BQMC	FUNCTION	2	"is
+"
+F_YF_BQMC	FUNCTION	3	" ls_bqmc   gy_bqdm.bqmc%type;
+"
+F_YF_BQMC	FUNCTION	4	" begin
+"
+F_YF_BQMC	FUNCTION	5	"   begin
+"
+F_YF_BQMC	FUNCTION	6	"    select  bqmc
+"
+F_YF_BQMC	FUNCTION	7	"      into ls_bqmc
+"
+F_YF_BQMC	FUNCTION	8	"       from gy_bqdm
+"
+F_YF_BQMC	FUNCTION	9	"        where bqdm=as_bqdm;
+"
+F_YF_BQMC	FUNCTION	10	"    exception
+"
+F_YF_BQMC	FUNCTION	11	"      when others then
+"
+F_YF_BQMC	FUNCTION	12	"          ls_bqmc:='';
+"
+F_YF_BQMC	FUNCTION	13	"       end ;
+"
+F_YF_BQMC	FUNCTION	14	"     return(ls_bqmc);
+"
+F_YF_BQMC	FUNCTION	15	"end ;
+"
+F_YF_BQMC	FUNCTION	16	"
+"
+F_YF_BQMC	FUNCTION	17	 

@@ -1,0 +1,294 @@
+PKG_HIS_JIAGETXYW	PACKAGE	1	"package Pkg_His_JiaGeTxYw is
+"
+PKG_HIS_JIAGETXYW	PACKAGE	2	"
+"
+PKG_HIS_JIAGETXYW	PACKAGE	3	"  -- Author  : Daq
+"
+PKG_HIS_JIAGETXYW	PACKAGE	4	"  -- Created : 2017/04/21 19:40:52
+"
+PKG_HIS_JIAGETXYW	PACKAGE	5	"  -- Purpose : His新的价格体系业务
+"
+PKG_HIS_JIAGETXYW	PACKAGE	6	"  ---
+"
+PKG_HIS_JIAGETXYW	PACKAGE	7	"
+"
+PKG_HIS_JIAGETXYW	PACKAGE	8	"  --Modi daq  2017/05/02 16:27:20
+"
+PKG_HIS_JIAGETXYW	PACKAGE	9	"  -- Purpose 修改增加传入的费用日期小于启用日期时，不走新的价格体系
+"
+PKG_HIS_JIAGETXYW	PACKAGE	10	"  --Modi daq 2017/05/04 16:24:29
+"
+PKG_HIS_JIAGETXYW	PACKAGE	11	"  -- Purpose 年龄根据日实周岁来计算的完善
+"
+PKG_HIS_JIAGETXYW	PACKAGE	12	"/*
+"
+PKG_HIS_JIAGETXYW	PACKAGE	13	"  调用 =====Prc_His_JiaGeTx==========说明
+"
+PKG_HIS_JIAGETXYW	PACKAGE	14	"  In Xml
+"
+PKG_HIS_JIAGETXYW	PACKAGE	15	"|| As_in_xiangmuxx_xml=""<GEINEIBS>ERTONGNLSB</GEINEIBS>""                      //功能标识    ERTONGNLSB
+"
+PKG_HIS_JIAGETXYW	PACKAGE	16	"|| As_in_xiangmuxx_xml=As_in_xiangmuxx_xml+""<ZHENLIAOYPPB>0</ZHENLIAOYPPB>""  //诊疗药品判别 0:诊疗 1:药品
+"
+PKG_HIS_JIAGETXYW	PACKAGE	17	"|| As_in_xiangmuxx_xml=As_in_xiangmuxx_xml+""<XIANGMUXH>35454</XIANGMUXH>""    //项目序号 诊疗（gy_ylsf.ylxh) 药品 gy_ypcdjg.ypxh
+"
+PKG_HIS_JIAGETXYW	PACKAGE	18	"|| As_in_xiangmuxx_xml=As_in_xiangmuxx_xml+""<XIANGMUCD>0</XIANGMUCD>""        //项目产地 诊疗 0              药品 gy_ypcdjg.ypcddm
+"
+PKG_HIS_JIAGETXYW	PACKAGE	19	"|| As_in_xiangmuxx_xml=As_in_xiangmuxx_xml+""<OLDDJ>15.6</OLDDJ>""             //传入的原单价old
+"
+PKG_HIS_JIAGETXYW	PACKAGE	20	"||
+"
+PKG_HIS_JIAGETXYW	PACKAGE	21	"|| As_in_xiangmuxx_xml=As_in_xiangmuxx_xml+""<CHUSHENGRQ>20080601</CHUSHENGRQ>"" //出生日期  YYYYMMDD 格式
+"
+PKG_HIS_JIAGETXYW	PACKAGE	22	"|| As_in_xiangmuxx_xml=As_in_xiangmuxx_xml+""<FEIYONGRQ>20170408</FEIYONGRQ>""   //费用日期  YYYYMMDD 格式
+"
+PKG_HIS_JIAGETXYW	PACKAGE	23	"|| As_in_xiangmuxx_xml=As_in_xiangmuxx_xml+""<KEISHIDM>1040101</KEISHIDM>""       //科室代码
+"
+PKG_HIS_JIAGETXYW	PACKAGE	24	"||
+"
+PKG_HIS_JIAGETXYW	PACKAGE	25	"
+"
+PKG_HIS_JIAGETXYW	PACKAGE	26	"<GEINEIBS>ERTONGNLSB</GEINEIBS><ZHENLIAOYPPB>0</ZHENLIAOYPPB><XIANGMUXH>9981</XIANGMUXH><XIANGMUCD>0</XIANGMUCD><OLDDJ>20</OLDDJ><CHUSHENGRQ>20150601</CHUSHENGRQ><FEIYONGRQ>20170430</FEIYONGRQ><KEISHIDM>601400</KEISHIDM>
+"
+PKG_HIS_JIAGETXYW	PACKAGE	27	"
+"
+PKG_HIS_JIAGETXYW	PACKAGE	28	"
+"
+PKG_HIS_JIAGETXYW	PACKAGE	29	"  出参:
+"
+PKG_HIS_JIAGETXYW	PACKAGE	30	"||  Ref   as_out_xiangmuxx_xml=""<NEWDJ>25.6</NEWDJ><JIAGELB>2</JIAGELB><YIBAOYSXMXH>434535</YIBAOYSXMXH> &
+"
+PKG_HIS_JIAGETXYW	PACKAGE	31	"||              <RETURN>1</RETURN><ERRMSG></ERRMSG>""
+"
+PKG_HIS_JIAGETXYW	PACKAGE	32	"||
+"
+PKG_HIS_JIAGETXYW	PACKAGE	33	"||  Ref   ad_newdj  //传出单价
+"
+PKG_HIS_JIAGETXYW	PACKAGE	34	"||  Ref   as_errmsg //出错信息
+"
+PKG_HIS_JIAGETXYW	PACKAGE	35	"||
+"
+PKG_HIS_JIAGETXYW	PACKAGE	36	"||  返回:
+"
+PKG_HIS_JIAGETXYW	PACKAGE	37	"||      >=0 成功
+"
+PKG_HIS_JIAGETXYW	PACKAGE	38	"||      <0  出错
+"
+PKG_HIS_JIAGETXYW	PACKAGE	39	"*/
+"
+PKG_HIS_JIAGETXYW	PACKAGE	40	"
+"
+PKG_HIS_JIAGETXYW	PACKAGE	41	"
+"
+PKG_HIS_JIAGETXYW	PACKAGE	42	"
+"
+PKG_HIS_JIAGETXYW	PACKAGE	43	" ----价格体系业务底层 xml传入
+"
+PKG_HIS_JIAGETXYW	PACKAGE	44	"Procedure    Prc_His_JiaGeTx  (As_In_xiangmuxx_xml In Varchar2,
+"
+PKG_HIS_JIAGETXYW	PACKAGE	45	"                               Ai_DebugLtMs   In  Number,
+"
+PKG_HIS_JIAGETXYW	PACKAGE	46	"                               As_Out_xiangmuxx_xml Out Varchar2,
+"
+PKG_HIS_JIAGETXYW	PACKAGE	47	"                               Ad_NewDj       Out  GY_XiangMujgTx.xiangMudj%type,
+"
+PKG_HIS_JIAGETXYW	PACKAGE	48	"                               Ai_JiaGeLb    Out Gy_Xiangmujgtx.JiaGeLb%type,
+"
+PKG_HIS_JIAGETXYW	PACKAGE	49	"                               prm_AppCode  Out   Number,
+"
+PKG_HIS_JIAGETXYW	PACKAGE	50	"                               As_ErrMsg   Out   Varchar2);
+"
+PKG_HIS_JIAGETXYW	PACKAGE	51	" --儿童价格体系模式
+"
+PKG_HIS_JIAGETXYW	PACKAGE	52	"Procedure   Prc_ETJiaGeTx     (Ai_ZhenliaoYppb  In  Number,
+"
+PKG_HIS_JIAGETXYW	PACKAGE	53	"                               As_ChuShengrq In Varchar2,
+"
+PKG_HIS_JIAGETXYW	PACKAGE	54	"                               As_FeiYongrq   In Varchar2,
+"
+PKG_HIS_JIAGETXYW	PACKAGE	55	"                               As_KeiShiDm   In Varchar2,
+"
+PKG_HIS_JIAGETXYW	PACKAGE	56	"                               Al_XiangMuxh  In  Number,
+"
+PKG_HIS_JIAGETXYW	PACKAGE	57	"                               Al_XiangMucd  In  Number,
+"
+PKG_HIS_JIAGETXYW	PACKAGE	58	"                               Ad_OldDj      In  Number,
+"
+PKG_HIS_JIAGETXYW	PACKAGE	59	"                               Ad_NewDj       Out  GY_XiangMujgTx.xiangMudj%type,
+"
+PKG_HIS_JIAGETXYW	PACKAGE	60	"                               Ai_JiaGeLb    Out Gy_Xiangmujgtx.JiaGeLb%type,
+"
+PKG_HIS_JIAGETXYW	PACKAGE	61	"                               Al_YiBaoysxmxh Out Gy_Xiangmujgtx.Yibaoysxmxh%Type,
+"
+PKG_HIS_JIAGETXYW	PACKAGE	62	"                               Prm_AppCode  Out   Number,
+"
+PKG_HIS_JIAGETXYW	PACKAGE	63	"                               As_ErrMsg   Out   Varchar2);
+"
+PKG_HIS_JIAGETXYW	PACKAGE	64	"
+"
+PKG_HIS_JIAGETXYW	PACKAGE	65	" ---儿童价格体系模式--诊疗
+"
+PKG_HIS_JIAGETXYW	PACKAGE	66	"Procedure    Prc_ETJiaGeTx_ZhenLiao(As_ChuShengrq In Varchar2,
+"
+PKG_HIS_JIAGETXYW	PACKAGE	67	"                               As_FeiYongrq   In Varchar2,
+"
+PKG_HIS_JIAGETXYW	PACKAGE	68	"                               As_KeiShiDm   In Varchar2,
+"
+PKG_HIS_JIAGETXYW	PACKAGE	69	"                               Al_XiangMuxh  In  Number,
+"
+PKG_HIS_JIAGETXYW	PACKAGE	70	"                               Al_XiangMuCd  In  Number,
+"
+PKG_HIS_JIAGETXYW	PACKAGE	71	"                               Ad_OldDj      In  Number,
+"
+PKG_HIS_JIAGETXYW	PACKAGE	72	"                               Ad_NewDj       Out  GY_XiangMujgTx.xiangMudj%type,
+"
+PKG_HIS_JIAGETXYW	PACKAGE	73	"                               Ai_JiaGeLb    Out Gy_Xiangmujgtx.JiaGeLb%type,
+"
+PKG_HIS_JIAGETXYW	PACKAGE	74	"                               Al_YiBaoysxmxh Out Gy_Xiangmujgtx.Yibaoysxmxh%Type,
+"
+PKG_HIS_JIAGETXYW	PACKAGE	75	"                               prm_AppCode  Out   Number,
+"
+PKG_HIS_JIAGETXYW	PACKAGE	76	"                               As_ErrMsg   Out   Varchar2);
+"
+PKG_HIS_JIAGETXYW	PACKAGE	77	"
+"
+PKG_HIS_JIAGETXYW	PACKAGE	78	" ---儿童价格体系模式--药品
+"
+PKG_HIS_JIAGETXYW	PACKAGE	79	"Procedure    Prc_ETJiaGeTx_YaoPin(As_ChuShengrq In Varchar2,
+"
+PKG_HIS_JIAGETXYW	PACKAGE	80	"                               As_FeiYongrq   In Varchar2,
+"
+PKG_HIS_JIAGETXYW	PACKAGE	81	"                               As_KeiShiDm   In Varchar2,
+"
+PKG_HIS_JIAGETXYW	PACKAGE	82	"                               Al_XiangMuxh  In  Number,
+"
+PKG_HIS_JIAGETXYW	PACKAGE	83	"                               Al_XiangMuCd  In  Number,
+"
+PKG_HIS_JIAGETXYW	PACKAGE	84	"                               Ad_OldDj      In  Number,
+"
+PKG_HIS_JIAGETXYW	PACKAGE	85	"                               Ad_NewDj       Out  GY_XiangMujgTx.xiangMudj%type,
+"
+PKG_HIS_JIAGETXYW	PACKAGE	86	"                               Ai_JiaGeLb    Out Gy_Xiangmujgtx.JiaGeLb%type,
+"
+PKG_HIS_JIAGETXYW	PACKAGE	87	"                               Al_YiBaoysxmxh Out Gy_Xiangmujgtx.Yibaoysxmxh%Type,
+"
+PKG_HIS_JIAGETXYW	PACKAGE	88	"                               prm_AppCode  Out   Number,
+"
+PKG_HIS_JIAGETXYW	PACKAGE	89	"                               As_ErrMsg   Out   Varchar2);
+"
+PKG_HIS_JIAGETXYW	PACKAGE	90	"
+"
+PKG_HIS_JIAGETXYW	PACKAGE	91	"
+"
+PKG_HIS_JIAGETXYW	PACKAGE	92	" ---取诊疗单价
+"
+PKG_HIS_JIAGETXYW	PACKAGE	93	"Function   Fun_Get_ZHENLIAODJ(As_ChuShengrq In Varchar2,
+"
+PKG_HIS_JIAGETXYW	PACKAGE	94	"                               As_FeiYongrq   In Varchar2,
+"
+PKG_HIS_JIAGETXYW	PACKAGE	95	"                               As_KeiShiDm   In Varchar2,
+"
+PKG_HIS_JIAGETXYW	PACKAGE	96	"                               al_XiangMuxh  In Number
+"
+PKG_HIS_JIAGETXYW	PACKAGE	97	"                               )
+"
+PKG_HIS_JIAGETXYW	PACKAGE	98	"                          Return Number;
+"
+PKG_HIS_JIAGETXYW	PACKAGE	99	"
+"
+PKG_HIS_JIAGETXYW	PACKAGE	100	"
+"
+PKG_HIS_JIAGETXYW	PACKAGE	101	"  --取底层的价格体系
+"
+PKG_HIS_JIAGETXYW	PACKAGE	102	"Procedure Prc_Get_Xiangmujgtx(Ai_Jiagelb      In Gy_Xiangmujgtx.JiaGeLb%type,
+"
+PKG_HIS_JIAGETXYW	PACKAGE	103	"                              Ai_Zhenliaoyppb In Gy_Xiangmujgtx.ZhenliaoYppb%type,
+"
+PKG_HIS_JIAGETXYW	PACKAGE	104	"                              Al_Xiangmuxh   In  Gy_Xiangmujgtx.XiangMuxh%type,
+"
+PKG_HIS_JIAGETXYW	PACKAGE	105	"                              Al_Xiangmucd   In  Gy_Xiangmujgtx.XiangMuCd%type,
+"
+PKG_HIS_JIAGETXYW	PACKAGE	106	"                              As_FeiyongRq   In  Varchar2 , --yyyymmdd
+"
+PKG_HIS_JIAGETXYW	PACKAGE	107	"                              Ai_Debug  In Number,
+"
+PKG_HIS_JIAGETXYW	PACKAGE	108	"                              Ad_NewDj  Out  Gy_Xiangmujgtx.xiangmudj%type,
+"
+PKG_HIS_JIAGETXYW	PACKAGE	109	"                              prm_AppCode  Out   Number,
+"
+PKG_HIS_JIAGETXYW	PACKAGE	110	"                              As_ErrMsg   Out   Varchar2);
+"
+PKG_HIS_JIAGETXYW	PACKAGE	111	"
+"
+PKG_HIS_JIAGETXYW	PACKAGE	112	"  --分解XML字符串
+"
+PKG_HIS_JIAGETXYW	PACKAGE	113	"Function Fun_Get_XmlParm(prm_InXml   In    Varchar2,
+"
+PKG_HIS_JIAGETXYW	PACKAGE	114	"                            prm_InParm  In    Varchar2
+"
+PKG_HIS_JIAGETXYW	PACKAGE	115	"                        )
+"
+PKG_HIS_JIAGETXYW	PACKAGE	116	"   Return varchar2 ;
+"
+PKG_HIS_JIAGETXYW	PACKAGE	117	"
+"
+PKG_HIS_JIAGETXYW	PACKAGE	118	"  --取年龄Numer
+"
+PKG_HIS_JIAGETXYW	PACKAGE	119	"FUNCTION FUN_GET_AGE2NUMBER(ad_csrq IN date,ad_dqrq IN date,ai_cs IN VARCHAR2)
+"
+PKG_HIS_JIAGETXYW	PACKAGE	120	"RETURN Number;
+"
+PKG_HIS_JIAGETXYW	PACKAGE	121	"
+"
+PKG_HIS_JIAGETXYW	PACKAGE	122	"
+"
+PKG_HIS_JIAGETXYW	PACKAGE	123	" ---取价格体系
+"
+PKG_HIS_JIAGETXYW	PACKAGE	124	"Function Fun_Get_Xiangmujgtx(Ai_Jiagelb      In Number,
+"
+PKG_HIS_JIAGETXYW	PACKAGE	125	"                              Ai_Zhenliaoyppb In Number,
+"
+PKG_HIS_JIAGETXYW	PACKAGE	126	"                              Al_Xiangmuxh   In  Number,
+"
+PKG_HIS_JIAGETXYW	PACKAGE	127	"                              Al_Xiangmucd   In  Number,
+"
+PKG_HIS_JIAGETXYW	PACKAGE	128	"                              Ai_Debug  In Number  )
+"
+PKG_HIS_JIAGETXYW	PACKAGE	129	"Return Number;
+"
+PKG_HIS_JIAGETXYW	PACKAGE	130	"
+"
+PKG_HIS_JIAGETXYW	PACKAGE	131	"
+"
+PKG_HIS_JIAGETXYW	PACKAGE	132	"FUNCTION FUN_GET_XTCS
+"
+PKG_HIS_JIAGETXYW	PACKAGE	133	" (ARG_XTXH IN NUMBER,
+"
+PKG_HIS_JIAGETXYW	PACKAGE	134	"  ARG_CSMC IN VARCHAR2,
+"
+PKG_HIS_JIAGETXYW	PACKAGE	135	"  ARG_CSXH IN NUMBER,
+"
+PKG_HIS_JIAGETXYW	PACKAGE	136	"  ARG_DEFAULT IN VARCHAR2
+"
+PKG_HIS_JIAGETXYW	PACKAGE	137	"  /*1-arg_xtxh 系统序号 2-arg_csmc 参数命称 3-arg_csxh 参数值1/参数值2 4-arg_default
+"
+PKG_HIS_JIAGETXYW	PACKAGE	138	"   fun_get_csz(11,'ZYXYF',2,'1')='3'
+"
+PKG_HIS_JIAGETXYW	PACKAGE	139	"  */
+"
+PKG_HIS_JIAGETXYW	PACKAGE	140	" )
+"
+PKG_HIS_JIAGETXYW	PACKAGE	141	" RETURN VARCHAR2;
+"
+PKG_HIS_JIAGETXYW	PACKAGE	142	"
+"
+PKG_HIS_JIAGETXYW	PACKAGE	143	"
+"
+PKG_HIS_JIAGETXYW	PACKAGE	144	"
+"
+PKG_HIS_JIAGETXYW	PACKAGE	145	"
+"
+PKG_HIS_JIAGETXYW	PACKAGE	146	"
+"
+PKG_HIS_JIAGETXYW	PACKAGE	147	"end Pkg_His_JiaGeTxYw;
+"

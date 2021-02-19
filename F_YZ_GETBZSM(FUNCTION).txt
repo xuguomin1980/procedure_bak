@@ -1,0 +1,117 @@
+F_YZ_GETBZSM	FUNCTION	1	"FUNCTION         ""F_YZ_GETBZSM"" (an_yzlx in number,an_xmbm in number,an_hospitalid varchar2) return varchar2 is
+"
+F_YZ_GETBZSM	FUNCTION	2	"  Result varchar2(2000);
+"
+F_YZ_GETBZSM	FUNCTION	3	"  --用来取药品要医嘱项目对应的限制使用范围或备注说明
+"
+F_YZ_GETBZSM	FUNCTION	4	"  --add by xiefl 2009-2-18
+"
+F_YZ_GETBZSM	FUNCTION	5	"  --an_yzlx  1 诊疗 2药品
+"
+F_YZ_GETBZSM	FUNCTION	6	"  ls_xzsysm     varchar2(500);
+"
+F_YZ_GETBZSM	FUNCTION	7	"  ls_xmmc       varchar2(200);
+"
+F_YZ_GETBZSM	FUNCTION	8	"  ls_ybyldm8    varchar2(20);
+"
+F_YZ_GETBZSM	FUNCTION	9	"  ls_return     varchar2(2000):='';
+"
+F_YZ_GETBZSM	FUNCTION	10	"begin
+"
+F_YZ_GETBZSM	FUNCTION	11	"  if an_yzlx = 1 then
+"
+F_YZ_GETBZSM	FUNCTION	12	"      if instr(an_hospitalid,'浙二') > 0 then
+"
+F_YZ_GETBZSM	FUNCTION	13	"         for rec in (select ylxh  from yz_order_ylsf where order_code = an_xmbm) loop
+"
+F_YZ_GETBZSM	FUNCTION	14	"              begin
+"
+F_YZ_GETBZSM	FUNCTION	15	"               select nvl(ylmc,'') ,nvl(ybyldm8,'*')
+"
+F_YZ_GETBZSM	FUNCTION	16	"                 into ls_xmmc,ls_ybyldm8
+"
+F_YZ_GETBZSM	FUNCTION	17	"                 from gy_ylsf where ylxh = rec.ylxh;
+"
+F_YZ_GETBZSM	FUNCTION	18	"                if   nvl(ls_ybyldm8,'*') <> '*'  then
+"
+F_YZ_GETBZSM	FUNCTION	19	"                    begin
+"
+F_YZ_GETBZSM	FUNCTION	20	"                        select nvl(xianzhifw,'*')
+"
+F_YZ_GETBZSM	FUNCTION	21	"                        into ls_xzsysm
+"
+F_YZ_GETBZSM	FUNCTION	22	"                        from ybv_zhenliaoml_dzsy
+"
+F_YZ_GETBZSM	FUNCTION	23	"                        where YiBaoDM = ls_ybyldm8;
+"
+F_YZ_GETBZSM	FUNCTION	24	"                        if  nvl(ls_xzsysm,'*') <> '*' then
+"
+F_YZ_GETBZSM	FUNCTION	25	"                            ls_return   := ls_return||' '||ls_xmmc||'：'||ls_xzsysm;
+"
+F_YZ_GETBZSM	FUNCTION	26	"                        end if;
+"
+F_YZ_GETBZSM	FUNCTION	27	"                    exception
+"
+F_YZ_GETBZSM	FUNCTION	28	"                    when others then
+"
+F_YZ_GETBZSM	FUNCTION	29	"                         ls_return := ls_return;
+"
+F_YZ_GETBZSM	FUNCTION	30	"                    end;
+"
+F_YZ_GETBZSM	FUNCTION	31	"                end if;
+"
+F_YZ_GETBZSM	FUNCTION	32	"               exception
+"
+F_YZ_GETBZSM	FUNCTION	33	"                  when others then
+"
+F_YZ_GETBZSM	FUNCTION	34	"                      ls_return := ls_return;
+"
+F_YZ_GETBZSM	FUNCTION	35	"                end;
+"
+F_YZ_GETBZSM	FUNCTION	36	"          end loop;
+"
+F_YZ_GETBZSM	FUNCTION	37	"      else
+"
+F_YZ_GETBZSM	FUNCTION	38	"          for rec in (select ylxh  from yz_order_ylsf where order_code = an_xmbm) loop
+"
+F_YZ_GETBZSM	FUNCTION	39	"              begin
+"
+F_YZ_GETBZSM	FUNCTION	40	"               select nvl(ylmc,'') ,nvl(xzsysm,'*')
+"
+F_YZ_GETBZSM	FUNCTION	41	"                 into ls_xmmc,ls_xzsysm
+"
+F_YZ_GETBZSM	FUNCTION	42	"                 from gy_ylsf where ylxh = rec.ylxh;
+"
+F_YZ_GETBZSM	FUNCTION	43	"                if  nvl(ls_xzsysm,'*') <> '*' then
+"
+F_YZ_GETBZSM	FUNCTION	44	"                    ls_return   := ls_return||' '||ls_xmmc||'：'||ls_xzsysm;
+"
+F_YZ_GETBZSM	FUNCTION	45	"                end if;
+"
+F_YZ_GETBZSM	FUNCTION	46	"               exception
+"
+F_YZ_GETBZSM	FUNCTION	47	"                  when others then
+"
+F_YZ_GETBZSM	FUNCTION	48	"                      ls_return := ls_return;
+"
+F_YZ_GETBZSM	FUNCTION	49	"                end;
+"
+F_YZ_GETBZSM	FUNCTION	50	"          end loop;
+"
+F_YZ_GETBZSM	FUNCTION	51	"       end if;
+"
+F_YZ_GETBZSM	FUNCTION	52	"  else
+"
+F_YZ_GETBZSM	FUNCTION	53	"     ls_return := '';
+"
+F_YZ_GETBZSM	FUNCTION	54	"  end if ;
+"
+F_YZ_GETBZSM	FUNCTION	55	"  Result := ls_return;
+"
+F_YZ_GETBZSM	FUNCTION	56	"  return(Result);
+"
+F_YZ_GETBZSM	FUNCTION	57	"end F_YZ_GETBZSM;
+"
+F_YZ_GETBZSM	FUNCTION	58	"
+"
+F_YZ_GETBZSM	FUNCTION	59	 

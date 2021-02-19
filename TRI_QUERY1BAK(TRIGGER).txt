@@ -1,0 +1,12 @@
+TRI_QUERY1BAK	TRIGGER	1	"TRIGGER ""ZJHIS"".tri_query1bak
+"
+TRI_QUERY1BAK	TRIGGER	2	" before insert on query1bak
+"
+TRI_QUERY1BAK	TRIGGER	3	" for each row
+"
+TRI_QUERY1BAK	TRIGGER	4	"   begin
+"
+TRI_QUERY1BAK	TRIGGER	5	"     select seq_query1bak.nextval into :new.id from dual;
+"
+TRI_QUERY1BAK	TRIGGER	6	"   end tri_query1bak;
+"

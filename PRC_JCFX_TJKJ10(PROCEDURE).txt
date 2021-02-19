@@ -1,0 +1,207 @@
+PRC_JCFX_TJKJ10	PROCEDURE	1	"PROCEDURE         ""PRC_JCFX_TJKJ10"" (on_code     OUT NUMBER,
+"
+PRC_JCFX_TJKJ10	PROCEDURE	2	"                                            ov_mess     OUT VARCHAR2)
+"
+PRC_JCFX_TJKJ10	PROCEDURE	3	"IS
+"
+PRC_JCFX_TJKJ10	PROCEDURE	4	"BEGIN
+"
+PRC_JCFX_TJKJ10	PROCEDURE	5	"   DECLARE
+"
+PRC_JCFX_TJKJ10	PROCEDURE	6	"      
+"
+PRC_JCFX_TJKJ10	PROCEDURE	7	"      ln_count            NUMBER;        -- 记录数量
+"
+PRC_JCFX_TJKJ10	PROCEDURE	8	"      ln_max_xh           NUMBER;        -- 最大序号
+"
+PRC_JCFX_TJKJ10	PROCEDURE	9	"      ln_tjxm_xh          NUMBER;        -- 统计项目序号
+"
+PRC_JCFX_TJKJ10	PROCEDURE	10	"      ln_sxh              NUMBER;        -- 顺序号
+"
+PRC_JCFX_TJKJ10	PROCEDURE	11	"      
+"
+PRC_JCFX_TJKJ10	PROCEDURE	12	"      lv_ksdm             VARCHAR2(10);  -- 科室代码
+"
+PRC_JCFX_TJKJ10	PROCEDURE	13	"      lv_ksmc             VARCHAR2(30);  -- 科室名称
+"
+PRC_JCFX_TJKJ10	PROCEDURE	14	"      
+"
+PRC_JCFX_TJKJ10	PROCEDURE	15	"      exception_exit      EXCEPTION;     -- 退出处理
+"
+PRC_JCFX_TJKJ10	PROCEDURE	16	"      exception_noaction  EXCEPTION;     -- 其他错误异常处理
+"
+PRC_JCFX_TJKJ10	PROCEDURE	17	"      
+"
+PRC_JCFX_TJKJ10	PROCEDURE	18	"      CURSOR curr_bqks                   -- 病区科室
+"
+PRC_JCFX_TJKJ10	PROCEDURE	19	"          IS
+"
+PRC_JCFX_TJKJ10	PROCEDURE	20	"      SELECT Distinct a.dept_code,b.ksmc
+"
+PRC_JCFX_TJKJ10	PROCEDURE	21	"         FROM zy_bed a ,gy_ksdm b
+"
+PRC_JCFX_TJKJ10	PROCEDURE	22	"        WHERE a.dept_code = b.ksdm;
+"
+PRC_JCFX_TJKJ10	PROCEDURE	23	"      
+"
+PRC_JCFX_TJKJ10	PROCEDURE	24	"   BEGIN
+"
+PRC_JCFX_TJKJ10	PROCEDURE	25	"      
+"
+PRC_JCFX_TJKJ10	PROCEDURE	26	"      -- 检索是否已经有统计口径（病区科室）-->>>
+"
+PRC_JCFX_TJKJ10	PROCEDURE	27	"      
+"
+PRC_JCFX_TJKJ10	PROCEDURE	28	"      SELECT Count(*)
+"
+PRC_JCFX_TJKJ10	PROCEDURE	29	"        INTO ln_count
+"
+PRC_JCFX_TJKJ10	PROCEDURE	30	"        FROM jcfx_tjkj
+"
+PRC_JCFX_TJKJ10	PROCEDURE	31	"       WHERE bs = 'BQKS';
+"
+PRC_JCFX_TJKJ10	PROCEDURE	32	"      
+"
+PRC_JCFX_TJKJ10	PROCEDURE	33	"      IF ln_count > 0 THEN
+"
+PRC_JCFX_TJKJ10	PROCEDURE	34	"          on_code := 0;
+"
+PRC_JCFX_TJKJ10	PROCEDURE	35	"          ov_mess := '原来已经有统计口径（病区科室）';
+"
+PRC_JCFX_TJKJ10	PROCEDURE	36	"          Raise exception_noaction;
+"
+PRC_JCFX_TJKJ10	PROCEDURE	37	"      END IF;
+"
+PRC_JCFX_TJKJ10	PROCEDURE	38	"      
+"
+PRC_JCFX_TJKJ10	PROCEDURE	39	"      -- 检索是否已经有统计口径（病区科室）--<<<
+"
+PRC_JCFX_TJKJ10	PROCEDURE	40	"      
+"
+PRC_JCFX_TJKJ10	PROCEDURE	41	"      
+"
+PRC_JCFX_TJKJ10	PROCEDURE	42	"      -- 生成数据 --->>>
+"
+PRC_JCFX_TJKJ10	PROCEDURE	43	"      
+"
+PRC_JCFX_TJKJ10	PROCEDURE	44	"      -- 向JCFX_TJKJ中插入一条记录
+"
+PRC_JCFX_TJKJ10	PROCEDURE	45	"      INSERT INTO JCFX_TJKJ(XH, MC, JC, ZFBZ, BS, 
+"
+PRC_JCFX_TJKJ10	PROCEDURE	46	"                            DW, SXH)
+"
+PRC_JCFX_TJKJ10	PROCEDURE	47	"      VALUES(10, '病区科室', 1, 0, 'BQKS', 
+"
+PRC_JCFX_TJKJ10	PROCEDURE	48	"             'd_sz_tjgl_yjks_bq', 10);
+"
+PRC_JCFX_TJKJ10	PROCEDURE	49	"      
+"
+PRC_JCFX_TJKJ10	PROCEDURE	50	"      -- 取JCFX_TJXM最大序号
+"
+PRC_JCFX_TJKJ10	PROCEDURE	51	"      SELECT MAX(XH) 
+"
+PRC_JCFX_TJKJ10	PROCEDURE	52	"        INTO ln_max_xh
+"
+PRC_JCFX_TJKJ10	PROCEDURE	53	"        FROM JCFX_TJXM;
+"
+PRC_JCFX_TJKJ10	PROCEDURE	54	"      
+"
+PRC_JCFX_TJKJ10	PROCEDURE	55	"      -- 
+"
+PRC_JCFX_TJKJ10	PROCEDURE	56	"      ln_sxh     := 0;
+"
+PRC_JCFX_TJKJ10	PROCEDURE	57	"      
+"
+PRC_JCFX_TJKJ10	PROCEDURE	58	"      OPEN curr_bqks;
+"
+PRC_JCFX_TJKJ10	PROCEDURE	59	"      LOOP
+"
+PRC_JCFX_TJKJ10	PROCEDURE	60	"         FETCH curr_bqks 
+"
+PRC_JCFX_TJKJ10	PROCEDURE	61	"           INTO lv_ksdm, lv_ksmc;
+"
+PRC_JCFX_TJKJ10	PROCEDURE	62	"           EXIT WHEN curr_bqks %NOTFOUND;
+"
+PRC_JCFX_TJKJ10	PROCEDURE	63	"           BEGIN
+"
+PRC_JCFX_TJKJ10	PROCEDURE	64	"              -- 设置序号
+"
+PRC_JCFX_TJKJ10	PROCEDURE	65	"              ln_sxh     := ln_sxh + 1;
+"
+PRC_JCFX_TJKJ10	PROCEDURE	66	"              ln_tjxm_xh := ln_max_xh + ln_sxh;
+"
+PRC_JCFX_TJKJ10	PROCEDURE	67	"              
+"
+PRC_JCFX_TJKJ10	PROCEDURE	68	"              -- 向JCFX_TJXM中插入记录   
+"
+PRC_JCFX_TJKJ10	PROCEDURE	69	"              INSERT INTO JCFX_TJXM(XH, KJXH, MC, JC, SXH, 
+"
+PRC_JCFX_TJKJ10	PROCEDURE	70	"                            LX, JSGS, FJXH, XSBZ, ZFBZ, 
+"
+PRC_JCFX_TJKJ10	PROCEDURE	71	"                            HJ_JSGS)
+"
+PRC_JCFX_TJKJ10	PROCEDURE	72	"              VALUES(ln_tjxm_xh, 10, lv_ksmc, 1, ln_sxh,
+"
+PRC_JCFX_TJKJ10	PROCEDURE	73	"                     0, NULL, 0, 1, 0, 
+"
+PRC_JCFX_TJKJ10	PROCEDURE	74	"                     NULL);
+"
+PRC_JCFX_TJKJ10	PROCEDURE	75	"        
+"
+PRC_JCFX_TJKJ10	PROCEDURE	76	"              -- 向JCFX_TJGL中插入记录
+"
+PRC_JCFX_TJKJ10	PROCEDURE	77	"              INSERT INTO JCFX_TJGL(KJXH, XMXH, GLXH, GLDM)
+"
+PRC_JCFX_TJKJ10	PROCEDURE	78	"              VALUES(10, ln_tjxm_xh, ln_sxh, lv_ksdm);
+"
+PRC_JCFX_TJKJ10	PROCEDURE	79	"           END;
+"
+PRC_JCFX_TJKJ10	PROCEDURE	80	"      END LOOP;
+"
+PRC_JCFX_TJKJ10	PROCEDURE	81	"      
+"
+PRC_JCFX_TJKJ10	PROCEDURE	82	"      -- 提交结果
+"
+PRC_JCFX_TJKJ10	PROCEDURE	83	"      COMMIT;
+"
+PRC_JCFX_TJKJ10	PROCEDURE	84	"      on_code := 1;
+"
+PRC_JCFX_TJKJ10	PROCEDURE	85	"      ov_mess := '成功生成统计口径（病区科室）数据';
+"
+PRC_JCFX_TJKJ10	PROCEDURE	86	"      
+"
+PRC_JCFX_TJKJ10	PROCEDURE	87	"      -- 生成数据 ---<<<
+"
+PRC_JCFX_TJKJ10	PROCEDURE	88	"             
+"
+PRC_JCFX_TJKJ10	PROCEDURE	89	"   EXCEPTION
+"
+PRC_JCFX_TJKJ10	PROCEDURE	90	"      WHEN exception_noaction THEN
+"
+PRC_JCFX_TJKJ10	PROCEDURE	91	"         ROLLBACK;
+"
+PRC_JCFX_TJKJ10	PROCEDURE	92	"      WHEN OTHERS THEN
+"
+PRC_JCFX_TJKJ10	PROCEDURE	93	"         ROLLBACK;
+"
+PRC_JCFX_TJKJ10	PROCEDURE	94	"         on_code := -1;
+"
+PRC_JCFX_TJKJ10	PROCEDURE	95	"         ov_mess := '其他异常错误';
+"
+PRC_JCFX_TJKJ10	PROCEDURE	96	"   END;
+"
+PRC_JCFX_TJKJ10	PROCEDURE	97	"   
+"
+PRC_JCFX_TJKJ10	PROCEDURE	98	"   -- 输出结果
+"
+PRC_JCFX_TJKJ10	PROCEDURE	99	"   DBMS_OUTPUT.PUT_LINE(on_code);
+"
+PRC_JCFX_TJKJ10	PROCEDURE	100	"   DBMS_OUTPUT.PUT_LINE(ov_mess);
+"
+PRC_JCFX_TJKJ10	PROCEDURE	101	"   
+"
+PRC_JCFX_TJKJ10	PROCEDURE	102	"END prc_jcfx_tjkj10;
+"
+PRC_JCFX_TJKJ10	PROCEDURE	103	"
+"
+PRC_JCFX_TJKJ10	PROCEDURE	104	 

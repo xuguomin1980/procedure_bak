@@ -1,0 +1,50 @@
+PRO_UPDATE_JLXH	PROCEDURE	1	"procedure pro_update_jlxh(in_Jzkh in varchar2,in_jlxh in number,in_ysgh in varchar2,in_ksdm in varchar2)
+"
+PRO_UPDATE_JLXH	PROCEDURE	2	"
+"
+PRO_UPDATE_JLXH	PROCEDURE	3	"
+"
+PRO_UPDATE_JLXH	PROCEDURE	4	"/*
+"
+PRO_UPDATE_JLXH	PROCEDURE	5	"    情况1：病人只挂一个号，任何医生接诊后，直接更新该挂号记录为当前接诊医生信息。
+"
+PRO_UPDATE_JLXH	PROCEDURE	6	"	  情况2：病人挂普通号与非普通号，医生接诊后，先看接诊医生是否有当日排班，(如果有，则更新挂该号记录为当前就诊医生信息。如果没有,则按急诊号-普通号顺序更新当前接诊医生信息更新)
+"
+PRO_UPDATE_JLXH	PROCEDURE	7	"    zj_jzxx.jlxh gh_ghk.jzysgh mzrq ysgh
+"
+PRO_UPDATE_JLXH	PROCEDURE	8	"	*/
+"
+PRO_UPDATE_JLXH	PROCEDURE	9	"as
+"
+PRO_UPDATE_JLXH	PROCEDURE	10	"i_mzlbxh number(2);
+"
+PRO_UPDATE_JLXH	PROCEDURE	11	"ll_count number(2);
+"
+PRO_UPDATE_JLXH	PROCEDURE	12	"begin
+"
+PRO_UPDATE_JLXH	PROCEDURE	13	"       select count(*) into ll_count from gh_ghk where jzkh=in_jzkh;
+"
+PRO_UPDATE_JLXH	PROCEDURE	14	"       if ll_count=1 then
+"
+PRO_UPDATE_JLXH	PROCEDURE	15	"          update gh_ghk set jzysgh=in_ysgh  where jlxh=in_jlxh;
+"
+PRO_UPDATE_JLXH	PROCEDURE	16	"       else
+"
+PRO_UPDATE_JLXH	PROCEDURE	17	"         select count(distinct mzlbxh) into ll_count from gh_ghk a where jzkh=in_jzkh and  ghrq>trunc(sysdate) and nvl(zfpb,0)=0 ;
+"
+PRO_UPDATE_JLXH	PROCEDURE	18	"        
+"
+PRO_UPDATE_JLXH	PROCEDURE	19	"         select mzlbxh into i_mzlbxh from gh_mzpbk where ysgh=in_ysgh and trunc(rq)=trunc(sysdate);
+"
+PRO_UPDATE_JLXH	PROCEDURE	20	"         if i_mzlbxh=null then
+"
+PRO_UPDATE_JLXH	PROCEDURE	21	"            select mzlbxh into i_mzlbxh from gh_mzpbk where ksdm=in_ksdm and trunc(rq)=trunc(sysdate);
+"
+PRO_UPDATE_JLXH	PROCEDURE	22	"         end if;
+"
+PRO_UPDATE_JLXH	PROCEDURE	23	"       end if;
+"
+PRO_UPDATE_JLXH	PROCEDURE	24	"       
+"
+PRO_UPDATE_JLXH	PROCEDURE	25	"end;
+"

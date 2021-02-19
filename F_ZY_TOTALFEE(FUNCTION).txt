@@ -1,0 +1,23 @@
+F_ZY_TOTALFEE	FUNCTION	1	"FUNCTION         ""F_ZY_TOTALFEE"" 
+"
+F_ZY_TOTALFEE	FUNCTION	2	"(arg_djxh in number)
+"
+F_ZY_TOTALFEE	FUNCTION	3	"return NUMBER
+"
+F_ZY_TOTALFEE	FUNCTION	4	"is
+"
+F_ZY_TOTALFEE	FUNCTION	5	"  ls_return NUMBER(10,2);
+"
+F_ZY_TOTALFEE	FUNCTION	6	" begin
+"
+F_ZY_TOTALFEE	FUNCTION	7	"    select round(sum(dj*sl),2) into ls_return from zy_detail_charge where patient_no=arg_djxh;
+"
+F_ZY_TOTALFEE	FUNCTION	8	"return(ls_return);
+"
+F_ZY_TOTALFEE	FUNCTION	9	"end;
+"
+F_ZY_TOTALFEE	FUNCTION	10	"
+"
+F_ZY_TOTALFEE	FUNCTION	11	"
+"
+F_ZY_TOTALFEE	FUNCTION	12	 

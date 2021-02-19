@@ -1,0 +1,14 @@
+TRI_YB_DZMX_IMPORT	TRIGGER	1	"TRIGGER ""ZJHIS"".tri_yb_dzmx_import
+"
+TRI_YB_DZMX_IMPORT	TRIGGER	2	" before insert on yb_dzmx_import
+"
+TRI_YB_DZMX_IMPORT	TRIGGER	3	" for each row
+"
+TRI_YB_DZMX_IMPORT	TRIGGER	4	"
+"
+TRI_YB_DZMX_IMPORT	TRIGGER	5	"begin
+"
+TRI_YB_DZMX_IMPORT	TRIGGER	6	"     select seq_yb_dzmx_import.nextval,sysdate into :new.id ,:new.createdatetime from dual;
+"
+TRI_YB_DZMX_IMPORT	TRIGGER	7	"   end tri_yb_dzmx_import;
+"

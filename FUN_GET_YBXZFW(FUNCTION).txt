@@ -1,0 +1,108 @@
+FUN_GET_YBXZFW	FUNCTION	1	"FUNCTION Fun_Get_Ybxzfw(Arg_Xmxh In Number,Arg_Ypcddm In Number,Arg_Brlb In Number,Arg_Yppb In Number) RETURN VARCHAR2
+"
+FUN_GET_YBXZFW	FUNCTION	2	"/*医保限制范围提示*/
+"
+FUN_GET_YBXZFW	FUNCTION	3	"IS
+"
+FUN_GET_YBXZFW	FUNCTION	4	"   ls_Ret  VARCHAR2(1200);
+"
+FUN_GET_YBXZFW	FUNCTION	5	"   ls_Yblx Varchar2(10);
+"
+FUN_GET_YBXZFW	FUNCTION	6	"   li_Spbz Number(1);
+"
+FUN_GET_YBXZFW	FUNCTION	7	"   ls_Ybdm Varchar2(20);
+"
+FUN_GET_YBXZFW	FUNCTION	8	"   ll_Xmxh Number(10);
+"
+FUN_GET_YBXZFW	FUNCTION	9	"   ls_Xmmc Varchar2(100);
+"
+FUN_GET_YBXZFW	FUNCTION	10	"BEGIN
+"
+FUN_GET_YBXZFW	FUNCTION	11	"   Return '-1';
+"
+FUN_GET_YBXZFW	FUNCTION	12	"   ll_Xmxh :=Arg_Xmxh;
+"
+FUN_GET_YBXZFW	FUNCTION	13	"   If Arg_Yppb = 1 Then --药品
+"
+FUN_GET_YBXZFW	FUNCTION	14	"
+"
+FUN_GET_YBXZFW	FUNCTION	15	"     Select Ypmc Into ls_Xmmc From Gy_Ypmcggzd Where Ypxh = ll_Xmxh ;
+"
+FUN_GET_YBXZFW	FUNCTION	16	"     Select nvl(xzsyfw,'') Into ls_Ret From Gy_Ypmcggzd Where ypxh = ll_Xmxh ;
+"
+FUN_GET_YBXZFW	FUNCTION	17	"  Else
+"
+FUN_GET_YBXZFW	FUNCTION	18	"     Select ylmc Into ls_Xmmc From gy_ylsf Where ylxh = ll_Xmxh ;
+"
+FUN_GET_YBXZFW	FUNCTION	19	"     Select nvl(xzsysm,'') Into ls_Ret From gy_ylsf Where ylxh = ll_Xmxh ;
+"
+FUN_GET_YBXZFW	FUNCTION	20	"  End If;
+"
+FUN_GET_YBXZFW	FUNCTION	21	"
+"
+FUN_GET_YBXZFW	FUNCTION	22	"   if  Not (ls_Ret Is Null) then
+"
+FUN_GET_YBXZFW	FUNCTION	23	"      Return(ls_Ret);
+"
+FUN_GET_YBXZFW	FUNCTION	24	"   end if;
+"
+FUN_GET_YBXZFW	FUNCTION	25	"   If Arg_Brlb <> 97 and Arg_Brlb <> 95 Then -- brlbxh 根据本院的医保brlbxh修改
+"
+FUN_GET_YBXZFW	FUNCTION	26	"      Return '-1';
+"
+FUN_GET_YBXZFW	FUNCTION	27	"   Else 
+"
+FUN_GET_YBXZFW	FUNCTION	28	"     if Arg_Brlb = 97 then
+"
+FUN_GET_YBXZFW	FUNCTION	29	"       ls_Yblx :='9997';  --获取相应的yblx
+"
+FUN_GET_YBXZFW	FUNCTION	30	"       end if;
+"
+FUN_GET_YBXZFW	FUNCTION	31	"   End If;
+"
+FUN_GET_YBXZFW	FUNCTION	32	"
+"
+FUN_GET_YBXZFW	FUNCTION	33	"   If Arg_Yppb = 1 Then --转换大规格
+"
+FUN_GET_YBXZFW	FUNCTION	34	"      Select f_bf_getypxx(arg_xmxh,arg_ypcddm,'ykxh') Into ll_Xmxh From Dual;
+"
+FUN_GET_YBXZFW	FUNCTION	35	"      If ll_Xmxh < 0 Then
+"
+FUN_GET_YBXZFW	FUNCTION	36	"         Return '-1';
+"
+FUN_GET_YBXZFW	FUNCTION	37	"      End If;
+"
+FUN_GET_YBXZFW	FUNCTION	38	"   End If;
+"
+FUN_GET_YBXZFW	FUNCTION	39	"
+"
+FUN_GET_YBXZFW	FUNCTION	40	"   Select Nvl(Yibaodm,'') Into ls_Ybdm From Yb_DuiZhaoml
+"
+FUN_GET_YBXZFW	FUNCTION	41	"   Where Yibaolx = ls_Yblx And Xiangmuxh = ll_Xmxh And YaoPinpb = Arg_Yppb And Rownum = 1;
+"
+FUN_GET_YBXZFW	FUNCTION	42	"     Select '该项目为需登记审批后才能报销的项目' bz Into ls_Ret
+"
+FUN_GET_YBXZFW	FUNCTION	43	"     From yb_xdjsplml Where sdmlbm = ls_Ybdm And Rownum=1 and yibaolx='9997' ;
+"
+FUN_GET_YBXZFW	FUNCTION	44	"   if  (ls_Ret Is Null) then
+"
+FUN_GET_YBXZFW	FUNCTION	45	"     select zhongwenmc,sm into ls_Xmmc,ls_ret from  yb_xianzhixm_sm a where bm=ls_Ybdm;
+"
+FUN_GET_YBXZFW	FUNCTION	46	"   end if;
+"
+FUN_GET_YBXZFW	FUNCTION	47	"
+"
+FUN_GET_YBXZFW	FUNCTION	48	"   If Not (ls_Ret Is Null) Then
+"
+FUN_GET_YBXZFW	FUNCTION	49	"      ls_Ret := ls_Xmmc || '：' || ls_Ret;
+"
+FUN_GET_YBXZFW	FUNCTION	50	"      Return(ls_Ret);
+"
+FUN_GET_YBXZFW	FUNCTION	51	"   Else
+"
+FUN_GET_YBXZFW	FUNCTION	52	"      Return '-1';
+"
+FUN_GET_YBXZFW	FUNCTION	53	"   End If;
+"
+FUN_GET_YBXZFW	FUNCTION	54	"END ;
+"

@@ -1,0 +1,338 @@
+PRC_ZY_CHECK2019	PROCEDURE	1	"procedure prc_zy_check2019(in_jiaoyilx    in varchar2, --交易类型
+"
+PRC_ZY_CHECK2019	PROCEDURE	2	"                                             in_caozuogh    in varchar2, --操作工号
+"
+PRC_ZY_CHECK2019	PROCEDURE	3	"                                             in_patient_no  in number, --住院病人序号 就诊序号 jzxh
+"
+PRC_ZY_CHECK2019	PROCEDURE	4	"                                             in_yibao_jylsh in varchar2, --医保交易号
+"
+PRC_ZY_CHECK2019	PROCEDURE	5	"                                             out_code       out INTEGER, -- 返回结果 0为执行成功
+"
+PRC_ZY_CHECK2019	PROCEDURE	6	"                                             out_msg        out varchar2) is
+"
+PRC_ZY_CHECK2019	PROCEDURE	7	"
+"
+PRC_ZY_CHECK2019	PROCEDURE	8	"  --入参说明： in_jiaoyilx 交易类型 in_caozuogh 操作工号 in_patient_no 住院病人序号  in_yibao_jylsh 医保交易号 out_code 返回结果 out_msg 返回内容
+"
+PRC_ZY_CHECK2019	PROCEDURE	9	"  --in_jylx 交易类型：
+"
+PRC_ZY_CHECK2019	PROCEDURE	10	"
+"
+PRC_ZY_CHECK2019	PROCEDURE	11	"  --住院病人序号
+"
+PRC_ZY_CHECK2019	PROCEDURE	12	"  al_xiangmuxh number;
+"
+PRC_ZY_CHECK2019	PROCEDURE	13	"  al_xiangmucd number;
+"
+PRC_ZY_CHECK2019	PROCEDURE	14	"  --医保住院病人序号
+"
+PRC_ZY_CHECK2019	PROCEDURE	15	"  v_xb      number;
+"
+PRC_ZY_CHECK2019	PROCEDURE	16	"  v_sl_csrq number;
+"
+PRC_ZY_CHECK2019	PROCEDURE	17	"  v_brlb    number;
+"
+PRC_ZY_CHECK2019	PROCEDURE	18	"begin
+"
+PRC_ZY_CHECK2019	PROCEDURE	19	"  if 1 = 0 then
+"
+PRC_ZY_CHECK2019	PROCEDURE	20	"    out_code := 1;
+"
+PRC_ZY_CHECK2019	PROCEDURE	21	"    out_msg  := '';
+"
+PRC_ZY_CHECK2019	PROCEDURE	22	"    return;
+"
+PRC_ZY_CHECK2019	PROCEDURE	23	"  end if;
+"
+PRC_ZY_CHECK2019	PROCEDURE	24	"  if in_jiaoyilx='YZXT' or  in_jiaoyilx='ZY' THEN
+"
+PRC_ZY_CHECK2019	PROCEDURE	25	"    insert into zy_jiaoyi_v1
+"
+PRC_ZY_CHECK2019	PROCEDURE	26	"      (jiaoyilx, caozuogh, patient_no, jylsh, bz)
+"
+PRC_ZY_CHECK2019	PROCEDURE	27	"    values
+"
+PRC_ZY_CHECK2019	PROCEDURE	28	"      (in_jiaoyilx,
+"
+PRC_ZY_CHECK2019	PROCEDURE	29	"       in_caozuogh,
+"
+PRC_ZY_CHECK2019	PROCEDURE	30	"       in_patient_no,
+"
+PRC_ZY_CHECK2019	PROCEDURE	31	"       in_yibao_jylsh,
+"
+PRC_ZY_CHECK2019	PROCEDURE	32	"       'prc_zy_check2019');
+"
+PRC_ZY_CHECK2019	PROCEDURE	33	"
+"
+PRC_ZY_CHECK2019	PROCEDURE	34	"    if length(in_patient_no) < 1 then
+"
+PRC_ZY_CHECK2019	PROCEDURE	35	"      out_code := -1;
+"
+PRC_ZY_CHECK2019	PROCEDURE	36	"      out_msg  := '住院号不能为空[prc_yb_check2019]1';
+"
+PRC_ZY_CHECK2019	PROCEDURE	37	"      return;
+"
+PRC_ZY_CHECK2019	PROCEDURE	38	"    end if;
+"
+PRC_ZY_CHECK2019	PROCEDURE	39	"
+"
+PRC_ZY_CHECK2019	PROCEDURE	40	"    --医保控制
+"
+PRC_ZY_CHECK2019	PROCEDURE	41	"    select NVL((round((sysdate - birthday), 0)), 0), sex, brlb
+"
+PRC_ZY_CHECK2019	PROCEDURE	42	"      into v_sl_csrq, v_xb, v_brlb
+"
+PRC_ZY_CHECK2019	PROCEDURE	43	"      from zy_patient_information
+"
+PRC_ZY_CHECK2019	PROCEDURE	44	"     where patient_no = in_patient_no;
+"
+PRC_ZY_CHECK2019	PROCEDURE	45	"    /*  if v_brlb=1 then 
+"
+PRC_ZY_CHECK2019	PROCEDURE	46	"       out_code := 1;
+"
+PRC_ZY_CHECK2019	PROCEDURE	47	"       out_msg  := '';
+"
+PRC_ZY_CHECK2019	PROCEDURE	48	"       return;
+"
+PRC_ZY_CHECK2019	PROCEDURE	49	"    end if;*/
+"
+PRC_ZY_CHECK2019	PROCEDURE	50	"  end if ;
+"
+PRC_ZY_CHECK2019	PROCEDURE	51	"  IF  in_jiaoyilx='MZ' THEN
+"
+PRC_ZY_CHECK2019	PROCEDURE	52	"   select NVL((round((sysdate - CSRQ), 0)), 0), XB, brlb
+"
+PRC_ZY_CHECK2019	PROCEDURE	53	"      into v_sl_csrq, v_xb, v_brlb
+"
+PRC_ZY_CHECK2019	PROCEDURE	54	"      from GY_BRJBXXK
+"
+PRC_ZY_CHECK2019	PROCEDURE	55	"     where JZKH = (SELECT JZKH FROM ZJ_JZXX WHERE JZXH =in_patient_no);
+"
+PRC_ZY_CHECK2019	PROCEDURE	56	"  END IF;
+"
+PRC_ZY_CHECK2019	PROCEDURE	57	"  --限性别 药品
+"
+PRC_ZY_CHECK2019	PROCEDURE	58	"  --'ypxh=1=ypcd=2='
+"
+PRC_ZY_CHECK2019	PROCEDURE	59	"  select f_spit(in_yibao_jylsh, '=', 'ypxh') into al_xiangmuxh from dual;
+"
+PRC_ZY_CHECK2019	PROCEDURE	60	"  select f_spit(in_yibao_jylsh, '=', 'ypcd') into al_xiangmucd from dual;
+"
+PRC_ZY_CHECK2019	PROCEDURE	61	"  if 1 = 1 and v_xb = 2 then
+"
+PRC_ZY_CHECK2019	PROCEDURE	62	"  
+"
+PRC_ZY_CHECK2019	PROCEDURE	63	"    select
+"
+PRC_ZY_CHECK2019	PROCEDURE	64	"    --wm_concat(e.xmmc)||'限男性使用 '  
+"
+PRC_ZY_CHECK2019	PROCEDURE	65	"     max(e.xmmc || '限男性使用 ')
+"
+PRC_ZY_CHECK2019	PROCEDURE	66	"      into out_msg
+"
+PRC_ZY_CHECK2019	PROCEDURE	67	"      from yb_duizhaoml d, yb_znshgz e
+"
+PRC_ZY_CHECK2019	PROCEDURE	68	"     where upper(substr(d.yibaodm, 1, length(e.xmbh))) = upper(e.xmbh)
+"
+PRC_ZY_CHECK2019	PROCEDURE	69	"       and e.shbz = '男'
+"
+PRC_ZY_CHECK2019	PROCEDURE	70	"       and e.gzbh = 6
+"
+PRC_ZY_CHECK2019	PROCEDURE	71	"       and e.ypzlpb = 1
+"
+PRC_ZY_CHECK2019	PROCEDURE	72	"       and d.yibaolx = '9997'
+"
+PRC_ZY_CHECK2019	PROCEDURE	73	"       and nvl(d.tingyongrq, to_char(sysdate + 1, 'yyyymmdd')) >
+"
+PRC_ZY_CHECK2019	PROCEDURE	74	"           to_char(sysdate, 'yyyymmdd')
+"
+PRC_ZY_CHECK2019	PROCEDURE	75	"       and xiangmuxh = al_xiangmuxh
+"
+PRC_ZY_CHECK2019	PROCEDURE	76	"       and xiangmucd = al_xiangmucd;
+"
+PRC_ZY_CHECK2019	PROCEDURE	77	"  
+"
+PRC_ZY_CHECK2019	PROCEDURE	78	"    if length(out_msg) > 0 then
+"
+PRC_ZY_CHECK2019	PROCEDURE	79	"      select out_msg || '[prc_zy_check2019]10' into out_msg from dual;
+"
+PRC_ZY_CHECK2019	PROCEDURE	80	"      out_code := -1;
+"
+PRC_ZY_CHECK2019	PROCEDURE	81	"      return;
+"
+PRC_ZY_CHECK2019	PROCEDURE	82	"    end if;
+"
+PRC_ZY_CHECK2019	PROCEDURE	83	"  end if;
+"
+PRC_ZY_CHECK2019	PROCEDURE	84	"
+"
+PRC_ZY_CHECK2019	PROCEDURE	85	"  if 1 = 1 and v_xb = 1 then
+"
+PRC_ZY_CHECK2019	PROCEDURE	86	"    select
+"
+PRC_ZY_CHECK2019	PROCEDURE	87	"    --wm_concat(e.xmmc)||'限女性使用 ' 
+"
+PRC_ZY_CHECK2019	PROCEDURE	88	"     max(e.xmmc || '限女性使用 ')
+"
+PRC_ZY_CHECK2019	PROCEDURE	89	"      into out_msg
+"
+PRC_ZY_CHECK2019	PROCEDURE	90	"      from yb_duizhaoml d, yb_znshgz e
+"
+PRC_ZY_CHECK2019	PROCEDURE	91	"     where d.xiangmuxh = al_xiangmuxh
+"
+PRC_ZY_CHECK2019	PROCEDURE	92	"       and d.xiangmucd = al_xiangmucd
+"
+PRC_ZY_CHECK2019	PROCEDURE	93	"       and upper(substr(d.yibaodm, 1, length(e.xmbh))) = upper(e.xmbh)
+"
+PRC_ZY_CHECK2019	PROCEDURE	94	"       and e.shbz = '女'
+"
+PRC_ZY_CHECK2019	PROCEDURE	95	"       and e.gzbh = 6
+"
+PRC_ZY_CHECK2019	PROCEDURE	96	"       and e.ypzlpb = 1
+"
+PRC_ZY_CHECK2019	PROCEDURE	97	"       and d.yibaolx = '9997'
+"
+PRC_ZY_CHECK2019	PROCEDURE	98	"       and nvl(d.tingyongrq, to_char(sysdate + 1, 'yyyymmdd')) >
+"
+PRC_ZY_CHECK2019	PROCEDURE	99	"           to_char(sysdate, 'yyyymmdd');
+"
+PRC_ZY_CHECK2019	PROCEDURE	100	"  
+"
+PRC_ZY_CHECK2019	PROCEDURE	101	"    if length(out_msg) > 0 then
+"
+PRC_ZY_CHECK2019	PROCEDURE	102	"      select out_msg || '[prc_yb_check2019]11' into out_msg from dual;
+"
+PRC_ZY_CHECK2019	PROCEDURE	103	"      out_code := -1;
+"
+PRC_ZY_CHECK2019	PROCEDURE	104	"      return;
+"
+PRC_ZY_CHECK2019	PROCEDURE	105	"    end if;
+"
+PRC_ZY_CHECK2019	PROCEDURE	106	"  end if;
+"
+PRC_ZY_CHECK2019	PROCEDURE	107	"
+"
+PRC_ZY_CHECK2019	PROCEDURE	108	"  --end 限性别
+"
+PRC_ZY_CHECK2019	PROCEDURE	109	"  if al_xiangmucd = 0 then
+"
+PRC_ZY_CHECK2019	PROCEDURE	110	"    --'限6周岁
+"
+PRC_ZY_CHECK2019	PROCEDURE	111	"    if v_sl_csrq > 2190 then
+"
+PRC_ZY_CHECK2019	PROCEDURE	112	"      if al_xiangmuxh = 23342 or al_xiangmuxh = 20326 then
+"
+PRC_ZY_CHECK2019	PROCEDURE	113	"        --'小儿静脉输液限6周岁
+"
+PRC_ZY_CHECK2019	PROCEDURE	114	"        out_code := 1;
+"
+PRC_ZY_CHECK2019	PROCEDURE	115	"        out_msg  := '小儿静脉输液限6周岁以下使用,继续使用将按自费处理[prc_yb_check2019]14';
+"
+PRC_ZY_CHECK2019	PROCEDURE	116	"        return;
+"
+PRC_ZY_CHECK2019	PROCEDURE	117	"      end if;
+"
+PRC_ZY_CHECK2019	PROCEDURE	118	"      if al_xiangmuxh = 11185 then
+"
+PRC_ZY_CHECK2019	PROCEDURE	119	"        --多普勒小儿血压检测限6周岁
+"
+PRC_ZY_CHECK2019	PROCEDURE	120	"        out_code := 1;
+"
+PRC_ZY_CHECK2019	PROCEDURE	121	"        out_msg  := '多普勒小儿血压检测限6周岁以下使用,继续使用将按自费处理[prc_yb_check2019]20';
+"
+PRC_ZY_CHECK2019	PROCEDURE	122	"        return;
+"
+PRC_ZY_CHECK2019	PROCEDURE	123	"      end if;
+"
+PRC_ZY_CHECK2019	PROCEDURE	124	"    end if;
+"
+PRC_ZY_CHECK2019	PROCEDURE	125	"  
+"
+PRC_ZY_CHECK2019	PROCEDURE	126	"    --限14周岁
+"
+PRC_ZY_CHECK2019	PROCEDURE	127	"    if v_sl_csrq > 5110 then
+"
+PRC_ZY_CHECK2019	PROCEDURE	128	"      --乳牙拔除术限14周岁
+"
+PRC_ZY_CHECK2019	PROCEDURE	129	"      if al_xiangmuxh = 12844 then
+"
+PRC_ZY_CHECK2019	PROCEDURE	130	"        out_code := 1;
+"
+PRC_ZY_CHECK2019	PROCEDURE	131	"        out_msg  := '乳牙拔除术限14周岁以下使用,继续使用将按自费处理[prc_yb_check2019]21';
+"
+PRC_ZY_CHECK2019	PROCEDURE	132	"        return;
+"
+PRC_ZY_CHECK2019	PROCEDURE	133	"      end if;
+"
+PRC_ZY_CHECK2019	PROCEDURE	134	"    
+"
+PRC_ZY_CHECK2019	PROCEDURE	135	"      --活髓切除术 限14周岁
+"
+PRC_ZY_CHECK2019	PROCEDURE	136	"      if al_xiangmuxh = 13813 then
+"
+PRC_ZY_CHECK2019	PROCEDURE	137	"        out_code := 1;
+"
+PRC_ZY_CHECK2019	PROCEDURE	138	"        out_msg  := '活髓切除术 限14周岁以下使用,继续使用将按自费处理[prc_yb_check2019]23';
+"
+PRC_ZY_CHECK2019	PROCEDURE	139	"        return;
+"
+PRC_ZY_CHECK2019	PROCEDURE	140	"      end if;
+"
+PRC_ZY_CHECK2019	PROCEDURE	141	"    end if;
+"
+PRC_ZY_CHECK2019	PROCEDURE	142	"  end if;
+"
+PRC_ZY_CHECK2019	PROCEDURE	143	"  -- 限14周岁以下使用 药品
+"
+PRC_ZY_CHECK2019	PROCEDURE	144	"  select
+"
+PRC_ZY_CHECK2019	PROCEDURE	145	"  --wm_concat(e.xmmc) || '限14周岁以下使用,继续使用将按自费处理'
+"
+PRC_ZY_CHECK2019	PROCEDURE	146	"   max(e.xmmc || '限14周岁以下使用,继续使用将按自费处理')
+"
+PRC_ZY_CHECK2019	PROCEDURE	147	"    into out_msg
+"
+PRC_ZY_CHECK2019	PROCEDURE	148	"    from yb_duizhaoml d, yb_znshgz e
+"
+PRC_ZY_CHECK2019	PROCEDURE	149	"   where d.xiangmuxh = al_xiangmuxh
+"
+PRC_ZY_CHECK2019	PROCEDURE	150	"     and d.xiangmucd = al_xiangmucd
+"
+PRC_ZY_CHECK2019	PROCEDURE	151	"     and upper(substr(d.yibaodm, 1, length(e.xmbh))) = upper(e.xmbh)
+"
+PRC_ZY_CHECK2019	PROCEDURE	152	"     and e.gzmc like '%限儿童%'
+"
+PRC_ZY_CHECK2019	PROCEDURE	153	"     and instr(e.shbz, '14周岁以下') > 0
+"
+PRC_ZY_CHECK2019	PROCEDURE	154	"     and e.ypzlpb = 1
+"
+PRC_ZY_CHECK2019	PROCEDURE	155	"     and d.yibaolx = '9997'
+"
+PRC_ZY_CHECK2019	PROCEDURE	156	"     and nvl(d.tingyongrq, to_char(sysdate + 1, 'yyyymmdd')) >
+"
+PRC_ZY_CHECK2019	PROCEDURE	157	"         to_char(sysdate, 'yyyymmdd')
+"
+PRC_ZY_CHECK2019	PROCEDURE	158	"     and v_sl_csrq > 5110;
+"
+PRC_ZY_CHECK2019	PROCEDURE	159	"  if length(out_msg) > 0 then
+"
+PRC_ZY_CHECK2019	PROCEDURE	160	"    select out_msg || '[prc_yb_check2019]11' into out_msg from dual;
+"
+PRC_ZY_CHECK2019	PROCEDURE	161	"    out_code := 1;
+"
+PRC_ZY_CHECK2019	PROCEDURE	162	"    return;
+"
+PRC_ZY_CHECK2019	PROCEDURE	163	"  end if;
+"
+PRC_ZY_CHECK2019	PROCEDURE	164	"
+"
+PRC_ZY_CHECK2019	PROCEDURE	165	"  out_code := 0;
+"
+PRC_ZY_CHECK2019	PROCEDURE	166	"  out_msg  := '';
+"
+PRC_ZY_CHECK2019	PROCEDURE	167	"  return;
+"
+PRC_ZY_CHECK2019	PROCEDURE	168	"
+"
+PRC_ZY_CHECK2019	PROCEDURE	169	"end;
+"

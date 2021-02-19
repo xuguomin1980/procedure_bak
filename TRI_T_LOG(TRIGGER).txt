@@ -1,0 +1,14 @@
+TRI_T_LOG	TRIGGER	1	"TRIGGER ""ZJHIS"".tri_T_log
+"
+TRI_T_LOG	TRIGGER	2	" before insert on T_log
+"
+TRI_T_LOG	TRIGGER	3	" for each row
+"
+TRI_T_LOG	TRIGGER	4	"
+"
+TRI_T_LOG	TRIGGER	5	"begin
+"
+TRI_T_LOG	TRIGGER	6	"     select seq_T_log.nextval,sysdate into :new.id ,:new.createdatetime from dual;
+"
+TRI_T_LOG	TRIGGER	7	"   end tri_T_log;
+"

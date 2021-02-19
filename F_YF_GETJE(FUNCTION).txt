@@ -1,0 +1,61 @@
+F_YF_GETJE	FUNCTION	1	"FUNCTION         ""F_YF_GETJE"" (arg_sdate in varchar2 ,arg_edate in varchar2,arg_flag in varchar2)
+"
+F_YF_GETJE	FUNCTION	2	" return  number 
+"
+F_YF_GETJE	FUNCTION	3	" is  
+"
+F_YF_GETJE	FUNCTION	4	" ls_return  number(17,2);
+"
+F_YF_GETJE	FUNCTION	5	"  begin 
+"
+F_YF_GETJE	FUNCTION	6	"   begin 
+"
+F_YF_GETJE	FUNCTION	7	"    If  arg_flag='my' then 
+"
+F_YF_GETJE	FUNCTION	8	"         SELECT    NVL(Sum(DECODE(CRKDM,59,-1,68,-1,1)*CKSL*LSJ),0)  into ls_return   
+"
+F_YF_GETJE	FUNCTION	9	"         FROM  MY_CKD  
+"
+F_YF_GETJE	FUNCTION	10	"         Where  (JZRQ  Between to_date(arg_sdate,'yyyy/mm/dd hh24:mi:ss')  
+"
+F_YF_GETJE	FUNCTION	11	"         AND to_date(arg_edate,'yyyy/mm/dd hh24:mi:ss')  ) 
+"
+F_YF_GETJE	FUNCTION	12	"         AND  CRKDM  IN  (59,61,67,68); 
+"
+F_YF_GETJE	FUNCTION	13	"    Else  
+"
+F_YF_GETJE	FUNCTION	14	"         SELECT    NVL(Sum(DECODE(CRKDM,59,-1,68,-1,1)*CKSL*LSJ),0)  into ls_return  
+"
+F_YF_GETJE	FUNCTION	15	"         FROM  MY_CKD  
+"
+F_YF_GETJE	FUNCTION	16	"         Where  (JZRQ  Between to_date(arg_sdate,'yyyy/mm/dd hh24:mi:ss')  
+"
+F_YF_GETJE	FUNCTION	17	"       	 AND to_date(arg_edate,'yyyy/mm/dd hh24:mi:ss')  ) 
+"
+F_YF_GETJE	FUNCTION	18	"         AND  CRKDM  IN  (59,61,67,68); 
+"
+F_YF_GETJE	FUNCTION	19	"         SELECT    NVL(Sum(CKSL*LSJ),0) + ls_return into  ls_return 
+"
+F_YF_GETJE	FUNCTION	20	"         FROM  BY_CKD 
+"
+F_YF_GETJE	FUNCTION	21	"         Where  (JZRQ  Between to_date(arg_sdate,'yyyy/mm/dd hh24:mi:ss')  
+"
+F_YF_GETJE	FUNCTION	22	"         AND to_date(arg_edate,'yyyy/mm/dd hh24:mi:ss')  ) 
+"
+F_YF_GETJE	FUNCTION	23	"         AND  CRKDM  IN  (11,61); 
+"
+F_YF_GETJE	FUNCTION	24	"     End IF; 
+"
+F_YF_GETJE	FUNCTION	25	"         exception  
+"
+F_YF_GETJE	FUNCTION	26	"         when  no_data_found then 
+"
+F_YF_GETJE	FUNCTION	27	"         ls_return:=0;  
+"
+F_YF_GETJE	FUNCTION	28	"   end;
+"
+F_YF_GETJE	FUNCTION	29	"   return(ls_return);
+"
+F_YF_GETJE	FUNCTION	30	" end;
+"
+F_YF_GETJE	FUNCTION	31	 

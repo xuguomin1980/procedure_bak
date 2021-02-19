@@ -1,0 +1,30 @@
+F_GET_NUM	FUNCTION	1	"FUNCTION F_GET_NUM (arg_var in varchar2)
+"
+F_GET_NUM	FUNCTION	2	"       return varchar2
+"
+F_GET_NUM	FUNCTION	3	"  is
+"
+F_GET_NUM	FUNCTION	4	"       ls_return  varchar2(10);
+"
+F_GET_NUM	FUNCTION	5	"
+"
+F_GET_NUM	FUNCTION	6	"  begin
+"
+F_GET_NUM	FUNCTION	7	"
+"
+F_GET_NUM	FUNCTION	8	"    if instr(to_char(arg_var),'/')>0 then
+"
+F_GET_NUM	FUNCTION	9	"
+"
+F_GET_NUM	FUNCTION	10	"
+"
+F_GET_NUM	FUNCTION	11	"    return  substr(arg_var,1,instr(arg_var,'/')-1)/substr(arg_var,instr(arg_var,'/')+1,length(arg_var)-instr(arg_var,'/'));
+"
+F_GET_NUM	FUNCTION	12	"    else
+"
+F_GET_NUM	FUNCTION	13	"      return  ltrim(rtrim(arg_var)) ;
+"
+F_GET_NUM	FUNCTION	14	"      end if;
+"
+F_GET_NUM	FUNCTION	15	"  end;
+"

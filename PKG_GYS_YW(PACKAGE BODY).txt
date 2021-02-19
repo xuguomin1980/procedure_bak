@@ -1,0 +1,4658 @@
+PKG_GYS_YW	PACKAGE BODY	1	"PACKAGE BODY         ""PKG_GYS_YW"" is
+"
+PKG_GYS_YW	PACKAGE BODY	2	"
+"
+PKG_GYS_YW	PACKAGE BODY	3	"  /*----------------------------------------------------------
+"
+PKG_GYS_YW	PACKAGE BODY	4	"   ||函数名称： 取物品信息
+"
+PKG_GYS_YW	PACKAGE BODY	5	"   ||参数描述：参数标志       名称        输入/输出      类型
+"
+PKG_GYS_YW	PACKAGE BODY	6	"   ||     ------------------------------------------------------
+"
+PKG_GYS_YW	PACKAGE BODY	7	"   ||            prm_Sign     返回标志        In          Varchar2
+"
+PKG_GYS_YW	PACKAGE BODY	8	"   ||            prm_Wpxh     物品序号       In          Number
+"
+PKG_GYS_YW	PACKAGE BODY	9	"   ||     -------------------------------------------------------
+"
+PKG_GYS_YW	PACKAGE BODY	10	"   ||返回值描述：字符
+"
+PKG_GYS_YW	PACKAGE BODY	11	"   ||例子：Fun_gys_getwpxx('WPMC',WPXH),返回为物品名称
+"
+PKG_GYS_YW	PACKAGE BODY	12	"   ||作者：王子健     完成日期：2003－04－28
+"
+PKG_GYS_YW	PACKAGE BODY	13	"  ------------------------------------------------------------*/
+"
+PKG_GYS_YW	PACKAGE BODY	14	"  FUNCTION Fun_gys_getwpxx(prm_Sign In Varchar2, Prm_Wpxh In Number)
+"
+PKG_GYS_YW	PACKAGE BODY	15	"    Return Varchar2 Is
+"
+PKG_GYS_YW	PACKAGE BODY	16	"    str_Wpmc gys_wpzd.wpmc%type;
+"
+PKG_GYS_YW	PACKAGE BODY	17	"    str_Wpdw gys_wpzd.wpdw%type;
+"
+PKG_GYS_YW	PACKAGE BODY	18	"    n_Bzdj   gys_wpzd.bzdj%type;
+"
+PKG_GYS_YW	PACKAGE BODY	19	"    n_Gqdj   gys_Wpzd.Gqdj%type;
+"
+PKG_GYS_YW	PACKAGE BODY	20	"    str_Ggxh gys_Wpzd.Ggxh%type;
+"
+PKG_GYS_YW	PACKAGE BODY	21	"    str_Bz   gys_Wpzd.Bz%type;
+"
+PKG_GYS_YW	PACKAGE BODY	22	"    n_wplb   gys_wpzd.wplb%type;
+"
+PKG_GYS_YW	PACKAGE BODY	23	"    n_kcdc   gys_wpzd.kcdc%type;
+"
+PKG_GYS_YW	PACKAGE BODY	24	"  Begin
+"
+PKG_GYS_YW	PACKAGE BODY	25	"    Select wpmc, wpdw, bzdj, gqdj, ggxh, kcdc, bz
+"
+PKG_GYS_YW	PACKAGE BODY	26	"      Into str_Wpmc, str_Wpdw, n_Bzdj, n_Gqdj, str_Ggxh, n_kcdc, str_Bz
+"
+PKG_GYS_YW	PACKAGE BODY	27	"      From gys_wpzd
+"
+PKG_GYS_YW	PACKAGE BODY	28	"     Where wpxh = Prm_wpxh;
+"
+PKG_GYS_YW	PACKAGE BODY	29	"    If prm_Sign = 'WPMC' Then
+"
+PKG_GYS_YW	PACKAGE BODY	30	"      --物品名称
+"
+PKG_GYS_YW	PACKAGE BODY	31	"      Return str_Wpmc;
+"
+PKG_GYS_YW	PACKAGE BODY	32	"    ElsIf prm_Sign = 'WPDW' Then
+"
+PKG_GYS_YW	PACKAGE BODY	33	"      --物品单位
+"
+PKG_GYS_YW	PACKAGE BODY	34	"      Return str_Wpdw;
+"
+PKG_GYS_YW	PACKAGE BODY	35	"    ElsIf prm_Sign = 'BZDJ' Then
+"
+PKG_GYS_YW	PACKAGE BODY	36	"      --标准单价
+"
+PKG_GYS_YW	PACKAGE BODY	37	"      Return to_number(n_Bzdj);
+"
+PKG_GYS_YW	PACKAGE BODY	38	"    ElsIf prm_Sign = 'GQDJ' Then
+"
+PKG_GYS_YW	PACKAGE BODY	39	"      --过期单价
+"
+PKG_GYS_YW	PACKAGE BODY	40	"      Return to_number(n_Gqdj);
+"
+PKG_GYS_YW	PACKAGE BODY	41	"    ElsIf prm_Sign = 'WPLB' Then
+"
+PKG_GYS_YW	PACKAGE BODY	42	"      Return to_char(n_wplb);
+"
+PKG_GYS_YW	PACKAGE BODY	43	"    ElsIf prm_Sign = 'GGXH' Then
+"
+PKG_GYS_YW	PACKAGE BODY	44	"      --规格型号
+"
+PKG_GYS_YW	PACKAGE BODY	45	"      Return str_Ggxh;
+"
+PKG_GYS_YW	PACKAGE BODY	46	"    ElsIf prm_Sign = 'KCDC' Then
+"
+PKG_GYS_YW	PACKAGE BODY	47	"      --库存低储
+"
+PKG_GYS_YW	PACKAGE BODY	48	"      Return n_kcdc;
+"
+PKG_GYS_YW	PACKAGE BODY	49	"    ElsIf prm_Sign = 'BZ' Then
+"
+PKG_GYS_YW	PACKAGE BODY	50	"      --备注
+"
+PKG_GYS_YW	PACKAGE BODY	51	"      Return str_Bz;
+"
+PKG_GYS_YW	PACKAGE BODY	52	"    End If;
+"
+PKG_GYS_YW	PACKAGE BODY	53	"  
+"
+PKG_GYS_YW	PACKAGE BODY	54	"  Exception
+"
+PKG_GYS_YW	PACKAGE BODY	55	"    When Others Then
+"
+PKG_GYS_YW	PACKAGE BODY	56	"      Return 'ERROR';
+"
+PKG_GYS_YW	PACKAGE BODY	57	"  End fun_gys_getwpxx;
+"
+PKG_GYS_YW	PACKAGE BODY	58	"
+"
+PKG_GYS_YW	PACKAGE BODY	59	"  Function fun_gys_getksmc(prm_ksdm In Varchar2) Return Varchar2 Is
+"
+PKG_GYS_YW	PACKAGE BODY	60	"    str_ksmc gy_ksdm.ksmc%type;
+"
+PKG_GYS_YW	PACKAGE BODY	61	"  Begin
+"
+PKG_GYS_YW	PACKAGE BODY	62	"    Select ksmc Into str_ksmc From gy_ksdm Where ksdm = Prm_ksdm;
+"
+PKG_GYS_YW	PACKAGE BODY	63	"    Return str_ksmc;
+"
+PKG_GYS_YW	PACKAGE BODY	64	"  Exception
+"
+PKG_GYS_YW	PACKAGE BODY	65	"    When Others Then
+"
+PKG_GYS_YW	PACKAGE BODY	66	"      Return 'ERROR';
+"
+PKG_GYS_YW	PACKAGE BODY	67	"  End fun_gys_getksmc;
+"
+PKG_GYS_YW	PACKAGE BODY	68	"  /*----------------------------------------------------------
+"
+PKG_GYS_YW	PACKAGE BODY	69	"   ||函数名称： 取科室当月每日明细数据
+"
+PKG_GYS_YW	PACKAGE BODY	70	"   ||参数描述：参数标志       名称        输入/输出      类型
+"
+PKG_GYS_YW	PACKAGE BODY	71	"   ||     ------------------------------------------------------
+"
+PKG_GYS_YW	PACKAGE BODY	72	"   ||            prm_Sign     返回标志        In          Varchar2
+"
+PKG_GYS_YW	PACKAGE BODY	73	"   ||            prm_Ksdm     科室代码        In          Varchar2
+"
+PKG_GYS_YW	PACKAGE BODY	74	"   ||            prm_Fsrq     发生月份        In          Varchar2
+"
+PKG_GYS_YW	PACKAGE BODY	75	"   ||            prm_Wpxh     物品序号        In          Number
+"
+PKG_GYS_YW	PACKAGE BODY	76	"   ||     -------------------------------------------------------
+"
+PKG_GYS_YW	PACKAGE BODY	77	"   ||返回值描述：对应天的数量
+"
+PKG_GYS_YW	PACKAGE BODY	78	"   ||例子：Fun_gys_GetEvSl('01',ksdm,'2003-04'),返回为物品名称
+"
+PKG_GYS_YW	PACKAGE BODY	79	"   ||作者：王子健     完成日期：2003－04－28
+"
+PKG_GYS_YW	PACKAGE BODY	80	"  ------------------------------------------------------------*/
+"
+PKG_GYS_YW	PACKAGE BODY	81	"  FUNCTION Fun_gys_GetEvSl(prm_Sign In varchar2,
+"
+PKG_GYS_YW	PACKAGE BODY	82	"                           prm_ksdm In Varchar2,
+"
+PKG_GYS_YW	PACKAGE BODY	83	"                           prm_Fsrq In Varchar2,
+"
+PKG_GYS_YW	PACKAGE BODY	84	"                           prm_Wpxh In Number) Return Number Is
+"
+PKG_GYS_YW	PACKAGE BODY	85	"    d_Fsrq Date;
+"
+PKG_GYS_YW	PACKAGE BODY	86	"    n_Sl   Number;
+"
+PKG_GYS_YW	PACKAGE BODY	87	"  Begin
+"
+PKG_GYS_YW	PACKAGE BODY	88	"    d_Fsrq := to_Date(prm_Fsrq || '-' || prm_Sign, 'yyyy-mm-dd');
+"
+PKG_GYS_YW	PACKAGE BODY	89	"  
+"
+PKG_GYS_YW	PACKAGE BODY	90	"    Select sum(sl)
+"
+PKG_GYS_YW	PACKAGE BODY	91	"      Into n_Sl
+"
+PKG_GYS_YW	PACKAGE BODY	92	"      From gys_mxz
+"
+PKG_GYS_YW	PACKAGE BODY	93	"     Where wpxh = prm_Wpxh And ksdm1 = prm_Ksdm and Fsrq = d_Fsrq;
+"
+PKG_GYS_YW	PACKAGE BODY	94	"  
+"
+PKG_GYS_YW	PACKAGE BODY	95	"    --If n_Sl Is Null Then
+"
+PKG_GYS_YW	PACKAGE BODY	96	"    --   n_Sl := 0;
+"
+PKG_GYS_YW	PACKAGE BODY	97	"    --End If;
+"
+PKG_GYS_YW	PACKAGE BODY	98	"  
+"
+PKG_GYS_YW	PACKAGE BODY	99	"    Return n_Sl;
+"
+PKG_GYS_YW	PACKAGE BODY	100	"  
+"
+PKG_GYS_YW	PACKAGE BODY	101	"  Exception
+"
+PKG_GYS_YW	PACKAGE BODY	102	"    When Others Then
+"
+PKG_GYS_YW	PACKAGE BODY	103	"      Return 0;
+"
+PKG_GYS_YW	PACKAGE BODY	104	"  End Fun_gys_GetEvsl;
+"
+PKG_GYS_YW	PACKAGE BODY	105	"
+"
+PKG_GYS_YW	PACKAGE BODY	106	"  /*----------------------------------------------------------
+"
+PKG_GYS_YW	PACKAGE BODY	107	"   ||函数名称： 根据日期找账本序号
+"
+PKG_GYS_YW	PACKAGE BODY	108	"   ||参数描述：参数标志         名称        输入/输出      类型
+"
+PKG_GYS_YW	PACKAGE BODY	109	"   ||     ------------------------------------------------------
+"
+PKG_GYS_YW	PACKAGE BODY	110	"   ||            prm_Zblb       账本类别       In          Varchar2
+"
+PKG_GYS_YW	PACKAGE BODY	111	"   ||            prm_Date       日期           In          Varchar2
+"
+PKG_GYS_YW	PACKAGE BODY	112	"   ||     -------------------------------------------------------
+"
+PKG_GYS_YW	PACKAGE BODY	113	"   ||返回值描述：根据账本类别：CRKFS:当前日期的DAY>15则加一个月
+"
+PKG_GYS_YW	PACKAGE BODY	114	"   ||                          YPZB: 当前日期的DAY<15则减一个月
+"
+PKG_GYS_YW	PACKAGE BODY	115	"   ||例子：fun_getdqrq('CRKFS','2002-04-09'),返回为字符串'0204'
+"
+PKG_GYS_YW	PACKAGE BODY	116	"   ||作者：王子健     完成日期：2002－04－02
+"
+PKG_GYS_YW	PACKAGE BODY	117	"  ------------------------------------------------------------*/
+"
+PKG_GYS_YW	PACKAGE BODY	118	"
+"
+PKG_GYS_YW	PACKAGE BODY	119	"  Function fun_getzbxh(prm_Zblb In Varchar2, prm_Date In Varchar2)
+"
+PKG_GYS_YW	PACKAGE BODY	120	"    Return Varchar2
+"
+PKG_GYS_YW	PACKAGE BODY	121	"  
+"
+PKG_GYS_YW	PACKAGE BODY	122	"   Is
+"
+PKG_GYS_YW	PACKAGE BODY	123	"  
+"
+PKG_GYS_YW	PACKAGE BODY	124	"    str_Return Varchar2(4);
+"
+PKG_GYS_YW	PACKAGE BODY	125	"  
+"
+PKG_GYS_YW	PACKAGE BODY	126	"  Begin
+"
+PKG_GYS_YW	PACKAGE BODY	127	"    /*CHEACK 入参*/
+"
+PKG_GYS_YW	PACKAGE BODY	128	"    If Upper(prm_zblb) = 'CRKFS' Then
+"
+PKG_GYS_YW	PACKAGE BODY	129	"      --出入库方式的帐本序号(主业务用)
+"
+PKG_GYS_YW	PACKAGE BODY	130	"      If right(prm_date, 2) > 15 Then
+"
+PKG_GYS_YW	PACKAGE BODY	131	"        --当前日期的DAY>15则加一个月
+"
+PKG_GYS_YW	PACKAGE BODY	132	"        Select To_char(Add_Months(To_date(prm_date, 'yyyy-mm-dd'), 1),
+"
+PKG_GYS_YW	PACKAGE BODY	133	"                       'yymm')
+"
+PKG_GYS_YW	PACKAGE BODY	134	"          Into str_Return
+"
+PKG_GYS_YW	PACKAGE BODY	135	"          From Dual;
+"
+PKG_GYS_YW	PACKAGE BODY	136	"      Else
+"
+PKG_GYS_YW	PACKAGE BODY	137	"        str_Return := Substr(prm_date, 3, 2) || Substr(prm_date, 6, 2);
+"
+PKG_GYS_YW	PACKAGE BODY	138	"      End If;
+"
+PKG_GYS_YW	PACKAGE BODY	139	"    End If;
+"
+PKG_GYS_YW	PACKAGE BODY	140	"  
+"
+PKG_GYS_YW	PACKAGE BODY	141	"    Return str_Return;
+"
+PKG_GYS_YW	PACKAGE BODY	142	"  
+"
+PKG_GYS_YW	PACKAGE BODY	143	"  Exception
+"
+PKG_GYS_YW	PACKAGE BODY	144	"  
+"
+PKG_GYS_YW	PACKAGE BODY	145	"    When Others Then
+"
+PKG_GYS_YW	PACKAGE BODY	146	"      Return To_Char(SQLCODE);
+"
+PKG_GYS_YW	PACKAGE BODY	147	"  End;
+"
+PKG_GYS_YW	PACKAGE BODY	148	"
+"
+PKG_GYS_YW	PACKAGE BODY	149	"  /*----------------------------------------------------------
+"
+PKG_GYS_YW	PACKAGE BODY	150	"   ||过程名称： 初始化
+"
+PKG_GYS_YW	PACKAGE BODY	151	"   ||参数描述：参数标志       名称        输入/输出      类型
+"
+PKG_GYS_YW	PACKAGE BODY	152	"   ||     ------------------------------------------------------
+"
+PKG_GYS_YW	PACKAGE BODY	153	"   ||            prm_UserId   用户代码        In         Varchar2
+"
+PKG_GYS_YW	PACKAGE BODY	154	"   ||            prm_GysKsdm  科室代码        In         Varchar2
+"
+PKG_GYS_YW	PACKAGE BODY	155	"   ||            prm_ErrCode  错误号          Out        Number
+"
+PKG_GYS_YW	PACKAGE BODY	156	"   ||            prm_ErrMsg   错误信息        Out        Varchar2 
+"
+PKG_GYS_YW	PACKAGE BODY	157	"   ||     -------------------------------------------------------
+"
+PKG_GYS_YW	PACKAGE BODY	158	"   ||返回值描述：出入库单号
+"
+PKG_GYS_YW	PACKAGE BODY	159	"   ||例子：
+"
+PKG_GYS_YW	PACKAGE BODY	160	"   ||作者：王子健     完成日期：2003－04－28
+"
+PKG_GYS_YW	PACKAGE BODY	161	"  ------------------------------------------------------------*/
+"
+PKG_GYS_YW	PACKAGE BODY	162	"  PROCEDURE Prc_gys_Init(prm_UserId  In Varchar2,
+"
+PKG_GYS_YW	PACKAGE BODY	163	"                         prm_GysKsdm In Varchar2,
+"
+PKG_GYS_YW	PACKAGE BODY	164	"                         prm_ErrCode Out Number,
+"
+PKG_GYS_YW	PACKAGE BODY	165	"                         prm_ErrMsg  Out Varchar2) Is
+"
+PKG_GYS_YW	PACKAGE BODY	166	"    lrec_gys_qld gys_qld%rowtype;
+"
+PKG_GYS_YW	PACKAGE BODY	167	"  Begin
+"
+PKG_GYS_YW	PACKAGE BODY	168	"    prm_ErrCode  := 0;
+"
+PKG_GYS_YW	PACKAGE BODY	169	"    grec_gys_qld := lrec_gys_qld;
+"
+PKG_GYS_YW	PACKAGE BODY	170	"    gstr_UserId  := prm_UserId;
+"
+PKG_GYS_YW	PACKAGE BODY	171	"    gstr_Ksdm    := prm_Gysksdm;
+"
+PKG_GYS_YW	PACKAGE BODY	172	"    gn_Xtxh      := 60;
+"
+PKG_GYS_YW	PACKAGE BODY	173	"    Select seq_gys_jyxh.nextval Into gn_Jyxh From dual;
+"
+PKG_GYS_YW	PACKAGE BODY	174	"    Select kjqj
+"
+PKG_GYS_YW	PACKAGE BODY	175	"      Into gn_Kjqj
+"
+PKG_GYS_YW	PACKAGE BODY	176	"      From gys_kjrl
+"
+PKG_GYS_YW	PACKAGE BODY	177	"     Where xtxh = gn_Xtxh And sybz = 0;
+"
+PKG_GYS_YW	PACKAGE BODY	178	"  Exception
+"
+PKG_GYS_YW	PACKAGE BODY	179	"    When Others Then
+"
+PKG_GYS_YW	PACKAGE BODY	180	"      prm_ErrCode := SqlCode;
+"
+PKG_GYS_YW	PACKAGE BODY	181	"      prm_ErrMsg  := '过程prc_gys_Init:' || SqlErrM;
+"
+PKG_GYS_YW	PACKAGE BODY	182	"  End prc_gys_Init;
+"
+PKG_GYS_YW	PACKAGE BODY	183	"
+"
+PKG_GYS_YW	PACKAGE BODY	184	"  /*----------------------------------------------------------
+"
+PKG_GYS_YW	PACKAGE BODY	185	"   ||过程名称： 取出入库单号
+"
+PKG_GYS_YW	PACKAGE BODY	186	"   ||参数描述：参数标志       名称        输入/输出      类型
+"
+PKG_GYS_YW	PACKAGE BODY	187	"   ||     ------------------------------------------------------
+"
+PKG_GYS_YW	PACKAGE BODY	188	"   ||            prm_Crkdm    出入库代码      In          Number
+"
+PKG_GYS_YW	PACKAGE BODY	189	"   ||            prm_Crkdh    单号            Out         Varchar2
+"
+PKG_GYS_YW	PACKAGE BODY	190	"   ||            prm_ErrCode  错误号          Out         Number
+"
+PKG_GYS_YW	PACKAGE BODY	191	"   ||            prm_ErrMsg   错误信息        Out         Varchar2 
+"
+PKG_GYS_YW	PACKAGE BODY	192	"   ||     -------------------------------------------------------
+"
+PKG_GYS_YW	PACKAGE BODY	193	"   ||返回值描述：出入库单号
+"
+PKG_GYS_YW	PACKAGE BODY	194	"   ||例子：
+"
+PKG_GYS_YW	PACKAGE BODY	195	"   ||作者：王子健     完成日期：2003－04－28
+"
+PKG_GYS_YW	PACKAGE BODY	196	"  ------------------------------------------------------------*/
+"
+PKG_GYS_YW	PACKAGE BODY	197	"  PROCEDURE Prc_gys_GetCrkdh(prm_Crkdm   In Number,
+"
+PKG_GYS_YW	PACKAGE BODY	198	"                             prm_Crkdh   Out Varchar2,
+"
+PKG_GYS_YW	PACKAGE BODY	199	"                             prm_ErrCode Out Number,
+"
+PKG_GYS_YW	PACKAGE BODY	200	"                             prm_ErrMsg  Out Varchar2) Is
+"
+PKG_GYS_YW	PACKAGE BODY	201	"    str_Dqrq Varchar2(10);
+"
+PKG_GYS_YW	PACKAGE BODY	202	"    str_Dqdh Varchar2(10);
+"
+PKG_GYS_YW	PACKAGE BODY	203	"    ---str_Out    Varchar2(10);
+"
+PKG_GYS_YW	PACKAGE BODY	204	"  Begin
+"
+PKG_GYS_YW	PACKAGE BODY	205	"    prm_Errcode := 0;
+"
+PKG_GYS_YW	PACKAGE BODY	206	"  
+"
+PKG_GYS_YW	PACKAGE BODY	207	"    --取系统时间
+"
+PKG_GYS_YW	PACKAGE BODY	208	"    str_Dqrq := to_char(gd_Sysdate, 'yyyy-mm-dd');
+"
+PKG_GYS_YW	PACKAGE BODY	209	"  
+"
+PKG_GYS_YW	PACKAGE BODY	210	"    -- Select '1111'||lpad(kjqj,2,'0') Into str_Dqrq From gys_kjrl Where sybz =0;   
+"
+PKG_GYS_YW	PACKAGE BODY	211	"    --更新出入库单号
+"
+PKG_GYS_YW	PACKAGE BODY	212	"    Update gys_crkdh
+"
+PKG_GYS_YW	PACKAGE BODY	213	"       Set Crkdh = lpad(crkdh + 1, 10, '0')
+"
+PKG_GYS_YW	PACKAGE BODY	214	"     Where xtxh = gn_Xtxh And crkdm = prm_Crkdm;
+"
+PKG_GYS_YW	PACKAGE BODY	215	"    If Sql%RowCount = 0 Then
+"
+PKG_GYS_YW	PACKAGE BODY	216	"      str_Dqdh := fun_Getzbxh('CRKFS', str_Dqrq) || '000001';
+"
+PKG_GYS_YW	PACKAGE BODY	217	"      If substr(str_Dqdh, 1) = '-' Then
+"
+PKG_GYS_YW	PACKAGE BODY	218	"        prm_ErrCode := -1;
+"
+PKG_GYS_YW	PACKAGE BODY	219	"        prm_ErrMsg  := '取单号出错！';
+"
+PKG_GYS_YW	PACKAGE BODY	220	"        Return;
+"
+PKG_GYS_YW	PACKAGE BODY	221	"      Else
+"
+PKG_GYS_YW	PACKAGE BODY	222	"        Insert Into gys_crkdh
+"
+PKG_GYS_YW	PACKAGE BODY	223	"          (xtxh, crkdm, crkdh)
+"
+PKG_GYS_YW	PACKAGE BODY	224	"        Values
+"
+PKG_GYS_YW	PACKAGE BODY	225	"          (gn_Xtxh, prm_Crkdm, str_Dqdh);
+"
+PKG_GYS_YW	PACKAGE BODY	226	"      End If;
+"
+PKG_GYS_YW	PACKAGE BODY	227	"    End If;
+"
+PKG_GYS_YW	PACKAGE BODY	228	"  
+"
+PKG_GYS_YW	PACKAGE BODY	229	"    --取出入库单号
+"
+PKG_GYS_YW	PACKAGE BODY	230	"    Select crkdh
+"
+PKG_GYS_YW	PACKAGE BODY	231	"      Into prm_Crkdh
+"
+PKG_GYS_YW	PACKAGE BODY	232	"      From gys_crkdh
+"
+PKG_GYS_YW	PACKAGE BODY	233	"     Where crkdm = prm_Crkdm And xtxh = gn_Xtxh;
+"
+PKG_GYS_YW	PACKAGE BODY	234	"  
+"
+PKG_GYS_YW	PACKAGE BODY	235	"  Exception
+"
+PKG_GYS_YW	PACKAGE BODY	236	"    When Others Then
+"
+PKG_GYS_YW	PACKAGE BODY	237	"      prm_Errcode := Sqlcode;
+"
+PKG_GYS_YW	PACKAGE BODY	238	"      prm_ErrMsg  := '过程Prc_gys_GetCrkdh:' || sqlErrM;
+"
+PKG_GYS_YW	PACKAGE BODY	239	"  End prc_gys_GetCrkdh;
+"
+PKG_GYS_YW	PACKAGE BODY	240	"
+"
+PKG_GYS_YW	PACKAGE BODY	241	"  /*----------------------------------------------------------
+"
+PKG_GYS_YW	PACKAGE BODY	242	"   ||过程名称： 更新请领单
+"
+PKG_GYS_YW	PACKAGE BODY	243	"   ||参数描述：参数标志       名称        输入/输出      类型
+"
+PKG_GYS_YW	PACKAGE BODY	244	"   ||     ------------------------------------------------------
+"
+PKG_GYS_YW	PACKAGE BODY	245	"   ||            prm_Jlxh     记录序号        In          Number
+"
+PKG_GYS_YW	PACKAGE BODY	246	"   ||            prm_Sign     标志            In          Number
+"
+PKG_GYS_YW	PACKAGE BODY	247	"   ||            prm_ErrCode  错误号          Out         Number
+"
+PKG_GYS_YW	PACKAGE BODY	248	"   ||            prm_ErrMsg   错误信息        Out         Varchar2 
+"
+PKG_GYS_YW	PACKAGE BODY	249	"   ||     -------------------------------------------------------
+"
+PKG_GYS_YW	PACKAGE BODY	250	"   ||返回值描述：无
+"
+PKG_GYS_YW	PACKAGE BODY	251	"   ||例子：更新请领单
+"
+PKG_GYS_YW	PACKAGE BODY	252	"   ||作者：王子健     完成日期：2003－04－28
+"
+PKG_GYS_YW	PACKAGE BODY	253	"  ------------------------------------------------------------*/
+"
+PKG_GYS_YW	PACKAGE BODY	254	"  PROCEDURE prc_gys_Gxqld(prm_Jlxh    In Number,
+"
+PKG_GYS_YW	PACKAGE BODY	255	"                          prm_Sign    In Number,
+"
+PKG_GYS_YW	PACKAGE BODY	256	"                          prm_ErrCode Out Number,
+"
+PKG_GYS_YW	PACKAGE BODY	257	"                          prm_ErrMsg  Out Varchar2) Is
+"
+PKG_GYS_YW	PACKAGE BODY	258	"  Begin
+"
+PKG_GYS_YW	PACKAGE BODY	259	"    --更新请领单
+"
+PKG_GYS_YW	PACKAGE BODY	260	"    prm_ErrCode := 0;
+"
+PKG_GYS_YW	PACKAGE BODY	261	"    If prm_Sign > 0 Then
+"
+PKG_GYS_YW	PACKAGE BODY	262	"      Update gys_qld
+"
+PKG_GYS_YW	PACKAGE BODY	263	"         Set czrq = gd_sysdate,
+"
+PKG_GYS_YW	PACKAGE BODY	264	"             czks = gstr_ksdm,
+"
+PKG_GYS_YW	PACKAGE BODY	265	"             czr  = gstr_userId,
+"
+PKG_GYS_YW	PACKAGE BODY	266	"             czpb = prm_Sign,
+"
+PKG_GYS_YW	PACKAGE BODY	267	"             jyxh = gn_Jyxh
+"
+PKG_GYS_YW	PACKAGE BODY	268	"       Where jlxh = prm_Jlxh;
+"
+PKG_GYS_YW	PACKAGE BODY	269	"    Else
+"
+PKG_GYS_YW	PACKAGE BODY	270	"      Update gys_qld
+"
+PKG_GYS_YW	PACKAGE BODY	271	"         Set cxrq = gd_sysdate, cxr = gstr_userId, cxbz = 1
+"
+PKG_GYS_YW	PACKAGE BODY	272	"       Where jlxh = prm_Jlxh;
+"
+PKG_GYS_YW	PACKAGE BODY	273	"    End If;
+"
+PKG_GYS_YW	PACKAGE BODY	274	"  
+"
+PKG_GYS_YW	PACKAGE BODY	275	"  Exception
+"
+PKG_GYS_YW	PACKAGE BODY	276	"    When Others Then
+"
+PKG_GYS_YW	PACKAGE BODY	277	"      prm_ErrCode := SqlCode;
+"
+PKG_GYS_YW	PACKAGE BODY	278	"      prm_ErrMsg  := '更新请领单prc_gys_Gxqld:' || SqlErrM;
+"
+PKG_GYS_YW	PACKAGE BODY	279	"    
+"
+PKG_GYS_YW	PACKAGE BODY	280	"  End prc_gys_Gxqld;
+"
+PKG_GYS_YW	PACKAGE BODY	281	"
+"
+PKG_GYS_YW	PACKAGE BODY	282	"  /*----------------------------------------------------------
+"
+PKG_GYS_YW	PACKAGE BODY	283	"   ||过程名称： 更新库存
+"
+PKG_GYS_YW	PACKAGE BODY	284	"   ||参数描述：参数标志       名称        输入/输出      类型
+"
+PKG_GYS_YW	PACKAGE BODY	285	"   ||     ------------------------------------------------------
+"
+PKG_GYS_YW	PACKAGE BODY	286	"   ||            prm_Crkdm    出入库代码      In          Number
+"
+PKG_GYS_YW	PACKAGE BODY	287	"   ||            prm_WPxh     物品序号        In          Number
+"
+PKG_GYS_YW	PACKAGE BODY	288	"   ||            prm_Sl       数量            In          Number
+"
+PKG_GYS_YW	PACKAGE BODY	289	"   ||            prm_ErrCode  错误号          Out         Number
+"
+PKG_GYS_YW	PACKAGE BODY	290	"   ||            prm_ErrMsg   错误信息        Out         Varchar2 
+"
+PKG_GYS_YW	PACKAGE BODY	291	"   ||     -------------------------------------------------------
+"
+PKG_GYS_YW	PACKAGE BODY	292	"   ||返回值描述：无
+"
+PKG_GYS_YW	PACKAGE BODY	293	"   ||例子：处理更新库存
+"
+PKG_GYS_YW	PACKAGE BODY	294	"   ||作者：王子健     完成日期：2003－04－28
+"
+PKG_GYS_YW	PACKAGE BODY	295	"  ------------------------------------------------------------*/
+"
+PKG_GYS_YW	PACKAGE BODY	296	"  PROCEDURE Prc_gys_gxkc(prm_Crkdm   In Number,
+"
+PKG_GYS_YW	PACKAGE BODY	297	"                         prm_WPxh    In Number,
+"
+PKG_GYS_YW	PACKAGE BODY	298	"                         prm_Sl      In Number,
+"
+PKG_GYS_YW	PACKAGE BODY	299	"                         prm_ErrCode Out Number,
+"
+PKG_GYS_YW	PACKAGE BODY	300	"                         Prm_ErrMsg  Out Varchar2) Is
+"
+PKG_GYS_YW	PACKAGE BODY	301	"    lrec_crkfsxx gys_crkfs%rowtype;
+"
+PKG_GYS_YW	PACKAGE BODY	302	"    str_Dqrq     Varchar2(10);
+"
+PKG_GYS_YW	PACKAGE BODY	303	"    str_Ckrdh    Varchar2(10);
+"
+PKG_GYS_YW	PACKAGE BODY	304	"    n_Dj         Number;
+"
+PKG_GYS_YW	PACKAGE BODY	305	"    n_Sl         Number;
+"
+PKG_GYS_YW	PACKAGE BODY	306	"    n_Je         Number;
+"
+PKG_GYS_YW	PACKAGE BODY	307	"    n_Wplb       Number;
+"
+PKG_GYS_YW	PACKAGE BODY	308	"    wplb         number;
+"
+PKG_GYS_YW	PACKAGE BODY	309	"    n_kfjb       Number;
+"
+PKG_GYS_YW	PACKAGE BODY	310	"    n_Kcxh       Number;
+"
+PKG_GYS_YW	PACKAGE BODY	311	"    n_Kcsl       Number;
+"
+PKG_GYS_YW	PACKAGE BODY	312	"    n_Wpsx       Number;
+"
+PKG_GYS_YW	PACKAGE BODY	313	"    str_Ksdm     gys_mxz.ksdm1%type;
+"
+PKG_GYS_YW	PACKAGE BODY	314	"    str_Ksmc     gys_mxz.ksmc1%type;
+"
+PKG_GYS_YW	PACKAGE BODY	315	"    ksdm         varchar2(10);
+"
+PKG_GYS_YW	PACKAGE BODY	316	"    ksmc         varchar2(30);
+"
+PKG_GYS_YW	PACKAGE BODY	317	"    n_Wpxh       Number;
+"
+PKG_GYS_YW	PACKAGE BODY	318	"    str_Wpmc     gys_wpzd.wpmc%type;
+"
+PKG_GYS_YW	PACKAGE BODY	319	"    str_Scph     gys_qld.scph%type;
+"
+PKG_GYS_YW	PACKAGE BODY	320	"    n_Jlxh       Number;
+"
+PKG_GYS_YW	PACKAGE BODY	321	"    n_Je1        Number;
+"
+PKG_GYS_YW	PACKAGE BODY	322	"    --包里的所有物品
+"
+PKG_GYS_YW	PACKAGE BODY	323	"    Cursor cur_cfzd_all Is
+"
+PKG_GYS_YW	PACKAGE BODY	324	"      Select cfxh, sl, je From gys_cfzd Where ztxh = prm_Wpxh;
+"
+PKG_GYS_YW	PACKAGE BODY	325	"  
+"
+PKG_GYS_YW	PACKAGE BODY	326	"    --包里的消耗品
+"
+PKG_GYS_YW	PACKAGE BODY	327	"    Cursor cur_cfzd Is
+"
+PKG_GYS_YW	PACKAGE BODY	328	"      Select cfxh, sl, je
+"
+PKG_GYS_YW	PACKAGE BODY	329	"        From gys_cfzd a, gys_qtzd b
+"
+PKG_GYS_YW	PACKAGE BODY	330	"       Where a.ztxh = prm_Wpxh and a.wplb = b.dmxh and b.xtxh = gn_Xtxh and
+"
+PKG_GYS_YW	PACKAGE BODY	331	"             b.dmlb = 1 and b.lbsx = 3; --消耗品
+"
+PKG_GYS_YW	PACKAGE BODY	332	"  
+"
+PKG_GYS_YW	PACKAGE BODY	333	"    --按登帐的先后顺序
+"
+PKG_GYS_YW	PACKAGE BODY	334	"    cursor cur_kczz Is
+"
+PKG_GYS_YW	PACKAGE BODY	335	"      Select kcxh, kcsl, scph
+"
+PKG_GYS_YW	PACKAGE BODY	336	"        From gys_kczz
+"
+PKG_GYS_YW	PACKAGE BODY	337	"       where kfjb = n_Kfjb And wpxh = n_Wpxh And wpsx = n_Wpsx And kcsl > 0
+"
+PKG_GYS_YW	PACKAGE BODY	338	"       Order by yhj Asc;
+"
+PKG_GYS_YW	PACKAGE BODY	339	"  
+"
+PKG_GYS_YW	PACKAGE BODY	340	"  Begin
+"
+PKG_GYS_YW	PACKAGE BODY	341	"  
+"
+PKG_GYS_YW	PACKAGE BODY	342	"    prm_ErrCode := 0;
+"
+PKG_GYS_YW	PACKAGE BODY	343	"    str_Dqrq    := to_char(gd_sysdate, 'yyyy-mm');
+"
+PKG_GYS_YW	PACKAGE BODY	344	"    n_Wpsx      := grec_gys_qld.wpsx;
+"
+PKG_GYS_YW	PACKAGE BODY	345	"    str_Ksdm    := grec_gys_qld.sqks;
+"
+PKG_GYS_YW	PACKAGE BODY	346	"    str_Ckrdh   := grec_gys_qld.sqdh;
+"
+PKG_GYS_YW	PACKAGE BODY	347	"    n_wplb      := grec_gys_qld.wplb;
+"
+PKG_GYS_YW	PACKAGE BODY	348	"    str_Wpmc    := fun_gys_getwpxx('WPMC', prm_Wpxh);
+"
+PKG_GYS_YW	PACKAGE BODY	349	"    n_Dj        := grec_gys_qld.dj;
+"
+PKG_GYS_YW	PACKAGE BODY	350	"  
+"
+PKG_GYS_YW	PACKAGE BODY	351	"    --取病区名称
+"
+PKG_GYS_YW	PACKAGE BODY	352	"    Begin
+"
+PKG_GYS_YW	PACKAGE BODY	353	"      SELECT ksmc Into str_Ksmc From gy_ksdm Where ksdm = str_Ksdm;
+"
+PKG_GYS_YW	PACKAGE BODY	354	"    Exception
+"
+PKG_GYS_YW	PACKAGE BODY	355	"      When Others Then
+"
+PKG_GYS_YW	PACKAGE BODY	356	"        prm_ErrCode := -1;
+"
+PKG_GYS_YW	PACKAGE BODY	357	"        prm_ErrMsg  := 'prc_gys_gxkc取科室名称出错!';
+"
+PKG_GYS_YW	PACKAGE BODY	358	"        Return;
+"
+PKG_GYS_YW	PACKAGE BODY	359	"    End;
+"
+PKG_GYS_YW	PACKAGE BODY	360	"  
+"
+PKG_GYS_YW	PACKAGE BODY	361	"    --取出入库信息
+"
+PKG_GYS_YW	PACKAGE BODY	362	"    Begin
+"
+PKG_GYS_YW	PACKAGE BODY	363	"      Select *
+"
+PKG_GYS_YW	PACKAGE BODY	364	"        Into lrec_crkfsxx
+"
+PKG_GYS_YW	PACKAGE BODY	365	"        From gys_crkfs
+"
+PKG_GYS_YW	PACKAGE BODY	366	"       Where xtxh = gn_Xtxh and crkdm = prm_crkdm;
+"
+PKG_GYS_YW	PACKAGE BODY	367	"    
+"
+PKG_GYS_YW	PACKAGE BODY	368	"      -- n_sl     := prm_Sl*lrec_crkfsxx.jylx;
+"
+PKG_GYS_YW	PACKAGE BODY	369	"    
+"
+PKG_GYS_YW	PACKAGE BODY	370	"      /*--单据号
+"
+PKG_GYS_YW	PACKAGE BODY	371	"      prc_gys_GetCrkdh(prm_crkdm,str_Ckrdh,prm_ErrCode,prm_ErrMsg);
+"
+PKG_GYS_YW	PACKAGE BODY	372	"      If prm_ErrCode <>0 Then
+"
+PKG_GYS_YW	PACKAGE BODY	373	"         Return;
+"
+PKG_GYS_YW	PACKAGE BODY	374	"      End If;
+"
+PKG_GYS_YW	PACKAGE BODY	375	"      */
+"
+PKG_GYS_YW	PACKAGE BODY	376	"    
+"
+PKG_GYS_YW	PACKAGE BODY	377	"    Exception
+"
+PKG_GYS_YW	PACKAGE BODY	378	"      When No_Data_Found Then
+"
+PKG_GYS_YW	PACKAGE BODY	379	"        prm_ErrCode := -1;
+"
+PKG_GYS_YW	PACKAGE BODY	380	"        prm_ErrMsg  := '出入库方式表基础数据有误！';
+"
+PKG_GYS_YW	PACKAGE BODY	381	"        Return;
+"
+PKG_GYS_YW	PACKAGE BODY	382	"    End;
+"
+PKG_GYS_YW	PACKAGE BODY	383	"  
+"
+PKG_GYS_YW	PACKAGE BODY	384	"    --插出库单(入库单)
+"
+PKG_GYS_YW	PACKAGE BODY	385	"  
+"
+PKG_GYS_YW	PACKAGE BODY	386	"    If lrec_Crkfsxx.crkfx = 1 Then
+"
+PKG_GYS_YW	PACKAGE BODY	387	"      --出库
+"
+PKG_GYS_YW	PACKAGE BODY	388	"      --插出库单
+"
+PKG_GYS_YW	PACKAGE BODY	389	"      Null;
+"
+PKG_GYS_YW	PACKAGE BODY	390	"    ElsIf lrec_Crkfsxx.crkfx = 2 Then
+"
+PKG_GYS_YW	PACKAGE BODY	391	"      --入库
+"
+PKG_GYS_YW	PACKAGE BODY	392	"      --插入库单
+"
+PKG_GYS_YW	PACKAGE BODY	393	"      n_je := n_dj * prm_Sl;
+"
+PKG_GYS_YW	PACKAGE BODY	394	"    
+"
+PKG_GYS_YW	PACKAGE BODY	395	"      Insert Into gys_rkd
+"
+PKG_GYS_YW	PACKAGE BODY	396	"        (jlxh,
+"
+PKG_GYS_YW	PACKAGE BODY	397	"         wpxh,
+"
+PKG_GYS_YW	PACKAGE BODY	398	"         xtxh,
+"
+PKG_GYS_YW	PACKAGE BODY	399	"         wplb,
+"
+PKG_GYS_YW	PACKAGE BODY	400	"         djlx,
+"
+PKG_GYS_YW	PACKAGE BODY	401	"         rkdh,
+"
+PKG_GYS_YW	PACKAGE BODY	402	"         jzpb,
+"
+PKG_GYS_YW	PACKAGE BODY	403	"         jzrq,
+"
+PKG_GYS_YW	PACKAGE BODY	404	"         jzr,
+"
+PKG_GYS_YW	PACKAGE BODY	405	"         zdks,
+"
+PKG_GYS_YW	PACKAGE BODY	406	"         zdrq,
+"
+PKG_GYS_YW	PACKAGE BODY	407	"         zdr,
+"
+PKG_GYS_YW	PACKAGE BODY	408	"         dj,
+"
+PKG_GYS_YW	PACKAGE BODY	409	"         sl,
+"
+PKG_GYS_YW	PACKAGE BODY	410	"         je,
+"
+PKG_GYS_YW	PACKAGE BODY	411	"         SCPH)
+"
+PKG_GYS_YW	PACKAGE BODY	412	"      Values
+"
+PKG_GYS_YW	PACKAGE BODY	413	"        (seq_gys_rkd.nextval,
+"
+PKG_GYS_YW	PACKAGE BODY	414	"         prm_Wpxh,
+"
+PKG_GYS_YW	PACKAGE BODY	415	"         gn_Xtxh,
+"
+PKG_GYS_YW	PACKAGE BODY	416	"         n_Wplb,
+"
+PKG_GYS_YW	PACKAGE BODY	417	"         prm_Crkdm,
+"
+PKG_GYS_YW	PACKAGE BODY	418	"         str_ckrdh,
+"
+PKG_GYS_YW	PACKAGE BODY	419	"         1,
+"
+PKG_GYS_YW	PACKAGE BODY	420	"         gd_sysdate,
+"
+PKG_GYS_YW	PACKAGE BODY	421	"         gstr_userid,
+"
+PKG_GYS_YW	PACKAGE BODY	422	"         grec_gys_qld.sqks,
+"
+PKG_GYS_YW	PACKAGE BODY	423	"         grec_gys_qld.sqrq,
+"
+PKG_GYS_YW	PACKAGE BODY	424	"         grec_gys_qld.sqr,
+"
+PKG_GYS_YW	PACKAGE BODY	425	"         n_dj,
+"
+PKG_GYS_YW	PACKAGE BODY	426	"         prm_Sl,
+"
+PKG_GYS_YW	PACKAGE BODY	427	"         n_je,
+"
+PKG_GYS_YW	PACKAGE BODY	428	"         grec_gys_qld.SCPH);
+"
+PKG_GYS_YW	PACKAGE BODY	429	"    ElsIf lrec_Crkfsxx.crkfx = 0 Then
+"
+PKG_GYS_YW	PACKAGE BODY	430	"      --内部周转
+"
+PKG_GYS_YW	PACKAGE BODY	431	"      Null;
+"
+PKG_GYS_YW	PACKAGE BODY	432	"    ElsIf lrec_Crkfsxx.crkfx = 3 Then
+"
+PKG_GYS_YW	PACKAGE BODY	433	"      --无出入库,不消耗库存
+"
+PKG_GYS_YW	PACKAGE BODY	434	"      n_je := prm_sl * n_Dj;
+"
+PKG_GYS_YW	PACKAGE BODY	435	"      Insert Into gys_mxz
+"
+PKG_GYS_YW	PACKAGE BODY	436	"        (jlxh,
+"
+PKG_GYS_YW	PACKAGE BODY	437	"         xtxh,
+"
+PKG_GYS_YW	PACKAGE BODY	438	"         djlx,
+"
+PKG_GYS_YW	PACKAGE BODY	439	"         djhm,
+"
+PKG_GYS_YW	PACKAGE BODY	440	"         rqyf,
+"
+PKG_GYS_YW	PACKAGE BODY	441	"         fsrq,
+"
+PKG_GYS_YW	PACKAGE BODY	442	"         zy,
+"
+PKG_GYS_YW	PACKAGE BODY	443	"         ksdm1,
+"
+PKG_GYS_YW	PACKAGE BODY	444	"         ksmc1,
+"
+PKG_GYS_YW	PACKAGE BODY	445	"         wpxh,
+"
+PKG_GYS_YW	PACKAGE BODY	446	"         wplb,
+"
+PKG_GYS_YW	PACKAGE BODY	447	"         dj,
+"
+PKG_GYS_YW	PACKAGE BODY	448	"         sl,
+"
+PKG_GYS_YW	PACKAGE BODY	449	"         je,
+"
+PKG_GYS_YW	PACKAGE BODY	450	"         kjqj,
+"
+PKG_GYS_YW	PACKAGE BODY	451	"         ywdm,
+"
+PKG_GYS_YW	PACKAGE BODY	452	"         wpsx,
+"
+PKG_GYS_YW	PACKAGE BODY	453	"         SCPH,
+"
+PKG_GYS_YW	PACKAGE BODY	454	"         crkfx)
+"
+PKG_GYS_YW	PACKAGE BODY	455	"      Values
+"
+PKG_GYS_YW	PACKAGE BODY	456	"        (seq_gys_mxz.nextval,
+"
+PKG_GYS_YW	PACKAGE BODY	457	"         gn_Xtxh,
+"
+PKG_GYS_YW	PACKAGE BODY	458	"         prm_crkdm,
+"
+PKG_GYS_YW	PACKAGE BODY	459	"         str_Ckrdh,
+"
+PKG_GYS_YW	PACKAGE BODY	460	"         str_Dqrq,
+"
+PKG_GYS_YW	PACKAGE BODY	461	"         trunc(gd_sysdate),
+"
+PKG_GYS_YW	PACKAGE BODY	462	"         lrec_crkfsxx.crkmc,
+"
+PKG_GYS_YW	PACKAGE BODY	463	"         str_ksdm,
+"
+PKG_GYS_YW	PACKAGE BODY	464	"         str_Ksmc,
+"
+PKG_GYS_YW	PACKAGE BODY	465	"         prm_Wpxh,
+"
+PKG_GYS_YW	PACKAGE BODY	466	"         n_Wplb,
+"
+PKG_GYS_YW	PACKAGE BODY	467	"         n_Dj,
+"
+PKG_GYS_YW	PACKAGE BODY	468	"         prm_Sl,
+"
+PKG_GYS_YW	PACKAGE BODY	469	"         n_Je,
+"
+PKG_GYS_YW	PACKAGE BODY	470	"         gn_Kjqj,
+"
+PKG_GYS_YW	PACKAGE BODY	471	"         prm_crkdm,
+"
+PKG_GYS_YW	PACKAGE BODY	472	"         grec_gys_qld.wpsx,
+"
+PKG_GYS_YW	PACKAGE BODY	473	"         grec_gys_qld.SCPH,
+"
+PKG_GYS_YW	PACKAGE BODY	474	"         lrec_Crkfsxx.crkfx);
+"
+PKG_GYS_YW	PACKAGE BODY	475	"    
+"
+PKG_GYS_YW	PACKAGE BODY	476	"      Return;
+"
+PKG_GYS_YW	PACKAGE BODY	477	"    End If;
+"
+PKG_GYS_YW	PACKAGE BODY	478	"  
+"
+PKG_GYS_YW	PACKAGE BODY	479	"    --更新库存
+"
+PKG_GYS_YW	PACKAGE BODY	480	"    --<<注意：更新库存要按一定的规则，比如按单号，按日期>>
+"
+PKG_GYS_YW	PACKAGE BODY	481	"    If lrec_Crkfsxx.xhkpb = 1 Then
+"
+PKG_GYS_YW	PACKAGE BODY	482	"      --模式一：置换模式
+"
+PKG_GYS_YW	PACKAGE BODY	483	"      --1:检查数量
+"
+PKG_GYS_YW	PACKAGE BODY	484	"      if n_wplb = 1 then
+"
+PKG_GYS_YW	PACKAGE BODY	485	"      
+"
+PKG_GYS_YW	PACKAGE BODY	486	"        Begin
+"
+PKG_GYS_YW	PACKAGE BODY	487	"          Select sum(kcsl)
+"
+PKG_GYS_YW	PACKAGE BODY	488	"            Into n_Sl
+"
+PKG_GYS_YW	PACKAGE BODY	489	"            From gys_kczz
+"
+PKG_GYS_YW	PACKAGE BODY	490	"           Where wpxh = prm_Wpxh And kfjb = 3 And ksdm = str_Ksdm;
+"
+PKG_GYS_YW	PACKAGE BODY	491	"          If n_Sl Is Null Then
+"
+PKG_GYS_YW	PACKAGE BODY	492	"            n_Sl := 0;
+"
+PKG_GYS_YW	PACKAGE BODY	493	"          End If;
+"
+PKG_GYS_YW	PACKAGE BODY	494	"          If n_Sl < prm_Sl Then
+"
+PKG_GYS_YW	PACKAGE BODY	495	"            --prm_ErrCode := -1;
+"
+PKG_GYS_YW	PACKAGE BODY	496	"            prm_ErrMsg := 'prc_gys_gxkc:' || str_Ksmc || '没有那么多的' ||
+"
+PKG_GYS_YW	PACKAGE BODY	497	"                          str_Wpmc || '，请检查！';
+"
+PKG_GYS_YW	PACKAGE BODY	498	"            --Return;
+"
+PKG_GYS_YW	PACKAGE BODY	499	"          End If;
+"
+PKG_GYS_YW	PACKAGE BODY	500	"        Exception
+"
+PKG_GYS_YW	PACKAGE BODY	501	"          When Others Then
+"
+PKG_GYS_YW	PACKAGE BODY	502	"            prm_ErrCode := -1;
+"
+PKG_GYS_YW	PACKAGE BODY	503	"            prm_ErrMsg  := 'prc_gys_gxkc:' || str_Ksmc || '没有' ||
+"
+PKG_GYS_YW	PACKAGE BODY	504	"                           str_Wpmc || '的数据，请检查！';
+"
+PKG_GYS_YW	PACKAGE BODY	505	"            Return;
+"
+PKG_GYS_YW	PACKAGE BODY	506	"        End;
+"
+PKG_GYS_YW	PACKAGE BODY	507	"      
+"
+PKG_GYS_YW	PACKAGE BODY	508	"        n_Kfjb := 2; --无菌室
+"
+PKG_GYS_YW	PACKAGE BODY	509	"        n_Wpsx := 0; --干净的包  
+"
+PKG_GYS_YW	PACKAGE BODY	510	"        n_Wpxh := prm_Wpxh; --物品序号
+"
+PKG_GYS_YW	PACKAGE BODY	511	"        n_Sl   := prm_Sl;
+"
+PKG_GYS_YW	PACKAGE BODY	512	"      
+"
+PKG_GYS_YW	PACKAGE BODY	513	"        --2:减少无菌室干净的包 
+"
+PKG_GYS_YW	PACKAGE BODY	514	"        Open cur_kczz;
+"
+PKG_GYS_YW	PACKAGE BODY	515	"        Loop
+"
+PKG_GYS_YW	PACKAGE BODY	516	"          Fetch cur_kczz
+"
+PKG_GYS_YW	PACKAGE BODY	517	"            Into n_Kcxh, n_Kcsl, str_Scph;
+"
+PKG_GYS_YW	PACKAGE BODY	518	"          Exit When cur_Kczz%NotFound;
+"
+PKG_GYS_YW	PACKAGE BODY	519	"          If n_Kcsl >= n_Sl Then
+"
+PKG_GYS_YW	PACKAGE BODY	520	"            --满足
+"
+PKG_GYS_YW	PACKAGE BODY	521	"            Update gys_Kczz
+"
+PKG_GYS_YW	PACKAGE BODY	522	"               Set kcsl = kcsl - n_sl
+"
+PKG_GYS_YW	PACKAGE BODY	523	"             Where xtxh = gn_Xtxh And kcxh = n_Kcxh;
+"
+PKG_GYS_YW	PACKAGE BODY	524	"          
+"
+PKG_GYS_YW	PACKAGE BODY	525	"            --插明细帐
+"
+PKG_GYS_YW	PACKAGE BODY	526	"            n_je := n_sl * n_Dj;
+"
+PKG_GYS_YW	PACKAGE BODY	527	"            --bz(标志 用来区分是何种方式写到明细帐，如置换模式bz =1,与单据类型中的消耗库模式相对应 )
+"
+PKG_GYS_YW	PACKAGE BODY	528	"            --qxl 2003-07-21
+"
+PKG_GYS_YW	PACKAGE BODY	529	"            Insert Into gys_mxz
+"
+PKG_GYS_YW	PACKAGE BODY	530	"              (jlxh,
+"
+PKG_GYS_YW	PACKAGE BODY	531	"               xtxh,
+"
+PKG_GYS_YW	PACKAGE BODY	532	"               djlx,
+"
+PKG_GYS_YW	PACKAGE BODY	533	"               djhm,
+"
+PKG_GYS_YW	PACKAGE BODY	534	"               rqyf,
+"
+PKG_GYS_YW	PACKAGE BODY	535	"               fsrq,
+"
+PKG_GYS_YW	PACKAGE BODY	536	"               zy,
+"
+PKG_GYS_YW	PACKAGE BODY	537	"               ksdm1,
+"
+PKG_GYS_YW	PACKAGE BODY	538	"               ksmc1,
+"
+PKG_GYS_YW	PACKAGE BODY	539	"               wpxh,
+"
+PKG_GYS_YW	PACKAGE BODY	540	"               wplb,
+"
+PKG_GYS_YW	PACKAGE BODY	541	"               dj,
+"
+PKG_GYS_YW	PACKAGE BODY	542	"               sl,
+"
+PKG_GYS_YW	PACKAGE BODY	543	"               je,
+"
+PKG_GYS_YW	PACKAGE BODY	544	"               kjqj,
+"
+PKG_GYS_YW	PACKAGE BODY	545	"               ywdm,
+"
+PKG_GYS_YW	PACKAGE BODY	546	"               wpsx,
+"
+PKG_GYS_YW	PACKAGE BODY	547	"               SCPH,
+"
+PKG_GYS_YW	PACKAGE BODY	548	"               kcxh,
+"
+PKG_GYS_YW	PACKAGE BODY	549	"               crkfx,
+"
+PKG_GYS_YW	PACKAGE BODY	550	"               bz)
+"
+PKG_GYS_YW	PACKAGE BODY	551	"            Values
+"
+PKG_GYS_YW	PACKAGE BODY	552	"              (seq_gys_mxz.nextval,
+"
+PKG_GYS_YW	PACKAGE BODY	553	"               gn_Xtxh,
+"
+PKG_GYS_YW	PACKAGE BODY	554	"               prm_crkdm,
+"
+PKG_GYS_YW	PACKAGE BODY	555	"               str_Ckrdh,
+"
+PKG_GYS_YW	PACKAGE BODY	556	"               str_Dqrq,
+"
+PKG_GYS_YW	PACKAGE BODY	557	"               trunc(gd_sysdate),
+"
+PKG_GYS_YW	PACKAGE BODY	558	"               lrec_crkfsxx.crkmc,
+"
+PKG_GYS_YW	PACKAGE BODY	559	"               str_ksdm,
+"
+PKG_GYS_YW	PACKAGE BODY	560	"               str_Ksmc,
+"
+PKG_GYS_YW	PACKAGE BODY	561	"               prm_Wpxh,
+"
+PKG_GYS_YW	PACKAGE BODY	562	"               n_Wplb,
+"
+PKG_GYS_YW	PACKAGE BODY	563	"               n_Dj,
+"
+PKG_GYS_YW	PACKAGE BODY	564	"               N_Sl,
+"
+PKG_GYS_YW	PACKAGE BODY	565	"               n_Je,
+"
+PKG_GYS_YW	PACKAGE BODY	566	"               gn_kjqj,
+"
+PKG_GYS_YW	PACKAGE BODY	567	"               prm_crkdm,
+"
+PKG_GYS_YW	PACKAGE BODY	568	"               grec_gys_qld.wpsx,
+"
+PKG_GYS_YW	PACKAGE BODY	569	"               str_Scph,
+"
+PKG_GYS_YW	PACKAGE BODY	570	"               n_Kcxh,
+"
+PKG_GYS_YW	PACKAGE BODY	571	"               lrec_Crkfsxx.crkfx,
+"
+PKG_GYS_YW	PACKAGE BODY	572	"               1);
+"
+PKG_GYS_YW	PACKAGE BODY	573	"          
+"
+PKG_GYS_YW	PACKAGE BODY	574	"            n_Sl := 0;
+"
+PKG_GYS_YW	PACKAGE BODY	575	"            Exit;
+"
+PKG_GYS_YW	PACKAGE BODY	576	"          Else
+"
+PKG_GYS_YW	PACKAGE BODY	577	"            Update gys_Kczz
+"
+PKG_GYS_YW	PACKAGE BODY	578	"               Set kcsl = 0
+"
+PKG_GYS_YW	PACKAGE BODY	579	"             Where xtxh = gn_Xtxh And kcxh = n_Kcxh;
+"
+PKG_GYS_YW	PACKAGE BODY	580	"          
+"
+PKG_GYS_YW	PACKAGE BODY	581	"            --插明细帐
+"
+PKG_GYS_YW	PACKAGE BODY	582	"            n_Je := n_Kcsl * n_Dj;
+"
+PKG_GYS_YW	PACKAGE BODY	583	"          
+"
+PKG_GYS_YW	PACKAGE BODY	584	"            Insert Into gys_mxz
+"
+PKG_GYS_YW	PACKAGE BODY	585	"              (jlxh,
+"
+PKG_GYS_YW	PACKAGE BODY	586	"               xtxh,
+"
+PKG_GYS_YW	PACKAGE BODY	587	"               djlx,
+"
+PKG_GYS_YW	PACKAGE BODY	588	"               djhm,
+"
+PKG_GYS_YW	PACKAGE BODY	589	"               rqyf,
+"
+PKG_GYS_YW	PACKAGE BODY	590	"               fsrq,
+"
+PKG_GYS_YW	PACKAGE BODY	591	"               zy,
+"
+PKG_GYS_YW	PACKAGE BODY	592	"               ksdm1,
+"
+PKG_GYS_YW	PACKAGE BODY	593	"               ksmc1,
+"
+PKG_GYS_YW	PACKAGE BODY	594	"               wpxh,
+"
+PKG_GYS_YW	PACKAGE BODY	595	"               wplb,
+"
+PKG_GYS_YW	PACKAGE BODY	596	"               dj,
+"
+PKG_GYS_YW	PACKAGE BODY	597	"               sl,
+"
+PKG_GYS_YW	PACKAGE BODY	598	"               je,
+"
+PKG_GYS_YW	PACKAGE BODY	599	"               kjqj,
+"
+PKG_GYS_YW	PACKAGE BODY	600	"               ywdm,
+"
+PKG_GYS_YW	PACKAGE BODY	601	"               wpsx,
+"
+PKG_GYS_YW	PACKAGE BODY	602	"               SCPH,
+"
+PKG_GYS_YW	PACKAGE BODY	603	"               Kcxh,
+"
+PKG_GYS_YW	PACKAGE BODY	604	"               crkfx,
+"
+PKG_GYS_YW	PACKAGE BODY	605	"               dqsl)
+"
+PKG_GYS_YW	PACKAGE BODY	606	"            Values
+"
+PKG_GYS_YW	PACKAGE BODY	607	"              (seq_gys_mxz.nextval,
+"
+PKG_GYS_YW	PACKAGE BODY	608	"               gn_Xtxh,
+"
+PKG_GYS_YW	PACKAGE BODY	609	"               prm_crkdm,
+"
+PKG_GYS_YW	PACKAGE BODY	610	"               str_Ckrdh,
+"
+PKG_GYS_YW	PACKAGE BODY	611	"               str_Dqrq,
+"
+PKG_GYS_YW	PACKAGE BODY	612	"               trunc(gd_sysdate),
+"
+PKG_GYS_YW	PACKAGE BODY	613	"               lrec_crkfsxx.crkmc,
+"
+PKG_GYS_YW	PACKAGE BODY	614	"               str_ksdm,
+"
+PKG_GYS_YW	PACKAGE BODY	615	"               str_Ksmc,
+"
+PKG_GYS_YW	PACKAGE BODY	616	"               prm_Wpxh,
+"
+PKG_GYS_YW	PACKAGE BODY	617	"               n_Wplb,
+"
+PKG_GYS_YW	PACKAGE BODY	618	"               n_Dj,
+"
+PKG_GYS_YW	PACKAGE BODY	619	"               N_KcSl,
+"
+PKG_GYS_YW	PACKAGE BODY	620	"               n_Je,
+"
+PKG_GYS_YW	PACKAGE BODY	621	"               gn_kjqj,
+"
+PKG_GYS_YW	PACKAGE BODY	622	"               prm_crkdm,
+"
+PKG_GYS_YW	PACKAGE BODY	623	"               grec_gys_qld.wpsx,
+"
+PKG_GYS_YW	PACKAGE BODY	624	"               str_Scph,
+"
+PKG_GYS_YW	PACKAGE BODY	625	"               n_Kcxh,
+"
+PKG_GYS_YW	PACKAGE BODY	626	"               lrec_Crkfsxx.crkfx,
+"
+PKG_GYS_YW	PACKAGE BODY	627	"               n_sl - n_kcsl);
+"
+PKG_GYS_YW	PACKAGE BODY	628	"          
+"
+PKG_GYS_YW	PACKAGE BODY	629	"            --n_Sl  := prm_Sl - n_Kcsl;
+"
+PKG_GYS_YW	PACKAGE BODY	630	"            n_sl := n_sl - n_kcsl;
+"
+PKG_GYS_YW	PACKAGE BODY	631	"          
+"
+PKG_GYS_YW	PACKAGE BODY	632	"          End If;
+"
+PKG_GYS_YW	PACKAGE BODY	633	"        End Loop;
+"
+PKG_GYS_YW	PACKAGE BODY	634	"        Close cur_Kczz;
+"
+PKG_GYS_YW	PACKAGE BODY	635	"      
+"
+PKG_GYS_YW	PACKAGE BODY	636	"        --没有库存数据时：
+"
+PKG_GYS_YW	PACKAGE BODY	637	"        If n_Sl <> 0 Then
+"
+PKG_GYS_YW	PACKAGE BODY	638	"          prm_ErrCode := -1;
+"
+PKG_GYS_YW	PACKAGE BODY	639	"          prm_ErrMsg  := 'prc_gys_gxkc:无菌室没有足够的干净' || str_Wpmc ||
+"
+PKG_GYS_YW	PACKAGE BODY	640	"                         '，请制包！';
+"
+PKG_GYS_YW	PACKAGE BODY	641	"          Return;
+"
+PKG_GYS_YW	PACKAGE BODY	642	"        End If;
+"
+PKG_GYS_YW	PACKAGE BODY	643	"      
+"
+PKG_GYS_YW	PACKAGE BODY	644	"        --3:增加供应室使用后（过期）的包
+"
+PKG_GYS_YW	PACKAGE BODY	645	"        Update gys_Kczz
+"
+PKG_GYS_YW	PACKAGE BODY	646	"           Set kcsl = kcsl + prm_sl
+"
+PKG_GYS_YW	PACKAGE BODY	647	"         Where wpxh = prm_Wpxh and kfjb = 1 --供应室
+"
+PKG_GYS_YW	PACKAGE BODY	648	"               and wpsx = grec_gys_qld.Wpsx --增加不干净（或者过期）的包 
+"
+PKG_GYS_YW	PACKAGE BODY	649	"               and xtxh = gn_Xtxh;
+"
+PKG_GYS_YW	PACKAGE BODY	650	"        If Sql%notfound Then
+"
+PKG_GYS_YW	PACKAGE BODY	651	"        
+"
+PKG_GYS_YW	PACKAGE BODY	652	"          Insert Into gys_Kczz
+"
+PKG_GYS_YW	PACKAGE BODY	653	"            (xtxh, kcxh, ksdm, wpxh, wplb, kcsl, kfjb, wpsx, xgrq, yhj)
+"
+PKG_GYS_YW	PACKAGE BODY	654	"          Values
+"
+PKG_GYS_YW	PACKAGE BODY	655	"            (gn_Xtxh,
+"
+PKG_GYS_YW	PACKAGE BODY	656	"             seq_gys_rkd.nextval,
+"
+PKG_GYS_YW	PACKAGE BODY	657	"             gstr_ksdm,
+"
+PKG_GYS_YW	PACKAGE BODY	658	"             prm_Wpxh,
+"
+PKG_GYS_YW	PACKAGE BODY	659	"             n_Wplb,
+"
+PKG_GYS_YW	PACKAGE BODY	660	"             prm_Sl,
+"
+PKG_GYS_YW	PACKAGE BODY	661	"             1,
+"
+PKG_GYS_YW	PACKAGE BODY	662	"             grec_gys_qld.Wpsx,
+"
+PKG_GYS_YW	PACKAGE BODY	663	"             gd_sysdate,
+"
+PKG_GYS_YW	PACKAGE BODY	664	"             seq_gys_yxj.nextval);
+"
+PKG_GYS_YW	PACKAGE BODY	665	"        
+"
+PKG_GYS_YW	PACKAGE BODY	666	"        End If;
+"
+PKG_GYS_YW	PACKAGE BODY	667	"      
+"
+PKG_GYS_YW	PACKAGE BODY	668	"        --自动消毒制包
+"
+PKG_GYS_YW	PACKAGE BODY	669	"        Select seq_gys_mxz.nextval Into n_jlxh From dual;
+"
+PKG_GYS_YW	PACKAGE BODY	670	"      
+"
+PKG_GYS_YW	PACKAGE BODY	671	"        --1:减少供应室的库存(注意：是特指消耗品的库存)
+"
+PKG_GYS_YW	PACKAGE BODY	672	"        Open cur_cfzd;
+"
+PKG_GYS_YW	PACKAGE BODY	673	"        Loop
+"
+PKG_GYS_YW	PACKAGE BODY	674	"          Fetch cur_cfzd
+"
+PKG_GYS_YW	PACKAGE BODY	675	"            Into n_wpxh, n_Sl, n_Je1;
+"
+PKG_GYS_YW	PACKAGE BODY	676	"          Exit When cur_cfzd%Notfound;
+"
+PKG_GYS_YW	PACKAGE BODY	677	"        
+"
+PKG_GYS_YW	PACKAGE BODY	678	"          n_Kfjb := 1; --供应室
+"
+PKG_GYS_YW	PACKAGE BODY	679	"          n_Wpsx := 0;
+"
+PKG_GYS_YW	PACKAGE BODY	680	"          n_Sl   := n_Sl * prm_Sl;
+"
+PKG_GYS_YW	PACKAGE BODY	681	"        
+"
+PKG_GYS_YW	PACKAGE BODY	682	"          --减少供应的物品
+"
+PKG_GYS_YW	PACKAGE BODY	683	"          Open cur_kczz;
+"
+PKG_GYS_YW	PACKAGE BODY	684	"          Loop
+"
+PKG_GYS_YW	PACKAGE BODY	685	"            Fetch cur_kczz
+"
+PKG_GYS_YW	PACKAGE BODY	686	"              Into n_Kcxh, n_Kcsl, str_scph;
+"
+PKG_GYS_YW	PACKAGE BODY	687	"            Exit When cur_Kczz%NotFound;
+"
+PKG_GYS_YW	PACKAGE BODY	688	"            If n_Kcsl >= n_Sl Then
+"
+PKG_GYS_YW	PACKAGE BODY	689	"              --满足
+"
+PKG_GYS_YW	PACKAGE BODY	690	"              Update gys_Kczz
+"
+PKG_GYS_YW	PACKAGE BODY	691	"                 Set kcsl = kcsl - n_sl
+"
+PKG_GYS_YW	PACKAGE BODY	692	"               Where xtxh = gn_Xtxh And kcxh = n_Kcxh;
+"
+PKG_GYS_YW	PACKAGE BODY	693	"            
+"
+PKG_GYS_YW	PACKAGE BODY	694	"              --插消耗库存的消耗品
+"
+PKG_GYS_YW	PACKAGE BODY	695	"              Insert Into gys_mxz
+"
+PKG_GYS_YW	PACKAGE BODY	696	"                (jlxh,
+"
+PKG_GYS_YW	PACKAGE BODY	697	"                 xtxh,
+"
+PKG_GYS_YW	PACKAGE BODY	698	"                 djlx,
+"
+PKG_GYS_YW	PACKAGE BODY	699	"                 djhm,
+"
+PKG_GYS_YW	PACKAGE BODY	700	"                 rqyf,
+"
+PKG_GYS_YW	PACKAGE BODY	701	"                 fsrq,
+"
+PKG_GYS_YW	PACKAGE BODY	702	"                 zy,
+"
+PKG_GYS_YW	PACKAGE BODY	703	"                 ksdm1,
+"
+PKG_GYS_YW	PACKAGE BODY	704	"                 ksmc1,
+"
+PKG_GYS_YW	PACKAGE BODY	705	"                 wpxh,
+"
+PKG_GYS_YW	PACKAGE BODY	706	"                 wplb,
+"
+PKG_GYS_YW	PACKAGE BODY	707	"                 dj,
+"
+PKG_GYS_YW	PACKAGE BODY	708	"                 sl,
+"
+PKG_GYS_YW	PACKAGE BODY	709	"                 je,
+"
+PKG_GYS_YW	PACKAGE BODY	710	"                 kjqj,
+"
+PKG_GYS_YW	PACKAGE BODY	711	"                 ywdm,
+"
+PKG_GYS_YW	PACKAGE BODY	712	"                 wpsx,
+"
+PKG_GYS_YW	PACKAGE BODY	713	"                 SCPH,
+"
+PKG_GYS_YW	PACKAGE BODY	714	"                 kcxh,
+"
+PKG_GYS_YW	PACKAGE BODY	715	"                 zzxh,
+"
+PKG_GYS_YW	PACKAGE BODY	716	"                 crkfx)
+"
+PKG_GYS_YW	PACKAGE BODY	717	"              Values
+"
+PKG_GYS_YW	PACKAGE BODY	718	"                (seq_gys_mxz.nextval,
+"
+PKG_GYS_YW	PACKAGE BODY	719	"                 gn_Xtxh,
+"
+PKG_GYS_YW	PACKAGE BODY	720	"                 2,
+"
+PKG_GYS_YW	PACKAGE BODY	721	"                 str_Ckrdh,
+"
+PKG_GYS_YW	PACKAGE BODY	722	"                 str_Dqrq,
+"
+PKG_GYS_YW	PACKAGE BODY	723	"                 trunc(gd_sysdate),
+"
+PKG_GYS_YW	PACKAGE BODY	724	"                 '消毒制包消耗',
+"
+PKG_GYS_YW	PACKAGE BODY	725	"                 ksdm,
+"
+PKG_GYS_YW	PACKAGE BODY	726	"                 Ksmc,
+"
+PKG_GYS_YW	PACKAGE BODY	727	"                 n_Wpxh,
+"
+PKG_GYS_YW	PACKAGE BODY	728	"                 n_Wplb,
+"
+PKG_GYS_YW	PACKAGE BODY	729	"                 n_Dj,
+"
+PKG_GYS_YW	PACKAGE BODY	730	"                 n_Sl,
+"
+PKG_GYS_YW	PACKAGE BODY	731	"                 n_Je1,
+"
+PKG_GYS_YW	PACKAGE BODY	732	"                 gn_kjqj,
+"
+PKG_GYS_YW	PACKAGE BODY	733	"                 2,
+"
+PKG_GYS_YW	PACKAGE BODY	734	"                 grec_gys_qld.wpsx,
+"
+PKG_GYS_YW	PACKAGE BODY	735	"                 str_Scph,
+"
+PKG_GYS_YW	PACKAGE BODY	736	"                 n_Kcxh,
+"
+PKG_GYS_YW	PACKAGE BODY	737	"                 n_Jlxh,
+"
+PKG_GYS_YW	PACKAGE BODY	738	"                 1);
+"
+PKG_GYS_YW	PACKAGE BODY	739	"            
+"
+PKG_GYS_YW	PACKAGE BODY	740	"              n_Sl := 0;
+"
+PKG_GYS_YW	PACKAGE BODY	741	"              Exit;
+"
+PKG_GYS_YW	PACKAGE BODY	742	"            Else
+"
+PKG_GYS_YW	PACKAGE BODY	743	"              Update gys_Kczz
+"
+PKG_GYS_YW	PACKAGE BODY	744	"                 Set kcsl = 0
+"
+PKG_GYS_YW	PACKAGE BODY	745	"               Where xtxh = gn_Xtxh And kcxh = n_Kcxh;
+"
+PKG_GYS_YW	PACKAGE BODY	746	"            
+"
+PKG_GYS_YW	PACKAGE BODY	747	"              --插消耗库存的消耗品
+"
+PKG_GYS_YW	PACKAGE BODY	748	"              Insert Into gys_mxz
+"
+PKG_GYS_YW	PACKAGE BODY	749	"                (jlxh,
+"
+PKG_GYS_YW	PACKAGE BODY	750	"                 xtxh,
+"
+PKG_GYS_YW	PACKAGE BODY	751	"                 djlx,
+"
+PKG_GYS_YW	PACKAGE BODY	752	"                 djhm,
+"
+PKG_GYS_YW	PACKAGE BODY	753	"                 rqyf,
+"
+PKG_GYS_YW	PACKAGE BODY	754	"                 fsrq,
+"
+PKG_GYS_YW	PACKAGE BODY	755	"                 zy,
+"
+PKG_GYS_YW	PACKAGE BODY	756	"                 ksdm1,
+"
+PKG_GYS_YW	PACKAGE BODY	757	"                 ksmc1,
+"
+PKG_GYS_YW	PACKAGE BODY	758	"                 wpxh,
+"
+PKG_GYS_YW	PACKAGE BODY	759	"                 wplb,
+"
+PKG_GYS_YW	PACKAGE BODY	760	"                 dj,
+"
+PKG_GYS_YW	PACKAGE BODY	761	"                 sl,
+"
+PKG_GYS_YW	PACKAGE BODY	762	"                 je,
+"
+PKG_GYS_YW	PACKAGE BODY	763	"                 kjqj,
+"
+PKG_GYS_YW	PACKAGE BODY	764	"                 ywdm,
+"
+PKG_GYS_YW	PACKAGE BODY	765	"                 wpsx,
+"
+PKG_GYS_YW	PACKAGE BODY	766	"                 SCPH,
+"
+PKG_GYS_YW	PACKAGE BODY	767	"                 kcxh,
+"
+PKG_GYS_YW	PACKAGE BODY	768	"                 zzxh,
+"
+PKG_GYS_YW	PACKAGE BODY	769	"                 crkfx)
+"
+PKG_GYS_YW	PACKAGE BODY	770	"              Values
+"
+PKG_GYS_YW	PACKAGE BODY	771	"                (seq_gys_mxz.nextval,
+"
+PKG_GYS_YW	PACKAGE BODY	772	"                 gn_Xtxh,
+"
+PKG_GYS_YW	PACKAGE BODY	773	"                 2,
+"
+PKG_GYS_YW	PACKAGE BODY	774	"                 str_Ckrdh,
+"
+PKG_GYS_YW	PACKAGE BODY	775	"                 str_Dqrq,
+"
+PKG_GYS_YW	PACKAGE BODY	776	"                 trunc(gd_sysdate),
+"
+PKG_GYS_YW	PACKAGE BODY	777	"                 '消毒制包消耗',
+"
+PKG_GYS_YW	PACKAGE BODY	778	"                 ksdm,
+"
+PKG_GYS_YW	PACKAGE BODY	779	"                 Ksmc,
+"
+PKG_GYS_YW	PACKAGE BODY	780	"                 n_Wpxh,
+"
+PKG_GYS_YW	PACKAGE BODY	781	"                 n_Wplb,
+"
+PKG_GYS_YW	PACKAGE BODY	782	"                 n_Dj,
+"
+PKG_GYS_YW	PACKAGE BODY	783	"                 n_KcSl,
+"
+PKG_GYS_YW	PACKAGE BODY	784	"                 n_Je1,
+"
+PKG_GYS_YW	PACKAGE BODY	785	"                 gn_kjqj,
+"
+PKG_GYS_YW	PACKAGE BODY	786	"                 2,
+"
+PKG_GYS_YW	PACKAGE BODY	787	"                 grec_gys_qld.wpsx,
+"
+PKG_GYS_YW	PACKAGE BODY	788	"                 str_Scph,
+"
+PKG_GYS_YW	PACKAGE BODY	789	"                 n_Kcxh,
+"
+PKG_GYS_YW	PACKAGE BODY	790	"                 n_Jlxh,
+"
+PKG_GYS_YW	PACKAGE BODY	791	"                 1);
+"
+PKG_GYS_YW	PACKAGE BODY	792	"            
+"
+PKG_GYS_YW	PACKAGE BODY	793	"              n_Sl := n_Sl - n_Kcsl;
+"
+PKG_GYS_YW	PACKAGE BODY	794	"            
+"
+PKG_GYS_YW	PACKAGE BODY	795	"            End If;
+"
+PKG_GYS_YW	PACKAGE BODY	796	"          End Loop;
+"
+PKG_GYS_YW	PACKAGE BODY	797	"          Close cur_Kczz;
+"
+PKG_GYS_YW	PACKAGE BODY	798	"        
+"
+PKG_GYS_YW	PACKAGE BODY	799	"          --没有库存数据时：
+"
+PKG_GYS_YW	PACKAGE BODY	800	"          If n_Sl <> 0 Then
+"
+PKG_GYS_YW	PACKAGE BODY	801	"            prm_ErrCode := -1;
+"
+PKG_GYS_YW	PACKAGE BODY	802	"            str_Wpmc    := fun_Gys_Getwpxx('WPMC', n_Wpxh);
+"
+PKG_GYS_YW	PACKAGE BODY	803	"            prm_ErrMsg  := 'prc_gys_gxkc:供应室没有足够的' || str_Wpmc ||
+"
+PKG_GYS_YW	PACKAGE BODY	804	"                           '出库，请向库房申领！';
+"
+PKG_GYS_YW	PACKAGE BODY	805	"            Return;
+"
+PKG_GYS_YW	PACKAGE BODY	806	"          End If;
+"
+PKG_GYS_YW	PACKAGE BODY	807	"        
+"
+PKG_GYS_YW	PACKAGE BODY	808	"        End Loop;
+"
+PKG_GYS_YW	PACKAGE BODY	809	"        Close cur_cfzd;
+"
+PKG_GYS_YW	PACKAGE BODY	810	"      
+"
+PKG_GYS_YW	PACKAGE BODY	811	"        --插明细帐
+"
+PKG_GYS_YW	PACKAGE BODY	812	"        n_Je := prm_Sl * n_Dj;
+"
+PKG_GYS_YW	PACKAGE BODY	813	"      
+"
+PKG_GYS_YW	PACKAGE BODY	814	"        Insert Into gys_mxz
+"
+PKG_GYS_YW	PACKAGE BODY	815	"          (jlxh,
+"
+PKG_GYS_YW	PACKAGE BODY	816	"           xtxh,
+"
+PKG_GYS_YW	PACKAGE BODY	817	"           djlx,
+"
+PKG_GYS_YW	PACKAGE BODY	818	"           djhm,
+"
+PKG_GYS_YW	PACKAGE BODY	819	"           rqyf,
+"
+PKG_GYS_YW	PACKAGE BODY	820	"           fsrq,
+"
+PKG_GYS_YW	PACKAGE BODY	821	"           zy,
+"
+PKG_GYS_YW	PACKAGE BODY	822	"           ksdm1,
+"
+PKG_GYS_YW	PACKAGE BODY	823	"           ksmc1,
+"
+PKG_GYS_YW	PACKAGE BODY	824	"           wpxh,
+"
+PKG_GYS_YW	PACKAGE BODY	825	"           wplb,
+"
+PKG_GYS_YW	PACKAGE BODY	826	"           dj,
+"
+PKG_GYS_YW	PACKAGE BODY	827	"           sl,
+"
+PKG_GYS_YW	PACKAGE BODY	828	"           je,
+"
+PKG_GYS_YW	PACKAGE BODY	829	"           kjqj,
+"
+PKG_GYS_YW	PACKAGE BODY	830	"           ywdm,
+"
+PKG_GYS_YW	PACKAGE BODY	831	"           wpsx,
+"
+PKG_GYS_YW	PACKAGE BODY	832	"           SCPH,
+"
+PKG_GYS_YW	PACKAGE BODY	833	"           crkfx)
+"
+PKG_GYS_YW	PACKAGE BODY	834	"        Values
+"
+PKG_GYS_YW	PACKAGE BODY	835	"          (n_jlxh,
+"
+PKG_GYS_YW	PACKAGE BODY	836	"           gn_Xtxh,
+"
+PKG_GYS_YW	PACKAGE BODY	837	"           2,
+"
+PKG_GYS_YW	PACKAGE BODY	838	"           str_Ckrdh,
+"
+PKG_GYS_YW	PACKAGE BODY	839	"           str_Dqrq,
+"
+PKG_GYS_YW	PACKAGE BODY	840	"           trunc(gd_sysdate),
+"
+PKG_GYS_YW	PACKAGE BODY	841	"           '消毒制包',
+"
+PKG_GYS_YW	PACKAGE BODY	842	"           ksdm,
+"
+PKG_GYS_YW	PACKAGE BODY	843	"           Ksmc,
+"
+PKG_GYS_YW	PACKAGE BODY	844	"           prm_Wpxh,
+"
+PKG_GYS_YW	PACKAGE BODY	845	"           n_Wplb,
+"
+PKG_GYS_YW	PACKAGE BODY	846	"           n_Dj,
+"
+PKG_GYS_YW	PACKAGE BODY	847	"           prm_Sl,
+"
+PKG_GYS_YW	PACKAGE BODY	848	"           n_Je,
+"
+PKG_GYS_YW	PACKAGE BODY	849	"           gn_kjqj,
+"
+PKG_GYS_YW	PACKAGE BODY	850	"           2,
+"
+PKG_GYS_YW	PACKAGE BODY	851	"           grec_gys_qld.wpsx,
+"
+PKG_GYS_YW	PACKAGE BODY	852	"           str_Ckrdh,
+"
+PKG_GYS_YW	PACKAGE BODY	853	"           2);
+"
+PKG_GYS_YW	PACKAGE BODY	854	"      
+"
+PKG_GYS_YW	PACKAGE BODY	855	"        --2:增加无菌室的干净包的库存
+"
+PKG_GYS_YW	PACKAGE BODY	856	"        Update gys_Kczz
+"
+PKG_GYS_YW	PACKAGE BODY	857	"           Set kcsl = kcsl + prm_Sl
+"
+PKG_GYS_YW	PACKAGE BODY	858	"         Where wpxh = prm_Wpxh and kfjb = 2 and xtxh = gn_Xtxh and wpsx = 0 And
+"
+PKG_GYS_YW	PACKAGE BODY	859	"               rkdh = grec_gys_qld.sqdh;
+"
+PKG_GYS_YW	PACKAGE BODY	860	"        --没有库存数据时：
+"
+PKG_GYS_YW	PACKAGE BODY	861	"        If Sql%notfound Then
+"
+PKG_GYS_YW	PACKAGE BODY	862	"        
+"
+PKG_GYS_YW	PACKAGE BODY	863	"          Insert Into gys_Kczz
+"
+PKG_GYS_YW	PACKAGE BODY	864	"            (xtxh,
+"
+PKG_GYS_YW	PACKAGE BODY	865	"             kcxh,
+"
+PKG_GYS_YW	PACKAGE BODY	866	"             ksdm,
+"
+PKG_GYS_YW	PACKAGE BODY	867	"             wpxh,
+"
+PKG_GYS_YW	PACKAGE BODY	868	"             wplb,
+"
+PKG_GYS_YW	PACKAGE BODY	869	"             kcsl,
+"
+PKG_GYS_YW	PACKAGE BODY	870	"             wpsx,
+"
+PKG_GYS_YW	PACKAGE BODY	871	"             kfjb,
+"
+PKG_GYS_YW	PACKAGE BODY	872	"             rkdh,
+"
+PKG_GYS_YW	PACKAGE BODY	873	"             yhrq,
+"
+PKG_GYS_YW	PACKAGE BODY	874	"             yhj,
+"
+PKG_GYS_YW	PACKAGE BODY	875	"             SCPH)
+"
+PKG_GYS_YW	PACKAGE BODY	876	"          Values
+"
+PKG_GYS_YW	PACKAGE BODY	877	"            (gn_Xtxh,
+"
+PKG_GYS_YW	PACKAGE BODY	878	"             seq_gys_rkd.nextval,
+"
+PKG_GYS_YW	PACKAGE BODY	879	"             gstr_ksdm,
+"
+PKG_GYS_YW	PACKAGE BODY	880	"             prm_Wpxh,
+"
+PKG_GYS_YW	PACKAGE BODY	881	"             n_Wplb,
+"
+PKG_GYS_YW	PACKAGE BODY	882	"             prm_Sl,
+"
+PKG_GYS_YW	PACKAGE BODY	883	"             0,
+"
+PKG_GYS_YW	PACKAGE BODY	884	"             2,
+"
+PKG_GYS_YW	PACKAGE BODY	885	"             grec_gys_qld.sqdh,
+"
+PKG_GYS_YW	PACKAGE BODY	886	"             grec_gys_qld.yhrq,
+"
+PKG_GYS_YW	PACKAGE BODY	887	"             seq_gys_yxj.nextval,
+"
+PKG_GYS_YW	PACKAGE BODY	888	"             grec_gys_qld.sqdh);
+"
+PKG_GYS_YW	PACKAGE BODY	889	"        
+"
+PKG_GYS_YW	PACKAGE BODY	890	"        End If;
+"
+PKG_GYS_YW	PACKAGE BODY	891	"      
+"
+PKG_GYS_YW	PACKAGE BODY	892	"        --3:减少供应室的不净包的库存？？
+"
+PKG_GYS_YW	PACKAGE BODY	893	"        --增加供应室使用后（过期）的包
+"
+PKG_GYS_YW	PACKAGE BODY	894	"        Update gys_Kczz
+"
+PKG_GYS_YW	PACKAGE BODY	895	"           Set kcsl = kcsl - prm_sl, wpsx = 0, bz = 6, kfjb = 2
+"
+PKG_GYS_YW	PACKAGE BODY	896	"         Where wpxh = prm_Wpxh and kfjb = 1 --供应室
+"
+PKG_GYS_YW	PACKAGE BODY	897	"               and wpsx = grec_gys_qld.Wpsx --增加不干净（或者过期）的包 
+"
+PKG_GYS_YW	PACKAGE BODY	898	"               and xtxh = gn_Xtxh And kcsl - prm_sl >= 0;
+"
+PKG_GYS_YW	PACKAGE BODY	899	"        If sql%notFound Then
+"
+PKG_GYS_YW	PACKAGE BODY	900	"          prm_ErrCode := -1;
+"
+PKG_GYS_YW	PACKAGE BODY	901	"          If grec_gys_qld.Wpsx = 1 Then
+"
+PKG_GYS_YW	PACKAGE BODY	902	"            prm_ErrMsg := 'prc_gys_gxkc:供应室没有足够的不净' || str_Wpmc ||
+"
+PKG_GYS_YW	PACKAGE BODY	903	"                          '，请检查！';
+"
+PKG_GYS_YW	PACKAGE BODY	904	"          ElsIf grec_Gys_qld.wpsx = 2 Then
+"
+PKG_GYS_YW	PACKAGE BODY	905	"            prm_ErrMsg := 'prc_gys_gxkc:供应室没有足够的过期' || str_Wpmc ||
+"
+PKG_GYS_YW	PACKAGE BODY	906	"                          '，请检查！';
+"
+PKG_GYS_YW	PACKAGE BODY	907	"          End If;
+"
+PKG_GYS_YW	PACKAGE BODY	908	"          Return;
+"
+PKG_GYS_YW	PACKAGE BODY	909	"        End If;
+"
+PKG_GYS_YW	PACKAGE BODY	910	"      
+"
+PKG_GYS_YW	PACKAGE BODY	911	"      elsif (n_wplb = 2 or n_wplb = 3) then
+"
+PKG_GYS_YW	PACKAGE BODY	912	"        --一般出库模式(不包括高压消毒包)
+"
+PKG_GYS_YW	PACKAGE BODY	913	"      
+"
+PKG_GYS_YW	PACKAGE BODY	914	"        n_Kfjb := 1; --供应室
+"
+PKG_GYS_YW	PACKAGE BODY	915	"        --n_Wpsx := grec_gys_qld.wpsx; --modify 2004.07.20 cbv           
+"
+PKG_GYS_YW	PACKAGE BODY	916	"        n_wpsx := 0;
+"
+PKG_GYS_YW	PACKAGE BODY	917	"        n_Wpxh := prm_Wpxh; --物品序号
+"
+PKG_GYS_YW	PACKAGE BODY	918	"        n_Sl   := prm_Sl;
+"
+PKG_GYS_YW	PACKAGE BODY	919	"      
+"
+PKG_GYS_YW	PACKAGE BODY	920	"        --减少供应的物品
+"
+PKG_GYS_YW	PACKAGE BODY	921	"        Open cur_kczz;
+"
+PKG_GYS_YW	PACKAGE BODY	922	"        Loop
+"
+PKG_GYS_YW	PACKAGE BODY	923	"          Fetch cur_kczz
+"
+PKG_GYS_YW	PACKAGE BODY	924	"            Into n_Kcxh, n_Kcsl, str_Scph;
+"
+PKG_GYS_YW	PACKAGE BODY	925	"          Exit When cur_Kczz%NotFound;
+"
+PKG_GYS_YW	PACKAGE BODY	926	"          If n_Kcsl >= n_Sl Then
+"
+PKG_GYS_YW	PACKAGE BODY	927	"            --满足
+"
+PKG_GYS_YW	PACKAGE BODY	928	"            Update gys_Kczz
+"
+PKG_GYS_YW	PACKAGE BODY	929	"               Set kcsl = kcsl - n_sl
+"
+PKG_GYS_YW	PACKAGE BODY	930	"             Where xtxh = gn_Xtxh And kcxh = n_Kcxh;
+"
+PKG_GYS_YW	PACKAGE BODY	931	"            --插明细帐
+"
+PKG_GYS_YW	PACKAGE BODY	932	"            n_Je := n_Sl * n_Dj;
+"
+PKG_GYS_YW	PACKAGE BODY	933	"          
+"
+PKG_GYS_YW	PACKAGE BODY	934	"            Insert Into gys_mxz
+"
+PKG_GYS_YW	PACKAGE BODY	935	"              (jlxh,
+"
+PKG_GYS_YW	PACKAGE BODY	936	"               xtxh,
+"
+PKG_GYS_YW	PACKAGE BODY	937	"               djlx,
+"
+PKG_GYS_YW	PACKAGE BODY	938	"               djhm,
+"
+PKG_GYS_YW	PACKAGE BODY	939	"               rqyf,
+"
+PKG_GYS_YW	PACKAGE BODY	940	"               fsrq,
+"
+PKG_GYS_YW	PACKAGE BODY	941	"               zy,
+"
+PKG_GYS_YW	PACKAGE BODY	942	"               ksdm1,
+"
+PKG_GYS_YW	PACKAGE BODY	943	"               ksmc1,
+"
+PKG_GYS_YW	PACKAGE BODY	944	"               wpxh,
+"
+PKG_GYS_YW	PACKAGE BODY	945	"               wplb,
+"
+PKG_GYS_YW	PACKAGE BODY	946	"               dj,
+"
+PKG_GYS_YW	PACKAGE BODY	947	"               sl,
+"
+PKG_GYS_YW	PACKAGE BODY	948	"               je,
+"
+PKG_GYS_YW	PACKAGE BODY	949	"               kjqj,
+"
+PKG_GYS_YW	PACKAGE BODY	950	"               ywdm,
+"
+PKG_GYS_YW	PACKAGE BODY	951	"               wpsx,
+"
+PKG_GYS_YW	PACKAGE BODY	952	"               SCPH,
+"
+PKG_GYS_YW	PACKAGE BODY	953	"               Kcxh,
+"
+PKG_GYS_YW	PACKAGE BODY	954	"               crkfx)
+"
+PKG_GYS_YW	PACKAGE BODY	955	"            Values
+"
+PKG_GYS_YW	PACKAGE BODY	956	"              (seq_gys_mxz.nextval,
+"
+PKG_GYS_YW	PACKAGE BODY	957	"               gn_Xtxh,
+"
+PKG_GYS_YW	PACKAGE BODY	958	"               prm_crkdm,
+"
+PKG_GYS_YW	PACKAGE BODY	959	"               str_Ckrdh,
+"
+PKG_GYS_YW	PACKAGE BODY	960	"               str_Dqrq,
+"
+PKG_GYS_YW	PACKAGE BODY	961	"               trunc(gd_sysdate),
+"
+PKG_GYS_YW	PACKAGE BODY	962	"               lrec_crkfsxx.crkmc,
+"
+PKG_GYS_YW	PACKAGE BODY	963	"               str_ksdm,
+"
+PKG_GYS_YW	PACKAGE BODY	964	"               str_Ksmc,
+"
+PKG_GYS_YW	PACKAGE BODY	965	"               prm_Wpxh,
+"
+PKG_GYS_YW	PACKAGE BODY	966	"               n_Wplb,
+"
+PKG_GYS_YW	PACKAGE BODY	967	"               n_Dj,
+"
+PKG_GYS_YW	PACKAGE BODY	968	"               N_Sl,
+"
+PKG_GYS_YW	PACKAGE BODY	969	"               n_Je,
+"
+PKG_GYS_YW	PACKAGE BODY	970	"               gn_kjqj,
+"
+PKG_GYS_YW	PACKAGE BODY	971	"               prm_crkdm,
+"
+PKG_GYS_YW	PACKAGE BODY	972	"               grec_gys_qld.wpsx,
+"
+PKG_GYS_YW	PACKAGE BODY	973	"               str_Scph,
+"
+PKG_GYS_YW	PACKAGE BODY	974	"               n_kcxh,
+"
+PKG_GYS_YW	PACKAGE BODY	975	"               lrec_Crkfsxx.crkfx);
+"
+PKG_GYS_YW	PACKAGE BODY	976	"          
+"
+PKG_GYS_YW	PACKAGE BODY	977	"            n_Sl := 0;
+"
+PKG_GYS_YW	PACKAGE BODY	978	"            Exit;
+"
+PKG_GYS_YW	PACKAGE BODY	979	"          Else
+"
+PKG_GYS_YW	PACKAGE BODY	980	"            Update gys_Kczz
+"
+PKG_GYS_YW	PACKAGE BODY	981	"               Set kcsl = 0
+"
+PKG_GYS_YW	PACKAGE BODY	982	"             Where xtxh = gn_Xtxh And kcxh = n_Kcxh;
+"
+PKG_GYS_YW	PACKAGE BODY	983	"          
+"
+PKG_GYS_YW	PACKAGE BODY	984	"            --插明细帐
+"
+PKG_GYS_YW	PACKAGE BODY	985	"            n_Je := n_Kcsl * n_Dj;
+"
+PKG_GYS_YW	PACKAGE BODY	986	"          
+"
+PKG_GYS_YW	PACKAGE BODY	987	"            Insert Into gys_mxz
+"
+PKG_GYS_YW	PACKAGE BODY	988	"              (jlxh,
+"
+PKG_GYS_YW	PACKAGE BODY	989	"               xtxh,
+"
+PKG_GYS_YW	PACKAGE BODY	990	"               djlx,
+"
+PKG_GYS_YW	PACKAGE BODY	991	"               djhm,
+"
+PKG_GYS_YW	PACKAGE BODY	992	"               rqyf,
+"
+PKG_GYS_YW	PACKAGE BODY	993	"               fsrq,
+"
+PKG_GYS_YW	PACKAGE BODY	994	"               zy,
+"
+PKG_GYS_YW	PACKAGE BODY	995	"               ksdm1,
+"
+PKG_GYS_YW	PACKAGE BODY	996	"               ksmc1,
+"
+PKG_GYS_YW	PACKAGE BODY	997	"               wpxh,
+"
+PKG_GYS_YW	PACKAGE BODY	998	"               wplb,
+"
+PKG_GYS_YW	PACKAGE BODY	999	"               dj,
+"
+PKG_GYS_YW	PACKAGE BODY	1000	"               sl,
+"
+PKG_GYS_YW	PACKAGE BODY	1001	"               je,
+"
+PKG_GYS_YW	PACKAGE BODY	1002	"               kjqj,
+"
+PKG_GYS_YW	PACKAGE BODY	1003	"               ywdm,
+"
+PKG_GYS_YW	PACKAGE BODY	1004	"               wpsx,
+"
+PKG_GYS_YW	PACKAGE BODY	1005	"               SCPH,
+"
+PKG_GYS_YW	PACKAGE BODY	1006	"               kcxh,
+"
+PKG_GYS_YW	PACKAGE BODY	1007	"               crkfx)
+"
+PKG_GYS_YW	PACKAGE BODY	1008	"            Values
+"
+PKG_GYS_YW	PACKAGE BODY	1009	"              (seq_gys_mxz.nextval,
+"
+PKG_GYS_YW	PACKAGE BODY	1010	"               gn_Xtxh,
+"
+PKG_GYS_YW	PACKAGE BODY	1011	"               prm_crkdm,
+"
+PKG_GYS_YW	PACKAGE BODY	1012	"               str_Ckrdh,
+"
+PKG_GYS_YW	PACKAGE BODY	1013	"               str_Dqrq,
+"
+PKG_GYS_YW	PACKAGE BODY	1014	"               trunc(gd_sysdate),
+"
+PKG_GYS_YW	PACKAGE BODY	1015	"               lrec_crkfsxx.crkmc,
+"
+PKG_GYS_YW	PACKAGE BODY	1016	"               str_ksdm,
+"
+PKG_GYS_YW	PACKAGE BODY	1017	"               str_Ksmc,
+"
+PKG_GYS_YW	PACKAGE BODY	1018	"               prm_Wpxh,
+"
+PKG_GYS_YW	PACKAGE BODY	1019	"               n_Wplb,
+"
+PKG_GYS_YW	PACKAGE BODY	1020	"               n_Dj,
+"
+PKG_GYS_YW	PACKAGE BODY	1021	"               N_KcSl,
+"
+PKG_GYS_YW	PACKAGE BODY	1022	"               n_Je,
+"
+PKG_GYS_YW	PACKAGE BODY	1023	"               gn_kjqj,
+"
+PKG_GYS_YW	PACKAGE BODY	1024	"               prm_crkdm,
+"
+PKG_GYS_YW	PACKAGE BODY	1025	"               grec_gys_qld.wpsx,
+"
+PKG_GYS_YW	PACKAGE BODY	1026	"               str_Scph,
+"
+PKG_GYS_YW	PACKAGE BODY	1027	"               n_Kcxh,
+"
+PKG_GYS_YW	PACKAGE BODY	1028	"               lrec_Crkfsxx.crkfx);
+"
+PKG_GYS_YW	PACKAGE BODY	1029	"          
+"
+PKG_GYS_YW	PACKAGE BODY	1030	"            n_Sl := n_Sl - n_Kcsl;
+"
+PKG_GYS_YW	PACKAGE BODY	1031	"          
+"
+PKG_GYS_YW	PACKAGE BODY	1032	"          End If;
+"
+PKG_GYS_YW	PACKAGE BODY	1033	"        End Loop;
+"
+PKG_GYS_YW	PACKAGE BODY	1034	"        Close cur_Kczz;
+"
+PKG_GYS_YW	PACKAGE BODY	1035	"      
+"
+PKG_GYS_YW	PACKAGE BODY	1036	"        --没有库存数据时：
+"
+PKG_GYS_YW	PACKAGE BODY	1037	"        If n_Sl <> 0 Then
+"
+PKG_GYS_YW	PACKAGE BODY	1038	"          prm_ErrCode := -1;
+"
+PKG_GYS_YW	PACKAGE BODY	1039	"          prm_ErrMsg  := 'prc_gys_gxkc:供应室没有足够的' || str_Wpmc ||
+"
+PKG_GYS_YW	PACKAGE BODY	1040	"                         '出库，请向库房申领！';
+"
+PKG_GYS_YW	PACKAGE BODY	1041	"          Return;
+"
+PKG_GYS_YW	PACKAGE BODY	1042	"        End If;
+"
+PKG_GYS_YW	PACKAGE BODY	1043	"      else
+"
+PKG_GYS_YW	PACKAGE BODY	1044	"        --插高压消毒包，只记费用   
+"
+PKG_GYS_YW	PACKAGE BODY	1045	"        n_Je := prm_sl * n_Dj;
+"
+PKG_GYS_YW	PACKAGE BODY	1046	"        Insert Into gys_mxz
+"
+PKG_GYS_YW	PACKAGE BODY	1047	"          (jlxh,
+"
+PKG_GYS_YW	PACKAGE BODY	1048	"           xtxh,
+"
+PKG_GYS_YW	PACKAGE BODY	1049	"           djlx,
+"
+PKG_GYS_YW	PACKAGE BODY	1050	"           djhm,
+"
+PKG_GYS_YW	PACKAGE BODY	1051	"           rqyf,
+"
+PKG_GYS_YW	PACKAGE BODY	1052	"           fsrq,
+"
+PKG_GYS_YW	PACKAGE BODY	1053	"           zy,
+"
+PKG_GYS_YW	PACKAGE BODY	1054	"           ksdm1,
+"
+PKG_GYS_YW	PACKAGE BODY	1055	"           ksmc1,
+"
+PKG_GYS_YW	PACKAGE BODY	1056	"           wpxh,
+"
+PKG_GYS_YW	PACKAGE BODY	1057	"           wplb,
+"
+PKG_GYS_YW	PACKAGE BODY	1058	"           dj,
+"
+PKG_GYS_YW	PACKAGE BODY	1059	"           sl,
+"
+PKG_GYS_YW	PACKAGE BODY	1060	"           je,
+"
+PKG_GYS_YW	PACKAGE BODY	1061	"           kjqj,
+"
+PKG_GYS_YW	PACKAGE BODY	1062	"           ywdm,
+"
+PKG_GYS_YW	PACKAGE BODY	1063	"           wpsx,
+"
+PKG_GYS_YW	PACKAGE BODY	1064	"           SCPH,
+"
+PKG_GYS_YW	PACKAGE BODY	1065	"           crkfx)
+"
+PKG_GYS_YW	PACKAGE BODY	1066	"        Values
+"
+PKG_GYS_YW	PACKAGE BODY	1067	"          (seq_gys_mxz.nextval,
+"
+PKG_GYS_YW	PACKAGE BODY	1068	"           gn_Xtxh,
+"
+PKG_GYS_YW	PACKAGE BODY	1069	"           prm_crkdm,
+"
+PKG_GYS_YW	PACKAGE BODY	1070	"           str_Ckrdh,
+"
+PKG_GYS_YW	PACKAGE BODY	1071	"           str_Dqrq,
+"
+PKG_GYS_YW	PACKAGE BODY	1072	"           trunc(gd_sysdate),
+"
+PKG_GYS_YW	PACKAGE BODY	1073	"           lrec_crkfsxx.crkmc,
+"
+PKG_GYS_YW	PACKAGE BODY	1074	"           str_ksdm,
+"
+PKG_GYS_YW	PACKAGE BODY	1075	"           str_Ksmc,
+"
+PKG_GYS_YW	PACKAGE BODY	1076	"           prm_Wpxh,
+"
+PKG_GYS_YW	PACKAGE BODY	1077	"           n_Wplb,
+"
+PKG_GYS_YW	PACKAGE BODY	1078	"           n_Dj,
+"
+PKG_GYS_YW	PACKAGE BODY	1079	"           prm_Sl,
+"
+PKG_GYS_YW	PACKAGE BODY	1080	"           n_je,
+"
+PKG_GYS_YW	PACKAGE BODY	1081	"           gn_Kjqj,
+"
+PKG_GYS_YW	PACKAGE BODY	1082	"           prm_crkdm,
+"
+PKG_GYS_YW	PACKAGE BODY	1083	"           grec_gys_qld.wpsx,
+"
+PKG_GYS_YW	PACKAGE BODY	1084	"           grec_gys_qld.SCPH,
+"
+PKG_GYS_YW	PACKAGE BODY	1085	"           lrec_Crkfsxx.crkfx);
+"
+PKG_GYS_YW	PACKAGE BODY	1086	"      end if;
+"
+PKG_GYS_YW	PACKAGE BODY	1087	"    
+"
+PKG_GYS_YW	PACKAGE BODY	1088	"    ElsIf lrec_crkfsxx.xhkpb = 2 Then
+"
+PKG_GYS_YW	PACKAGE BODY	1089	"      --模式二：出库模式
+"
+PKG_GYS_YW	PACKAGE BODY	1090	"      n_Kfjb := 1; --供应室
+"
+PKG_GYS_YW	PACKAGE BODY	1091	"      n_Wpsx := grec_gys_qld.wpsx;
+"
+PKG_GYS_YW	PACKAGE BODY	1092	"      n_Wpxh := prm_Wpxh; --物品序号
+"
+PKG_GYS_YW	PACKAGE BODY	1093	"      n_Sl   := prm_Sl;
+"
+PKG_GYS_YW	PACKAGE BODY	1094	"    
+"
+PKG_GYS_YW	PACKAGE BODY	1095	"      --减少供应的物品
+"
+PKG_GYS_YW	PACKAGE BODY	1096	"      Open cur_kczz;
+"
+PKG_GYS_YW	PACKAGE BODY	1097	"      Loop
+"
+PKG_GYS_YW	PACKAGE BODY	1098	"        Fetch cur_kczz
+"
+PKG_GYS_YW	PACKAGE BODY	1099	"          Into n_Kcxh, n_Kcsl, str_Scph;
+"
+PKG_GYS_YW	PACKAGE BODY	1100	"        Exit When cur_Kczz%NotFound;
+"
+PKG_GYS_YW	PACKAGE BODY	1101	"        If n_Kcsl >= n_Sl Then
+"
+PKG_GYS_YW	PACKAGE BODY	1102	"          --满足
+"
+PKG_GYS_YW	PACKAGE BODY	1103	"          Update gys_Kczz
+"
+PKG_GYS_YW	PACKAGE BODY	1104	"             Set kcsl = kcsl - n_sl
+"
+PKG_GYS_YW	PACKAGE BODY	1105	"           Where xtxh = gn_Xtxh And kcxh = n_Kcxh;
+"
+PKG_GYS_YW	PACKAGE BODY	1106	"          --插明细帐
+"
+PKG_GYS_YW	PACKAGE BODY	1107	"          n_Je := n_Sl * n_Dj;
+"
+PKG_GYS_YW	PACKAGE BODY	1108	"        
+"
+PKG_GYS_YW	PACKAGE BODY	1109	"          Insert Into gys_mxz
+"
+PKG_GYS_YW	PACKAGE BODY	1110	"            (jlxh,
+"
+PKG_GYS_YW	PACKAGE BODY	1111	"             xtxh,
+"
+PKG_GYS_YW	PACKAGE BODY	1112	"             djlx,
+"
+PKG_GYS_YW	PACKAGE BODY	1113	"             djhm,
+"
+PKG_GYS_YW	PACKAGE BODY	1114	"             rqyf,
+"
+PKG_GYS_YW	PACKAGE BODY	1115	"             fsrq,
+"
+PKG_GYS_YW	PACKAGE BODY	1116	"             zy,
+"
+PKG_GYS_YW	PACKAGE BODY	1117	"             ksdm1,
+"
+PKG_GYS_YW	PACKAGE BODY	1118	"             ksmc1,
+"
+PKG_GYS_YW	PACKAGE BODY	1119	"             wpxh,
+"
+PKG_GYS_YW	PACKAGE BODY	1120	"             wplb,
+"
+PKG_GYS_YW	PACKAGE BODY	1121	"             dj,
+"
+PKG_GYS_YW	PACKAGE BODY	1122	"             sl,
+"
+PKG_GYS_YW	PACKAGE BODY	1123	"             je,
+"
+PKG_GYS_YW	PACKAGE BODY	1124	"             kjqj,
+"
+PKG_GYS_YW	PACKAGE BODY	1125	"             ywdm,
+"
+PKG_GYS_YW	PACKAGE BODY	1126	"             wpsx,
+"
+PKG_GYS_YW	PACKAGE BODY	1127	"             SCPH,
+"
+PKG_GYS_YW	PACKAGE BODY	1128	"             Kcxh,
+"
+PKG_GYS_YW	PACKAGE BODY	1129	"             crkfx)
+"
+PKG_GYS_YW	PACKAGE BODY	1130	"          Values
+"
+PKG_GYS_YW	PACKAGE BODY	1131	"            (seq_gys_mxz.nextval,
+"
+PKG_GYS_YW	PACKAGE BODY	1132	"             gn_Xtxh,
+"
+PKG_GYS_YW	PACKAGE BODY	1133	"             prm_crkdm,
+"
+PKG_GYS_YW	PACKAGE BODY	1134	"             str_Ckrdh,
+"
+PKG_GYS_YW	PACKAGE BODY	1135	"             str_Dqrq,
+"
+PKG_GYS_YW	PACKAGE BODY	1136	"             trunc(gd_sysdate),
+"
+PKG_GYS_YW	PACKAGE BODY	1137	"             lrec_crkfsxx.crkmc,
+"
+PKG_GYS_YW	PACKAGE BODY	1138	"             str_ksdm,
+"
+PKG_GYS_YW	PACKAGE BODY	1139	"             str_Ksmc,
+"
+PKG_GYS_YW	PACKAGE BODY	1140	"             prm_Wpxh,
+"
+PKG_GYS_YW	PACKAGE BODY	1141	"             n_Wplb,
+"
+PKG_GYS_YW	PACKAGE BODY	1142	"             n_Dj,
+"
+PKG_GYS_YW	PACKAGE BODY	1143	"             N_Sl,
+"
+PKG_GYS_YW	PACKAGE BODY	1144	"             n_Je,
+"
+PKG_GYS_YW	PACKAGE BODY	1145	"             gn_kjqj,
+"
+PKG_GYS_YW	PACKAGE BODY	1146	"             prm_crkdm,
+"
+PKG_GYS_YW	PACKAGE BODY	1147	"             grec_gys_qld.wpsx,
+"
+PKG_GYS_YW	PACKAGE BODY	1148	"             str_Scph,
+"
+PKG_GYS_YW	PACKAGE BODY	1149	"             n_kcxh,
+"
+PKG_GYS_YW	PACKAGE BODY	1150	"             lrec_Crkfsxx.crkfx);
+"
+PKG_GYS_YW	PACKAGE BODY	1151	"        
+"
+PKG_GYS_YW	PACKAGE BODY	1152	"          n_Sl := 0;
+"
+PKG_GYS_YW	PACKAGE BODY	1153	"          Exit;
+"
+PKG_GYS_YW	PACKAGE BODY	1154	"        Else
+"
+PKG_GYS_YW	PACKAGE BODY	1155	"          Update gys_Kczz
+"
+PKG_GYS_YW	PACKAGE BODY	1156	"             Set kcsl = 0
+"
+PKG_GYS_YW	PACKAGE BODY	1157	"           Where xtxh = gn_Xtxh And kcxh = n_Kcxh;
+"
+PKG_GYS_YW	PACKAGE BODY	1158	"        
+"
+PKG_GYS_YW	PACKAGE BODY	1159	"          --插明细帐
+"
+PKG_GYS_YW	PACKAGE BODY	1160	"          n_Je := n_Kcsl * n_Dj;
+"
+PKG_GYS_YW	PACKAGE BODY	1161	"        
+"
+PKG_GYS_YW	PACKAGE BODY	1162	"          Insert Into gys_mxz
+"
+PKG_GYS_YW	PACKAGE BODY	1163	"            (jlxh,
+"
+PKG_GYS_YW	PACKAGE BODY	1164	"             xtxh,
+"
+PKG_GYS_YW	PACKAGE BODY	1165	"             djlx,
+"
+PKG_GYS_YW	PACKAGE BODY	1166	"             djhm,
+"
+PKG_GYS_YW	PACKAGE BODY	1167	"             rqyf,
+"
+PKG_GYS_YW	PACKAGE BODY	1168	"             fsrq,
+"
+PKG_GYS_YW	PACKAGE BODY	1169	"             zy,
+"
+PKG_GYS_YW	PACKAGE BODY	1170	"             ksdm1,
+"
+PKG_GYS_YW	PACKAGE BODY	1171	"             ksmc1,
+"
+PKG_GYS_YW	PACKAGE BODY	1172	"             wpxh,
+"
+PKG_GYS_YW	PACKAGE BODY	1173	"             wplb,
+"
+PKG_GYS_YW	PACKAGE BODY	1174	"             dj,
+"
+PKG_GYS_YW	PACKAGE BODY	1175	"             sl,
+"
+PKG_GYS_YW	PACKAGE BODY	1176	"             je,
+"
+PKG_GYS_YW	PACKAGE BODY	1177	"             kjqj,
+"
+PKG_GYS_YW	PACKAGE BODY	1178	"             ywdm,
+"
+PKG_GYS_YW	PACKAGE BODY	1179	"             wpsx,
+"
+PKG_GYS_YW	PACKAGE BODY	1180	"             SCPH,
+"
+PKG_GYS_YW	PACKAGE BODY	1181	"             kcxh,
+"
+PKG_GYS_YW	PACKAGE BODY	1182	"             crkfx)
+"
+PKG_GYS_YW	PACKAGE BODY	1183	"          Values
+"
+PKG_GYS_YW	PACKAGE BODY	1184	"            (seq_gys_mxz.nextval,
+"
+PKG_GYS_YW	PACKAGE BODY	1185	"             gn_Xtxh,
+"
+PKG_GYS_YW	PACKAGE BODY	1186	"             prm_crkdm,
+"
+PKG_GYS_YW	PACKAGE BODY	1187	"             str_Ckrdh,
+"
+PKG_GYS_YW	PACKAGE BODY	1188	"             str_Dqrq,
+"
+PKG_GYS_YW	PACKAGE BODY	1189	"             trunc(gd_sysdate),
+"
+PKG_GYS_YW	PACKAGE BODY	1190	"             lrec_crkfsxx.crkmc,
+"
+PKG_GYS_YW	PACKAGE BODY	1191	"             str_ksdm,
+"
+PKG_GYS_YW	PACKAGE BODY	1192	"             str_Ksmc,
+"
+PKG_GYS_YW	PACKAGE BODY	1193	"             prm_Wpxh,
+"
+PKG_GYS_YW	PACKAGE BODY	1194	"             n_Wplb,
+"
+PKG_GYS_YW	PACKAGE BODY	1195	"             n_Dj,
+"
+PKG_GYS_YW	PACKAGE BODY	1196	"             N_KcSl,
+"
+PKG_GYS_YW	PACKAGE BODY	1197	"             n_Je,
+"
+PKG_GYS_YW	PACKAGE BODY	1198	"             gn_kjqj,
+"
+PKG_GYS_YW	PACKAGE BODY	1199	"             prm_crkdm,
+"
+PKG_GYS_YW	PACKAGE BODY	1200	"             grec_gys_qld.wpsx,
+"
+PKG_GYS_YW	PACKAGE BODY	1201	"             str_Scph,
+"
+PKG_GYS_YW	PACKAGE BODY	1202	"             n_Kcxh,
+"
+PKG_GYS_YW	PACKAGE BODY	1203	"             lrec_Crkfsxx.crkfx);
+"
+PKG_GYS_YW	PACKAGE BODY	1204	"        
+"
+PKG_GYS_YW	PACKAGE BODY	1205	"          n_Sl := n_Sl - n_Kcsl;
+"
+PKG_GYS_YW	PACKAGE BODY	1206	"        
+"
+PKG_GYS_YW	PACKAGE BODY	1207	"        End If;
+"
+PKG_GYS_YW	PACKAGE BODY	1208	"      End Loop;
+"
+PKG_GYS_YW	PACKAGE BODY	1209	"      Close cur_Kczz;
+"
+PKG_GYS_YW	PACKAGE BODY	1210	"    
+"
+PKG_GYS_YW	PACKAGE BODY	1211	"      --没有库存数据时：
+"
+PKG_GYS_YW	PACKAGE BODY	1212	"      If n_Sl <> 0 Then
+"
+PKG_GYS_YW	PACKAGE BODY	1213	"        prm_ErrCode := -1;
+"
+PKG_GYS_YW	PACKAGE BODY	1214	"        prm_ErrMsg  := 'prc_gys_gxkc:供应室没有足够的' || str_Wpmc ||
+"
+PKG_GYS_YW	PACKAGE BODY	1215	"                       '出库，请向库房申领！';
+"
+PKG_GYS_YW	PACKAGE BODY	1216	"        Return;
+"
+PKG_GYS_YW	PACKAGE BODY	1217	"      End If;
+"
+PKG_GYS_YW	PACKAGE BODY	1218	"    ElsIf lrec_crkfsxx.xhkpb = 3 Then
+"
+PKG_GYS_YW	PACKAGE BODY	1219	"      --模式三：入库模式
+"
+PKG_GYS_YW	PACKAGE BODY	1220	"      Update gys_Kczz
+"
+PKG_GYS_YW	PACKAGE BODY	1221	"         Set kcsl = kcsl + prm_Sl
+"
+PKG_GYS_YW	PACKAGE BODY	1222	"       Where wpxh = prm_Wpxh and kfjb = 1 and xtxh = gn_Xtxh and
+"
+PKG_GYS_YW	PACKAGE BODY	1223	"             (SCPH = grec_gys_qld.SCPH Or RKDH = grec_gys_qld.sqdh) And
+"
+PKG_GYS_YW	PACKAGE BODY	1224	"             wpsx = grec_gys_qld.wpsx;
+"
+PKG_GYS_YW	PACKAGE BODY	1225	"      --没有库存数据时：
+"
+PKG_GYS_YW	PACKAGE BODY	1226	"      If Sql%notfound Then
+"
+PKG_GYS_YW	PACKAGE BODY	1227	"      
+"
+PKG_GYS_YW	PACKAGE BODY	1228	"        Insert Into gys_Kczz
+"
+PKG_GYS_YW	PACKAGE BODY	1229	"          (xtxh,
+"
+PKG_GYS_YW	PACKAGE BODY	1230	"           kcxh,
+"
+PKG_GYS_YW	PACKAGE BODY	1231	"           ksdm,
+"
+PKG_GYS_YW	PACKAGE BODY	1232	"           wpxh,
+"
+PKG_GYS_YW	PACKAGE BODY	1233	"           wplb,
+"
+PKG_GYS_YW	PACKAGE BODY	1234	"           kcsl,
+"
+PKG_GYS_YW	PACKAGE BODY	1235	"           kfjb,
+"
+PKG_GYS_YW	PACKAGE BODY	1236	"           rkdh,
+"
+PKG_GYS_YW	PACKAGE BODY	1237	"           yhrq,
+"
+PKG_GYS_YW	PACKAGE BODY	1238	"           yhj,
+"
+PKG_GYS_YW	PACKAGE BODY	1239	"           wpsx,
+"
+PKG_GYS_YW	PACKAGE BODY	1240	"           Scph)
+"
+PKG_GYS_YW	PACKAGE BODY	1241	"        Values
+"
+PKG_GYS_YW	PACKAGE BODY	1242	"          (gn_Xtxh,
+"
+PKG_GYS_YW	PACKAGE BODY	1243	"           seq_gys_rkd.nextval,
+"
+PKG_GYS_YW	PACKAGE BODY	1244	"           gstr_ksdm,
+"
+PKG_GYS_YW	PACKAGE BODY	1245	"           prm_Wpxh,
+"
+PKG_GYS_YW	PACKAGE BODY	1246	"           n_Wplb,
+"
+PKG_GYS_YW	PACKAGE BODY	1247	"           prm_Sl,
+"
+PKG_GYS_YW	PACKAGE BODY	1248	"           1,
+"
+PKG_GYS_YW	PACKAGE BODY	1249	"           grec_gys_qld.sqdh,
+"
+PKG_GYS_YW	PACKAGE BODY	1250	"           grec_gys_qld.yhrq,
+"
+PKG_GYS_YW	PACKAGE BODY	1251	"           seq_gys_yxj.nextval,
+"
+PKG_GYS_YW	PACKAGE BODY	1252	"           grec_gys_qld.wpsx,
+"
+PKG_GYS_YW	PACKAGE BODY	1253	"           grec_gys_qld.SCPH);
+"
+PKG_GYS_YW	PACKAGE BODY	1254	"      
+"
+PKG_GYS_YW	PACKAGE BODY	1255	"      End If;
+"
+PKG_GYS_YW	PACKAGE BODY	1256	"      --插明细帐
+"
+PKG_GYS_YW	PACKAGE BODY	1257	"      n_Je := prm_Sl * n_Dj;
+"
+PKG_GYS_YW	PACKAGE BODY	1258	"    
+"
+PKG_GYS_YW	PACKAGE BODY	1259	"      Insert Into gys_mxz
+"
+PKG_GYS_YW	PACKAGE BODY	1260	"        (jlxh,
+"
+PKG_GYS_YW	PACKAGE BODY	1261	"         xtxh,
+"
+PKG_GYS_YW	PACKAGE BODY	1262	"         djlx,
+"
+PKG_GYS_YW	PACKAGE BODY	1263	"         djhm,
+"
+PKG_GYS_YW	PACKAGE BODY	1264	"         rqyf,
+"
+PKG_GYS_YW	PACKAGE BODY	1265	"         fsrq,
+"
+PKG_GYS_YW	PACKAGE BODY	1266	"         zy,
+"
+PKG_GYS_YW	PACKAGE BODY	1267	"         ksdm1,
+"
+PKG_GYS_YW	PACKAGE BODY	1268	"         ksmc1,
+"
+PKG_GYS_YW	PACKAGE BODY	1269	"         wpxh,
+"
+PKG_GYS_YW	PACKAGE BODY	1270	"         wplb,
+"
+PKG_GYS_YW	PACKAGE BODY	1271	"         dj,
+"
+PKG_GYS_YW	PACKAGE BODY	1272	"         sl,
+"
+PKG_GYS_YW	PACKAGE BODY	1273	"         je,
+"
+PKG_GYS_YW	PACKAGE BODY	1274	"         kjqj,
+"
+PKG_GYS_YW	PACKAGE BODY	1275	"         ywdm,
+"
+PKG_GYS_YW	PACKAGE BODY	1276	"         wpsx,
+"
+PKG_GYS_YW	PACKAGE BODY	1277	"         SCPH,
+"
+PKG_GYS_YW	PACKAGE BODY	1278	"         crkfx)
+"
+PKG_GYS_YW	PACKAGE BODY	1279	"      Values
+"
+PKG_GYS_YW	PACKAGE BODY	1280	"        (seq_gys_mxz.nextval,
+"
+PKG_GYS_YW	PACKAGE BODY	1281	"         gn_Xtxh,
+"
+PKG_GYS_YW	PACKAGE BODY	1282	"         prm_crkdm,
+"
+PKG_GYS_YW	PACKAGE BODY	1283	"         str_Ckrdh,
+"
+PKG_GYS_YW	PACKAGE BODY	1284	"         str_Dqrq,
+"
+PKG_GYS_YW	PACKAGE BODY	1285	"         trunc(gd_sysdate),
+"
+PKG_GYS_YW	PACKAGE BODY	1286	"         lrec_crkfsxx.crkmc,
+"
+PKG_GYS_YW	PACKAGE BODY	1287	"         str_ksdm,
+"
+PKG_GYS_YW	PACKAGE BODY	1288	"         str_Ksmc,
+"
+PKG_GYS_YW	PACKAGE BODY	1289	"         prm_Wpxh,
+"
+PKG_GYS_YW	PACKAGE BODY	1290	"         n_Wplb,
+"
+PKG_GYS_YW	PACKAGE BODY	1291	"         n_Dj,
+"
+PKG_GYS_YW	PACKAGE BODY	1292	"         prm_Sl,
+"
+PKG_GYS_YW	PACKAGE BODY	1293	"         n_Je,
+"
+PKG_GYS_YW	PACKAGE BODY	1294	"         gn_kjqj,
+"
+PKG_GYS_YW	PACKAGE BODY	1295	"         prm_crkdm,
+"
+PKG_GYS_YW	PACKAGE BODY	1296	"         grec_gys_qld.wpsx,
+"
+PKG_GYS_YW	PACKAGE BODY	1297	"         grec_gys_qld.SCPH,
+"
+PKG_GYS_YW	PACKAGE BODY	1298	"         lrec_Crkfsxx.crkfx);
+"
+PKG_GYS_YW	PACKAGE BODY	1299	"    ElsIf lrec_crkfsxx.xhkpb = 4 Then
+"
+PKG_GYS_YW	PACKAGE BODY	1300	"      --模式四：消毒制包模式
+"
+PKG_GYS_YW	PACKAGE BODY	1301	"    
+"
+PKG_GYS_YW	PACKAGE BODY	1302	"      Select seq_gys_mxz.nextval Into n_jlxh From dual;
+"
+PKG_GYS_YW	PACKAGE BODY	1303	"    
+"
+PKG_GYS_YW	PACKAGE BODY	1304	"      --1:减少供应室的库存(注意：是特指消耗品的库存)
+"
+PKG_GYS_YW	PACKAGE BODY	1305	"      Open cur_cfzd;
+"
+PKG_GYS_YW	PACKAGE BODY	1306	"      Loop
+"
+PKG_GYS_YW	PACKAGE BODY	1307	"        Fetch cur_cfzd
+"
+PKG_GYS_YW	PACKAGE BODY	1308	"          Into n_wpxh, n_Sl, n_Je1;
+"
+PKG_GYS_YW	PACKAGE BODY	1309	"        Exit When cur_cfzd%Notfound;
+"
+PKG_GYS_YW	PACKAGE BODY	1310	"      
+"
+PKG_GYS_YW	PACKAGE BODY	1311	"        n_Kfjb := 1; --供应室
+"
+PKG_GYS_YW	PACKAGE BODY	1312	"        n_Wpsx := 0;
+"
+PKG_GYS_YW	PACKAGE BODY	1313	"        n_Sl   := n_Sl * prm_Sl;
+"
+PKG_GYS_YW	PACKAGE BODY	1314	"      
+"
+PKG_GYS_YW	PACKAGE BODY	1315	"        --减少供应的物品
+"
+PKG_GYS_YW	PACKAGE BODY	1316	"        Open cur_kczz;
+"
+PKG_GYS_YW	PACKAGE BODY	1317	"        Loop
+"
+PKG_GYS_YW	PACKAGE BODY	1318	"          Fetch cur_kczz
+"
+PKG_GYS_YW	PACKAGE BODY	1319	"            Into n_Kcxh, n_Kcsl, str_scph;
+"
+PKG_GYS_YW	PACKAGE BODY	1320	"          Exit When cur_Kczz%NotFound;
+"
+PKG_GYS_YW	PACKAGE BODY	1321	"          If n_Kcsl >= n_Sl Then
+"
+PKG_GYS_YW	PACKAGE BODY	1322	"            --满足
+"
+PKG_GYS_YW	PACKAGE BODY	1323	"            Update gys_Kczz
+"
+PKG_GYS_YW	PACKAGE BODY	1324	"               Set kcsl = kcsl - n_sl
+"
+PKG_GYS_YW	PACKAGE BODY	1325	"             Where xtxh = gn_Xtxh And kcxh = n_Kcxh;
+"
+PKG_GYS_YW	PACKAGE BODY	1326	"          
+"
+PKG_GYS_YW	PACKAGE BODY	1327	"            --插消耗库存的消耗品
+"
+PKG_GYS_YW	PACKAGE BODY	1328	"            Insert Into gys_mxz
+"
+PKG_GYS_YW	PACKAGE BODY	1329	"              (jlxh,
+"
+PKG_GYS_YW	PACKAGE BODY	1330	"               xtxh,
+"
+PKG_GYS_YW	PACKAGE BODY	1331	"               djlx,
+"
+PKG_GYS_YW	PACKAGE BODY	1332	"               djhm,
+"
+PKG_GYS_YW	PACKAGE BODY	1333	"               rqyf,
+"
+PKG_GYS_YW	PACKAGE BODY	1334	"               fsrq,
+"
+PKG_GYS_YW	PACKAGE BODY	1335	"               zy,
+"
+PKG_GYS_YW	PACKAGE BODY	1336	"               ksdm1,
+"
+PKG_GYS_YW	PACKAGE BODY	1337	"               ksmc1,
+"
+PKG_GYS_YW	PACKAGE BODY	1338	"               wpxh,
+"
+PKG_GYS_YW	PACKAGE BODY	1339	"               wplb,
+"
+PKG_GYS_YW	PACKAGE BODY	1340	"               dj,
+"
+PKG_GYS_YW	PACKAGE BODY	1341	"               sl,
+"
+PKG_GYS_YW	PACKAGE BODY	1342	"               je,
+"
+PKG_GYS_YW	PACKAGE BODY	1343	"               kjqj,
+"
+PKG_GYS_YW	PACKAGE BODY	1344	"               ywdm,
+"
+PKG_GYS_YW	PACKAGE BODY	1345	"               wpsx,
+"
+PKG_GYS_YW	PACKAGE BODY	1346	"               SCPH,
+"
+PKG_GYS_YW	PACKAGE BODY	1347	"               kcxh,
+"
+PKG_GYS_YW	PACKAGE BODY	1348	"               zzxh,
+"
+PKG_GYS_YW	PACKAGE BODY	1349	"               crkfx)
+"
+PKG_GYS_YW	PACKAGE BODY	1350	"            Values
+"
+PKG_GYS_YW	PACKAGE BODY	1351	"              (seq_gys_mxz.nextval,
+"
+PKG_GYS_YW	PACKAGE BODY	1352	"               gn_Xtxh,
+"
+PKG_GYS_YW	PACKAGE BODY	1353	"               prm_crkdm,
+"
+PKG_GYS_YW	PACKAGE BODY	1354	"               str_Ckrdh,
+"
+PKG_GYS_YW	PACKAGE BODY	1355	"               str_Dqrq,
+"
+PKG_GYS_YW	PACKAGE BODY	1356	"               trunc(gd_sysdate),
+"
+PKG_GYS_YW	PACKAGE BODY	1357	"               lrec_crkfsxx.crkmc,
+"
+PKG_GYS_YW	PACKAGE BODY	1358	"               str_ksdm,
+"
+PKG_GYS_YW	PACKAGE BODY	1359	"               str_Ksmc,
+"
+PKG_GYS_YW	PACKAGE BODY	1360	"               n_Wpxh,
+"
+PKG_GYS_YW	PACKAGE BODY	1361	"               n_Wplb,
+"
+PKG_GYS_YW	PACKAGE BODY	1362	"               n_Dj,
+"
+PKG_GYS_YW	PACKAGE BODY	1363	"               n_Sl,
+"
+PKG_GYS_YW	PACKAGE BODY	1364	"               n_Je1,
+"
+PKG_GYS_YW	PACKAGE BODY	1365	"               gn_kjqj,
+"
+PKG_GYS_YW	PACKAGE BODY	1366	"               prm_crkdm,
+"
+PKG_GYS_YW	PACKAGE BODY	1367	"               grec_gys_qld.wpsx,
+"
+PKG_GYS_YW	PACKAGE BODY	1368	"               str_Scph,
+"
+PKG_GYS_YW	PACKAGE BODY	1369	"               n_Kcxh,
+"
+PKG_GYS_YW	PACKAGE BODY	1370	"               n_Jlxh,
+"
+PKG_GYS_YW	PACKAGE BODY	1371	"               1);
+"
+PKG_GYS_YW	PACKAGE BODY	1372	"          
+"
+PKG_GYS_YW	PACKAGE BODY	1373	"            n_Sl := 0;
+"
+PKG_GYS_YW	PACKAGE BODY	1374	"            Exit;
+"
+PKG_GYS_YW	PACKAGE BODY	1375	"          Else
+"
+PKG_GYS_YW	PACKAGE BODY	1376	"            Update gys_Kczz
+"
+PKG_GYS_YW	PACKAGE BODY	1377	"               Set kcsl = 0
+"
+PKG_GYS_YW	PACKAGE BODY	1378	"             Where xtxh = gn_Xtxh And kcxh = n_Kcxh;
+"
+PKG_GYS_YW	PACKAGE BODY	1379	"          
+"
+PKG_GYS_YW	PACKAGE BODY	1380	"            --插消耗库存的消耗品
+"
+PKG_GYS_YW	PACKAGE BODY	1381	"            Insert Into gys_mxz
+"
+PKG_GYS_YW	PACKAGE BODY	1382	"              (jlxh,
+"
+PKG_GYS_YW	PACKAGE BODY	1383	"               xtxh,
+"
+PKG_GYS_YW	PACKAGE BODY	1384	"               djlx,
+"
+PKG_GYS_YW	PACKAGE BODY	1385	"               djhm,
+"
+PKG_GYS_YW	PACKAGE BODY	1386	"               rqyf,
+"
+PKG_GYS_YW	PACKAGE BODY	1387	"               fsrq,
+"
+PKG_GYS_YW	PACKAGE BODY	1388	"               zy,
+"
+PKG_GYS_YW	PACKAGE BODY	1389	"               ksdm1,
+"
+PKG_GYS_YW	PACKAGE BODY	1390	"               ksmc1,
+"
+PKG_GYS_YW	PACKAGE BODY	1391	"               wpxh,
+"
+PKG_GYS_YW	PACKAGE BODY	1392	"               wplb,
+"
+PKG_GYS_YW	PACKAGE BODY	1393	"               dj,
+"
+PKG_GYS_YW	PACKAGE BODY	1394	"               sl,
+"
+PKG_GYS_YW	PACKAGE BODY	1395	"               je,
+"
+PKG_GYS_YW	PACKAGE BODY	1396	"               kjqj,
+"
+PKG_GYS_YW	PACKAGE BODY	1397	"               ywdm,
+"
+PKG_GYS_YW	PACKAGE BODY	1398	"               wpsx,
+"
+PKG_GYS_YW	PACKAGE BODY	1399	"               SCPH,
+"
+PKG_GYS_YW	PACKAGE BODY	1400	"               kcxh,
+"
+PKG_GYS_YW	PACKAGE BODY	1401	"               zzxh,
+"
+PKG_GYS_YW	PACKAGE BODY	1402	"               crkfx)
+"
+PKG_GYS_YW	PACKAGE BODY	1403	"            Values
+"
+PKG_GYS_YW	PACKAGE BODY	1404	"              (seq_gys_mxz.nextval,
+"
+PKG_GYS_YW	PACKAGE BODY	1405	"               gn_Xtxh,
+"
+PKG_GYS_YW	PACKAGE BODY	1406	"               prm_crkdm,
+"
+PKG_GYS_YW	PACKAGE BODY	1407	"               str_Ckrdh,
+"
+PKG_GYS_YW	PACKAGE BODY	1408	"               str_Dqrq,
+"
+PKG_GYS_YW	PACKAGE BODY	1409	"               trunc(gd_sysdate),
+"
+PKG_GYS_YW	PACKAGE BODY	1410	"               lrec_crkfsxx.crkmc,
+"
+PKG_GYS_YW	PACKAGE BODY	1411	"               str_ksdm,
+"
+PKG_GYS_YW	PACKAGE BODY	1412	"               str_Ksmc,
+"
+PKG_GYS_YW	PACKAGE BODY	1413	"               n_Wpxh,
+"
+PKG_GYS_YW	PACKAGE BODY	1414	"               n_Wplb,
+"
+PKG_GYS_YW	PACKAGE BODY	1415	"               n_Dj,
+"
+PKG_GYS_YW	PACKAGE BODY	1416	"               n_KcSl,
+"
+PKG_GYS_YW	PACKAGE BODY	1417	"               n_Je1,
+"
+PKG_GYS_YW	PACKAGE BODY	1418	"               gn_kjqj,
+"
+PKG_GYS_YW	PACKAGE BODY	1419	"               prm_crkdm,
+"
+PKG_GYS_YW	PACKAGE BODY	1420	"               grec_gys_qld.wpsx,
+"
+PKG_GYS_YW	PACKAGE BODY	1421	"               str_Scph,
+"
+PKG_GYS_YW	PACKAGE BODY	1422	"               n_Kcxh,
+"
+PKG_GYS_YW	PACKAGE BODY	1423	"               n_Jlxh,
+"
+PKG_GYS_YW	PACKAGE BODY	1424	"               1);
+"
+PKG_GYS_YW	PACKAGE BODY	1425	"          
+"
+PKG_GYS_YW	PACKAGE BODY	1426	"            n_Sl := n_Sl - n_Kcsl;
+"
+PKG_GYS_YW	PACKAGE BODY	1427	"          
+"
+PKG_GYS_YW	PACKAGE BODY	1428	"          End If;
+"
+PKG_GYS_YW	PACKAGE BODY	1429	"        End Loop;
+"
+PKG_GYS_YW	PACKAGE BODY	1430	"        Close cur_Kczz;
+"
+PKG_GYS_YW	PACKAGE BODY	1431	"      
+"
+PKG_GYS_YW	PACKAGE BODY	1432	"        --没有库存数据时：
+"
+PKG_GYS_YW	PACKAGE BODY	1433	"        If n_Sl <> 0 Then
+"
+PKG_GYS_YW	PACKAGE BODY	1434	"          prm_ErrCode := -1;
+"
+PKG_GYS_YW	PACKAGE BODY	1435	"          str_Wpmc    := fun_Gys_Getwpxx('WPMC', n_Wpxh);
+"
+PKG_GYS_YW	PACKAGE BODY	1436	"          prm_ErrMsg  := 'prc_gys_gxkc:供应室没有足够的' || str_Wpmc ||
+"
+PKG_GYS_YW	PACKAGE BODY	1437	"                         '出库，请向库房申领！';
+"
+PKG_GYS_YW	PACKAGE BODY	1438	"          Return;
+"
+PKG_GYS_YW	PACKAGE BODY	1439	"        End If;
+"
+PKG_GYS_YW	PACKAGE BODY	1440	"      
+"
+PKG_GYS_YW	PACKAGE BODY	1441	"      End Loop;
+"
+PKG_GYS_YW	PACKAGE BODY	1442	"      Close cur_cfzd;
+"
+PKG_GYS_YW	PACKAGE BODY	1443	"    
+"
+PKG_GYS_YW	PACKAGE BODY	1444	"      --插明细帐
+"
+PKG_GYS_YW	PACKAGE BODY	1445	"      n_Je := prm_Sl * n_Dj;
+"
+PKG_GYS_YW	PACKAGE BODY	1446	"    
+"
+PKG_GYS_YW	PACKAGE BODY	1447	"      Insert Into gys_mxz
+"
+PKG_GYS_YW	PACKAGE BODY	1448	"        (jlxh,
+"
+PKG_GYS_YW	PACKAGE BODY	1449	"         xtxh,
+"
+PKG_GYS_YW	PACKAGE BODY	1450	"         djlx,
+"
+PKG_GYS_YW	PACKAGE BODY	1451	"         djhm,
+"
+PKG_GYS_YW	PACKAGE BODY	1452	"         rqyf,
+"
+PKG_GYS_YW	PACKAGE BODY	1453	"         fsrq,
+"
+PKG_GYS_YW	PACKAGE BODY	1454	"         zy,
+"
+PKG_GYS_YW	PACKAGE BODY	1455	"         ksdm1,
+"
+PKG_GYS_YW	PACKAGE BODY	1456	"         ksmc1,
+"
+PKG_GYS_YW	PACKAGE BODY	1457	"         wpxh,
+"
+PKG_GYS_YW	PACKAGE BODY	1458	"         wplb,
+"
+PKG_GYS_YW	PACKAGE BODY	1459	"         dj,
+"
+PKG_GYS_YW	PACKAGE BODY	1460	"         sl,
+"
+PKG_GYS_YW	PACKAGE BODY	1461	"         je,
+"
+PKG_GYS_YW	PACKAGE BODY	1462	"         kjqj,
+"
+PKG_GYS_YW	PACKAGE BODY	1463	"         ywdm,
+"
+PKG_GYS_YW	PACKAGE BODY	1464	"         wpsx,
+"
+PKG_GYS_YW	PACKAGE BODY	1465	"         SCPH,
+"
+PKG_GYS_YW	PACKAGE BODY	1466	"         crkfx)
+"
+PKG_GYS_YW	PACKAGE BODY	1467	"      Values
+"
+PKG_GYS_YW	PACKAGE BODY	1468	"        (n_jlxh,
+"
+PKG_GYS_YW	PACKAGE BODY	1469	"         gn_Xtxh,
+"
+PKG_GYS_YW	PACKAGE BODY	1470	"         prm_crkdm,
+"
+PKG_GYS_YW	PACKAGE BODY	1471	"         str_Ckrdh,
+"
+PKG_GYS_YW	PACKAGE BODY	1472	"         str_Dqrq,
+"
+PKG_GYS_YW	PACKAGE BODY	1473	"         trunc(gd_sysdate),
+"
+PKG_GYS_YW	PACKAGE BODY	1474	"         lrec_crkfsxx.crkmc,
+"
+PKG_GYS_YW	PACKAGE BODY	1475	"         str_ksdm,
+"
+PKG_GYS_YW	PACKAGE BODY	1476	"         str_Ksmc,
+"
+PKG_GYS_YW	PACKAGE BODY	1477	"         prm_Wpxh,
+"
+PKG_GYS_YW	PACKAGE BODY	1478	"         n_Wplb,
+"
+PKG_GYS_YW	PACKAGE BODY	1479	"         n_Dj,
+"
+PKG_GYS_YW	PACKAGE BODY	1480	"         prm_Sl,
+"
+PKG_GYS_YW	PACKAGE BODY	1481	"         n_Je,
+"
+PKG_GYS_YW	PACKAGE BODY	1482	"         gn_kjqj,
+"
+PKG_GYS_YW	PACKAGE BODY	1483	"         prm_crkdm,
+"
+PKG_GYS_YW	PACKAGE BODY	1484	"         grec_gys_qld.wpsx,
+"
+PKG_GYS_YW	PACKAGE BODY	1485	"         str_Ckrdh,
+"
+PKG_GYS_YW	PACKAGE BODY	1486	"         2);
+"
+PKG_GYS_YW	PACKAGE BODY	1487	"    
+"
+PKG_GYS_YW	PACKAGE BODY	1488	"      --2:增加无菌室的干净包的库存
+"
+PKG_GYS_YW	PACKAGE BODY	1489	"      Update gys_Kczz
+"
+PKG_GYS_YW	PACKAGE BODY	1490	"         Set kcsl = kcsl + prm_Sl
+"
+PKG_GYS_YW	PACKAGE BODY	1491	"       Where wpxh = prm_Wpxh and kfjb = 2 and xtxh = gn_Xtxh and wpsx = 0 And
+"
+PKG_GYS_YW	PACKAGE BODY	1492	"             rkdh = grec_gys_qld.sqdh;
+"
+PKG_GYS_YW	PACKAGE BODY	1493	"      --没有库存数据时：
+"
+PKG_GYS_YW	PACKAGE BODY	1494	"      If Sql%notfound Then
+"
+PKG_GYS_YW	PACKAGE BODY	1495	"      
+"
+PKG_GYS_YW	PACKAGE BODY	1496	"        Insert Into gys_Kczz
+"
+PKG_GYS_YW	PACKAGE BODY	1497	"          (xtxh,
+"
+PKG_GYS_YW	PACKAGE BODY	1498	"           kcxh,
+"
+PKG_GYS_YW	PACKAGE BODY	1499	"           ksdm,
+"
+PKG_GYS_YW	PACKAGE BODY	1500	"           wpxh,
+"
+PKG_GYS_YW	PACKAGE BODY	1501	"           wplb,
+"
+PKG_GYS_YW	PACKAGE BODY	1502	"           kcsl,
+"
+PKG_GYS_YW	PACKAGE BODY	1503	"           wpsx,
+"
+PKG_GYS_YW	PACKAGE BODY	1504	"           kfjb,
+"
+PKG_GYS_YW	PACKAGE BODY	1505	"           rkdh,
+"
+PKG_GYS_YW	PACKAGE BODY	1506	"           yhrq,
+"
+PKG_GYS_YW	PACKAGE BODY	1507	"           yhj,
+"
+PKG_GYS_YW	PACKAGE BODY	1508	"           SCPH)
+"
+PKG_GYS_YW	PACKAGE BODY	1509	"        Values
+"
+PKG_GYS_YW	PACKAGE BODY	1510	"          (gn_Xtxh,
+"
+PKG_GYS_YW	PACKAGE BODY	1511	"           seq_gys_rkd.nextval,
+"
+PKG_GYS_YW	PACKAGE BODY	1512	"           gstr_ksdm,
+"
+PKG_GYS_YW	PACKAGE BODY	1513	"           prm_Wpxh,
+"
+PKG_GYS_YW	PACKAGE BODY	1514	"           n_Wplb,
+"
+PKG_GYS_YW	PACKAGE BODY	1515	"           prm_Sl,
+"
+PKG_GYS_YW	PACKAGE BODY	1516	"           0,
+"
+PKG_GYS_YW	PACKAGE BODY	1517	"           2,
+"
+PKG_GYS_YW	PACKAGE BODY	1518	"           grec_gys_qld.sqdh,
+"
+PKG_GYS_YW	PACKAGE BODY	1519	"           grec_gys_qld.yhrq,
+"
+PKG_GYS_YW	PACKAGE BODY	1520	"           seq_gys_yxj.nextval,
+"
+PKG_GYS_YW	PACKAGE BODY	1521	"           grec_gys_qld.sqdh);
+"
+PKG_GYS_YW	PACKAGE BODY	1522	"      
+"
+PKG_GYS_YW	PACKAGE BODY	1523	"      End If;
+"
+PKG_GYS_YW	PACKAGE BODY	1524	"    
+"
+PKG_GYS_YW	PACKAGE BODY	1525	"      --3:减少供应室的不净包的库存？？
+"
+PKG_GYS_YW	PACKAGE BODY	1526	"      --增加供应室使用后（过期）的包
+"
+PKG_GYS_YW	PACKAGE BODY	1527	"      Update gys_Kczz
+"
+PKG_GYS_YW	PACKAGE BODY	1528	"         Set kcsl = kcsl - prm_sl
+"
+PKG_GYS_YW	PACKAGE BODY	1529	"       Where wpxh = prm_Wpxh and kfjb = 1 --供应室
+"
+PKG_GYS_YW	PACKAGE BODY	1530	"             and wpsx = grec_gys_qld.Wpsx --增加不干净（或者过期）的包 
+"
+PKG_GYS_YW	PACKAGE BODY	1531	"             and xtxh = gn_Xtxh And kcsl - prm_sl >= 0;
+"
+PKG_GYS_YW	PACKAGE BODY	1532	"      If sql%notFound Then
+"
+PKG_GYS_YW	PACKAGE BODY	1533	"        prm_ErrCode := -1;
+"
+PKG_GYS_YW	PACKAGE BODY	1534	"        If grec_gys_qld.Wpsx = 1 Then
+"
+PKG_GYS_YW	PACKAGE BODY	1535	"          prm_ErrMsg := 'prc_gys_gxkc:供应室没有足够的不净' || str_Wpmc ||
+"
+PKG_GYS_YW	PACKAGE BODY	1536	"                        '，请检查！';
+"
+PKG_GYS_YW	PACKAGE BODY	1537	"        ElsIf grec_Gys_qld.wpsx = 2 Then
+"
+PKG_GYS_YW	PACKAGE BODY	1538	"          prm_ErrMsg := 'prc_gys_gxkc:供应室没有足够的过期' || str_Wpmc ||
+"
+PKG_GYS_YW	PACKAGE BODY	1539	"                        '，请检查！';
+"
+PKG_GYS_YW	PACKAGE BODY	1540	"        End If;
+"
+PKG_GYS_YW	PACKAGE BODY	1541	"        Return;
+"
+PKG_GYS_YW	PACKAGE BODY	1542	"      End If;
+"
+PKG_GYS_YW	PACKAGE BODY	1543	"    ElsIf lrec_crkfsxx.xhkpb = 5 Then
+"
+PKG_GYS_YW	PACKAGE BODY	1544	"      --发放模式
+"
+PKG_GYS_YW	PACKAGE BODY	1545	"      n_Kfjb := 2; --无菌室
+"
+PKG_GYS_YW	PACKAGE BODY	1546	"      n_Wpsx := 0; --干净的包  
+"
+PKG_GYS_YW	PACKAGE BODY	1547	"      n_Wpxh := prm_Wpxh; --物品序号
+"
+PKG_GYS_YW	PACKAGE BODY	1548	"      n_Sl   := prm_Sl;
+"
+PKG_GYS_YW	PACKAGE BODY	1549	"    
+"
+PKG_GYS_YW	PACKAGE BODY	1550	"      --1：减少无菌室干净的包 
+"
+PKG_GYS_YW	PACKAGE BODY	1551	"      Open cur_kczz;
+"
+PKG_GYS_YW	PACKAGE BODY	1552	"      Loop
+"
+PKG_GYS_YW	PACKAGE BODY	1553	"        Fetch cur_kczz
+"
+PKG_GYS_YW	PACKAGE BODY	1554	"          Into n_Kcxh, n_Kcsl, str_Scph;
+"
+PKG_GYS_YW	PACKAGE BODY	1555	"        Exit When cur_Kczz%NotFound;
+"
+PKG_GYS_YW	PACKAGE BODY	1556	"        If n_Kcsl >= n_Sl Then
+"
+PKG_GYS_YW	PACKAGE BODY	1557	"          --满足
+"
+PKG_GYS_YW	PACKAGE BODY	1558	"          Update gys_Kczz
+"
+PKG_GYS_YW	PACKAGE BODY	1559	"             Set kcsl = kcsl - n_sl
+"
+PKG_GYS_YW	PACKAGE BODY	1560	"           Where xtxh = gn_Xtxh And kcxh = n_Kcxh;
+"
+PKG_GYS_YW	PACKAGE BODY	1561	"          --插明细帐
+"
+PKG_GYS_YW	PACKAGE BODY	1562	"          n_Je := n_Sl * n_Dj;
+"
+PKG_GYS_YW	PACKAGE BODY	1563	"          Insert Into gys_mxz
+"
+PKG_GYS_YW	PACKAGE BODY	1564	"            (jlxh,
+"
+PKG_GYS_YW	PACKAGE BODY	1565	"             xtxh,
+"
+PKG_GYS_YW	PACKAGE BODY	1566	"             djlx,
+"
+PKG_GYS_YW	PACKAGE BODY	1567	"             djhm,
+"
+PKG_GYS_YW	PACKAGE BODY	1568	"             rqyf,
+"
+PKG_GYS_YW	PACKAGE BODY	1569	"             fsrq,
+"
+PKG_GYS_YW	PACKAGE BODY	1570	"             zy,
+"
+PKG_GYS_YW	PACKAGE BODY	1571	"             ksdm1,
+"
+PKG_GYS_YW	PACKAGE BODY	1572	"             ksmc1,
+"
+PKG_GYS_YW	PACKAGE BODY	1573	"             wpxh,
+"
+PKG_GYS_YW	PACKAGE BODY	1574	"             wplb,
+"
+PKG_GYS_YW	PACKAGE BODY	1575	"             dj,
+"
+PKG_GYS_YW	PACKAGE BODY	1576	"             sl,
+"
+PKG_GYS_YW	PACKAGE BODY	1577	"             je,
+"
+PKG_GYS_YW	PACKAGE BODY	1578	"             kjqj,
+"
+PKG_GYS_YW	PACKAGE BODY	1579	"             ywdm,
+"
+PKG_GYS_YW	PACKAGE BODY	1580	"             wpsx,
+"
+PKG_GYS_YW	PACKAGE BODY	1581	"             SCPH,
+"
+PKG_GYS_YW	PACKAGE BODY	1582	"             kcxh,
+"
+PKG_GYS_YW	PACKAGE BODY	1583	"             crkfx)
+"
+PKG_GYS_YW	PACKAGE BODY	1584	"          Values
+"
+PKG_GYS_YW	PACKAGE BODY	1585	"            (seq_gys_mxz.nextval,
+"
+PKG_GYS_YW	PACKAGE BODY	1586	"             gn_Xtxh,
+"
+PKG_GYS_YW	PACKAGE BODY	1587	"             prm_crkdm,
+"
+PKG_GYS_YW	PACKAGE BODY	1588	"             str_Ckrdh,
+"
+PKG_GYS_YW	PACKAGE BODY	1589	"             str_Dqrq,
+"
+PKG_GYS_YW	PACKAGE BODY	1590	"             trunc(gd_sysdate),
+"
+PKG_GYS_YW	PACKAGE BODY	1591	"             lrec_crkfsxx.crkmc,
+"
+PKG_GYS_YW	PACKAGE BODY	1592	"             str_ksdm,
+"
+PKG_GYS_YW	PACKAGE BODY	1593	"             str_Ksmc,
+"
+PKG_GYS_YW	PACKAGE BODY	1594	"             prm_Wpxh,
+"
+PKG_GYS_YW	PACKAGE BODY	1595	"             n_Wplb,
+"
+PKG_GYS_YW	PACKAGE BODY	1596	"             n_Dj,
+"
+PKG_GYS_YW	PACKAGE BODY	1597	"             N_Sl,
+"
+PKG_GYS_YW	PACKAGE BODY	1598	"             n_Je,
+"
+PKG_GYS_YW	PACKAGE BODY	1599	"             gn_kjqj,
+"
+PKG_GYS_YW	PACKAGE BODY	1600	"             prm_crkdm,
+"
+PKG_GYS_YW	PACKAGE BODY	1601	"             grec_gys_qld.wpsx,
+"
+PKG_GYS_YW	PACKAGE BODY	1602	"             str_Scph,
+"
+PKG_GYS_YW	PACKAGE BODY	1603	"             n_kcxh,
+"
+PKG_GYS_YW	PACKAGE BODY	1604	"             lrec_Crkfsxx.crkfx);
+"
+PKG_GYS_YW	PACKAGE BODY	1605	"        
+"
+PKG_GYS_YW	PACKAGE BODY	1606	"          n_Sl := 0;
+"
+PKG_GYS_YW	PACKAGE BODY	1607	"          Exit;
+"
+PKG_GYS_YW	PACKAGE BODY	1608	"        Else
+"
+PKG_GYS_YW	PACKAGE BODY	1609	"          Update gys_Kczz
+"
+PKG_GYS_YW	PACKAGE BODY	1610	"             Set kcsl = 0
+"
+PKG_GYS_YW	PACKAGE BODY	1611	"           Where xtxh = gn_Xtxh And kcxh = n_Kcxh;
+"
+PKG_GYS_YW	PACKAGE BODY	1612	"        
+"
+PKG_GYS_YW	PACKAGE BODY	1613	"          --插明细帐
+"
+PKG_GYS_YW	PACKAGE BODY	1614	"          n_Je := n_KcSl * n_Dj;
+"
+PKG_GYS_YW	PACKAGE BODY	1615	"          Insert Into gys_mxz
+"
+PKG_GYS_YW	PACKAGE BODY	1616	"            (jlxh,
+"
+PKG_GYS_YW	PACKAGE BODY	1617	"             xtxh,
+"
+PKG_GYS_YW	PACKAGE BODY	1618	"             djlx,
+"
+PKG_GYS_YW	PACKAGE BODY	1619	"             djhm,
+"
+PKG_GYS_YW	PACKAGE BODY	1620	"             rqyf,
+"
+PKG_GYS_YW	PACKAGE BODY	1621	"             fsrq,
+"
+PKG_GYS_YW	PACKAGE BODY	1622	"             zy,
+"
+PKG_GYS_YW	PACKAGE BODY	1623	"             ksdm1,
+"
+PKG_GYS_YW	PACKAGE BODY	1624	"             ksmc1,
+"
+PKG_GYS_YW	PACKAGE BODY	1625	"             wpxh,
+"
+PKG_GYS_YW	PACKAGE BODY	1626	"             wplb,
+"
+PKG_GYS_YW	PACKAGE BODY	1627	"             dj,
+"
+PKG_GYS_YW	PACKAGE BODY	1628	"             sl,
+"
+PKG_GYS_YW	PACKAGE BODY	1629	"             je,
+"
+PKG_GYS_YW	PACKAGE BODY	1630	"             kjqj,
+"
+PKG_GYS_YW	PACKAGE BODY	1631	"             ywdm,
+"
+PKG_GYS_YW	PACKAGE BODY	1632	"             wpsx,
+"
+PKG_GYS_YW	PACKAGE BODY	1633	"             SCPH,
+"
+PKG_GYS_YW	PACKAGE BODY	1634	"             kcxh,
+"
+PKG_GYS_YW	PACKAGE BODY	1635	"             crkfx)
+"
+PKG_GYS_YW	PACKAGE BODY	1636	"          Values
+"
+PKG_GYS_YW	PACKAGE BODY	1637	"            (seq_gys_mxz.nextval,
+"
+PKG_GYS_YW	PACKAGE BODY	1638	"             gn_Xtxh,
+"
+PKG_GYS_YW	PACKAGE BODY	1639	"             prm_crkdm,
+"
+PKG_GYS_YW	PACKAGE BODY	1640	"             str_Ckrdh,
+"
+PKG_GYS_YW	PACKAGE BODY	1641	"             str_Dqrq,
+"
+PKG_GYS_YW	PACKAGE BODY	1642	"             trunc(gd_sysdate),
+"
+PKG_GYS_YW	PACKAGE BODY	1643	"             lrec_crkfsxx.crkmc,
+"
+PKG_GYS_YW	PACKAGE BODY	1644	"             str_ksdm,
+"
+PKG_GYS_YW	PACKAGE BODY	1645	"             str_Ksmc,
+"
+PKG_GYS_YW	PACKAGE BODY	1646	"             prm_Wpxh,
+"
+PKG_GYS_YW	PACKAGE BODY	1647	"             n_Wplb,
+"
+PKG_GYS_YW	PACKAGE BODY	1648	"             n_Dj,
+"
+PKG_GYS_YW	PACKAGE BODY	1649	"             N_KcSl,
+"
+PKG_GYS_YW	PACKAGE BODY	1650	"             n_Je,
+"
+PKG_GYS_YW	PACKAGE BODY	1651	"             gn_kjqj,
+"
+PKG_GYS_YW	PACKAGE BODY	1652	"             prm_crkdm,
+"
+PKG_GYS_YW	PACKAGE BODY	1653	"             grec_gys_qld.wpsx,
+"
+PKG_GYS_YW	PACKAGE BODY	1654	"             str_Scph,
+"
+PKG_GYS_YW	PACKAGE BODY	1655	"             n_Kcxh,
+"
+PKG_GYS_YW	PACKAGE BODY	1656	"             lrec_Crkfsxx.crkfx);
+"
+PKG_GYS_YW	PACKAGE BODY	1657	"        
+"
+PKG_GYS_YW	PACKAGE BODY	1658	"          n_Sl := n_Sl - n_Kcsl;
+"
+PKG_GYS_YW	PACKAGE BODY	1659	"        
+"
+PKG_GYS_YW	PACKAGE BODY	1660	"        End If;
+"
+PKG_GYS_YW	PACKAGE BODY	1661	"      End Loop;
+"
+PKG_GYS_YW	PACKAGE BODY	1662	"      Close cur_Kczz;
+"
+PKG_GYS_YW	PACKAGE BODY	1663	"    
+"
+PKG_GYS_YW	PACKAGE BODY	1664	"      --没有库存数据时：
+"
+PKG_GYS_YW	PACKAGE BODY	1665	"      If n_Sl <> 0 Then
+"
+PKG_GYS_YW	PACKAGE BODY	1666	"        prm_ErrCode := -1;
+"
+PKG_GYS_YW	PACKAGE BODY	1667	"        prm_ErrMsg  := 'prc_gys_gxkc:无菌室没有足够的干净' || str_Wpmc ||
+"
+PKG_GYS_YW	PACKAGE BODY	1668	"                       '，请制包！';
+"
+PKG_GYS_YW	PACKAGE BODY	1669	"        Return;
+"
+PKG_GYS_YW	PACKAGE BODY	1670	"      End If;
+"
+PKG_GYS_YW	PACKAGE BODY	1671	"    
+"
+PKG_GYS_YW	PACKAGE BODY	1672	"      --2：增加临床科室的包
+"
+PKG_GYS_YW	PACKAGE BODY	1673	"    
+"
+PKG_GYS_YW	PACKAGE BODY	1674	"      Update gys_Kczz
+"
+PKG_GYS_YW	PACKAGE BODY	1675	"         Set kcsl = kcsl + prm_Sl
+"
+PKG_GYS_YW	PACKAGE BODY	1676	"       Where wpxh = prm_Wpxh and kfjb = 3 And ksdm = str_Ksdm and
+"
+PKG_GYS_YW	PACKAGE BODY	1677	"             xtxh = gn_Xtxh and wpsx = 0;
+"
+PKG_GYS_YW	PACKAGE BODY	1678	"    
+"
+PKG_GYS_YW	PACKAGE BODY	1679	"      --没有库存数据时：
+"
+PKG_GYS_YW	PACKAGE BODY	1680	"      If Sql%notfound Then
+"
+PKG_GYS_YW	PACKAGE BODY	1681	"      
+"
+PKG_GYS_YW	PACKAGE BODY	1682	"        Insert Into gys_Kczz
+"
+PKG_GYS_YW	PACKAGE BODY	1683	"          (xtxh, kcxh, ksdm, wpxh, wplb, kcsl, wpsx, kfjb)
+"
+PKG_GYS_YW	PACKAGE BODY	1684	"        Values
+"
+PKG_GYS_YW	PACKAGE BODY	1685	"          (gn_Xtxh,
+"
+PKG_GYS_YW	PACKAGE BODY	1686	"           seq_gys_rkd.nextval,
+"
+PKG_GYS_YW	PACKAGE BODY	1687	"           str_Ksdm,
+"
+PKG_GYS_YW	PACKAGE BODY	1688	"           prm_Wpxh,
+"
+PKG_GYS_YW	PACKAGE BODY	1689	"           n_Wplb,
+"
+PKG_GYS_YW	PACKAGE BODY	1690	"           prm_Sl,
+"
+PKG_GYS_YW	PACKAGE BODY	1691	"           0,
+"
+PKG_GYS_YW	PACKAGE BODY	1692	"           3);
+"
+PKG_GYS_YW	PACKAGE BODY	1693	"      
+"
+PKG_GYS_YW	PACKAGE BODY	1694	"      End If;
+"
+PKG_GYS_YW	PACKAGE BODY	1695	"    ElsIf lrec_crkfsxx.xhkpb = 6 Then
+"
+PKG_GYS_YW	PACKAGE BODY	1696	"      --归还模式
+"
+PKG_GYS_YW	PACKAGE BODY	1697	"      --1：减少科室里的库存
+"
+PKG_GYS_YW	PACKAGE BODY	1698	"      Update gys_Kczz
+"
+PKG_GYS_YW	PACKAGE BODY	1699	"         Set kcsl = kcsl - prm_Sl
+"
+PKG_GYS_YW	PACKAGE BODY	1700	"       Where wpxh = prm_Wpxh and kfjb = 3 And ksdm = str_Ksdm and
+"
+PKG_GYS_YW	PACKAGE BODY	1701	"             xtxh = gn_Xtxh and wpsx = 0 and kcsl - prm_Sl >= 0;
+"
+PKG_GYS_YW	PACKAGE BODY	1702	"      If sql%notfound Then
+"
+PKG_GYS_YW	PACKAGE BODY	1703	"        prm_ErrCode := -1;
+"
+PKG_GYS_YW	PACKAGE BODY	1704	"        prm_ErrMsg  := 'prc_gys_gxkc:科室没有足够的' || str_Wpmc ||
+"
+PKG_GYS_YW	PACKAGE BODY	1705	"                       '归还，请检查！';
+"
+PKG_GYS_YW	PACKAGE BODY	1706	"        Return;
+"
+PKG_GYS_YW	PACKAGE BODY	1707	"      End If;
+"
+PKG_GYS_YW	PACKAGE BODY	1708	"    
+"
+PKG_GYS_YW	PACKAGE BODY	1709	"      --2:增加供应室使用后（过期）的包
+"
+PKG_GYS_YW	PACKAGE BODY	1710	"      Update gys_Kczz
+"
+PKG_GYS_YW	PACKAGE BODY	1711	"         Set kcsl = kcsl + prm_sl
+"
+PKG_GYS_YW	PACKAGE BODY	1712	"       Where wpxh = prm_Wpxh and kfjb = 1 --无菌室
+"
+PKG_GYS_YW	PACKAGE BODY	1713	"             and wpsx = grec_gys_qld.Wpsx --增加不干净（或者过期）的包 
+"
+PKG_GYS_YW	PACKAGE BODY	1714	"             and xtxh = gn_Xtxh;
+"
+PKG_GYS_YW	PACKAGE BODY	1715	"      If Sql%notfound Then
+"
+PKG_GYS_YW	PACKAGE BODY	1716	"      
+"
+PKG_GYS_YW	PACKAGE BODY	1717	"        Insert Into gys_Kczz
+"
+PKG_GYS_YW	PACKAGE BODY	1718	"          (xtxh, kcxh, ksdm, wpxh, wplb, kcsl, kfjb, wpsx, xgrq, yhj)
+"
+PKG_GYS_YW	PACKAGE BODY	1719	"        Values
+"
+PKG_GYS_YW	PACKAGE BODY	1720	"          (gn_Xtxh,
+"
+PKG_GYS_YW	PACKAGE BODY	1721	"           seq_gys_rkd.nextval,
+"
+PKG_GYS_YW	PACKAGE BODY	1722	"           gstr_ksdm,
+"
+PKG_GYS_YW	PACKAGE BODY	1723	"           prm_Wpxh,
+"
+PKG_GYS_YW	PACKAGE BODY	1724	"           n_Wplb,
+"
+PKG_GYS_YW	PACKAGE BODY	1725	"           prm_Sl,
+"
+PKG_GYS_YW	PACKAGE BODY	1726	"           1,
+"
+PKG_GYS_YW	PACKAGE BODY	1727	"           grec_gys_qld.Wpsx,
+"
+PKG_GYS_YW	PACKAGE BODY	1728	"           gd_sysdate,
+"
+PKG_GYS_YW	PACKAGE BODY	1729	"           seq_gys_yxj.nextval);
+"
+PKG_GYS_YW	PACKAGE BODY	1730	"      
+"
+PKG_GYS_YW	PACKAGE BODY	1731	"      End If;
+"
+PKG_GYS_YW	PACKAGE BODY	1732	"    
+"
+PKG_GYS_YW	PACKAGE BODY	1733	"      --插明细帐
+"
+PKG_GYS_YW	PACKAGE BODY	1734	"      n_Je := prm_Sl * n_Dj;
+"
+PKG_GYS_YW	PACKAGE BODY	1735	"      Insert Into gys_mxz
+"
+PKG_GYS_YW	PACKAGE BODY	1736	"        (jlxh,
+"
+PKG_GYS_YW	PACKAGE BODY	1737	"         xtxh,
+"
+PKG_GYS_YW	PACKAGE BODY	1738	"         djlx,
+"
+PKG_GYS_YW	PACKAGE BODY	1739	"         djhm,
+"
+PKG_GYS_YW	PACKAGE BODY	1740	"         rqyf,
+"
+PKG_GYS_YW	PACKAGE BODY	1741	"         fsrq,
+"
+PKG_GYS_YW	PACKAGE BODY	1742	"         zy,
+"
+PKG_GYS_YW	PACKAGE BODY	1743	"         ksdm1,
+"
+PKG_GYS_YW	PACKAGE BODY	1744	"         ksmc1,
+"
+PKG_GYS_YW	PACKAGE BODY	1745	"         wpxh,
+"
+PKG_GYS_YW	PACKAGE BODY	1746	"         wplb,
+"
+PKG_GYS_YW	PACKAGE BODY	1747	"         dj,
+"
+PKG_GYS_YW	PACKAGE BODY	1748	"         sl,
+"
+PKG_GYS_YW	PACKAGE BODY	1749	"         je,
+"
+PKG_GYS_YW	PACKAGE BODY	1750	"         kjqj,
+"
+PKG_GYS_YW	PACKAGE BODY	1751	"         ywdm,
+"
+PKG_GYS_YW	PACKAGE BODY	1752	"         wpsx,
+"
+PKG_GYS_YW	PACKAGE BODY	1753	"         SCPH,
+"
+PKG_GYS_YW	PACKAGE BODY	1754	"         crkfx)
+"
+PKG_GYS_YW	PACKAGE BODY	1755	"      Values
+"
+PKG_GYS_YW	PACKAGE BODY	1756	"        (seq_gys_mxz.nextval,
+"
+PKG_GYS_YW	PACKAGE BODY	1757	"         gn_Xtxh,
+"
+PKG_GYS_YW	PACKAGE BODY	1758	"         prm_crkdm,
+"
+PKG_GYS_YW	PACKAGE BODY	1759	"         str_Ckrdh,
+"
+PKG_GYS_YW	PACKAGE BODY	1760	"         str_Dqrq,
+"
+PKG_GYS_YW	PACKAGE BODY	1761	"         trunc(gd_sysdate),
+"
+PKG_GYS_YW	PACKAGE BODY	1762	"         lrec_crkfsxx.crkmc,
+"
+PKG_GYS_YW	PACKAGE BODY	1763	"         str_ksdm,
+"
+PKG_GYS_YW	PACKAGE BODY	1764	"         str_Ksmc,
+"
+PKG_GYS_YW	PACKAGE BODY	1765	"         prm_Wpxh,
+"
+PKG_GYS_YW	PACKAGE BODY	1766	"         n_Wplb,
+"
+PKG_GYS_YW	PACKAGE BODY	1767	"         n_Dj,
+"
+PKG_GYS_YW	PACKAGE BODY	1768	"         prm_Sl,
+"
+PKG_GYS_YW	PACKAGE BODY	1769	"         n_Je,
+"
+PKG_GYS_YW	PACKAGE BODY	1770	"         gn_kjqj,
+"
+PKG_GYS_YW	PACKAGE BODY	1771	"         prm_crkdm,
+"
+PKG_GYS_YW	PACKAGE BODY	1772	"         grec_gys_qld.wpsx,
+"
+PKG_GYS_YW	PACKAGE BODY	1773	"         str_Ckrdh,
+"
+PKG_GYS_YW	PACKAGE BODY	1774	"         lrec_Crkfsxx.crkfx);
+"
+PKG_GYS_YW	PACKAGE BODY	1775	"    
+"
+PKG_GYS_YW	PACKAGE BODY	1776	"    ElsIf lrec_crkfsxx.xhkpb = 7 Then
+"
+PKG_GYS_YW	PACKAGE BODY	1777	"      --新增包模式
+"
+PKG_GYS_YW	PACKAGE BODY	1778	"      Select seq_gys_mxz.nextval into n_jlxh From dual;
+"
+PKG_GYS_YW	PACKAGE BODY	1779	"    
+"
+PKG_GYS_YW	PACKAGE BODY	1780	"      Open cur_cfzd_all;
+"
+PKG_GYS_YW	PACKAGE BODY	1781	"      Loop
+"
+PKG_GYS_YW	PACKAGE BODY	1782	"        Fetch cur_cfzd_all
+"
+PKG_GYS_YW	PACKAGE BODY	1783	"          Into n_wpxh, n_Sl, n_Je1;
+"
+PKG_GYS_YW	PACKAGE BODY	1784	"        Exit When cur_cfzd_all%Notfound;
+"
+PKG_GYS_YW	PACKAGE BODY	1785	"      
+"
+PKG_GYS_YW	PACKAGE BODY	1786	"        n_Kfjb := 1; --供应室
+"
+PKG_GYS_YW	PACKAGE BODY	1787	"        n_Wpsx := 0;
+"
+PKG_GYS_YW	PACKAGE BODY	1788	"        n_Sl   := n_Sl * prm_Sl;
+"
+PKG_GYS_YW	PACKAGE BODY	1789	"      
+"
+PKG_GYS_YW	PACKAGE BODY	1790	"        --减少供应的物品
+"
+PKG_GYS_YW	PACKAGE BODY	1791	"        Open cur_kczz;
+"
+PKG_GYS_YW	PACKAGE BODY	1792	"        Loop
+"
+PKG_GYS_YW	PACKAGE BODY	1793	"          Fetch cur_kczz
+"
+PKG_GYS_YW	PACKAGE BODY	1794	"            Into n_Kcxh, n_Kcsl, str_Scph;
+"
+PKG_GYS_YW	PACKAGE BODY	1795	"          Exit When cur_Kczz%NotFound;
+"
+PKG_GYS_YW	PACKAGE BODY	1796	"          If n_Kcsl >= n_Sl Then
+"
+PKG_GYS_YW	PACKAGE BODY	1797	"            --满足
+"
+PKG_GYS_YW	PACKAGE BODY	1798	"            Update gys_Kczz
+"
+PKG_GYS_YW	PACKAGE BODY	1799	"               Set kcsl = kcsl - n_sl
+"
+PKG_GYS_YW	PACKAGE BODY	1800	"             Where xtxh = gn_Xtxh And kcxh = n_Kcxh;
+"
+PKG_GYS_YW	PACKAGE BODY	1801	"          
+"
+PKG_GYS_YW	PACKAGE BODY	1802	"            --插包里的物品明细帐
+"
+PKG_GYS_YW	PACKAGE BODY	1803	"          
+"
+PKG_GYS_YW	PACKAGE BODY	1804	"            Insert Into gys_mxz
+"
+PKG_GYS_YW	PACKAGE BODY	1805	"              (jlxh,
+"
+PKG_GYS_YW	PACKAGE BODY	1806	"               xtxh,
+"
+PKG_GYS_YW	PACKAGE BODY	1807	"               djlx,
+"
+PKG_GYS_YW	PACKAGE BODY	1808	"               djhm,
+"
+PKG_GYS_YW	PACKAGE BODY	1809	"               rqyf,
+"
+PKG_GYS_YW	PACKAGE BODY	1810	"               fsrq,
+"
+PKG_GYS_YW	PACKAGE BODY	1811	"               zy,
+"
+PKG_GYS_YW	PACKAGE BODY	1812	"               ksdm1,
+"
+PKG_GYS_YW	PACKAGE BODY	1813	"               ksmc1,
+"
+PKG_GYS_YW	PACKAGE BODY	1814	"               wpxh,
+"
+PKG_GYS_YW	PACKAGE BODY	1815	"               wplb,
+"
+PKG_GYS_YW	PACKAGE BODY	1816	"               dj,
+"
+PKG_GYS_YW	PACKAGE BODY	1817	"               sl,
+"
+PKG_GYS_YW	PACKAGE BODY	1818	"               je,
+"
+PKG_GYS_YW	PACKAGE BODY	1819	"               kjqj,
+"
+PKG_GYS_YW	PACKAGE BODY	1820	"               ywdm,
+"
+PKG_GYS_YW	PACKAGE BODY	1821	"               wpsx,
+"
+PKG_GYS_YW	PACKAGE BODY	1822	"               SCPH,
+"
+PKG_GYS_YW	PACKAGE BODY	1823	"               kcxh,
+"
+PKG_GYS_YW	PACKAGE BODY	1824	"               zzxh,
+"
+PKG_GYS_YW	PACKAGE BODY	1825	"               crkfx)
+"
+PKG_GYS_YW	PACKAGE BODY	1826	"            Values
+"
+PKG_GYS_YW	PACKAGE BODY	1827	"              (seq_gys_mxz.nextval,
+"
+PKG_GYS_YW	PACKAGE BODY	1828	"               gn_Xtxh,
+"
+PKG_GYS_YW	PACKAGE BODY	1829	"               prm_crkdm,
+"
+PKG_GYS_YW	PACKAGE BODY	1830	"               str_Ckrdh,
+"
+PKG_GYS_YW	PACKAGE BODY	1831	"               str_Dqrq,
+"
+PKG_GYS_YW	PACKAGE BODY	1832	"               trunc(gd_sysdate),
+"
+PKG_GYS_YW	PACKAGE BODY	1833	"               lrec_crkfsxx.crkmc,
+"
+PKG_GYS_YW	PACKAGE BODY	1834	"               str_ksdm,
+"
+PKG_GYS_YW	PACKAGE BODY	1835	"               str_Ksmc,
+"
+PKG_GYS_YW	PACKAGE BODY	1836	"               n_Wpxh,
+"
+PKG_GYS_YW	PACKAGE BODY	1837	"               n_Wplb,
+"
+PKG_GYS_YW	PACKAGE BODY	1838	"               n_Dj,
+"
+PKG_GYS_YW	PACKAGE BODY	1839	"               n_sl,
+"
+PKG_GYS_YW	PACKAGE BODY	1840	"               n_Je1,
+"
+PKG_GYS_YW	PACKAGE BODY	1841	"               gn_kjqj,
+"
+PKG_GYS_YW	PACKAGE BODY	1842	"               prm_crkdm,
+"
+PKG_GYS_YW	PACKAGE BODY	1843	"               grec_gys_qld.wpsx,
+"
+PKG_GYS_YW	PACKAGE BODY	1844	"               str_Scph,
+"
+PKG_GYS_YW	PACKAGE BODY	1845	"               n_Kcxh,
+"
+PKG_GYS_YW	PACKAGE BODY	1846	"               n_Jlxh,
+"
+PKG_GYS_YW	PACKAGE BODY	1847	"               1);
+"
+PKG_GYS_YW	PACKAGE BODY	1848	"          
+"
+PKG_GYS_YW	PACKAGE BODY	1849	"            n_Sl := 0;
+"
+PKG_GYS_YW	PACKAGE BODY	1850	"            Exit;
+"
+PKG_GYS_YW	PACKAGE BODY	1851	"          Else
+"
+PKG_GYS_YW	PACKAGE BODY	1852	"            Update gys_Kczz
+"
+PKG_GYS_YW	PACKAGE BODY	1853	"               Set kcsl = 0
+"
+PKG_GYS_YW	PACKAGE BODY	1854	"             Where xtxh = gn_Xtxh And kcxh = n_Kcxh;
+"
+PKG_GYS_YW	PACKAGE BODY	1855	"          
+"
+PKG_GYS_YW	PACKAGE BODY	1856	"            --插包里的物品明细帐
+"
+PKG_GYS_YW	PACKAGE BODY	1857	"          
+"
+PKG_GYS_YW	PACKAGE BODY	1858	"            Insert Into gys_mxz
+"
+PKG_GYS_YW	PACKAGE BODY	1859	"              (jlxh,
+"
+PKG_GYS_YW	PACKAGE BODY	1860	"               xtxh,
+"
+PKG_GYS_YW	PACKAGE BODY	1861	"               djlx,
+"
+PKG_GYS_YW	PACKAGE BODY	1862	"               djhm,
+"
+PKG_GYS_YW	PACKAGE BODY	1863	"               rqyf,
+"
+PKG_GYS_YW	PACKAGE BODY	1864	"               fsrq,
+"
+PKG_GYS_YW	PACKAGE BODY	1865	"               zy,
+"
+PKG_GYS_YW	PACKAGE BODY	1866	"               ksdm1,
+"
+PKG_GYS_YW	PACKAGE BODY	1867	"               ksmc1,
+"
+PKG_GYS_YW	PACKAGE BODY	1868	"               wpxh,
+"
+PKG_GYS_YW	PACKAGE BODY	1869	"               wplb,
+"
+PKG_GYS_YW	PACKAGE BODY	1870	"               dj,
+"
+PKG_GYS_YW	PACKAGE BODY	1871	"               sl,
+"
+PKG_GYS_YW	PACKAGE BODY	1872	"               je,
+"
+PKG_GYS_YW	PACKAGE BODY	1873	"               kjqj,
+"
+PKG_GYS_YW	PACKAGE BODY	1874	"               ywdm,
+"
+PKG_GYS_YW	PACKAGE BODY	1875	"               wpsx,
+"
+PKG_GYS_YW	PACKAGE BODY	1876	"               SCPH,
+"
+PKG_GYS_YW	PACKAGE BODY	1877	"               kcxh,
+"
+PKG_GYS_YW	PACKAGE BODY	1878	"               zzxh,
+"
+PKG_GYS_YW	PACKAGE BODY	1879	"               crkfx)
+"
+PKG_GYS_YW	PACKAGE BODY	1880	"            Values
+"
+PKG_GYS_YW	PACKAGE BODY	1881	"              (seq_gys_mxz.nextval,
+"
+PKG_GYS_YW	PACKAGE BODY	1882	"               gn_Xtxh,
+"
+PKG_GYS_YW	PACKAGE BODY	1883	"               prm_crkdm,
+"
+PKG_GYS_YW	PACKAGE BODY	1884	"               str_Ckrdh,
+"
+PKG_GYS_YW	PACKAGE BODY	1885	"               str_Dqrq,
+"
+PKG_GYS_YW	PACKAGE BODY	1886	"               trunc(gd_sysdate),
+"
+PKG_GYS_YW	PACKAGE BODY	1887	"               lrec_crkfsxx.crkmc,
+"
+PKG_GYS_YW	PACKAGE BODY	1888	"               str_ksdm,
+"
+PKG_GYS_YW	PACKAGE BODY	1889	"               str_Ksmc,
+"
+PKG_GYS_YW	PACKAGE BODY	1890	"               n_Wpxh,
+"
+PKG_GYS_YW	PACKAGE BODY	1891	"               n_Wplb,
+"
+PKG_GYS_YW	PACKAGE BODY	1892	"               n_Dj,
+"
+PKG_GYS_YW	PACKAGE BODY	1893	"               n_Kcsl,
+"
+PKG_GYS_YW	PACKAGE BODY	1894	"               n_Je1,
+"
+PKG_GYS_YW	PACKAGE BODY	1895	"               gn_kjqj,
+"
+PKG_GYS_YW	PACKAGE BODY	1896	"               prm_crkdm,
+"
+PKG_GYS_YW	PACKAGE BODY	1897	"               grec_gys_qld.wpsx,
+"
+PKG_GYS_YW	PACKAGE BODY	1898	"               str_Scph,
+"
+PKG_GYS_YW	PACKAGE BODY	1899	"               n_Kcxh,
+"
+PKG_GYS_YW	PACKAGE BODY	1900	"               n_Jlxh,
+"
+PKG_GYS_YW	PACKAGE BODY	1901	"               1);
+"
+PKG_GYS_YW	PACKAGE BODY	1902	"          
+"
+PKG_GYS_YW	PACKAGE BODY	1903	"            n_Sl := n_Sl - n_Kcsl;
+"
+PKG_GYS_YW	PACKAGE BODY	1904	"          
+"
+PKG_GYS_YW	PACKAGE BODY	1905	"          End If;
+"
+PKG_GYS_YW	PACKAGE BODY	1906	"        End Loop;
+"
+PKG_GYS_YW	PACKAGE BODY	1907	"        Close cur_Kczz;
+"
+PKG_GYS_YW	PACKAGE BODY	1908	"      
+"
+PKG_GYS_YW	PACKAGE BODY	1909	"        --没有库存数据时：
+"
+PKG_GYS_YW	PACKAGE BODY	1910	"        If n_Sl <> 0 Then
+"
+PKG_GYS_YW	PACKAGE BODY	1911	"          prm_ErrCode := -1;
+"
+PKG_GYS_YW	PACKAGE BODY	1912	"          str_Wpmc    := fun_gys_getwpxx('WPMC', n_Wpxh);
+"
+PKG_GYS_YW	PACKAGE BODY	1913	"          prm_ErrMsg  := 'prc_gys_gxkc:供应室没有足够的' || str_Wpmc ||
+"
+PKG_GYS_YW	PACKAGE BODY	1914	"                         '出库，请向库房申领！';
+"
+PKG_GYS_YW	PACKAGE BODY	1915	"          Return;
+"
+PKG_GYS_YW	PACKAGE BODY	1916	"        End If;
+"
+PKG_GYS_YW	PACKAGE BODY	1917	"      
+"
+PKG_GYS_YW	PACKAGE BODY	1918	"      End Loop;
+"
+PKG_GYS_YW	PACKAGE BODY	1919	"      Close cur_cfzd_all;
+"
+PKG_GYS_YW	PACKAGE BODY	1920	"    
+"
+PKG_GYS_YW	PACKAGE BODY	1921	"      --插明细帐
+"
+PKG_GYS_YW	PACKAGE BODY	1922	"      n_Je := prm_Sl * n_Dj;
+"
+PKG_GYS_YW	PACKAGE BODY	1923	"      Insert Into gys_mxz
+"
+PKG_GYS_YW	PACKAGE BODY	1924	"        (jlxh,
+"
+PKG_GYS_YW	PACKAGE BODY	1925	"         xtxh,
+"
+PKG_GYS_YW	PACKAGE BODY	1926	"         djlx,
+"
+PKG_GYS_YW	PACKAGE BODY	1927	"         djhm,
+"
+PKG_GYS_YW	PACKAGE BODY	1928	"         rqyf,
+"
+PKG_GYS_YW	PACKAGE BODY	1929	"         fsrq,
+"
+PKG_GYS_YW	PACKAGE BODY	1930	"         zy,
+"
+PKG_GYS_YW	PACKAGE BODY	1931	"         ksdm1,
+"
+PKG_GYS_YW	PACKAGE BODY	1932	"         ksmc1,
+"
+PKG_GYS_YW	PACKAGE BODY	1933	"         wpxh,
+"
+PKG_GYS_YW	PACKAGE BODY	1934	"         wplb,
+"
+PKG_GYS_YW	PACKAGE BODY	1935	"         dj,
+"
+PKG_GYS_YW	PACKAGE BODY	1936	"         sl,
+"
+PKG_GYS_YW	PACKAGE BODY	1937	"         je,
+"
+PKG_GYS_YW	PACKAGE BODY	1938	"         kjqj,
+"
+PKG_GYS_YW	PACKAGE BODY	1939	"         ywdm,
+"
+PKG_GYS_YW	PACKAGE BODY	1940	"         wpsx,
+"
+PKG_GYS_YW	PACKAGE BODY	1941	"         SCPH,
+"
+PKG_GYS_YW	PACKAGE BODY	1942	"         crkfx)
+"
+PKG_GYS_YW	PACKAGE BODY	1943	"      Values
+"
+PKG_GYS_YW	PACKAGE BODY	1944	"        (n_Jlxh,
+"
+PKG_GYS_YW	PACKAGE BODY	1945	"         gn_Xtxh,
+"
+PKG_GYS_YW	PACKAGE BODY	1946	"         prm_crkdm,
+"
+PKG_GYS_YW	PACKAGE BODY	1947	"         str_Ckrdh,
+"
+PKG_GYS_YW	PACKAGE BODY	1948	"         str_Dqrq,
+"
+PKG_GYS_YW	PACKAGE BODY	1949	"         trunc(gd_sysdate),
+"
+PKG_GYS_YW	PACKAGE BODY	1950	"         lrec_crkfsxx.crkmc,
+"
+PKG_GYS_YW	PACKAGE BODY	1951	"         str_ksdm,
+"
+PKG_GYS_YW	PACKAGE BODY	1952	"         str_Ksmc,
+"
+PKG_GYS_YW	PACKAGE BODY	1953	"         prm_Wpxh,
+"
+PKG_GYS_YW	PACKAGE BODY	1954	"         n_Wplb,
+"
+PKG_GYS_YW	PACKAGE BODY	1955	"         n_Dj,
+"
+PKG_GYS_YW	PACKAGE BODY	1956	"         prm_Sl,
+"
+PKG_GYS_YW	PACKAGE BODY	1957	"         n_Je,
+"
+PKG_GYS_YW	PACKAGE BODY	1958	"         gn_kjqj,
+"
+PKG_GYS_YW	PACKAGE BODY	1959	"         prm_crkdm,
+"
+PKG_GYS_YW	PACKAGE BODY	1960	"         grec_gys_qld.wpsx,
+"
+PKG_GYS_YW	PACKAGE BODY	1961	"         str_Ckrdh,
+"
+PKG_GYS_YW	PACKAGE BODY	1962	"         2);
+"
+PKG_GYS_YW	PACKAGE BODY	1963	"    
+"
+PKG_GYS_YW	PACKAGE BODY	1964	"      --2:增加无菌室的干净包的库存
+"
+PKG_GYS_YW	PACKAGE BODY	1965	"      Update gys_Kczz
+"
+PKG_GYS_YW	PACKAGE BODY	1966	"         Set kcsl = kcsl + prm_Sl
+"
+PKG_GYS_YW	PACKAGE BODY	1967	"       Where wpxh = prm_Wpxh and kfjb = 2 and xtxh = gn_Xtxh and wpsx = 0 And
+"
+PKG_GYS_YW	PACKAGE BODY	1968	"             SCPH = grec_gys_qld.sqdh;
+"
+PKG_GYS_YW	PACKAGE BODY	1969	"      --没有库存数据时：
+"
+PKG_GYS_YW	PACKAGE BODY	1970	"      If Sql%notfound Then
+"
+PKG_GYS_YW	PACKAGE BODY	1971	"      
+"
+PKG_GYS_YW	PACKAGE BODY	1972	"        Insert Into gys_Kczz
+"
+PKG_GYS_YW	PACKAGE BODY	1973	"          (xtxh,
+"
+PKG_GYS_YW	PACKAGE BODY	1974	"           kcxh,
+"
+PKG_GYS_YW	PACKAGE BODY	1975	"           ksdm,
+"
+PKG_GYS_YW	PACKAGE BODY	1976	"           wpxh,
+"
+PKG_GYS_YW	PACKAGE BODY	1977	"           wplb,
+"
+PKG_GYS_YW	PACKAGE BODY	1978	"           kcsl,
+"
+PKG_GYS_YW	PACKAGE BODY	1979	"           wpsx,
+"
+PKG_GYS_YW	PACKAGE BODY	1980	"           kfjb,
+"
+PKG_GYS_YW	PACKAGE BODY	1981	"           rkdh,
+"
+PKG_GYS_YW	PACKAGE BODY	1982	"           yhrq,
+"
+PKG_GYS_YW	PACKAGE BODY	1983	"           yhj,
+"
+PKG_GYS_YW	PACKAGE BODY	1984	"           SCPH)
+"
+PKG_GYS_YW	PACKAGE BODY	1985	"        Values
+"
+PKG_GYS_YW	PACKAGE BODY	1986	"          (gn_Xtxh,
+"
+PKG_GYS_YW	PACKAGE BODY	1987	"           seq_gys_rkd.nextval,
+"
+PKG_GYS_YW	PACKAGE BODY	1988	"           gstr_ksdm,
+"
+PKG_GYS_YW	PACKAGE BODY	1989	"           prm_Wpxh,
+"
+PKG_GYS_YW	PACKAGE BODY	1990	"           n_Wplb,
+"
+PKG_GYS_YW	PACKAGE BODY	1991	"           prm_Sl,
+"
+PKG_GYS_YW	PACKAGE BODY	1992	"           0,
+"
+PKG_GYS_YW	PACKAGE BODY	1993	"           2,
+"
+PKG_GYS_YW	PACKAGE BODY	1994	"           grec_gys_qld.sqdh,
+"
+PKG_GYS_YW	PACKAGE BODY	1995	"           grec_gys_qld.yhrq,
+"
+PKG_GYS_YW	PACKAGE BODY	1996	"           seq_gys_yxj.nextval,
+"
+PKG_GYS_YW	PACKAGE BODY	1997	"           grec_gys_qld.sqdh);
+"
+PKG_GYS_YW	PACKAGE BODY	1998	"      
+"
+PKG_GYS_YW	PACKAGE BODY	1999	"      End If;
+"
+PKG_GYS_YW	PACKAGE BODY	2000	"    ElsIf lrec_crkfsxx.xhkpb = 8 Then
+"
+PKG_GYS_YW	PACKAGE BODY	2001	"      --初始无菌室包库存
+"
+PKG_GYS_YW	PACKAGE BODY	2002	"      Update gys_Kczz
+"
+PKG_GYS_YW	PACKAGE BODY	2003	"         Set kcsl = kcsl + prm_Sl
+"
+PKG_GYS_YW	PACKAGE BODY	2004	"       Where wpxh = prm_Wpxh and kfjb = 2 and xtxh = gn_Xtxh and wpsx = 0 And
+"
+PKG_GYS_YW	PACKAGE BODY	2005	"             ksdm = gstr_ksdm and rkdh = grec_gys_qld.sqdh;
+"
+PKG_GYS_YW	PACKAGE BODY	2006	"      If Sql%notfound Then
+"
+PKG_GYS_YW	PACKAGE BODY	2007	"        Insert Into gys_Kczz
+"
+PKG_GYS_YW	PACKAGE BODY	2008	"          (xtxh,
+"
+PKG_GYS_YW	PACKAGE BODY	2009	"           kcxh,
+"
+PKG_GYS_YW	PACKAGE BODY	2010	"           ksdm,
+"
+PKG_GYS_YW	PACKAGE BODY	2011	"           wpxh,
+"
+PKG_GYS_YW	PACKAGE BODY	2012	"           wplb,
+"
+PKG_GYS_YW	PACKAGE BODY	2013	"           kcsl,
+"
+PKG_GYS_YW	PACKAGE BODY	2014	"           wpsx,
+"
+PKG_GYS_YW	PACKAGE BODY	2015	"           kfjb,
+"
+PKG_GYS_YW	PACKAGE BODY	2016	"           rkdh,
+"
+PKG_GYS_YW	PACKAGE BODY	2017	"           yhrq,
+"
+PKG_GYS_YW	PACKAGE BODY	2018	"           yhj,
+"
+PKG_GYS_YW	PACKAGE BODY	2019	"           SCPH)
+"
+PKG_GYS_YW	PACKAGE BODY	2020	"        Values
+"
+PKG_GYS_YW	PACKAGE BODY	2021	"          (gn_Xtxh,
+"
+PKG_GYS_YW	PACKAGE BODY	2022	"           seq_gys_rkd.nextval,
+"
+PKG_GYS_YW	PACKAGE BODY	2023	"           gstr_ksdm,
+"
+PKG_GYS_YW	PACKAGE BODY	2024	"           prm_Wpxh,
+"
+PKG_GYS_YW	PACKAGE BODY	2025	"           n_Wplb,
+"
+PKG_GYS_YW	PACKAGE BODY	2026	"           prm_Sl,
+"
+PKG_GYS_YW	PACKAGE BODY	2027	"           0,
+"
+PKG_GYS_YW	PACKAGE BODY	2028	"           2,
+"
+PKG_GYS_YW	PACKAGE BODY	2029	"           grec_gys_qld.sqdh,
+"
+PKG_GYS_YW	PACKAGE BODY	2030	"           grec_gys_qld.yhrq,
+"
+PKG_GYS_YW	PACKAGE BODY	2031	"           seq_gys_yxj.nextval,
+"
+PKG_GYS_YW	PACKAGE BODY	2032	"           grec_gys_qld.sqdh);
+"
+PKG_GYS_YW	PACKAGE BODY	2033	"      End If;
+"
+PKG_GYS_YW	PACKAGE BODY	2034	"    ElsIf lrec_crkfsxx.xhkpb = 9 Then
+"
+PKG_GYS_YW	PACKAGE BODY	2035	"      --初始其他科室库存
+"
+PKG_GYS_YW	PACKAGE BODY	2036	"      Update gys_Kczz
+"
+PKG_GYS_YW	PACKAGE BODY	2037	"         Set kcsl = kcsl + prm_Sl
+"
+PKG_GYS_YW	PACKAGE BODY	2038	"       Where wpxh = prm_Wpxh and kfjb = 3 and xtxh = gn_Xtxh and wpsx = 0 And
+"
+PKG_GYS_YW	PACKAGE BODY	2039	"             ksdm = str_ksdm and rkdh = grec_gys_qld.sqdh;
+"
+PKG_GYS_YW	PACKAGE BODY	2040	"      If Sql%notfound Then
+"
+PKG_GYS_YW	PACKAGE BODY	2041	"        Insert Into gys_Kczz
+"
+PKG_GYS_YW	PACKAGE BODY	2042	"          (xtxh,
+"
+PKG_GYS_YW	PACKAGE BODY	2043	"           kcxh,
+"
+PKG_GYS_YW	PACKAGE BODY	2044	"           ksdm,
+"
+PKG_GYS_YW	PACKAGE BODY	2045	"           wpxh,
+"
+PKG_GYS_YW	PACKAGE BODY	2046	"           wplb,
+"
+PKG_GYS_YW	PACKAGE BODY	2047	"           kcsl,
+"
+PKG_GYS_YW	PACKAGE BODY	2048	"           wpsx,
+"
+PKG_GYS_YW	PACKAGE BODY	2049	"           kfjb,
+"
+PKG_GYS_YW	PACKAGE BODY	2050	"           rkdh,
+"
+PKG_GYS_YW	PACKAGE BODY	2051	"           yhrq,
+"
+PKG_GYS_YW	PACKAGE BODY	2052	"           yhj,
+"
+PKG_GYS_YW	PACKAGE BODY	2053	"           SCPH)
+"
+PKG_GYS_YW	PACKAGE BODY	2054	"        Values
+"
+PKG_GYS_YW	PACKAGE BODY	2055	"          (gn_Xtxh,
+"
+PKG_GYS_YW	PACKAGE BODY	2056	"           seq_gys_rkd.nextval,
+"
+PKG_GYS_YW	PACKAGE BODY	2057	"           str_ksdm,
+"
+PKG_GYS_YW	PACKAGE BODY	2058	"           prm_Wpxh,
+"
+PKG_GYS_YW	PACKAGE BODY	2059	"           n_Wplb,
+"
+PKG_GYS_YW	PACKAGE BODY	2060	"           prm_Sl,
+"
+PKG_GYS_YW	PACKAGE BODY	2061	"           0,
+"
+PKG_GYS_YW	PACKAGE BODY	2062	"           3,
+"
+PKG_GYS_YW	PACKAGE BODY	2063	"           grec_gys_qld.sqdh,
+"
+PKG_GYS_YW	PACKAGE BODY	2064	"           grec_gys_qld.yhrq,
+"
+PKG_GYS_YW	PACKAGE BODY	2065	"           seq_gys_yxj.nextval,
+"
+PKG_GYS_YW	PACKAGE BODY	2066	"           grec_gys_qld.sqdh);
+"
+PKG_GYS_YW	PACKAGE BODY	2067	"      End If;
+"
+PKG_GYS_YW	PACKAGE BODY	2068	"    
+"
+PKG_GYS_YW	PACKAGE BODY	2069	"    ElsIf lrec_crkfsxx.xhkpb = 0 Then
+"
+PKG_GYS_YW	PACKAGE BODY	2070	"      --模式零：减少无菌室包库存
+"
+PKG_GYS_YW	PACKAGE BODY	2071	"      Update gys_Kczz
+"
+PKG_GYS_YW	PACKAGE BODY	2072	"         Set kcsl = kcsl - prm_Sl
+"
+PKG_GYS_YW	PACKAGE BODY	2073	"       Where wpxh = prm_Wpxh and kfjb = 2 and xtxh = gn_Xtxh and wpsx = 0 And
+"
+PKG_GYS_YW	PACKAGE BODY	2074	"             ksdm = gstr_ksdm and rkdh = grec_gys_qld.sqdh;
+"
+PKG_GYS_YW	PACKAGE BODY	2075	"      If Sql%notfound Then
+"
+PKG_GYS_YW	PACKAGE BODY	2076	"        Insert Into gys_Kczz
+"
+PKG_GYS_YW	PACKAGE BODY	2077	"          (xtxh,
+"
+PKG_GYS_YW	PACKAGE BODY	2078	"           kcxh,
+"
+PKG_GYS_YW	PACKAGE BODY	2079	"           ksdm,
+"
+PKG_GYS_YW	PACKAGE BODY	2080	"           wpxh,
+"
+PKG_GYS_YW	PACKAGE BODY	2081	"           wplb,
+"
+PKG_GYS_YW	PACKAGE BODY	2082	"           kcsl,
+"
+PKG_GYS_YW	PACKAGE BODY	2083	"           wpsx,
+"
+PKG_GYS_YW	PACKAGE BODY	2084	"           kfjb,
+"
+PKG_GYS_YW	PACKAGE BODY	2085	"           rkdh,
+"
+PKG_GYS_YW	PACKAGE BODY	2086	"           yhrq,
+"
+PKG_GYS_YW	PACKAGE BODY	2087	"           yhj,
+"
+PKG_GYS_YW	PACKAGE BODY	2088	"           SCPH)
+"
+PKG_GYS_YW	PACKAGE BODY	2089	"        Values
+"
+PKG_GYS_YW	PACKAGE BODY	2090	"          (gn_Xtxh,
+"
+PKG_GYS_YW	PACKAGE BODY	2091	"           seq_gys_rkd.nextval,
+"
+PKG_GYS_YW	PACKAGE BODY	2092	"           gstr_ksdm,
+"
+PKG_GYS_YW	PACKAGE BODY	2093	"           prm_Wpxh,
+"
+PKG_GYS_YW	PACKAGE BODY	2094	"           n_Wplb,
+"
+PKG_GYS_YW	PACKAGE BODY	2095	"           prm_Sl,
+"
+PKG_GYS_YW	PACKAGE BODY	2096	"           0,
+"
+PKG_GYS_YW	PACKAGE BODY	2097	"           2,
+"
+PKG_GYS_YW	PACKAGE BODY	2098	"           grec_gys_qld.sqdh,
+"
+PKG_GYS_YW	PACKAGE BODY	2099	"           grec_gys_qld.yhrq,
+"
+PKG_GYS_YW	PACKAGE BODY	2100	"           seq_gys_yxj.nextval,
+"
+PKG_GYS_YW	PACKAGE BODY	2101	"           grec_gys_qld.sqdh);
+"
+PKG_GYS_YW	PACKAGE BODY	2102	"      End If;
+"
+PKG_GYS_YW	PACKAGE BODY	2103	"    
+"
+PKG_GYS_YW	PACKAGE BODY	2104	"    End If;
+"
+PKG_GYS_YW	PACKAGE BODY	2105	"  
+"
+PKG_GYS_YW	PACKAGE BODY	2106	"  Exception
+"
+PKG_GYS_YW	PACKAGE BODY	2107	"    When Others Then
+"
+PKG_GYS_YW	PACKAGE BODY	2108	"      prm_ErrCode := SqlCode;
+"
+PKG_GYS_YW	PACKAGE BODY	2109	"      prm_ErrMsg  := '过程Prc_gys_gxkc' || SqlErrM;
+"
+PKG_GYS_YW	PACKAGE BODY	2110	"  End Prc_gys_gxkc;
+"
+PKG_GYS_YW	PACKAGE BODY	2111	"
+"
+PKG_GYS_YW	PACKAGE BODY	2112	"  /*----------------------------------------------------------
+"
+PKG_GYS_YW	PACKAGE BODY	2113	"   ||过程名称： 发放处理
+"
+PKG_GYS_YW	PACKAGE BODY	2114	"   ||参数描述：参数标志       名称        输入/输出      类型
+"
+PKG_GYS_YW	PACKAGE BODY	2115	"   ||     ------------------------------------------------------
+"
+PKG_GYS_YW	PACKAGE BODY	2116	"   ||            prm_Jlxh     请领单记录序号  In          Number
+"
+PKG_GYS_YW	PACKAGE BODY	2117	"   ||            prm_ErrCode  错误号          In          Number
+"
+PKG_GYS_YW	PACKAGE BODY	2118	"   ||            prm_ErrMsg   错误信息        In          Varchar2 
+"
+PKG_GYS_YW	PACKAGE BODY	2119	"   ||     -------------------------------------------------------
+"
+PKG_GYS_YW	PACKAGE BODY	2120	"   ||返回值描述：无
+"
+PKG_GYS_YW	PACKAGE BODY	2121	"   ||例子：处理发放业务
+"
+PKG_GYS_YW	PACKAGE BODY	2122	"   ||作者：王子健     完成日期：2003－04－28
+"
+PKG_GYS_YW	PACKAGE BODY	2123	"  ------------------------------------------------------------*/
+"
+PKG_GYS_YW	PACKAGE BODY	2124	"  PROCEDURE Prc_gys_F(prm_Jlxh    In Number,
+"
+PKG_GYS_YW	PACKAGE BODY	2125	"                      prm_ErrCode Out Number,
+"
+PKG_GYS_YW	PACKAGE BODY	2126	"                      Prm_ErrMsg  Out Varchar2) Is
+"
+PKG_GYS_YW	PACKAGE BODY	2127	"  Begin
+"
+PKG_GYS_YW	PACKAGE BODY	2128	"    prm_ErrCode := 0;
+"
+PKG_GYS_YW	PACKAGE BODY	2129	"  
+"
+PKG_GYS_YW	PACKAGE BODY	2130	"    --请领单信息
+"
+PKG_GYS_YW	PACKAGE BODY	2131	"    Begin
+"
+PKG_GYS_YW	PACKAGE BODY	2132	"      Select *
+"
+PKG_GYS_YW	PACKAGE BODY	2133	"        Into grec_gys_qld
+"
+PKG_GYS_YW	PACKAGE BODY	2134	"        From gys_qld
+"
+PKG_GYS_YW	PACKAGE BODY	2135	"       Where jlxh = Prm_Jlxh and czpb = 0
+"
+PKG_GYS_YW	PACKAGE BODY	2136	"         For Update Nowait;
+"
+PKG_GYS_YW	PACKAGE BODY	2137	"    Exception
+"
+PKG_GYS_YW	PACKAGE BODY	2138	"      When Others Then
+"
+PKG_GYS_YW	PACKAGE BODY	2139	"        prm_ErrCode := SqlCode;
+"
+PKG_GYS_YW	PACKAGE BODY	2140	"        prm_ErrMsg  := '记录序号：' || to_Char(prm_jlxh) || '正在处理中';
+"
+PKG_GYS_YW	PACKAGE BODY	2141	"        Return;
+"
+PKG_GYS_YW	PACKAGE BODY	2142	"    End;
+"
+PKG_GYS_YW	PACKAGE BODY	2143	"  
+"
+PKG_GYS_YW	PACKAGE BODY	2144	"    --更新库存
+"
+PKG_GYS_YW	PACKAGE BODY	2145	"    prc_gys_gxkc(grec_gys_qld.sqlx,
+"
+PKG_GYS_YW	PACKAGE BODY	2146	"                 grec_gys_qld.wpxh,
+"
+PKG_GYS_YW	PACKAGE BODY	2147	"                 grec_gys_qld.sqsl,
+"
+PKG_GYS_YW	PACKAGE BODY	2148	"                 prm_ErrCode,
+"
+PKG_GYS_YW	PACKAGE BODY	2149	"                 prm_ErrMsg);
+"
+PKG_GYS_YW	PACKAGE BODY	2150	"    If prm_ErrCode <> 0 Then
+"
+PKG_GYS_YW	PACKAGE BODY	2151	"      Return;
+"
+PKG_GYS_YW	PACKAGE BODY	2152	"    End If;
+"
+PKG_GYS_YW	PACKAGE BODY	2153	"  
+"
+PKG_GYS_YW	PACKAGE BODY	2154	"    --更新请领单
+"
+PKG_GYS_YW	PACKAGE BODY	2155	"    prc_gys_Gxqld(prm_jlxh, 1, prm_ErrCode, prm_ErrMsg);
+"
+PKG_GYS_YW	PACKAGE BODY	2156	"    If prm_ErrCode <> 0 Then
+"
+PKG_GYS_YW	PACKAGE BODY	2157	"      Return;
+"
+PKG_GYS_YW	PACKAGE BODY	2158	"    End If;
+"
+PKG_GYS_YW	PACKAGE BODY	2159	"  
+"
+PKG_GYS_YW	PACKAGE BODY	2160	"  Exception
+"
+PKG_GYS_YW	PACKAGE BODY	2161	"    When Others Then
+"
+PKG_GYS_YW	PACKAGE BODY	2162	"      prm_ErrCode := SqlCode;
+"
+PKG_GYS_YW	PACKAGE BODY	2163	"      prm_ErrMsg  := '过程prc_gys_F出错：' || SqlErrM;
+"
+PKG_GYS_YW	PACKAGE BODY	2164	"  End prc_gys_F;
+"
+PKG_GYS_YW	PACKAGE BODY	2165	"
+"
+PKG_GYS_YW	PACKAGE BODY	2166	"  /*----------------------------------------------------------
+"
+PKG_GYS_YW	PACKAGE BODY	2167	"   ||过程名称： 批量发放处理
+"
+PKG_GYS_YW	PACKAGE BODY	2168	"   ||参数描述：参数标志       名称        输入/输出      类型
+"
+PKG_GYS_YW	PACKAGE BODY	2169	"   ||     ------------------------------------------------------
+"
+PKG_GYS_YW	PACKAGE BODY	2170	"   ||            prm_Sqdh     申请单号        In          Varchar2
+"
+PKG_GYS_YW	PACKAGE BODY	2171	"   ||            prm_Ywlx     业务类型        In          Number
+"
+PKG_GYS_YW	PACKAGE BODY	2172	"   ||            prm_ErrCode  错误号          In          Number
+"
+PKG_GYS_YW	PACKAGE BODY	2173	"   ||            prm_ErrMsg   错误信息        In          Varchar2 
+"
+PKG_GYS_YW	PACKAGE BODY	2174	"   ||     -------------------------------------------------------
+"
+PKG_GYS_YW	PACKAGE BODY	2175	"   ||返回值描述：无
+"
+PKG_GYS_YW	PACKAGE BODY	2176	"   ||例子：批量处理发放业务
+"
+PKG_GYS_YW	PACKAGE BODY	2177	"   ||作者：王子健     完成日期：2003－04－28
+"
+PKG_GYS_YW	PACKAGE BODY	2178	"  ------------------------------------------------------------*/
+"
+PKG_GYS_YW	PACKAGE BODY	2179	"  PROCEDURE prc_gys_P(prm_Sqdh    In Varchar2,
+"
+PKG_GYS_YW	PACKAGE BODY	2180	"                      prm_Ywlx    In Number,
+"
+PKG_GYS_YW	PACKAGE BODY	2181	"                      prm_ErrCode Out Number,
+"
+PKG_GYS_YW	PACKAGE BODY	2182	"                      prm_ErrMsg  Out Varchar2) Is
+"
+PKG_GYS_YW	PACKAGE BODY	2183	"    n_Jlxh Number;
+"
+PKG_GYS_YW	PACKAGE BODY	2184	"    Cursor cur_Jlxh Is
+"
+PKG_GYS_YW	PACKAGE BODY	2185	"      Select jlxh
+"
+PKG_GYS_YW	PACKAGE BODY	2186	"        From gys_qld
+"
+PKG_GYS_YW	PACKAGE BODY	2187	"       Where Sqdh = Prm_Sqdh And sqlx = prm_ywlx And czpb = 0;
+"
+PKG_GYS_YW	PACKAGE BODY	2188	"  Begin
+"
+PKG_GYS_YW	PACKAGE BODY	2189	"    Open cur_Jlxh;
+"
+PKG_GYS_YW	PACKAGE BODY	2190	"    Loop
+"
+PKG_GYS_YW	PACKAGE BODY	2191	"      Fetch cur_Jlxh
+"
+PKG_GYS_YW	PACKAGE BODY	2192	"        Into n_Jlxh;
+"
+PKG_GYS_YW	PACKAGE BODY	2193	"      Exit When cur_Jlxh%NotFound;
+"
+PKG_GYS_YW	PACKAGE BODY	2194	"    
+"
+PKG_GYS_YW	PACKAGE BODY	2195	"      --业务处理,按一个单号进行提交,单号里一个业务处理出错，则返回
+"
+PKG_GYS_YW	PACKAGE BODY	2196	"      prc_Gys_F(n_jlxh, prm_ErrCode, prm_ErrMsg);
+"
+PKG_GYS_YW	PACKAGE BODY	2197	"    
+"
+PKG_GYS_YW	PACKAGE BODY	2198	"      If prm_ErrCode <> 0 Then
+"
+PKG_GYS_YW	PACKAGE BODY	2199	"        GoTo EndOver;
+"
+PKG_GYS_YW	PACKAGE BODY	2200	"      End If;
+"
+PKG_GYS_YW	PACKAGE BODY	2201	"    
+"
+PKG_GYS_YW	PACKAGE BODY	2202	"    End Loop;
+"
+PKG_GYS_YW	PACKAGE BODY	2203	"    <<EndOVer>>
+"
+PKG_GYS_YW	PACKAGE BODY	2204	"    Close cur_Jlxh;
+"
+PKG_GYS_YW	PACKAGE BODY	2205	"  Exception
+"
+PKG_GYS_YW	PACKAGE BODY	2206	"    When Others Then
+"
+PKG_GYS_YW	PACKAGE BODY	2207	"      prm_ErrCode := SqlCode;
+"
+PKG_GYS_YW	PACKAGE BODY	2208	"      prm_ErrMsg  := '过程prc_gys_P出错：' || SqlErrM;
+"
+PKG_GYS_YW	PACKAGE BODY	2209	"  End prc_gys_P;
+"
+PKG_GYS_YW	PACKAGE BODY	2210	"
+"
+PKG_GYS_YW	PACKAGE BODY	2211	"  PROCEDURE prc_gys_T(prm_Jlxh    In Number,
+"
+PKG_GYS_YW	PACKAGE BODY	2212	"                      prm_ErrCode Out Number,
+"
+PKG_GYS_YW	PACKAGE BODY	2213	"                      prm_ErrMsg  Out Varchar2) Is
+"
+PKG_GYS_YW	PACKAGE BODY	2214	"    n_Sl Number;
+"
+PKG_GYS_YW	PACKAGE BODY	2215	"  Begin
+"
+PKG_GYS_YW	PACKAGE BODY	2216	"    prm_ErrCode := 0;
+"
+PKG_GYS_YW	PACKAGE BODY	2217	"    Begin
+"
+PKG_GYS_YW	PACKAGE BODY	2218	"      Select *
+"
+PKG_GYS_YW	PACKAGE BODY	2219	"        Into grec_gys_qld
+"
+PKG_GYS_YW	PACKAGE BODY	2220	"        From gys_qld
+"
+PKG_GYS_YW	PACKAGE BODY	2221	"       Where jlxh = Prm_Jlxh and czpb = 1
+"
+PKG_GYS_YW	PACKAGE BODY	2222	"         For Update Nowait;
+"
+PKG_GYS_YW	PACKAGE BODY	2223	"    Exception
+"
+PKG_GYS_YW	PACKAGE BODY	2224	"      When Others Then
+"
+PKG_GYS_YW	PACKAGE BODY	2225	"        prm_ErrCode := SqlCode;
+"
+PKG_GYS_YW	PACKAGE BODY	2226	"        prm_ErrMsg  := '记录序号：' || to_Char(prm_jlxh) || '正在处理中';
+"
+PKG_GYS_YW	PACKAGE BODY	2227	"        Return;
+"
+PKG_GYS_YW	PACKAGE BODY	2228	"    End;
+"
+PKG_GYS_YW	PACKAGE BODY	2229	"  
+"
+PKG_GYS_YW	PACKAGE BODY	2230	"    n_Sl := -grec_gys_qld.sqsl;
+"
+PKG_GYS_YW	PACKAGE BODY	2231	"  
+"
+PKG_GYS_YW	PACKAGE BODY	2232	"    --更新库存
+"
+PKG_GYS_YW	PACKAGE BODY	2233	"    prc_gys_gxkc(grec_gys_qld.sqlx,
+"
+PKG_GYS_YW	PACKAGE BODY	2234	"                 grec_gys_qld.wpxh,
+"
+PKG_GYS_YW	PACKAGE BODY	2235	"                 n_Sl,
+"
+PKG_GYS_YW	PACKAGE BODY	2236	"                 prm_ErrCode,
+"
+PKG_GYS_YW	PACKAGE BODY	2237	"                 prm_ErrMsg);
+"
+PKG_GYS_YW	PACKAGE BODY	2238	"    If prm_ErrCode <> 0 Then
+"
+PKG_GYS_YW	PACKAGE BODY	2239	"      Return;
+"
+PKG_GYS_YW	PACKAGE BODY	2240	"    End If;
+"
+PKG_GYS_YW	PACKAGE BODY	2241	"  
+"
+PKG_GYS_YW	PACKAGE BODY	2242	"    --更新请领单
+"
+PKG_GYS_YW	PACKAGE BODY	2243	"    prc_gys_Gxqld(prm_jlxh, -1, prm_ErrCode, prm_ErrMsg);
+"
+PKG_GYS_YW	PACKAGE BODY	2244	"    If prm_ErrCode <> 0 Then
+"
+PKG_GYS_YW	PACKAGE BODY	2245	"      Return;
+"
+PKG_GYS_YW	PACKAGE BODY	2246	"    End If;
+"
+PKG_GYS_YW	PACKAGE BODY	2247	"  
+"
+PKG_GYS_YW	PACKAGE BODY	2248	"  Exception
+"
+PKG_GYS_YW	PACKAGE BODY	2249	"    When Others Then
+"
+PKG_GYS_YW	PACKAGE BODY	2250	"      prm_ErrCode := SqlCode;
+"
+PKG_GYS_YW	PACKAGE BODY	2251	"      prm_ErrMsg  := '过程prc_gys_T出错：' || SqlErrM;
+"
+PKG_GYS_YW	PACKAGE BODY	2252	"    
+"
+PKG_GYS_YW	PACKAGE BODY	2253	"  End prc_gys_T;
+"
+PKG_GYS_YW	PACKAGE BODY	2254	"
+"
+PKG_GYS_YW	PACKAGE BODY	2255	"  Procedure Prc_gys_jbyw(Prm_jlxh    In Number,
+"
+PKG_GYS_YW	PACKAGE BODY	2256	"                         Prm_hh      In Number,
+"
+PKG_GYS_YW	PACKAGE BODY	2257	"                         Prm_czgh    In Varchar2,
+"
+PKG_GYS_YW	PACKAGE BODY	2258	"                         prm_ErrCode Out Number,
+"
+PKG_GYS_YW	PACKAGE BODY	2259	"                         prm_ErrMsg  Out Varchar2) Is
+"
+PKG_GYS_YW	PACKAGE BODY	2260	"    n_wpxh       Number;
+"
+PKG_GYS_YW	PACKAGE BODY	2261	"    n_czpb       Number;
+"
+PKG_GYS_YW	PACKAGE BODY	2262	"    n_sqsl       Number;
+"
+PKG_GYS_YW	PACKAGE BODY	2263	"    n_kcsl       Number;
+"
+PKG_GYS_YW	PACKAGE BODY	2264	"    n_wpsx       Number;
+"
+PKG_GYS_YW	PACKAGE BODY	2265	"    str_lendksdm Varchar2(10);
+"
+PKG_GYS_YW	PACKAGE BODY	2266	"    str_sqksdm   Varchar2(10);
+"
+PKG_GYS_YW	PACKAGE BODY	2267	"  Begin
+"
+PKG_GYS_YW	PACKAGE BODY	2268	"    Prm_ErrCode := 0;
+"
+PKG_GYS_YW	PACKAGE BODY	2269	"    prm_ErrMsg  := '';
+"
+PKG_GYS_YW	PACKAGE BODY	2270	"    Select wpxh, n_czpb, lendksdm, sqksdm, sqsl, wpsx
+"
+PKG_GYS_YW	PACKAGE BODY	2271	"      Into n_wpxh, n_czpb, str_lendksdm, str_sqksdm, n_sqsl, n_wpsx
+"
+PKG_GYS_YW	PACKAGE BODY	2272	"      From gys_jbsq
+"
+PKG_GYS_YW	PACKAGE BODY	2273	"     Where jlxh = Prm_jlxh;
+"
+PKG_GYS_YW	PACKAGE BODY	2274	"    --借包申请
+"
+PKG_GYS_YW	PACKAGE BODY	2275	"    If n_czpb = 0 Then
+"
+PKG_GYS_YW	PACKAGE BODY	2276	"      Select Sum(kcsl)
+"
+PKG_GYS_YW	PACKAGE BODY	2277	"        Into n_kcsl
+"
+PKG_GYS_YW	PACKAGE BODY	2278	"        From gys_kczz
+"
+PKG_GYS_YW	PACKAGE BODY	2279	"       Where wpxh = n_wpxh And ksdm = str_lendksdm And wpsx = n_wpsx;
+"
+PKG_GYS_YW	PACKAGE BODY	2280	"      If n_kcsl < n_sqsl Then
+"
+PKG_GYS_YW	PACKAGE BODY	2281	"        Prm_ErrCode := -1;
+"
+PKG_GYS_YW	PACKAGE BODY	2282	"        Prm_ErrMsg  := '物品库存小于申请数量:第' || Prm_hh || '行';
+"
+PKG_GYS_YW	PACKAGE BODY	2283	"        Return;
+"
+PKG_GYS_YW	PACKAGE BODY	2284	"      End If;
+"
+PKG_GYS_YW	PACKAGE BODY	2285	"      --减少被借科室库存
+"
+PKG_GYS_YW	PACKAGE BODY	2286	"      Update gys_kczz
+"
+PKG_GYS_YW	PACKAGE BODY	2287	"         Set kcsl = kcsl - n_sqsl
+"
+PKG_GYS_YW	PACKAGE BODY	2288	"       Where wpxh = n_wpxh And ksdm = str_lendksdm And kfjb = 3 And
+"
+PKG_GYS_YW	PACKAGE BODY	2289	"             wpsx = n_wpsx;
+"
+PKG_GYS_YW	PACKAGE BODY	2290	"      --增加申请科室库存
+"
+PKG_GYS_YW	PACKAGE BODY	2291	"      Update gys_kczz
+"
+PKG_GYS_YW	PACKAGE BODY	2292	"         Set kcsl = kcsl + n_sqsl
+"
+PKG_GYS_YW	PACKAGE BODY	2293	"       Where wpxh = n_wpxh And ksdm = str_sqksdm And kfjb = 3 And
+"
+PKG_GYS_YW	PACKAGE BODY	2294	"             wpsx = n_wpsx;
+"
+PKG_GYS_YW	PACKAGE BODY	2295	"      Update gys_jbsq
+"
+PKG_GYS_YW	PACKAGE BODY	2296	"         Set czpb = 1, czgh = prm_czgh, czrq = sysdate
+"
+PKG_GYS_YW	PACKAGE BODY	2297	"       Where jlxh = Prm_jlxh;
+"
+PKG_GYS_YW	PACKAGE BODY	2298	"      --还包申请
+"
+PKG_GYS_YW	PACKAGE BODY	2299	"    ElsIf n_czpb = 2 Then
+"
+PKG_GYS_YW	PACKAGE BODY	2300	"      Select Sum(kcsl)
+"
+PKG_GYS_YW	PACKAGE BODY	2301	"        Into n_kcsl
+"
+PKG_GYS_YW	PACKAGE BODY	2302	"        From gys_kczz
+"
+PKG_GYS_YW	PACKAGE BODY	2303	"       Where wpxh = n_wpxh And ksdm = str_sqksdm And wpsx = n_wpsx;
+"
+PKG_GYS_YW	PACKAGE BODY	2304	"      If n_kcsl < n_sqsl Then
+"
+PKG_GYS_YW	PACKAGE BODY	2305	"        Prm_ErrCode := -1;
+"
+PKG_GYS_YW	PACKAGE BODY	2306	"        Prm_ErrMsg  := '对方科室物品库存小于申请数量:第' || Prm_hh || '行';
+"
+PKG_GYS_YW	PACKAGE BODY	2307	"        Return;
+"
+PKG_GYS_YW	PACKAGE BODY	2308	"      End If;
+"
+PKG_GYS_YW	PACKAGE BODY	2309	"    End If;
+"
+PKG_GYS_YW	PACKAGE BODY	2310	"    --增加被借科室库存
+"
+PKG_GYS_YW	PACKAGE BODY	2311	"    Update gys_kczz
+"
+PKG_GYS_YW	PACKAGE BODY	2312	"       Set kcsl = kcsl + n_sqsl
+"
+PKG_GYS_YW	PACKAGE BODY	2313	"     Where wpxh = n_wpxh And ksdm = str_lendksdm And kfjb = 3 And
+"
+PKG_GYS_YW	PACKAGE BODY	2314	"           wpsx = n_wpsx;
+"
+PKG_GYS_YW	PACKAGE BODY	2315	"    --减少申请科室库存
+"
+PKG_GYS_YW	PACKAGE BODY	2316	"    Update gys_kczz
+"
+PKG_GYS_YW	PACKAGE BODY	2317	"       Set kcsl = kcsl - n_sqsl
+"
+PKG_GYS_YW	PACKAGE BODY	2318	"     Where wpxh = n_wpxh And ksdm = str_sqksdm And kfjb = 3 And
+"
+PKG_GYS_YW	PACKAGE BODY	2319	"           wpsx = n_wpsx;
+"
+PKG_GYS_YW	PACKAGE BODY	2320	"    Update gys_jbsq
+"
+PKG_GYS_YW	PACKAGE BODY	2321	"       Set czpb = 1, czgh = prm_czgh, czrq = sysdate
+"
+PKG_GYS_YW	PACKAGE BODY	2322	"     Where jlxh = Prm_jlxh;
+"
+PKG_GYS_YW	PACKAGE BODY	2323	"  Exception
+"
+PKG_GYS_YW	PACKAGE BODY	2324	"    When Others Then
+"
+PKG_GYS_YW	PACKAGE BODY	2325	"      Prm_ErrCode := -1;
+"
+PKG_GYS_YW	PACKAGE BODY	2326	"      Prm_ErrMsg  := '过程prm_gys_jbyw出错:' || SqlErrM;
+"
+PKG_GYS_YW	PACKAGE BODY	2327	"  End Prc_gys_jbyw;
+"
+PKG_GYS_YW	PACKAGE BODY	2328	"
+"
+PKG_GYS_YW	PACKAGE BODY	2329	"end PKG_GYS_YW;
+"

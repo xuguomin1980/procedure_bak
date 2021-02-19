@@ -1,0 +1,34 @@
+F_WD_GETMC4	FUNCTION	1	"function f_wd_getmc4(arg_lb in varchar2,
+"
+F_WD_GETMC4	FUNCTION	2	"                                        arg_dm in varchar2) return varchar2 is
+"
+F_WD_GETMC4	FUNCTION	3	"  ls_mc varchar(100);
+"
+F_WD_GETMC4	FUNCTION	4	"begin
+"
+F_WD_GETMC4	FUNCTION	5	"  begin
+"
+F_WD_GETMC4	FUNCTION	6	"    select mc1
+"
+F_WD_GETMC4	FUNCTION	7	"      into ls_mc
+"
+F_WD_GETMC4	FUNCTION	8	"      from jk_wd_dmdz
+"
+F_WD_GETMC4	FUNCTION	9	"     where lb = arg_lb
+"
+F_WD_GETMC4	FUNCTION	10	"       and dm = arg_dm
+"
+F_WD_GETMC4	FUNCTION	11	"       and rownum = 1;
+"
+F_WD_GETMC4	FUNCTION	12	"  exception
+"
+F_WD_GETMC4	FUNCTION	13	"    when others then
+"
+F_WD_GETMC4	FUNCTION	14	"      ls_mc := 'ÆäËû';
+"
+F_WD_GETMC4	FUNCTION	15	"  End;
+"
+F_WD_GETMC4	FUNCTION	16	"  return ls_mc;
+"
+F_WD_GETMC4	FUNCTION	17	"end;
+"

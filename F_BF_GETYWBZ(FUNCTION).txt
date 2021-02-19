@@ -1,0 +1,140 @@
+F_BF_GETYWBZ	FUNCTION	1	"function f_bf_getywbz
+"
+F_BF_GETYWBZ	FUNCTION	2	"(arg_djxh in number,arg_ypxh in number,arg_ypcddm in number,arg_flag in varchar2)
+"
+F_BF_GETYWBZ	FUNCTION	3	"   return Varchar2
+"
+F_BF_GETYWBZ	FUNCTION	4	"   is
+"
+F_BF_GETYWBZ	FUNCTION	5	"     ll_Xh Number;
+"
+F_BF_GETYWBZ	FUNCTION	6	"     ls_Rtn Varchar2(100);
+"
+F_BF_GETYWBZ	FUNCTION	7	"     li_Return Number;
+"
+F_BF_GETYWBZ	FUNCTION	8	"     ll_ykxh Number;
+"
+F_BF_GETYWBZ	FUNCTION	9	"     ls_Lx Varchar2(10);
+"
+F_BF_GETYWBZ	FUNCTION	10	"     ls_Ypmc Varchar2(100);
+"
+F_BF_GETYWBZ	FUNCTION	11	"   begin
+"
+F_BF_GETYWBZ	FUNCTION	12	"    /*JCI相关*/
+"
+F_BF_GETYWBZ	FUNCTION	13	"     begin
+"
+F_BF_GETYWBZ	FUNCTION	14	"       if arg_flag = 'xywbz' then --新药物标志
+"
+F_BF_GETYWBZ	FUNCTION	15	"           select Count(1) Into li_return from by_qld where djxh = arg_djxh and ypxh=arg_ypxh And Fypb=1 ;
+"
+F_BF_GETYWBZ	FUNCTION	16	"           If li_return is null Or li_Return = 0 Then
+"
+F_BF_GETYWBZ	FUNCTION	17	"              ls_Rtn := '▲';
+"
+F_BF_GETYWBZ	FUNCTION	18	"           ElsIf li_return > 0 Then
+"
+F_BF_GETYWBZ	FUNCTION	19	"              ls_Rtn := '';
+"
+F_BF_GETYWBZ	FUNCTION	20	"           End If;
+"
+F_BF_GETYWBZ	FUNCTION	21	"       elsif arg_flag = 'sala' then  --SA/LA
+"
+F_BF_GETYWBZ	FUNCTION	22	"           Select Nvl(Fzfl,Ypxh) into ll_Xh From Gy_Ypcdjg Where ypxh =Arg_Ypxh And Ypcddm = Arg_Ypcddm And Rownum = 1;
+"
+F_BF_GETYWBZ	FUNCTION	23	"
+"
+F_BF_GETYWBZ	FUNCTION	24	"           --Select Decode(Lx,'SA','S','LA','L','') Into ls_Rtn From Yk_Ypsala Where YpXh = ll_Xh And Rownum = 1;
+"
+F_BF_GETYWBZ	FUNCTION	25	"           If ls_Rtn Is Null Then
+"
+F_BF_GETYWBZ	FUNCTION	26	"              ls_Rtn := '';
+"
+F_BF_GETYWBZ	FUNCTION	27	"           End If;
+"
+F_BF_GETYWBZ	FUNCTION	28	"       elsif arg_flag = 'sala1' Or arg_flag = 'sala2'  then --根据维护的自动显示相关药品 sala1:显示跟哪个药品相似
+"
+F_BF_GETYWBZ	FUNCTION	29	"           
+"
+F_BF_GETYWBZ	FUNCTION	30	"
+"
+F_BF_GETYWBZ	FUNCTION	31	"            If ls_Lx Is Null Then
+"
+F_BF_GETYWBZ	FUNCTION	32	"               ls_Rtn:='';
+"
+F_BF_GETYWBZ	FUNCTION	33	"            Else
+"
+F_BF_GETYWBZ	FUNCTION	34	"               /*1读音相似□2品名相似□3包装相似□4规格不同□5剂型不同□6厂家不同□7医生输错□*/
+"
+F_BF_GETYWBZ	FUNCTION	35	"               If ls_Lx = '1' Then
+"
+F_BF_GETYWBZ	FUNCTION	36	"                  ls_Lx := '[听似]';  --读音相似
+"
+F_BF_GETYWBZ	FUNCTION	37	"               ElsIf ls_Lx = '2' Then
+"
+F_BF_GETYWBZ	FUNCTION	38	"                  ls_Lx := '[品名相似]';
+"
+F_BF_GETYWBZ	FUNCTION	39	"               ElsIf ls_Lx = '3' Then
+"
+F_BF_GETYWBZ	FUNCTION	40	"                  ls_Lx := '[看似]'; --包装相似
+"
+F_BF_GETYWBZ	FUNCTION	41	"               ElsIf ls_Lx = '4' Then
+"
+F_BF_GETYWBZ	FUNCTION	42	"                  ls_Lx := '[规格相似]';
+"
+F_BF_GETYWBZ	FUNCTION	43	"               ElsIf ls_lx='5' Then
+"
+F_BF_GETYWBZ	FUNCTION	44	"                  ls_Lx := '[剂型相似]';
+"
+F_BF_GETYWBZ	FUNCTION	45	"               ElsIf ls_lx = '6' Then
+"
+F_BF_GETYWBZ	FUNCTION	46	"                  ls_Lx := '[厂家相似]';
+"
+F_BF_GETYWBZ	FUNCTION	47	"               Else
+"
+F_BF_GETYWBZ	FUNCTION	48	"                  ls_Rtn:='';
+"
+F_BF_GETYWBZ	FUNCTION	49	"               End If;
+"
+F_BF_GETYWBZ	FUNCTION	50	"               If arg_flag = 'sala1' Then
+"
+F_BF_GETYWBZ	FUNCTION	51	"                  ls_Rtn := ls_Lx || ':'||ls_Ypmc;
+"
+F_BF_GETYWBZ	FUNCTION	52	"               Else
+"
+F_BF_GETYWBZ	FUNCTION	53	"                  ls_Rtn := ls_Lx;
+"
+F_BF_GETYWBZ	FUNCTION	54	"               End If;
+"
+F_BF_GETYWBZ	FUNCTION	55	"            End If;
+"
+F_BF_GETYWBZ	FUNCTION	56	"       ElsIf arg_flag = 'zsyfjsm' Then --注射用附加说明
+"
+F_BF_GETYWBZ	FUNCTION	57	"          Select Count(1) Into li_Return From Gy_Ypmcggzd Where Ypxh = Arg_Ypxh And Zsyfjsm Is Not Null;
+"
+F_BF_GETYWBZ	FUNCTION	58	"          If li_Return > 0 Then
+"
+F_BF_GETYWBZ	FUNCTION	59	"             ls_Rtn := '控速';
+"
+F_BF_GETYWBZ	FUNCTION	60	"          Else
+"
+F_BF_GETYWBZ	FUNCTION	61	"             ls_Rtn := '';
+"
+F_BF_GETYWBZ	FUNCTION	62	"          End If;
+"
+F_BF_GETYWBZ	FUNCTION	63	"       End if;
+"
+F_BF_GETYWBZ	FUNCTION	64	"       Exception
+"
+F_BF_GETYWBZ	FUNCTION	65	"          when others  then
+"
+F_BF_GETYWBZ	FUNCTION	66	"               ls_Rtn:= '' ;
+"
+F_BF_GETYWBZ	FUNCTION	67	"       End ;
+"
+F_BF_GETYWBZ	FUNCTION	68	"
+"
+F_BF_GETYWBZ	FUNCTION	69	"     return(ls_Rtn);
+"
+F_BF_GETYWBZ	FUNCTION	70	"   end;
+"

@@ -1,0 +1,42 @@
+ZY_DETAIL_CHARGE_WHQYCY_CS	PROCEDURE	1	"PROCEDURE ""ZY_DETAIL_CHARGE_WHQYCY_CS"" (
+"
+ZY_DETAIL_CHARGE_WHQYCY_CS	PROCEDURE	2	"p_patient_no IN NUMBER
+"
+ZY_DETAIL_CHARGE_WHQYCY_CS	PROCEDURE	3	") is ----吻合器等材料不符合手术
+"
+ZY_DETAIL_CHARGE_WHQYCY_CS	PROCEDURE	4	"begin
+"
+ZY_DETAIL_CHARGE_WHQYCY_CS	PROCEDURE	5	"
+"
+ZY_DETAIL_CHARGE_WHQYCY_CS	PROCEDURE	6	"update  zy_detail_charge set spbh=-10 where charge_code in(
+"
+ZY_DETAIL_CHARGE_WHQYCY_CS	PROCEDURE	7	"
+"
+ZY_DETAIL_CHARGE_WHQYCY_CS	PROCEDURE	8	"select xiangmuxh from yb_duizhaoml where yibaolx=9997 and  tingyongrq is null and substr(yibaodm,1,11) in(
+"
+ZY_DETAIL_CHARGE_WHQYCY_CS	PROCEDURE	9	"select ybdm from
+"
+ZY_DETAIL_CHARGE_WHQYCY_CS	PROCEDURE	10	"(
+"
+ZY_DETAIL_CHARGE_WHQYCY_CS	PROCEDURE	11	"SELECT substr(b.yibaodm,1,11) ybdm FROM  ZY_DETAIL_CHARGE a,yb_duizhaoml b WHERE 
+"
+ZY_DETAIL_CHARGE_WHQYCY_CS	PROCEDURE	12	"substr(b.yibaodm,1,11) in(SELECT cldm FROM CLSSDZ)  and a.charge_code=b.xiangmuxh and b.yibaolx=9997 AND js_no=0    and PATIENT_NO=p_patient_no and b.tingyongrq is null
+"
+ZY_DETAIL_CHARGE_WHQYCY_CS	PROCEDURE	13	"minus
+"
+ZY_DETAIL_CHARGE_WHQYCY_CS	PROCEDURE	14	"select ybdm from (
+"
+ZY_DETAIL_CHARGE_WHQYCY_CS	PROCEDURE	15	"SELECT substr(b.cldm,1,11) ybdm , (a.sl) sl FROM  ZY_DETAIL_CHARGE a,CLSSDZ b,yb_duizhaoml c  WHERE c.yibaodm=b.ssdm and a.charge_code=c.xiangmuxh and c.yibaolx=9997   and c.tingyongrq is null AND PATIENT_NO=p_patient_no) where sl>0
+"
+ZY_DETAIL_CHARGE_WHQYCY_CS	PROCEDURE	16	")
+"
+ZY_DETAIL_CHARGE_WHQYCY_CS	PROCEDURE	17	") 
+"
+ZY_DETAIL_CHARGE_WHQYCY_CS	PROCEDURE	18	")
+"
+ZY_DETAIL_CHARGE_WHQYCY_CS	PROCEDURE	19	"and patient_no=p_patient_no and nvl(spbh,0)<>-10; 
+"
+ZY_DETAIL_CHARGE_WHQYCY_CS	PROCEDURE	20	"  COMMIT;
+"
+ZY_DETAIL_CHARGE_WHQYCY_CS	PROCEDURE	21	"end;
+"

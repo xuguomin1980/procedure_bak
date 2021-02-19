@@ -1,0 +1,25 @@
+F_ZJ_GYFSMC	FUNCTION	1	"FUNCTION         ""F_ZJ_GYFSMC"" 
+"
+F_ZJ_GYFSMC	FUNCTION	2	"  (arg_gyfs in number)
+"
+F_ZJ_GYFSMC	FUNCTION	3	"    return varchar2
+"
+F_ZJ_GYFSMC	FUNCTION	4	"  	is
+"
+F_ZJ_GYFSMC	FUNCTION	5	"  		ret varchar2(40);
+"
+F_ZJ_GYFSMC	FUNCTION	6	"     begin
+"
+F_ZJ_GYFSMC	FUNCTION	7	"/*得到给药方式名称-by jxeycn 20110527*/
+"
+F_ZJ_GYFSMC	FUNCTION	8	"
+"
+F_ZJ_GYFSMC	FUNCTION	9	"	select GYFSMC into ret from ZJ_GYFS where  GYFSBH = arg_gyfs ;
+"
+F_ZJ_GYFSMC	FUNCTION	10	"	return (ret) ;
+"
+F_ZJ_GYFSMC	FUNCTION	11	"end ;
+"
+F_ZJ_GYFSMC	FUNCTION	12	"
+"
+F_ZJ_GYFSMC	FUNCTION	13	 

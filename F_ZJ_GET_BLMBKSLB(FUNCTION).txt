@@ -1,0 +1,28 @@
+F_ZJ_GET_BLMBKSLB	FUNCTION	1	"Function f_Zj_Get_Blmbkslb(Arg_Ksdm In Varchar2)
+"
+F_ZJ_GET_BLMBKSLB	FUNCTION	2	"  Return Varchar2 Is
+"
+F_ZJ_GET_BLMBKSLB	FUNCTION	3	"  Ls_Binglikslb Varchar2(20); --门诊病历科室类别
+"
+F_ZJ_GET_BLMBKSLB	FUNCTION	4	"Begin
+"
+F_ZJ_GET_BLMBKSLB	FUNCTION	5	"  Select Baksdm Into Ls_Binglikslb From Gy_Ksdm Where Ksdm = Arg_Ksdm;
+"
+F_ZJ_GET_BLMBKSLB	FUNCTION	6	"  If Ls_Binglikslb Is Null Then
+"
+F_ZJ_GET_BLMBKSLB	FUNCTION	7	"    Return Arg_Ksdm;
+"
+F_ZJ_GET_BLMBKSLB	FUNCTION	8	"  Else
+"
+F_ZJ_GET_BLMBKSLB	FUNCTION	9	"    Return Ls_Binglikslb;
+"
+F_ZJ_GET_BLMBKSLB	FUNCTION	10	"  End If;
+"
+F_ZJ_GET_BLMBKSLB	FUNCTION	11	"Exception
+"
+F_ZJ_GET_BLMBKSLB	FUNCTION	12	"  When Others Then
+"
+F_ZJ_GET_BLMBKSLB	FUNCTION	13	"    Return '';
+"
+F_ZJ_GET_BLMBKSLB	FUNCTION	14	"End f_Zj_Get_Blmbkslb;
+"

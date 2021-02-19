@@ -1,0 +1,75 @@
+FUN_GET_ZDMC	FUNCTION	1	"FUNCTION         ""FUN_GET_ZDMC"" (arg_djxh in Number,arg_type in Number,arg_zxylb in Number) Return varchar2 Is
+"
+FUN_GET_ZDMC	FUNCTION	2	"  ls_result varchar2(1500);
+"
+FUN_GET_ZDMC	FUNCTION	3	"  ls_jbmc   varchar2(100);
+"
+FUN_GET_ZDMC	FUNCTION	4	"  li_zdlb   Number;
+"
+FUN_GET_ZDMC	FUNCTION	5	"  li_zxylb  Number;
+"
+FUN_GET_ZDMC	FUNCTION	6	"  --中西医类别传入参数9则不区分中西医，传入1为中医，为西医
+"
+FUN_GET_ZDMC	FUNCTION	7	"  --add by xiefl 2008-11-27
+"
+FUN_GET_ZDMC	FUNCTION	8	"Cursor cur_bl_bingrenzdqk Is
+"
+FUN_GET_ZDMC	FUNCTION	9	"    Select b.jbmc
+"
+FUN_GET_ZDMC	FUNCTION	10	"      From bl_bingrenzdqk b
+"
+FUN_GET_ZDMC	FUNCTION	11	"      Where b.brxh = arg_djxh
+"
+FUN_GET_ZDMC	FUNCTION	12	"      And zdlb = arg_type
+"
+FUN_GET_ZDMC	FUNCTION	13	"      And (nvl(b.zxylb,0) = arg_zxylb Or (arg_zxylb = 9))
+"
+FUN_GET_ZDMC	FUNCTION	14	"      order by zdlb;
+"
+FUN_GET_ZDMC	FUNCTION	15	"
+"
+FUN_GET_ZDMC	FUNCTION	16	"begin
+"
+FUN_GET_ZDMC	FUNCTION	17	"    ls_result := '';
+"
+FUN_GET_ZDMC	FUNCTION	18	"    Open cur_bl_bingrenzdqk;
+"
+FUN_GET_ZDMC	FUNCTION	19	"    Loop
+"
+FUN_GET_ZDMC	FUNCTION	20	"        begin
+"
+FUN_GET_ZDMC	FUNCTION	21	"            Fetch cur_bl_bingrenzdqk Into ls_jbmc;
+"
+FUN_GET_ZDMC	FUNCTION	22	"            Exit when cur_bl_bingrenzdqk%notfound;
+"
+FUN_GET_ZDMC	FUNCTION	23	"            ls_result := ls_result||','||ls_jbmc;
+"
+FUN_GET_ZDMC	FUNCTION	24	"        exception
+"
+FUN_GET_ZDMC	FUNCTION	25	"            when others Then
+"
+FUN_GET_ZDMC	FUNCTION	26	"            ls_result := ls_result;
+"
+FUN_GET_ZDMC	FUNCTION	27	"        End;
+"
+FUN_GET_ZDMC	FUNCTION	28	"    End Loop;
+"
+FUN_GET_ZDMC	FUNCTION	29	"    Close cur_bl_bingrenzdqk;
+"
+FUN_GET_ZDMC	FUNCTION	30	"    ls_result := substr(ls_result,2);
+"
+FUN_GET_ZDMC	FUNCTION	31	"    Return(ls_result);
+"
+FUN_GET_ZDMC	FUNCTION	32	"exception
+"
+FUN_GET_ZDMC	FUNCTION	33	"    when others Then
+"
+FUN_GET_ZDMC	FUNCTION	34	"       Return '';
+"
+FUN_GET_ZDMC	FUNCTION	35	"End fun_get_zdmc;
+"
+FUN_GET_ZDMC	FUNCTION	36	"
+"
+FUN_GET_ZDMC	FUNCTION	37	"
+"
+FUN_GET_ZDMC	FUNCTION	38	 

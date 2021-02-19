@@ -1,0 +1,251 @@
+GH_RB	PROCEDURE	1	"PROCEDURE         ""GH_RB"" (vczgh in varchar2,vghrq in varchar2)
+"
+GH_RB	PROCEDURE	2	"as
+"
+GH_RB	PROCEDURE	3	"begin
+"
+GH_RB	PROCEDURE	4	"declare
+"
+GH_RB	PROCEDURE	5	"  vxh number ; 
+"
+GH_RB	PROCEDURE	6	"  vczrc number ;
+"
+GH_RB	PROCEDURE	7	"  vfzrc number ;
+"
+GH_RB	PROCEDURE	8	"  vthrc number ;
+"
+GH_RB	PROCEDURE	9	"  vghje number ;
+"
+GH_RB	PROCEDURE	10	"  vthje number ;
+"
+GH_RB	PROCEDURE	11	"  vblkh number ;
+"
+GH_RB	PROCEDURE	12	"  vickf number ;
+"
+GH_RB	PROCEDURE	13	"  vyyf number;
+"
+GH_RB	PROCEDURE	14	"  mc    varchar2(10) ;
+"
+GH_RB	PROCEDURE	15	"  vkfje number; 
+"
+GH_RB	PROCEDURE	16	"  vkfje_th number;
+"
+GH_RB	PROCEDURE	17	"  vyhkje number;
+"
+GH_RB	PROCEDURE	18	"  vyhkje_th number;
+"
+GH_RB	PROCEDURE	19	"begin
+"
+GH_RB	PROCEDURE	20	"  delete from gh_cwrbmx where rbxh in
+"
+GH_RB	PROCEDURE	21	"     (select rbxh from gh_cwrb where rbrq is null and zbgh=vczgh ) ; 
+"
+GH_RB	PROCEDURE	22	"  delete from gh_cwrb where rbrq is null and zbgh=vczgh ;
+"
+GH_RB	PROCEDURE	23	"  commit ;
+"
+GH_RB	PROCEDURE	24	"  update gy_xhb set dqz=dqz+1 where bm='GH_CWRB' ;
+"
+GH_RB	PROCEDURE	25	"  select dqz into vxh from gy_xhb where bm='GH_CWRB' ;
+"
+GH_RB	PROCEDURE	26	"  commit ;
+"
+GH_RB	PROCEDURE	27	"  insert into gh_cwrbmx (rbxh,ksdm,ptrc,jzrc,zkrc,zxrc,myrc,sjrc,gjjrc,txrc,cjrc,ghf,zlf,yyf) 
+"
+GH_RB	PROCEDURE	28	"     select vxh,ksdm,
+"
+GH_RB	PROCEDURE	29	"            sum(decode(mzlbxh,1,1,0)) pt,sum(decode(mzlbxh,2,1,0)) jz,
+"
+GH_RB	PROCEDURE	30	"            sum(decode(mzlbxh,3,1,0)) zk,sum(decode(mzlbxh,4,1,0)) zx,
+"
+GH_RB	PROCEDURE	31	"            sum(decode(mzlbxh,5,1,0)) my,sum(decode(mzlbxh,6,1,0)) sj,
+"
+GH_RB	PROCEDURE	32	"            sum(decode(mzlbxh,7,1,0)) gjj,sum(decode(mzlbxh,8,1,0)) tx,
+"
+GH_RB	PROCEDURE	33	"            sum(decode(mzlbxh,9,1,0)) cj,sum(nvl(ghf,0)-nvl(yhkje,0)),sum(nvl(zlf,0)-nvl(ickje,0)-nvl(lnzhje,0)-nvl(jzje,0)-nvl(tcjjje,0)-nvl(zbbzje,0)),sum(nvl(yyf,0))
+"
+GH_RB	PROCEDURE	34	"     from gh_ghk
+"
+GH_RB	PROCEDURE	35	"     where ghrq between to_date(vghrq||'00:00:00','yyyy/mm/ddhh24:mi:ss') and to_date(vghrq||'23:59:59','yyyy/mm/ddhh24:mi:ss')
+"
+GH_RB	PROCEDURE	36	"           and rbrq is null and czgh=vczgh
+"
+GH_RB	PROCEDURE	37	"     group by ksdm ;
+"
+GH_RB	PROCEDURE	38	"  select sum(decode(nvl(jzcs,0),0,1,0)),sum(decode(nvl(jzcs,0),0,0,1)),
+"
+GH_RB	PROCEDURE	39	"         sum(nvl(zlf,0)+nvl(ghf,0)+nvl(yyf,0)-nvl(ickje,0)-nvl(lnzhje,0)-nvl(jzje,0)-nvl(tcjjje,0)-nvl(zbbzje,0)-
+"
+GH_RB	PROCEDURE	40	"nvl(yhkje,0)),sum(nvl(blkh,0)),0 ,
+"
+GH_RB	PROCEDURE	41	"sum(nvl(ickje,0)+nvl(lnzhje,0)+nvl(jzje,0)+nvl(tcjjje,0)+nvl(zbbzje,0)),sum(nvl(yhkje,0))
+"
+GH_RB	PROCEDURE	42	"     into vczrc,vfzrc,vghje,vblkh,vickf,vkfje,vyhkje from gh_ghk
+"
+GH_RB	PROCEDURE	43	"     where ghrq between to_date(vghrq||'00:00:00','yyyy/mm/ddhh24:mi:ss') and to_date(vghrq||'23:59:59','yyyy/mm/ddhh24:mi:ss')
+"
+GH_RB	PROCEDURE	44	"           and rbrq is null and czgh=vczgh and thbz=0 ;
+"
+GH_RB	PROCEDURE	45	"  select count(*),sum(abs(zlf)+abs(ghf)+abs(nvl(yyf,0))-abs(nvl(ickje,0))-abs(nvl(lnzhje,0))-abs(nvl(jzje,0))-abs(nvl(yhkje,0))-abs(nvl(tcjjje,0))-abs(nvl(zbbzje,0))),
+"
+GH_RB	PROCEDURE	46	"sum(abs(nvl(ickje,0))+abs(nvl(lnzhje,0))+abs(nvl(jzje,0))+abs(nvl(tcjjje,0))+abs(nvl(zbbzje,0))),sum(nvl(yhkje,0))
+"
+GH_RB	PROCEDURE	47	"    into vthrc,vthje,vkfje_th,vyhkje_th from gh_ghk
+"
+GH_RB	PROCEDURE	48	"     where ghrq between to_date(vghrq||'00:00:00','yyyy/mm/ddhh24:mi:ss') and to_date(vghrq||'23:59:59','yyyy/mm/ddhh24:mi:ss')
+"
+GH_RB	PROCEDURE	49	"           and rbrq is null and czgh=vczgh and thbz=1 ;
+"
+GH_RB	PROCEDURE	50	"  if vthrc=0 then
+"
+GH_RB	PROCEDURE	51	"     vkfje_th:=0;
+"
+GH_RB	PROCEDURE	52	"     vthje:=0 ;
+"
+GH_RB	PROCEDURE	53	"  end if ;
+"
+GH_RB	PROCEDURE	54	"  insert into gh_cwrb (rbxh,zbgh,czrc,fzrc,thrc,ghje,thje,jkje,jzkje,blkje,jzje,yhkje) 
+"
+GH_RB	PROCEDURE	55	"   values (vxh,vczgh,vczrc,vfzrc,vthrc,vghje,vthje,vghje-vthje+vickf+vblkh,vickf,vblkh,vkfje-vkfje_th,vyhkje-vyhkje_th) ;
+"
+GH_RB	PROCEDURE	56	"  commit ;
+"
+GH_RB	PROCEDURE	57	"delete from gh_rb_temp where gh=vczgh;
+"
+GH_RB	PROCEDURE	58	"commit;
+"
+GH_RB	PROCEDURE	59	"
+"
+GH_RB	PROCEDURE	60	"
+"
+GH_RB	PROCEDURE	61	"select count(mzlbmc) into mc from gh_mzlbk where mzlbxh=1;
+"
+GH_RB	PROCEDURE	62	"if mc>0 then 
+"
+GH_RB	PROCEDURE	63	"insert into gh_rb_temp (ksmc,ksdm,mzlbxh,mzlbmc,rc,gh)
+"
+GH_RB	PROCEDURE	64	"select a.ksmc,a.ksdm,b.mzlbxh,b.mzlbmc,c.ptrc,vczgh from gy_ksdm a,gh_mzlbk b,gh_cwrbmx c where a.ksdm=c.ksdm and c.rbxh=vxh and b.mzlbxh=1 ;
+"
+GH_RB	PROCEDURE	65	"end if ;
+"
+GH_RB	PROCEDURE	66	"
+"
+GH_RB	PROCEDURE	67	"select count(mzlbmc) into mc from gh_mzlbk where mzlbxh=2;
+"
+GH_RB	PROCEDURE	68	"if mc>0 then
+"
+GH_RB	PROCEDURE	69	"insert into gh_rb_temp (ksmc,ksdm,mzlbxh,mzlbmc,rc,gh)
+"
+GH_RB	PROCEDURE	70	"select a.ksmc,a.ksdm,b.mzlbxh,b.mzlbmc,c.jzrc,vczgh from gy_ksdm a,gh_mzlbk b,gh_cwrbmx c where a.ksdm=c.ksdm and c.rbxh=vxh and b.mzlbxh=2 ;
+"
+GH_RB	PROCEDURE	71	"end if ;
+"
+GH_RB	PROCEDURE	72	"
+"
+GH_RB	PROCEDURE	73	"select count(mzlbmc) into mc from gh_mzlbk where mzlbxh=3;
+"
+GH_RB	PROCEDURE	74	"if mc>0 then
+"
+GH_RB	PROCEDURE	75	"insert into gh_rb_temp (ksmc,ksdm,mzlbxh,mzlbmc,rc,gh)
+"
+GH_RB	PROCEDURE	76	"select a.ksmc,a.ksdm,b.mzlbxh,b.mzlbmc,c.zkrc,vczgh from gy_ksdm a,gh_mzlbk b,gh_cwrbmx c where a.ksdm=c.ksdm and c.rbxh=vxh and b.mzlbxh=3 ;
+"
+GH_RB	PROCEDURE	77	"end if;
+"
+GH_RB	PROCEDURE	78	"
+"
+GH_RB	PROCEDURE	79	"select count(mzlbmc) into mc from gh_mzlbk where mzlbxh=4;
+"
+GH_RB	PROCEDURE	80	"if mc>0 then
+"
+GH_RB	PROCEDURE	81	"insert into gh_rb_temp (ksmc,ksdm,mzlbxh,mzlbmc,rc,gh)
+"
+GH_RB	PROCEDURE	82	"select a.ksmc,a.ksdm,b.mzlbxh,b.mzlbmc,c.zxrc,vczgh from gy_ksdm a,gh_mzlbk b,gh_cwrbmx c where a.ksdm=c.ksdm and c.rbxh=vxh and b.mzlbxh=4 ;
+"
+GH_RB	PROCEDURE	83	"end if;
+"
+GH_RB	PROCEDURE	84	"
+"
+GH_RB	PROCEDURE	85	"select count(mzlbmc) into mc from gh_mzlbk where mzlbxh=5;
+"
+GH_RB	PROCEDURE	86	"if mc>0 then
+"
+GH_RB	PROCEDURE	87	"insert into gh_rb_temp (ksmc,ksdm,mzlbxh,mzlbmc,rc,gh)
+"
+GH_RB	PROCEDURE	88	"select a.ksmc,a.ksdm,b.mzlbxh,b.mzlbmc,c.myrc,vczgh from gy_ksdm a,gh_mzlbk b,gh_cwrbmx c where a.ksdm=c.ksdm and c.rbxh=vxh and b.mzlbxh=5 ;
+"
+GH_RB	PROCEDURE	89	"end if ;
+"
+GH_RB	PROCEDURE	90	"
+"
+GH_RB	PROCEDURE	91	"select count(mzlbmc) into mc from gh_mzlbk where mzlbxh=6;
+"
+GH_RB	PROCEDURE	92	"if mc>0 then
+"
+GH_RB	PROCEDURE	93	"insert into gh_rb_temp (ksmc,ksdm,mzlbxh,mzlbmc,rc,gh)
+"
+GH_RB	PROCEDURE	94	"select a.ksmc,a.ksdm,b.mzlbxh,b.mzlbmc,c.sjrc,vczgh from gy_ksdm a,gh_mzlbk b,gh_cwrbmx c where a.ksdm=c.ksdm and c.rbxh=vxh and b.mzlbxh=6 ;
+"
+GH_RB	PROCEDURE	95	"end if ;
+"
+GH_RB	PROCEDURE	96	"
+"
+GH_RB	PROCEDURE	97	"select count(mzlbmc) into mc from gh_mzlbk where mzlbxh=7;
+"
+GH_RB	PROCEDURE	98	"if mc>0 then
+"
+GH_RB	PROCEDURE	99	"insert into gh_rb_temp (ksmc,ksdm,mzlbxh,mzlbmc,rc,gh)
+"
+GH_RB	PROCEDURE	100	"select a.ksmc,a.ksdm,b.mzlbxh,b.mzlbmc,c.gjjrc,vczgh from gy_ksdm a,gh_mzlbk b,gh_cwrbmx c where a.ksdm=c.ksdm and c.rbxh=vxh and b.mzlbxh=7 ;
+"
+GH_RB	PROCEDURE	101	"end if ;
+"
+GH_RB	PROCEDURE	102	"
+"
+GH_RB	PROCEDURE	103	"select count(mzlbmc) into mc from gh_mzlbk where mzlbxh=8;
+"
+GH_RB	PROCEDURE	104	"if mc>0 then
+"
+GH_RB	PROCEDURE	105	"insert into gh_rb_temp (ksmc,ksdm,mzlbxh,mzlbmc,rc,gh)
+"
+GH_RB	PROCEDURE	106	"select a.ksmc,a.ksdm,b.mzlbxh,b.mzlbmc,c.txrc,vczgh from gy_ksdm a,gh_mzlbk b,gh_cwrbmx c where a.ksdm=c.ksdm and c.rbxh=vxh and b.mzlbxh=8 ;
+"
+GH_RB	PROCEDURE	107	"end if ;
+"
+GH_RB	PROCEDURE	108	"
+"
+GH_RB	PROCEDURE	109	"select count(mzlbmc) into mc from gh_mzlbk where mzlbxh=9;
+"
+GH_RB	PROCEDURE	110	"if mc>0 then
+"
+GH_RB	PROCEDURE	111	"insert into gh_rb_temp (ksmc,ksdm,mzlbxh,mzlbmc,rc,gh)
+"
+GH_RB	PROCEDURE	112	"select a.ksmc,a.ksdm,b.mzlbxh,b.mzlbmc,c.cjrc,vczgh from gy_ksdm a,gh_mzlbk b,gh_cwrbmx c where a.ksdm=c.ksdm and c.rbxh=vxh and b.mzlbxh=9 ;
+"
+GH_RB	PROCEDURE	113	"end if ;
+"
+GH_RB	PROCEDURE	114	"
+"
+GH_RB	PROCEDURE	115	"insert into gh_rb_temp (ksmc,ksdm,mzlbxh,mzlbmc,rc,gh)
+"
+GH_RB	PROCEDURE	116	"select a.ksmc,a.ksdm,10,'π“∫≈∑—',c.ghf,vczgh from gy_ksdm a,gh_cwrbmx c where a.ksdm=c.ksdm and c.rbxh=vxh ;
+"
+GH_RB	PROCEDURE	117	"insert into gh_rb_temp (ksmc,ksdm,mzlbxh,mzlbmc,rc,gh)
+"
+GH_RB	PROCEDURE	118	"select a.ksmc,a.ksdm,11,'’Ô¡∆∑—',c.zlf,vczgh from gy_ksdm a,gh_cwrbmx c where a.ksdm=c.ksdm and c.rbxh=vxh ;
+"
+GH_RB	PROCEDURE	119	"commit;
+"
+GH_RB	PROCEDURE	120	"end ;
+"
+GH_RB	PROCEDURE	121	"end ;
+"
+GH_RB	PROCEDURE	122	"
+"
+GH_RB	PROCEDURE	123	"
+"
+GH_RB	PROCEDURE	124	"
+"
+GH_RB	PROCEDURE	125	"
+"
+GH_RB	PROCEDURE	126	 

@@ -1,0 +1,81 @@
+F_JCFX_GET_ZYRS	FUNCTION	1	"FUNCTION         ""F_JCFX_GET_ZYRS"" ( is_ksdm   In   Varchar2,
+"
+F_JCFX_GET_ZYRS	FUNCTION	2	"                                            in_id     In   Number) 
+"
+F_JCFX_GET_ZYRS	FUNCTION	3	"Return Number 
+"
+F_JCFX_GET_ZYRS	FUNCTION	4	"
+"
+F_JCFX_GET_ZYRS	FUNCTION	5	"Is
+"
+F_JCFX_GET_ZYRS	FUNCTION	6	"
+"
+F_JCFX_GET_ZYRS	FUNCTION	7	"/*=============================================================================
+"
+F_JCFX_GET_ZYRS	FUNCTION	8	"|| 函数名称 ： 取在院人数f_jcfx_get_zyrs
+"
+F_JCFX_GET_ZYRS	FUNCTION	9	"||-----------------------------------------------------------------------------
+"
+F_JCFX_GET_ZYRS	FUNCTION	10	"|| 功能说明 ： 输入科室代码和日期ID，得到该科室的在院人数之和
+"
+F_JCFX_GET_ZYRS	FUNCTION	11	"||-----------------------------------------------------------------------------
+"
+F_JCFX_GET_ZYRS	FUNCTION	12	"|| 参数描述 ： 参数标识   输入/输出   类型     名称
+"
+F_JCFX_GET_ZYRS	FUNCTION	13	"||            -----------------------------------------------------------------
+"
+F_JCFX_GET_ZYRS	FUNCTION	14	"||             in_xmxh    In          Number   项目序号
+"
+F_JCFX_GET_ZYRS	FUNCTION	15	"||             in_id      In          Number   日期ID
+"
+F_JCFX_GET_ZYRS	FUNCTION	16	"||-----------------------------------------------------------------------------
+"
+F_JCFX_GET_ZYRS	FUNCTION	17	"|| 返回结果 ： Number   人数之和
+"
+F_JCFX_GET_ZYRS	FUNCTION	18	"||-----------------------------------------------------------------------------
+"
+F_JCFX_GET_ZYRS	FUNCTION	19	"|| 注意事项 ： 已在新的程序下弃用（被f_jcfx_get_zyrs1取代）
+"
+F_JCFX_GET_ZYRS	FUNCTION	20	"||-----------------------------------------------------------------------------
+"
+F_JCFX_GET_ZYRS	FUNCTION	21	"|| 作    者 ： 陈联      完成日期 ：2001-06
+"
+F_JCFX_GET_ZYRS	FUNCTION	22	"||-----------------------------------------------------------------------------
+"
+F_JCFX_GET_ZYRS	FUNCTION	23	"|| 修改记录 ： 陈智鸿 @ 2002-10-21
+"
+F_JCFX_GET_ZYRS	FUNCTION	24	"||             整理代码
+"
+F_JCFX_GET_ZYRS	FUNCTION	25	"=============================================================================*/
+"
+F_JCFX_GET_ZYRS	FUNCTION	26	"
+"
+F_JCFX_GET_ZYRS	FUNCTION	27	"ln_rs     Number;
+"
+F_JCFX_GET_ZYRS	FUNCTION	28	"
+"
+F_JCFX_GET_ZYRS	FUNCTION	29	"Begin
+"
+F_JCFX_GET_ZYRS	FUNCTION	30	"
+"
+F_JCFX_GET_ZYRS	FUNCTION	31	"  Select NVL(zyrs,0)
+"
+F_JCFX_GET_ZYRS	FUNCTION	32	"    Into ln_rs
+"
+F_JCFX_GET_ZYRS	FUNCTION	33	"    From jcfx_zy_zhxx
+"
+F_JCFX_GET_ZYRS	FUNCTION	34	"   Where ksdm    = is_ksdm
+"
+F_JCFX_GET_ZYRS	FUNCTION	35	"     And jcfx_id = in_id;
+"
+F_JCFX_GET_ZYRS	FUNCTION	36	"
+"
+F_JCFX_GET_ZYRS	FUNCTION	37	"Return ln_rs;
+"
+F_JCFX_GET_ZYRS	FUNCTION	38	"
+"
+F_JCFX_GET_ZYRS	FUNCTION	39	"End f_jcfx_get_zyrs;
+"
+F_JCFX_GET_ZYRS	FUNCTION	40	"
+"
+F_JCFX_GET_ZYRS	FUNCTION	41	 

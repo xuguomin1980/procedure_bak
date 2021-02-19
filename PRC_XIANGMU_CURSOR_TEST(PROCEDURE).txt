@@ -1,0 +1,354 @@
+PRC_XIANGMU_CURSOR_TEST	PROCEDURE	1	"procedure prc_xiangmu_cursor_test(in_jiaoyilx in varchar2, --交易类型
+"
+PRC_XIANGMU_CURSOR_TEST	PROCEDURE	2	"                                                    in_caozuogh in varchar2, --操作工号                                            
+"
+PRC_XIANGMU_CURSOR_TEST	PROCEDURE	3	"                                                    in_jylsh    in varchar2, --其它参数
+"
+PRC_XIANGMU_CURSOR_TEST	PROCEDURE	4	"                                                    out_code    out INTEGER, -- 返回结果 0为执行成功
+"
+PRC_XIANGMU_CURSOR_TEST	PROCEDURE	5	"                                                    out_msg     out varchar2) is
+"
+PRC_XIANGMU_CURSOR_TEST	PROCEDURE	6	"
+"
+PRC_XIANGMU_CURSOR_TEST	PROCEDURE	7	"  v_icd10      varchar2(30);
+"
+PRC_XIANGMU_CURSOR_TEST	PROCEDURE	8	"  v_icd10_from varchar2(30);
+"
+PRC_XIANGMU_CURSOR_TEST	PROCEDURE	9	"  v_data       varchar2(300);
+"
+PRC_XIANGMU_CURSOR_TEST	PROCEDURE	10	"  v_data_temp  varchar2(200);
+"
+PRC_XIANGMU_CURSOR_TEST	PROCEDURE	11	"  v_sfzh       varchar2(50);
+"
+PRC_XIANGMU_CURSOR_TEST	PROCEDURE	12	"  v_str1       varchar2(20);
+"
+PRC_XIANGMU_CURSOR_TEST	PROCEDURE	13	"  v_str2       varchar2(20);
+"
+PRC_XIANGMU_CURSOR_TEST	PROCEDURE	14	"  v_str3       varchar2(20);
+"
+PRC_XIANGMU_CURSOR_TEST	PROCEDURE	15	"  v_str4       varchar2(20);
+"
+PRC_XIANGMU_CURSOR_TEST	PROCEDURE	16	"  v_str5       varchar2(20);
+"
+PRC_XIANGMU_CURSOR_TEST	PROCEDURE	17	"  v_str6       varchar2(20);
+"
+PRC_XIANGMU_CURSOR_TEST	PROCEDURE	18	"  v_str7       varchar2(20);
+"
+PRC_XIANGMU_CURSOR_TEST	PROCEDURE	19	"  v_str8       varchar2(20);
+"
+PRC_XIANGMU_CURSOR_TEST	PROCEDURE	20	"  v_str9       varchar2(20);
+"
+PRC_XIANGMU_CURSOR_TEST	PROCEDURE	21	"  v_temp       varchar2(200);
+"
+PRC_XIANGMU_CURSOR_TEST	PROCEDURE	22	"  v_temp2      varchar2(200);
+"
+PRC_XIANGMU_CURSOR_TEST	PROCEDURE	23	"  v_flag1      varchar2(10);
+"
+PRC_XIANGMU_CURSOR_TEST	PROCEDURE	24	"  v_flag2      varchar2(10);
+"
+PRC_XIANGMU_CURSOR_TEST	PROCEDURE	25	"  v_ysgh       varchar2(20);
+"
+PRC_XIANGMU_CURSOR_TEST	PROCEDURE	26	"  v_lxdh       varchar2(20);
+"
+PRC_XIANGMU_CURSOR_TEST	PROCEDURE	27	"  v_lxdh2      varchar2(20);
+"
+PRC_XIANGMU_CURSOR_TEST	PROCEDURE	28	"  v_ksdm       varchar2(30);
+"
+PRC_XIANGMU_CURSOR_TEST	PROCEDURE	29	"  --临时的统计的数量
+"
+PRC_XIANGMU_CURSOR_TEST	PROCEDURE	30	"  v_count       number;
+"
+PRC_XIANGMU_CURSOR_TEST	PROCEDURE	31	"  v_count2      number;
+"
+PRC_XIANGMU_CURSOR_TEST	PROCEDURE	32	"  ll_count2     number;
+"
+PRC_XIANGMU_CURSOR_TEST	PROCEDURE	33	"  v_order_no    number;
+"
+PRC_XIANGMU_CURSOR_TEST	PROCEDURE	34	"  v_dqz         number;
+"
+PRC_XIANGMU_CURSOR_TEST	PROCEDURE	35	"  v_sfsb        number;
+"
+PRC_XIANGMU_CURSOR_TEST	PROCEDURE	36	"  v_ysfsb       number;
+"
+PRC_XIANGMU_CURSOR_TEST	PROCEDURE	37	"  ll_patient_no number;
+"
+PRC_XIANGMU_CURSOR_TEST	PROCEDURE	38	"
+"
+PRC_XIANGMU_CURSOR_TEST	PROCEDURE	39	"  v_jzxh number;
+"
+PRC_XIANGMU_CURSOR_TEST	PROCEDURE	40	"  --计费
+"
+PRC_XIANGMU_CURSOR_TEST	PROCEDURE	41	"
+"
+PRC_XIANGMU_CURSOR_TEST	PROCEDURE	42	"  --定义游标
+"
+PRC_XIANGMU_CURSOR_TEST	PROCEDURE	43	"  CURSOR cursor_test IS
+"
+PRC_XIANGMU_CURSOR_TEST	PROCEDURE	44	"  
+"
+PRC_XIANGMU_CURSOR_TEST	PROCEDURE	45	"    select patient_no
+"
+PRC_XIANGMU_CURSOR_TEST	PROCEDURE	46	"      from (select patient_No,
+"
+PRC_XIANGMU_CURSOR_TEST	PROCEDURE	47	"                   (select count(patient_No)
+"
+PRC_XIANGMU_CURSOR_TEST	PROCEDURE	48	"                      from zy_deposit_file
+"
+PRC_XIANGMU_CURSOR_TEST	PROCEDURE	49	"                     where op_id = 'AU002'
+"
+PRC_XIANGMU_CURSOR_TEST	PROCEDURE	50	"                       and patient_no = t.patient_no) sl
+"
+PRC_XIANGMU_CURSOR_TEST	PROCEDURE	51	"              from zy_patient_information t
+"
+PRC_XIANGMU_CURSOR_TEST	PROCEDURE	52	"             where js_No = 0
+"
+PRC_XIANGMU_CURSOR_TEST	PROCEDURE	53	"               and cwfp_date >= trunc(sysdate)
+"
+PRC_XIANGMU_CURSOR_TEST	PROCEDURE	54	"               and cwfp_date < sysdate)
+"
+PRC_XIANGMU_CURSOR_TEST	PROCEDURE	55	"     where sl = 0;
+"
+PRC_XIANGMU_CURSOR_TEST	PROCEDURE	56	"
+"
+PRC_XIANGMU_CURSOR_TEST	PROCEDURE	57	"begin
+"
+PRC_XIANGMU_CURSOR_TEST	PROCEDURE	58	"
+"
+PRC_XIANGMU_CURSOR_TEST	PROCEDURE	59	"  out_code := 1;
+"
+PRC_XIANGMU_CURSOR_TEST	PROCEDURE	60	"  out_msg  := '';
+"
+PRC_XIANGMU_CURSOR_TEST	PROCEDURE	61	"
+"
+PRC_XIANGMU_CURSOR_TEST	PROCEDURE	62	"  if 1 = 1 then
+"
+PRC_XIANGMU_CURSOR_TEST	PROCEDURE	63	"  
+"
+PRC_XIANGMU_CURSOR_TEST	PROCEDURE	64	"    v_count := 0;
+"
+PRC_XIANGMU_CURSOR_TEST	PROCEDURE	65	"    --循环开始
+"
+PRC_XIANGMU_CURSOR_TEST	PROCEDURE	66	"    LOOP
+"
+PRC_XIANGMU_CURSOR_TEST	PROCEDURE	67	"    
+"
+PRC_XIANGMU_CURSOR_TEST	PROCEDURE	68	"      IF NOT cursor_test%ISOPEN THEN
+"
+PRC_XIANGMU_CURSOR_TEST	PROCEDURE	69	"        --打开游标
+"
+PRC_XIANGMU_CURSOR_TEST	PROCEDURE	70	"        OPEN cursor_test;
+"
+PRC_XIANGMU_CURSOR_TEST	PROCEDURE	71	"      END IF;
+"
+PRC_XIANGMU_CURSOR_TEST	PROCEDURE	72	"    
+"
+PRC_XIANGMU_CURSOR_TEST	PROCEDURE	73	"      FETCH cursor_test
+"
+PRC_XIANGMU_CURSOR_TEST	PROCEDURE	74	"        INTO v_sfsb;
+"
+PRC_XIANGMU_CURSOR_TEST	PROCEDURE	75	"      --退出循环的条件
+"
+PRC_XIANGMU_CURSOR_TEST	PROCEDURE	76	"      EXIT WHEN cursor_test%NOTFOUND OR cursor_test%NOTFOUND IS NULL;
+"
+PRC_XIANGMU_CURSOR_TEST	PROCEDURE	77	"    
+"
+PRC_XIANGMU_CURSOR_TEST	PROCEDURE	78	"      --预交款 留义温暖基金
+"
+PRC_XIANGMU_CURSOR_TEST	PROCEDURE	79	"    
+"
+PRC_XIANGMU_CURSOR_TEST	PROCEDURE	80	"      ll_patient_no := v_sfsb;
+"
+PRC_XIANGMU_CURSOR_TEST	PROCEDURE	81	"      IF 1 = 1 THEN
+"
+PRC_XIANGMU_CURSOR_TEST	PROCEDURE	82	"        select to_char(trunC(sysdate), 'yyyy-mm-dd')
+"
+PRC_XIANGMU_CURSOR_TEST	PROCEDURE	83	"          into v_temp2
+"
+PRC_XIANGMU_CURSOR_TEST	PROCEDURE	84	"          from dual;
+"
+PRC_XIANGMU_CURSOR_TEST	PROCEDURE	85	"      
+"
+PRC_XIANGMU_CURSOR_TEST	PROCEDURE	86	"        -- 日期范围 
+"
+PRC_XIANGMU_CURSOR_TEST	PROCEDURE	87	"        if v_temp2 >= '2021-02-10' and v_temp2 <= '2021-02-21' then
+"
+PRC_XIANGMU_CURSOR_TEST	PROCEDURE	88	"        
+"
+PRC_XIANGMU_CURSOR_TEST	PROCEDURE	89	"          select count(*)
+"
+PRC_XIANGMU_CURSOR_TEST	PROCEDURE	90	"            into ll_count2
+"
+PRC_XIANGMU_CURSOR_TEST	PROCEDURE	91	"            from zy_patient_information t
+"
+PRC_XIANGMU_CURSOR_TEST	PROCEDURE	92	"           where nvl(t.cwfp_date, sysdate) >= trunc(sysdate)
+"
+PRC_XIANGMU_CURSOR_TEST	PROCEDURE	93	"             and patient_no = ll_patient_no;
+"
+PRC_XIANGMU_CURSOR_TEST	PROCEDURE	94	"          --24小时没有预出院
+"
+PRC_XIANGMU_CURSOR_TEST	PROCEDURE	95	"          SELECT count(*)
+"
+PRC_XIANGMU_CURSOR_TEST	PROCEDURE	96	"            into v_count
+"
+PRC_XIANGMU_CURSOR_TEST	PROCEDURE	97	"            FROM ZY_PATIENT_INFORMATION
+"
+PRC_XIANGMU_CURSOR_TEST	PROCEDURE	98	"           WHERE bah in (select bah
+"
+PRC_XIANGMU_CURSOR_TEST	PROCEDURE	99	"                           from zy_patient_information
+"
+PRC_XIANGMU_CURSOR_TEST	PROCEDURE	100	"                          where patient_no = ll_patient_no)
+"
+PRC_XIANGMU_CURSOR_TEST	PROCEDURE	101	"             and (sysdate - preout_date) <= 1
+"
+PRC_XIANGMU_CURSOR_TEST	PROCEDURE	102	"             and preout_date is not null;
+"
+PRC_XIANGMU_CURSOR_TEST	PROCEDURE	103	"        
+"
+PRC_XIANGMU_CURSOR_TEST	PROCEDURE	104	"          if v_count = 0 and ll_count2 = 1 then
+"
+PRC_XIANGMU_CURSOR_TEST	PROCEDURE	105	"            --判断重复记录
+"
+PRC_XIANGMU_CURSOR_TEST	PROCEDURE	106	"            SELECT count(*)
+"
+PRC_XIANGMU_CURSOR_TEST	PROCEDURE	107	"              into v_count
+"
+PRC_XIANGMU_CURSOR_TEST	PROCEDURE	108	"              FROM zy_deposit_file t
+"
+PRC_XIANGMU_CURSOR_TEST	PROCEDURE	109	"             WHERE t.depo_type = 2
+"
+PRC_XIANGMU_CURSOR_TEST	PROCEDURE	110	"               and op_id = 'AU002'
+"
+PRC_XIANGMU_CURSOR_TEST	PROCEDURE	111	"               and patient_no = ll_patient_no;
+"
+PRC_XIANGMU_CURSOR_TEST	PROCEDURE	112	"            if v_count = 0 then
+"
+PRC_XIANGMU_CURSOR_TEST	PROCEDURE	113	"            
+"
+PRC_XIANGMU_CURSOR_TEST	PROCEDURE	114	"              update gy_xhb
+"
+PRC_XIANGMU_CURSOR_TEST	PROCEDURE	115	"                 set dqz = dqz + zz
+"
+PRC_XIANGMU_CURSOR_TEST	PROCEDURE	116	"               where bm = 'ZY_DEPOSIT_FILE';
+"
+PRC_XIANGMU_CURSOR_TEST	PROCEDURE	117	"              select dqz
+"
+PRC_XIANGMU_CURSOR_TEST	PROCEDURE	118	"                into v_jzxh
+"
+PRC_XIANGMU_CURSOR_TEST	PROCEDURE	119	"                from gy_xhb
+"
+PRC_XIANGMU_CURSOR_TEST	PROCEDURE	120	"               where bm = 'ZY_DEPOSIT_FILE';
+"
+PRC_XIANGMU_CURSOR_TEST	PROCEDURE	121	"              if sqlcode = 0 then
+"
+PRC_XIANGMU_CURSOR_TEST	PROCEDURE	122	"                commit;
+"
+PRC_XIANGMU_CURSOR_TEST	PROCEDURE	123	"              else
+"
+PRC_XIANGMU_CURSOR_TEST	PROCEDURE	124	"                rollback;
+"
+PRC_XIANGMU_CURSOR_TEST	PROCEDURE	125	"                out_code := -1;
+"
+PRC_XIANGMU_CURSOR_TEST	PROCEDURE	126	"                out_msg  := '留义温暖基金保存出错[prc_xiangmu_yzxt]';
+"
+PRC_XIANGMU_CURSOR_TEST	PROCEDURE	127	"                return;
+"
+PRC_XIANGMU_CURSOR_TEST	PROCEDURE	128	"              end if;
+"
+PRC_XIANGMU_CURSOR_TEST	PROCEDURE	129	"            
+"
+PRC_XIANGMU_CURSOR_TEST	PROCEDURE	130	"              insert into zy_deposit_file
+"
+PRC_XIANGMU_CURSOR_TEST	PROCEDURE	131	"                (jlxh,
+"
+PRC_XIANGMU_CURSOR_TEST	PROCEDURE	132	"                 patient_No,
+"
+PRC_XIANGMU_CURSOR_TEST	PROCEDURE	133	"                 js_no,
+"
+PRC_XIANGMU_CURSOR_TEST	PROCEDURE	134	"                 name,
+"
+PRC_XIANGMU_CURSOR_TEST	PROCEDURE	135	"                 depo_date,
+"
+PRC_XIANGMU_CURSOR_TEST	PROCEDURE	136	"                 op_id,
+"
+PRC_XIANGMU_CURSOR_TEST	PROCEDURE	137	"                 amount,
+"
+PRC_XIANGMU_CURSOR_TEST	PROCEDURE	138	"                 depo_type,
+"
+PRC_XIANGMU_CURSOR_TEST	PROCEDURE	139	"                 status)
+"
+PRC_XIANGMU_CURSOR_TEST	PROCEDURE	140	"                select v_jzxh,
+"
+PRC_XIANGMU_CURSOR_TEST	PROCEDURE	141	"                       patient_no,
+"
+PRC_XIANGMU_CURSOR_TEST	PROCEDURE	142	"                       0,
+"
+PRC_XIANGMU_CURSOR_TEST	PROCEDURE	143	"                       name,
+"
+PRC_XIANGMU_CURSOR_TEST	PROCEDURE	144	"                       sysdate,
+"
+PRC_XIANGMU_CURSOR_TEST	PROCEDURE	145	"                       'AU002',
+"
+PRC_XIANGMU_CURSOR_TEST	PROCEDURE	146	"                       1000,
+"
+PRC_XIANGMU_CURSOR_TEST	PROCEDURE	147	"                       2,
+"
+PRC_XIANGMU_CURSOR_TEST	PROCEDURE	148	"                       1
+"
+PRC_XIANGMU_CURSOR_TEST	PROCEDURE	149	"                  from zy_patient_information
+"
+PRC_XIANGMU_CURSOR_TEST	PROCEDURE	150	"                 where patient_no = ll_patient_no;
+"
+PRC_XIANGMU_CURSOR_TEST	PROCEDURE	151	"              if sqlcode = 0 then
+"
+PRC_XIANGMU_CURSOR_TEST	PROCEDURE	152	"                commit;
+"
+PRC_XIANGMU_CURSOR_TEST	PROCEDURE	153	"              else
+"
+PRC_XIANGMU_CURSOR_TEST	PROCEDURE	154	"                rollback;
+"
+PRC_XIANGMU_CURSOR_TEST	PROCEDURE	155	"              
+"
+PRC_XIANGMU_CURSOR_TEST	PROCEDURE	156	"                out_code := -1;
+"
+PRC_XIANGMU_CURSOR_TEST	PROCEDURE	157	"                out_msg  := '留义温暖基金保存出错[prc_xiangmu_yzxt]';
+"
+PRC_XIANGMU_CURSOR_TEST	PROCEDURE	158	"                return;
+"
+PRC_XIANGMU_CURSOR_TEST	PROCEDURE	159	"              end if;
+"
+PRC_XIANGMU_CURSOR_TEST	PROCEDURE	160	"            
+"
+PRC_XIANGMU_CURSOR_TEST	PROCEDURE	161	"            end if;
+"
+PRC_XIANGMU_CURSOR_TEST	PROCEDURE	162	"          
+"
+PRC_XIANGMU_CURSOR_TEST	PROCEDURE	163	"          end if;
+"
+PRC_XIANGMU_CURSOR_TEST	PROCEDURE	164	"        
+"
+PRC_XIANGMU_CURSOR_TEST	PROCEDURE	165	"        end if;
+"
+PRC_XIANGMU_CURSOR_TEST	PROCEDURE	166	"      
+"
+PRC_XIANGMU_CURSOR_TEST	PROCEDURE	167	"      end if;
+"
+PRC_XIANGMU_CURSOR_TEST	PROCEDURE	168	"    
+"
+PRC_XIANGMU_CURSOR_TEST	PROCEDURE	169	"    END LOOP;
+"
+PRC_XIANGMU_CURSOR_TEST	PROCEDURE	170	"  
+"
+PRC_XIANGMU_CURSOR_TEST	PROCEDURE	171	"  end if;
+"
+PRC_XIANGMU_CURSOR_TEST	PROCEDURE	172	"  close cursor_test;
+"
+PRC_XIANGMU_CURSOR_TEST	PROCEDURE	173	"  out_code := 1;
+"
+PRC_XIANGMU_CURSOR_TEST	PROCEDURE	174	"  out_msg  := '';
+"
+PRC_XIANGMU_CURSOR_TEST	PROCEDURE	175	"  return;
+"
+PRC_XIANGMU_CURSOR_TEST	PROCEDURE	176	"
+"
+PRC_XIANGMU_CURSOR_TEST	PROCEDURE	177	"end;
+"

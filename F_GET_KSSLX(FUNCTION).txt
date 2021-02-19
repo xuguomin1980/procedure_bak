@@ -1,0 +1,53 @@
+F_GET_KSSLX	FUNCTION	1	"FUNCTION         ""F_GET_KSSLX"" ( as_crz  in number)
+"
+F_GET_KSSLX	FUNCTION	2	"return varchar
+"
+F_GET_KSSLX	FUNCTION	3	"is
+"
+F_GET_KSSLX	FUNCTION	4	"ls_return varchar2(20);
+"
+F_GET_KSSLX	FUNCTION	5	"ll_falg   number;
+"
+F_GET_KSSLX	FUNCTION	6	"s_yiyuanmc varchar(100);
+"
+F_GET_KSSLX	FUNCTION	7	"  begin
+"
+F_GET_KSSLX	FUNCTION	8	"  ls_return := '';
+"
+F_GET_KSSLX	FUNCTION	9	"  select yydm into s_yiyuanmc  from gy_hospital_v;
+"
+F_GET_KSSLX	FUNCTION	10	"  if s_yiyuanmc = '富阳人民医院' then
+"
+F_GET_KSSLX	FUNCTION	11	"      ll_falg:= as_crz ;
+"
+F_GET_KSSLX	FUNCTION	12	"      if ll_falg is null then
+"
+F_GET_KSSLX	FUNCTION	13	"          ll_falg := 0;
+"
+F_GET_KSSLX	FUNCTION	14	"      end if;
+"
+F_GET_KSSLX	FUNCTION	15	"      if ll_falg > 0 then
+"
+F_GET_KSSLX	FUNCTION	16	"        if ll_falg = 2 then --治疗
+"
+F_GET_KSSLX	FUNCTION	17	"           ls_return := '治疗用药';
+"
+F_GET_KSSLX	FUNCTION	18	"        else
+"
+F_GET_KSSLX	FUNCTION	19	"           ls_return := '预防用药';
+"
+F_GET_KSSLX	FUNCTION	20	"        end if;
+"
+F_GET_KSSLX	FUNCTION	21	"      end if;
+"
+F_GET_KSSLX	FUNCTION	22	"  end if;
+"
+F_GET_KSSLX	FUNCTION	23	"      return ls_return;
+"
+F_GET_KSSLX	FUNCTION	24	"  end;
+"
+F_GET_KSSLX	FUNCTION	25	"
+"
+F_GET_KSSLX	FUNCTION	26	"
+"
+F_GET_KSSLX	FUNCTION	27	 

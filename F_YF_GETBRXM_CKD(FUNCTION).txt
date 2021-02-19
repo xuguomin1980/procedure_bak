@@ -1,0 +1,17 @@
+F_YF_GETBRXM_CKD	FUNCTION	1	"FUNCTION         ""F_YF_GETBRXM_CKD"" (arg_ksdm in varchar2,arg_crkdm in varchar2,arg_ckdh in varchar2)  
+"
+F_YF_GETBRXM_CKD	FUNCTION	2	"return varchar2  is 
+"
+F_YF_GETBRXM_CKD	FUNCTION	3	"  ls_return varchar2(30); 
+"
+F_YF_GETBRXM_CKD	FUNCTION	4	"begin  
+"
+F_YF_GETBRXM_CKD	FUNCTION	5	"    select brxm into ls_return from my_ckd  
+"
+F_YF_GETBRXM_CKD	FUNCTION	6	"    where ksdm=arg_ksdm and crkdm=arg_crkdm and ckdh=arg_ckdh and rownum=1;  
+"
+F_YF_GETBRXM_CKD	FUNCTION	7	"return(ls_return);  
+"
+F_YF_GETBRXM_CKD	FUNCTION	8	"end; 
+"
+F_YF_GETBRXM_CKD	FUNCTION	9	 

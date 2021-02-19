@@ -1,0 +1,141 @@
+PRC_BY_TJ_KSXYBB	PROCEDURE	1	"PROCEDURE         ""PRC_BY_TJ_KSXYBB"" (arg_date1 in varchar2, arg_date2 in varchar2,arg_xtxh in number) is
+"
+PRC_BY_TJ_KSXYBB	PROCEDURE	2	"begin
+"
+PRC_BY_TJ_KSXYBB	PROCEDURE	3	"  DECLARE
+"
+PRC_BY_TJ_KSXYBB	PROCEDURE	4	"   P_YF1  NUMBER;
+"
+PRC_BY_TJ_KSXYBB	PROCEDURE	5	"   P_YF2  NUMBER;
+"
+PRC_BY_TJ_KSXYBB	PROCEDURE	6	"   P_YF4  NUMBER;
+"
+PRC_BY_TJ_KSXYBB	PROCEDURE	7	"   P_YF   NUMBER;
+"
+PRC_BY_TJ_KSXYBB	PROCEDURE	8	"   P_JE   NUMBER;
+"
+PRC_BY_TJ_KSXYBB	PROCEDURE	9	"   p_date1 date;
+"
+PRC_BY_TJ_KSXYBB	PROCEDURE	10	"   p_date2 date;
+"
+PRC_BY_TJ_KSXYBB	PROCEDURE	11	"   p_cjrq  date;
+"
+PRC_BY_TJ_KSXYBB	PROCEDURE	12	"   p_lyks  varchar2(10);
+"
+PRC_BY_TJ_KSXYBB	PROCEDURE	13	"   P_yplx  number(1);
+"
+PRC_BY_TJ_KSXYBB	PROCEDURE	14	"   p_tjsj  varchar2(10);
+"
+PRC_BY_TJ_KSXYBB	PROCEDURE	15	"  BEGIN 
+"
+PRC_BY_TJ_KSXYBB	PROCEDURE	16	"   p_cjrq:=sysdate ;
+"
+PRC_BY_TJ_KSXYBB	PROCEDURE	17	"   p_date1:=to_date(arg_date1||' '||'00:00:00','yyyy/mm/dd hh24:mi:ss');
+"
+PRC_BY_TJ_KSXYBB	PROCEDURE	18	"   p_date2:=to_date(arg_date2||' '||'23:59:59','yyyy/mm/dd hh24:mi:ss');
+"
+PRC_BY_TJ_KSXYBB	PROCEDURE	19	"   delete  from by_ksxybb  where xtxh=arg_xtxh;
+"
+PRC_BY_TJ_KSXYBB	PROCEDURE	20	"   commit;
+"
+PRC_BY_TJ_KSXYBB	PROCEDURE	21	"   insert into  by_ksxybb (xtxh,lyks,tjsj,je)
+"
+PRC_BY_TJ_KSXYBB	PROCEDURE	22	"       select xtxh,lyks,to_char(jzrq,'yyyy-mm-dd'),sum(cksl*lsj)
+"
+PRC_BY_TJ_KSXYBB	PROCEDURE	23	"       from  by_ckd  where jzrq between p_date1 and  p_date2  and xtxh=arg_xtxh
+"
+PRC_BY_TJ_KSXYBB	PROCEDURE	24	"                     and  djxh>0  
+"
+PRC_BY_TJ_KSXYBB	PROCEDURE	25	"        group  by  xtxh,lyks,to_char(jzrq,'yyyy-mm-dd') ;  
+"
+PRC_BY_TJ_KSXYBB	PROCEDURE	26	"      ----取统计时间,科室 
+"
+PRC_BY_TJ_KSXYBB	PROCEDURE	27	"      declare
+"
+PRC_BY_TJ_KSXYBB	PROCEDURE	28	"      CURSOR CUR_LYKS_TJSJ IS
+"
+PRC_BY_TJ_KSXYBB	PROCEDURE	29	"      SELECT  LYKS,TJSJ FROM BY_KSXYBB where xtxh=arg_xtxh ;
+"
+PRC_BY_TJ_KSXYBB	PROCEDURE	30	"        BEGIN   
+"
+PRC_BY_TJ_KSXYBB	PROCEDURE	31	"        OPEN CUR_LYKS_TJSJ;
+"
+PRC_BY_TJ_KSXYBB	PROCEDURE	32	"        LOOP 
+"
+PRC_BY_TJ_KSXYBB	PROCEDURE	33	"           FETCH CUR_LYKS_TJSJ INTO P_LYKS,P_TJSJ;
+"
+PRC_BY_TJ_KSXYBB	PROCEDURE	34	"              EXIT WHEN CUR_LYKS_TJSJ%NOTFOUND;
+"
+PRC_BY_TJ_KSXYBB	PROCEDURE	35	"                ---取不同种药品类型金额
+"
+PRC_BY_TJ_KSXYBB	PROCEDURE	36	"                declare
+"
+PRC_BY_TJ_KSXYBB	PROCEDURE	37	"                 cursor cur_yplx_je is
+"
+PRC_BY_TJ_KSXYBB	PROCEDURE	38	"                  select  sum(cksl*lsj),yplx 
+"
+PRC_BY_TJ_KSXYBB	PROCEDURE	39	"                    from by_ckd 
+"
+PRC_BY_TJ_KSXYBB	PROCEDURE	40	"                    where jzrq between p_date1 and  p_date2  and lyks=p_lyks and
+"
+PRC_BY_TJ_KSXYBB	PROCEDURE	41	"                       to_char(jzrq,'yyyy-mm-dd')=p_tjsj  and xtxh=arg_xtxh
+"
+PRC_BY_TJ_KSXYBB	PROCEDURE	42	"                        and  djxh>0  and yplx in (1,2,4) 
+"
+PRC_BY_TJ_KSXYBB	PROCEDURE	43	"                       group  by  yplx   ;
+"
+PRC_BY_TJ_KSXYBB	PROCEDURE	44	"                    begin
+"
+PRC_BY_TJ_KSXYBB	PROCEDURE	45	"                        open cur_yplx_je;
+"
+PRC_BY_TJ_KSXYBB	PROCEDURE	46	"                         loop 
+"
+PRC_BY_TJ_KSXYBB	PROCEDURE	47	"                        fetch cur_yplx_je into p_yf,p_yplx;
+"
+PRC_BY_TJ_KSXYBB	PROCEDURE	48	"                           EXIT WHEN cur_yplx_je%NOTFOUND;
+"
+PRC_BY_TJ_KSXYBB	PROCEDURE	49	"                           If p_yplx=1 then ---西药费
+"
+PRC_BY_TJ_KSXYBB	PROCEDURE	50	"                             update  by_ksxybb  set yf1=p_yf,cjrq=p_cjrq
+"
+PRC_BY_TJ_KSXYBB	PROCEDURE	51	"                              where tjsj=p_tjsj and lyks=p_lyks and xtxh=arg_xtxh;
+"
+PRC_BY_TJ_KSXYBB	PROCEDURE	52	"                           Elsif p_yplx=2 then ---成药费
+"
+PRC_BY_TJ_KSXYBB	PROCEDURE	53	"                               update  by_ksxybb  set yf2=p_yf,cjrq=p_cjrq
+"
+PRC_BY_TJ_KSXYBB	PROCEDURE	54	"                              where tjsj=p_tjsj and lyks=p_lyks and xtxh=arg_xtxh;
+"
+PRC_BY_TJ_KSXYBB	PROCEDURE	55	"                           elsif p_yplx=4 then --草药费
+"
+PRC_BY_TJ_KSXYBB	PROCEDURE	56	"                                update  by_ksxybb  set yf4=p_yf,cjrq=p_cjrq
+"
+PRC_BY_TJ_KSXYBB	PROCEDURE	57	"                              where tjsj=p_tjsj and lyks=p_lyks and xtxh=arg_xtxh;  
+"
+PRC_BY_TJ_KSXYBB	PROCEDURE	58	"                            end if ;  
+"
+PRC_BY_TJ_KSXYBB	PROCEDURE	59	"                        end loop;
+"
+PRC_BY_TJ_KSXYBB	PROCEDURE	60	"                      close cur_yplx_je;   
+"
+PRC_BY_TJ_KSXYBB	PROCEDURE	61	"                     end ;                                 
+"
+PRC_BY_TJ_KSXYBB	PROCEDURE	62	"                                                       
+"
+PRC_BY_TJ_KSXYBB	PROCEDURE	63	"    END LOOP;
+"
+PRC_BY_TJ_KSXYBB	PROCEDURE	64	"    CLOSE CUR_LYKS_TJSJ;
+"
+PRC_BY_TJ_KSXYBB	PROCEDURE	65	"    END;
+"
+PRC_BY_TJ_KSXYBB	PROCEDURE	66	"    commit;
+"
+PRC_BY_TJ_KSXYBB	PROCEDURE	67	"   end ;        
+"
+PRC_BY_TJ_KSXYBB	PROCEDURE	68	"                   
+"
+PRC_BY_TJ_KSXYBB	PROCEDURE	69	"end prc_by_tj_ksxybb;
+"
+PRC_BY_TJ_KSXYBB	PROCEDURE	70	"
+"
+PRC_BY_TJ_KSXYBB	PROCEDURE	71	 

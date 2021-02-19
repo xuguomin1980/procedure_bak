@@ -1,0 +1,72 @@
+FUN_GET_CFYSZT	FUNCTION	1	"Function FUN_GET_CFYSZT
+"
+FUN_GET_CFYSZT	FUNCTION	2	"/*========================================================*\
+"
+FUN_GET_CFYSZT	FUNCTION	3	"  ||  名称：FUN_GET_CFYSZT.fnc
+"
+FUN_GET_CFYSZT	FUNCTION	4	"  ||----------------------------------------------------------
+"
+FUN_GET_CFYSZT	FUNCTION	5	"  ||  参数：Arg_CFSB In NUMBER,  处方识别
+"
+FUN_GET_CFYSZT	FUNCTION	6	"  ||----------------------------------------------------------
+"
+FUN_GET_CFYSZT	FUNCTION	7	"  ||  返回：医生嘱托 Varchar2
+"
+FUN_GET_CFYSZT	FUNCTION	8	"  ||----------------------------------------------------------
+"
+FUN_GET_CFYSZT	FUNCTION	9	"  ||  功能：根据处方识别取出处方中的医生嘱托(龙游中医院用)
+"
+FUN_GET_CFYSZT	FUNCTION	10	"  ||----------------------------------------------------------
+"
+FUN_GET_CFYSZT	FUNCTION	11	"  ||  作者：陆世民
+"
+FUN_GET_CFYSZT	FUNCTION	12	"  ||----------------------------------------------------------
+"
+FUN_GET_CFYSZT	FUNCTION	13	"  ||  时间：2015-11-06
+"
+FUN_GET_CFYSZT	FUNCTION	14	"  \*========================================================*/
+"
+FUN_GET_CFYSZT	FUNCTION	15	"(Arg_CFSB In NUMBER) Return Varchar2 Is
+"
+FUN_GET_CFYSZT	FUNCTION	16	"  Ls_YSZT Varchar2(1000);
+"
+FUN_GET_CFYSZT	FUNCTION	17	"Begin
+"
+FUN_GET_CFYSZT	FUNCTION	18	"  Begin
+"
+FUN_GET_CFYSZT	FUNCTION	19	"    SELECT YSZT
+"
+FUN_GET_CFYSZT	FUNCTION	20	"      INTO Ls_YSZT
+"
+FUN_GET_CFYSZT	FUNCTION	21	"      FROM MZ_CFK2
+"
+FUN_GET_CFYSZT	FUNCTION	22	"     WHERE CFSB = Arg_CFSB
+"
+FUN_GET_CFYSZT	FUNCTION	23	"       AND YSZT IS NOT NULL
+"
+FUN_GET_CFYSZT	FUNCTION	24	"       AND ROWNUM = 1;
+"
+FUN_GET_CFYSZT	FUNCTION	25	"        Return Ls_YSZT;
+"
+FUN_GET_CFYSZT	FUNCTION	26	"  Exception
+"
+FUN_GET_CFYSZT	FUNCTION	27	"    When Others Then
+"
+FUN_GET_CFYSZT	FUNCTION	28	"      Return '';
+"
+FUN_GET_CFYSZT	FUNCTION	29	"  End;
+"
+FUN_GET_CFYSZT	FUNCTION	30	"/*  SELECT YSZT
+"
+FUN_GET_CFYSZT	FUNCTION	31	"    INTO Ls_YSZT
+"
+FUN_GET_CFYSZT	FUNCTION	32	"    FROM ZJ_YSZT
+"
+FUN_GET_CFYSZT	FUNCTION	33	"   WHERE ZTXH = TO_NUMBER(Ls_YSZT)
+"
+FUN_GET_CFYSZT	FUNCTION	34	"     AND NVL(MJPB, 0) = 1;
+"
+FUN_GET_CFYSZT	FUNCTION	35	"  Return Ls_YSZT;*/
+"
+FUN_GET_CFYSZT	FUNCTION	36	"End;
+"

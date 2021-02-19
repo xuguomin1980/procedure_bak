@@ -1,0 +1,93 @@
+F_SS_GETSSXX	FUNCTION	1	"FUNCTION         ""F_SS_GETSSXX"" 
+"
+F_SS_GETSSXX	FUNCTION	2	"(arg_ssdm in number,arg_flag in varchar2) 
+"
+F_SS_GETSSXX	FUNCTION	3	"  return varchar2
+"
+F_SS_GETSSXX	FUNCTION	4	"  is
+"
+F_SS_GETSSXX	FUNCTION	5	"    ls_return varchar2(60);
+"
+F_SS_GETSSXX	FUNCTION	6	"   begin
+"
+F_SS_GETSSXX	FUNCTION	7	"     If arg_flag='ssdj' Then 
+"
+F_SS_GETSSXX	FUNCTION	8	"       Select substring(a.protect,1,1) 
+"
+F_SS_GETSSXX	FUNCTION	9	"         Into  ls_return 
+"
+F_SS_GETSSXX	FUNCTION	10	"         From  ss_mczd b, ss_dmlb a  
+"
+F_SS_GETSSXX	FUNCTION	11	"         Where b.ssjb =a.dmxh
+"
+F_SS_GETSSXX	FUNCTION	12	"           And a.dmlb=8
+"
+F_SS_GETSSXX	FUNCTION	13	"           And b.ssdm=arg_ssdm;
+"
+F_SS_GETSSXX	FUNCTION	14	"    ElsIf arg_flag='sszy' Then
+"
+F_SS_GETSSXX	FUNCTION	15	"      Select  sszy
+"
+F_SS_GETSSXX	FUNCTION	16	"        Into  ls_return
+"
+F_SS_GETSSXX	FUNCTION	17	"        From  ss_mczd
+"
+F_SS_GETSSXX	FUNCTION	18	"        Where ssdm=arg_ssdm;
+"
+F_SS_GETSSXX	FUNCTION	19	"    ElsIf  arg_flag='ssjbmc' Then
+"
+F_SS_GETSSXX	FUNCTION	20	"        Select a.dmmc
+"
+F_SS_GETSSXX	FUNCTION	21	"        Into  ls_return
+"
+F_SS_GETSSXX	FUNCTION	22	"        From  ss_mczd b, ss_dmlb a  
+"
+F_SS_GETSSXX	FUNCTION	23	"         Where b.ssjb =a.dmxh
+"
+F_SS_GETSSXX	FUNCTION	24	"           And a.dmlb=8
+"
+F_SS_GETSSXX	FUNCTION	25	"           And b.ssdm=arg_ssdm;
+"
+F_SS_GETSSXX	FUNCTION	26	"   ElsIf arg_flag='ssjb' Then
+"
+F_SS_GETSSXX	FUNCTION	27	"        Select to_char(a.dmxh)
+"
+F_SS_GETSSXX	FUNCTION	28	"        Into  ls_return
+"
+F_SS_GETSSXX	FUNCTION	29	"        From  ss_mczd b, ss_dmlb a  
+"
+F_SS_GETSSXX	FUNCTION	30	"         Where b.ssjb =a.dmxh
+"
+F_SS_GETSSXX	FUNCTION	31	"           And a.dmlb=8
+"
+F_SS_GETSSXX	FUNCTION	32	"           And b.ssdm=arg_ssdm;
+"
+F_SS_GETSSXX	FUNCTION	33	"    ElsIf arg_flag='cklx' Then
+"
+F_SS_GETSSXX	FUNCTION	34	"      Begin
+"
+F_SS_GETSSXX	FUNCTION	35	"          Select xsmc 
+"
+F_SS_GETSSXX	FUNCTION	36	"            Into  ls_return  
+"
+F_SS_GETSSXX	FUNCTION	37	"            From  ss_cklx 
+"
+F_SS_GETSSXX	FUNCTION	38	"           Where jlxh=arg_ssdm;  
+"
+F_SS_GETSSXX	FUNCTION	39	"     EXCEPTION
+"
+F_SS_GETSSXX	FUNCTION	40	"      WHEN no_data_found THEN
+"
+F_SS_GETSSXX	FUNCTION	41	"        ls_return := '其它类型';                
+"
+F_SS_GETSSXX	FUNCTION	42	"       End;
+"
+F_SS_GETSSXX	FUNCTION	43	"     End If;
+"
+F_SS_GETSSXX	FUNCTION	44	"      Return ls_return ;
+"
+F_SS_GETSSXX	FUNCTION	45	"  End ;
+"
+F_SS_GETSSXX	FUNCTION	46	"
+"
+F_SS_GETSSXX	FUNCTION	47	 

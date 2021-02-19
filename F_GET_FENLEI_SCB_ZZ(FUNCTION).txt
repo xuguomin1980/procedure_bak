@@ -1,0 +1,202 @@
+F_GET_FENLEI_SCB_ZZ	FUNCTION	1	"function f_get_fenlei_scb_zz(in_jylsh in varchar2)
+"
+F_GET_FENLEI_SCB_ZZ	FUNCTION	2	"  return varchar2 is
+"
+F_GET_FENLEI_SCB_ZZ	FUNCTION	3	"  --新冠防控分类()
+"
+F_GET_FENLEI_SCB_ZZ	FUNCTION	4	"  out_msg  varchar2(200);
+"
+F_GET_FENLEI_SCB_ZZ	FUNCTION	5	"  v_czgh   varchar2(20);
+"
+F_GET_FENLEI_SCB_ZZ	FUNCTION	6	"  v_data   varchar2(20);
+"
+F_GET_FENLEI_SCB_ZZ	FUNCTION	7	"  out_code number(5);
+"
+F_GET_FENLEI_SCB_ZZ	FUNCTION	8	"  v_str1   varchar2(20);
+"
+F_GET_FENLEI_SCB_ZZ	FUNCTION	9	"  v_str2   varchar2(20);
+"
+F_GET_FENLEI_SCB_ZZ	FUNCTION	10	"  v_str3   varchar2(20);
+"
+F_GET_FENLEI_SCB_ZZ	FUNCTION	11	"  v_str4   varchar2(20);
+"
+F_GET_FENLEI_SCB_ZZ	FUNCTION	12	"  v_str5   varchar2(20);
+"
+F_GET_FENLEI_SCB_ZZ	FUNCTION	13	"  v_str6   varchar2(20);
+"
+F_GET_FENLEI_SCB_ZZ	FUNCTION	14	"  v_jylsh  varchar2(2000);
+"
+F_GET_FENLEI_SCB_ZZ	FUNCTION	15	"
+"
+F_GET_FENLEI_SCB_ZZ	FUNCTION	16	"begin
+"
+F_GET_FENLEI_SCB_ZZ	FUNCTION	17	"  select replace(in_jylsh, '&', '|') into v_jylsh from dual;
+"
+F_GET_FENLEI_SCB_ZZ	FUNCTION	18	"  out_msg := '';
+"
+F_GET_FENLEI_SCB_ZZ	FUNCTION	19	"  v_czgh  := F_GET_VALUE_SPLI(v_jylsh, 'czgh=', '|');
+"
+F_GET_FENLEI_SCB_ZZ	FUNCTION	20	"
+"
+F_GET_FENLEI_SCB_ZZ	FUNCTION	21	"  --  xm=姓名|sfzh=身份证号|jzkh=病案号|sheng=省|shi=市|qu=区|jiedao=街道|shequ=社区|lxdh=联系电话1|lxdh2=联系电话2|
+"
+F_GET_FENLEI_SCB_ZZ	FUNCTION	22	"  --lk=离开过金华|hbwz=来自湖北省或浙江省温州市|qg=去过有新型冠状病毒感染确诊患者的社区|qzjc=是否与确诊患者密切接触
+"
+F_GET_FENLEI_SCB_ZZ	FUNCTION	23	"  --|mjjc=是否与接触过确诊患者的人接触|qzeb=是否为确诊治愈留观满28天内患者|jjx=聚集性发病
+"
+F_GET_FENLEI_SCB_ZZ	FUNCTION	24	"
+"
+F_GET_FENLEI_SCB_ZZ	FUNCTION	25	"  --|fr=是否出现发热|twfr=当前体温是否有发热|tsy=是否服用过退热药或感冒药
+"
+F_GET_FENLEI_SCB_ZZ	FUNCTION	26	"  --症状 |ks=是否咳嗽|hlt=是否咽痛|lt=是否流涕|fl=是否乏力|jrst=是否肌肉酸痛|fx=是否腹泻|
+"
+F_GET_FENLEI_SCB_ZZ	FUNCTION	27	"  --|qiduan=是否气短|jiemocx=是否结膜充血|
+"
+F_GET_FENLEI_SCB_ZZ	FUNCTION	28	"
+"
+F_GET_FENLEI_SCB_ZZ	FUNCTION	29	"  --|hy=如为女性，是否怀孕备孕|
+"
+F_GET_FENLEI_SCB_ZZ	FUNCTION	30	"
+"
+F_GET_FENLEI_SCB_ZZ	FUNCTION	31	"  --|jiankanma=健康码|jiankanma2=健康码说明
+"
+F_GET_FENLEI_SCB_ZZ	FUNCTION	32	"
+"
+F_GET_FENLEI_SCB_ZZ	FUNCTION	33	"  --有流行病学史 v_str1
+"
+F_GET_FENLEI_SCB_ZZ	FUNCTION	34	"
+"
+F_GET_FENLEI_SCB_ZZ	FUNCTION	35	"  ---sflz add 2-18
+"
+F_GET_FENLEI_SCB_ZZ	FUNCTION	36	"
+"
+F_GET_FENLEI_SCB_ZZ	FUNCTION	37	"  --lk 离开 ,bs 鼻塞,ex 恶心,ot 呕吐  去掉不用的选择项目
+"
+F_GET_FENLEI_SCB_ZZ	FUNCTION	38	"
+"
+F_GET_FENLEI_SCB_ZZ	FUNCTION	39	"  --发热 v_str2
+"
+F_GET_FENLEI_SCB_ZZ	FUNCTION	40	"
+"
+F_GET_FENLEI_SCB_ZZ	FUNCTION	41	"  --有可疑症状 v_str3
+"
+F_GET_FENLEI_SCB_ZZ	FUNCTION	42	"  if 1 = 1 then
+"
+F_GET_FENLEI_SCB_ZZ	FUNCTION	43	"    v_str3 := '0';
+"
+F_GET_FENLEI_SCB_ZZ	FUNCTION	44	"    --症状 ks=0|hlt=0|lt=0|bs=0|fl=0|jrst=0|fx=0|ex=1|ot=0
+"
+F_GET_FENLEI_SCB_ZZ	FUNCTION	45	"    if F_GET_VALUE_SPLI(v_jylsh, 'ks=', '|') = '1' then
+"
+F_GET_FENLEI_SCB_ZZ	FUNCTION	46	"      v_str3 := '1';
+"
+F_GET_FENLEI_SCB_ZZ	FUNCTION	47	"    end if;
+"
+F_GET_FENLEI_SCB_ZZ	FUNCTION	48	"    if F_GET_VALUE_SPLI(v_jylsh, 'hlt=', '|') = '1' then
+"
+F_GET_FENLEI_SCB_ZZ	FUNCTION	49	"      v_str3 := '1';
+"
+F_GET_FENLEI_SCB_ZZ	FUNCTION	50	"    end if;
+"
+F_GET_FENLEI_SCB_ZZ	FUNCTION	51	"    if F_GET_VALUE_SPLI(v_jylsh, 'lt=', '|') = '1' then
+"
+F_GET_FENLEI_SCB_ZZ	FUNCTION	52	"      v_str3 := '1';
+"
+F_GET_FENLEI_SCB_ZZ	FUNCTION	53	"    end if;
+"
+F_GET_FENLEI_SCB_ZZ	FUNCTION	54	"    /*    if F_GET_VALUE_SPLI(v_jylsh, 'bs=', '|') = '1' then
+"
+F_GET_FENLEI_SCB_ZZ	FUNCTION	55	"      v_str3 := '1';
+"
+F_GET_FENLEI_SCB_ZZ	FUNCTION	56	"    end if;*/
+"
+F_GET_FENLEI_SCB_ZZ	FUNCTION	57	"    if F_GET_VALUE_SPLI(v_jylsh, 'fl=', '|') = '1' then
+"
+F_GET_FENLEI_SCB_ZZ	FUNCTION	58	"      v_str3 := '1';
+"
+F_GET_FENLEI_SCB_ZZ	FUNCTION	59	"    end if;
+"
+F_GET_FENLEI_SCB_ZZ	FUNCTION	60	"    if F_GET_VALUE_SPLI(v_jylsh, 'jrst=', '|') = '1' then
+"
+F_GET_FENLEI_SCB_ZZ	FUNCTION	61	"      v_str3 := '1';
+"
+F_GET_FENLEI_SCB_ZZ	FUNCTION	62	"    end if;
+"
+F_GET_FENLEI_SCB_ZZ	FUNCTION	63	"    if F_GET_VALUE_SPLI(v_jylsh, 'fx=', '|') = '1' then
+"
+F_GET_FENLEI_SCB_ZZ	FUNCTION	64	"      v_str3 := '1';
+"
+F_GET_FENLEI_SCB_ZZ	FUNCTION	65	"    end if;
+"
+F_GET_FENLEI_SCB_ZZ	FUNCTION	66	"    /*  if F_GET_VALUE_SPLI(v_jylsh, 'ex=', '|') = '1' then
+"
+F_GET_FENLEI_SCB_ZZ	FUNCTION	67	"      v_str3 := '1';
+"
+F_GET_FENLEI_SCB_ZZ	FUNCTION	68	"    end if;
+"
+F_GET_FENLEI_SCB_ZZ	FUNCTION	69	"    if F_GET_VALUE_SPLI(v_jylsh, 'ot=', '|') = '1' then
+"
+F_GET_FENLEI_SCB_ZZ	FUNCTION	70	"      v_str3 := '1';
+"
+F_GET_FENLEI_SCB_ZZ	FUNCTION	71	"    end if;*/
+"
+F_GET_FENLEI_SCB_ZZ	FUNCTION	72	"  
+"
+F_GET_FENLEI_SCB_ZZ	FUNCTION	73	"    if F_GET_VALUE_SPLI(v_jylsh, 'qiduan=', '|') = '1' then
+"
+F_GET_FENLEI_SCB_ZZ	FUNCTION	74	"      v_str3 := '1';
+"
+F_GET_FENLEI_SCB_ZZ	FUNCTION	75	"    end if;
+"
+F_GET_FENLEI_SCB_ZZ	FUNCTION	76	"    if F_GET_VALUE_SPLI(v_jylsh, 'jiemocx=', '|') = '1' then
+"
+F_GET_FENLEI_SCB_ZZ	FUNCTION	77	"      v_str3 := '1';
+"
+F_GET_FENLEI_SCB_ZZ	FUNCTION	78	"    end if;
+"
+F_GET_FENLEI_SCB_ZZ	FUNCTION	79	"  
+"
+F_GET_FENLEI_SCB_ZZ	FUNCTION	80	"  end if;
+"
+F_GET_FENLEI_SCB_ZZ	FUNCTION	81	"
+"
+F_GET_FENLEI_SCB_ZZ	FUNCTION	82	"  if F_GET_VALUE_SPLI(v_jylsh, 'hy=', '|') = '1' then
+"
+F_GET_FENLEI_SCB_ZZ	FUNCTION	83	"    v_str3 := '0';
+"
+F_GET_FENLEI_SCB_ZZ	FUNCTION	84	"  end if;
+"
+F_GET_FENLEI_SCB_ZZ	FUNCTION	85	"
+"
+F_GET_FENLEI_SCB_ZZ	FUNCTION	86	"  --红色  '255,0,0';  绿色  0,255,0   紫色 128,0,128 黄色   255,255,0 蓝色 0,0,255 橙色  255,165,0  返回
+"
+F_GET_FENLEI_SCB_ZZ	FUNCTION	87	"
+"
+F_GET_FENLEI_SCB_ZZ	FUNCTION	88	"  --绿色 0,255,0 无流行病学史，无发热，无可疑症状
+"
+F_GET_FENLEI_SCB_ZZ	FUNCTION	89	"  out_msg := '无症状';
+"
+F_GET_FENLEI_SCB_ZZ	FUNCTION	90	"  if 1 = 1 then
+"
+F_GET_FENLEI_SCB_ZZ	FUNCTION	91	"    if v_str3 = '1' then
+"
+F_GET_FENLEI_SCB_ZZ	FUNCTION	92	"      out_code := 0;
+"
+F_GET_FENLEI_SCB_ZZ	FUNCTION	93	"      out_msg  := '有症状';
+"
+F_GET_FENLEI_SCB_ZZ	FUNCTION	94	"      return out_msg;
+"
+F_GET_FENLEI_SCB_ZZ	FUNCTION	95	"    end if;
+"
+F_GET_FENLEI_SCB_ZZ	FUNCTION	96	"  
+"
+F_GET_FENLEI_SCB_ZZ	FUNCTION	97	"  end if;
+"
+F_GET_FENLEI_SCB_ZZ	FUNCTION	98	"
+"
+F_GET_FENLEI_SCB_ZZ	FUNCTION	99	"  return out_msg;
+"
+F_GET_FENLEI_SCB_ZZ	FUNCTION	100	"
+"
+F_GET_FENLEI_SCB_ZZ	FUNCTION	101	"end;
+"

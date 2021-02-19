@@ -1,0 +1,458 @@
+F_ZY_GET_ZYJSD_XNH	FUNCTION	1	"Function f_Zy_Get_Zyjsd_Xnh(Arg_Patientno In Number,
+"
+F_ZY_GET_ZYJSD_XNH	FUNCTION	2	"                                              Arg_Jsno      In Number,
+"
+F_ZY_GET_ZYJSD_XNH	FUNCTION	3	"                                              Arg_Jsdxx     In Varchar2)
+"
+F_ZY_GET_ZYJSD_XNH	FUNCTION	4	"  Return Varchar2 Is
+"
+F_ZY_GET_ZYJSD_XNH	FUNCTION	5	"  Ls_Pbsyntax    Varchar2(4000);
+"
+F_ZY_GET_ZYJSD_XNH	FUNCTION	6	"  Ls_Inputdata1  Varchar2(4000);
+"
+F_ZY_GET_ZYJSD_XNH	FUNCTION	7	"  Ls_Inputdata2  Varchar2(4000);
+"
+F_ZY_GET_ZYJSD_XNH	FUNCTION	8	"  Ls_Zhuyuandjxx Varchar2(4000);
+"
+F_ZY_GET_ZYJSD_XNH	FUNCTION	9	"  Ls_Temp        Varchar2(200);
+"
+F_ZY_GET_ZYJSD_XNH	FUNCTION	10	"  Ln_Xiangmuje   Number(12, 2) := 0;
+"
+F_ZY_GET_ZYJSD_XNH	FUNCTION	11	"  Ln_Xiangmulb   Number(10);
+"
+F_ZY_GET_ZYJSD_XNH	FUNCTION	12	"  Ln_Count       Number(2) := 0;
+"
+F_ZY_GET_ZYJSD_XNH	FUNCTION	13	"  Type v_Xiangmumc Is Varray(16) Of Varchar2(20);
+"
+F_ZY_GET_ZYJSD_XNH	FUNCTION	14	"  Lv_Xiangmumc v_Xiangmumc := v_Xiangmumc('床位费',
+"
+F_ZY_GET_ZYJSD_XNH	FUNCTION	15	"                                          '诊查费',
+"
+F_ZY_GET_ZYJSD_XNH	FUNCTION	16	"                                          '检查费',
+"
+F_ZY_GET_ZYJSD_XNH	FUNCTION	17	"                                          '化验费',
+"
+F_ZY_GET_ZYJSD_XNH	FUNCTION	18	"                                          '治疗费',
+"
+F_ZY_GET_ZYJSD_XNH	FUNCTION	19	"                                          '手术费',
+"
+F_ZY_GET_ZYJSD_XNH	FUNCTION	20	"                                          '护理费',
+"
+F_ZY_GET_ZYJSD_XNH	FUNCTION	21	"                                          '卫生材料费',
+"
+F_ZY_GET_ZYJSD_XNH	FUNCTION	22	"                                          '西药费',
+"
+F_ZY_GET_ZYJSD_XNH	FUNCTION	23	"                                          '中成药费',
+"
+F_ZY_GET_ZYJSD_XNH	FUNCTION	24	"                                          '中草药费',
+"
+F_ZY_GET_ZYJSD_XNH	FUNCTION	25	"                                          '药事服务费',
+"
+F_ZY_GET_ZYJSD_XNH	FUNCTION	26	"                                          '一般诊疗费',
+"
+F_ZY_GET_ZYJSD_XNH	FUNCTION	27	"                                          '输血费',
+"
+F_ZY_GET_ZYJSD_XNH	FUNCTION	28	"                                          '植入材料费',
+"
+F_ZY_GET_ZYJSD_XNH	FUNCTION	29	"                                          '其他住院费');
+"
+F_ZY_GET_ZYJSD_XNH	FUNCTION	30	"  Type v_Xiangmuje Is Varray(16) Of Number(10, 2);
+"
+F_ZY_GET_ZYJSD_XNH	FUNCTION	31	"  Lv_Xiangmuje v_Xiangmuje := v_Xiangmuje(0.00,
+"
+F_ZY_GET_ZYJSD_XNH	FUNCTION	32	"                                          0.00,
+"
+F_ZY_GET_ZYJSD_XNH	FUNCTION	33	"                                          0.00,
+"
+F_ZY_GET_ZYJSD_XNH	FUNCTION	34	"                                          0.00,
+"
+F_ZY_GET_ZYJSD_XNH	FUNCTION	35	"                                          0.00,
+"
+F_ZY_GET_ZYJSD_XNH	FUNCTION	36	"                                          0.00,
+"
+F_ZY_GET_ZYJSD_XNH	FUNCTION	37	"                                          0.00,
+"
+F_ZY_GET_ZYJSD_XNH	FUNCTION	38	"                                          0.00,
+"
+F_ZY_GET_ZYJSD_XNH	FUNCTION	39	"                                          0.00,
+"
+F_ZY_GET_ZYJSD_XNH	FUNCTION	40	"                                          0.00,
+"
+F_ZY_GET_ZYJSD_XNH	FUNCTION	41	"                                          0.00,
+"
+F_ZY_GET_ZYJSD_XNH	FUNCTION	42	"                                          0.00,
+"
+F_ZY_GET_ZYJSD_XNH	FUNCTION	43	"                                          0.00,
+"
+F_ZY_GET_ZYJSD_XNH	FUNCTION	44	"                                          0.00,
+"
+F_ZY_GET_ZYJSD_XNH	FUNCTION	45	"                                          0.00,
+"
+F_ZY_GET_ZYJSD_XNH	FUNCTION	46	"                                          0.00);
+"
+F_ZY_GET_ZYJSD_XNH	FUNCTION	47	"  Cursor Cur_1 Is
+"
+F_ZY_GET_ZYJSD_XNH	FUNCTION	48	"    Select a.Sfxm_Code, a.Je
+"
+F_ZY_GET_ZYJSD_XNH	FUNCTION	49	"      From Zy_Bill_Fee a
+"
+F_ZY_GET_ZYJSD_XNH	FUNCTION	50	"     Where a.Patient_No = Arg_Patientno
+"
+F_ZY_GET_ZYJSD_XNH	FUNCTION	51	"       And a.Js_No = Arg_Jsno
+"
+F_ZY_GET_ZYJSD_XNH	FUNCTION	52	"     Order By a.Sfxm_Code;
+"
+F_ZY_GET_ZYJSD_XNH	FUNCTION	53	"Begin
+"
+F_ZY_GET_ZYJSD_XNH	FUNCTION	54	"  Ls_Inputdata1 := f_Getparam(Arg_Jsdxx, '^', 1);
+"
+F_ZY_GET_ZYJSD_XNH	FUNCTION	55	"  Ls_Inputdata2 := f_Getparam(Arg_Jsdxx, '^', 2);
+"
+F_ZY_GET_ZYJSD_XNH	FUNCTION	56	"  --第一部分，就诊信息
+"
+F_ZY_GET_ZYJSD_XNH	FUNCTION	57	"  Ls_Pbsyntax := 'mes_1.text=""' || f_Getparam(Ls_Inputdata1, '|', 1) ||
+"
+F_ZY_GET_ZYJSD_XNH	FUNCTION	58	"                 ' "" '; --1姓名
+"
+F_ZY_GET_ZYJSD_XNH	FUNCTION	59	"  Ls_Pbsyntax := Ls_Pbsyntax || 'mes_2.text=""' ||
+"
+F_ZY_GET_ZYJSD_XNH	FUNCTION	60	"                 f_Getparam(Ls_Inputdata1, '|', 2) || '"" '; --2身份证号
+"
+F_ZY_GET_ZYJSD_XNH	FUNCTION	61	"  Ls_Pbsyntax := Ls_Pbsyntax || 'mes_3.text=""' ||
+"
+F_ZY_GET_ZYJSD_XNH	FUNCTION	62	"                 f_Getparam(Ls_Inputdata1, '|', 3) || '"" '; --3年龄
+"
+F_ZY_GET_ZYJSD_XNH	FUNCTION	63	"  Ls_Pbsyntax := Ls_Pbsyntax || 'mes_4.text=""' ||
+"
+F_ZY_GET_ZYJSD_XNH	FUNCTION	64	"                 f_Getparam(Ls_Inputdata1, '|', 4) || '"" '; --4医院机构
+"
+F_ZY_GET_ZYJSD_XNH	FUNCTION	65	"  Ls_Pbsyntax := Ls_Pbsyntax || 'mes_5.text=""' ||
+"
+F_ZY_GET_ZYJSD_XNH	FUNCTION	66	"                 f_Getparam(Ls_Inputdata1, '|', 5) || '"" '; --5住院号
+"
+F_ZY_GET_ZYJSD_XNH	FUNCTION	67	"  Ls_Pbsyntax := Ls_Pbsyntax || 'mes_6.text=""' ||
+"
+F_ZY_GET_ZYJSD_XNH	FUNCTION	68	"                 f_Getparam(Ls_Inputdata1, '|', 6) || '"" '; --6主要诊断
+"
+F_ZY_GET_ZYJSD_XNH	FUNCTION	69	"  Ls_Pbsyntax := Ls_Pbsyntax || 'mes_7.text=""' ||
+"
+F_ZY_GET_ZYJSD_XNH	FUNCTION	70	"                 f_Getparam(Ls_Inputdata1, '|', 7) || '"" '; --7入院日期
+"
+F_ZY_GET_ZYJSD_XNH	FUNCTION	71	"  Ls_Pbsyntax := Ls_Pbsyntax || 'mes_8.text=""' ||
+"
+F_ZY_GET_ZYJSD_XNH	FUNCTION	72	"                 f_Getparam(Ls_Inputdata1, '|', 8) || '"" '; --8出院日期
+"
+F_ZY_GET_ZYJSD_XNH	FUNCTION	73	"  Ls_Pbsyntax := Ls_Pbsyntax || 'mes_9.text=""' ||
+"
+F_ZY_GET_ZYJSD_XNH	FUNCTION	74	"                 f_Getparam(Ls_Inputdata1, '|', 9) || '"" '; --9住院天数
+"
+F_ZY_GET_ZYJSD_XNH	FUNCTION	75	"  Ls_Pbsyntax := Ls_Pbsyntax || 'mes_10.text=""' ||
+"
+F_ZY_GET_ZYJSD_XNH	FUNCTION	76	"                 f_Getparam(Ls_Inputdata1, '|', 10) || '"" '; --10结算日期
+"
+F_ZY_GET_ZYJSD_XNH	FUNCTION	77	"
+"
+F_ZY_GET_ZYJSD_XNH	FUNCTION	78	"  --第2部分，结算金额
+"
+F_ZY_GET_ZYJSD_XNH	FUNCTION	79	"  Ls_Pbsyntax := Ls_Pbsyntax || 'mes_11.text=""' ||
+"
+F_ZY_GET_ZYJSD_XNH	FUNCTION	80	"                 To_Char(To_Number(f_Getparam(Ls_Inputdata2, '|', 1)),
+"
+F_ZY_GET_ZYJSD_XNH	FUNCTION	81	"                         'fm99999990.00') || '"" ';
+"
+F_ZY_GET_ZYJSD_XNH	FUNCTION	82	"  Ls_Pbsyntax := Ls_Pbsyntax || 'mes_12.text=""' ||
+"
+F_ZY_GET_ZYJSD_XNH	FUNCTION	83	"                 To_Char(To_Number(f_Getparam(Ls_Inputdata2, '|', 2)),
+"
+F_ZY_GET_ZYJSD_XNH	FUNCTION	84	"                         'fm99999990.00') || '"" ';
+"
+F_ZY_GET_ZYJSD_XNH	FUNCTION	85	"  /*Ls_Pbsyntax := Ls_Pbsyntax || 'mes_13.text=""' ||
+"
+F_ZY_GET_ZYJSD_XNH	FUNCTION	86	"                 To_Char(To_Number(f_Getparam(Ls_Inputdata2, '|', 3)),
+"
+F_ZY_GET_ZYJSD_XNH	FUNCTION	87	"                         'fm99999990.00') || '"" ';*/
+"
+F_ZY_GET_ZYJSD_XNH	FUNCTION	88	"  Ls_Pbsyntax := Ls_Pbsyntax || 'mes_14.text=""' ||
+"
+F_ZY_GET_ZYJSD_XNH	FUNCTION	89	"                 To_Char(To_Number(f_Getparam(Ls_Inputdata2, '|', 3)),
+"
+F_ZY_GET_ZYJSD_XNH	FUNCTION	90	"                         'fm99999990.00') || '"" ';
+"
+F_ZY_GET_ZYJSD_XNH	FUNCTION	91	"  Ls_Temp     := f_Getparam(Ls_Inputdata2, '|', 4);
+"
+F_ZY_GET_ZYJSD_XNH	FUNCTION	92	"  If Ls_Temp Is Null Then
+"
+F_ZY_GET_ZYJSD_XNH	FUNCTION	93	"    Ls_Temp := '0.00';
+"
+F_ZY_GET_ZYJSD_XNH	FUNCTION	94	"  Else
+"
+F_ZY_GET_ZYJSD_XNH	FUNCTION	95	"    Ls_Temp := To_Char(To_Number(Ls_Temp), 'fm99999990.00');
+"
+F_ZY_GET_ZYJSD_XNH	FUNCTION	96	"  End If;
+"
+F_ZY_GET_ZYJSD_XNH	FUNCTION	97	"  Ls_Pbsyntax := Ls_Pbsyntax || 'mes_15.text=""' || Ls_Temp || '"" ';
+"
+F_ZY_GET_ZYJSD_XNH	FUNCTION	98	"  /*Ls_Pbsyntax := Ls_Pbsyntax || 'mes_16.text=""' ||
+"
+F_ZY_GET_ZYJSD_XNH	FUNCTION	99	"                 To_Char(To_Number(f_Getparam(Ls_Inputdata2, '|', 5)),
+"
+F_ZY_GET_ZYJSD_XNH	FUNCTION	100	"                         'fm99999990.00') || '"" ';*/
+"
+F_ZY_GET_ZYJSD_XNH	FUNCTION	101	"  Ls_Temp     := f_Getparam(Ls_Inputdata2, '|', 5);
+"
+F_ZY_GET_ZYJSD_XNH	FUNCTION	102	"  If Ls_Temp Is Null Then
+"
+F_ZY_GET_ZYJSD_XNH	FUNCTION	103	"    Ls_Temp := '0.00';
+"
+F_ZY_GET_ZYJSD_XNH	FUNCTION	104	"  Else
+"
+F_ZY_GET_ZYJSD_XNH	FUNCTION	105	"    Ls_Temp := To_Char(To_Number(Ls_Temp), 'fm99999990.00');
+"
+F_ZY_GET_ZYJSD_XNH	FUNCTION	106	"  End If;
+"
+F_ZY_GET_ZYJSD_XNH	FUNCTION	107	"  Ls_Pbsyntax := Ls_Pbsyntax || 'mes_17.text=""' || Ls_Temp || '"" ';
+"
+F_ZY_GET_ZYJSD_XNH	FUNCTION	108	"  Ls_Temp     := f_Getparam(Ls_Inputdata2, '|', 6);
+"
+F_ZY_GET_ZYJSD_XNH	FUNCTION	109	"  If Ls_Temp Is Null Then
+"
+F_ZY_GET_ZYJSD_XNH	FUNCTION	110	"    Ls_Temp := '0.00';
+"
+F_ZY_GET_ZYJSD_XNH	FUNCTION	111	"  Else
+"
+F_ZY_GET_ZYJSD_XNH	FUNCTION	112	"    Ls_Temp := To_Char(To_Number(Ls_Temp), 'fm99999990.00');
+"
+F_ZY_GET_ZYJSD_XNH	FUNCTION	113	"  End If;
+"
+F_ZY_GET_ZYJSD_XNH	FUNCTION	114	"  Ls_Pbsyntax := Ls_Pbsyntax || 'mes_18.text=""' || Ls_Temp || '"" ';
+"
+F_ZY_GET_ZYJSD_XNH	FUNCTION	115	"  Ls_Pbsyntax := Ls_Pbsyntax || 'mes_19.text=""' ||
+"
+F_ZY_GET_ZYJSD_XNH	FUNCTION	116	"                 To_Char(To_Number(f_Getparam(Ls_Inputdata2, '|', 7)),
+"
+F_ZY_GET_ZYJSD_XNH	FUNCTION	117	"                         'fm99999990.00') || '"" ';
+"
+F_ZY_GET_ZYJSD_XNH	FUNCTION	118	"  Ls_Pbsyntax := Ls_Pbsyntax || 'mes_20.text=""' ||
+"
+F_ZY_GET_ZYJSD_XNH	FUNCTION	119	"                 f_Getparam(Ls_Inputdata2, '|', 8) || '"" ';
+"
+F_ZY_GET_ZYJSD_XNH	FUNCTION	120	"  Ls_Pbsyntax := Ls_Pbsyntax || 'mes_21.text=""' ||
+"
+F_ZY_GET_ZYJSD_XNH	FUNCTION	121	"                 To_Char(To_Number(f_Getparam(Ls_Inputdata2, '|', 9)),
+"
+F_ZY_GET_ZYJSD_XNH	FUNCTION	122	"                         'fm99999990.00') || '"" ';
+"
+F_ZY_GET_ZYJSD_XNH	FUNCTION	123	"  Ls_Pbsyntax := Ls_Pbsyntax || 'mes_22.text=""' ||
+"
+F_ZY_GET_ZYJSD_XNH	FUNCTION	124	"                 To_Char(To_Number(f_Getparam(Ls_Inputdata2, '|', 10)),
+"
+F_ZY_GET_ZYJSD_XNH	FUNCTION	125	"                         'fm99999990.00') || '"" ';
+"
+F_ZY_GET_ZYJSD_XNH	FUNCTION	126	"  Ls_Pbsyntax := Ls_Pbsyntax || 'mes_23.text=""' ||
+"
+F_ZY_GET_ZYJSD_XNH	FUNCTION	127	"                 f_Getparam(Ls_Inputdata2, '|', 11) || '"" ';
+"
+F_ZY_GET_ZYJSD_XNH	FUNCTION	128	"  Ls_Pbsyntax := Ls_Pbsyntax || 'mes_24.text=""' ||
+"
+F_ZY_GET_ZYJSD_XNH	FUNCTION	129	"                 To_Char(To_Number(f_Getparam(Ls_Inputdata2, '|', 12)),
+"
+F_ZY_GET_ZYJSD_XNH	FUNCTION	130	"                         'fm99999990.00') || '"" ';
+"
+F_ZY_GET_ZYJSD_XNH	FUNCTION	131	"
+"
+F_ZY_GET_ZYJSD_XNH	FUNCTION	132	"  --第3部分，收费大项小计
+"
+F_ZY_GET_ZYJSD_XNH	FUNCTION	133	"  Open Cur_1;
+"
+F_ZY_GET_ZYJSD_XNH	FUNCTION	134	"  Loop
+"
+F_ZY_GET_ZYJSD_XNH	FUNCTION	135	"    Fetch Cur_1
+"
+F_ZY_GET_ZYJSD_XNH	FUNCTION	136	"      Into Ln_Xiangmulb, Ln_Xiangmuje;
+"
+F_ZY_GET_ZYJSD_XNH	FUNCTION	137	"    Exit When Cur_1%Notfound;
+"
+F_ZY_GET_ZYJSD_XNH	FUNCTION	138	"    If Ln_Xiangmulb In (18) Then
+"
+F_ZY_GET_ZYJSD_XNH	FUNCTION	139	"      --1.床位费
+"
+F_ZY_GET_ZYJSD_XNH	FUNCTION	140	"      Lv_Xiangmuje(1) := Lv_Xiangmuje(1) + Ln_Xiangmuje;
+"
+F_ZY_GET_ZYJSD_XNH	FUNCTION	141	"    Elsif Ln_Xiangmulb In (13) Then
+"
+F_ZY_GET_ZYJSD_XNH	FUNCTION	142	"      --2.诊查费
+"
+F_ZY_GET_ZYJSD_XNH	FUNCTION	143	"      Lv_Xiangmuje(2) := Lv_Xiangmuje(2) + Ln_Xiangmuje;
+"
+F_ZY_GET_ZYJSD_XNH	FUNCTION	144	"    Elsif Ln_Xiangmulb In (4,6, 7, 32,35,36) Then
+"
+F_ZY_GET_ZYJSD_XNH	FUNCTION	145	"      --3.检查费
+"
+F_ZY_GET_ZYJSD_XNH	FUNCTION	146	"      Lv_Xiangmuje(3) := Lv_Xiangmuje(3) + Ln_Xiangmuje;
+"
+F_ZY_GET_ZYJSD_XNH	FUNCTION	147	"    Elsif Ln_Xiangmulb In (9) Then
+"
+F_ZY_GET_ZYJSD_XNH	FUNCTION	148	"      --4.化验费
+"
+F_ZY_GET_ZYJSD_XNH	FUNCTION	149	"      Lv_Xiangmuje(4) := Lv_Xiangmuje(4) + Ln_Xiangmuje;
+"
+F_ZY_GET_ZYJSD_XNH	FUNCTION	150	"    Elsif Ln_Xiangmulb In (5) Then
+"
+F_ZY_GET_ZYJSD_XNH	FUNCTION	151	"      --5.治疗费
+"
+F_ZY_GET_ZYJSD_XNH	FUNCTION	152	"      Lv_Xiangmuje(5) := Lv_Xiangmuje(5) + Ln_Xiangmuje;
+"
+F_ZY_GET_ZYJSD_XNH	FUNCTION	153	"    Elsif Ln_Xiangmulb In (8,28) Then
+"
+F_ZY_GET_ZYJSD_XNH	FUNCTION	154	"      --6.手术费
+"
+F_ZY_GET_ZYJSD_XNH	FUNCTION	155	"      Lv_Xiangmuje(6) := Lv_Xiangmuje(6) + Ln_Xiangmuje;
+"
+F_ZY_GET_ZYJSD_XNH	FUNCTION	156	"    Elsif Ln_Xiangmulb In (26) Then
+"
+F_ZY_GET_ZYJSD_XNH	FUNCTION	157	"      --7.护理费
+"
+F_ZY_GET_ZYJSD_XNH	FUNCTION	158	"      Lv_Xiangmuje(7) := Lv_Xiangmuje(7) + Ln_Xiangmuje;
+"
+F_ZY_GET_ZYJSD_XNH	FUNCTION	159	"    Elsif Ln_Xiangmulb In (25) Then
+"
+F_ZY_GET_ZYJSD_XNH	FUNCTION	160	"      --8.卫生材料费
+"
+F_ZY_GET_ZYJSD_XNH	FUNCTION	161	"      Lv_Xiangmuje(8) := Lv_Xiangmuje(8) + Ln_Xiangmuje;
+"
+F_ZY_GET_ZYJSD_XNH	FUNCTION	162	"    Elsif Ln_Xiangmulb In (1) Then
+"
+F_ZY_GET_ZYJSD_XNH	FUNCTION	163	"      --9.西药费
+"
+F_ZY_GET_ZYJSD_XNH	FUNCTION	164	"      Lv_Xiangmuje(9) := Lv_Xiangmuje(9) + Ln_Xiangmuje;
+"
+F_ZY_GET_ZYJSD_XNH	FUNCTION	165	"    Elsif Ln_Xiangmulb In (2) Then
+"
+F_ZY_GET_ZYJSD_XNH	FUNCTION	166	"      --10.中成药费
+"
+F_ZY_GET_ZYJSD_XNH	FUNCTION	167	"      Lv_Xiangmuje(10) := Lv_Xiangmuje(10) + Ln_Xiangmuje;
+"
+F_ZY_GET_ZYJSD_XNH	FUNCTION	168	"    Elsif Ln_Xiangmulb In (3) Then
+"
+F_ZY_GET_ZYJSD_XNH	FUNCTION	169	"      --11.中草药费
+"
+F_ZY_GET_ZYJSD_XNH	FUNCTION	170	"      Lv_Xiangmuje(11) := Lv_Xiangmuje(11) + Ln_Xiangmuje;
+"
+F_ZY_GET_ZYJSD_XNH	FUNCTION	171	"    Elsif Ln_Xiangmulb In (-99) Then
+"
+F_ZY_GET_ZYJSD_XNH	FUNCTION	172	"      --12.药事服务费
+"
+F_ZY_GET_ZYJSD_XNH	FUNCTION	173	"      Lv_Xiangmuje(12) := Lv_Xiangmuje(12) + Ln_Xiangmuje;
+"
+F_ZY_GET_ZYJSD_XNH	FUNCTION	174	"    Elsif Ln_Xiangmulb In (-99) Then
+"
+F_ZY_GET_ZYJSD_XNH	FUNCTION	175	"      --13.一般诊疗费,-99，不使用
+"
+F_ZY_GET_ZYJSD_XNH	FUNCTION	176	"      Lv_Xiangmuje(13) := Lv_Xiangmuje(13) + Ln_Xiangmuje;
+"
+F_ZY_GET_ZYJSD_XNH	FUNCTION	177	"    Elsif Ln_Xiangmulb In (11) Then
+"
+F_ZY_GET_ZYJSD_XNH	FUNCTION	178	"      --14.输血费**********
+"
+F_ZY_GET_ZYJSD_XNH	FUNCTION	179	"      Lv_Xiangmuje(14) := Lv_Xiangmuje(14) + Ln_Xiangmuje;
+"
+F_ZY_GET_ZYJSD_XNH	FUNCTION	180	"    Elsif Ln_Xiangmulb In (-99) Then
+"
+F_ZY_GET_ZYJSD_XNH	FUNCTION	181	"      --15.植入材料**********
+"
+F_ZY_GET_ZYJSD_XNH	FUNCTION	182	"      Lv_Xiangmuje(15) := Lv_Xiangmuje(15) + Ln_Xiangmuje;
+"
+F_ZY_GET_ZYJSD_XNH	FUNCTION	183	"    Else
+"
+F_ZY_GET_ZYJSD_XNH	FUNCTION	184	"      --16.其他住院费--14, 23, 30
+"
+F_ZY_GET_ZYJSD_XNH	FUNCTION	185	"      Lv_Xiangmuje(16) := Lv_Xiangmuje(16) + Ln_Xiangmuje;
+"
+F_ZY_GET_ZYJSD_XNH	FUNCTION	186	"    End If;
+"
+F_ZY_GET_ZYJSD_XNH	FUNCTION	187	"    /*If Ln_Count > 15 Then
+"
+F_ZY_GET_ZYJSD_XNH	FUNCTION	188	"      Lb_More     := True;
+"
+F_ZY_GET_ZYJSD_XNH	FUNCTION	189	"      Ln_Qitaxmje := Ln_Qitaxmje + To_Number(Ls_Xiangmuje);
+"
+F_ZY_GET_ZYJSD_XNH	FUNCTION	190	"    Else
+"
+F_ZY_GET_ZYJSD_XNH	FUNCTION	191	"      Ls_Pbsyntax := Ls_Pbsyntax || 'xmmc' || To_Char(Ln_Count) ||
+"
+F_ZY_GET_ZYJSD_XNH	FUNCTION	192	"                     '.text=""' || Ls_Xiangmumc || '"" ';
+"
+F_ZY_GET_ZYJSD_XNH	FUNCTION	193	"      Ls_Pbsyntax := Ls_Pbsyntax || 'je' || To_Char(Ln_Count) || '.text=""' ||
+"
+F_ZY_GET_ZYJSD_XNH	FUNCTION	194	"                     Ls_Xiangmuje || '"" ';
+"
+F_ZY_GET_ZYJSD_XNH	FUNCTION	195	"    End If;*/
+"
+F_ZY_GET_ZYJSD_XNH	FUNCTION	196	"  End Loop;
+"
+F_ZY_GET_ZYJSD_XNH	FUNCTION	197	"  Close Cur_1;
+"
+F_ZY_GET_ZYJSD_XNH	FUNCTION	198	"  Loop
+"
+F_ZY_GET_ZYJSD_XNH	FUNCTION	199	"    Ln_Count := Ln_Count + 1;
+"
+F_ZY_GET_ZYJSD_XNH	FUNCTION	200	"    If Ln_Count > 16 Then
+"
+F_ZY_GET_ZYJSD_XNH	FUNCTION	201	"      Exit;
+"
+F_ZY_GET_ZYJSD_XNH	FUNCTION	202	"    Else
+"
+F_ZY_GET_ZYJSD_XNH	FUNCTION	203	"      Ls_Pbsyntax := Ls_Pbsyntax || 'xmmc' || To_Char(Ln_Count) ||
+"
+F_ZY_GET_ZYJSD_XNH	FUNCTION	204	"                     '.text=""' || Lv_Xiangmumc(Ln_Count) || '"" ';
+"
+F_ZY_GET_ZYJSD_XNH	FUNCTION	205	"      Ls_Pbsyntax := Ls_Pbsyntax || 'je' || To_Char(Ln_Count) || '.text=""' ||
+"
+F_ZY_GET_ZYJSD_XNH	FUNCTION	206	"                     To_Char(Lv_Xiangmuje(Ln_Count), 'fm99999990.00') || '"" ';
+"
+F_ZY_GET_ZYJSD_XNH	FUNCTION	207	"    End If;
+"
+F_ZY_GET_ZYJSD_XNH	FUNCTION	208	"  End Loop;
+"
+F_ZY_GET_ZYJSD_XNH	FUNCTION	209	"  --第4部分，联系信息
+"
+F_ZY_GET_ZYJSD_XNH	FUNCTION	210	"  Begin
+"
+F_ZY_GET_ZYJSD_XNH	FUNCTION	211	"    Select Ybbrxx
+"
+F_ZY_GET_ZYJSD_XNH	FUNCTION	212	"      Into Ls_Zhuyuandjxx
+"
+F_ZY_GET_ZYJSD_XNH	FUNCTION	213	"      From Siim.Yb_Zydjxx
+"
+F_ZY_GET_ZYJSD_XNH	FUNCTION	214	"     Where Ylbxid = 181
+"
+F_ZY_GET_ZYJSD_XNH	FUNCTION	215	"       And Yyzyhm = Arg_Patientno
+"
+F_ZY_GET_ZYJSD_XNH	FUNCTION	216	"       And Zydjzt = 1;
+"
+F_ZY_GET_ZYJSD_XNH	FUNCTION	217	"  Exception
+"
+F_ZY_GET_ZYJSD_XNH	FUNCTION	218	"    When Others Then
+"
+F_ZY_GET_ZYJSD_XNH	FUNCTION	219	"      Ls_Zhuyuandjxx := '';
+"
+F_ZY_GET_ZYJSD_XNH	FUNCTION	220	"  End;
+"
+F_ZY_GET_ZYJSD_XNH	FUNCTION	221	"  Ls_Temp     := f_Getparam(Ls_Zhuyuandjxx, '|', 52) ||
+"
+F_ZY_GET_ZYJSD_XNH	FUNCTION	222	"                 f_Getparam(Ls_Zhuyuandjxx, '|', 54) ||
+"
+F_ZY_GET_ZYJSD_XNH	FUNCTION	223	"                 f_Getparam(Ls_Zhuyuandjxx, '|', 19);
+"
+F_ZY_GET_ZYJSD_XNH	FUNCTION	224	"  Ls_Pbsyntax := Ls_Pbsyntax || 'mes_25.text=""' || Ls_Temp || '"" ';
+"
+F_ZY_GET_ZYJSD_XNH	FUNCTION	225	"  Ls_Pbsyntax := Ls_Pbsyntax || 'mes_26.text=""' ||
+"
+F_ZY_GET_ZYJSD_XNH	FUNCTION	226	"                 f_Getparam(Ls_Zhuyuandjxx, '|', 29) || '"" ';
+"
+F_ZY_GET_ZYJSD_XNH	FUNCTION	227	"
+"
+F_ZY_GET_ZYJSD_XNH	FUNCTION	228	"  Return Ls_Pbsyntax;
+"
+F_ZY_GET_ZYJSD_XNH	FUNCTION	229	"End f_Zy_Get_Zyjsd_Xnh;
+"

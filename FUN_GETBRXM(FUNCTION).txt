@@ -1,0 +1,17 @@
+FUN_GETBRXM	FUNCTION	1	"FUNCTION         ""FUN_GETBRXM"" (p_Sfsb In Number) return varchar2 is
+"
+FUN_GETBRXM	FUNCTION	2	"  v_Return Varchar2(15);
+"
+FUN_GETBRXM	FUNCTION	3	"  Result   varchar2(15);
+"
+FUN_GETBRXM	FUNCTION	4	"begin
+"
+FUN_GETBRXM	FUNCTION	5	"  Select Brxm Into v_Return From Mz_Mzsfk1 Where Sfsb = p_Sfsb;
+"
+FUN_GETBRXM	FUNCTION	6	"  return v_Return;
+"
+FUN_GETBRXM	FUNCTION	7	"end fun_getbrxm;
+"
+FUN_GETBRXM	FUNCTION	8	"
+"
+FUN_GETBRXM	FUNCTION	9	 

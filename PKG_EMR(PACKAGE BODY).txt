@@ -1,0 +1,2136 @@
+PKG_EMR	PACKAGE BODY	1	"PACKAGE BODY ""PKG_EMR"" is
+"
+PKG_EMR	PACKAGE BODY	2	"
+"
+PKG_EMR	PACKAGE BODY	3	"
+"
+PKG_EMR	PACKAGE BODY	4	"/*=============================================================================
+"
+PKG_EMR	PACKAGE BODY	5	"||  函数名称 ：获取年龄 FUN_GET_NL
+"
+PKG_EMR	PACKAGE BODY	6	"||-----------------------------------------------------------------------------
+"
+PKG_EMR	PACKAGE BODY	7	"|| 功能说明 ： 获取年龄 一个月以下按天，一年以下按月，否则按年
+"
+PKG_EMR	PACKAGE BODY	8	"||-----------------------------------------------------------------------------
+"
+PKG_EMR	PACKAGE BODY	9	"||  参数描述 ：参数标识       输入/输出  类型     名称
+"
+PKG_EMR	PACKAGE BODY	10	"||            -----------------------------------------------------------------
+"
+PKG_EMR	PACKAGE BODY	11	"||            ad_csrq      In         Date
+"
+PKG_EMR	PACKAGE BODY	12	"||            ad_dqrq      In         Date
+"
+PKG_EMR	PACKAGE BODY	13	"||            as_xz        In         VARCHAR2
+"
+PKG_EMR	PACKAGE BODY	14	"||-----------------------------------------------------------------------------
+"
+PKG_EMR	PACKAGE BODY	15	"|| 修改记录 ：
+"
+PKG_EMR	PACKAGE BODY	16	"=============================================================================*/
+"
+PKG_EMR	PACKAGE BODY	17	"FUNCTION Fun_get_nl(ad_csrq IN date,ad_dqrq IN date,as_xz IN VARCHAR2) RETURN VARCHAR2 IS
+"
+PKG_EMR	PACKAGE BODY	18	"   RESULT VARCHAR2(50);
+"
+PKG_EMR	PACKAGE BODY	19	"   n_months  number;
+"
+PKG_EMR	PACKAGE BODY	20	"   n_days    number;
+"
+PKG_EMR	PACKAGE BODY	21	"   n_year    number;
+"
+PKG_EMR	PACKAGE BODY	22	"   d_dqrq    date;
+"
+PKG_EMR	PACKAGE BODY	23	"   s_xz      VARCHAR2(20);
+"
+PKG_EMR	PACKAGE BODY	24	"   s_nl      VARCHAR2(50);
+"
+PKG_EMR	PACKAGE BODY	25	"   n_hour    number;
+"
+PKG_EMR	PACKAGE BODY	26	"   n_minute  number;
+"
+PKG_EMR	PACKAGE BODY	27	"BEGIN
+"
+PKG_EMR	PACKAGE BODY	28	"     IF ad_csrq is null  OR ad_csrq <= TO_DATE('1900-1-1','YYYY-MM-DD') THEN
+"
+PKG_EMR	PACKAGE BODY	29	"         RESULT := '';
+"
+PKG_EMR	PACKAGE BODY	30	"         RETURN(RESULT);
+"
+PKG_EMR	PACKAGE BODY	31	"     END IF;
+"
+PKG_EMR	PACKAGE BODY	32	"     IF ad_dqrq is null  OR ad_dqrq <= TO_DATE('1900-1-1','YYYY-MM-DD') THEN
+"
+PKG_EMR	PACKAGE BODY	33	"        d_dqrq := SYSDATE;
+"
+PKG_EMR	PACKAGE BODY	34	"     ELSE
+"
+PKG_EMR	PACKAGE BODY	35	"        d_dqrq := ad_dqrq;
+"
+PKG_EMR	PACKAGE BODY	36	"     END IF;
+"
+PKG_EMR	PACKAGE BODY	37	"     IF as_xz is null  THEN
+"
+PKG_EMR	PACKAGE BODY	38	"        s_xz := 'BANLSF';
+"
+PKG_EMR	PACKAGE BODY	39	"     ELSE
+"
+PKG_EMR	PACKAGE BODY	40	"        s_xz := as_xz;
+"
+PKG_EMR	PACKAGE BODY	41	"     END IF;
+"
+PKG_EMR	PACKAGE BODY	42	"     --计算日数
+"
+PKG_EMR	PACKAGE BODY	43	"     select round(d_dqrq - ad_csrq)  into n_days from dual;
+"
+PKG_EMR	PACKAGE BODY	44	"     IF n_days < 1 THEN
+"
+PKG_EMR	PACKAGE BODY	45	"         n_days := 1;
+"
+PKG_EMR	PACKAGE BODY	46	"     END IF;
+"
+PKG_EMR	PACKAGE BODY	47	"     --计算年数
+"
+PKG_EMR	PACKAGE BODY	48	"     select to_number(to_char(d_dqrq,'yyyy')) - to_number(to_char(ad_csrq,'yyyy')) into n_year
+"
+PKG_EMR	PACKAGE BODY	49	"
+"
+PKG_EMR	PACKAGE BODY	50	"from
+"
+PKG_EMR	PACKAGE BODY	51	"
+"
+PKG_EMR	PACKAGE BODY	52	"dual;
+"
+PKG_EMR	PACKAGE BODY	53	"     if n_year < 0 then
+"
+PKG_EMR	PACKAGE BODY	54	"        n_year := 0;
+"
+PKG_EMR	PACKAGE BODY	55	"     end if;
+"
+PKG_EMR	PACKAGE BODY	56	"     --联众病案系统年龄算法
+"
+PKG_EMR	PACKAGE BODY	57	"     IF s_xz = 'BANLSF' THEN
+"
+PKG_EMR	PACKAGE BODY	58	"        select to_number(to_char(d_dqrq,'YYYY'))*12 + to_number(to_char(d_dqrq,'MM')) -
+"
+PKG_EMR	PACKAGE BODY	59	"                (to_number(to_char(ad_csrq,'YYYY'))*12 + to_number(to_char(ad_csrq,'MM')))
+"
+PKG_EMR	PACKAGE BODY	60	"          into n_months
+"
+PKG_EMR	PACKAGE BODY	61	"          from dual;
+"
+PKG_EMR	PACKAGE BODY	62	"        IF n_months > 12 THEN
+"
+PKG_EMR	PACKAGE BODY	63	"           s_nl := to_char(trunc(n_months/12))||'岁';
+"
+PKG_EMR	PACKAGE BODY	64	"        ELSIF n_months > 1 THEN
+"
+PKG_EMR	PACKAGE BODY	65	"           IF n_days < 32 THEN
+"
+PKG_EMR	PACKAGE BODY	66	"              s_nl := to_char(trunc(n_days))||'天';
+"
+PKG_EMR	PACKAGE BODY	67	"           ELSE
+"
+PKG_EMR	PACKAGE BODY	68	"              s_nl := to_char(trunc(n_months))||'个月';
+"
+PKG_EMR	PACKAGE BODY	69	"           END IF;
+"
+PKG_EMR	PACKAGE BODY	70	"        ELSE
+"
+PKG_EMR	PACKAGE BODY	71	"           s_nl := to_char(trunc(n_days))||'天';
+"
+PKG_EMR	PACKAGE BODY	72	"        END IF;
+"
+PKG_EMR	PACKAGE BODY	73	"     ELSIF s_xz = 'XS' THEN
+"
+PKG_EMR	PACKAGE BODY	74	"          If n_days < 100 Then
+"
+PKG_EMR	PACKAGE BODY	75	"              s_nl := to_char(trunc(n_days))||'天';
+"
+PKG_EMR	PACKAGE BODY	76	"          ElsIf n_days < 735 Then
+"
+PKG_EMR	PACKAGE BODY	77	"              s_nl := to_char(trunc(n_days/30.5,0))||'个月';
+"
+PKG_EMR	PACKAGE BODY	78	"          Else
+"
+PKG_EMR	PACKAGE BODY	79	"              s_nl := to_char(n_year + 1)||'岁';
+"
+PKG_EMR	PACKAGE BODY	80	"          End If;
+"
+PKG_EMR	PACKAGE BODY	81	"     ELSIF s_xz = 'XS1' THEN
+"
+PKG_EMR	PACKAGE BODY	82	"          If n_days < 100 Then
+"
+PKG_EMR	PACKAGE BODY	83	"              s_nl := to_char(trunc(n_days))||'天';
+"
+PKG_EMR	PACKAGE BODY	84	"          ElsIf n_days < 735 Then
+"
+PKG_EMR	PACKAGE BODY	85	"              s_nl := to_char(trunc(n_days/30.5,0))||'个月';
+"
+PKG_EMR	PACKAGE BODY	86	"          Else
+"
+PKG_EMR	PACKAGE BODY	87	"              if to_char(ad_csrq,'mmdd') >= to_char(d_dqrq,'mmdd') then
+"
+PKG_EMR	PACKAGE BODY	88	"                 s_nl := to_char(n_year + 2)||'岁';
+"
+PKG_EMR	PACKAGE BODY	89	"              else
+"
+PKG_EMR	PACKAGE BODY	90	"                 s_nl := to_char(n_year + 1)||'岁';
+"
+PKG_EMR	PACKAGE BODY	91	"              end if;
+"
+PKG_EMR	PACKAGE BODY	92	"          End If;
+"
+PKG_EMR	PACKAGE BODY	93	"     ELSIF s_xz = 'ZS'  THEN
+"
+PKG_EMR	PACKAGE BODY	94	"         If  n_days < 100  Then
+"
+PKG_EMR	PACKAGE BODY	95	"             s_nl := to_char(trunc(n_days))||'天';
+"
+PKG_EMR	PACKAGE BODY	96	"         ElsIf n_days < 735 Then
+"
+PKG_EMR	PACKAGE BODY	97	"             n_months := trunc(n_days/30.5) ;
+"
+PKG_EMR	PACKAGE BODY	98	"             n_days   := round((n_days - n_months*30.5 ),0);
+"
+PKG_EMR	PACKAGE BODY	99	"             If n_days > 0 Then
+"
+PKG_EMR	PACKAGE BODY	100	"                s_nl := to_char(n_months)||'个月'||to_char(n_days)||'天';
+"
+PKG_EMR	PACKAGE BODY	101	"             Else
+"
+PKG_EMR	PACKAGE BODY	102	"                s_nl := to_char(n_months)||'个月';
+"
+PKG_EMR	PACKAGE BODY	103	"             End If;
+"
+PKG_EMR	PACKAGE BODY	104	"         Else
+"
+PKG_EMR	PACKAGE BODY	105	"             select round(months_between(d_dqrq,ad_csrq)) into n_months from dual;
+"
+PKG_EMR	PACKAGE BODY	106	"             If mod(n_months,12) = 0 Then
+"
+PKG_EMR	PACKAGE BODY	107	"                s_nl := to_char(trunc(n_months/12))||'岁';
+"
+PKG_EMR	PACKAGE BODY	108	"             Else
+"
+PKG_EMR	PACKAGE BODY	109	"                IF trunc(n_months/12) < 14 THEN
+"
+PKG_EMR	PACKAGE BODY	110	"                   s_nl := to_char(trunc(n_months/12))||'岁'||to_char(n_months - trunc(n_months/12)*12)||'个月';
+"
+PKG_EMR	PACKAGE BODY	111	"                ELSE
+"
+PKG_EMR	PACKAGE BODY	112	"                   s_nl := to_char(trunc(n_months/12))||'岁';
+"
+PKG_EMR	PACKAGE BODY	113	"                END IF;
+"
+PKG_EMR	PACKAGE BODY	114	"             End If;
+"
+PKG_EMR	PACKAGE BODY	115	"         End If;
+"
+PKG_EMR	PACKAGE BODY	116	"    ELSIF s_xz = 'ZS2'  THEN
+"
+PKG_EMR	PACKAGE BODY	117	"        select to_number(to_char(d_dqrq,'YYYY'))*12 + to_number(to_char(d_dqrq,'MM')) -
+"
+PKG_EMR	PACKAGE BODY	118	"                (to_number(to_char(ad_csrq,'YYYY'))*12 + to_number(to_char(ad_csrq,'MM')))
+"
+PKG_EMR	PACKAGE BODY	119	"          into n_months
+"
+PKG_EMR	PACKAGE BODY	120	"          from dual;
+"
+PKG_EMR	PACKAGE BODY	121	"        n_days  :=trunc(d_dqrq - ad_csrq);
+"
+PKG_EMR	PACKAGE BODY	122	"        IF n_months < 1 or n_days<32 THEN
+"
+PKG_EMR	PACKAGE BODY	123	"         s_nl := to_char(trunc(n_days))||'天';
+"
+PKG_EMR	PACKAGE BODY	124	"
+"
+PKG_EMR	PACKAGE BODY	125	"        elsif n_months < 12 THEN
+"
+PKG_EMR	PACKAGE BODY	126	"             n_days  := TRUNC(d_dqrq)- ADD_MONTHS(ad_csrq, n_months);
+"
+PKG_EMR	PACKAGE BODY	127	"             If n_days > 0 Then
+"
+PKG_EMR	PACKAGE BODY	128	"                s_nl := to_char(n_months)||'个月'||to_char(n_days)||'天';
+"
+PKG_EMR	PACKAGE BODY	129	"             elsif n_days =0 then
+"
+PKG_EMR	PACKAGE BODY	130	"                s_nl := to_char(n_months)||'个月';
+"
+PKG_EMR	PACKAGE BODY	131	"             Else
+"
+PKG_EMR	PACKAGE BODY	132	"               n_days  := trunc(d_dqrq)- add_months(ad_csrq , (n_months-1));
+"
+PKG_EMR	PACKAGE BODY	133	"               s_nl := to_char(n_months-1)||'个月'||to_char(n_days)||'天';
+"
+PKG_EMR	PACKAGE BODY	134	"             End If;
+"
+PKG_EMR	PACKAGE BODY	135	"
+"
+PKG_EMR	PACKAGE BODY	136	"         Else
+"
+PKG_EMR	PACKAGE BODY	137	"             If mod(n_months,12) = 0 Then
+"
+PKG_EMR	PACKAGE BODY	138	"                s_nl := to_char(trunc(n_months/12))||'岁';
+"
+PKG_EMR	PACKAGE BODY	139	"             Else
+"
+PKG_EMR	PACKAGE BODY	140	"                IF trunc(n_months/12) < 14 THEN
+"
+PKG_EMR	PACKAGE BODY	141	"                   s_nl := to_char(trunc(n_months/12))||'岁'||to_char(n_months - trunc(n_months/12)*12)||'个月';
+"
+PKG_EMR	PACKAGE BODY	142	"                ELSE
+"
+PKG_EMR	PACKAGE BODY	143	"                   s_nl := to_char(trunc(n_months/12))||'岁';
+"
+PKG_EMR	PACKAGE BODY	144	"                END IF;
+"
+PKG_EMR	PACKAGE BODY	145	"             End If;
+"
+PKG_EMR	PACKAGE BODY	146	"         End If;
+"
+PKG_EMR	PACKAGE BODY	147	"     ELSIF  s_xz = 'XSE' THEN
+"
+PKG_EMR	PACKAGE BODY	148	"         If  n_days < 100  Then
+"
+PKG_EMR	PACKAGE BODY	149	"             s_nl := to_char(trunc(n_days))||'天';
+"
+PKG_EMR	PACKAGE BODY	150	"         ElsIf n_days < 735 Then
+"
+PKG_EMR	PACKAGE BODY	151	"             n_months := trunc(n_days/30.5) ;
+"
+PKG_EMR	PACKAGE BODY	152	"             n_days   := round((n_days - n_months*30.5 ),0);
+"
+PKG_EMR	PACKAGE BODY	153	"             If n_days > 0 Then
+"
+PKG_EMR	PACKAGE BODY	154	"                s_nl := to_char(n_months)||'个月'||to_char(n_days)||'天';
+"
+PKG_EMR	PACKAGE BODY	155	"             Else
+"
+PKG_EMR	PACKAGE BODY	156	"                s_nl := to_char(n_months)||'个月';
+"
+PKG_EMR	PACKAGE BODY	157	"             End If;
+"
+PKG_EMR	PACKAGE BODY	158	"         Else
+"
+PKG_EMR	PACKAGE BODY	159	"             select round(months_between(d_dqrq,ad_csrq)) into n_months from dual;
+"
+PKG_EMR	PACKAGE BODY	160	"             If mod(n_months,12) = 0 Then
+"
+PKG_EMR	PACKAGE BODY	161	"                s_nl := to_char(trunc(n_months/12))||'岁';
+"
+PKG_EMR	PACKAGE BODY	162	"             Else
+"
+PKG_EMR	PACKAGE BODY	163	"                s_nl := to_char(trunc(n_months/12))||'岁'||to_char(n_months - trunc(n_months/12)*12)||'个月';
+"
+PKG_EMR	PACKAGE BODY	164	"             End If;
+"
+PKG_EMR	PACKAGE BODY	165	"
+"
+PKG_EMR	PACKAGE BODY	166	"         End If;
+"
+PKG_EMR	PACKAGE BODY	167	"     ELSIF s_xz = 'ZS3' THEN
+"
+PKG_EMR	PACKAGE BODY	168	"         IF to_char(d_dqrq,'yyyy') > to_char(ad_csrq,'yyyy') THEN
+"
+PKG_EMR	PACKAGE BODY	169	"             s_nl :=  (to_char(d_dqrq,'yyyy') - to_char(ad_csrq,'yyyy'))||'岁';
+"
+PKG_EMR	PACKAGE BODY	170	"         ELSE
+"
+PKG_EMR	PACKAGE BODY	171	"             s_nl :=  '1岁';
+"
+PKG_EMR	PACKAGE BODY	172	"         END IF;
+"
+PKG_EMR	PACKAGE BODY	173	"     ELSIF s_xz = 'ZS4' THEN
+"
+PKG_EMR	PACKAGE BODY	174	"        select to_number(to_char(d_dqrq,'YYYY'))*12 + to_number(to_char(d_dqrq,'MM')) -
+"
+PKG_EMR	PACKAGE BODY	175	"                (to_number(to_char(ad_csrq,'YYYY'))*12 + to_number(to_char(ad_csrq,'MM')))
+"
+PKG_EMR	PACKAGE BODY	176	"          into n_months
+"
+PKG_EMR	PACKAGE BODY	177	"          from dual;
+"
+PKG_EMR	PACKAGE BODY	178	"        IF n_months > 12 THEN
+"
+PKG_EMR	PACKAGE BODY	179	"           s_nl := to_char(to_char(d_dqrq,'YYYY') - to_char(ad_csrq,'YYYY') )||'岁';
+"
+PKG_EMR	PACKAGE BODY	180	"        ELSIF n_months > 1 THEN
+"
+PKG_EMR	PACKAGE BODY	181	"           IF n_days < 32 THEN
+"
+PKG_EMR	PACKAGE BODY	182	"              s_nl := to_char(trunc(n_days))||'天';
+"
+PKG_EMR	PACKAGE BODY	183	"           ELSE
+"
+PKG_EMR	PACKAGE BODY	184	"              s_nl := to_char(trunc(n_months))||'个月';
+"
+PKG_EMR	PACKAGE BODY	185	"           END IF;
+"
+PKG_EMR	PACKAGE BODY	186	"        ELSE
+"
+PKG_EMR	PACKAGE BODY	187	"           s_nl := to_char(trunc(n_days))||'天';
+"
+PKG_EMR	PACKAGE BODY	188	"        END IF;
+"
+PKG_EMR	PACKAGE BODY	189	"    ELSIF s_xz = 'ZS5' THEN
+"
+PKG_EMR	PACKAGE BODY	190	"        --市一要求增加的算法
+"
+PKG_EMR	PACKAGE BODY	191	"        select trunc(months_between(d_dqrq,ad_csrq)) into n_months from dual;
+"
+PKG_EMR	PACKAGE BODY	192	"        IF n_months >= 12 THEN
+"
+PKG_EMR	PACKAGE BODY	193	"           s_nl := to_char(trunc(n_months/12))||'岁';
+"
+PKG_EMR	PACKAGE BODY	194	"        ELSIF n_months > 0 AND n_months < 12 THEN
+"
+PKG_EMR	PACKAGE BODY	195	"           s_nl := to_char(trunc(n_months))||'个月';
+"
+PKG_EMR	PACKAGE BODY	196	"        ELSE
+"
+PKG_EMR	PACKAGE BODY	197	"           s_nl := to_char(trunc(n_days))||'天';
+"
+PKG_EMR	PACKAGE BODY	198	"        END IF;
+"
+PKG_EMR	PACKAGE BODY	199	"     ElSIF  s_xz = 'ZS6' THEN
+"
+PKG_EMR	PACKAGE BODY	200	"       --兰溪市中医院要求增加的算法
+"
+PKG_EMR	PACKAGE BODY	201	"        select to_number(to_char(d_dqrq,'YYYY'))*12 + to_number(to_char(d_dqrq,'MM')) -
+"
+PKG_EMR	PACKAGE BODY	202	"                (to_number(to_char(ad_csrq,'YYYY'))*12 + to_number(to_char(ad_csrq,'MM')))
+"
+PKG_EMR	PACKAGE BODY	203	"          into n_months
+"
+PKG_EMR	PACKAGE BODY	204	"          from dual;
+"
+PKG_EMR	PACKAGE BODY	205	"        IF n_months > 12 THEN
+"
+PKG_EMR	PACKAGE BODY	206	"           IF to_char(d_dqrq,'mm') > to_char(ad_csrq,'mm') THEN
+"
+PKG_EMR	PACKAGE BODY	207	"               s_nl :=  (to_char(d_dqrq,'yyyy') - to_char(ad_csrq,'yyyy') + 1)||'岁';
+"
+PKG_EMR	PACKAGE BODY	208	"           ELSE
+"
+PKG_EMR	PACKAGE BODY	209	"               s_nl :=  (to_char(d_dqrq,'yyyy') - to_char(ad_csrq,'yyyy'))||'岁';
+"
+PKG_EMR	PACKAGE BODY	210	"           END IF;
+"
+PKG_EMR	PACKAGE BODY	211	"        ELSIF n_months > 1 THEN
+"
+PKG_EMR	PACKAGE BODY	212	"           IF n_days < 32 THEN
+"
+PKG_EMR	PACKAGE BODY	213	"              s_nl := to_char(trunc(n_days))||'天';
+"
+PKG_EMR	PACKAGE BODY	214	"           ELSE
+"
+PKG_EMR	PACKAGE BODY	215	"              s_nl := to_char(trunc(n_months))||'个月';
+"
+PKG_EMR	PACKAGE BODY	216	"           END IF;
+"
+PKG_EMR	PACKAGE BODY	217	"        ELSE
+"
+PKG_EMR	PACKAGE BODY	218	"           s_nl := to_char(trunc(n_days))||'天';
+"
+PKG_EMR	PACKAGE BODY	219	"        END IF;
+"
+PKG_EMR	PACKAGE BODY	220	"
+"
+PKG_EMR	PACKAGE BODY	221	"     ELSIF s_xz='ZS7' THEN
+"
+PKG_EMR	PACKAGE BODY	222	"       --上虞妇保要求增加的算法
+"
+PKG_EMR	PACKAGE BODY	223	"       select  Trunc(d_dqrq - ad_csrq )  into n_days from dual;
+"
+PKG_EMR	PACKAGE BODY	224	"       if n_days<1 then
+"
+PKG_EMR	PACKAGE BODY	225	"          s_nl := to_char(Trunc((d_dqrq - ad_csrq)*24))||'时';
+"
+PKG_EMR	PACKAGE BODY	226	"       elsif n_days<31 then
+"
+PKG_EMR	PACKAGE BODY	227	"          s_nl := to_char(trunc(n_days))||'天';
+"
+PKG_EMR	PACKAGE BODY	228	"       elsif n_days < 360*3 then
+"
+PKG_EMR	PACKAGE BODY	229	"          s_nl := to_char(trunc(n_days/31))||'月';
+"
+PKG_EMR	PACKAGE BODY	230	"       else
+"
+PKG_EMR	PACKAGE BODY	231	"          s_nl := to_char(trunc(n_days/360,0))||'岁';
+"
+PKG_EMR	PACKAGE BODY	232	"       end if;
+"
+PKG_EMR	PACKAGE BODY	233	"     ELSIF s_xz='ZS8' THEN
+"
+PKG_EMR	PACKAGE BODY	234	"       --南京大厂要求增加的算法
+"
+PKG_EMR	PACKAGE BODY	235	"       select Trunc(d_dqrq - ad_csrq )  into n_days from dual;
+"
+PKG_EMR	PACKAGE BODY	236	"       if n_days<1 then
+"
+PKG_EMR	PACKAGE BODY	237	"          s_nl := to_char(Trunc((d_dqrq - ad_csrq)*24))||'小时';
+"
+PKG_EMR	PACKAGE BODY	238	"       elsif n_days<30 then
+"
+PKG_EMR	PACKAGE BODY	239	"          select Trunc((d_dqrq - n_days - ad_csrq)*24) into n_hour from dual;
+"
+PKG_EMR	PACKAGE BODY	240	"          if n_hour<1 then
+"
+PKG_EMR	PACKAGE BODY	241	"             s_nl := to_char(trunc(n_days))||'天';
+"
+PKG_EMR	PACKAGE BODY	242	"          else
+"
+PKG_EMR	PACKAGE BODY	243	"            s_nl := to_char(trunc(n_days))||'天'||n_hour||'小时';
+"
+PKG_EMR	PACKAGE BODY	244	"          end if;
+"
+PKG_EMR	PACKAGE BODY	245	"       elsif n_days < 360 then
+"
+PKG_EMR	PACKAGE BODY	246	"          if MOD(n_days,30) =0 Then
+"
+PKG_EMR	PACKAGE BODY	247	"              s_nl := to_char(trunc(n_days/30))||'月';
+"
+PKG_EMR	PACKAGE BODY	248	"           Else
+"
+PKG_EMR	PACKAGE BODY	249	"              s_nl := to_char(trunc(n_days/30))||'月'||to_char(MOD(n_days,30))||'天';
+"
+PKG_EMR	PACKAGE BODY	250	"           end if;
+"
+PKG_EMR	PACKAGE BODY	251	"       else
+"
+PKG_EMR	PACKAGE BODY	252	"          s_nl := to_char(trunc(n_days/360,0))||'岁';
+"
+PKG_EMR	PACKAGE BODY	253	"       end if;
+"
+PKG_EMR	PACKAGE BODY	254	"     ElSIF  s_xz = 'XBASY' THEN
+"
+PKG_EMR	PACKAGE BODY	255	"       --新病案首页年龄算法
+"
+PKG_EMR	PACKAGE BODY	256	"        If n_days < 360 Then
+"
+PKG_EMR	PACKAGE BODY	257	"           s_nl := to_char(trunc(n_days/30))||'月'||to_char(MOD(n_days,30))||'天';
+"
+PKG_EMR	PACKAGE BODY	258	"        Else
+"
+PKG_EMR	PACKAGE BODY	259	"          s_nl := to_char(trunc(n_days/360,0))||'岁';
+"
+PKG_EMR	PACKAGE BODY	260	"        End If;
+"
+PKG_EMR	PACKAGE BODY	261	"      ElSIF  s_xz = 'XBASY2' THEN
+"
+PKG_EMR	PACKAGE BODY	262	"       --新病案首页年龄算法
+"
+PKG_EMR	PACKAGE BODY	263	"          select  Trunc(d_dqrq - ad_csrq )  into n_days from dual;
+"
+PKG_EMR	PACKAGE BODY	264	"        If n_days < 1 Then
+"
+PKG_EMR	PACKAGE BODY	265	"          select Trunc((d_dqrq - ad_csrq)*24) into n_hour   from dual;
+"
+PKG_EMR	PACKAGE BODY	266	"          select Trunc(((d_dqrq - ad_csrq)*24 -n_hour )*60) into n_minute  from dual;
+"
+PKG_EMR	PACKAGE BODY	267	"          if n_minute < 1 Then
+"
+PKG_EMR	PACKAGE BODY	268	"              s_nl := to_char(n_hour)||'小时';
+"
+PKG_EMR	PACKAGE BODY	269	"          elsIf n_hour < 1 Then
+"
+PKG_EMR	PACKAGE BODY	270	"              s_nl := to_char(n_minute)||'分';
+"
+PKG_EMR	PACKAGE BODY	271	"          Else
+"
+PKG_EMR	PACKAGE BODY	272	"              s_nl := to_char(n_hour)||'小时'||to_char(n_minute)||'分';
+"
+PKG_EMR	PACKAGE BODY	273	"          End If;
+"
+PKG_EMR	PACKAGE BODY	274	"        elsIF n_days < 30 Then
+"
+PKG_EMR	PACKAGE BODY	275	"          select Trunc((d_dqrq - n_days - ad_csrq)*24) into n_hour    from dual;
+"
+PKG_EMR	PACKAGE BODY	276	"          if n_hour < 1 Then
+"
+PKG_EMR	PACKAGE BODY	277	"             s_nl := to_char(n_days)||'天';
+"
+PKG_EMR	PACKAGE BODY	278	"          Else
+"
+PKG_EMR	PACKAGE BODY	279	"
+"
+PKG_EMR	PACKAGE BODY	280	"             s_nl := to_char(n_days)||'天'||to_char(n_hour)||'小时';
+"
+PKG_EMR	PACKAGE BODY	281	"          End If;
+"
+PKG_EMR	PACKAGE BODY	282	"        elsIf n_days < 360 Then
+"
+PKG_EMR	PACKAGE BODY	283	"           if MOD(n_days,30) =0 Then
+"
+PKG_EMR	PACKAGE BODY	284	"              s_nl := to_char(trunc(n_days/30))||'月';
+"
+PKG_EMR	PACKAGE BODY	285	"           Else
+"
+PKG_EMR	PACKAGE BODY	286	"              s_nl := to_char(trunc(n_days/30))||'月'||to_char(MOD(n_days,30))||'天';
+"
+PKG_EMR	PACKAGE BODY	287	"           End If;
+"
+PKG_EMR	PACKAGE BODY	288	"        elsIf n_days < 360*14 Then
+"
+PKG_EMR	PACKAGE BODY	289	"           if trunc(MOD(n_days,360)/30) =0 Then
+"
+PKG_EMR	PACKAGE BODY	290	"              s_nl := to_char(trunc(n_days/360,0))||'岁';
+"
+PKG_EMR	PACKAGE BODY	291	"           Else
+"
+PKG_EMR	PACKAGE BODY	292	"              s_nl := to_char(trunc(n_days/360,0))||'岁'||to_char(TRUNC((MOD(n_days,360)/30)))||'月';
+"
+PKG_EMR	PACKAGE BODY	293	"           End If;
+"
+PKG_EMR	PACKAGE BODY	294	"        Else
+"
+PKG_EMR	PACKAGE BODY	295	"          s_nl := to_char(trunc(n_days/360,0))||'岁';
+"
+PKG_EMR	PACKAGE BODY	296	"        End If;
+"
+PKG_EMR	PACKAGE BODY	297	"     END IF;
+"
+PKG_EMR	PACKAGE BODY	298	"     IF s_nl is null THEN
+"
+PKG_EMR	PACKAGE BODY	299	"         s_nl := '';
+"
+PKG_EMR	PACKAGE BODY	300	"     END IF;
+"
+PKG_EMR	PACKAGE BODY	301	"     RESULT := s_nl;
+"
+PKG_EMR	PACKAGE BODY	302	"     RETURN(RESULT);
+"
+PKG_EMR	PACKAGE BODY	303	"EXCEPTION
+"
+PKG_EMR	PACKAGE BODY	304	"    WHEN OTHERS THEN
+"
+PKG_EMR	PACKAGE BODY	305	"      RESULT := '';
+"
+PKG_EMR	PACKAGE BODY	306	"      RETURN(RESULT);
+"
+PKG_EMR	PACKAGE BODY	307	"END FUN_GET_NL;
+"
+PKG_EMR	PACKAGE BODY	308	"  /*============================================================
+"
+PKG_EMR	PACKAGE BODY	309	"   ||函数名称：取模板自定义加载项目对应的内容
+"
+PKG_EMR	PACKAGE BODY	310	"   ||------------------------------------------------------------
+"
+PKG_EMR	PACKAGE BODY	311	"   ||功能说明：
+"
+PKG_EMR	PACKAGE BODY	312	"   ||------------------------------------------------------------
+"
+PKG_EMR	PACKAGE BODY	313	"   ||参数描述：参数标识         输入/输出     类型         名称
+"
+PKG_EMR	PACKAGE BODY	314	"   ||------------------------------------------------------------
+"
+PKG_EMR	PACKAGE BODY	315	"   ||注意事项：
+"
+PKG_EMR	PACKAGE BODY	316	"   ||------------------------------------------------------------
+"
+PKG_EMR	PACKAGE BODY	317	"   ||作    者：xfl            完成时间：2009-2-3
+"
+PKG_EMR	PACKAGE BODY	318	"   ||------------------------------------------------------------
+"
+PKG_EMR	PACKAGE BODY	319	"   ||修改记录：
+"
+PKG_EMR	PACKAGE BODY	320	"   ==============================================================*/
+"
+PKG_EMR	PACKAGE BODY	321	"  Function Fun_get_zdbdxmnr(prm_brxh number,prm_mblx in varchar2,prm_code in varchar2) return
+"
+PKG_EMR	PACKAGE BODY	322	"
+"
+PKG_EMR	PACKAGE BODY	323	"varchar2
+"
+PKG_EMR	PACKAGE BODY	324	"
+"
+PKG_EMR	PACKAGE BODY	325	"is
+"
+PKG_EMR	PACKAGE BODY	326	"     Result varchar2(4000);
+"
+PKG_EMR	PACKAGE BODY	327	"     ls_xmnr varchar2(4000) :='';
+"
+PKG_EMR	PACKAGE BODY	328	"     ls_order_name  varchar2(200);
+"
+PKG_EMR	PACKAGE BODY	329	"     i  number(6) :=0;
+"
+PKG_EMR	PACKAGE BODY	330	"  Begin
+"
+PKG_EMR	PACKAGE BODY	331	"     --出院医嘱
+"
+PKG_EMR	PACKAGE BODY	332	"     if prm_mblx ='CYJL' and prm_code = 'CYJL.CYYZ' then
+"
+PKG_EMR	PACKAGE BODY	333	"        for rec_cyyz in(select order_no,order_name,frequ_code,dyjl,zxdw,to_char(drug_occ) as
+"
+PKG_EMR	PACKAGE BODY	334	"
+"
+PKG_EMR	PACKAGE BODY	335	"drug,ypdw,physician_instruction
+"
+PKG_EMR	PACKAGE BODY	336	"                      from yz_inpatient_order where djxh = prm_brxh and supply_type = 3) loop
+"
+PKG_EMR	PACKAGE BODY	337	"            if instr(rec_cyyz.order_name,'('||to_char(rec_cyyz.order_no)||')') > 0 then
+"
+PKG_EMR	PACKAGE BODY	338	"                ls_order_name := substr(rec_cyyz.order_name,1,instr
+"
+PKG_EMR	PACKAGE BODY	339	"
+"
+PKG_EMR	PACKAGE BODY	340	"(rec_cyyz.order_name,'('||to_char
+"
+PKG_EMR	PACKAGE BODY	341	"
+"
+PKG_EMR	PACKAGE BODY	342	"(rec_cyyz.order_no)||')') - 1);
+"
+PKG_EMR	PACKAGE BODY	343	"            else
+"
+PKG_EMR	PACKAGE BODY	344	"                ls_order_name := rec_cyyz.order_name;
+"
+PKG_EMR	PACKAGE BODY	345	"            end if;
+"
+PKG_EMR	PACKAGE BODY	346	"            i := i + 1;
+"
+PKG_EMR	PACKAGE BODY	347	"            ls_xmnr := ls_xmnr||to_char(i)||'.'||ls_order_name||',剂
+"
+PKG_EMR	PACKAGE BODY	348	"
+"
+PKG_EMR	PACKAGE BODY	349	"量：'||rec_cyyz.drug||rec_cyyz.ypdw||' 单次剂量：'||rec_cyyz.dyjl||rec_cyyz.zxdw||' 用
+"
+PKG_EMR	PACKAGE BODY	350	"
+"
+PKG_EMR	PACKAGE BODY	351	"法：'||rec_cyyz.physician_instruction||'; ';
+"
+PKG_EMR	PACKAGE BODY	352	"        end loop;
+"
+PKG_EMR	PACKAGE BODY	353	"     end if;
+"
+PKG_EMR	PACKAGE BODY	354	"     Result := ls_xmnr;
+"
+PKG_EMR	PACKAGE BODY	355	"     if Result is null then
+"
+PKG_EMR	PACKAGE BODY	356	"        Result := '';
+"
+PKG_EMR	PACKAGE BODY	357	"     end if;
+"
+PKG_EMR	PACKAGE BODY	358	"     Return(Result);
+"
+PKG_EMR	PACKAGE BODY	359	"  Exception
+"
+PKG_EMR	PACKAGE BODY	360	"     When others then
+"
+PKG_EMR	PACKAGE BODY	361	"         Result := '';
+"
+PKG_EMR	PACKAGE BODY	362	"         Return(Result);
+"
+PKG_EMR	PACKAGE BODY	363	"  End Fun_get_zdbdxmnr;
+"
+PKG_EMR	PACKAGE BODY	364	"  /*============================================================
+"
+PKG_EMR	PACKAGE BODY	365	"   ||函数名称：获取病人相关信息
+"
+PKG_EMR	PACKAGE BODY	366	"   ||------------------------------------------------------------
+"
+PKG_EMR	PACKAGE BODY	367	"   ||功能说明：
+"
+PKG_EMR	PACKAGE BODY	368	"   ||------------------------------------------------------------
+"
+PKG_EMR	PACKAGE BODY	369	"   ||参数描述：参数标识         输入/输出     类型         名称
+"
+PKG_EMR	PACKAGE BODY	370	"   ||------------------------------------------------------------
+"
+PKG_EMR	PACKAGE BODY	371	"   ||注意事项：
+"
+PKG_EMR	PACKAGE BODY	372	"   ||------------------------------------------------------------
+"
+PKG_EMR	PACKAGE BODY	373	"   ||作    者：xfl            完成时间：2009-3-9
+"
+PKG_EMR	PACKAGE BODY	374	"   ||------------------------------------------------------------
+"
+PKG_EMR	PACKAGE BODY	375	"   ||修改记录：
+"
+PKG_EMR	PACKAGE BODY	376	"   ==============================================================*/
+"
+PKG_EMR	PACKAGE BODY	377	"  Function Fun_get_brxx(as_lb in VARCHAR2,as_brid VARCHAR2,as_xx VARCHAR2)  return varchar2 is
+"
+PKG_EMR	PACKAGE BODY	378	"  Result varchar2(500);
+"
+PKG_EMR	PACKAGE BODY	379	"  --as_lb :'MZ'门诊信息，'ZY'住院信息
+"
+PKG_EMR	PACKAGE BODY	380	"  s_tmp varchar2(50);
+"
+PKG_EMR	PACKAGE BODY	381	"  n_tmp number(10);
+"
+PKG_EMR	PACKAGE BODY	382	"  Begin
+"
+PKG_EMR	PACKAGE BODY	383	"     If UPPER(as_lb) = 'MZ' Then
+"
+PKG_EMR	PACKAGE BODY	384	"        --门诊信息
+"
+PKG_EMR	PACKAGE BODY	385	"        If UPPER(as_xx) = 'XB' Then
+"
+PKG_EMR	PACKAGE BODY	386	"           select decode(xb,1,'男',2,'女','') into s_tmp from  gy_brjbxxk where jzkh  = as_brid;
+"
+PKG_EMR	PACKAGE BODY	387	"        ElsIf UPPER(as_xx) = 'CSRQ' Then
+"
+PKG_EMR	PACKAGE BODY	388	"           select to_char(csrq,'yyyy-mm-dd') into s_tmp from  gy_brjbxxk where jzkh  = as_brid;
+"
+PKG_EMR	PACKAGE BODY	389	"        ElsIf UPPER(as_xx) = 'BRXZ' OR UPPER(as_xx) = 'BRXZMC' Then
+"
+PKG_EMR	PACKAGE BODY	390	"           select nvl(brxzdm2,brxzdm) into s_tmp from  gy_brjbxxk where jzkh  = as_brid;
+"
+PKG_EMR	PACKAGE BODY	391	"           If UPPER(as_xx) = 'BRXZMC' Then
+"
+PKG_EMR	PACKAGE BODY	392	"              select xzmc into s_tmp from gy_brxz where xzdm = s_tmp;
+"
+PKG_EMR	PACKAGE BODY	393	"           End If;
+"
+PKG_EMR	PACKAGE BODY	394	"        ElsIf UPPER(as_xx) = 'BRLB' OR UPPER(as_xx) = 'BRLBMC' Then
+"
+PKG_EMR	PACKAGE BODY	395	"           select brlb into n_tmp from  gy_brjbxxk where jzkh  = as_brid;
+"
+PKG_EMR	PACKAGE BODY	396	"           If UPPER(as_xx) = 'BRLB' Then
+"
+PKG_EMR	PACKAGE BODY	397	"              s_tmp := to_char(n_tmp);
+"
+PKG_EMR	PACKAGE BODY	398	"           Else
+"
+PKG_EMR	PACKAGE BODY	399	"              select brlb into s_tmp from gy_brlb where xh = n_tmp;
+"
+PKG_EMR	PACKAGE BODY	400	"           End If;
+"
+PKG_EMR	PACKAGE BODY	401	"        --jgdm,hyzk,zydm,mz 籍贯
+"
+PKG_EMR	PACKAGE BODY	402	"        ElsIf UPPER(as_xx) = 'JGDM' OR UPPER(as_xx) = 'JGDMMC' Then
+"
+PKG_EMR	PACKAGE BODY	403	"           select jgdm into n_tmp from  gy_brjbxxk where jzkh  = as_brid;
+"
+PKG_EMR	PACKAGE BODY	404	"           If UPPER(as_xx) = 'JGDM' Then
+"
+PKG_EMR	PACKAGE BODY	405	"              s_tmp := to_char(n_tmp);
+"
+PKG_EMR	PACKAGE BODY	406	"           Else
+"
+PKG_EMR	PACKAGE BODY	407	"              select MC INTO s_tmp from gy_gydm where dmlb = 6 AND DM = n_tmp;
+"
+PKG_EMR	PACKAGE BODY	408	"           End If;
+"
+PKG_EMR	PACKAGE BODY	409	"           --婚姻
+"
+PKG_EMR	PACKAGE BODY	410	"        ElsIf UPPER(as_xx) = 'HYDM' OR UPPER(as_xx) = 'HYDMMC' Then
+"
+PKG_EMR	PACKAGE BODY	411	"           select hyzk into n_tmp from  gy_brjbxxk where jzkh  = as_brid;
+"
+PKG_EMR	PACKAGE BODY	412	"           If UPPER(as_xx) = 'HYDM' Then
+"
+PKG_EMR	PACKAGE BODY	413	"              s_tmp := to_char(n_tmp);
+"
+PKG_EMR	PACKAGE BODY	414	"           Else
+"
+PKG_EMR	PACKAGE BODY	415	"              select MC INTO s_tmp from gy_gydm where dmlb = 7 AND DM = n_tmp;
+"
+PKG_EMR	PACKAGE BODY	416	"           End If;
+"
+PKG_EMR	PACKAGE BODY	417	"           --职业
+"
+PKG_EMR	PACKAGE BODY	418	"        ElsIf UPPER(as_xx) = 'ZYDM' OR UPPER(as_xx) = 'ZYDMMC' Then
+"
+PKG_EMR	PACKAGE BODY	419	"           select zydm into n_tmp from  gy_brjbxxk where jzkh  = as_brid;
+"
+PKG_EMR	PACKAGE BODY	420	"           If UPPER(as_xx) = 'ZYDM' Then
+"
+PKG_EMR	PACKAGE BODY	421	"              s_tmp := to_char(n_tmp);
+"
+PKG_EMR	PACKAGE BODY	422	"           Else
+"
+PKG_EMR	PACKAGE BODY	423	"              select MC INTO s_tmp from gy_gydm where dmlb = 3 AND DM = n_tmp;
+"
+PKG_EMR	PACKAGE BODY	424	"           End If;
+"
+PKG_EMR	PACKAGE BODY	425	"           --民族
+"
+PKG_EMR	PACKAGE BODY	426	"        ElsIf UPPER(as_xx) = 'MZDM' OR UPPER(as_xx) = 'MZDMMC' Then
+"
+PKG_EMR	PACKAGE BODY	427	"           select mz into n_tmp from  gy_brjbxxk where jzkh  = as_brid;
+"
+PKG_EMR	PACKAGE BODY	428	"           If UPPER(as_xx) = 'MZDM' Then
+"
+PKG_EMR	PACKAGE BODY	429	"              s_tmp := to_char(n_tmp);
+"
+PKG_EMR	PACKAGE BODY	430	"           Else
+"
+PKG_EMR	PACKAGE BODY	431	"              select MC INTO s_tmp from gy_gydm where dmlb = 8 AND DM = n_tmp;
+"
+PKG_EMR	PACKAGE BODY	432	"           End If;
+"
+PKG_EMR	PACKAGE BODY	433	"        End If;
+"
+PKG_EMR	PACKAGE BODY	434	"     ELSE
+"
+PKG_EMR	PACKAGE BODY	435	"        --住院信息
+"
+PKG_EMR	PACKAGE BODY	436	"        If UPPER(as_xx) = 'BRBZ' then
+"
+PKG_EMR	PACKAGE BODY	437	"           --取病人标志
+"
+PKG_EMR	PACKAGE BODY	438	"           --0=在院 1=预出院 2=出院结算 3=中途结算 4=挂帐 5=挂帐上报 -4=报销 -5=报销上报 6=取消住院 7=
+"
+PKG_EMR	PACKAGE BODY	439	"
+"
+PKG_EMR	PACKAGE BODY	440	"         --自理结算 8=取消日报病人 9=漏费补登 -7=挂帐日报结清
+"
+PKG_EMR	PACKAGE BODY	441	"           begin
+"
+PKG_EMR	PACKAGE BODY	442	"               select to_char(nvl(flag,0)) into s_tmp from zy_total_fee  where patient_no =
+"
+PKG_EMR	PACKAGE BODY	443	"
+"
+PKG_EMR	PACKAGE BODY	444	"as_brid;
+"
+PKG_EMR	PACKAGE BODY	445	"           exception
+"
+PKG_EMR	PACKAGE BODY	446	"               when others then
+"
+PKG_EMR	PACKAGE BODY	447	"                  s_tmp := '0';
+"
+PKG_EMR	PACKAGE BODY	448	"           end;
+"
+PKG_EMR	PACKAGE BODY	449	"       End If;
+"
+PKG_EMR	PACKAGE BODY	450	"     End If;
+"
+PKG_EMR	PACKAGE BODY	451	"     Result := s_tmp;
+"
+PKG_EMR	PACKAGE BODY	452	"     Return(Result);
+"
+PKG_EMR	PACKAGE BODY	453	"   Exception
+"
+PKG_EMR	PACKAGE BODY	454	"     When others then
+"
+PKG_EMR	PACKAGE BODY	455	"         Result := null;
+"
+PKG_EMR	PACKAGE BODY	456	"         Return(Result);
+"
+PKG_EMR	PACKAGE BODY	457	"   End Fun_get_brxx;
+"
+PKG_EMR	PACKAGE BODY	458	"   /*============================================================
+"
+PKG_EMR	PACKAGE BODY	459	"   ||函数名称：获取医嘱相关信息
+"
+PKG_EMR	PACKAGE BODY	460	"   ||------------------------------------------------------------
+"
+PKG_EMR	PACKAGE BODY	461	"   ||功能说明：
+"
+PKG_EMR	PACKAGE BODY	462	"   ||------------------------------------------------------------
+"
+PKG_EMR	PACKAGE BODY	463	"   ||参数描述：参数标识         输入/输出     类型         名称
+"
+PKG_EMR	PACKAGE BODY	464	"   ||------------------------------------------------------------
+"
+PKG_EMR	PACKAGE BODY	465	"   ||注意事项：
+"
+PKG_EMR	PACKAGE BODY	466	"   ||------------------------------------------------------------
+"
+PKG_EMR	PACKAGE BODY	467	"   ||作    者：xfl            完成时间：2009-3-25
+"
+PKG_EMR	PACKAGE BODY	468	"   ||------------------------------------------------------------
+"
+PKG_EMR	PACKAGE BODY	469	"   ||修改记录：
+"
+PKG_EMR	PACKAGE BODY	470	"   ==============================================================*/
+"
+PKG_EMR	PACKAGE BODY	471	"   Function Fun_get_yzxx(an_order_no in Number,as_hospitalid in Varchar2) Return Varchar2 is
+"
+PKG_EMR	PACKAGE BODY	472	"   Result varchar2(1000);
+"
+PKG_EMR	PACKAGE BODY	473	"   s_order_name  varchar2(200);
+"
+PKG_EMR	PACKAGE BODY	474	"   s_start_time  varchar2(30);
+"
+PKG_EMR	PACKAGE BODY	475	"   s_end_time    varchar2(30);
+"
+PKG_EMR	PACKAGE BODY	476	"   s_ypgg        varchar2(40);
+"
+PKG_EMR	PACKAGE BODY	477	"   s_dyjl        varchar2(10);
+"
+PKG_EMR	PACKAGE BODY	478	"   s_drug_occ    varchar2(10);
+"
+PKG_EMR	PACKAGE BODY	479	"   s_zxdw        varchar2(10);
+"
+PKG_EMR	PACKAGE BODY	480	"   s_ypdw        varchar2(10);
+"
+PKG_EMR	PACKAGE BODY	481	"   s_frequ_code  varchar2(10);
+"
+PKG_EMR	PACKAGE BODY	482	"   s_frequ_name  varchar2(100);
+"
+PKG_EMR	PACKAGE BODY	483	"   s_supply_name varchar2(10);
+"
+PKG_EMR	PACKAGE BODY	484	"   n_supply_type number(2);
+"
+PKG_EMR	PACKAGE BODY	485	"   s_parent_name varchar2(200);
+"
+PKG_EMR	PACKAGE BODY	486	"   s_yszt        varchar2(200);
+"
+PKG_EMR	PACKAGE BODY	487	"   s_yzxx        varchar2(1000);
+"
+PKG_EMR	PACKAGE BODY	488	"   n_order_flag  number(1);
+"
+PKG_EMR	PACKAGE BODY	489	"   Begin
+"
+PKG_EMR	PACKAGE BODY	490	"    --取医嘱相关信息
+"
+PKG_EMR	PACKAGE BODY	491	"       select order_name,start_time,end_time,ypgg,dyjl,to_char(drug_occ),
+"
+PKG_EMR	PACKAGE BODY	492	"               zxdw,ypdw,frequ_code,supply_name,supply_type,
+"
+PKG_EMR	PACKAGE BODY	493	"               parent_name,physician_instruction,nvl(order_flag,0)
+"
+PKG_EMR	PACKAGE BODY	494	"         into s_order_name,s_start_time,s_end_time,s_ypgg,s_dyjl,s_drug_occ,
+"
+PKG_EMR	PACKAGE BODY	495	"               s_zxdw,s_ypdw,s_frequ_code,s_supply_name,n_supply_type,
+"
+PKG_EMR	PACKAGE BODY	496	"               s_parent_name,s_yszt,n_order_flag
+"
+PKG_EMR	PACKAGE BODY	497	"         from yz_inpatient_order
+"
+PKG_EMR	PACKAGE BODY	498	"        where order_no = an_order_no;
+"
+PKG_EMR	PACKAGE BODY	499	"      --个别信息处理
+"
+PKG_EMR	PACKAGE BODY	500	"      If instr(s_order_name,'('||to_char(an_order_no)||')') > 0 Then
+"
+PKG_EMR	PACKAGE BODY	501	"       s_order_name := substr(s_order_name,1,instr(s_order_name,'('||to_char(an_order_no)||')') -1);
+"
+PKG_EMR	PACKAGE BODY	502	"      End If;
+"
+PKG_EMR	PACKAGE BODY	503	"      If s_zxdw is null  Then
+"
+PKG_EMR	PACKAGE BODY	504	"         s_zxdw :=  ' ';
+"
+PKG_EMR	PACKAGE BODY	505	"      End If;
+"
+PKG_EMR	PACKAGE BODY	506	"      If s_ypdw is null  Then
+"
+PKG_EMR	PACKAGE BODY	507	"         s_ypdw := s_zxdw;
+"
+PKG_EMR	PACKAGE BODY	508	"      End If;
+"
+PKG_EMR	PACKAGE BODY	509	"      If s_dyjl is null Then
+"
+PKG_EMR	PACKAGE BODY	510	"         s_dyjl :=  ' ';
+"
+PKG_EMR	PACKAGE BODY	511	"      End If;
+"
+PKG_EMR	PACKAGE BODY	512	"      If s_drug_occ is null  Then
+"
+PKG_EMR	PACKAGE BODY	513	"         s_drug_occ := s_dyjl;
+"
+PKG_EMR	PACKAGE BODY	514	"      End If;
+"
+PKG_EMR	PACKAGE BODY	515	"
+"
+PKG_EMR	PACKAGE BODY	516	"      --组合医嘱信息
+"
+PKG_EMR	PACKAGE BODY	517	"       select frequ_print_name
+"
+PKG_EMR	PACKAGE BODY	518	"      into s_frequ_name
+"
+PKG_EMR	PACKAGE BODY	519	"      from yz_order_frequency
+"
+PKG_EMR	PACKAGE BODY	520	"      where frequ_code = s_frequ_code;
+"
+PKG_EMR	PACKAGE BODY	521	"      If instr(as_hospitalid,'浙二') > 0 Then
+"
+PKG_EMR	PACKAGE BODY	522	"         If n_supply_type = 3 Then
+"
+PKG_EMR	PACKAGE BODY	523	"            s_yzxx := s_yszt;
+"
+PKG_EMR	PACKAGE BODY	524	"         Else
+"
+PKG_EMR	PACKAGE BODY	525	"            Begin
+"
+PKG_EMR	PACKAGE BODY	526	"                select frequ_print_name
+"
+PKG_EMR	PACKAGE BODY	527	"                into s_frequ_name
+"
+PKG_EMR	PACKAGE BODY	528	"                from yz_order_frequency
+"
+PKG_EMR	PACKAGE BODY	529	"                where frequ_code = s_frequ_code;
+"
+PKG_EMR	PACKAGE BODY	530	"            Exception
+"
+PKG_EMR	PACKAGE BODY	531	"                when others then
+"
+PKG_EMR	PACKAGE BODY	532	"                s_frequ_name := ' ';
+"
+PKG_EMR	PACKAGE BODY	533	"            end;
+"
+PKG_EMR	PACKAGE BODY	534	"            s_yzxx := s_supply_name||' '||s_frequ_name;
+"
+PKG_EMR	PACKAGE BODY	535	"         End If;
+"
+PKG_EMR	PACKAGE BODY	536	"         s_yzxx := s_order_name||', 剂量:'||s_drug_occ||s_ypdw+' 单次剂量:'||s_dyjl||s_zxdw||',用法:'||s_yzxx;
+"
+PKG_EMR	PACKAGE BODY	537	"     ElsIf instr(as_hospitalid,'杭州市一') > 0 Then
+"
+PKG_EMR	PACKAGE BODY	538	"         s_yzxx := s_order_name||' '||nvl(s_dyjl,' ')||nvl(s_zxdw,' ')||' '||nvl(s_frequ_code,'')||''||nvl(s_yszt,' ');
+"
+PKG_EMR	PACKAGE BODY	539	"     ElsIf instr(as_hospitalid,'义乌中心医院') > 0 Then
+"
+PKG_EMR	PACKAGE BODY	540	"         If n_supply_type = 3 Then
+"
+PKG_EMR	PACKAGE BODY	541	"              s_yzxx := nvl(s_supply_name,' ')||s_order_name||' '||' 用法：'||nvl(s_yszt,' ');
+"
+PKG_EMR	PACKAGE BODY	542	"         Else
+"
+PKG_EMR	PACKAGE BODY	543	"             -- s_yzxx := nvl(s_supply_name,' ')||s_order_name||' '||nvl(s_frequ_code,' ')||''||nvl(s_yszt,' ');
+"
+PKG_EMR	PACKAGE BODY	544	"             if n_order_flag = 2 or n_order_flag = 3 or n_order_flag = 4 or n_order_flag = 7 then
+"
+PKG_EMR	PACKAGE BODY	545	"                s_yzxx := nvl(s_order_name,' ')||nvl(s_ypgg,'')||' '||nvl(s_dyjl,'')||nvl(s_zxdw,'')||' '||nvl(s_frequ_name,' ')||' '||nvl(s_supply_name,'')||' '||to_char(s_drug_occ)||s_ypdw; 
+"
+PKG_EMR	PACKAGE BODY	546	"             else
+"
+PKG_EMR	PACKAGE BODY	547	"                if s_frequ_code = 'ONCE' or s_frequ_code = 'ST' then
+"
+PKG_EMR	PACKAGE BODY	548	"                   s_yzxx := nvl(s_order_name,' '); 
+"
+PKG_EMR	PACKAGE BODY	549	"                else
+"
+PKG_EMR	PACKAGE BODY	550	"                   s_yzxx := nvl(s_order_name,' ')||nvl(s_frequ_name,' '); 
+"
+PKG_EMR	PACKAGE BODY	551	"                end if ; 
+"
+PKG_EMR	PACKAGE BODY	552	"             end if ;
+"
+PKG_EMR	PACKAGE BODY	553	"         End If;
+"
+PKG_EMR	PACKAGE BODY	554	"     Else
+"
+PKG_EMR	PACKAGE BODY	555	"          If n_supply_type = 3 Then
+"
+PKG_EMR	PACKAGE BODY	556	"              If instr(as_hospitalid,'富阳') > 0 Then
+"
+PKG_EMR	PACKAGE BODY	557	"                 s_yzxx := s_order_name||' '||nvl(s_ypgg,' ')||' 用法：'||nvl(s_dyjl,' ')||nvl(s_zxdw,' ')||' '||nvl(s_yszt,' ');
+"
+PKG_EMR	PACKAGE BODY	558	"              ElsIf instr(as_hospitalid,'义乌復元') > 0 Then
+"
+PKG_EMR	PACKAGE BODY	559	"                 s_yzxx := nvl(s_supply_name,' ')||s_order_name||' '||nvl(s_ypgg,' ')||' 用法：'||nvl(s_yszt,' ')||'/'||nvl(s_dyjl,' ')||nvl(s_zxdw,' ');
+"
+PKG_EMR	PACKAGE BODY	560	"              Else
+"
+PKG_EMR	PACKAGE BODY	561	"                 s_yzxx := nvl(s_supply_name,' ')||s_order_name||' '||nvl(s_ypgg,' ')||'/'||nvl(s_dyjl,' ')||nvl(s_zxdw,' ')||' 用法：'||nvl(s_yszt,' ');
+"
+PKG_EMR	PACKAGE BODY	562	"              End If;
+"
+PKG_EMR	PACKAGE BODY	563	"          Else
+"
+PKG_EMR	PACKAGE BODY	564	"             if n_order_flag = 4   and   instr(as_hospitalid,'红会') > 0 then -- 草药方和普通的不一样
+"
+PKG_EMR	PACKAGE BODY	565	"                s_yzxx := s_order_name||' '||nvl(s_dyjl,' ')||nvl(s_zxdw,' ');
+"
+PKG_EMR	PACKAGE BODY	566	"             else
+"
+PKG_EMR	PACKAGE BODY	567	"                s_yzxx := nvl(s_supply_name,' ')||s_order_name||' '||nvl(s_ypgg,' ')||'/'||nvl(s_dyjl,' ')||nvl(s_zxdw,' ')||' '||nvl(s_frequ_code,' ')||' '||nvl
+"
+PKG_EMR	PACKAGE BODY	568	"
+"
+PKG_EMR	PACKAGE BODY	569	"(s_yszt,' ');
+"
+PKG_EMR	PACKAGE BODY	570	"             end if;
+"
+PKG_EMR	PACKAGE BODY	571	"          End If;
+"
+PKG_EMR	PACKAGE BODY	572	"     End If;
+"
+PKG_EMR	PACKAGE BODY	573	"     s_yzxx :=trim(s_yzxx);
+"
+PKG_EMR	PACKAGE BODY	574	"     s_yzxx := nvl(s_yzxx||'; ','');
+"
+PKG_EMR	PACKAGE BODY	575	"     Result:= s_yzxx;
+"
+PKG_EMR	PACKAGE BODY	576	"     Return(Result);
+"
+PKG_EMR	PACKAGE BODY	577	"   Exception
+"
+PKG_EMR	PACKAGE BODY	578	"    when others then
+"
+PKG_EMR	PACKAGE BODY	579	"      RESULT := '';
+"
+PKG_EMR	PACKAGE BODY	580	"      Return(Result);
+"
+PKG_EMR	PACKAGE BODY	581	"   End Fun_get_yzxx;
+"
+PKG_EMR	PACKAGE BODY	582	"   ------------------------------------------------------------
+"
+PKG_EMR	PACKAGE BODY	583	"   FUNCTION FUN_GET_ZhiGongMc(In_ZhiGongId IN VARCHAR2,
+"
+PKG_EMR	PACKAGE BODY	584	"                              In_Flag IN VARCHAR2)
+"
+PKG_EMR	PACKAGE BODY	585	"   RETURN VARCHAR2
+"
+PKG_EMR	PACKAGE BODY	586	"   IS
+"
+PKG_EMR	PACKAGE BODY	587	"      RESULT VARCHAR2(20);
+"
+PKG_EMR	PACKAGE BODY	588	"      S_FLAG  VARCHAR2(20);
+"
+PKG_EMR	PACKAGE BODY	589	"   BEGIN
+"
+PKG_EMR	PACKAGE BODY	590	"      S_FLAG := UPPER(In_Flag);
+"
+PKG_EMR	PACKAGE BODY	591	"      IF (S_FLAG ='XM') THEN
+"
+PKG_EMR	PACKAGE BODY	592	"         SELECT xm INTO RESULT FROM gy_zgxx WHERE zgid = in_ZhiGongId;
+"
+PKG_EMR	PACKAGE BODY	593	"      end if;
+"
+PKG_EMR	PACKAGE BODY	594	"      RETURN RESULT;
+"
+PKG_EMR	PACKAGE BODY	595	"   EXCEPTION
+"
+PKG_EMR	PACKAGE BODY	596	"      WHEN OTHERS THEN
+"
+PKG_EMR	PACKAGE BODY	597	"        RETURN NULL;
+"
+PKG_EMR	PACKAGE BODY	598	"   END FUN_GET_ZhiGongMc;
+"
+PKG_EMR	PACKAGE BODY	599	"   ------------------------------------------------------------
+"
+PKG_EMR	PACKAGE BODY	600	"   Function Fun_Get_KeShiMc(p_KeShiDm in Varchar2) Return Varchar2 is
+"
+PKG_EMR	PACKAGE BODY	601	"   Result varchar2(30);
+"
+PKG_EMR	PACKAGE BODY	602	"   Begin
+"
+PKG_EMR	PACKAGE BODY	603	"     SELECT KSMC INTO Result FROM GY_KSDM WHERE KSDM=p_KeShiDm;
+"
+PKG_EMR	PACKAGE BODY	604	"     Return(Result);
+"
+PKG_EMR	PACKAGE BODY	605	"   Exception
+"
+PKG_EMR	PACKAGE BODY	606	"    when others then
+"
+PKG_EMR	PACKAGE BODY	607	"      RESULT := p_KeShiDm;
+"
+PKG_EMR	PACKAGE BODY	608	"      Return(Result);
+"
+PKG_EMR	PACKAGE BODY	609	"   End Fun_Get_KeShiMc;
+"
+PKG_EMR	PACKAGE BODY	610	"   ------------------------------------------------------------
+"
+PKG_EMR	PACKAGE BODY	611	"   Function Fun_Get_BingQuMc(p_BingQuDm in Varchar2) Return Varchar2 is
+"
+PKG_EMR	PACKAGE BODY	612	"   Result varchar2(30);
+"
+PKG_EMR	PACKAGE BODY	613	"   Begin
+"
+PKG_EMR	PACKAGE BODY	614	"     SELECT BQMC INTO Result FROM GY_BQDM WHERE BQDM=p_BingQuDm;
+"
+PKG_EMR	PACKAGE BODY	615	"     Return(Result);
+"
+PKG_EMR	PACKAGE BODY	616	"   Exception
+"
+PKG_EMR	PACKAGE BODY	617	"    when others then
+"
+PKG_EMR	PACKAGE BODY	618	"      RESULT := p_BingQuDm;
+"
+PKG_EMR	PACKAGE BODY	619	"      Return(Result);
+"
+PKG_EMR	PACKAGE BODY	620	"   End Fun_Get_BingQuMc;
+"
+PKG_EMR	PACKAGE BODY	621	"   /*============================================================
+"
+PKG_EMR	PACKAGE BODY	622	"   ||函数名称：--判断该病人是否属于某一个类型的病人
+"
+PKG_EMR	PACKAGE BODY	623	"   ||------------------------------------------------------------
+"
+PKG_EMR	PACKAGE BODY	624	"   ||功能说明：
+"
+PKG_EMR	PACKAGE BODY	625	"   ||------------------------------------------------------------
+"
+PKG_EMR	PACKAGE BODY	626	"   ||参数描述：参数标识         输入/输出     类型         名称
+"
+PKG_EMR	PACKAGE BODY	627	"   ||------------------------------------------------------------
+"
+PKG_EMR	PACKAGE BODY	628	"   ||注意事项：
+"
+PKG_EMR	PACKAGE BODY	629	"   ||------------------------------------------------------------
+"
+PKG_EMR	PACKAGE BODY	630	"   ||作    者：xfl            完成时间：2010-2-4
+"
+PKG_EMR	PACKAGE BODY	631	"   ||------------------------------------------------------------
+"
+PKG_EMR	PACKAGE BODY	632	"   ||修改记录：
+"
+PKG_EMR	PACKAGE BODY	633	"   ==============================================================*/
+"
+PKG_EMR	PACKAGE BODY	634	"  FUNCTION FUN_GET_BINGRENBZ(prm_type in varchar2,prm_brid in number)  RETURN VARCHAR2 IS
+"
+PKG_EMR	PACKAGE BODY	635	"  RESULT VARCHAR2(10);
+"
+PKG_EMR	PACKAGE BODY	636	"  s_return VARCHAR2(10);
+"
+PKG_EMR	PACKAGE BODY	637	"  BEGIN
+"
+PKG_EMR	PACKAGE BODY	638	"      IF prm_type = '危重' THEN
+"
+PKG_EMR	PACKAGE BODY	639	"
+"
+PKG_EMR	PACKAGE BODY	640	"       select nvl(emr_name,disp_name)
+"
+PKG_EMR	PACKAGE BODY	641	"         into s_return
+"
+PKG_EMR	PACKAGE BODY	642	"         from yz_disp,yz_bingrentsyzxs
+"
+PKG_EMR	PACKAGE BODY	643	"         where  yz_bingrentsyzxs.HULIYZDM = yz_disp.order_code
+"
+PKG_EMR	PACKAGE BODY	644	"            and yz_bingrentsyzxs.bingrenzyid = prm_brid
+"
+PKG_EMR	PACKAGE BODY	645	"            and yz_disp.order_type = 3
+"
+PKG_EMR	PACKAGE BODY	646	"            and rownum < 2;
+"
+PKG_EMR	PACKAGE BODY	647	"         RESULT :=  s_return;
+"
+PKG_EMR	PACKAGE BODY	648	"
+"
+PKG_EMR	PACKAGE BODY	649	"      END IF;
+"
+PKG_EMR	PACKAGE BODY	650	"      IF RESULT IS NULL THEN
+"
+PKG_EMR	PACKAGE BODY	651	"         RESULT := '';
+"
+PKG_EMR	PACKAGE BODY	652	"      END IF;
+"
+PKG_EMR	PACKAGE BODY	653	"      RETURN(RESULT);
+"
+PKG_EMR	PACKAGE BODY	654	"  EXCEPTION
+"
+PKG_EMR	PACKAGE BODY	655	"     WHEN OTHERS THEN
+"
+PKG_EMR	PACKAGE BODY	656	"        RETURN('');
+"
+PKG_EMR	PACKAGE BODY	657	"  END FUN_GET_BINGRENBZ;
+"
+PKG_EMR	PACKAGE BODY	658	"  /*============================================================
+"
+PKG_EMR	PACKAGE BODY	659	"   ||函数名称：从模板信息的bz字段里截取模板自定义加载项目、加载模板置空项目等
+"
+PKG_EMR	PACKAGE BODY	660	"   ||------------------------------------------------------------
+"
+PKG_EMR	PACKAGE BODY	661	"   ||功能说明：
+"
+PKG_EMR	PACKAGE BODY	662	"   ||------------------------------------------------------------
+"
+PKG_EMR	PACKAGE BODY	663	"   ||参数描述：参数标识         输入/输出     类型         名称
+"
+PKG_EMR	PACKAGE BODY	664	"   ||------------------------------------------------------------
+"
+PKG_EMR	PACKAGE BODY	665	"   ||注意事项：
+"
+PKG_EMR	PACKAGE BODY	666	"   ||------------------------------------------------------------
+"
+PKG_EMR	PACKAGE BODY	667	"   ||作    者：xfl            完成时间：2009-2-3
+"
+PKG_EMR	PACKAGE BODY	668	"   ||------------------------------------------------------------
+"
+PKG_EMR	PACKAGE BODY	669	"   ||修改记录：
+"
+PKG_EMR	PACKAGE BODY	670	"   ==============================================================*/
+"
+PKG_EMR	PACKAGE BODY	671	"  Function fun_get_mbbzxm(prm_mbdm in varchar2,prm_xmlx in varchar2) return varchar2 is
+"
+PKG_EMR	PACKAGE BODY	672	"     Result varchar2(4000);
+"
+PKG_EMR	PACKAGE BODY	673	"     ls_bz varchar2(4000);
+"
+PKG_EMR	PACKAGE BODY	674	"  Begin
+"
+PKG_EMR	PACKAGE BODY	675	"     select upper(nvl(substr(bz,instr(bz,'<'||prm_xmlx||'>')+length('<'||prm_xmlx||'>'),instr
+"
+PKG_EMR	PACKAGE BODY	676	"
+"
+PKG_EMR	PACKAGE BODY	677	"(bz,'</'||prm_xmlx||'>') - instr(bz,'<'||prm_xmlx||'>') - length('<'||prm_xmlx||'>')),''))
+"
+PKG_EMR	PACKAGE BODY	678	"     into ls_bz
+"
+PKG_EMR	PACKAGE BODY	679	"     from te_mobanxx
+"
+PKG_EMR	PACKAGE BODY	680	"     where mobandm = prm_mbdm
+"
+PKG_EMR	PACKAGE BODY	681	"     and zuofeibz = 0
+"
+PKG_EMR	PACKAGE BODY	682	"     and rownum < 2;
+"
+PKG_EMR	PACKAGE BODY	683	"     Result := ls_bz;
+"
+PKG_EMR	PACKAGE BODY	684	"     Return(Result);
+"
+PKG_EMR	PACKAGE BODY	685	"  Exception
+"
+PKG_EMR	PACKAGE BODY	686	"     When others then
+"
+PKG_EMR	PACKAGE BODY	687	"         Result := '';
+"
+PKG_EMR	PACKAGE BODY	688	"         Return(Result);
+"
+PKG_EMR	PACKAGE BODY	689	"  End fun_get_mbbzxm;
+"
+PKG_EMR	PACKAGE BODY	690	"   /*============================================================
+"
+PKG_EMR	PACKAGE BODY	691	"   ||函数名称：取医嘱首次执行人
+"
+PKG_EMR	PACKAGE BODY	692	"   ||------------------------------------------------------------
+"
+PKG_EMR	PACKAGE BODY	693	"   ||功能说明：
+"
+PKG_EMR	PACKAGE BODY	694	"   ||------------------------------------------------------------
+"
+PKG_EMR	PACKAGE BODY	695	"   ||参数描述：参数标识         输入/输出     类型         名称
+"
+PKG_EMR	PACKAGE BODY	696	"   ||------------------------------------------------------------
+"
+PKG_EMR	PACKAGE BODY	697	"   ||注意事项：
+"
+PKG_EMR	PACKAGE BODY	698	"   ||------------------------------------------------------------
+"
+PKG_EMR	PACKAGE BODY	699	"   ||作    者：xfl            完成时间：2009-4-23
+"
+PKG_EMR	PACKAGE BODY	700	"   ||------------------------------------------------------------
+"
+PKG_EMR	PACKAGE BODY	701	"   ||修改记录：
+"
+PKG_EMR	PACKAGE BODY	702	"   ==============================================================*/
+"
+PKG_EMR	PACKAGE BODY	703	"  FUNCTION FUN_YZ_GET_FIRSTZXR(A_ORDERNO IN NUMBER)
+"
+PKG_EMR	PACKAGE BODY	704	"  RETURN VARCHAR2
+"
+PKG_EMR	PACKAGE BODY	705	"  IS
+"
+PKG_EMR	PACKAGE BODY	706	"  ZGID VARCHAR2(5);
+"
+PKG_EMR	PACKAGE BODY	707	"  ZGXM VARCHAR2(20);
+"
+PKG_EMR	PACKAGE BODY	708	"  a_date date;
+"
+PKG_EMR	PACKAGE BODY	709	"  BEGIN
+"
+PKG_EMR	PACKAGE BODY	710	"    select min(PERFORMANCE_TIME) into a_date from YZ_ORDER_OCC  WHERE ORDER_NO=A_ORDERNO;
+"
+PKG_EMR	PACKAGE BODY	711	"    SELECT PERFORMANCE_OPER_CODE INTO ZGID  FROM  YZ_ORDER_OCC WHERE ORDER_NO=A_ORDERNO and
+"
+PKG_EMR	PACKAGE BODY	712	"
+"
+PKG_EMR	PACKAGE BODY	713	"PERFORMANCE_TIME =a_date ;
+"
+PKG_EMR	PACKAGE BODY	714	"    SELECT F_YJ_GETZGXM(ZGID) INTO ZGXM FROM DUAL;
+"
+PKG_EMR	PACKAGE BODY	715	"    RETURN ZGXM;
+"
+PKG_EMR	PACKAGE BODY	716	"
+"
+PKG_EMR	PACKAGE BODY	717	"    EXCEPTION
+"
+PKG_EMR	PACKAGE BODY	718	"      WHEN OTHERS THEN
+"
+PKG_EMR	PACKAGE BODY	719	"        RETURN '';
+"
+PKG_EMR	PACKAGE BODY	720	"  END FUN_YZ_GET_FIRSTZXR;
+"
+PKG_EMR	PACKAGE BODY	721	"  /*============================================================
+"
+PKG_EMR	PACKAGE BODY	722	"   ||函数名称：取医嘱首次执行人
+"
+PKG_EMR	PACKAGE BODY	723	"   ||------------------------------------------------------------
+"
+PKG_EMR	PACKAGE BODY	724	"   ||功能说明：
+"
+PKG_EMR	PACKAGE BODY	725	"   ||------------------------------------------------------------
+"
+PKG_EMR	PACKAGE BODY	726	"   ||参数描述：参数标识         输入/输出     类型         名称
+"
+PKG_EMR	PACKAGE BODY	727	"   ||------------------------------------------------------------
+"
+PKG_EMR	PACKAGE BODY	728	"   ||注意事项：
+"
+PKG_EMR	PACKAGE BODY	729	"   ||------------------------------------------------------------
+"
+PKG_EMR	PACKAGE BODY	730	"   ||作    者：xfl            完成时间：20094-23
+"
+PKG_EMR	PACKAGE BODY	731	"   ||------------------------------------------------------------
+"
+PKG_EMR	PACKAGE BODY	732	"   ||修改记录：
+"
+PKG_EMR	PACKAGE BODY	733	"   ==============================================================*/
+"
+PKG_EMR	PACKAGE BODY	734	"  FUNCTION FUN_YZ_GET_FIRSTZXSJ(A_ORDERNO IN NUMBER)
+"
+PKG_EMR	PACKAGE BODY	735	"    RETURN DATE
+"
+PKG_EMR	PACKAGE BODY	736	"    IS
+"
+PKG_EMR	PACKAGE BODY	737	"    A_DATE DATE;
+"
+PKG_EMR	PACKAGE BODY	738	"    BEGIN
+"
+PKG_EMR	PACKAGE BODY	739	"      SELECT MIN(PERFORMANCE_TIME) INTO A_DATE  FROM  YZ_ORDER_OCC WHERE ORDER_NO=A_ORDERNO;
+"
+PKG_EMR	PACKAGE BODY	740	"      RETURN A_DATE;
+"
+PKG_EMR	PACKAGE BODY	741	"      EXCEPTION
+"
+PKG_EMR	PACKAGE BODY	742	"        WHEN OTHERS THEN
+"
+PKG_EMR	PACKAGE BODY	743	"          RETURN NULL;
+"
+PKG_EMR	PACKAGE BODY	744	"    END FUN_YZ_GET_FIRSTZXSJ;
+"
+PKG_EMR	PACKAGE BODY	745	"  /*============================================================
+"
+PKG_EMR	PACKAGE BODY	746	"   ||函数名称：--取入院天数
+"
+PKG_EMR	PACKAGE BODY	747	"   ||------------------------------------------------------------
+"
+PKG_EMR	PACKAGE BODY	748	"   ||功能说明：
+"
+PKG_EMR	PACKAGE BODY	749	"   ||------------------------------------------------------------
+"
+PKG_EMR	PACKAGE BODY	750	"   ||参数描述：参数标识         输入/输出     类型         名称
+"
+PKG_EMR	PACKAGE BODY	751	"   ||------------------------------------------------------------
+"
+PKG_EMR	PACKAGE BODY	752	"   ||注意事项：
+"
+PKG_EMR	PACKAGE BODY	753	"   ||------------------------------------------------------------
+"
+PKG_EMR	PACKAGE BODY	754	"   ||作    者：sjq            完成时间：2010-6-1
+"
+PKG_EMR	PACKAGE BODY	755	"   ||------------------------------------------------------------
+"
+PKG_EMR	PACKAGE BODY	756	"   ||修改记录：
+"
+PKG_EMR	PACKAGE BODY	757	"   ==============================================================*/
+"
+PKG_EMR	PACKAGE BODY	758	" function Fun_Get_RuYuanTs(arg_patient_no In NUMBER,as_chanshuz in varchar2) return NUMBER is
+"
+PKG_EMR	PACKAGE BODY	759	"  ll_ryts number(8);
+"
+PKG_EMR	PACKAGE BODY	760	"begin
+"
+PKG_EMR	PACKAGE BODY	761	"   if as_chanshuz = '上虞人民' then
+"
+PKG_EMR	PACKAGE BODY	762	"    select trunc(sysdate - admiss_date)+1 into ll_ryts from zy_patient_information  where
+"
+PKG_EMR	PACKAGE BODY	763	"
+"
+PKG_EMR	PACKAGE BODY	764	"patient_no =
+"
+PKG_EMR	PACKAGE BODY	765	"
+"
+PKG_EMR	PACKAGE BODY	766	"arg_patient_no;
+"
+PKG_EMR	PACKAGE BODY	767	"   end if ;
+"
+PKG_EMR	PACKAGE BODY	768	"   return(ll_ryts);
+"
+PKG_EMR	PACKAGE BODY	769	"end Fun_Get_RuYuanTs;
+"
+PKG_EMR	PACKAGE BODY	770	"   /*============================================================
+"
+PKG_EMR	PACKAGE BODY	771	"   ||函数名称：--取术后天数
+"
+PKG_EMR	PACKAGE BODY	772	"   ||------------------------------------------------------------
+"
+PKG_EMR	PACKAGE BODY	773	"   ||功能说明：
+"
+PKG_EMR	PACKAGE BODY	774	"   ||------------------------------------------------------------
+"
+PKG_EMR	PACKAGE BODY	775	"   ||参数描述：参数标识         输入/输出     类型         名称
+"
+PKG_EMR	PACKAGE BODY	776	"   ||------------------------------------------------------------
+"
+PKG_EMR	PACKAGE BODY	777	"   ||注意事项：
+"
+PKG_EMR	PACKAGE BODY	778	"   ||------------------------------------------------------------
+"
+PKG_EMR	PACKAGE BODY	779	"   ||作    者：sjq            完成时间：2010-6-1
+"
+PKG_EMR	PACKAGE BODY	780	"   ||------------------------------------------------------------
+"
+PKG_EMR	PACKAGE BODY	781	"   ||修改记录：
+"
+PKG_EMR	PACKAGE BODY	782	"   ==============================================================*/
+"
+PKG_EMR	PACKAGE BODY	783	" function Fun_Get_ShuHouTs(arg_patient_no In NUMBER,as_chanshuz in varchar2) return NUMBER is
+"
+PKG_EMR	PACKAGE BODY	784	"  ll_shts number(8);
+"
+PKG_EMR	PACKAGE BODY	785	"begin
+"
+PKG_EMR	PACKAGE BODY	786	" if as_chanshuz = '上虞人民' then
+"
+PKG_EMR	PACKAGE BODY	787	"   select trunc(sysdate - min(charge_date)) into ll_shts from ss_fare  where patient_no =
+"
+PKG_EMR	PACKAGE BODY	788	"
+"
+PKG_EMR	PACKAGE BODY	789	"arg_patient_no;
+"
+PKG_EMR	PACKAGE BODY	790	" end if ;
+"
+PKG_EMR	PACKAGE BODY	791	"   return(ll_shts);
+"
+PKG_EMR	PACKAGE BODY	792	"end Fun_Get_ShuHouTs;
+"
+PKG_EMR	PACKAGE BODY	793	"  /*============================================================
+"
+PKG_EMR	PACKAGE BODY	794	"   ||函数名称：--根据病人所在病区年龄算法取年龄
+"
+PKG_EMR	PACKAGE BODY	795	"   ||------------------------------------------------------------
+"
+PKG_EMR	PACKAGE BODY	796	"   ||功能说明：
+"
+PKG_EMR	PACKAGE BODY	797	"   ||------------------------------------------------------------
+"
+PKG_EMR	PACKAGE BODY	798	"   ||参数描述：参数标识         输入/输出     类型         名称
+"
+PKG_EMR	PACKAGE BODY	799	"   ||------------------------------------------------------------
+"
+PKG_EMR	PACKAGE BODY	800	"   ||注意事项：
+"
+PKG_EMR	PACKAGE BODY	801	"   ||------------------------------------------------------------
+"
+PKG_EMR	PACKAGE BODY	802	"   ||作    者：YANGY          完成时间：2010-9-1
+"
+PKG_EMR	PACKAGE BODY	803	"   ||------------------------------------------------------------
+"
+PKG_EMR	PACKAGE BODY	804	"   ||修改记录：
+"
+PKG_EMR	PACKAGE BODY	805	"   ==============================================================*/
+"
+PKG_EMR	PACKAGE BODY	806	" FUNCTION Fun_Get_NianLing_NlSf(BINGQUDM IN VARCHAR2,CHUSHENGRQ IN DATE,DANGQIANRQ IN DATE)
+"
+PKG_EMR	PACKAGE BODY	807	"
+"
+PKG_EMR	PACKAGE BODY	808	"return
+"
+PKG_EMR	PACKAGE BODY	809	"
+"
+PKG_EMR	PACKAGE BODY	810	"varchar2 IS
+"
+PKG_EMR	PACKAGE BODY	811	"    ls_nlsf varchar2(40);
+"
+PKG_EMR	PACKAGE BODY	812	"    ls_nl  VARCHAR2(50);
+"
+PKG_EMR	PACKAGE BODY	813	"  BEGIN
+"
+PKG_EMR	PACKAGE BODY	814	"    ls_nlsf := '';
+"
+PKG_EMR	PACKAGE BODY	815	"    SELECT NLSF INTO ls_nlsf FROM GY_BQDM WHERE BQDM = ''||BINGQUDM||'';
+"
+PKG_EMR	PACKAGE BODY	816	"    ls_nl := Fun_get_nl(CHUSHENGRQ,DANGQIANRQ,ls_nlsf);
+"
+PKG_EMR	PACKAGE BODY	817	"    RETURN ls_nl;
+"
+PKG_EMR	PACKAGE BODY	818	"  EXCEPTION
+"
+PKG_EMR	PACKAGE BODY	819	"        WHEN OTHERS THEN
+"
+PKG_EMR	PACKAGE BODY	820	"          ls_nl := Fun_get_nl(CHUSHENGRQ,DANGQIANRQ,'');
+"
+PKG_EMR	PACKAGE BODY	821	"          RETURN ls_nl;
+"
+PKG_EMR	PACKAGE BODY	822	" End Fun_Get_NianLing_NlSf;
+"
+PKG_EMR	PACKAGE BODY	823	"
+"
+PKG_EMR	PACKAGE BODY	824	" /*============================================================
+"
+PKG_EMR	PACKAGE BODY	825	"   ||函数名称：--取手术级别 where ss_dmlb where dmlb = 8 and dmxh <> 0
+"
+PKG_EMR	PACKAGE BODY	826	"   ||------------------------------------------------------------
+"
+PKG_EMR	PACKAGE BODY	827	"   ||功能说明：
+"
+PKG_EMR	PACKAGE BODY	828	"   ||------------------------------------------------------------
+"
+PKG_EMR	PACKAGE BODY	829	"   ||参数描述：参数标识         输入/输出     类型         名称
+"
+PKG_EMR	PACKAGE BODY	830	"   ||------------------------------------------------------------
+"
+PKG_EMR	PACKAGE BODY	831	"   ||注意事项：
+"
+PKG_EMR	PACKAGE BODY	832	"   ||------------------------------------------------------------
+"
+PKG_EMR	PACKAGE BODY	833	"   ||作    者：gexiangdong          完成时间：2010-11-23
+"
+PKG_EMR	PACKAGE BODY	834	"   ||------------------------------------------------------------
+"
+PKG_EMR	PACKAGE BODY	835	"   ||修改记录：
+"
+PKG_EMR	PACKAGE BODY	836	"   ==============================================================*/
+"
+PKG_EMR	PACKAGE BODY	837	" FUNCTION FUN_GET_SHOUSHUJBMC(A_DM IN NUMBER) return varchar2 IS
+"
+PKG_EMR	PACKAGE BODY	838	"    S_return            varchar2(20);
+"
+PKG_EMR	PACKAGE BODY	839	"  BEGIN
+"
+PKG_EMR	PACKAGE BODY	840	"    SELECT dmmc INTO S_return FROM ss_dmlb WHERE dmlb = 8 and dmxh = a_dm  ;
+"
+PKG_EMR	PACKAGE BODY	841	"      RETURN S_return ;
+"
+PKG_EMR	PACKAGE BODY	842	"     EXCEPTION
+"
+PKG_EMR	PACKAGE BODY	843	"        WHEN OTHERS THEN
+"
+PKG_EMR	PACKAGE BODY	844	"          RETURN NULL;
+"
+PKG_EMR	PACKAGE BODY	845	" End FUN_GET_SHOUSHUJBMC;
+"
+PKG_EMR	PACKAGE BODY	846	"
+"
+PKG_EMR	PACKAGE BODY	847	" /*============================================================
+"
+PKG_EMR	PACKAGE BODY	848	"   ||函数名称：--取手术类别where ss_dmlb where dmlb = 1 and dmxh <> 0
+"
+PKG_EMR	PACKAGE BODY	849	"   ||------------------------------------------------------------
+"
+PKG_EMR	PACKAGE BODY	850	"   ||功能说明：
+"
+PKG_EMR	PACKAGE BODY	851	"   ||------------------------------------------------------------
+"
+PKG_EMR	PACKAGE BODY	852	"   ||参数描述：参数标识         输入/输出     类型         名称
+"
+PKG_EMR	PACKAGE BODY	853	"   ||------------------------------------------------------------
+"
+PKG_EMR	PACKAGE BODY	854	"   ||注意事项：
+"
+PKG_EMR	PACKAGE BODY	855	"   ||------------------------------------------------------------
+"
+PKG_EMR	PACKAGE BODY	856	"   ||作    者：gexiangdong          完成时间：2010-11-23
+"
+PKG_EMR	PACKAGE BODY	857	"   ||------------------------------------------------------------
+"
+PKG_EMR	PACKAGE BODY	858	"   ||修改记录：
+"
+PKG_EMR	PACKAGE BODY	859	"   ==============================================================*/
+"
+PKG_EMR	PACKAGE BODY	860	"  FUNCTION FUN_GET_SHOUSHULBMC(A_DM IN NUMBER) return varchar2 IS
+"
+PKG_EMR	PACKAGE BODY	861	"      S_return            varchar2(20);
+"
+PKG_EMR	PACKAGE BODY	862	"    BEGIN
+"
+PKG_EMR	PACKAGE BODY	863	"      SELECT dmmc INTO S_return FROM ss_dmlb WHERE dmlb = 1 and dmxh = a_dm  ;
+"
+PKG_EMR	PACKAGE BODY	864	"        RETURN S_return ;
+"
+PKG_EMR	PACKAGE BODY	865	"       EXCEPTION
+"
+PKG_EMR	PACKAGE BODY	866	"          WHEN OTHERS THEN
+"
+PKG_EMR	PACKAGE BODY	867	"            RETURN NULL;
+"
+PKG_EMR	PACKAGE BODY	868	"   End FUN_GET_SHOUSHULBMC;
+"
+PKG_EMR	PACKAGE BODY	869	"
+"
+PKG_EMR	PACKAGE BODY	870	" /*============================================================
+"
+PKG_EMR	PACKAGE BODY	871	"   ||函数名称：--取麻醉方法
+"
+PKG_EMR	PACKAGE BODY	872	"   ||------------------------------------------------------------
+"
+PKG_EMR	PACKAGE BODY	873	"   ||功能说明：
+"
+PKG_EMR	PACKAGE BODY	874	"   ||------------------------------------------------------------
+"
+PKG_EMR	PACKAGE BODY	875	"   ||参数描述：参数标识         输入/输出     类型         名称
+"
+PKG_EMR	PACKAGE BODY	876	"   ||------------------------------------------------------------
+"
+PKG_EMR	PACKAGE BODY	877	"   ||注意事项：
+"
+PKG_EMR	PACKAGE BODY	878	"   ||------------------------------------------------------------
+"
+PKG_EMR	PACKAGE BODY	879	"   ||作    者：gexiangdong          完成时间：2010-11-23
+"
+PKG_EMR	PACKAGE BODY	880	"   ||------------------------------------------------------------
+"
+PKG_EMR	PACKAGE BODY	881	"   ||修改记录：
+"
+PKG_EMR	PACKAGE BODY	882	"   ==============================================================*/
+"
+PKG_EMR	PACKAGE BODY	883	"  FUNCTION FUN_GET_MAZUIFFMC(A_DM IN NUMBER) return varchar2 IS
+"
+PKG_EMR	PACKAGE BODY	884	"      S_return            varchar2(20);
+"
+PKG_EMR	PACKAGE BODY	885	"    BEGIN
+"
+PKG_EMR	PACKAGE BODY	886	"      SELECT dmmc INTO S_return FROM ss_dmlb WHERE dmlb = 2 and dmxh = a_dm  ;
+"
+PKG_EMR	PACKAGE BODY	887	"        RETURN S_return ;
+"
+PKG_EMR	PACKAGE BODY	888	"       EXCEPTION
+"
+PKG_EMR	PACKAGE BODY	889	"          WHEN OTHERS THEN
+"
+PKG_EMR	PACKAGE BODY	890	"            RETURN NULL;
+"
+PKG_EMR	PACKAGE BODY	891	"   End FUN_GET_MAZUIFFMC;
+"
+PKG_EMR	PACKAGE BODY	892	"
+"
+PKG_EMR	PACKAGE BODY	893	" /*============================================================
+"
+PKG_EMR	PACKAGE BODY	894	"   ||函数名称：--取职工姓名
+"
+PKG_EMR	PACKAGE BODY	895	"   ||------------------------------------------------------------
+"
+PKG_EMR	PACKAGE BODY	896	"   ||功能说明：
+"
+PKG_EMR	PACKAGE BODY	897	"   ||------------------------------------------------------------
+"
+PKG_EMR	PACKAGE BODY	898	"   ||参数描述：参数标识         输入/输出     类型         名称
+"
+PKG_EMR	PACKAGE BODY	899	"   ||------------------------------------------------------------
+"
+PKG_EMR	PACKAGE BODY	900	"   ||注意事项：
+"
+PKG_EMR	PACKAGE BODY	901	"   ||------------------------------------------------------------
+"
+PKG_EMR	PACKAGE BODY	902	"   ||作    者：gexiangdong          完成时间：2010-11-23
+"
+PKG_EMR	PACKAGE BODY	903	"   ||------------------------------------------------------------
+"
+PKG_EMR	PACKAGE BODY	904	"   ||修改记录：
+"
+PKG_EMR	PACKAGE BODY	905	"   ==============================================================*/
+"
+PKG_EMR	PACKAGE BODY	906	"   FUNCTION FUN_GET_ZHIGONGXM(S_DM IN VARCHAR2) return varchar2 IS
+"
+PKG_EMR	PACKAGE BODY	907	"      S_return            varchar2(20);
+"
+PKG_EMR	PACKAGE BODY	908	"    BEGIN
+"
+PKG_EMR	PACKAGE BODY	909	"      SELECT xm INTO S_return FROM gy_zgxx WHERE zgid =  S_dm  ;
+"
+PKG_EMR	PACKAGE BODY	910	"        RETURN S_return ;
+"
+PKG_EMR	PACKAGE BODY	911	"       EXCEPTION
+"
+PKG_EMR	PACKAGE BODY	912	"          WHEN OTHERS THEN
+"
+PKG_EMR	PACKAGE BODY	913	"            RETURN NULL;
+"
+PKG_EMR	PACKAGE BODY	914	"   End FUN_GET_ZHIGONGXM;
+"
+PKG_EMR	PACKAGE BODY	915	"
+"
+PKG_EMR	PACKAGE BODY	916	" /*============================================================
+"
+PKG_EMR	PACKAGE BODY	917	"   ||函数名称：--取费用类别 gy_brlb
+"
+PKG_EMR	PACKAGE BODY	918	"   ||------------------------------------------------------------
+"
+PKG_EMR	PACKAGE BODY	919	"   ||功能说明：
+"
+PKG_EMR	PACKAGE BODY	920	"   ||------------------------------------------------------------
+"
+PKG_EMR	PACKAGE BODY	921	"   ||参数描述：参数标识         输入/输出     类型         名称
+"
+PKG_EMR	PACKAGE BODY	922	"   ||------------------------------------------------------------
+"
+PKG_EMR	PACKAGE BODY	923	"   ||注意事项：
+"
+PKG_EMR	PACKAGE BODY	924	"   ||------------------------------------------------------------
+"
+PKG_EMR	PACKAGE BODY	925	"   ||作    者：gexiandong          完成时间：2010-11-23
+"
+PKG_EMR	PACKAGE BODY	926	"   ||------------------------------------------------------------
+"
+PKG_EMR	PACKAGE BODY	927	"   ||修改记录：
+"
+PKG_EMR	PACKAGE BODY	928	"   ==============================================================*/
+"
+PKG_EMR	PACKAGE BODY	929	"   FUNCTION FUN_GET_FEIYONGLBMC(S_DM IN NUMBER) return varchar2 IS
+"
+PKG_EMR	PACKAGE BODY	930	"      S_return            varchar2(20);
+"
+PKG_EMR	PACKAGE BODY	931	"    BEGIN
+"
+PKG_EMR	PACKAGE BODY	932	"      SELECT brlb INTO S_return FROM gy_brlb WHERE xh =  S_dm  ;
+"
+PKG_EMR	PACKAGE BODY	933	"        RETURN S_return ;
+"
+PKG_EMR	PACKAGE BODY	934	"       EXCEPTION
+"
+PKG_EMR	PACKAGE BODY	935	"          WHEN OTHERS THEN
+"
+PKG_EMR	PACKAGE BODY	936	"            RETURN NULL;
+"
+PKG_EMR	PACKAGE BODY	937	"   End FUN_GET_FEIYONGLBMC;
+"
+PKG_EMR	PACKAGE BODY	938	"
+"
+PKG_EMR	PACKAGE BODY	939	"  FUNCTION Fun_get_jcyzxx(as_hospitalid IN VARCHAR2,a_lb in number , as_nr in varchar2, a_jcdxh
+"
+PKG_EMR	PACKAGE BODY	940	"
+"
+PKG_EMR	PACKAGE BODY	941	"IN
+"
+PKG_EMR	PACKAGE BODY	942	"
+"
+PKG_EMR	PACKAGE BODY	943	"NUMBER) Return Varchar2 IS
+"
+PKG_EMR	PACKAGE BODY	944	"
+"
+PKG_EMR	PACKAGE BODY	945	"      n_order_no          number;
+"
+PKG_EMR	PACKAGE BODY	946	"      S_return            varchar2(4000);
+"
+PKG_EMR	PACKAGE BODY	947	"      s_order_name        varchar2(100);
+"
+PKG_EMR	PACKAGE BODY	948	"      n_count             number;
+"
+PKG_EMR	PACKAGE BODY	949	"      n_djxh              number;
+"
+PKG_EMR	PACKAGE BODY	950	"      s_name              varchar2(30);
+"
+PKG_EMR	PACKAGE BODY	951	"      s_bah               varchar2(15);
+"
+PKG_EMR	PACKAGE BODY	952	"      s_curr_bed          varchar2(20);
+"
+PKG_EMR	PACKAGE BODY	953	"      s_kssj              varchar2(30);
+"
+PKG_EMR	PACKAGE BODY	954	"      s_jsyj              varchar2(100);
+"
+PKG_EMR	PACKAGE BODY	955	"    BEGIN
+"
+PKG_EMR	PACKAGE BODY	956	"     S_return := '';
+"
+PKG_EMR	PACKAGE BODY	957	"     --  查找yz_jcsqd里的医嘱序号
+"
+PKG_EMR	PACKAGE BODY	958	"     n_count := 0;
+"
+PKG_EMR	PACKAGE BODY	959	"     select count(*) into n_count from yz_jcsqd where jcdxh = a_jcdxh;
+"
+PKG_EMR	PACKAGE BODY	960	"     if n_count = 0 then
+"
+PKG_EMR	PACKAGE BODY	961	"        RETURN S_return ;
+"
+PKG_EMR	PACKAGE BODY	962	"     end if;
+"
+PKG_EMR	PACKAGE BODY	963	"     select yzxh,brxh into n_order_no,n_djxh from yz_jcsqd where jcdxh = a_jcdxh;
+"
+PKG_EMR	PACKAGE BODY	964	"
+"
+PKG_EMR	PACKAGE BODY	965	"       -- 查找 zy_patient_information 里的数据
+"
+PKG_EMR	PACKAGE BODY	966	"     n_count := 0;
+"
+PKG_EMR	PACKAGE BODY	967	"     select  count(*) into n_count  from zy_patient_information where patient_no = n_djxh;
+"
+PKG_EMR	PACKAGE BODY	968	"         if n_count = 0 then
+"
+PKG_EMR	PACKAGE BODY	969	"        RETURN S_return ;
+"
+PKG_EMR	PACKAGE BODY	970	"     end if;
+"
+PKG_EMR	PACKAGE BODY	971	"     select  nvl(name,''), nvl(bah,'') ,nvl(curr_bed,'') into s_name,s_bah,s_curr_bed  from
+"
+PKG_EMR	PACKAGE BODY	972	"
+"
+PKG_EMR	PACKAGE BODY	973	"zy_patient_information where patient_no = n_djxh;
+"
+PKG_EMR	PACKAGE BODY	974	"
+"
+PKG_EMR	PACKAGE BODY	975	"
+"
+PKG_EMR	PACKAGE BODY	976	"     -- 查找 yz_inpatinet_order 里的数据
+"
+PKG_EMR	PACKAGE BODY	977	"     n_count := 0;
+"
+PKG_EMR	PACKAGE BODY	978	"     select  count(*) into n_count  from yz_inpatient_order where order_no = n_order_no;
+"
+PKG_EMR	PACKAGE BODY	979	"         if n_count = 0 then
+"
+PKG_EMR	PACKAGE BODY	980	"        RETURN S_return ;
+"
+PKG_EMR	PACKAGE BODY	981	"     end if;
+"
+PKG_EMR	PACKAGE BODY	982	"      select  order_name, to_char(start_time,'yyyy-mm-dd hh24:mi:ss') into s_order_name,s_kssj
+"
+PKG_EMR	PACKAGE BODY	983	"
+"
+PKG_EMR	PACKAGE BODY	984	"from
+"
+PKG_EMR	PACKAGE BODY	985	"
+"
+PKG_EMR	PACKAGE BODY	986	"yz_inpatient_order where order_no = n_order_no;
+"
+PKG_EMR	PACKAGE BODY	987	"      if a_lb = 1 then --医生站
+"
+PKG_EMR	PACKAGE BODY	988	"         s_jsyj := '，请删除相应的医嘱，重新开单。';
+"
+PKG_EMR	PACKAGE BODY	989	"      else
+"
+PKG_EMR	PACKAGE BODY	990	"         s_jsyj := '，请通知医生删除相应的医嘱，重新开单。';
+"
+PKG_EMR	PACKAGE BODY	991	"      end if;
+"
+PKG_EMR	PACKAGE BODY	992	"      if instr(as_hospitalid,'浙二') > 0 then
+"
+PKG_EMR	PACKAGE BODY	993	"         S_return := '患者：'||s_name||'，病案号：'||s_bah||' 床号：'||s_curr_bed||'
+"
+PKG_EMR	PACKAGE BODY	994	"
+"
+PKG_EMR	PACKAGE BODY	995	"'||s_kssj||' 开的
+"
+PKG_EMR	PACKAGE BODY	996	"
+"
+PKG_EMR	PACKAGE BODY	997	"检查项目【'||s_order_name||'】的检查申请单已被退回，理由如下：'||as_nr||s_jsyj;
+"
+PKG_EMR	PACKAGE BODY	998	"      else
+"
+PKG_EMR	PACKAGE BODY	999	"         S_return := s_order_name;
+"
+PKG_EMR	PACKAGE BODY	1000	"      end if;
+"
+PKG_EMR	PACKAGE BODY	1001	"        RETURN S_return ;
+"
+PKG_EMR	PACKAGE BODY	1002	"       EXCEPTION
+"
+PKG_EMR	PACKAGE BODY	1003	"          WHEN OTHERS THEN
+"
+PKG_EMR	PACKAGE BODY	1004	"            RETURN NULL;
+"
+PKG_EMR	PACKAGE BODY	1005	"   End Fun_get_jcyzxx;
+"
+PKG_EMR	PACKAGE BODY	1006	"
+"
+PKG_EMR	PACKAGE BODY	1007	"FUNCTION Fun_StrGetToken(prm_Source IN OUT VARCHAR2,
+"
+PKG_EMR	PACKAGE BODY	1008	"                            prm_Separator IN VARCHAR2)
+"
+PKG_EMR	PACKAGE BODY	1009	"   RETURN VARCHAR2
+"
+PKG_EMR	PACKAGE BODY	1010	"   IS
+"
+PKG_EMR	PACKAGE BODY	1011	"      RESULT VARCHAR2(600);
+"
+PKG_EMR	PACKAGE BODY	1012	"      n_p        NUMBER(3);
+"
+PKG_EMR	PACKAGE BODY	1013	"      n_i        NUMBER(3);
+"
+PKG_EMR	PACKAGE BODY	1014	"   BEGIN
+"
+PKG_EMR	PACKAGE BODY	1015	"      IF prm_Source IS NULL THEN
+"
+PKG_EMR	PACKAGE BODY	1016	"         prm_Source := '';
+"
+PKG_EMR	PACKAGE BODY	1017	"         RESULT := '';
+"
+PKG_EMR	PACKAGE BODY	1018	"         RETURN(RESULT);
+"
+PKG_EMR	PACKAGE BODY	1019	"      END IF;
+"
+PKG_EMR	PACKAGE BODY	1020	"
+"
+PKG_EMR	PACKAGE BODY	1021	"      n_p := Instr(prm_Source,prm_Separator,1,1);
+"
+PKG_EMR	PACKAGE BODY	1022	"      n_i := Length(prm_Separator);
+"
+PKG_EMR	PACKAGE BODY	1023	"
+"
+PKG_EMR	PACKAGE BODY	1024	"      IF n_p = 0 THEN
+"
+PKG_EMR	PACKAGE BODY	1025	"         RESULT := prm_Source;
+"
+PKG_EMR	PACKAGE BODY	1026	"         prm_Source := '';
+"
+PKG_EMR	PACKAGE BODY	1027	"      ELSE
+"
+PKG_EMR	PACKAGE BODY	1028	"         RESULT := SUBSTR(prm_Source,1,n_p - 1);
+"
+PKG_EMR	PACKAGE BODY	1029	"         prm_Source := Substr(prm_Source,n_p+n_i);
+"
+PKG_EMR	PACKAGE BODY	1030	"      END IF;
+"
+PKG_EMR	PACKAGE BODY	1031	"
+"
+PKG_EMR	PACKAGE BODY	1032	"      RETURN(RESULT);
+"
+PKG_EMR	PACKAGE BODY	1033	"   END Fun_StrGetToken;
+"
+PKG_EMR	PACKAGE BODY	1034	"
+"
+PKG_EMR	PACKAGE BODY	1035	"
+"
+PKG_EMR	PACKAGE BODY	1036	"FUNCTION Fun_Get_ChuBuZd(prm_bingrenxh in number) RETURN VARCHAR2
+"
+PKG_EMR	PACKAGE BODY	1037	"is
+"
+PKG_EMR	PACKAGE BODY	1038	" RESULT VARCHAR2(600);
+"
+PKG_EMR	PACKAGE BODY	1039	" ChuBuZd VARCHAR2(600);
+"
+PKG_EMR	PACKAGE BODY	1040	" hospitalid VARCHAR2(600);
+"
+PKG_EMR	PACKAGE BODY	1041	" pos number(6);
+"
+PKG_EMR	PACKAGE BODY	1042	"BEGIN
+"
+PKG_EMR	PACKAGE BODY	1043	"  SELECT YYDM INTO hospitalid FROM GY_HOSPITAL_V;
+"
+PKG_EMR	PACKAGE BODY	1044	"   Select NVL(diag_name,'') Into ChuBuZd From zy_patient_information where patient_no =
+"
+PKG_EMR	PACKAGE BODY	1045	"
+"
+PKG_EMR	PACKAGE BODY	1046	"prm_bingrenxh;
+"
+PKG_EMR	PACKAGE BODY	1047	"	pos:=0;
+"
+PKG_EMR	PACKAGE BODY	1048	"  If instr( hospitalid,'杭州市六') > 0 Then
+"
+PKG_EMR	PACKAGE BODY	1049	"     pos := instr(ChuBuZd,'<');
+"
+PKG_EMR	PACKAGE BODY	1050	"  Else
+"
+PKG_EMR	PACKAGE BODY	1051	"    pos := instr(ChuBuZd,'||');
+"
+PKG_EMR	PACKAGE BODY	1052	"
+"
+PKG_EMR	PACKAGE BODY	1053	"   End If;
+"
+PKG_EMR	PACKAGE BODY	1054	"   If pos > 0 Then
+"
+PKG_EMR	PACKAGE BODY	1055	"      RESULT := substring(ChuBuZd,1,pos - 1);
+"
+PKG_EMR	PACKAGE BODY	1056	"     Else
+"
+PKG_EMR	PACKAGE BODY	1057	"       RESULT :=ChuBuZd;
+"
+PKG_EMR	PACKAGE BODY	1058	"    End If;
+"
+PKG_EMR	PACKAGE BODY	1059	"  If result is null Then
+"
+PKG_EMR	PACKAGE BODY	1060	"     RESULT := '';
+"
+PKG_EMR	PACKAGE BODY	1061	"  End If;
+"
+PKG_EMR	PACKAGE BODY	1062	"  return(RESULT);
+"
+PKG_EMR	PACKAGE BODY	1063	" EXCEPTION
+"
+PKG_EMR	PACKAGE BODY	1064	"   WHEN others THEN
+"
+PKG_EMR	PACKAGE BODY	1065	"   return '';
+"
+PKG_EMR	PACKAGE BODY	1066	"END Fun_Get_ChuBuZd;
+"
+PKG_EMR	PACKAGE BODY	1067	"end Pkg_EMR;
+"
+PKG_EMR	PACKAGE BODY	1068	"
+"

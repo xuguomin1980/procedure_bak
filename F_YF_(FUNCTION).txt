@@ -1,0 +1,15 @@
+F_YF_	FUNCTION	1	"FUNCTION         ""F_YF_"" (is_id In Varchar2) return varchar2 is
+"
+F_YF_	FUNCTION	2	"  ls_lxdh varchar2(21);
+"
+F_YF_	FUNCTION	3	"begin
+"
+F_YF_	FUNCTION	4	"  SELECT lxdh INTO ls_lxdh FROM gy_brjbxxk WHERE jzkh = is_id;
+"
+F_YF_	FUNCTION	5	"  return(ls_lxdh);
+"
+F_YF_	FUNCTION	6	"end f_yf_;
+"
+F_YF_	FUNCTION	7	"
+"
+F_YF_	FUNCTION	8	 

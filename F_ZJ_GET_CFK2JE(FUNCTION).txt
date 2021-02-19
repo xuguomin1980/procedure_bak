@@ -1,0 +1,27 @@
+F_ZJ_GET_CFK2JE	FUNCTION	1	"FUNCTION         ""F_ZJ_GET_CFK2JE"" 
+"
+F_ZJ_GET_CFK2JE	FUNCTION	2	"(arg_cfsb in number)
+"
+F_ZJ_GET_CFK2JE	FUNCTION	3	"  return number
+"
+F_ZJ_GET_CFK2JE	FUNCTION	4	"  is 
+"
+F_ZJ_GET_CFK2JE	FUNCTION	5	"    ld_je  number(15,4);
+"
+F_ZJ_GET_CFK2JE	FUNCTION	6	"  begin
+"
+F_ZJ_GET_CFK2JE	FUNCTION	7	"      select sum(dj*sl)
+"
+F_ZJ_GET_CFK2JE	FUNCTION	8	"        Into ld_je
+"
+F_ZJ_GET_CFK2JE	FUNCTION	9	"        from mz_cfk2
+"
+F_ZJ_GET_CFK2JE	FUNCTION	10	"       where cfsb = arg_cfsb;
+"
+F_ZJ_GET_CFK2JE	FUNCTION	11	"        return(ld_je);
+"
+F_ZJ_GET_CFK2JE	FUNCTION	12	"  end;
+"
+F_ZJ_GET_CFK2JE	FUNCTION	13	"
+"
+F_ZJ_GET_CFK2JE	FUNCTION	14	 

@@ -1,0 +1,199 @@
+YK_CGKZ	PROCEDURE	1	"PROCEDURE         ""YK_CGKZ"" (
+"
+YK_CGKZ	PROCEDURE	2	"	p_Xtxh	 IN NUMBER,
+"
+YK_CGKZ	PROCEDURE	3	"	p_Cgxh	 IN NUMBER,
+"
+YK_CGKZ	PROCEDURE	4	"        p_Yhdm   IN VARCHAR2) IS
+"
+YK_CGKZ	PROCEDURE	5	"BEGIN
+"
+YK_CGKZ	PROCEDURE	6	"DECLARE
+"
+YK_CGKZ	PROCEDURE	7	"
+"
+YK_CGKZ	PROCEDURE	8	" v_xh	number;
+"
+YK_CGKZ	PROCEDURE	9	" v_jgxh number;
+"
+YK_CGKZ	PROCEDURE	10	" v_ypxh number(6);
+"
+YK_CGKZ	PROCEDURE	11	" v_ypcddm number(4);
+"
+YK_CGKZ	PROCEDURE	12	" v_sl	number(13,3);
+"
+YK_CGKZ	PROCEDURE	13	" v_jj	number(16,6);
+"
+YK_CGKZ	PROCEDURE	14	" v_lsj	number(16,6);
+"
+YK_CGKZ	PROCEDURE	15	"
+"
+YK_CGKZ	PROCEDURE	16	"
+"
+YK_CGKZ	PROCEDURE	17	" v_cgsl	number(13,3);
+"
+YK_CGKZ	PROCEDURE	18	" v_cgjj	number(16,6);
+"
+YK_CGKZ	PROCEDURE	19	" v_cglsj	number(16,6);
+"
+YK_CGKZ	PROCEDURE	20	"
+"
+YK_CGKZ	PROCEDURE	21	" v_jjje number(16,6);
+"
+YK_CGKZ	PROCEDURE	22	" v_lsje number(16,6);
+"
+YK_CGKZ	PROCEDURE	23	"
+"
+YK_CGKZ	PROCEDURE	24	" v_cgjjje number(16,6);
+"
+YK_CGKZ	PROCEDURE	25	" v_cglsje number(16,6);
+"
+YK_CGKZ	PROCEDURE	26	"
+"
+YK_CGKZ	PROCEDURE	27	" v_ksrq date;
+"
+YK_CGKZ	PROCEDURE	28	" v_jsrq date;
+"
+YK_CGKZ	PROCEDURE	29	"
+"
+YK_CGKZ	PROCEDURE	30	" CURSOR cur_yp is
+"
+YK_CGKZ	PROCEDURE	31	"  SELECT xh,jgxh,ypxh,ypcddm,sl,jj,lsj
+"
+YK_CGKZ	PROCEDURE	32	"  FROM   Yk_cgkz_ypmx
+"
+YK_CGKZ	PROCEDURE	33	"  WHERE  xtxh = p_Xtxh and cgxh = p_Cgxh and yhdm = p_Yhdm
+"
+YK_CGKZ	PROCEDURE	34	"  ORDER  BY xh;  
+"
+YK_CGKZ	PROCEDURE	35	"
+"
+YK_CGKZ	PROCEDURE	36	" CURSOR cur_cg is
+"
+YK_CGKZ	PROCEDURE	37	"  SELECT sum(sl),sum(round(sl*jj,2)),sum(round(sl*lsj,2))
+"
+YK_CGKZ	PROCEDURE	38	"  FROM   Yk_ypmxz
+"
+YK_CGKZ	PROCEDURE	39	"  WHERE  xtxh = p_Xtxh and crkfsdm in (1,4) and 
+"
+YK_CGKZ	PROCEDURE	40	"         rq > v_ksrq and rq < (v_jsrq + 1) and 
+"
+YK_CGKZ	PROCEDURE	41	"         ypxh = v_ypxh and ypcddm = v_ypcddm
+"
+YK_CGKZ	PROCEDURE	42	"  GROUP  BY ypxh,ypcddm;
+"
+YK_CGKZ	PROCEDURE	43	"
+"
+YK_CGKZ	PROCEDURE	44	"BEGIN
+"
+YK_CGKZ	PROCEDURE	45	"---- INIT
+"
+YK_CGKZ	PROCEDURE	46	"  DELETE FROM Yk_cgkz_cgdb WHERE xtxh = p_Xtxh and cgxh = p_Cgxh and yhdm = p_Yhdm;
+"
+YK_CGKZ	PROCEDURE	47	"
+"
+YK_CGKZ	PROCEDURE	48	"  BEGIN     
+"
+YK_CGKZ	PROCEDURE	49	"    SELECT cgksrq,cgjsrq
+"
+YK_CGKZ	PROCEDURE	50	"    INTO   v_ksrq,v_jsrq
+"
+YK_CGKZ	PROCEDURE	51	"    FROM yk_cgkz_sy
+"
+YK_CGKZ	PROCEDURE	52	"    WHERE xtxh = p_Xtxh and cgxh = p_Cgxh and yhdm = p_Yhdm;
+"
+YK_CGKZ	PROCEDURE	53	"      EXCEPTION      
+"
+YK_CGKZ	PROCEDURE	54	"        WHEN NO_DATA_FOUND THEN
+"
+YK_CGKZ	PROCEDURE	55	"          v_ksrq := to_date('yyyy/mm/dd','1900/01/01');
+"
+YK_CGKZ	PROCEDURE	56	"          v_jsrq := to_date('yyyy/mm/dd','1900/01/01');
+"
+YK_CGKZ	PROCEDURE	57	"  END;
+"
+YK_CGKZ	PROCEDURE	58	"
+"
+YK_CGKZ	PROCEDURE	59	"---- START
+"
+YK_CGKZ	PROCEDURE	60	"  OPEN CUR_YP;
+"
+YK_CGKZ	PROCEDURE	61	"  LOOP
+"
+YK_CGKZ	PROCEDURE	62	"    FETCH cur_yp INTO v_xh,v_jgxh,v_ypxh,v_ypcddm,v_sl,v_jj,v_lsj;
+"
+YK_CGKZ	PROCEDURE	63	"    EXIT WHEN cur_yp%NOTFOUND;
+"
+YK_CGKZ	PROCEDURE	64	"      
+"
+YK_CGKZ	PROCEDURE	65	"      v_jjje := round(v_sl*v_jj,2);
+"
+YK_CGKZ	PROCEDURE	66	"      v_lsje := round(v_sl*v_lsj,2);
+"
+YK_CGKZ	PROCEDURE	67	"
+"
+YK_CGKZ	PROCEDURE	68	"
+"
+YK_CGKZ	PROCEDURE	69	"    BEGIN     
+"
+YK_CGKZ	PROCEDURE	70	"     SELECT sum(sl),sum(round(sl*jj,2)),sum(round(sl*lsj,2))
+"
+YK_CGKZ	PROCEDURE	71	"     INTO   v_cgsl,v_cgjjje,v_cglsje
+"
+YK_CGKZ	PROCEDURE	72	"     FROM   Yk_ypmxz
+"
+YK_CGKZ	PROCEDURE	73	"     WHERE  xtxh = p_Xtxh and crkfsdm in (1,4) and 
+"
+YK_CGKZ	PROCEDURE	74	"            rq > v_ksrq and rq < (v_jsrq + 1) and 
+"
+YK_CGKZ	PROCEDURE	75	"            ypxh = v_ypxh and ypcddm = v_ypcddm
+"
+YK_CGKZ	PROCEDURE	76	"     GROUP  BY ypxh,ypcddm;
+"
+YK_CGKZ	PROCEDURE	77	"     EXCEPTION      
+"
+YK_CGKZ	PROCEDURE	78	"       WHEN NO_DATA_FOUND THEN
+"
+YK_CGKZ	PROCEDURE	79	"          v_cgsl := 0;
+"
+YK_CGKZ	PROCEDURE	80	"          v_cgjjje := 0;
+"
+YK_CGKZ	PROCEDURE	81	"          v_cglsje := 0;
+"
+YK_CGKZ	PROCEDURE	82	"    END;
+"
+YK_CGKZ	PROCEDURE	83	"
+"
+YK_CGKZ	PROCEDURE	84	"    insert into Yk_cgkz_cgdb(xtxh,cgxh,yhdm,xh,jgxh,ypxh,ypcddm,
+"
+YK_CGKZ	PROCEDURE	85	"                         sl,cgsl,jjje,cgjjje,lsje,cglsje)
+"
+YK_CGKZ	PROCEDURE	86	"    values(p_xtxh,p_cgxh,p_yhdm,v_xh,v_jgxh,v_ypxh,v_ypcddm,
+"
+YK_CGKZ	PROCEDURE	87	"                         v_sl,v_cgsl,v_jjje,v_cgjjje,v_lsje,v_cglsje);
+"
+YK_CGKZ	PROCEDURE	88	"
+"
+YK_CGKZ	PROCEDURE	89	"  END LOOP;
+"
+YK_CGKZ	PROCEDURE	90	"  CLOSE cur_yp;
+"
+YK_CGKZ	PROCEDURE	91	"
+"
+YK_CGKZ	PROCEDURE	92	"--EXCEPTION  -- exception handlers begin
+"
+YK_CGKZ	PROCEDURE	93	"--   WHEN OTHERS THEN  -- handles all other errors
+"
+YK_CGKZ	PROCEDURE	94	"--        ROLLBACK;
+"
+YK_CGKZ	PROCEDURE	95	"--	RAISE_APPLICATION_ERROR(-20101,'Yk_cgkz FAILS');
+"
+YK_CGKZ	PROCEDURE	96	"END;
+"
+YK_CGKZ	PROCEDURE	97	"END;
+"
+YK_CGKZ	PROCEDURE	98	"
+"
+YK_CGKZ	PROCEDURE	99	"
+"
+YK_CGKZ	PROCEDURE	100	 

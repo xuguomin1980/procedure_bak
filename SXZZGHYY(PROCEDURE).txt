@@ -1,0 +1,280 @@
+SXZZGHYY	PROCEDURE	1	"PROCEDURE ""SXZZGHYY"" (
+"
+SXZZGHYY	PROCEDURE	2	"       paibanxh IN VARCHAR,
+"
+SXZZGHYY	PROCEDURE	3	"       jiuzhenkh in VARCHAR,
+"
+SXZZGHYY	PROCEDURE	4	"       xingming IN VARCHAR,
+"
+SXZZGHYY	PROCEDURE	5	"       lianxidh IN VARCHAR,
+"
+SXZZGHYY	PROCEDURE	6	"       shenfenzh IN VARCHAR,
+"
+SXZZGHYY	PROCEDURE	7	"       guahaoxh IN VARCHAR,
+"
+SXZZGHYY	PROCEDURE	8	"       ret_code out INTEGER,
+"
+SXZZGHYY	PROCEDURE	9	"       ret_info out VARCHAR,
+"
+SXZZGHYY	PROCEDURE	10	"       reg_id out VARCHAR
+"
+SXZZGHYY	PROCEDURE	11	") AS
+"
+SXZZGHYY	PROCEDURE	12	"  v_count number(5);
+"
+SXZZGHYY	PROCEDURE	13	"  v_brxx gy_brjbxxk%rowtype;
+"
+SXZZGHYY	PROCEDURE	14	"  v_yyxx gh_mzyyk%rowtype;
+"
+SXZZGHYY	PROCEDURE	15	"  v_pbxx gh_yzpbk%rowtype;
+"
+SXZZGHYY	PROCEDURE	16	"  v_dtpb gh_mzpbk%rowtype;
+"
+SXZZGHYY	PROCEDURE	17	"BEGIN
+"
+SXZZGHYY	PROCEDURE	18	"  v_yyxx.pbxh:=to_number(substr(paibanxh,1,length(paibanxh)-1));
+"
+SXZZGHYY	PROCEDURE	19	"  v_yyxx.yysj:=to_number(substr(paibanxh,length(paibanxh),1));
+"
+SXZZGHYY	PROCEDURE	20	"  begin
+"
+SXZZGHYY	PROCEDURE	21	"   if jiuzhenkh is not null then
+"
+SXZZGHYY	PROCEDURE	22	"    select * into v_brxx from gy_brjbxxk where jzkh=jiuzhenkh;
+"
+SXZZGHYY	PROCEDURE	23	"      if v_brxx.xm<>xingming then
+"
+SXZZGHYY	PROCEDURE	24	"      ret_code:=-1;
+"
+SXZZGHYY	PROCEDURE	25	"      ret_info:='卡号和信息不匹配';
+"
+SXZZGHYY	PROCEDURE	26	"      rollback;
+"
+SXZZGHYY	PROCEDURE	27	"      return;
+"
+SXZZGHYY	PROCEDURE	28	"      end if;
+"
+SXZZGHYY	PROCEDURE	29	"    end if;
+"
+SXZZGHYY	PROCEDURE	30	"    if jiuzhenkh is null then
+"
+SXZZGHYY	PROCEDURE	31	"    v_brxx.xm:=xingming;
+"
+SXZZGHYY	PROCEDURE	32	"    v_brxx.lxdh:=lianxidh;
+"
+SXZZGHYY	PROCEDURE	33	"    v_brxx.sfzh:=shenfenzh;
+"
+SXZZGHYY	PROCEDURE	34	"    end if;
+"
+SXZZGHYY	PROCEDURE	35	"    end;
+"
+SXZZGHYY	PROCEDURE	36	"  /*select * into v_brxx from gy_brjbxxk where jzkh=jiuzhenkh;
+"
+SXZZGHYY	PROCEDURE	37	"  exception
+"
+SXZZGHYY	PROCEDURE	38	"    when others then
+"
+SXZZGHYY	PROCEDURE	39	"      ret_code:=-1;
+"
+SXZZGHYY	PROCEDURE	40	"      ret_info:='该病人信息不存在'||sqlerrm;
+"
+SXZZGHYY	PROCEDURE	41	"      rollback;
+"
+SXZZGHYY	PROCEDURE	42	"      return;
+"
+SXZZGHYY	PROCEDURE	43	"  end;
+"
+SXZZGHYY	PROCEDURE	44	"  if v_brxx.xm<>xingming then
+"
+SXZZGHYY	PROCEDURE	45	"    ret_code:=-1;
+"
+SXZZGHYY	PROCEDURE	46	"    ret_info:='卡号和信息不匹配';
+"
+SXZZGHYY	PROCEDURE	47	"    rollback;
+"
+SXZZGHYY	PROCEDURE	48	"    return;
+"
+SXZZGHYY	PROCEDURE	49	"  end if;*/
+"
+SXZZGHYY	PROCEDURE	50	"  begin
+"
+SXZZGHYY	PROCEDURE	51	"    select * into v_pbxx from gh_yzpbk where jlxh=v_yyxx.pbxh;
+"
+SXZZGHYY	PROCEDURE	52	"  exception
+"
+SXZZGHYY	PROCEDURE	53	"    when others then
+"
+SXZZGHYY	PROCEDURE	54	"      ret_code:=-4;
+"
+SXZZGHYY	PROCEDURE	55	"      ret_info:='该排班ID不存在'||sqlerrm;
+"
+SXZZGHYY	PROCEDURE	56	"      rollback;
+"
+SXZZGHYY	PROCEDURE	57	"      return;
+"
+SXZZGHYY	PROCEDURE	58	"  end;
+"
+SXZZGHYY	PROCEDURE	59	"  begin
+"
+SXZZGHYY	PROCEDURE	60	"    select yyghxh into v_yyxx.ghxh from gh_yypbmx where pbjlxh=v_yyxx.pbxh and yylxdm=11 and ghsjlb=v_yyxx.yysj and yyghxh=guahaoxh;
+"
+SXZZGHYY	PROCEDURE	61	"  exception
+"
+SXZZGHYY	PROCEDURE	62	"    when others then
+"
+SXZZGHYY	PROCEDURE	63	"      ret_code:=-4;
+"
+SXZZGHYY	PROCEDURE	64	"      ret_info:='该号码不存在'||sqlerrm;
+"
+SXZZGHYY	PROCEDURE	65	"      rollback;
+"
+SXZZGHYY	PROCEDURE	66	"      return;
+"
+SXZZGHYY	PROCEDURE	67	"  end;
+"
+SXZZGHYY	PROCEDURE	68	"  v_yyxx.yyrq1:=trunc(sysdate)+mod(v_pbxx.xq+5-mod(to_char(sysdate,'D')+5,7),7)+1;
+"
+SXZZGHYY	PROCEDURE	69	"  select count(*)
+"
+SXZZGHYY	PROCEDURE	70	"    into v_count
+"
+SXZZGHYY	PROCEDURE	71	"    from gh_mzyyk
+"
+SXZZGHYY	PROCEDURE	72	"   where mzlbxh=v_pbxx.mzlbxh
+"
+SXZZGHYY	PROCEDURE	73	"     and ksdm=v_pbxx.ksdm
+"
+SXZZGHYY	PROCEDURE	74	"     and ysgh=v_pbxx.ysgh
+"
+SXZZGHYY	PROCEDURE	75	"     and yyrq1>=trunc(v_yyxx.yyrq1)
+"
+SXZZGHYY	PROCEDURE	76	"     and yyrq1<trunc(v_yyxx.yyrq1)+1
+"
+SXZZGHYY	PROCEDURE	77	"     and ghxh=v_yyxx.ghxh
+"
+SXZZGHYY	PROCEDURE	78	"     and yysj=v_yyxx.yysj
+"
+SXZZGHYY	PROCEDURE	79	"     and nvl(zt,0)>=0;
+"
+SXZZGHYY	PROCEDURE	80	"  if v_count>0 then
+"
+SXZZGHYY	PROCEDURE	81	"    ret_code:=-3;
+"
+SXZZGHYY	PROCEDURE	82	"    ret_info:='该号码已被预约';
+"
+SXZZGHYY	PROCEDURE	83	"    rollback;
+"
+SXZZGHYY	PROCEDURE	84	"    return;
+"
+SXZZGHYY	PROCEDURE	85	"  end if;
+"
+SXZZGHYY	PROCEDURE	86	"  begin
+"
+SXZZGHYY	PROCEDURE	87	"    select *
+"
+SXZZGHYY	PROCEDURE	88	"      into v_dtpb
+"
+SXZZGHYY	PROCEDURE	89	"      from gh_mzpbk
+"
+SXZZGHYY	PROCEDURE	90	"     where rq>=trunc(v_yyxx.yyrq1)
+"
+SXZZGHYY	PROCEDURE	91	"       and rq<trunc(v_yyxx.yyrq1)+1
+"
+SXZZGHYY	PROCEDURE	92	"       and mzlbxh=v_pbxx.mzlbxh
+"
+SXZZGHYY	PROCEDURE	93	"       and ksdm=v_pbxx.ksdm
+"
+SXZZGHYY	PROCEDURE	94	"       and ysgh=v_pbxx.ysgh
+"
+SXZZGHYY	PROCEDURE	95	"       and rownum=1;
+"
+SXZZGHYY	PROCEDURE	96	"  exception
+"
+SXZZGHYY	PROCEDURE	97	"    when others then
+"
+SXZZGHYY	PROCEDURE	98	"      v_dtpb.jlxh:=0;
+"
+SXZZGHYY	PROCEDURE	99	"  end;
+"
+SXZZGHYY	PROCEDURE	100	"  if v_dtpb.jlxh>0 then
+"
+SXZZGHYY	PROCEDURE	101	"    if v_yyxx.yysj<>1 then
+"
+SXZZGHYY	PROCEDURE	102	"      v_dtpb.swjsh:=v_dtpb.xwjsh;
+"
+SXZZGHYY	PROCEDURE	103	"    end if;
+"
+SXZZGHYY	PROCEDURE	104	"    if v_dtpb.swjsh<0 then
+"
+SXZZGHYY	PROCEDURE	105	"      ret_code:=-4;
+"
+SXZZGHYY	PROCEDURE	106	"      ret_info:='该排班已停诊';
+"
+SXZZGHYY	PROCEDURE	107	"      rollback;
+"
+SXZZGHYY	PROCEDURE	108	"      return;
+"
+SXZZGHYY	PROCEDURE	109	"    end if;
+"
+SXZZGHYY	PROCEDURE	110	"  end if;
+"
+SXZZGHYY	PROCEDURE	111	"  update gy_xhb set dqz=dqz+zz where bm='GH_MZYYK';
+"
+SXZZGHYY	PROCEDURE	112	"  select dqz into v_yyxx.yyxh from gy_xhb where bm='GH_MZYYK';
+"
+SXZZGHYY	PROCEDURE	113	"  v_yyxx.xm:=v_brxx.xm;
+"
+SXZZGHYY	PROCEDURE	114	"  v_yyxx.xb:=v_brxx.xb;
+"
+SXZZGHYY	PROCEDURE	115	"  v_yyxx.csrq:=v_brxx.csrq;
+"
+SXZZGHYY	PROCEDURE	116	"  v_yyxx.sfzh:=v_brxx.sfzh;
+"
+SXZZGHYY	PROCEDURE	117	"  v_yyxx.lxdh:=v_brxx.lxdh;
+"
+SXZZGHYY	PROCEDURE	118	"  v_yyxx.jtzz:=v_brxx.jtzz;
+"
+SXZZGHYY	PROCEDURE	119	"  v_yyxx.ksdm:=v_pbxx.ksdm;
+"
+SXZZGHYY	PROCEDURE	120	"  v_yyxx.ysgh:=v_pbxx.ysgh;
+"
+SXZZGHYY	PROCEDURE	121	"  v_yyxx.djrq:=sysdate;
+"
+SXZZGHYY	PROCEDURE	122	"  v_yyxx.zt:=0;
+"
+SXZZGHYY	PROCEDURE	123	"  v_yyxx.czgh:='ZZYY';
+"
+SXZZGHYY	PROCEDURE	124	"  v_yyxx.yylb:=3;
+"
+SXZZGHYY	PROCEDURE	125	"  v_yyxx.mzlbxh:=v_pbxx.mzlbxh;
+"
+SXZZGHYY	PROCEDURE	126	"  v_yyxx.jzkh:=v_brxx.jzkh;
+"
+SXZZGHYY	PROCEDURE	127	"  insert into gh_mzyyk values v_yyxx;
+"
+SXZZGHYY	PROCEDURE	128	"  ret_code:=0;
+"
+SXZZGHYY	PROCEDURE	129	"  ret_info:='预约成功';
+"
+SXZZGHYY	PROCEDURE	130	"  reg_id:=v_yyxx.yyxh;
+"
+SXZZGHYY	PROCEDURE	131	"  commit;
+"
+SXZZGHYY	PROCEDURE	132	"EXCEPTION
+"
+SXZZGHYY	PROCEDURE	133	"  when others then
+"
+SXZZGHYY	PROCEDURE	134	"    ret_code:=-4;
+"
+SXZZGHYY	PROCEDURE	135	"    ret_info:='预约失败'||sqlerrm;
+"
+SXZZGHYY	PROCEDURE	136	"    rollback;
+"
+SXZZGHYY	PROCEDURE	137	"    return;
+"
+SXZZGHYY	PROCEDURE	138	"END;
+"
+SXZZGHYY	PROCEDURE	139	"
+"
+SXZZGHYY	PROCEDURE	140	" 
+"

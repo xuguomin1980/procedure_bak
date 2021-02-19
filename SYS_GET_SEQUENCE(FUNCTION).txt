@@ -1,0 +1,79 @@
+SYS_GET_SEQUENCE	FUNCTION	1	"FUNCTION         ""SYS_GET_SEQUENCE"" (as_seq_name in varchar2) return number
+"
+SYS_GET_SEQUENCE	FUNCTION	2	"is
+"
+SYS_GET_SEQUENCE	FUNCTION	3	"ln_seq_num number;
+"
+SYS_GET_SEQUENCE	FUNCTION	4	"ls_cur_syntax varchar(200);
+"
+SYS_GET_SEQUENCE	FUNCTION	5	"li_cur_handle integer;
+"
+SYS_GET_SEQUENCE	FUNCTION	6	"li_rtn integer;
+"
+SYS_GET_SEQUENCE	FUNCTION	7	"begin
+"
+SYS_GET_SEQUENCE	FUNCTION	8	"  --获得当前的序列号
+"
+SYS_GET_SEQUENCE	FUNCTION	9	"  li_cur_handle:=DBMS_SQL.OPEN_CURSOR;
+"
+SYS_GET_SEQUENCE	FUNCTION	10	"  ls_cur_syntax:='select '||as_seq_name||'.nextval from dual';
+"
+SYS_GET_SEQUENCE	FUNCTION	11	"  DBMS_SQL.PARSE(li_cur_handle,ls_cur_syntax,DBMS_SQL.NATIVE);
+"
+SYS_GET_SEQUENCE	FUNCTION	12	"  DBMS_SQL.DEFINE_COLUMN(li_cur_handle,1,ln_seq_num);
+"
+SYS_GET_SEQUENCE	FUNCTION	13	"  li_rtn:=DBMS_SQL.EXECUTE(li_cur_handle);
+"
+SYS_GET_SEQUENCE	FUNCTION	14	"  If DBMS_SQL.FETCH_ROWS(li_cur_handle)>0 Then
+"
+SYS_GET_SEQUENCE	FUNCTION	15	"    DBMS_SQL.COLUMN_VALUE(li_cur_handle,1,ln_seq_num );
+"
+SYS_GET_SEQUENCE	FUNCTION	16	"    DBMS_SQL.CLOSE_CURSOR(li_cur_handle);
+"
+SYS_GET_SEQUENCE	FUNCTION	17	"    END if;
+"
+SYS_GET_SEQUENCE	FUNCTION	18	"
+"
+SYS_GET_SEQUENCE	FUNCTION	19	"  Return (ln_seq_num);
+"
+SYS_GET_SEQUENCE	FUNCTION	20	"
+"
+SYS_GET_SEQUENCE	FUNCTION	21	"exception
+"
+SYS_GET_SEQUENCE	FUNCTION	22	"
+"
+SYS_GET_SEQUENCE	FUNCTION	23	"  When others Then
+"
+SYS_GET_SEQUENCE	FUNCTION	24	"    begin
+"
+SYS_GET_SEQUENCE	FUNCTION	25	"      DBMS_SQL.CLOSE_CURSOR(li_cur_handle);
+"
+SYS_GET_SEQUENCE	FUNCTION	26	"      li_cur_handle :=DBMS_SQL.OPEN_CURSOR;
+"
+SYS_GET_SEQUENCE	FUNCTION	27	"      ls_cur_syntax := 'create sequence '||as_seq_name||' start with 2';
+"
+SYS_GET_SEQUENCE	FUNCTION	28	"      DBMS_SQL.PARSE(li_cur_handle,ls_cur_syntax,DBMS_SQL.NATIVE);
+"
+SYS_GET_SEQUENCE	FUNCTION	29	"      li_rtn:=DBMS_SQL.EXECUTE(li_cur_handle);
+"
+SYS_GET_SEQUENCE	FUNCTION	30	"      DBMS_SQL.CLOSE_CURSOR(li_cur_handle);
+"
+SYS_GET_SEQUENCE	FUNCTION	31	"      ln_seq_num := 1;
+"
+SYS_GET_SEQUENCE	FUNCTION	32	"      return ln_seq_num;
+"
+SYS_GET_SEQUENCE	FUNCTION	33	"    exception
+"
+SYS_GET_SEQUENCE	FUNCTION	34	"      when others Then
+"
+SYS_GET_SEQUENCE	FUNCTION	35	"      raise_application_error(-20101, 'DBMS_SQL错误。'||ls_cur_syntax||'  '||to_char(SQLCODE)||'  '||SQLERRM);
+"
+SYS_GET_SEQUENCE	FUNCTION	36	"    end;
+"
+SYS_GET_SEQUENCE	FUNCTION	37	"end;
+"
+SYS_GET_SEQUENCE	FUNCTION	38	"
+"
+SYS_GET_SEQUENCE	FUNCTION	39	"
+"
+SYS_GET_SEQUENCE	FUNCTION	40	 

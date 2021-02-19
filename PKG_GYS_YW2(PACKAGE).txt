@@ -1,0 +1,79 @@
+PKG_GYS_YW2	PACKAGE	1	"PACKAGE         ""PKG_GYS_YW2"" is
+"
+PKG_GYS_YW2	PACKAGE	2	"
+"
+PKG_GYS_YW2	PACKAGE	3	"  -- Author  : WZJ
+"
+PKG_GYS_YW2	PACKAGE	4	"  -- Created : 2003-4-29 8:55:12
+"
+PKG_GYS_YW2	PACKAGE	5	"  -- Purpose :
+"
+PKG_GYS_YW2	PACKAGE	6	"  gn_Xtxh          Number(10):=60;
+"
+PKG_GYS_YW2	PACKAGE	7	"  gn_Kjqj          Number(10);
+"
+PKG_GYS_YW2	PACKAGE	8	"  grec_gys_qld     gys_qld%rowtype;
+"
+PKG_GYS_YW2	PACKAGE	9	"  gstr_UserId      Varchar2(10);
+"
+PKG_GYS_YW2	PACKAGE	10	"  gstr_Ksdm        Varchar2(10);
+"
+PKG_GYS_YW2	PACKAGE	11	"  gn_Jyxh          Number(10);
+"
+PKG_GYS_YW2	PACKAGE	12	"  gd_Sysdate       constant date:= sysdate;
+"
+PKG_GYS_YW2	PACKAGE	13	"
+"
+PKG_GYS_YW2	PACKAGE	14	"  FUNCTION  Fun_gys_getwpxx(prm_Sign In Varchar2,Prm_Wpxh In Number)  Return Varchar2;
+"
+PKG_GYS_YW2	PACKAGE	15	"  Pragma restrict_references(fun_gys_getwpxx,WNDS,WNPS);
+"
+PKG_GYS_YW2	PACKAGE	16	"
+"
+PKG_GYS_YW2	PACKAGE	17	"  FUNCTION  Fun_gys_getksmc(Prm_ksdm In Varchar2)  Return Varchar2;
+"
+PKG_GYS_YW2	PACKAGE	18	"  Pragma restrict_references(Fun_gys_getksmc,WNDS,WNPS);
+"
+PKG_GYS_YW2	PACKAGE	19	"
+"
+PKG_GYS_YW2	PACKAGE	20	"  FUNCTION  Fun_gys_GetEvSl(prm_Sign In varchar2,prm_ksdm In Varchar2,prm_Fsrq In Varchar2,prm_Wpxh In Number) Return Number;
+"
+PKG_GYS_YW2	PACKAGE	21	"  Pragma restrict_references(Fun_gys_GetEvSl,WNDS,WNPS);
+"
+PKG_GYS_YW2	PACKAGE	22	"
+"
+PKG_GYS_YW2	PACKAGE	23	"  PROCEDURE Prc_gys_Init(prm_UserId In Varchar2,prm_GysKsdm In Varchar2,prm_ErrCode Out Number,prm_ErrMsg Out Varchar2);
+"
+PKG_GYS_YW2	PACKAGE	24	"
+"
+PKG_GYS_YW2	PACKAGE	25	"  PROCEDURE Prc_gys_GetCrkdh(prm_Crkdm In Number,prm_Crkdh Out Varchar2,prm_ErrCode Out Number,prm_ErrMsg Out Varchar2);
+"
+PKG_GYS_YW2	PACKAGE	26	"
+"
+PKG_GYS_YW2	PACKAGE	27	"  PROCEDURE prc_gys_Gxqld(prm_Jlxh In Number,prm_Sign In Number,prm_ErrCode Out Number,prm_ErrMsg Out Varchar2);
+"
+PKG_GYS_YW2	PACKAGE	28	"
+"
+PKG_GYS_YW2	PACKAGE	29	"  PROCEDURE Prc_gys_gxkc(prm_Crkdm In Number,prm_WPxh In Number,prm_Sl In Number,prm_ErrCode Out Number,Prm_ErrMsg Out Varchar2);
+"
+PKG_GYS_YW2	PACKAGE	30	"
+"
+PKG_GYS_YW2	PACKAGE	31	"  PROCEDURE Prc_gys_F(prm_Jlxh In Number,prm_ErrCode Out Number,Prm_ErrMsg Out Varchar2);
+"
+PKG_GYS_YW2	PACKAGE	32	"
+"
+PKG_GYS_YW2	PACKAGE	33	"  PROCEDURE prc_gys_P(prm_Sqdh In Varchar2,prm_Ywlx In Number,prm_ErrCode Out Number,prm_ErrMsg Out Varchar2);
+"
+PKG_GYS_YW2	PACKAGE	34	"
+"
+PKG_GYS_YW2	PACKAGE	35	"  PROCEDURE prc_gys_T(prm_Jlxh In Number,prm_ErrCode Out Number,prm_ErrMsg Out Varchar2);
+"
+PKG_GYS_YW2	PACKAGE	36	"
+"
+PKG_GYS_YW2	PACKAGE	37	"  Procedure Prc_gys_jbyw(Prm_jlxh In Number,Prm_hh In Number,Prm_czgh In Varchar2 ,prm_ErrCode Out Number,prm_ErrMsg Out Varchar2);
+"
+PKG_GYS_YW2	PACKAGE	38	"end PKG_GYS_YW2;
+"
+PKG_GYS_YW2	PACKAGE	39	"
+"
+PKG_GYS_YW2	PACKAGE	40	 

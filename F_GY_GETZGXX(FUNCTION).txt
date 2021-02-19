@@ -1,0 +1,28 @@
+F_GY_GETZGXX	FUNCTION	1	"FUNCTION ""F_GY_GETZGXX"" (p_yhdm  in varchar2,p_flag varchar2)
+"
+F_GY_GETZGXX	FUNCTION	2	"return varchar
+"
+F_GY_GETZGXX	FUNCTION	3	"is 
+"
+F_GY_GETZGXX	FUNCTION	4	"ls_return varchar2(20);
+"
+F_GY_GETZGXX	FUNCTION	5	"ls_flag   varchar2(20);
+"
+F_GY_GETZGXX	FUNCTION	6	"  begin
+"
+F_GY_GETZGXX	FUNCTION	7	"      ls_flag:=lower(RTRIM(LTRIM(p_flag)));
+"
+F_GY_GETZGXX	FUNCTION	8	"      if ls_flag='xm' then 
+"
+F_GY_GETZGXX	FUNCTION	9	"         select xm into ls_return from gy_zgxx where nvl(zybz,0)<>1 and zgid=p_yhdm;
+"
+F_GY_GETZGXX	FUNCTION	10	"      end if;
+"
+F_GY_GETZGXX	FUNCTION	11	"      return ls_return;
+"
+F_GY_GETZGXX	FUNCTION	12	"  end;
+"
+F_GY_GETZGXX	FUNCTION	13	"
+"
+F_GY_GETZGXX	FUNCTION	14	" 
+"

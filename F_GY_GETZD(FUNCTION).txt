@@ -1,0 +1,33 @@
+F_GY_GETZD	FUNCTION	1	"FUNCTION         ""F_GY_GETZD"" (p_CODE  in varchar2,p_flag varchar2)
+"
+F_GY_GETZD	FUNCTION	2	"return varchar
+"
+F_GY_GETZD	FUNCTION	3	"is
+"
+F_GY_GETZD	FUNCTION	4	"ls_return varchar2(20);
+"
+F_GY_GETZD	FUNCTION	5	"  begin
+"
+F_GY_GETZD	FUNCTION	6	"      IF p_flag = 'YBZD' THEN
+"
+F_GY_GETZD	FUNCTION	7	"          SELECT nvl(YIBAOJBDM,'0') INTO ls_return FROM  YB_DUIZHAOML_JB WHERE JIBINGXH  =p_CODE;
+"
+F_GY_GETZD	FUNCTION	8	"      END IF ;
+"
+F_GY_GETZD	FUNCTION	9	"      EXCEPTION
+"
+F_GY_GETZD	FUNCTION	10	"
+"
+F_GY_GETZD	FUNCTION	11	"           WHEN no_data_found THEN
+"
+F_GY_GETZD	FUNCTION	12	"
+"
+F_GY_GETZD	FUNCTION	13	"           ls_return := '000.000';
+"
+F_GY_GETZD	FUNCTION	14	"      return ls_return;
+"
+F_GY_GETZD	FUNCTION	15	"  end;
+"
+F_GY_GETZD	FUNCTION	16	"
+"
+F_GY_GETZD	FUNCTION	17	 

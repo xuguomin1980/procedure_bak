@@ -1,0 +1,42 @@
+F_MESSAGE_SEND_YWZX	FUNCTION	1	"FUNCTION ""F_MESSAGE_SEND_YWZX"" (arg_lxdh varchar2,arg_bz varchar2)
+"
+F_MESSAGE_SEND_YWZX	FUNCTION	2	"  return Number 
+"
+F_MESSAGE_SEND_YWZX	FUNCTION	3	" 
+"
+F_MESSAGE_SEND_YWZX	FUNCTION	4	"Is
+"
+F_MESSAGE_SEND_YWZX	FUNCTION	5	" date_new date;
+"
+F_MESSAGE_SEND_YWZX	FUNCTION	6	" xh_new number;
+"
+F_MESSAGE_SEND_YWZX	FUNCTION	7	"  ll_flag number;
+"
+F_MESSAGE_SEND_YWZX	FUNCTION	8	"  ls_return varchar2(6);
+"
+F_MESSAGE_SEND_YWZX	FUNCTION	9	"    PRAGMA AUTONOMOUS_TRANSACTION;
+"
+F_MESSAGE_SEND_YWZX	FUNCTION	10	"  Begin
+"
+F_MESSAGE_SEND_YWZX	FUNCTION	11	"
+"
+F_MESSAGE_SEND_YWZX	FUNCTION	12	"  
+"
+F_MESSAGE_SEND_YWZX	FUNCTION	13	"  select max(xh)+1,sysdate into xh_new,date_new from auto_task_ywzx_send;
+"
+F_MESSAGE_SEND_YWZX	FUNCTION	14	"   insert into auto_task_ywzx_send (xh,lxdh,bz,date_add)
+"
+F_MESSAGE_SEND_YWZX	FUNCTION	15	"    values(xh_new,arg_lxdh,arg_bz,date_new);
+"
+F_MESSAGE_SEND_YWZX	FUNCTION	16	"       commit;
+"
+F_MESSAGE_SEND_YWZX	FUNCTION	17	"      Return 1;
+"
+F_MESSAGE_SEND_YWZX	FUNCTION	18	"    
+"
+F_MESSAGE_SEND_YWZX	FUNCTION	19	"  End  ;
+"
+F_MESSAGE_SEND_YWZX	FUNCTION	20	" 
+"
+F_MESSAGE_SEND_YWZX	FUNCTION	21	" 
+"

@@ -1,0 +1,37 @@
+F_YF_GETCKXH_R2	FUNCTION	1	"FUNCTION         ""F_YF_GETCKXH_R2"" (arg_ksdm in varchar2)  
+"
+F_YF_GETCKXH_R2	FUNCTION	2	"return varchar2  is 
+"
+F_YF_GETCKXH_R2	FUNCTION	3	"  li_kssx   number(1);  
+"
+F_YF_GETCKXH_R2	FUNCTION	4	"  ls_return varchar2(30); 
+"
+F_YF_GETCKXH_R2	FUNCTION	5	"begin  
+"
+F_YF_GETCKXH_R2	FUNCTION	6	"    if arg_ksdm = null then  
+"
+F_YF_GETCKXH_R2	FUNCTION	7	"      return null; 
+"
+F_YF_GETCKXH_R2	FUNCTION	8	"    end if; 
+"
+F_YF_GETCKXH_R2	FUNCTION	9	"    select kssx into li_kssx from my_ckxh  
+"
+F_YF_GETCKXH_R2	FUNCTION	10	"    where ksdm=arg_ksdm;  
+"
+F_YF_GETCKXH_R2	FUNCTION	11	"    if li_kssx=1 then 
+"
+F_YF_GETCKXH_R2	FUNCTION	12	"       ls_return:='  '; 
+"
+F_YF_GETCKXH_R2	FUNCTION	13	"    else 
+"
+F_YF_GETCKXH_R2	FUNCTION	14	"       select substr(arg_ksdm,length(arg_ksdm) - 1,2)  
+"
+F_YF_GETCKXH_R2	FUNCTION	15	"         into ls_return from dual; 
+"
+F_YF_GETCKXH_R2	FUNCTION	16	"    end if; 
+"
+F_YF_GETCKXH_R2	FUNCTION	17	"return(ls_return);  
+"
+F_YF_GETCKXH_R2	FUNCTION	18	"end; 
+"
+F_YF_GETCKXH_R2	FUNCTION	19	 

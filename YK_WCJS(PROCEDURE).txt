@@ -1,0 +1,153 @@
+YK_WCJS	PROCEDURE	1	"PROCEDURE         ""YK_WCJS"" (vxtxh in number)
+"
+YK_WCJS	PROCEDURE	2	"as
+"
+YK_WCJS	PROCEDURE	3	"begin
+"
+YK_WCJS	PROCEDURE	4	"declare
+"
+YK_WCJS	PROCEDURE	5	"  xypxh number ;
+"
+YK_WCJS	PROCEDURE	6	"  xypcddm number ;
+"
+YK_WCJS	PROCEDURE	7	"  zsl number ;
+"
+YK_WCJS	PROCEDURE	8	"  hjje number ;
+"
+YK_WCJS	PROCEDURE	9	"  xlsj number ;
+"
+YK_WCJS	PROCEDURE	10	"  vjgxh number ;
+"
+YK_WCJS	PROCEDURE	11	"  vzblb number ;
+"
+YK_WCJS	PROCEDURE	12	"  vxh number ;
+"
+YK_WCJS	PROCEDURE	13	"  wc number ;
+"
+YK_WCJS	PROCEDURE	14	"  vdate date ;
+"
+YK_WCJS	PROCEDURE	15	"  wcdqdh varchar2(8) ;
+"
+YK_WCJS	PROCEDURE	16	"  v_dfsl number;
+"
+YK_WCJS	PROCEDURE	17	"  v_dfje number;
+"
+YK_WCJS	PROCEDURE	18	"  wc1    number;
+"
+YK_WCJS	PROCEDURE	19	"  cursor wccursor is
+"
+YK_WCJS	PROCEDURE	20	"     select ypxh,ypcddm,sum(round(nvl(jfsl,0)-nvl(dfsl,0),3)),
+"
+YK_WCJS	PROCEDURE	21	"            sum(round(decode(crkfsdm,21,nvl(jfje,0),nvl(jfje,0)),2)-
+"
+YK_WCJS	PROCEDURE	22	"            round(decode(crkfsdm,21,nvl(dfje,0),nvl(dfje,0)),2))
+"
+YK_WCJS	PROCEDURE	23	"       from yk_kcmxzb
+"
+YK_WCJS	PROCEDURE	24	"      where xtxh=vxtxh and crkdh like wcdqdh||'%'
+"
+YK_WCJS	PROCEDURE	25	"      group by ypxh,ypcddm ;
+"
+YK_WCJS	PROCEDURE	26	"begin
+"
+YK_WCJS	PROCEDURE	27	"  select rtrim(dqdh) into wcdqdh from yk_crkfs where xtxh=vxtxh and crkfsdm=81 ;
+"
+YK_WCJS	PROCEDURE	28	"  select to_date(to_char(jsrq,'yyyymmdd')||'22:00','yyyymmdd hh24:mi') into vdate
+"
+YK_WCJS	PROCEDURE	29	"    from yk_kjrl where xtxh=vxtxh and rtrim(kjqj)=wcdqdh ;
+"
+YK_WCJS	PROCEDURE	30	"  delete from yk_ypmxz where xtxh=vxtxh and crkfsdm=81 and rtrim(crkdh)=wcdqdh ;
+"
+YK_WCJS	PROCEDURE	31	"  delete from yk_kcmxzb where xtxh=vxtxh and crkfsdm=81 and rtrim(crkdh)=wcdqdh ;
+"
+YK_WCJS	PROCEDURE	32	"  open wccursor ;
+"
+YK_WCJS	PROCEDURE	33	"  vxh := 1 ;
+"
+YK_WCJS	PROCEDURE	34	"  loop
+"
+YK_WCJS	PROCEDURE	35	"    fetch wccursor into xypxh,xypcddm,zsl,hjje ;
+"
+YK_WCJS	PROCEDURE	36	"    exit when wccursor%NOTFOUND ;
+"
+YK_WCJS	PROCEDURE	37	"    select lsj,xh,zblb into xlsj,vjgxh,vzblb from gy_ypcdjg
+"
+YK_WCJS	PROCEDURE	38	"	 where ypxh=xypxh and ypcddm=xypcddm and bmxh is null
+"
+YK_WCJS	PROCEDURE	39	"             and rownum=1 order by substr(ypsx,10,1);
+"
+YK_WCJS	PROCEDURE	40	"    wc:=hjje - round(zsl*xlsj,2) ;
+"
+YK_WCJS	PROCEDURE	41	"    if wc<>0 then
+"
+YK_WCJS	PROCEDURE	42	"	 insert into yk_ypmxz (xtxh,crkfsdm,crkdh,xh,jgxh,ypxh,ypcddm,rq,zy,lsj,zblb)
+"
+YK_WCJS	PROCEDURE	43	"	      values (vxtxh,81,wcdqdh,vxh,vjgxh,xypxh,xypcddm,vdate,'尾差调整',-1*wc,vzblb) ;
+"
+YK_WCJS	PROCEDURE	44	"       vxh := vxh + 1 ;
+"
+YK_WCJS	PROCEDURE	45	"
+"
+YK_WCJS	PROCEDURE	46	"	SELECT SUM(DFSL),SUM(round(DFJE,2))
+"
+YK_WCJS	PROCEDURE	47	"	into v_dfsl,v_dfje
+"
+YK_WCJS	PROCEDURE	48	"	FROM YK_KCMXZB WHERE XTXH = vxtxh AND YPXH = xypxh AND CRKDH LIKE wcdqdh||'%' AND CRKDH <> wcdqdh ;
+"
+YK_WCJS	PROCEDURE	49	"
+"
+YK_WCJS	PROCEDURE	50	"       wc1 := v_dfsl*xlsj - v_dfje;
+"
+YK_WCJS	PROCEDURE	51	"
+"
+YK_WCJS	PROCEDURE	52	"       if wc1 = 0 then
+"
+YK_WCJS	PROCEDURE	53	"	    insert into yk_kcmxzb (xtxh,crkfsdm,crkdh,ypxh,ypcddm,rq,zy,jfsl,jfdj,jfje,dfsl,dfdj,dfje,zblb)
+"
+YK_WCJS	PROCEDURE	54	"	         values (vxtxh,81,wcdqdh,xypxh,xypcddm,vdate,'尾差调整',0,0,-1*wc,0,0,0,vzblb) ;
+"
+YK_WCJS	PROCEDURE	55	"       else
+"
+YK_WCJS	PROCEDURE	56	"  	   insert into yk_kcmxzb (xtxh,crkfsdm,crkdh,ypxh,ypcddm,rq,zy,jfsl,jfdj,jfje,dfsl,dfdj,dfje,zblb)
+"
+YK_WCJS	PROCEDURE	57	"	        values (vxtxh,81,wcdqdh,xypxh,xypcddm,vdate,'尾差调整',0,0,0,0,0,wc,vzblb) ;
+"
+YK_WCJS	PROCEDURE	58	"       end if;
+"
+YK_WCJS	PROCEDURE	59	"
+"
+YK_WCJS	PROCEDURE	60	"
+"
+YK_WCJS	PROCEDURE	61	"/*       if wc > 0 then
+"
+YK_WCJS	PROCEDURE	62	"	    insert into yk_kcmxzb (xtxh,crkfsdm,crkdh,ypxh,ypcddm,rq,zy,jfsl,jfdj,jfje,dfsl,dfdj,dfje,zblb)
+"
+YK_WCJS	PROCEDURE	63	"	         values (vxtxh,81,wcdqdh,xypxh,xypcddm,vdate,'尾差调整',0,0,-1*wc,0,0,0,vzblb) ;
+"
+YK_WCJS	PROCEDURE	64	"       else
+"
+YK_WCJS	PROCEDURE	65	"  	   insert into yk_kcmxzb (xtxh,crkfsdm,crkdh,ypxh,ypcddm,rq,zy,jfsl,jfdj,jfje,dfsl,dfdj,dfje,zblb)
+"
+YK_WCJS	PROCEDURE	66	"	        values (vxtxh,81,wcdqdh,xypxh,xypcddm,vdate,'尾差调整',0,0,0,0,0,wc,vzblb) ;
+"
+YK_WCJS	PROCEDURE	67	"       end if;
+"
+YK_WCJS	PROCEDURE	68	"*/
+"
+YK_WCJS	PROCEDURE	69	"    end if ;
+"
+YK_WCJS	PROCEDURE	70	"  end loop ;
+"
+YK_WCJS	PROCEDURE	71	"  close wccursor ;
+"
+YK_WCJS	PROCEDURE	72	"  update gy_xtcs set csz2=1 where xtxh=vxtxh and csmc='WCTZ' ;
+"
+YK_WCJS	PROCEDURE	73	"  commit ;
+"
+YK_WCJS	PROCEDURE	74	"end ;
+"
+YK_WCJS	PROCEDURE	75	"end ;
+"
+YK_WCJS	PROCEDURE	76	"
+"
+YK_WCJS	PROCEDURE	77	 

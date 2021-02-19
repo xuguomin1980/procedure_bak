@@ -1,0 +1,3 @@
+F_YF_GETZBMC	FUNCTION	1	"FUNCTION         ""F_YF_GETZBMC"" (arg_xtxh in number,arg_zblb in number)     return varchar2      is      ls_return varchar2(50);      begin         begin             SELECT   nvl(zbmc,'')  into  ls_return            FROM yk_zblb           WHERE zblb=arg_zblb  And               xtxh in (select ykxh                from  yf_yplxdz where xtxh=arg_xtxh)              and rownum=1;              exception                  when  no_data_found then               ls_return:='';           End ;          return(ls_return);      end;   
+"
+F_YF_GETZBMC	FUNCTION	2	 

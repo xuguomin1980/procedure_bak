@@ -1,0 +1,2416 @@
+PRC_YB_CHECK2019_210120	PROCEDURE	1	"procedure prc_yb_check2019_210120(in_jiaoyilx    in varchar2, --交易类型
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	2	"                                                in_caozuogh    in varchar2, --操作工号
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	3	"                                                in_patient_no  in number, --住院病人序号 就诊序号 jzxh
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	4	"                                                in_yibao_jylsh in varchar2, --医保交易号
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	5	"                                                out_code       out INTEGER, -- 返回结果 0为执行成功
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	6	"                                                out_msg        out varchar2) is
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	7	"
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	8	"  --入参说明： in_jiaoyilx 交易类型 in_caozuogh 操作工号 in_patient_no 住院病人序号  in_yibao_jylsh 医保交易号 out_code 返回结果 out_msg 返回内容
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	9	"  --in_jylx 交易类型：
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	10	"
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	11	"  --住院病人序号
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	12	"  v_patient_no number;
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	13	"
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	14	"  --医保住院病人序号
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	15	"  v_patient_no_yb varchar2(20);
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	16	"
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	17	"  --就诊卡号
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	18	"  v_jzkh varchar2(30);
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	19	"
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	20	"  v_ybjylsh varchar2(40);
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	21	"  v_ywzqh   varchar2(40);
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	22	"  --医保执行总次数
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	23	"  v_zxzcs number;
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	24	"
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	25	"  --病人类别
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	26	"  v_brlb number;
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	27	"  --结算标志
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	28	"  v_js_no     number;
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	29	"  v_total_fee number;
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	30	"  --预出院日期
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	31	"  v_preout_date varchar2(20);
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	32	"  --病人性质
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	33	"  v_brxz             varchar2(20);
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	34	"  v_icd10            varchar2(30);
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	35	"  v_icd10_from       varchar2(30);
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	36	"  v_data             varchar2(30);
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	37	"  v_patient_no_zxzcs varchar2(30);
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	38	"
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	39	"  --临时的统计的数量
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	40	"  v_count number;
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	41	"  v_count2 number;
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	42	"  --操作工号
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	43	"  --v_caozuogh varchar2(20);
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	44	"  --婴儿标志
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	45	"  v_infant_flag number;
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	46	"  v_amount_date date;
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	47	"
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	48	"  v_jylx     varchar2(50);
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	49	"  v_flag     varchar2(20);
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	50	"  v_flag_len number;
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	51	"  v_pos      number;
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	52	"
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	53	"  v_sj_kz_time  varchar2(20);
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	54	"  v_sj_kz_sl    number;
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	55	"  v_sj_kz_time1 varchar2(20);
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	56	"  v_sj_kz_time2 varchar2(20);
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	57	"  v_sj_kz_time3 varchar2(20);
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	58	"  v_temp        varchar2(20);
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	59	"
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	60	"  v_icd10_name         varchar2(50);
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	61	"  v_fphm               varchar2(30);
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	62	"  v_fphm_next          varchar2(30);
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	63	"  v_fphm_end           varchar2(30);
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	64	"  v_kdsm               varchar2(30);
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	65	"  v_msg                varchar2(200);
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	66	"  v_data_max           varchar2(2000);
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	67	"  v_sl_kz              number;
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	68	"  v_sl_use             number;
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	69	"  v_sl                 number;
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	70	"  v_sl_jbdm8           number;
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	71	"  v_ylxh_ct_sum        number;
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	72	"  v_ylxh_ct_sum_tcylxh number;
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	73	"  v_ylxh_ct_sum_dj     number;
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	74	"  v_sl_csrq            number;
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	75	"  v_xb                 number;
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	76	"  v_sqlcode_sum        number;
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	77	"  v_yjsb_use           number;
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	78	"  v_ip_jz              number;
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	79	"  v_sjlb               number;
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	80	"
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	81	"  v_ysgh    varchar2(30);
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	82	"  v_ksdm    varchar2(30);
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	83	"  v_mzlbxh  number;
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	84	"  v_pbxh    number;
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	85	"  v_dqh_ghk number;
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	86	"  v_dqh_yjk number;
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	87	"  v_jiagelb number;
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	88	"  v_zlf     number;
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	89	"  v_ylxh    number;
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	90	"
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	91	"  --定义变量
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	92	"
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	93	"  v_fygl             zy_detail_charge.fygl%TYPE;
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	94	"  v_je               zy_detail_charge.dj%TYPE;
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	95	"  v_je_zf            zy_detail_charge.dj%TYPE;
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	96	"  v_hlh              zy_fp_fee.hlh%type;
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	97	"  v_zy_total_fee     zy_total_fee%rowtype;
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	98	"  v_zy_detail_charge zy_detail_charge%rowtype;
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	99	"  --定义游标
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	100	"  -- CURSOR zy_detail_charge_fygl_cursor(v_patient_no_in number) is
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	101	"  -- select  fygl,sum(dj*sl),sum(dj*sl* nvl(self_percent,0)) From zy_detail_charge    where patient_no=v_patient_no_in  group by fygl ;
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	102	"
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	103	"begin
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	104	"  --2020-08-16
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	105	"  --存储过程不控制 1=1
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	106	"  --存储过程不控制 1=1
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	107	"  if 1 = 0 then
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	108	"    out_code := 1;
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	109	"    out_msg  := '';
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	110	"    return;
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	111	"  end if;
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	112	"
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	113	"  v_jzkh := '';
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	114	"  insert into zy_jiaoyi_v1
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	115	"    (jiaoyilx, caozuogh, patient_no, jylsh, bz)
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	116	"  values
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	117	"    (in_jiaoyilx,
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	118	"     in_caozuogh,
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	119	"     in_patient_no,
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	120	"     in_yibao_jylsh,
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	121	"     'prc_yb_check2019');
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	122	"  /*commit;会导致数据无法回滚，保存出错*/
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	123	"
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	124	"  if length(in_patient_no) < 1 then
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	125	"    out_code := -1;
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	126	"    out_msg  := '就诊序号不能为空[prc_yb_check2019]1';
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	127	"    return;
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	128	"  else
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	129	"    null;
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	130	"  end if;
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	131	"
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	132	"  --new
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	133	"  select nvl(in_jiaoyilx, '0') into v_jylx from dual;
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	134	"  if 1 = 0 and v_jylx = 'YJ门诊' then
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	135	"    out_code := 1;
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	136	"    out_msg  := '[prc_yb_check2019]2';
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	137	"    return;
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	138	"  end if;
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	139	"
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	140	"  --jzkh  
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	141	"  if v_jylx = 'YJ门诊' then
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	142	"  
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	143	"    select nvl(max(jzkh), '0')
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	144	"      into v_jzkh
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	145	"      from (select jzkh
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	146	"              from yj_yjk1
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	147	"             where jzxh = in_patient_no
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	148	"            union
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	149	"            select jzkh from mz_cfk1 where jzxh = in_patient_no);
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	150	"  
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	151	"  else
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	152	"    if length(v_jylx) <= 1 then
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	153	"      v_jylx := '门诊诊间';
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	154	"    end if;
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	155	"    select nvl(max(jzkh), '0')
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	156	"      into v_jzkh
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	157	"      from zj_jzxx
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	158	"     where jzxh = in_patient_no;
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	159	"  end if;
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	160	"
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	161	"  if length(v_jzkh) >= 1 and v_jzkh <> '0' then
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	162	"    out_msg := '';
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	163	"  else
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	164	"    out_code := -1;
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	165	"    out_msg  := '就诊序号对应的就诊卡号不能为空[prc_yb_check2019]3';
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	166	"    return;
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	167	"  end if;
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	168	"
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	169	"  -- t_pass_mz  就诊卡号 放行
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	170	"  if 1 = 1 then
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	171	"    v_count := 0;
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	172	"    select count(jzkh)
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	173	"      into v_count
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	174	"      From t_pass_mz
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	175	"     where jzkh = v_jzkh
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	176	"       and czrq > sysdate - 0.1;
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	177	"    if v_count >= 1 or v_jzkh = '888' then
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	178	"      out_code := 1;
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	179	"      out_msg  := '';
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	180	"      return;
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	181	"    end if;
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	182	"  
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	183	"  end if;
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	184	"
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	185	"  select nvl(max(nvl(xb, 1)), 1)
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	186	"    into v_xb
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	187	"    from gy_brjbxxk
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	188	"   where jzkh = v_jzkh;
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	189	"
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	190	"  --代收挂号费 
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	191	"  if 1 = 1 and in_jiaoyilx = 'MZZJ' then
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	192	"  
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	193	"    select jzys, ksdm, to_char(sysdate, 'hh24'), jzkh
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	194	"      into v_ysgh, v_ksdm, v_temp, v_jzkh
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	195	"      From zj_jzxx t
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	196	"     where jzxh = in_patient_no;
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	197	"    select count(*)
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	198	"      into v_count
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	199	"      from gh_ghk
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	200	"     where jzkh = v_jzkh
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	201	"       and nvl(ghxh, 0) <> 9999
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	202	"       and ksdm = v_ksdm
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	203	"       and nvl(thbz, 0) = 0
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	204	"       and nvl(zfpb, 0) = 0
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	205	"       and ghrq >= trunc(sysdate)
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	206	"       and ghrq < trunc(sysdate + 1);
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	207	"  
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	208	"    if 1 = 1 and v_count = 0 then
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	209	"      if v_temp >= '12' then
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	210	"        v_sjlb := 2;
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	211	"      else
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	212	"        v_sjlb := 1;
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	213	"      end if;
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	214	"      v_count  := 0;
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	215	"      v_mzlbxh := 0;
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	216	"    
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	217	"      select nvl(max(mzlbxh), 0)
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	218	"        into v_mzlbxh
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	219	"        From gh_mzpbk
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	220	"       where trunc(rq) = trunc(sysdate)
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	221	"         and ksdm = v_ksdm
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	222	"         and ysgh = v_ysgh;
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	223	"    
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	224	"      if v_mzlbxh > 0 then
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	225	"        select jlxh
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	226	"          into v_pbxh
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	227	"          from gh_mzpbk
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	228	"         where trunc(rq) = trunc(sysdate)
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	229	"           and ksdm = v_ksdm
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	230	"           and ysgh = v_ysgh
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	231	"           and rownum = 1;
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	232	"        select count(*)
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	233	"          into v_count
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	234	"          from gh_ghk
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	235	"         where jzkh = v_jzkh
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	236	"           and mzlbxh = v_mzlbxh
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	237	"           and nvl(ghxh, 0) <> 9999
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	238	"           and ysgh = v_ysgh
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	239	"           and nvl(thbz, 0) = 0
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	240	"           and nvl(zfpb, 0) = 0
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	241	"           and ghrq >= trunc(sysdate)
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	242	"           and ghrq < trunc(sysdate + 1);
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	243	"      else
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	244	"        select nvl(max(mzlbxh), 0)
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	245	"          into v_mzlbxh
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	246	"          From gh_mzpbk
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	247	"         where trunc(rq) = trunc(sysdate)
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	248	"           and ksdm = v_ksdm;
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	249	"        if v_mzlbxh > 0 then
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	250	"          null;
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	251	"        else
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	252	"          --如果没有排班,默认 普通
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	253	"          v_mzlbxh := 1;
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	254	"        end if;
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	255	"        if v_mzlbxh > 0 then
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	256	"          select count(*)
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	257	"            into v_count
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	258	"            from gh_ghk
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	259	"           where jzkh = v_jzkh
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	260	"             and mzlbxh = v_mzlbxh
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	261	"             and nvl(ghxh, 0) <> 9999
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	262	"             and ksdm = v_ksdm
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	263	"             and nvl(thbz, 0) = 0
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	264	"             and nvl(zfpb, 0) = 0
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	265	"             and ghrq >= trunc(sysdate)
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	266	"             and ghrq < trunc(sysdate + 1);
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	267	"        end if;
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	268	"      
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	269	"      end if;
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	270	"    
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	271	"      if 1 = 1 and v_count = 0 and v_mzlbxh <> 2 then
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	272	"        v_dqh_ghk     := 0;
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	273	"        v_dqh_yjk     := 0;
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	274	"        v_sqlcode_sum := 0;
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	275	"        UPDATE GY_xhb SET dqz = dqz + zz WHERE bm = 'GH_GHK';
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	276	"        commit;
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	277	"      
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	278	"        SELECT dqz into v_dqh_ghk FROM GY_xhb WHERE bm = 'GH_GHK';
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	279	"      
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	280	"        UPDATE GY_xhb SET dqz = dqz + zz WHERE bm = 'YJ_YJK1';
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	281	"        commit;
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	282	"      
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	283	"        SELECT dqz into v_dqh_yjk FROM GY_xhb WHERE bm = 'YJ_YJK1';
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	284	"      
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	285	"        Insert Into Gh_Ghk
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	286	"          (Jlxh,
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	287	"           Jzkh,
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	288	"           Brlb,
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	289	"           Brxz,
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	290	"           Mzlbxh,
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	291	"           Pbxh,
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	292	"           Ksdm,
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	293	"           Ghrq,
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	294	"           Ghxh,
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	295	"           Ysgh,
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	296	"           Sjlb,
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	297	"           Yhlb,
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	298	"           Czgh,
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	299	"           Czrq,
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	300	"           Thbz,
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	301	"           Ghlb,
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	302	"           Rbxh,
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	303	"           Rbrq,
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	304	"           Zfgh,
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	305	"           Oldjlxh,
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	306	"           Brxm,
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	307	"           jzxh,
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	308	"           ghf,
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	309	"           zlf,
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	310	"           mzrq,
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	311	"           jzbs,
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	312	"           jzysgh,
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	313	"           jzrq,
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	314	"           zlfds)
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	315	"          select v_dqh_ghk,
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	316	"                 jzkh,
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	317	"                 brlb,
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	318	"                 brxzdm,
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	319	"                 v_mzlbxh,
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	320	"                 v_pbxh,
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	321	"                 v_ksdm,
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	322	"                 sysdate,
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	323	"                 999,
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	324	"                 v_ysgh,
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	325	"                 v_sjlb,
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	326	"                 null,
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	327	"                 v_ysgh,
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	328	"                 sysdate,
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	329	"                 0,
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	330	"                 1,
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	331	"                 0,
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	332	"                 Null,
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	333	"                 Null,
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	334	"                 Null,
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	335	"                 xm,
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	336	"                 in_patient_no,
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	337	"                 0,
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	338	"                 0,
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	339	"                 sysdate,
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	340	"                 1,
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	341	"                 v_ysgh,
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	342	"                 sysdate,
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	343	"                 1
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	344	"            from gy_brjbxxk
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	345	"           where jzkh = v_jzkh;
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	346	"        v_sqlcode_sum := v_sqlcode_sum + sqlcode;
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	347	"      
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	348	"        select nvl(jiagelb, 0)
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	349	"          into v_jiagelb
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	350	"          from gy_ksdm
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	351	"         where ksdm = v_ksdm;
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	352	"        if v_jiagelb = 3 then
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	353	"          select zlf_ylxh_et
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	354	"            into v_ylxh
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	355	"            From gh_mzlbk
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	356	"           where mzlbxh = v_mzlbxh;
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	357	"        else
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	358	"          select zlf_ylxh
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	359	"            into v_ylxh
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	360	"            From gh_mzlbk
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	361	"           where mzlbxh = v_mzlbxh;
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	362	"        end if;
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	363	"        select F_GET_ZLF0301(v_ksdm, v_ysgh, v_mzlbxh)
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	364	"          into v_zlf
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	365	"          from dual;
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	366	"      
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	367	"        insert into yj_yjk1
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	368	"          (yjsb,
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	369	"           jzkh,
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	370	"           brxm,
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	371	"           sjysgh,
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	372	"           sjksdm,
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	373	"           ghxh,
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	374	"           kdsj,
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	375	"           czgh,
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	376	"           ghjlxh,
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	377	"           jzxh,
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	378	"           zjpb)
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	379	"          select v_dqh_YJk,
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	380	"                 jzkh,
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	381	"                 xm,
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	382	"                 v_ysgh,
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	383	"                 v_ksdm,
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	384	"                 999,
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	385	"                 sysdate,
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	386	"                 v_ysgh,
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	387	"                 v_dqh_ghk,
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	388	"                 in_patient_no,
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	389	"                 99
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	390	"            from gy_brjbxxk
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	391	"           where jzkh = v_jzkh;
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	392	"        v_sqlcode_sum := v_sqlcode_sum + sqlcode;
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	393	"        insert into yj_yjk2
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	394	"          (yjsb, ylxh, dj, sl, fygb, zfbl, zjpb, zxksdm, ybzfbl)
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	395	"        values
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	396	"          (v_dqh_yjk, v_ylxh, v_zlf, 1, 13, 1, 8, v_ksdm, 1);
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	397	"        v_sqlcode_sum := v_sqlcode_sum + sqlcode;
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	398	"        if v_sqlcode_sum = 0 then
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	399	"          commit;
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	400	"        else
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	401	"          rollback;
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	402	"        end if;
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	403	"      
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	404	"      end if;
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	405	"    end if;
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	406	"  
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	407	"  end if;
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	408	"
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	409	"  --end 代收挂号费
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	410	"
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	411	"  -- 特殊疫苗库存控制
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	412	"  if 1 = 1 then
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	413	"  
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	414	"  --控制公卫科开立
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	415	"   if 0=0 then 
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	416	"     select count(a.cfsb) into v_count From mz_cfk1 a, mz_cfk2  b  where    a.cfsb =b.cfsb 
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	417	"   -- and b.shenhesj is not null 
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	418	"    and   b.ypxh=7767  and b.ypcddm=3216 and nvl(a.ysgh,'0')<>'A1702' and a.sfsb is   null and  a.jzxh =in_patient_no ;
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	419	"    
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	420	"    if v_count>0 then   
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	421	"        out_code := -1;
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	422	"      out_msg  := '该特殊疫苗未开放，不允许开立';
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	423	"      return;
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	424	"    end if;
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	425	"  end if;  
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	426	"    
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	427	"    
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	428	"    select nvl(sum(sl), 0)
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	429	"      into v_count
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	430	"      From mz_cfk1 a, mz_cfk2 b
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	431	"     where a.cfsb = b.cfsb       
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	432	"       and b.ypxh = 7767  and b.ypcddm=3216 
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	433	"       and a.sfsb is null
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	434	"       and a.jzxh = in_patient_no;
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	435	"  --and b.shenhesj is not null
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	436	"     if v_count>0 then
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	437	"     
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	438	"     
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	439	"       
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	440	"       select  nvl(sum(skc),0)
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	441	"      into v_count
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	442	"      From my_ypkcz 
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	443	"     where ypxh = 7767  and ypcddm=3216 ;
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	444	"     
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	445	"     select nvl(sum(sl2),0) into v_count2 from (   
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	446	" select  jylsh_out, count(jylsh_out),decode(count(jylsh_out),3,0,2,1,1,2) sl2 from zy_jiaoyi_v1_bak where    
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	447	"      bz='7767' and   jiaoyilx='疫苗库存控制'   
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	448	"     group by jylsh_out );
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	449	"     select v_count - v_count2 into v_count  from dual;
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	450	"     
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	451	"       
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	452	"     --库存控制，小于3，没有1人份 ,只允许历史病人开单
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	453	"     if 1=1 and v_count<3 then        
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	454	"                                         
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	455	"     select distinct(jylsh_out) into v_count from zy_jiaoyi_v1_bak where 
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	456	"     jylsh_out in (select jzkh
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	457	"                                from gy_brjbxxk
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	458	"                               where empi is not null
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	459	"                                 and empi in
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	460	"                                     (select a.empi
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	461	"                                        from gy_brjbxxk a, zj_jzxx b
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	462	"                                       where a.jzkh = b.jzkh
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	463	"                                         and b.jzxh = in_patient_no))
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	464	"     and  jiaoyilx='疫苗库存控制'   and  nvl(flag,0)>=0  ;
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	465	"     if v_count=0 then 
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	466	"      out_code := -1;
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	467	"      out_msg  := '数量不足,仅仅允许 预约过的病人开立[prc_yb_check2019]';
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	468	"      return;     
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	469	"     end if;     
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	470	"     end if;
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	471	"     
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	472	"   
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	473	"       if v_count>=0 then 
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	474	"       
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	475	"          select count(*)
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	476	"      into v_count
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	477	"      from zy_jiaoyi_v1_bak a
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	478	"     where jylsh_out || '#' || bz in
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	479	"           (select a.jzkh || '#' || b.ypxh
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	480	"              From mz_cfk1 a, mz_cfk2 b
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	481	"             where a.cfsb = b.cfsb
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	482	"               and b.shenhesj is not null
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	483	"               and b.ypxh = 7767
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	484	"               and a.sfsb is null
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	485	"               and a.jzxh = in_patient_no)
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	486	"       and jiaoyilx = '疫苗库存控制'
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	487	"       and jyrq > sysdate - 1;
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	488	"    if v_count = 0 then
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	489	"      select count(distinct(bz))
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	490	"        into v_count
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	491	"        from (select jylsh || to_char(jyrq, 'yyyy-mm-dd') bz
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	492	"                from zy_jiaoyi_v1_bak a
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	493	"               where jylsh_out || '#' || bz in
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	494	"                     (select a.jzkh || '#' || b.ypxh
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	495	"                        From mz_cfk1 a, mz_cfk2 b
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	496	"                       where a.cfsb = b.cfsb
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	497	"                         and b.shenhesj is not null
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	498	"                         and b.ypxh = 7767
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	499	"                         and a.jzxh = in_patient_no)
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	500	"                 and jiaoyilx = '疫苗库存控制'
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	501	"                 and jyrq > sysdate - 365
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	502	"              union
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	503	"              select jylsh || to_char(jyrq, 'yyyy-mm-dd')
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	504	"                from zy_jiaoyi_v1_bak a
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	505	"               where jylsh_out || '#' || bz in
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	506	"                     (select a.jzkh || '#' || b.ypxh
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	507	"                        From mz_cfk1 a, mz_cfk2 b
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	508	"                       where a.cfsb = b.cfsb
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	509	"                         and b.shenhesj is not null
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	510	"                         and b.ypxh = 7767
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	511	"                         and jzkh in
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	512	"                             (select jzkh
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	513	"                                from gy_brjbxxk
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	514	"                               where empi is not null
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	515	"                                 and empi in
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	516	"                                     (select a.empi
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	517	"                                        from gy_brjbxxk a, zj_jzxx b
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	518	"                                       where a.jzkh = b.jzkh
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	519	"                                         and b.jzxh = in_patient_no)))
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	520	"                 and jiaoyilx = '疫苗库存控制'
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	521	"                 and jyrq > sysdate - 365);
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	522	"    
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	523	"      if v_count = 0 then
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	524	"        v_sl := 2;
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	525	"      end if;
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	526	"    
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	527	"      if v_count = 1 then
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	528	"        v_sl := -1;
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	529	"      end if;
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	530	"    
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	531	"      if v_count = 2 then
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	532	"        v_sl := -1;
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	533	"      end if;
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	534	"    
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	535	"      update my_ypkcz
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	536	"         set yswfkc = yswfkc - v_sl
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	537	"       where xtxh = 5
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	538	"         and ypxh || '#' || ypcddm in
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	539	"             (select ypxh || '#' || ypcddm
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	540	"                From mz_cfk1 a, mz_cfk2 b
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	541	"               where a.cfsb = b.cfsb
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	542	"                 and b.shenhesj is not null
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	543	"                 and b.ypxh = 7767
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	544	"                 and a.sfsb is null
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	545	"                 and a.jzxh = in_patient_no
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	546	"                 and rownum = 1)
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	547	"         and skc >= 0
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	548	"         and rownum = 1;
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	549	"    
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	550	"      if sqlcode = 0 then
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	551	"        commit;
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	552	"        insert into zy_jiaoyi_v1
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	553	"          (jiaoyilx, patient_no, jylsh_out, jylsh, bz)
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	554	"          select '疫苗库存控制',
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	555	"                 in_patient_no,
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	556	"                 jzkh,
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	557	"                 jzkh || '#' || brxm || '#' || ypxh || '#' || ypcddm || '#' || ysgh,
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	558	"                 ypxh
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	559	"            from mz_cfk1 a, mz_cfk2 b
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	560	"           where a.cfsb = b.cfsb
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	561	"             and b.shenhesj is not null
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	562	"             and b.ypxh = 7767
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	563	"             and a.sfsb is null
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	564	"             and a.jzxh = in_patient_no
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	565	"             and rownum = 1;
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	566	"        insert into zy_jiaoyi_v1_bak
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	567	"          (jiaoyilx, patient_no, jylsh_out, jylsh, bz)
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	568	"          select '疫苗库存控制',
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	569	"                 in_patient_no,
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	570	"                 jzkh,
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	571	"                 jzkh || '#' || brxm || '#' || ypxh || '#' || ypcddm || '#' || ysgh,
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	572	"                 ypxh
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	573	"            from mz_cfk1 a, mz_cfk2 b
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	574	"           where a.cfsb = b.cfsb
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	575	"             and b.shenhesj is not null
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	576	"             and b.ypxh = 7767
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	577	"             and a.sfsb is null
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	578	"             and a.jzxh = in_patient_no
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	579	"             and rownum = 1;
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	580	"        commit;
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	581	"      
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	582	"      else
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	583	"        rollback;
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	584	"         out_code := -1;
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	585	"      out_msg  := '疫苗库存处理失败,[prc_yb_check2019]';
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	586	"      return;
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	587	"      end if;
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	588	"    
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	589	"    end if;
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	590	" 
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	591	"       
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	592	"       
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	593	"       end if;
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	594	"  
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	595	" 
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	596	"
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	597	" end if;
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	598	"
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	599	"end if;
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	600	"
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	601	"  -- end 特殊疫苗库存控制
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	602	"
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	603	"  -- 门诊诊间 ct项目合并
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	604	"if 1 = 1 then select nvl(sum(b.sl * c.xs), 0) into v_sl_use From yj_Yjk1 A, YJ_YJK2 B, v_gy_ylsf_ct_0506 c where A.YJSB = b.yjsb and b.ylxh = c.ylxh and a.sfsb is
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	605	"null and a.jzxh = in_patient_no;
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	606	"
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	607	"select count(a.yjsb) into v_count From yj_Yjk1 A, YJ_YJK2 B, v_gy_ylsf_ct_0506 c where A.YJSB = b.yjsb and b.ylxh = c.ylxh and a.sfsb is
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	608	"null and a.jzxh = in_patient_no;
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	609	"
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	610	"if v_sl_use >= 2 and v_count >= 1 then
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	611	"
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	612	"if v_sl_use >= 2 then v_ylxh_ct_sum := 15464; v_ylxh_ct_sum_tcylxh := 31540; v_ylxh_ct_sum_dj := 153.00;
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	613	"end if; if v_sl_use >= 3 then v_ylxh_ct_sum := 15465; v_ylxh_ct_sum_tcylxh := 31539; v_ylxh_ct_sum_dj := 189.00;
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	614	"end if; v_sqlcode_sum := 0;
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	615	"
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	616	"  -- ct_tc
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	617	"
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	618	"update yj_yjk2 set yjsb = yjsb * -1 where yjsb in (select b.yjsb From yj_Yjk1 A, YJ_YJK2 B where A.YJSB = b.yjsb and a.sfsb is
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	619	"null and a.jzxh = in_patient_no) and tcylxh in (select distinct(y.glxh) from v_gy_ylsf_ct_0506 x, gy_ylsftc y where x.ylxh = y.ylxh); v_sqlcode_sum := v_sqlcode_sum + sqlcode;
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	620	"
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	621	"  --ct_add
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	622	"
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	623	"update yj_yjk2 set yjsb = yjsb * -1 where yjsb in (select b.yjsb From yj_Yjk1 A, YJ_YJK2 B where A.YJSB = b.yjsb and a.sfsb is
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	624	"null and a.jzxh = in_patient_no) and ylxh in (select ylxh from v_gy_ylsf_ct_add_0506); v_sqlcode_sum := v_sqlcode_sum + sqlcode;
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	625	"
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	626	"update yj_yjk2 set yjsb = yjsb * -1, sl = 1, tcylxh = v_ylxh_ct_sum_tcylxh where yjsb in (select b.yjsb From yj_Yjk1 A, YJ_YJK2 B where b.YJSB = a.yjsb * -1 and a.sfsb is
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	627	"null and a.jzxh = in_patient_no)
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	628	"-- and tcylxh in (select distinct(y.glxh) from v_gy_ylsf_ct_0506 x ,gy_ylsftc y where x.ylxh=y.ylxh  )
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	629	"and ylxh in (select ylxh from v_gy_ylsf_ct_add_0506) and rownum = 1; v_sqlcode_sum := v_sqlcode_sum + sqlcode;
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	630	"
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	631	"select min(a.yjsb) into v_yjsb_use from yj_Yjk1 A, YJ_YJK2 B where b.YJSB = a.yjsb and ylxh in (select ylxh from v_gy_ylsf_ct_add_0506) and a.yjsb > 0 and a.sfsb is
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	632	"null and a.jzxh = in_patient_no;
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	633	"
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	634	"  -- ct_bgd 
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	635	"
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	636	"update yj_yjk2 set yjsb = yjsb * -1 where yjsb in (select b.yjsb From yj_Yjk1 A, YJ_YJK2 B where A.YJSB = b.yjsb and a.sfsb is
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	637	"null and a.jzxh = in_patient_no) and nvl(tcylxh, 0) = 0 and ylxh in (select ylxh from v_gy_ylsf_ctbgd_0506); v_sqlcode_sum := v_sqlcode_sum + sqlcode;
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	638	"
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	639	"select count(*) into v_count from yj_yjk2 where yjsb = v_yjsb_use * -1 and ylxh in (select ylxh from v_gy_ylsf_ctbgd_0506); if v_count > 0 then update yj_yjk2 set yjsb = yjsb * -1, sl = 1, tcylxh = v_ylxh_ct_sum_tcylxh where yjsb = v_yjsb_use * -1 and ylxh in (select ylxh from v_gy_ylsf_ctbgd_0506) and rownum = 1; else
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	640	"
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	641	"update yj_yjk2 set yjsb = yjsb * -1, sl = 1, tcylxh = v_ylxh_ct_sum_tcylxh where yjsb in (select yjsb * -1 from yj_Yjk1 where sfsb is
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	642	"null and jzxh = in_patient_no) and ylxh in (select ylxh from v_gy_ylsf_ctbgd_0506) and rownum = 1;
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	643	"end if;
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	644	"
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	645	"v_sqlcode_sum := v_sqlcode_sum + sqlcode;
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	646	"
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	647	"  --ct 
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	648	"
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	649	"update yj_yjk2 set yjsb = yjsb * -1 where yjsb in (select b.yjsb From yj_Yjk1 A, YJ_YJK2 B where A.YJSB = b.yjsb and a.sfsb is
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	650	"null and a.jzxh = in_patient_no) and ylxh in (select ylxh from v_gy_ylsf_ct_0506); v_sqlcode_sum := v_sqlcode_sum + sqlcode;
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	651	"
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	652	"  /* update yj_yjk2 set yjsb=yjsb * -1,ylxh=v_ylxh_ct_sum,sl=1,tcylxh=v_ylxh_ct_sum_tcylxh,dj=v_ylxh_ct_sum_dj where yjsb in ( select  b.yjsb  From yj_Yjk1 A,YJ_YJK2 B  where b.YJSB=a.yjsb * -1  and a.sfsb is null and a.jzxh  =in_patient_no)
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	653	"      and tcylxh in (select distinct(y.glxh) from v_gy_ylsf_ct_0506 x ,gy_ylsftc y where x.ylxh=y.ylxh )
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	654	"  and ylxh in (select ylxh from v_gy_ylsf_ct_0506)   and rownum=1;*/
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	655	"
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	656	"select count(*) into v_count from yj_yjk2 where yjsb in (select yjsb * -1 From yj_Yjk1 a where a.sfsb is
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	657	"null and a.jzxh = in_patient_no) and ylxh = v_ylxh_ct_sum; if v_count > 0 then update yj_yjk2 set yjsb = yjsb * -1, ylxh = v_ylxh_ct_sum, sl = 1, tcylxh = v_ylxh_ct_sum_tcylxh, dj = v_ylxh_ct_sum_dj where yjsb in (select yjsb * -1 From yj_Yjk1 a where a.sfsb is
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	658	"null and a.jzxh = in_patient_no) and ylxh = v_ylxh_ct_sum and rownum = 1; else
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	659	"
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	660	"select min(a.yjsb) into v_yjsb_use from yj_Yjk1 A, YJ_YJK2 B where b.YJSB = a.yjsb * -1 and b.ylxh in (select ylxh from v_gy_ylsf_ct_0506) and a.yjsb > 0 and a.sfsb is
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	661	"null and a.jzxh = in_patient_no;
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	662	"
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	663	"update yj_yjk2 set yjsb = yjsb * -1, ylxh = v_ylxh_ct_sum, sl = 1, tcylxh = v_ylxh_ct_sum_tcylxh, dj = v_ylxh_ct_sum_dj where yjsb = v_yjsb_use * -1 and ylxh in (select ylxh from v_gy_ylsf_ct_0506) and rownum = 1;
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	664	"end if;
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	665	"
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	666	"v_sqlcode_sum := v_sqlcode_sum + sqlcode;
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	667	"
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	668	"  --dj =0
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	669	"update yj_yjk2 set YJSB = yjsb * -1, dj = 0 where yjsb in (select b.yjsb From yj_Yjk1 A, YJ_YJK2 B where b.YJSB = a.yjsb * -1 and b.yjsb < 0 and a.sfsb is
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	670	"null and a.jzxh = in_patient_no)
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	671	"-- and tcylxh in (select distinct(y.glxh) from v_gy_ylsf_ct_0506 x ,gy_ylsftc y where x.ylxh=y.ylxh  )
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	672	"; v_sqlcode_sum := v_sqlcode_sum + sqlcode;
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	673	"
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	674	"if v_sqlcode_sum = 0 then commit; else rollback;
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	675	"
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	676	"select '合并处理ct项目失败[prc_yb_check2019]30' into v_msg from dual; out_code := -1; out_msg := v_msg; return;
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	677	"
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	678	"end if;
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	679	"
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	680	"end if;
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	681	"
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	682	"end if;
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	683	"-- end 门诊诊间 ct项目合并
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	684	"
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	685	"  --门诊诊间控制 begin
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	686	"if 1 = 1 and in_jiaoyilx = 'MZZJ' then
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	687	"
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	688	"select count(*) into v_count From mz_cfk1 a, mz_cfk2 b where a.cfsb = b.cfsb and length(trim(b.bz)) = 2 and jzxh = in_patient_no; if v_count > 0 then select '皮试标志有误,mz_cfk2.bz [prc_yb_check2019]ps' into v_msg from dual; out_code := -1; out_msg := v_msg; return;
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	689	"
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	690	"end if;
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	691	"
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	692	"v_ip_jz := 0; select count(*) into v_count From zj_jzxx where(instr(ipaddress, '172.18.1.') > 0 or instr(ipaddress, '172.18.2.') > 0 or ipaddress in ('172.18.104.80', '172.18.104.78', '172.18.104.79', '172.18.104.105')) and jzxh = in_patient_no; if v_count > 0 then v_ip_jz := 1;
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	693	"end if;
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	694	"
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	695	"  -- '开了 CT胸部平扫(急诊CT室)';  '有症状'
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	696	"if 1 = 1 then v_count := 0; v_msg := '';
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	697	"
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	698	"select count(ksdm) into v_count From v_ksdm_ek where ksdm in (select ksdm From zj_jzxx where jzxh = in_patient_no);
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	699	"
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	700	"if v_count = 0 then
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	701	"
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	702	"select max(bz) into v_msg from(select '0' bz from dual union all select f_get_fenlei_scb_zz(tbxx) from zj_jizhenptsc where rbrq in (select max(rbrq) From zj_jizhenptsc where jzkh = v_jzkh and rbrq > sysdate - 0.5) and jzkh = v_jzkh and rbrq > sysdate - 0.5);
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	703	"
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	704	"  /*  select f_get_fenlei_scb_zz(tbxx)
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	705	"        into v_msg
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	706	"        from zj_jizhenptsc
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	707	"       where rbrq in (select max(rbrq)
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	708	"                        From zj_jizhenptsc
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	709	"                       where jzkh = v_jzkh 
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	710	"                         and rbrq > sysdate - 0.5)
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	711	"         and jzkh = v_jzkh
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	712	"         and rbrq > sysdate - 0.5;
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	713	"  */
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	714	"
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	715	"end if;
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	716	"
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	717	"if 1 = 1 and v_msg = '有症状' and v_count = 0 then v_count := 0;
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	718	"/*   select count(*)
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	719	"   into v_count
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	720	"   from yj_Yjk1 a, yj_yjk2 b, gy_brjbxxk c
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	721	"  where a.yjsb = b.yjsb
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	722	"    and a.jzkh = c.jzkh
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	723	"    and b.tcylxh in (31072,25283,25286)
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	724	"    and (a.kdsj > sysdate - 3 and a.sfsb is not null or a.kdsj>=trunc(sysdate -1)  )                    
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	725	"    and a.jzKh = v_jzkh;*/
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	726	"
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	727	"select count(t.jianchaxmbh) into v_count From jc_shenqingdmx t where jianchaxmbh in (25283, 39501, 25286) and t.bingrenxh in (select jzxh from zj_jzxx where jzkh = v_jzkh and jzrq >= trunc(sysdate - 2) and jzrq < sysdate + 0.1);
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	728	"
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	729	"if v_count = 0 then
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	730	"
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	731	"out_code := -1; out_msg := '请开单 CT胸部平扫(急诊CT室)[prc_yb_check2019]6'; return;
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	732	"end if;
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	733	"
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	734	"end if;
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	735	"
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	736	"  ----
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	737	"end if;
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	738	"--  end '开了 CT胸部平扫(急诊CT室)';'有症状'
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	739	"
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	740	"end if;
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	741	"--end if 门诊诊间控制 begin
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	742	"
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	743	"if 1 = 1 then
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	744	"
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	745	"  --免费新冠检测项目 仅限 指定科室(发热门诊  非异地医保 bedgin
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	746	"  --新型冠状病毒核糖核酸检测  31606 0.01 义乌医保可用
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	747	"if 1 = 1 then
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	748	"/* --新型冠状病毒  抗体检测
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	749	"  31509,31510 原价（自费）
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	750	"  31525,31526 原价 医保可用 
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	751	"  31607 ,31608 0.01 义乌医保可用*/
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	752	"
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	753	"v_count := 0; select count(*) into v_count from yj_Yjk1 a, yj_yjk2 b where a.yjsb = b.yjsb and a.sjksdm not in ('2010040', '2100005', '2270006', '2020014') and v_ip_jz = 0 and b.ylxh in (31607, 31608, 31525, 31526, 31606) and a.sfsb is
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	754	"null and a.jzxh = in_patient_no; if v_count > 0 then out_code := -1; out_msg := '只能开自费的新冠检测项目a[prc_yb_check2019]7'; return;
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	755	"end if;
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	756	"
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	757	"v_count := 0; select count(*) into v_count from yj_Yjk1 a, yj_yjk2 b, gy_brjbxxk c where a.yjsb = b.yjsb and a.jzkh = c.jzkh and ((c.brlb = 97 and   ( nvl(c.jgbm, '0') <> '330782' 
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	758	" and nvl(xzqydm,'0')<>'330782')) or c.brlb = 99) and b.ylxh in (31607, 31608, 31509, 31510, 31606) and (a.sjksdm in ('2010040', '2100005', '2270006', '2020014')) and a.sfsb is
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	759	"null and a.jzxh = in_patient_no; if v_count > 0 then
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	760	"
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	761	"out_code := -1; out_msg := ' 非义乌医保, 不能开 免费新冠检测项目,或者 自费新冠检测项目b [prc_yb_check2019]7'; return;
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	762	"end if;
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	763	"
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	764	"  --31499,31512,31511 其它新冠检测项目
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	765	"  --自费病人和义乌医保 请开单 免费新冠检测项目
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	766	"if 1 = 0 then v_count := 0; select count(*) into v_count from yj_Yjk1 a, yj_yjk2 b, gy_brjbxxk c where a.yjsb = b.yjsb and a.jzkh = c.jzkh and ((c.brlb = 97 and ( nvl(c.jgbm, '0') = '330782' or nvl(xzqydm,'0')='330782')) or c.brlb = 1) and b.ylxh in (31509, 31510, 31525, 31526, 31499, 31511, 31512) and a.sjksdm in ('2010040', '2100005', '2270006', '2020014') and a.sfsb is
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	767	"null and a.jzxh = in_patient_no; if v_count > 0 then out_code := -1; out_msg := '自费病人和义乌医保 请开单 免费新冠检测项目c[prc_yb_check2019]7'; return;
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	768	"end if;
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	769	"end if;
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	770	"end if;
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	771	"--免费新冠检测项目 仅限 指定科室(发热门诊)非异地医保 end
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	772	"  --30991
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	773	"  --新型冠状病毒核酸检测
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	774	"  --2010040，2020002
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	775	"
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	776	"  --减免项目和非减免费用,不能开在同一张检验(检查)单
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	777	"if 1 = 1 then v_count := 0;
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	778	"
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	779	"select count(a.yjsb) into v_count from yj_Yjk1 a, yj_yjk2 b, gy_brjbxxk c where a.yjsb = b.yjsb and a.jzkh = c.jzkh and b.ylxh in (select ylxh from v_jianmianfeiyong)
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	780	"-- and a.sjksdm  in ('2010040','2100005','2270006')
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	781	"and a.sfsb is
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	782	"null and a.jzxh = in_patient_no;
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	783	"
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	784	"if v_count > 0 then
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	785	"
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	786	"select count(yjsb) into v_count from yj_yjk2 where ylxh not in (select ylxh from v_jianmianfeiyong) and yjsb in (select a.yjsb from yj_Yjk1 a, yj_yjk2 b, gy_brjbxxk c where a.yjsb = b.yjsb and a.jzkh = c.jzkh and b.ylxh in (select ylxh from v_jianmianfeiyong)
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	787	"-- and a.sjksdm  in ('2010040','2100005','2270006')
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	788	"and a.sjksdm in (select distinct(ksdm) From v_jianmianfeiyong) and a.sfsb is
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	789	"null and a.jzxh = in_patient_no);
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	790	"
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	791	"  --2020-06-24 error     
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	792	"if v_count > 0 and 1 = 1 then out_code := -1; out_msg := '新型冠状检测,减免项目和非减免费用,不能开在同一张检验(检查)单[prc_yb_check2019]8 '; return;
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	793	"end if;
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	794	"
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	795	"end if;
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	796	"
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	797	"end if;
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	798	"-- end 减免项目和非减免费用,不能开在同一张检验(检查)单
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	799	"
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	800	"  -- 与上面代码功能重复
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	801	"  --严重急性呼吸综合症冠状病毒抗体检测(发热) 仅限 指定科室 开单
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	802	"if 1 = 0 then
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	803	"--31509,31510 原价（自费）
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	804	"v_count := 0; select count(*) into v_count from yj_Yjk1 a, yj_yjk2 b, gy_brjbxxk c where a.yjsb = b.yjsb and a.jzkh = c.jzkh
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	805	"-- and b.tcylxh in (21897)
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	806	"and b.ylxh in (31509, 31510) and a.sjksdm in ('2010040', '2100005', '2270006', '2020014')
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	807	"
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	808	"and a.sfsb is
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	809	"null and a.jzxh = in_patient_no; if v_count > 0 then out_code := -1; out_msg := '请开 严重急性呼吸综合症冠状病毒抗体检测(发热)[prc_yb_check2019]8 '; return;
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	810	"end if;
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	811	"
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	812	"end if;
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	813	"
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	814	"  --严重急性呼吸综合症冠状病毒抗体检测(发热) 仅限 指定科室 开单
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	815	"  --31525 31526 原价 医保可用 
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	816	"  -- 与上面代码功能重复
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	817	"if 1 = 1 then v_count := 0; select count(*) into v_count from yj_Yjk1 a, yj_yjk2 b, gy_brjbxxk c where a.yjsb = b.yjsb and a.jzkh = c.jzkh and a.sjksdm not in ('2010040', '2100005', '2270006', '2020014') and v_ip_jz = 0
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	818	"-- and b.tcylxh in (31524)
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	819	"  -- and b.ylxh in (31525, 31526)
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	820	"and b.ylxh in (31525, 31526, 31606, 31607, 31608) and a.sfsb is
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	821	"null and a.jzxh = in_patient_no;
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	822	" if v_count > 0 then
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	823	"
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	824	"out_code := -1; out_msg := '严重急性呼吸综合症冠状病毒抗体检测(发热) 仅限 指定科室 开单[prc_yb_check2019]9'; return;
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	825	"end if;
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	826	"
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	827	"end if;
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	828	"
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	829	"
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	830	"--2021-01-01
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	831	"if 1 = 1 then
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	832	" v_count := 0; select count(*) into v_count from yj_Yjk1 a, yj_yjk2 b, gy_brjbxxk c 
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	833	"where a.yjsb = b.yjsb and a.jzkh = c.jzkh and a.sjksdm not in ('2010040', '2100005', '2270006', '2020014') 
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	834	"--and v_ip_jz = 0
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	835	"-- and b.tcylxh in (31524)
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	836	"  -- and b.ylxh in (31525, 31526)
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	837	"and b.tcylxh in (31513，31514,31947) and a.sfsb is
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	838	"null and a.jzxh = in_patient_no; 
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	839	"if v_count > 0 then
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	840	"
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	841	"out_code := -1; out_msg := '发热新型冠状病毒核酸检测 仅限 指定科室 开单[prc_yb_check2019]91'; return;
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	842	"end if;
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	843	"
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	844	"end if;
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	845	"
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	846	"if 1 = 1 then
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	847	" v_count := 0; select count(*) into v_count from yj_Yjk1 a, yj_yjk2 b, gy_brjbxxk c where a.yjsb = b.yjsb and a.jzkh = c.jzkh and a.sjksdm  in ('2010040', '2100005', '2270006', '2020014') 
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	848	"--and v_ip_jz = 0
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	849	"-- and b.tcylxh in (31524)
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	850	"  -- and b.ylxh in (31525, 31526)
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	851	"and b.tcylxh in (31909，31910) and a.sfsb is
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	852	"null and a.jzxh = in_patient_no; 
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	853	"if v_count > 0 then
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	854	"
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	855	"out_code := -1; out_msg := '发热门诊请开 新型冠状病毒核酸检测,不要开自费[prc_yb_check2019]92'; return;
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	856	"end if;
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	857	"
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	858	"end if;
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	859	"  --限性别 药品
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	860	"
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	861	"if 1 = 1 and v_xb = 2 then
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	862	"
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	863	"select count(*) into v_count from mz_cfk1 a, mz_cfk2 b, gy_brjbxxk c, yb_duizhaoml d, yb_znshgz e where b.ypxh = d.xiangmuxh and b.ypcddm = d.xiangmucd and a.cfsb = b.cfsb and a.jzkh = c.jzkh and upper(substr(d.yibaodm, 1, length(e.xmbh))) = upper(e.xmbh) and e.shbz = '男' and e.gzbh = 6 and e.ypzlpb = 1 and d.yibaolx = '9997' and nvl(d.tingyongrq, to_char(sysdate + 1, 'yyyymmdd')) > to_char(sysdate, 'yyyymmdd') and a.sfsb is
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	864	"null and a.jzxh = in_patient_no;
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	865	"
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	866	"if v_count > 0 then select wm_concat(e.xmmc) || '限男性使用 ' into out_msg from mz_cfk1 a, mz_cfk2 b, gy_brjbxxk c, yb_duizhaoml d, yb_znshgz e where b.ypxh = d.xiangmuxh and b.ypcddm = d.xiangmucd and a.cfsb = b.cfsb and a.jzkh = c.jzkh and upper(substr(d.yibaodm, 1, length(e.xmbh))) = upper(e.xmbh) and e.shbz = '男' and e.gzbh = 6 and e.ypzlpb = 1 and d.yibaolx = '9997' and nvl(d.tingyongrq, to_char(sysdate + 1, 'yyyymmdd')) > to_char(sysdate, 'yyyymmdd') and a.sfsb is
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	867	"null and a.jzxh = in_patient_no;
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	868	"
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	869	"select out_msg || '[prc_yb_check2019]10' into out_msg from dual;
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	870	"
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	871	"out_code := -1; return;
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	872	"end if;
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	873	"end if;
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	874	"
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	875	"if 1 = 1 and v_xb = 1 then
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	876	"
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	877	"select count(*) into v_count from mz_cfk1 a, mz_cfk2 b, gy_brjbxxk c, yb_duizhaoml d, yb_znshgz e where b.ypxh = d.xiangmuxh and b.ypcddm = d.xiangmucd and a.cfsb = b.cfsb and a.jzkh = c.jzkh and upper(substr(d.yibaodm, 1, length(e.xmbh))) = upper(e.xmbh) and e.shbz = '女' and e.gzbh = 6 and e.ypzlpb = 1 and d.yibaolx = '9997' and nvl(d.tingyongrq, to_char(sysdate + 1, 'yyyymmdd')) > to_char(sysdate, 'yyyymmdd') and a.sfsb is
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	878	"null and a.jzxh = in_patient_no;
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	879	"
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	880	"if v_count > 0 then select wm_concat(e.xmmc) || '限女性使用 ' into out_msg from mz_cfk1 a, mz_cfk2 b, gy_brjbxxk c, yb_duizhaoml d, yb_znshgz e where b.ypxh = d.xiangmuxh and b.ypcddm = d.xiangmucd and a.cfsb = b.cfsb and a.jzkh = c.jzkh and upper(substr(d.yibaodm, 1, length(e.xmbh))) = upper(e.xmbh) and e.shbz = '女' and e.gzbh = 6 and e.ypzlpb = 1 and d.yibaolx = '9997' and nvl(d.tingyongrq, to_char(sysdate + 1, 'yyyymmdd')) > to_char(sysdate, 'yyyymmdd') and a.sfsb is
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	881	"null and a.jzxh = in_patient_no;
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	882	"
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	883	"select out_msg || '[prc_yb_check2019]11' into out_msg from dual; out_code := -1; return;
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	884	"end if;
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	885	"end if;
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	886	"
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	887	"  --诊疗
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	888	"if 1 = 1 and v_xb = 2 then
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	889	"
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	890	"select count(*) into v_count from yj_Yjk1 a, yj_yjk2 b, gy_brjbxxk c, yb_duizhaoml d, yb_znshgz e where b.ylxh = d.xiangmuxh and d.yaopinpb = 0 and a.yjsb = b.yjsb and a.jzkh = c.jzkh and upper(substr(d.yibaodm, 1, length(e.xmbh))) = upper(e.xmbh) and e.shbz = '男' and e.gzbh = 6 and nvl(e.ypzlpb, 0) = 0 and d.yibaolx = '9997' and nvl(d.tingyongrq, to_char(sysdate + 1, 'yyyymmdd')) > to_char(sysdate, 'yyyymmdd') and a.sfsb is
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	891	"null and a.jzxh = in_patient_no;
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	892	"
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	893	"if v_count > 0 then select wm_concat(e.xmmc) || '限男性使用 ' into out_msg from yj_Yjk1 a, yj_yjk2 b, gy_brjbxxk c, yb_duizhaoml d, yb_znshgz e where b.ylxh = d.xiangmuxh and d.yaopinpb = 0 and a.yjsb = b.yjsb and a.jzkh = c.jzkh and upper(substr(d.yibaodm, 1, length(e.xmbh))) = upper(e.xmbh) and e.shbz = '男' and e.gzbh = 6 and nvl(e.ypzlpb, 0) = 0 and d.yibaolx = '9997' and nvl(d.tingyongrq, to_char(sysdate + 1, 'yyyymmdd')) > to_char(sysdate, 'yyyymmdd') and a.sfsb is
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	894	"null and a.jzxh = in_patient_no;
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	895	"
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	896	"select out_msg || '[prc_yb_check2019]12' into out_msg from dual; out_code := -1; return;
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	897	"end if;
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	898	"end if;
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	899	"
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	900	"if 1 = 1 and v_xb = 1 then
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	901	"
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	902	"select count(*) into v_count from yj_Yjk1 a, yj_yjk2 b, gy_brjbxxk c, yb_duizhaoml d, yb_znshgz e where b.ylxh = d.xiangmuxh and d.yaopinpb = 0 and a.yjsb = b.yjsb and a.jzkh = c.jzkh and upper(substr(d.yibaodm, 1, length(e.xmbh))) = upper(e.xmbh) and e.shbz = '女' and e.gzbh = 6 and nvl(e.ypzlpb, 0) = 0 and d.yibaolx = '9997' and nvl(d.tingyongrq, to_char(sysdate + 1, 'yyyymmdd')) > to_char(sysdate, 'yyyymmdd') and a.sfsb is
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	903	"null and a.jzxh = in_patient_no;
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	904	"
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	905	"if v_count > 0 then select wm_concat(e.xmmc) || '限女性使用 ' into out_msg from yj_Yjk1 a, yj_yjk2 b, gy_brjbxxk c, yb_duizhaoml d, yb_znshgz e where b.ylxh = d.xiangmuxh and d.yaopinpb = 0 and a.yjsb = b.yjsb and a.jzkh = c.jzkh and upper(substr(d.yibaodm, 1, length(e.xmbh))) = upper(e.xmbh) and e.shbz = '女' and e.gzbh = 6 and nvl(ypzlpb, 0) = 0 and d.yibaolx = '9997' and nvl(d.tingyongrq, to_char(sysdate + 1, 'yyyymmdd')) > to_char(sysdate, 'yyyymmdd') and a.sfsb is
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	906	"null and a.jzxh = in_patient_no; select out_msg || '[prc_yb_check2019]13' into out_msg from dual; out_code := -1; return;
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	907	"end if;
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	908	"end if;
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	909	"
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	910	"  --end 限性别
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	911	"
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	912	"  --医保控制
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	913	"if 97 = 97 then
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	914	"
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	915	"select NVL(MAX((round((sysdate - csrq), 0))), 0) into v_sl_csrq from gy_brjbxxk where jzkh = v_jzkh;
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	916	"
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	917	"  --'限6周岁
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	918	"if v_sl_csrq > 2190 then null;
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	919	"--'小儿静脉输液限6周岁
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	920	"if 0 = 0 then v_count := 0; select count(*) into v_count from yj_Yjk1 a, yj_yjk2 b, gy_brjbxxk c where a.yjsb = b.yjsb and a.jzkh = c.jzkh and nvl(spbh, 0) <> -10 and b.ylxh in (23342, 20326) and (sysdate - c.csrq) > 2190 and a.sfsb is
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	921	"null and a.jzxh = in_patient_no; if v_count > 0 then update yj_Yjk2 set spbh = -10 where ylxh in (23342, 20326) and yjsb in (select yjsb from yj_Yjk1 where sfsb is
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	922	"null and jzxh = in_patient_no); commit; out_code := 0; out_msg := '小儿静脉输液限6周岁以下使用,继续使用将按自费处理[prc_yb_check2019]14'; return;
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	923	"end if;
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	924	"
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	925	"end if;
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	926	"
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	927	"  --多普勒小儿血压检测限6周岁
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	928	"if 0 = 0 then v_count := 0;
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	929	"
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	930	"select count(*) into v_count from yj_Yjk1 a, yj_yjk2 b, gy_brjbxxk c where a.yjsb = b.yjsb and a.jzkh = c.jzkh and nvl(spbh, 0) <> -10 and b.ylxh in (11185) and a.sfsb is
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	931	"null and (sysdate - c.csrq) > 2190 and a.jzxh = in_patient_no; if v_count > 0 then update yj_Yjk2 set spbh = -10 where ylxh = 11185 and yjsb in (select yjsb from yj_Yjk1 where sfsb is
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	932	"null and jzxh = in_patient_no); commit;
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	933	"
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	934	"out_code := 1; out_msg := '多普勒小儿血压检测限6周岁以下使用,继续使用将按自费处理[prc_yb_check2019]20'; return;
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	935	"end if;
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	936	"end if;
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	937	"
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	938	"end if;
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	939	"-- end'限6周岁
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	940	"
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	941	"  --限14周岁
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	942	"if v_sl_csrq > 5110 then null;
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	943	"
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	944	"  --乳牙拔除术限14周岁
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	945	"if 0 = 0 then v_count := 0;
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	946	"
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	947	"select count(*) into v_count from yj_Yjk1 a, yj_yjk2 b, gy_brjbxxk c where a.yjsb = b.yjsb and a.jzkh = c.jzkh and nvl(spbh, 0) <> -10 and b.ylxh in (12844) and a.sfsb is
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	948	"null and (sysdate - c.csrq) > 5110 and a.jzxh = in_patient_no; if v_count > 0 then update yj_Yjk2 set spbh = -10 where ylxh = 12844 and yjsb in (select yjsb from yj_Yjk1 where sfsb is
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	949	"null and jzxh = in_patient_no);
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	950	"
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	951	"commit;
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	952	"
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	953	"out_code := 1; out_msg := '乳牙拔除术限14周岁以下使用,继续使用将按自费处理[prc_yb_check2019]21'; return;
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	954	"end if;
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	955	"end if;
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	956	"
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	957	"  --活髓切除术 限14周岁
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	958	"if 0 = 0 then v_count := 0;
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	959	"
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	960	"select count(*) into v_count from yj_Yjk1 a, yj_yjk2 b, gy_brjbxxk c where a.yjsb = b.yjsb and a.jzkh = c.jzkh and a.sfsb is
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	961	"null and nvl(spbh, 0) <> -10 and b.ylxh in (13813) and (sysdate - c.csrq) > 5110 and a.jzxh = in_patient_no; if v_count > 0 then update yj_Yjk2 set spbh = -10 where ylxh = 13813 and yjsb in (select yjsb from yj_Yjk1 where sfsb is
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	962	"null and jzxh = in_patient_no); if sqlcode = 0 then commit; else rollback; out_msg := '活髓切除术 限14周岁以下使用,继续使用将按自费处理,更新失败[prc_yb_check2019]22'; out_code := -1;
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	963	"end if;
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	964	"
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	965	"out_code := 1; out_msg := '活髓切除术 限14周岁以下使用,继续使用将按自费处理[prc_yb_check2019]23'; return;
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	966	"end if;
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	967	"end if;
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	968	"
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	969	"  -- 限14周岁以下使用 药品
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	970	"if 0 = 0 then v_count := 0;
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	971	"
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	972	"select count(*) into v_count from mz_cfk1 a, mz_cfk2 b, gy_brjbxxk c, yb_duizhaoml d, yb_znshgz e where b.ypxh = d.xiangmuxh and b.ypcddm = d.xiangmucd and a.cfsb = b.cfsb and a.jzkh = c.jzkh and upper(substr(d.yibaodm, 1, length(e.xmbh))) = upper(e.xmbh) and e.gzmc like '%限儿童%' and instr(e.shbz, '14周岁以下') > 0 and e.ypzlpb = 1 and d.yibaolx = '9997' and nvl(d.tingyongrq, to_char(sysdate + 1, 'yyyymmdd')) > to_char(sysdate, 'yyyymmdd') and nvl(b.spbh, 0) <> -10 and a.sfsb is
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	973	"null and (sysdate - c.csrq) > 5110 and a.jzxh = in_patient_no;
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	974	"
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	975	"if v_count > 0 then
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	976	"
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	977	"select wm_concat(e.xmmc) || '限14周岁以下使用,继续使用将按自费处理' into out_msg from mz_cfk1 a, mz_cfk2 b, gy_brjbxxk c, yb_duizhaoml d, yb_znshgz e where b.ypxh = d.xiangmuxh and b.ypcddm = d.xiangmucd and a.cfsb = b.cfsb and a.jzkh = c.jzkh and upper(substr(d.yibaodm, 1, length(e.xmbh))) = upper(e.xmbh) and e.gzmc like '%限儿童%' and instr(e.shbz, '14周岁以下') > 0 and e.ypzlpb = 1 and d.yibaolx = '9997' and nvl(d.tingyongrq, to_char(sysdate + 1, 'yyyymmdd')) > to_char(sysdate, 'yyyymmdd') and nvl(b.spbh, 0) <> -10 and a.sfsb is
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	978	"null and (sysdate - c.csrq) > 5110 and a.jzxh = in_patient_no;
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	979	"
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	980	"update mz_cfk2 set spbh = -10 where ypxh in (select b.ypxh from mz_cfk1 a, mz_cfk2 b, gy_brjbxxk c, yb_duizhaoml d, yb_znshgz e where b.ypxh = d.xiangmuxh and b.ypcddm = d.xiangmucd and a.cfsb = b.cfsb and a.jzkh = c.jzkh and upper(substr(d.yibaodm, 1, length(e.xmbh))) = upper(e.xmbh) and e.gzmc like '%限儿童%' and instr(e.shbz, '14周岁以下') > 0 and e.ypzlpb = 1 and d.yibaolx = '9997' and nvl(d.tingyongrq, to_char(sysdate + 1, 'yyyymmdd')) > to_char(sysdate, 'yyyymmdd') and nvl(b.spbh, 0) <> -10 and a.sfsb is
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	981	"null and (sysdate - c.csrq) > 5110 and a.jzxh = in_patient_no) and cfsb in (select cfsb from mz_cfk1 where sfsb is
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	982	"null and jzxh = in_patient_no); if sqlcode = 0 then commit; else
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	983	"
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	984	"rollback; out_code := 1; return;
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	985	"end if;
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	986	"
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	987	"out_code := 1; return;
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	988	"end if;
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	989	"
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	990	"end if;
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	991	"
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	992	"end if;
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	993	"--end 限14周岁
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	994	"
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	995	"  --限性别自费使用
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	996	"
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	997	"if 0 = 0 then v_count := 0;
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	998	"
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	999	"if 1 = 1 and v_xb = 1 then
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	1000	"
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	1001	"select count(*) into v_count from mz_cfk1 a, mz_cfk2 b, gy_brjbxxk c, yb_duizhaoml d where b.ypxh = d.xiangmuxh and b.ypcddm = d.xiangmucd and a.cfsb = b.cfsb and a.jzkh = c.jzkh
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	1002	"--and substr(d.yibaodm,1,12)  in ('x170300009350','x080402103580') 
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	1003	"and d.yibaolx = '9997' and nvl(d.tingyongrq, to_char(sysdate + 1, 'yyyymmdd')) > to_char(sysdate, 'yyyymmdd') and (instr(upper(d.yibaodm), 'x080402103580') > 0) and a.sfsb is
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	1004	"null and a.jzxh = in_patient_no;
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	1005	"
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	1006	"if v_count > 0 then update mz_cfk2 set spbh = -10 where cfsb in (select cfsb from mz_cfk1 where sfsb is
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	1007	"null and jzxh = in_patient_no) and ypxh || ',' || ypcddm in (select xiangmuxh || ',' || xiangmucd from yb_duizhaoml where yibaolx = '9997' and nvl(tingyongrq, to_char(sysdate + 1, 'yyyymmdd')) > to_char(sysdate, 'yyyymmdd') and (instr(upper(yibaodm), 'x080402103580') > 0)); commit;
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	1008	"
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	1009	"  --out_code :=1; out_msg := '特定药物限女性使用,继续使用将按自费处理'; return;
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	1010	"end if;
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	1011	"end if;
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	1012	"
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	1013	"if 1 = 1 and v_xb = 2 then
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	1014	"
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	1015	"select count(*) into v_count from mz_cfk1 a, mz_cfk2 b, gy_brjbxxk c, yb_duizhaoml d where b.ypxh = d.xiangmuxh and b.ypcddm = d.xiangmucd and a.cfsb = b.cfsb and a.jzkh = c.jzkh
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	1016	"--and substr(d.yibaodm,1,12)  in ('x170300009350','x080402103580') 
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	1017	"and d.yibaolx = '9997' and nvl(d.tingyongrq, to_char(sysdate + 1, 'yyyymmdd')) > to_char(sysdate, 'yyyymmdd') and (instr(upper(d.yibaodm), 'X170300009350') > 0) and a.sfsb is
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	1018	"null and a.jzxh = in_patient_no;
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	1019	"
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	1020	"if v_count > 0 then update mz_cfk2 set spbh = -10 where cfsb in (select cfsb from mz_cfk1 where sfsb is
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	1021	"null and jzxh = in_patient_no) and ypxh || ',' || ypcddm in (select xiangmuxh || ',' || xiangmucd from yb_duizhaoml where yibaolx = '9997' and nvl(tingyongrq, to_char(sysdate + 1, 'yyyymmdd')) > to_char(sysdate, 'yyyymmdd') and (instr(upper(yibaodm), 'x170300009350') > 0)); commit;
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	1022	"
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	1023	"  --out_code :=1; out_msg := '特定药物限女性使用,继续使用将按自费处理'; return;
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	1024	"end if;
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	1025	"end if;
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	1026	"
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	1027	"end if;
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	1028	"
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	1029	"  -- end 限性别自费使用
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	1030	"
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	1031	"end if;
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	1032	"
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	1033	"  /*  -- 限14周岁以下使用
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	1034	"    --维生素D滴，药品序号6757，价格序号11961
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	1035	"  if 0 = 0 then v_count := 0;
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	1036	"  
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	1037	"  select count(*) into v_count from mz_cfk1 a, mz_cfk2 b, gy_brjbxxk c where a.cfsb = b.cfsb and a.jzkh = c.jzkh and nvl(b.spbh, 0) <> -10 and a.sfsb is
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	1038	"  null and b.ypxh in (6757) and (sysdate - c.csrq) > 5110 and c.brlb in (27, 97) and a.jzxh = in_patient_no; if v_count > 0 then update mz_cfk2 set spbh = -10 where ypxh = 6757 and cfsb in (select cfsb from mz_cfk1 where sfsb is
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	1039	"  null and jzxh = in_patient_no); commit;
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	1040	"  
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	1041	"  out_code := -1; out_msg := '维生素D滴 限14周岁以下使用,继续使用将按自费处理'; return;
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	1042	"  end if;
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	1043	"  end if;*/
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	1044	"
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	1045	"  /*  -- 限14周岁以下使用
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	1046	"    --葡萄糖酸锌颗粒，药品序号6629，价格序号11823
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	1047	"  if 0 = 0 then v_count := 0;
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	1048	"  
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	1049	"  select count(*) into v_count from mz_cfk1 a, mz_cfk2 b, gy_brjbxxk c where a.cfsb = b.cfsb and a.jzkh = c.jzkh and nvl(b.spbh, 0) <> -10 and a.sfsb is
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	1050	"  null and b.ypxh in (6629) and (sysdate - c.csrq) > 5110 and c.brlb in (27, 97) and a.jzxh = in_patient_no;
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	1051	"  
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	1052	"  if v_count > 0 then update mz_cfk2 set spbh = -10 where ypxh = 6629 and cfsb in (select cfsb from mz_cfk1 where sfsb is
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	1053	"  null and jzxh = in_patient_no);
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	1054	"  
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	1055	"  commit;
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	1056	"  
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	1057	"  out_code := -1; out_msg := '葡萄糖酸锌颗粒 限14周岁以下使用,继续使用将按自费处理'; return;
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	1058	"  end if;
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	1059	"  
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	1060	"  end if;*/
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	1061	"
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	1062	"  --当日限量 being
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	1063	"if 7 = 7 then v_sl_kz := 0; v_sl_jbdm8 := 0; --肿瘤诊断
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	1064	"begin
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	1065	"select sum(sl) into v_sl_jbdm8 from(select count(jzxh) sl from zj_jzxx a where code1 in (select code From gy_jbdm where icd10 is
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	1066	"not null and reporttype = 8) and jzxh = in_patient_no union all select count(jzxh) from zj_jzxx a where code2 in (select code From gy_jbdm where icd10 is
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	1067	"not null and reporttype = 8) and jzxh = in_patient_no union all select count(jzxh) from zj_jzxx a where code3 in (select code From gy_jbdm where icd10 is
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	1068	"not null and reporttype = 8) and jzxh = in_patient_no union all select count(jzxh) from zj_jzxx a where code4 in (select code From gy_jbdm where icd10 is
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	1069	"not null and reporttype = 8) and jzxh = in_patient_no);
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	1070	"EXCEPTION
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	1071	"WHEN NO_DATA_FOUND THEN v_sl_jbdm8 := 0;
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	1072	"end;
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	1073	"
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	1074	"  --无肿瘤诊断 begin
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	1075	"if v_sl_jbdm8 = 0 then v_sl_use := 0;
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	1076	"begin
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	1077	"select xmmc, sl_kz, sl_sy into v_msg, v_sl_kz, v_sl_use from(
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	1078	"
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	1079	"select d.xmmc, d.xmbh, d.kzsl_mz sl_kz, sum(b.sl) sl_sy from yj_Yjk1 a, yj_Yjk2 b, yb_duizhaoml c, yb_znshgz d where a.yjsb = b.yjsb and b.ylxh = c.xiangmuxh and c.yaopinpb = 0 and c.yibaolx = '9997' and c.yibaodm = d.xmbh and d.gzbh = 7 and nvl(d.kzsl_mz, 0) > 0 and a.sjksdm not in (select ksdm from v_ksdm_jz) and b.ylxh in (select y.ylxh from yj_Yjk1 x, yj_yjk2 y where x.yjsb = y.yjsb and x.jzxh = in_patient_no)
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	1080	"--and a.jzkh in (select jzkh from zj_jzxx where jzxh = in_patient_no)
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	1081	"and a.jzkh = v_jzkh and trunc(a.kdsj) = trunc(sysdate) group by d.xmmc, d.xmbh, d.kzsl_mz having d.kzsl_mz < sum(b.sl) and d.kzsl_mz > 0) where rownum = 1;
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	1082	"EXCEPTION
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	1083	"WHEN NO_DATA_FOUND THEN out_code := 0; out_msg := '';
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	1084	"-- return;
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	1085	"END;
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	1086	"
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	1087	"if v_sl_use > 0 and v_sl_kz > 0 then select v_msg || ',a[prc_yb_check2019],单日使用数量为' || v_sl_use || ',超过限量' || v_sl_kz into v_msg from dual; out_code := -1; out_msg := v_msg; return;
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	1088	"end if;
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	1089	"end if;
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	1090	"--无肿瘤诊断 end
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	1091	"
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	1092	"  --肿瘤诊断 begin
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	1093	"if v_sl_jbdm8 > 0 then
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	1094	"
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	1095	"begin
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	1096	"select xmmc, sl_kz, sl_sy into v_msg, v_sl_kz, v_sl_use from(
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	1097	"
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	1098	"select d.xmmc, d.xmbh, d.kzsl_mz sl_kz, sum(b.sl) sl_sy from yj_Yjk1 a, yj_Yjk2 b, yb_duizhaoml c, yb_znshgz d where a.yjsb = b.yjsb and b.ylxh = c.xiangmuxh and c.yaopinpb = 0 and c.yibaolx = '9997' and c.yibaodm = d.xmbh and c.yibaodm not in （ 'f22030100100', 'f22030100101', 'f22030100201', 'f22030100200' ） and d.gzbh = 7 and nvl(d.kzsl_mz, 0) > 0 and a.sjksdm not in (select ksdm from v_ksdm_jz) and b.ylxh in (select y.ylxh from yj_Yjk1 x, yj_yjk2 y where x.yjsb = y.yjsb and x.jzxh = in_patient_no) and a.jzkh = v_jzkh
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	1099	"--and a.jzkh in (select jzkh from zj_jzxx where jzxh = in_patient_no)
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	1100	"and trunc(a.kdsj) = trunc(sysdate) group by d.xmmc, d.xmbh, d.kzsl_mz having d.kzsl_mz < sum(b.sl) and d.kzsl_mz > 0) where rownum = 1;
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	1101	"EXCEPTION
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	1102	"WHEN NO_DATA_FOUND THEN out_code := 0; out_msg := '';
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	1103	"-- return;
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	1104	"
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	1105	"END;
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	1106	"
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	1107	"if v_sl_use > 0 and v_sl_kz > 0 then select v_msg || ',b[prc_yb_check2019]32,单日使用数量为' || v_sl_use || ',超过限量' || v_sl_kz into v_msg from dual; out_code := -1; out_msg := v_msg; return;
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	1108	"end if;
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	1109	"end if;
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	1110	"--肿瘤诊断 end
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	1111	"
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	1112	"end if; --7=7
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	1113	"  --当日限量 end
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	1114	"
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	1115	"  -- 重复收费 begin
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	1116	"if 8 = 8 then v_msg := '';
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	1117	"
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	1118	"begin
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	1119	"select min(nvl(xmmc, '')) into v_msg from(select xmmc, count(xmmc） from(
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	1120	"
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	1121	"select xmmc from(select '重复收费:' || d.xmmc || nvl(d.kz_msg, '') xmmc, sum(b.sl) sl_sy from yj_Yjk1 a, yj_Yjk2 b, yb_duizhaoml c, yb_znshgz d where a.yjsb = b.yjsb and b.ylxh = c.xiangmuxh and c.yaopinpb = 0 and c.yibaolx = '9997' and c.yibaodm = d.xmbh and d.gzbh = 8 and nvl(d.kz_mz, 0) > 0 and b.ylxh in (select y.ylxh from yj_Yjk1 x, yj_yjk2 y where x.yjsb = y.yjsb and x.jzxh = in_patient_no) and a.jzxh = in_patient_no group by '重复收费:' || d.xmmc || nvl(d.kz_msg, '') having sum(b.sl) > 0)
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	1122	"
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	1123	"union all select xmmc from(
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	1124	"
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	1125	"select '重复收费:' || d.xmmc || nvl(d.kz_msg, '') xmmc, sum(b.sl) sl_sy from yj_Yjk1 a, yj_Yjk2 b, yb_duizhaoml c, yb_znshgz d where a.yjsb = b.yjsb and b.ylxh = c.xiangmuxh and c.yaopinpb = 0 and c.yibaolx = '9997'
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	1126	"-- and c.yibaodm = d.xmbh
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	1127	"and instr(d.shbz, c.yibaodm) > 0 and d.gzbh = 8 and nvl(d.kz_mz, 0) > 0 and trunc(a.kdsj) = trunc(sysdate) and a.kdsj > sysdate - 1 and a.jzkh = v_jzkh group by '重复收费:' || d.xmmc || nvl(d.kz_msg, '') having sum(b.sl) > 0)
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	1128	"
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	1129	") group by xmmc having count(xmmc） > 1);
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	1130	"
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	1131	"EXCEPTION
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	1132	"WHEN NO_DATA_FOUND THEN v_msg := '';
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	1133	"end; if length(v_msg) > 2 then out_code := -1; out_msg := v_msg; return;
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	1134	"end if;
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	1135	"
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	1136	"end if;
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	1137	"--重复收费 end
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	1138	"
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	1139	"  -- 重复用药 begin
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	1140	"if 82 = 82 then v_msg := '';
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	1141	"
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	1142	"begin
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	1143	"select min(nvl(xmmc, '')) into v_msg from(select xmmc, count(xmmc） from(
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	1144	"
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	1145	"select xmmc from(select '重复用药:' || d.xmmc || nvl(d.kz_msg, '') xmmc, sum(b.sl) sl_sy from mz_cfk1 a, mz_cfk2 b, yb_duizhaoml c, yb_znshgz d where a.cfsb = b.cfsb and b.ypxh = c.xiangmuxh and b.ypcddm = c.xiangmucd and c.yaopinpb = 1 and c.yibaolx = '9997' and c.yibaodm = d.xmbh and d.gzbh = 82 and nvl(d.kz_mz, 0) > 0 and b.ypxh in (select y.ypxh from mz_cfk1 x, mz_cfk2 y where x.cfsb = y.cfsb and x.jzxh = in_patient_no) and a.brxz > '1' and a.jzxh = in_patient_no group by '重复用药:' || d.xmmc || nvl(d.kz_msg, '') having sum(b.sl) > 0)
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	1146	"
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	1147	"union all select xmmc from(
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	1148	"
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	1149	"select '重复用药:' || d.xmmc || nvl(d.kz_msg, '') xmmc, sum(b.sl) sl_sy from mz_cfk1 a, mz_cfk2 b, yb_duizhaoml c, yb_znshgz d where a.cfsb = b.cfsb and b.ypxh = c.xiangmuxh and b.ypcddm = c.xiangmucd and c.yaopinpb = 1 and c.yibaolx = '9997'
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	1150	"-- and c.yibaodm = d.xmbh
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	1151	"and instr(d.shbz, c.yibaodm) > 0 and d.gzbh = 82 and nvl(d.kz_mz, 0) > 0 and a.brxz > '1' and trunc(a.cfrq) = trunc(sysdate) and a.cfrq > sysdate - 1 and a.jzkh = v_jzkh group by '重复用药:' || d.xmmc || nvl(d.kz_msg, '') having sum(b.sl) > 0)
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	1152	"
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	1153	") group by xmmc having count(xmmc） > 1);
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	1154	"
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	1155	"EXCEPTION
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	1156	"WHEN NO_DATA_FOUND THEN v_msg := '';
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	1157	"end; if length(v_msg) > 2 then out_code := -1; out_msg := v_msg; return;
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	1158	"end if;
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	1159	"
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	1160	"end if;
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	1161	"--重复用药 end
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	1162	"
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	1163	"  --begin 开始执行
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	1164	"  -- out_code:=-1;
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	1165	"  -- out_msg:='';
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	1166	"
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	1167	"end if;
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	1168	"
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	1169	"  -- 19765  16层及以上多排螺旋CT扫描加收，一天一个病人只能收一次
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	1170	"if 1 = 1 then v_count := 0;
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	1171	"
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	1172	"select count(*) into v_count from yj_Yjk1 a, yj_yjk2 b where a.yjsb = b.yjsb and b.ylxh in (19765) and a.sfsb is
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	1173	"null and a.jzxh = in_patient_no;
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	1174	"
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	1175	"if v_count > 0 then v_sl_use := 0; select sum(b.sl) into v_sl_use from yj_Yjk1 a, yj_yjk2 b where a.yjsb = b.yjsb and b.ylxh in (19765) and trunc(a.kdsj) = trunc(sysdate) and a.sfsb is
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	1176	"not null and a.jzkh = v_jzkh and nvl(a.jzxh, 0) <> in_patient_no;
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	1177	"
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	1178	"if v_sl_use > 0 then update yj_Yjk2 set yjsb = yjsb * -1 where ylxh in (19765) and yjsb > 0 and yjsb in (select yjsb from yj_Yjk1 where sfsb is
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	1179	"null and jzxh = in_patient_no); if sqlcode = 0 then commit; else rollback;
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	1180	"end if;
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	1181	"
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	1182	"ELSE select sum(b.sl) into v_count from yj_Yjk1 a, yj_yjk2 b where a.yjsb = b.yjsb and b.ylxh in (19765) and a.sfsb is
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	1183	"null and a.jzxh = in_patient_no; if v_count >= 1 then
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	1184	"
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	1185	"update yj_Yjk2 set yjsb = yjsb * -1 where ylxh in (19765) and yjsb > 0 and yjsb in (select yjsb from yj_Yjk1 where jzkh = v_jzkh and sfsb is
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	1186	"null);
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	1187	"
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	1188	"update yj_Yjk2 set yjsb = yjsb * -1 where ylxh in (19765) and yjsb <= 0 and yjsb in (select yjsb * -1 from yj_Yjk1 where sfsb is
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	1189	"null and jzxh = in_patient_no) and rownum = 1;
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	1190	"
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	1191	"if sqlcode = 0 then commit; else rollback;
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	1192	"end if;
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	1193	"
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	1194	"end if;
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	1195	"
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	1196	"end if;
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	1197	"
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	1198	"end if;
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	1199	"
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	1200	"end if;
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	1201	"-- end 19765  16层及以上多排螺旋CT扫描加收，一天一个病人只能收一次
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	1202	"
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	1203	"  -- end 门诊诊间控制
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	1204	"  --in_jylx 交易类型  结算交易 医保预结算信息更新 医保结算信息更新 结算前检查 获取预结算入参 获取结算入参 插入医保签到流水号 获取住院信息变动入参
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	1205	"
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	1206	"out_code := 0; out_msg := ''; return;
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	1207	"
+"
+PRC_YB_CHECK2019_210120	PROCEDURE	1208	"end;
+"

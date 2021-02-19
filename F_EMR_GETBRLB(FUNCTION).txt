@@ -1,0 +1,27 @@
+F_EMR_GETBRLB	FUNCTION	1	"FUNCTION         ""F_EMR_GETBRLB"" (p_brxz in varchar2)
+"
+F_EMR_GETBRLB	FUNCTION	2	"return varchar2
+"
+F_EMR_GETBRLB	FUNCTION	3	"is
+"
+F_EMR_GETBRLB	FUNCTION	4	"   ls_return varchar2(40);
+"
+F_EMR_GETBRLB	FUNCTION	5	"begin
+"
+F_EMR_GETBRLB	FUNCTION	6	"  SELECT b.brlb into ls_return FROM GY_BRXZ a,GY_BRLB b where a.xzdm= p_brxz and a.brlb=b.xh;
+"
+F_EMR_GETBRLB	FUNCTION	7	"   return ls_return;
+"
+F_EMR_GETBRLB	FUNCTION	8	"exception
+"
+F_EMR_GETBRLB	FUNCTION	9	"   when others then
+"
+F_EMR_GETBRLB	FUNCTION	10	"      return null;
+"
+F_EMR_GETBRLB	FUNCTION	11	"end;
+"
+F_EMR_GETBRLB	FUNCTION	12	"
+"
+F_EMR_GETBRLB	FUNCTION	13	"
+"
+F_EMR_GETBRLB	FUNCTION	14	 

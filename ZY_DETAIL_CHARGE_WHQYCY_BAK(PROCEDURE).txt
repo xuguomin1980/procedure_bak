@@ -1,0 +1,142 @@
+ZY_DETAIL_CHARGE_WHQYCY_BAK	PROCEDURE	1	"PROCEDURE ""ZY_DETAIL_CHARGE_WHQYCY_BAK"" (
+"
+ZY_DETAIL_CHARGE_WHQYCY_BAK	PROCEDURE	2	"p_patient_no IN NUMBER
+"
+ZY_DETAIL_CHARGE_WHQYCY_BAK	PROCEDURE	3	") is ----ÎÇºÏÆ÷
+"
+ZY_DETAIL_CHARGE_WHQYCY_BAK	PROCEDURE	4	"begin
+"
+ZY_DETAIL_CHARGE_WHQYCY_BAK	PROCEDURE	5	"  UPDATE ZY_DETAIL_CHARGE
+"
+ZY_DETAIL_CHARGE_WHQYCY_BAK	PROCEDURE	6	"     SET SPBH = -10, scrq = to_date('1900-01-01', 'yyyy-mm-dd')
+"
+ZY_DETAIL_CHARGE_WHQYCY_BAK	PROCEDURE	7	"   WHERE PATIENT_NO IN
+"
+ZY_DETAIL_CHARGE_WHQYCY_BAK	PROCEDURE	8	"         (select distinct patient_no
+"
+ZY_DETAIL_CHARGE_WHQYCY_BAK	PROCEDURE	9	"            from zy_detail_charge
+"
+ZY_DETAIL_CHARGE_WHQYCY_BAK	PROCEDURE	10	"           where js_no = 0
+"
+ZY_DETAIL_CHARGE_WHQYCY_BAK	PROCEDURE	11	"             and twice_detail_code = 'SC'
+"
+ZY_DETAIL_CHARGE_WHQYCY_BAK	PROCEDURE	12	"             and charge_code in
+"
+ZY_DETAIL_CHARGE_WHQYCY_BAK	PROCEDURE	13	"                 (select ylxh
+"
+ZY_DETAIL_CHARGE_WHQYCY_BAK	PROCEDURE	14	"                    from gy_ylsf
+"
+ZY_DETAIL_CHARGE_WHQYCY_BAK	PROCEDURE	15	"                   where ylxh in
+"
+ZY_DETAIL_CHARGE_WHQYCY_BAK	PROCEDURE	16	"                         (SELECT xiangmuxh
+"
+ZY_DETAIL_CHARGE_WHQYCY_BAK	PROCEDURE	17	"                            FROM yb_duizhaoml
+"
+ZY_DETAIL_CHARGE_WHQYCY_BAK	PROCEDURE	18	"                           where yibaolx = '9997'
+"
+ZY_DETAIL_CHARGE_WHQYCY_BAK	PROCEDURE	19	"                             and (yibaodm like 'cl331001218%' or
+"
+ZY_DETAIL_CHARGE_WHQYCY_BAK	PROCEDURE	20	"                                 yibaodm like 'cl331002218%' or
+"
+ZY_DETAIL_CHARGE_WHQYCY_BAK	PROCEDURE	21	"                                 yibaodm like 'cl331003218%' or
+"
+ZY_DETAIL_CHARGE_WHQYCY_BAK	PROCEDURE	22	"                                 yibaodm like 'cl331004218%' or
+"
+ZY_DETAIL_CHARGE_WHQYCY_BAK	PROCEDURE	23	"                                 yibaodm like 'cl331008218%' or
+"
+ZY_DETAIL_CHARGE_WHQYCY_BAK	PROCEDURE	24	"                                 yibaodm like 'cq320000112%')))
+"
+ZY_DETAIL_CHARGE_WHQYCY_BAK	PROCEDURE	25	"          minus
+"
+ZY_DETAIL_CHARGE_WHQYCY_BAK	PROCEDURE	26	"          SELECT PATIENT_NO
+"
+ZY_DETAIL_CHARGE_WHQYCY_BAK	PROCEDURE	27	"            FROM (select PATIENT_NO, CHARGE_NAME, SUM(SL) SL
+"
+ZY_DETAIL_CHARGE_WHQYCY_BAK	PROCEDURE	28	"                    from zy_detail_charge
+"
+ZY_DETAIL_CHARGE_WHQYCY_BAK	PROCEDURE	29	"                   where js_no = 0
+"
+ZY_DETAIL_CHARGE_WHQYCY_BAK	PROCEDURE	30	"                     and (twice_detail_code = 'SS' or twice_detail_code = 'YN')
+"
+ZY_DETAIL_CHARGE_WHQYCY_BAK	PROCEDURE	31	"                     AND charge_code in
+"
+ZY_DETAIL_CHARGE_WHQYCY_BAK	PROCEDURE	32	"                         (select ylxh
+"
+ZY_DETAIL_CHARGE_WHQYCY_BAK	PROCEDURE	33	"                            from gy_ylsf
+"
+ZY_DETAIL_CHARGE_WHQYCY_BAK	PROCEDURE	34	"                           where ylxh in
+"
+ZY_DETAIL_CHARGE_WHQYCY_BAK	PROCEDURE	35	"                                 (SELECT xiangmuxh
+"
+ZY_DETAIL_CHARGE_WHQYCY_BAK	PROCEDURE	36	"                                    FROM yb_duizhaoml
+"
+ZY_DETAIL_CHARGE_WHQYCY_BAK	PROCEDURE	37	"                                   where yibaolx = '9997'
+"
+ZY_DETAIL_CHARGE_WHQYCY_BAK	PROCEDURE	38	"                                     and (yibaodm like '%331001016%' or
+"
+ZY_DETAIL_CHARGE_WHQYCY_BAK	PROCEDURE	39	"                                         yibaodm like '%331001019%' or
+"
+ZY_DETAIL_CHARGE_WHQYCY_BAK	PROCEDURE	40	"                                         yibaodm like '%331001020%' or
+"
+ZY_DETAIL_CHARGE_WHQYCY_BAK	PROCEDURE	41	"                                         yibaodm like '%331001022%' or
+"
+ZY_DETAIL_CHARGE_WHQYCY_BAK	PROCEDURE	42	"                                         yibaodm like '%331001023%' or
+"
+ZY_DETAIL_CHARGE_WHQYCY_BAK	PROCEDURE	43	"                                         yibaodm like '%331002003%' or
+"
+ZY_DETAIL_CHARGE_WHQYCY_BAK	PROCEDURE	44	"                                         yibaodm like '%331002008%' or
+"
+ZY_DETAIL_CHARGE_WHQYCY_BAK	PROCEDURE	45	"                                         yibaodm like '%331003018%' or
+"
+ZY_DETAIL_CHARGE_WHQYCY_BAK	PROCEDURE	46	"                                         yibaodm like '%331004012%' or
+"
+ZY_DETAIL_CHARGE_WHQYCY_BAK	PROCEDURE	47	"                                         yibaodm like '%331008026%' or
+"
+ZY_DETAIL_CHARGE_WHQYCY_BAK	PROCEDURE	48	"                                         yibaodm like '%32010000500%' or
+"
+ZY_DETAIL_CHARGE_WHQYCY_BAK	PROCEDURE	49	"                                         yibaodm like '%32010000600%' or
+"
+ZY_DETAIL_CHARGE_WHQYCY_BAK	PROCEDURE	50	"                                         yibaodm like '%3202000010%' or
+"
+ZY_DETAIL_CHARGE_WHQYCY_BAK	PROCEDURE	51	"                                         yibaodm like '%32020001000%' or
+"
+ZY_DETAIL_CHARGE_WHQYCY_BAK	PROCEDURE	52	"                                         yibaodm like '%32050000300%' or
+"
+ZY_DETAIL_CHARGE_WHQYCY_BAK	PROCEDURE	53	"                                         yibaodm like '%32060000400%' or
+"
+ZY_DETAIL_CHARGE_WHQYCY_BAK	PROCEDURE	54	"                                         yibaodm like '%32050000500%')))
+"
+ZY_DETAIL_CHARGE_WHQYCY_BAK	PROCEDURE	55	"                   GROUP BY PATIENT_NO, CHARGE_NAME)
+"
+ZY_DETAIL_CHARGE_WHQYCY_BAK	PROCEDURE	56	"           WHERE SL > 0)
+"
+ZY_DETAIL_CHARGE_WHQYCY_BAK	PROCEDURE	57	"     AND charge_code in
+"
+ZY_DETAIL_CHARGE_WHQYCY_BAK	PROCEDURE	58	"         (select ylxh
+"
+ZY_DETAIL_CHARGE_WHQYCY_BAK	PROCEDURE	59	"            from gy_ylsf
+"
+ZY_DETAIL_CHARGE_WHQYCY_BAK	PROCEDURE	60	"           where ylxh in (SELECT xiangmuxh
+"
+ZY_DETAIL_CHARGE_WHQYCY_BAK	PROCEDURE	61	"                            FROM yb_duizhaoml
+"
+ZY_DETAIL_CHARGE_WHQYCY_BAK	PROCEDURE	62	"                           where yibaolx = '9997'
+"
+ZY_DETAIL_CHARGE_WHQYCY_BAK	PROCEDURE	63	"                             and (yibaodm like 'cl331001218%' or
+"
+ZY_DETAIL_CHARGE_WHQYCY_BAK	PROCEDURE	64	"                                 yibaodm like 'cl331002218%' or
+"
+ZY_DETAIL_CHARGE_WHQYCY_BAK	PROCEDURE	65	"                                 yibaodm like 'cl331003218%' or
+"
+ZY_DETAIL_CHARGE_WHQYCY_BAK	PROCEDURE	66	"                                 yibaodm like 'cl331004218%' or
+"
+ZY_DETAIL_CHARGE_WHQYCY_BAK	PROCEDURE	67	"                                 yibaodm like 'cl331008218%' or
+"
+ZY_DETAIL_CHARGE_WHQYCY_BAK	PROCEDURE	68	"                                 yibaodm like 'cq320000112%')))
+"
+ZY_DETAIL_CHARGE_WHQYCY_BAK	PROCEDURE	69	"     and nvl(spbh, 0) <> -10 and patient_no=p_patient_no;
+"
+ZY_DETAIL_CHARGE_WHQYCY_BAK	PROCEDURE	70	"  COMMIT;
+"
+ZY_DETAIL_CHARGE_WHQYCY_BAK	PROCEDURE	71	"end;
+"

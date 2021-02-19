@@ -1,0 +1,42 @@
+LONG_TO_CHAR_2	FUNCTION	1	"fUNCTION LONG_TO_CHAR_2(in_owner      varchar, --所有者   可空
+"
+LONG_TO_CHAR_2	FUNCTION	2	"                                          in_table_name varchar, --表名
+"
+LONG_TO_CHAR_2	FUNCTION	3	"                                          in_column     varchar2 --要查询的列名
+"
+LONG_TO_CHAR_2	FUNCTION	4	"                                          ) RETURN varchar AS
+"
+LONG_TO_CHAR_2	FUNCTION	5	"  text_c1 varchar2(32767);
+"
+LONG_TO_CHAR_2	FUNCTION	6	"  sql_cur varchar2(2000);
+"
+LONG_TO_CHAR_2	FUNCTION	7	"begin
+"
+LONG_TO_CHAR_2	FUNCTION	8	"  if length(in_owner) > 0 then
+"
+LONG_TO_CHAR_2	FUNCTION	9	"    sql_cur := 'select ' || in_column || ' from ' || in_owner || '.' ||
+"
+LONG_TO_CHAR_2	FUNCTION	10	"               in_table_name || ' where rownum=1  ';
+"
+LONG_TO_CHAR_2	FUNCTION	11	"  else
+"
+LONG_TO_CHAR_2	FUNCTION	12	"    sql_cur := 'select ' || in_column || ' from ' || in_table_name ||
+"
+LONG_TO_CHAR_2	FUNCTION	13	"               '  where rownum=1 ';
+"
+LONG_TO_CHAR_2	FUNCTION	14	"  end if;
+"
+LONG_TO_CHAR_2	FUNCTION	15	"  dbms_output.put_line(sql_cur);
+"
+LONG_TO_CHAR_2	FUNCTION	16	"  execute immediate sql_cur
+"
+LONG_TO_CHAR_2	FUNCTION	17	"    into text_c1;
+"
+LONG_TO_CHAR_2	FUNCTION	18	"
+"
+LONG_TO_CHAR_2	FUNCTION	19	"  text_c1 := substr(text_c1, 1, 4000);
+"
+LONG_TO_CHAR_2	FUNCTION	20	"  RETURN TEXT_C1;
+"
+LONG_TO_CHAR_2	FUNCTION	21	"END;
+"

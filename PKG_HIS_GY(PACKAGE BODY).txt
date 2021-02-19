@@ -1,0 +1,940 @@
+PKG_HIS_GY	PACKAGE BODY	1	"package body Pkg_His_Gy is
+"
+PKG_HIS_GY	PACKAGE BODY	2	"  --获取病人基本信息 code 门诊就诊卡号， 住院住院序号， mzzy 标识获取门诊还是住院信息, flag 标识具体什么类型的信息
+"
+PKG_HIS_GY	PACKAGE BODY	3	"  Function f_get_brxx(prm_code in varchar2,
+"
+PKG_HIS_GY	PACKAGE BODY	4	"                      prm_mzzy In number,
+"
+PKG_HIS_GY	PACKAGE BODY	5	"                      prm_flag varchar2) return varchar2 is
+"
+PKG_HIS_GY	PACKAGE BODY	6	"
+"
+PKG_HIS_GY	PACKAGE BODY	7	"    arg_jzkh   gy_brjbxxk.jzkh%type;
+"
+PKG_HIS_GY	PACKAGE BODY	8	"    arg_xm     gy_brjbxxk.xm%type;
+"
+PKG_HIS_GY	PACKAGE BODY	9	"    arg_xb     varchar2(4);
+"
+PKG_HIS_GY	PACKAGE BODY	10	"    arg_jtzz   gy_brjbxxk.jtzz%type;
+"
+PKG_HIS_GY	PACKAGE BODY	11	"    arg_dwmc   gy_brjbxxk.dwmc%type;
+"
+PKG_HIS_GY	PACKAGE BODY	12	"    arg_zzdw   varchar2(200);
+"
+PKG_HIS_GY	PACKAGE BODY	13	"    arg_brxz   gy_brjbxxk.brxzdm%type;
+"
+PKG_HIS_GY	PACKAGE BODY	14	"    arg_brxzmc gy_brxz.xzmc%type;
+"
+PKG_HIS_GY	PACKAGE BODY	15	"    arg_brlb   gy_brjbxxk.brlb%type;
+"
+PKG_HIS_GY	PACKAGE BODY	16	"    arg_brlbmc gy_brlb.brlb%type;
+"
+PKG_HIS_GY	PACKAGE BODY	17	"    arg_brtz   gy_brjbxxk.brtz%type;
+"
+PKG_HIS_GY	PACKAGE BODY	18	"    arg_lxdh   gy_brjbxxk.lxdh%type;
+"
+PKG_HIS_GY	PACKAGE BODY	19	"    arg_zymc   Varchar2(50);
+"
+PKG_HIS_GY	PACKAGE BODY	20	"    arg_zydm   gy_brjbxxk.zydm%type;
+"
+PKG_HIS_GY	PACKAGE BODY	21	"    arg_hymc   Varchar2(50);
+"
+PKG_HIS_GY	PACKAGE BODY	22	"    arg_hyzk   gy_brjbxxk.hyzk%type;
+"
+PKG_HIS_GY	PACKAGE BODY	23	"    arg_mz     gy_brjbxxk.mz%type;
+"
+PKG_HIS_GY	PACKAGE BODY	24	"    arg_mzmc   Varchar2(50);
+"
+PKG_HIS_GY	PACKAGE BODY	25	"    arg_bah    zy_patient_information.bah%type;
+"
+PKG_HIS_GY	PACKAGE BODY	26	"    arg_return varchar2(200);    
+"
+PKG_HIS_GY	PACKAGE BODY	27	"    arg_sfzh     gy_brjbxxk.sfzh%type;
+"
+PKG_HIS_GY	PACKAGE BODY	28	"    arg_ybkh     gy_brjbxxk.ybkh%type;
+"
+PKG_HIS_GY	PACKAGE BODY	29	"
+"
+PKG_HIS_GY	PACKAGE BODY	30	"  Begin
+"
+PKG_HIS_GY	PACKAGE BODY	31	"    --门诊
+"
+PKG_HIS_GY	PACKAGE BODY	32	"    If prm_mzzy = 1 Then
+"
+PKG_HIS_GY	PACKAGE BODY	33	"      Begin
+"
+PKG_HIS_GY	PACKAGE BODY	34	"        Select jzkh,
+"
+PKG_HIS_GY	PACKAGE BODY	35	"               xm,
+"
+PKG_HIS_GY	PACKAGE BODY	36	"               Decode(xb, 1, '男', 2, '女', '未知'),
+"
+PKG_HIS_GY	PACKAGE BODY	37	"               jtzz,
+"
+PKG_HIS_GY	PACKAGE BODY	38	"               dwmc,
+"
+PKG_HIS_GY	PACKAGE BODY	39	"               nvl(jtzz, dwmc),
+"
+PKG_HIS_GY	PACKAGE BODY	40	"               brxzdm,
+"
+PKG_HIS_GY	PACKAGE BODY	41	"               brlb,
+"
+PKG_HIS_GY	PACKAGE BODY	42	"               brtz,
+"
+PKG_HIS_GY	PACKAGE BODY	43	"               lxdh,
+"
+PKG_HIS_GY	PACKAGE BODY	44	"               hyzk,
+"
+PKG_HIS_GY	PACKAGE BODY	45	"               zydm,
+"
+PKG_HIS_GY	PACKAGE BODY	46	"               mz,
+"
+PKG_HIS_GY	PACKAGE BODY	47	"               sfzh,
+"
+PKG_HIS_GY	PACKAGE BODY	48	"               ybkh
+"
+PKG_HIS_GY	PACKAGE BODY	49	"          Into arg_jzkh,
+"
+PKG_HIS_GY	PACKAGE BODY	50	"               arg_xm,
+"
+PKG_HIS_GY	PACKAGE BODY	51	"               arg_xb,
+"
+PKG_HIS_GY	PACKAGE BODY	52	"               arg_jtzz,
+"
+PKG_HIS_GY	PACKAGE BODY	53	"               arg_dwmc,
+"
+PKG_HIS_GY	PACKAGE BODY	54	"               arg_zzdw,
+"
+PKG_HIS_GY	PACKAGE BODY	55	"               arg_brxz,
+"
+PKG_HIS_GY	PACKAGE BODY	56	"               arg_brlb,
+"
+PKG_HIS_GY	PACKAGE BODY	57	"               arg_brtz,
+"
+PKG_HIS_GY	PACKAGE BODY	58	"               arg_lxdh,
+"
+PKG_HIS_GY	PACKAGE BODY	59	"               arg_hyzk,
+"
+PKG_HIS_GY	PACKAGE BODY	60	"               arg_zydm,
+"
+PKG_HIS_GY	PACKAGE BODY	61	"               arg_mz,
+"
+PKG_HIS_GY	PACKAGE BODY	62	"               arg_sfzh,
+"
+PKG_HIS_GY	PACKAGE BODY	63	"               arg_ybkh
+"
+PKG_HIS_GY	PACKAGE BODY	64	"          From gy_brjbxxk
+"
+PKG_HIS_GY	PACKAGE BODY	65	"         Where jzkh = prm_code;
+"
+PKG_HIS_GY	PACKAGE BODY	66	"
+"
+PKG_HIS_GY	PACKAGE BODY	67	"        If prm_flag = 'jzkh' Then
+"
+PKG_HIS_GY	PACKAGE BODY	68	"          --就诊卡号
+"
+PKG_HIS_GY	PACKAGE BODY	69	"          arg_return := arg_jzkh;
+"
+PKG_HIS_GY	PACKAGE BODY	70	"        ElsIf prm_flag = 'xm' Then
+"
+PKG_HIS_GY	PACKAGE BODY	71	"          --姓名
+"
+PKG_HIS_GY	PACKAGE BODY	72	"          arg_return := arg_xm;
+"
+PKG_HIS_GY	PACKAGE BODY	73	"        Elsif prm_flag = 'xb' Then
+"
+PKG_HIS_GY	PACKAGE BODY	74	"          --性别
+"
+PKG_HIS_GY	PACKAGE BODY	75	"          arg_return := arg_xb;
+"
+PKG_HIS_GY	PACKAGE BODY	76	"        Elsif prm_flag = 'jtzz' Then
+"
+PKG_HIS_GY	PACKAGE BODY	77	"          --家庭住址
+"
+PKG_HIS_GY	PACKAGE BODY	78	"          arg_return := arg_jtzz;
+"
+PKG_HIS_GY	PACKAGE BODY	79	"        Elsif prm_flag = 'dwmc' Then
+"
+PKG_HIS_GY	PACKAGE BODY	80	"          --单位名称
+"
+PKG_HIS_GY	PACKAGE BODY	81	"          arg_return := arg_dwmc;
+"
+PKG_HIS_GY	PACKAGE BODY	82	"        Elsif prm_flag = 'zzdw' Then
+"
+PKG_HIS_GY	PACKAGE BODY	83	"          --地址
+"
+PKG_HIS_GY	PACKAGE BODY	84	"          arg_return := arg_zzdw;
+"
+PKG_HIS_GY	PACKAGE BODY	85	"        Elsif prm_flag = 'brxz' Then
+"
+PKG_HIS_GY	PACKAGE BODY	86	"          --病人性质
+"
+PKG_HIS_GY	PACKAGE BODY	87	"          arg_return := arg_brxz;
+"
+PKG_HIS_GY	PACKAGE BODY	88	"        Elsif prm_flag = 'brxzmc' Then
+"
+PKG_HIS_GY	PACKAGE BODY	89	"          --病人性质名称
+"
+PKG_HIS_GY	PACKAGE BODY	90	"          Select xzmc Into arg_brxzmc From Gy_Brxz Where xzdm = arg_brxz;
+"
+PKG_HIS_GY	PACKAGE BODY	91	"          arg_return := nvl(arg_brxzmc, '');
+"
+PKG_HIS_GY	PACKAGE BODY	92	"        Elsif prm_flag = 'brlb' Then
+"
+PKG_HIS_GY	PACKAGE BODY	93	"          --病人类别
+"
+PKG_HIS_GY	PACKAGE BODY	94	"          arg_return := arg_brlb;
+"
+PKG_HIS_GY	PACKAGE BODY	95	"        Elsif prm_flag = 'sfzh' Then
+"
+PKG_HIS_GY	PACKAGE BODY	96	"          --身份证号
+"
+PKG_HIS_GY	PACKAGE BODY	97	"          arg_return := arg_sfzh;
+"
+PKG_HIS_GY	PACKAGE BODY	98	"        Elsif prm_flag = 'ybkh' Then
+"
+PKG_HIS_GY	PACKAGE BODY	99	"          --医保卡号
+"
+PKG_HIS_GY	PACKAGE BODY	100	"          arg_return := arg_ybkh;
+"
+PKG_HIS_GY	PACKAGE BODY	101	"        Elsif prm_flag = 'brlbmc' Then
+"
+PKG_HIS_GY	PACKAGE BODY	102	"          --病人类别名称
+"
+PKG_HIS_GY	PACKAGE BODY	103	"          Select brlb Into arg_brlbmc From Gy_Brlb Where xh = arg_brlb;
+"
+PKG_HIS_GY	PACKAGE BODY	104	"          arg_return := nvl(arg_brlbmc, '');
+"
+PKG_HIS_GY	PACKAGE BODY	105	"        Elsif prm_flag = 'brtz' Then
+"
+PKG_HIS_GY	PACKAGE BODY	106	"          arg_return := To_Char(arg_brtz) || '公斤';
+"
+PKG_HIS_GY	PACKAGE BODY	107	"        Elsif prm_flag = 'lxdh' Then
+"
+PKG_HIS_GY	PACKAGE BODY	108	"          arg_return := arg_lxdh;
+"
+PKG_HIS_GY	PACKAGE BODY	109	"        Elsif prm_flag = 'zymc' Then
+"
+PKG_HIS_GY	PACKAGE BODY	110	"          Select mc
+"
+PKG_HIS_GY	PACKAGE BODY	111	"            Into arg_zymc
+"
+PKG_HIS_GY	PACKAGE BODY	112	"            From gy_gydm
+"
+PKG_HIS_GY	PACKAGE BODY	113	"           WHERE dmlb = 3
+"
+PKG_HIS_GY	PACKAGE BODY	114	"             And dm = arg_zydm;
+"
+PKG_HIS_GY	PACKAGE BODY	115	"          arg_return := arg_zymc;
+"
+PKG_HIS_GY	PACKAGE BODY	116	"        Elsif prm_flag = 'mzmc' Then
+"
+PKG_HIS_GY	PACKAGE BODY	117	"          Select mc
+"
+PKG_HIS_GY	PACKAGE BODY	118	"            Into arg_mzmc
+"
+PKG_HIS_GY	PACKAGE BODY	119	"            From gy_gydm
+"
+PKG_HIS_GY	PACKAGE BODY	120	"           WHERE dmlb = 8
+"
+PKG_HIS_GY	PACKAGE BODY	121	"             And dm = arg_mz;
+"
+PKG_HIS_GY	PACKAGE BODY	122	"          arg_return := arg_mzmc;
+"
+PKG_HIS_GY	PACKAGE BODY	123	"        Elsif prm_flag = 'hymc' Then
+"
+PKG_HIS_GY	PACKAGE BODY	124	"          Select mc
+"
+PKG_HIS_GY	PACKAGE BODY	125	"            Into arg_hymc
+"
+PKG_HIS_GY	PACKAGE BODY	126	"            From gy_gydm
+"
+PKG_HIS_GY	PACKAGE BODY	127	"           WHERE dmlb = 7
+"
+PKG_HIS_GY	PACKAGE BODY	128	"             And dm = arg_hyzk;
+"
+PKG_HIS_GY	PACKAGE BODY	129	"          arg_return := arg_hymc;
+"
+PKG_HIS_GY	PACKAGE BODY	130	"        Else
+"
+PKG_HIS_GY	PACKAGE BODY	131	"          arg_return := '';
+"
+PKG_HIS_GY	PACKAGE BODY	132	"        End If;
+"
+PKG_HIS_GY	PACKAGE BODY	133	"
+"
+PKG_HIS_GY	PACKAGE BODY	134	"      Exception
+"
+PKG_HIS_GY	PACKAGE BODY	135	"        When Others Then
+"
+PKG_HIS_GY	PACKAGE BODY	136	"          arg_return := '';
+"
+PKG_HIS_GY	PACKAGE BODY	137	"      End;
+"
+PKG_HIS_GY	PACKAGE BODY	138	"    ElsIf prm_mzzy = 2 Then
+"
+PKG_HIS_GY	PACKAGE BODY	139	"      Begin
+"
+PKG_HIS_GY	PACKAGE BODY	140	"        Select bah, name, Decode(sex, 1, '男', 2, '女', '未知'), brxz, brlb
+"
+PKG_HIS_GY	PACKAGE BODY	141	"          Into arg_bah, arg_xm, arg_xb, arg_brxz, arg_brlb
+"
+PKG_HIS_GY	PACKAGE BODY	142	"          From zy_patient_information
+"
+PKG_HIS_GY	PACKAGE BODY	143	"         Where patient_no = to_number(prm_code);
+"
+PKG_HIS_GY	PACKAGE BODY	144	"
+"
+PKG_HIS_GY	PACKAGE BODY	145	"        If prm_flag = 'bah' Then
+"
+PKG_HIS_GY	PACKAGE BODY	146	"          --就诊卡号
+"
+PKG_HIS_GY	PACKAGE BODY	147	"          arg_return := arg_bah;
+"
+PKG_HIS_GY	PACKAGE BODY	148	"        ElsIf prm_flag = 'xm' Then
+"
+PKG_HIS_GY	PACKAGE BODY	149	"          --姓名
+"
+PKG_HIS_GY	PACKAGE BODY	150	"          arg_return := arg_xm;
+"
+PKG_HIS_GY	PACKAGE BODY	151	"        Elsif prm_flag = 'xb' Then
+"
+PKG_HIS_GY	PACKAGE BODY	152	"          --性别
+"
+PKG_HIS_GY	PACKAGE BODY	153	"          arg_return := arg_xb;
+"
+PKG_HIS_GY	PACKAGE BODY	154	"        Elsif prm_flag = 'jtzz' Then
+"
+PKG_HIS_GY	PACKAGE BODY	155	"          --家庭住址
+"
+PKG_HIS_GY	PACKAGE BODY	156	"          arg_return := arg_jtzz;
+"
+PKG_HIS_GY	PACKAGE BODY	157	"        Elsif prm_flag = 'dwmc' Then
+"
+PKG_HIS_GY	PACKAGE BODY	158	"          --单位名称
+"
+PKG_HIS_GY	PACKAGE BODY	159	"          arg_return := arg_dwmc;
+"
+PKG_HIS_GY	PACKAGE BODY	160	"        Elsif prm_flag = 'zzdw' Then
+"
+PKG_HIS_GY	PACKAGE BODY	161	"          --地址
+"
+PKG_HIS_GY	PACKAGE BODY	162	"          arg_return := arg_zzdw;
+"
+PKG_HIS_GY	PACKAGE BODY	163	"        Elsif prm_flag = 'brxz' Then
+"
+PKG_HIS_GY	PACKAGE BODY	164	"          --病人性质
+"
+PKG_HIS_GY	PACKAGE BODY	165	"          arg_return := arg_brxz;
+"
+PKG_HIS_GY	PACKAGE BODY	166	"        Elsif prm_flag = 'brxzmc' Then
+"
+PKG_HIS_GY	PACKAGE BODY	167	"          --病人性质名称
+"
+PKG_HIS_GY	PACKAGE BODY	168	"          Select xzmc Into arg_brxzmc From Gy_Brxz Where xzdm = arg_brxz;
+"
+PKG_HIS_GY	PACKAGE BODY	169	"          arg_return := nvl(arg_brxzmc, '');
+"
+PKG_HIS_GY	PACKAGE BODY	170	"        Elsif prm_flag = 'brlb' Then
+"
+PKG_HIS_GY	PACKAGE BODY	171	"          --病人类别
+"
+PKG_HIS_GY	PACKAGE BODY	172	"          arg_return := arg_brlb;
+"
+PKG_HIS_GY	PACKAGE BODY	173	"        Elsif prm_flag = 'brlbmc' Then
+"
+PKG_HIS_GY	PACKAGE BODY	174	"          --病人类别名称
+"
+PKG_HIS_GY	PACKAGE BODY	175	"          Select brlb Into arg_brlbmc From Gy_Brlb Where xh = arg_brlb;
+"
+PKG_HIS_GY	PACKAGE BODY	176	"          arg_return := nvl(arg_brlbmc, '');
+"
+PKG_HIS_GY	PACKAGE BODY	177	"        Else
+"
+PKG_HIS_GY	PACKAGE BODY	178	"          arg_return := '';
+"
+PKG_HIS_GY	PACKAGE BODY	179	"        End If;
+"
+PKG_HIS_GY	PACKAGE BODY	180	"      Exception
+"
+PKG_HIS_GY	PACKAGE BODY	181	"        When Others Then
+"
+PKG_HIS_GY	PACKAGE BODY	182	"          arg_return := '';
+"
+PKG_HIS_GY	PACKAGE BODY	183	"      End;
+"
+PKG_HIS_GY	PACKAGE BODY	184	"    End If;
+"
+PKG_HIS_GY	PACKAGE BODY	185	"
+"
+PKG_HIS_GY	PACKAGE BODY	186	"    return arg_return;
+"
+PKG_HIS_GY	PACKAGE BODY	187	"  End;
+"
+PKG_HIS_GY	PACKAGE BODY	188	"
+"
+PKG_HIS_GY	PACKAGE BODY	189	"  --获取门诊病人就诊信息
+"
+PKG_HIS_GY	PACKAGE BODY	190	"  Function f_get_jzxx(prm_jzxh in varchar2, prm_flag varchar2)
+"
+PKG_HIS_GY	PACKAGE BODY	191	"    return varchar2 is
+"
+PKG_HIS_GY	PACKAGE BODY	192	"    arg_nl     zj_jzxx.nl%type;
+"
+PKG_HIS_GY	PACKAGE BODY	193	"    arg_zd     zj_jzxx.zd%type;
+"
+PKG_HIS_GY	PACKAGE BODY	194	"    arg_zs     zj_jzxx.zs%type;
+"
+PKG_HIS_GY	PACKAGE BODY	195	"    arg_return varchar2(200);
+"
+PKG_HIS_GY	PACKAGE BODY	196	"
+"
+PKG_HIS_GY	PACKAGE BODY	197	"  Begin
+"
+PKG_HIS_GY	PACKAGE BODY	198	"    Begin
+"
+PKG_HIS_GY	PACKAGE BODY	199	"      Select nl, nvl(Trim(zd), '@'), trim(zs)
+"
+PKG_HIS_GY	PACKAGE BODY	200	"        Into arg_nl, arg_zd, arg_zs
+"
+PKG_HIS_GY	PACKAGE BODY	201	"        From zj_jzxx
+"
+PKG_HIS_GY	PACKAGE BODY	202	"       where jzxh = prm_jzxh;
+"
+PKG_HIS_GY	PACKAGE BODY	203	"
+"
+PKG_HIS_GY	PACKAGE BODY	204	"      If prm_flag = 'nl' Then
+"
+PKG_HIS_GY	PACKAGE BODY	205	"        --年龄
+"
+PKG_HIS_GY	PACKAGE BODY	206	"        arg_return := arg_nl;
+"
+PKG_HIS_GY	PACKAGE BODY	207	"      ElsIf prm_flag = 'zd' Then
+"
+PKG_HIS_GY	PACKAGE BODY	208	"        -- 诊断
+"
+PKG_HIS_GY	PACKAGE BODY	209	"        If arg_zd = '@' Then
+"
+PKG_HIS_GY	PACKAGE BODY	210	"          arg_return := substr(f_zj_Get_Zdmc(prm_jzxh), 1, 100);
+"
+PKG_HIS_GY	PACKAGE BODY	211	"        Else
+"
+PKG_HIS_GY	PACKAGE BODY	212	"          arg_return := arg_zd;
+"
+PKG_HIS_GY	PACKAGE BODY	213	"        End If;
+"
+PKG_HIS_GY	PACKAGE BODY	214	"      ElsIf prm_flag = 'zs' Then
+"
+PKG_HIS_GY	PACKAGE BODY	215	"        arg_return := substr(arg_zs, 1, 100);
+"
+PKG_HIS_GY	PACKAGE BODY	216	"      End If;
+"
+PKG_HIS_GY	PACKAGE BODY	217	"    Exception
+"
+PKG_HIS_GY	PACKAGE BODY	218	"      When Others Then
+"
+PKG_HIS_GY	PACKAGE BODY	219	"        arg_return := '';
+"
+PKG_HIS_GY	PACKAGE BODY	220	"    End;
+"
+PKG_HIS_GY	PACKAGE BODY	221	"
+"
+PKG_HIS_GY	PACKAGE BODY	222	"    Return arg_return;
+"
+PKG_HIS_GY	PACKAGE BODY	223	"  End;
+"
+PKG_HIS_GY	PACKAGE BODY	224	"
+"
+PKG_HIS_GY	PACKAGE BODY	225	"  --获取科室名称
+"
+PKG_HIS_GY	PACKAGE BODY	226	"  Function f_get_ksmc(prm_ksdm In Varchar2) Return Varchar2 Is
+"
+PKG_HIS_GY	PACKAGE BODY	227	"    arg_ksmc gy_ksdm.ksmc%type;
+"
+PKG_HIS_GY	PACKAGE BODY	228	"  Begin
+"
+PKG_HIS_GY	PACKAGE BODY	229	"    Select ksmc Into arg_ksmc From gy_ksdm Where ksdm = prm_ksdm;
+"
+PKG_HIS_GY	PACKAGE BODY	230	"
+"
+PKG_HIS_GY	PACKAGE BODY	231	"    Return arg_ksmc;
+"
+PKG_HIS_GY	PACKAGE BODY	232	"  End;
+"
+PKG_HIS_GY	PACKAGE BODY	233	"
+"
+PKG_HIS_GY	PACKAGE BODY	234	"  --获取病区名称
+"
+PKG_HIS_GY	PACKAGE BODY	235	"  Function f_get_bqmc(prm_bqdm In Varchar2) Return Varchar2 Is
+"
+PKG_HIS_GY	PACKAGE BODY	236	"    arg_bqmc gy_bqdm.bqmc%type;
+"
+PKG_HIS_GY	PACKAGE BODY	237	"  Begin
+"
+PKG_HIS_GY	PACKAGE BODY	238	"    Select bqmc Into arg_bqmc From gy_bqdm Where bqdm = prm_bqdm;
+"
+PKG_HIS_GY	PACKAGE BODY	239	"
+"
+PKG_HIS_GY	PACKAGE BODY	240	"    Return arg_bqmc;
+"
+PKG_HIS_GY	PACKAGE BODY	241	"  End;
+"
+PKG_HIS_GY	PACKAGE BODY	242	"
+"
+PKG_HIS_GY	PACKAGE BODY	243	"  --获取医嘱一组药的用法
+"
+PKG_HIS_GY	PACKAGE BODY	244	"  Function f_yf_getyzyf(prm_yzxh In Yz_Inpatient_Order.Order_No%type)
+"
+PKG_HIS_GY	PACKAGE BODY	245	"    Return Varchar2 Is
+"
+PKG_HIS_GY	PACKAGE BODY	246	"    arg_yf   Yz_Inpatient_Order.Supply_Name%type;
+"
+PKG_HIS_GY	PACKAGE BODY	247	"    arg_yzxh Yz_Inpatient_Order.Order_No%type;
+"
+PKG_HIS_GY	PACKAGE BODY	248	"  Begin
+"
+PKG_HIS_GY	PACKAGE BODY	249	"    Begin
+"
+PKG_HIS_GY	PACKAGE BODY	250	"      Select Supply_Name, Nvl(Parent_No, 0)
+"
+PKG_HIS_GY	PACKAGE BODY	251	"        Into arg_yf, arg_yzxh
+"
+PKG_HIS_GY	PACKAGE BODY	252	"        From Yz_Inpatient_Order
+"
+PKG_HIS_GY	PACKAGE BODY	253	"       Where Order_No = prm_yzxh;
+"
+PKG_HIS_GY	PACKAGE BODY	254	"
+"
+PKG_HIS_GY	PACKAGE BODY	255	"      If arg_yzxh > 0 Then
+"
+PKG_HIS_GY	PACKAGE BODY	256	"        Select Supply_Name, Nvl(Parent_No, 0)
+"
+PKG_HIS_GY	PACKAGE BODY	257	"          Into arg_yf, arg_yzxh
+"
+PKG_HIS_GY	PACKAGE BODY	258	"          From Yz_Inpatient_Order
+"
+PKG_HIS_GY	PACKAGE BODY	259	"         Where Order_No = arg_yzxh;
+"
+PKG_HIS_GY	PACKAGE BODY	260	"      End If;
+"
+PKG_HIS_GY	PACKAGE BODY	261	"    Exception
+"
+PKG_HIS_GY	PACKAGE BODY	262	"      When Others Then
+"
+PKG_HIS_GY	PACKAGE BODY	263	"        arg_yf := '';
+"
+PKG_HIS_GY	PACKAGE BODY	264	"    End;
+"
+PKG_HIS_GY	PACKAGE BODY	265	"
+"
+PKG_HIS_GY	PACKAGE BODY	266	"    Return arg_yf;
+"
+PKG_HIS_GY	PACKAGE BODY	267	"  End;
+"
+PKG_HIS_GY	PACKAGE BODY	268	"
+"
+PKG_HIS_GY	PACKAGE BODY	269	"  --获取职工姓名
+"
+PKG_HIS_GY	PACKAGE BODY	270	"  Function f_get_zgxm(prm_zgid In Varchar2) Return Varchar2 Is
+"
+PKG_HIS_GY	PACKAGE BODY	271	"    arg_xm gy_zgxx.xm%type;
+"
+PKG_HIS_GY	PACKAGE BODY	272	"  Begin
+"
+PKG_HIS_GY	PACKAGE BODY	273	"    Select xm Into arg_xm From gy_zgxx Where zgid = prm_zgid;
+"
+PKG_HIS_GY	PACKAGE BODY	274	"
+"
+PKG_HIS_GY	PACKAGE BODY	275	"    Return arg_xm;
+"
+PKG_HIS_GY	PACKAGE BODY	276	"  End;
+"
+PKG_HIS_GY	PACKAGE BODY	277	"  --获取职工姓名
+"
+PKG_HIS_GY	PACKAGE BODY	278	"  Function f_zj_get_cflbmc(prm_zgid In number) Return Varchar2 Is
+"
+PKG_HIS_GY	PACKAGE BODY	279	"    arg_xm zj_cflbxx.cflbmc%type;
+"
+PKG_HIS_GY	PACKAGE BODY	280	"  Begin
+"
+PKG_HIS_GY	PACKAGE BODY	281	"    Select substr(cflbmc, 1, 2)
+"
+PKG_HIS_GY	PACKAGE BODY	282	"      Into arg_xm
+"
+PKG_HIS_GY	PACKAGE BODY	283	"      From zj_cflbxx
+"
+PKG_HIS_GY	PACKAGE BODY	284	"     Where cflbxh = prm_zgid;
+"
+PKG_HIS_GY	PACKAGE BODY	285	"
+"
+PKG_HIS_GY	PACKAGE BODY	286	"    Return arg_xm;
+"
+PKG_HIS_GY	PACKAGE BODY	287	"  End;
+"
+PKG_HIS_GY	PACKAGE BODY	288	"  function f_get_yymc return varchar2 is
+"
+PKG_HIS_GY	PACKAGE BODY	289	"  begin
+"
+PKG_HIS_GY	PACKAGE BODY	290	"    return '嘉兴第一医院';
+"
+PKG_HIS_GY	PACKAGE BODY	291	"  end;
+"
+PKG_HIS_GY	PACKAGE BODY	292	"  function f_zj_get_tsff(prm_tsff in gy_gydm.dm%type) return varchar2 is
+"
+PKG_HIS_GY	PACKAGE BODY	293	"    arg_tsffmc gy_gydm.mc%type;
+"
+PKG_HIS_GY	PACKAGE BODY	294	"  begin
+"
+PKG_HIS_GY	PACKAGE BODY	295	"    SELECT mc
+"
+PKG_HIS_GY	PACKAGE BODY	296	"      Into arg_tsffmc
+"
+PKG_HIS_GY	PACKAGE BODY	297	"      FROM GY_GYDM
+"
+PKG_HIS_GY	PACKAGE BODY	298	"     WHERE dmlb = 74
+"
+PKG_HIS_GY	PACKAGE BODY	299	"       and dm = prm_tsff;
+"
+PKG_HIS_GY	PACKAGE BODY	300	"    return arg_tsffmc;
+"
+PKG_HIS_GY	PACKAGE BODY	301	"  end;
+"
+PKG_HIS_GY	PACKAGE BODY	302	"  function f_get_hsks(prm_zgid In Varchar2) return varchar2 is
+"
+PKG_HIS_GY	PACKAGE BODY	303	"    ls_hsks gy_zgxx.xm%type;
+"
+PKG_HIS_GY	PACKAGE BODY	304	"  begin
+"
+PKG_HIS_GY	PACKAGE BODY	305	"    If Substr(prm_zgid, 1, 1) = '*' Then
+"
+PKG_HIS_GY	PACKAGE BODY	306	"      Select Nvl(Hsks, Ksdm)
+"
+PKG_HIS_GY	PACKAGE BODY	307	"        Into ls_hsks
+"
+PKG_HIS_GY	PACKAGE BODY	308	"        From gy_ksdm
+"
+PKG_HIS_GY	PACKAGE BODY	309	"       Where Ksdm = Substr(prm_zgid, 2);
+"
+PKG_HIS_GY	PACKAGE BODY	310	"    Else
+"
+PKG_HIS_GY	PACKAGE BODY	311	"      Select ksdm Into ls_hsks From gy_zgxx Where zgid = prm_zgid;
+"
+PKG_HIS_GY	PACKAGE BODY	312	"    End If;
+"
+PKG_HIS_GY	PACKAGE BODY	313	"    Return ls_hsks;
+"
+PKG_HIS_GY	PACKAGE BODY	314	"    --Select ksdm Into ls_hsks From gy_zgxx Where zgid = prm_zgid;
+"
+PKG_HIS_GY	PACKAGE BODY	315	"    --Return ls_hsks;
+"
+PKG_HIS_GY	PACKAGE BODY	316	"  end;
+"
+PKG_HIS_GY	PACKAGE BODY	317	"  function f_get_nl(prm_csrq in date, prm_rq in date) return varchar2 is
+"
+PKG_HIS_GY	PACKAGE BODY	318	"    ls_return varchar2(50);
+"
+PKG_HIS_GY	PACKAGE BODY	319	"  begin
+"
+PKG_HIS_GY	PACKAGE BODY	320	"    ls_return := To_Char(Trunc(MONTHS_BETWEEN(prm_rq, prm_csrq)));
+"
+PKG_HIS_GY	PACKAGE BODY	321	"    If To_Number(ls_return) >= 12 Then
+"
+PKG_HIS_GY	PACKAGE BODY	322	"      -- 12个月外显示：***岁
+"
+PKG_HIS_GY	PACKAGE BODY	323	"      ls_return := To_char(To_Number(ls_return) / 12, 'FM990') || '岁';
+"
+PKG_HIS_GY	PACKAGE BODY	324	"    ElsIf To_Number(ls_return) >= 3 Then
+"
+PKG_HIS_GY	PACKAGE BODY	325	"      -- ai_isnumber个月外12个月内显示：**个月
+"
+PKG_HIS_GY	PACKAGE BODY	326	"      ls_return := ls_return || '个月';
+"
+PKG_HIS_GY	PACKAGE BODY	327	"    Else
+"
+PKG_HIS_GY	PACKAGE BODY	328	"      -- ai_isnumber个月内显示：**个月**天
+"
+PKG_HIS_GY	PACKAGE BODY	329	"      Select Decode(ls_return, '0', '', ls_return || '个月') ||
+"
+PKG_HIS_GY	PACKAGE BODY	330	"             Decode(To_Char(Trunc(prm_rq -
+"
+PKG_HIS_GY	PACKAGE BODY	331	"                                  ADD_MONTHS(prm_csrq, To_Number(ls_return)))),
+"
+PKG_HIS_GY	PACKAGE BODY	332	"                    '0',
+"
+PKG_HIS_GY	PACKAGE BODY	333	"                    '',
+"
+PKG_HIS_GY	PACKAGE BODY	334	"                    To_Char(Trunc(prm_rq -
+"
+PKG_HIS_GY	PACKAGE BODY	335	"                                  ADD_MONTHS(prm_csrq, To_Number(ls_return)))) || '天')
+"
+PKG_HIS_GY	PACKAGE BODY	336	"        Into ls_return
+"
+PKG_HIS_GY	PACKAGE BODY	337	"        From Dual;
+"
+PKG_HIS_GY	PACKAGE BODY	338	"    End If;
+"
+PKG_HIS_GY	PACKAGE BODY	339	"    return(ls_return);
+"
+PKG_HIS_GY	PACKAGE BODY	340	"  end;
+"
+PKG_HIS_GY	PACKAGE BODY	341	"
+"
+PKG_HIS_GY	PACKAGE BODY	342	"  --获取药品信息
+"
+PKG_HIS_GY	PACKAGE BODY	343	"  function f_get_ypxx(prm_ypxh   in number,
+"
+PKG_HIS_GY	PACKAGE BODY	344	"                      prm_ypcddm in number,
+"
+PKG_HIS_GY	PACKAGE BODY	345	"                      prm_jgxh   in number,
+"
+PKG_HIS_GY	PACKAGE BODY	346	"                      prm_flag   in varchar2) return varchar2 is
+"
+PKG_HIS_GY	PACKAGE BODY	347	"    arg_ypxx varchar2(200);
+"
+PKG_HIS_GY	PACKAGE BODY	348	"  begin
+"
+PKG_HIS_GY	PACKAGE BODY	349	"    if prm_flag = 'ypbm' then
+"
+PKG_HIS_GY	PACKAGE BODY	350	"      select ypmc into arg_ypxx from gy_ypcdjg where xh = prm_jgxh;
+"
+PKG_HIS_GY	PACKAGE BODY	351	"    elsif prm_flag = 'ypcd' then
+"
+PKG_HIS_GY	PACKAGE BODY	352	"      if prm_jgxh > 0 then
+"
+PKG_HIS_GY	PACKAGE BODY	353	"        select cdmc into arg_ypxx from gy_ypcdjg where xh = prm_jgxh;
+"
+PKG_HIS_GY	PACKAGE BODY	354	"      else
+"
+PKG_HIS_GY	PACKAGE BODY	355	"        select cdmc
+"
+PKG_HIS_GY	PACKAGE BODY	356	"          into arg_ypxx
+"
+PKG_HIS_GY	PACKAGE BODY	357	"          from gy_ypcdjg
+"
+PKG_HIS_GY	PACKAGE BODY	358	"         where ypxh = prm_ypxh
+"
+PKG_HIS_GY	PACKAGE BODY	359	"           and ypcddm = prm_ypcddm
+"
+PKG_HIS_GY	PACKAGE BODY	360	"           and bmxh is null;
+"
+PKG_HIS_GY	PACKAGE BODY	361	"      end if;
+"
+PKG_HIS_GY	PACKAGE BODY	362	"    end if;
+"
+PKG_HIS_GY	PACKAGE BODY	363	"
+"
+PKG_HIS_GY	PACKAGE BODY	364	"    return arg_ypxx;
+"
+PKG_HIS_GY	PACKAGE BODY	365	"  end;
+"
+PKG_HIS_GY	PACKAGE BODY	366	"
+"
+PKG_HIS_GY	PACKAGE BODY	367	"  function f_get_yszh(prm_ysgh in varchar2) return varchar2 is
+"
+PKG_HIS_GY	PACKAGE BODY	368	"    arg_yszh gy_zgxx.yszh%type;
+"
+PKG_HIS_GY	PACKAGE BODY	369	"  begin
+"
+PKG_HIS_GY	PACKAGE BODY	370	"    begin
+"
+PKG_HIS_GY	PACKAGE BODY	371	"      select yszh into arg_yszh from gy_zgxx where zgid = prm_ysgh;
+"
+PKG_HIS_GY	PACKAGE BODY	372	"    exception
+"
+PKG_HIS_GY	PACKAGE BODY	373	"      when others then
+"
+PKG_HIS_GY	PACKAGE BODY	374	"        arg_yszh := '';
+"
+PKG_HIS_GY	PACKAGE BODY	375	"    end;
+"
+PKG_HIS_GY	PACKAGE BODY	376	"    return arg_yszh;
+"
+PKG_HIS_GY	PACKAGE BODY	377	"  end;
+"
+PKG_HIS_GY	PACKAGE BODY	378	"
+"
+PKG_HIS_GY	PACKAGE BODY	379	"  --获取体重
+"
+PKG_HIS_GY	PACKAGE BODY	380	"  function f_get_brtz(prm_jzxh in zj_jzxx.jzxh%type, prm_flag in number)
+"
+PKG_HIS_GY	PACKAGE BODY	381	"    return varchar2 is
+"
+PKG_HIS_GY	PACKAGE BODY	382	"    arg_brtz varchar2(10);
+"
+PKG_HIS_GY	PACKAGE BODY	383	"  begin
+"
+PKG_HIS_GY	PACKAGE BODY	384	"    if prm_flag = 1 then
+"
+PKG_HIS_GY	PACKAGE BODY	385	"      --门诊
+"
+PKG_HIS_GY	PACKAGE BODY	386	"      If prm_jzxh > 0 then
+"
+PKG_HIS_GY	PACKAGE BODY	387	"        begin
+"
+PKG_HIS_GY	PACKAGE BODY	388	"          select decode(brtz, null, null, to_char(brtz) || '公斤')
+"
+PKG_HIS_GY	PACKAGE BODY	389	"            into arg_brtz
+"
+PKG_HIS_GY	PACKAGE BODY	390	"            from zj_jzxx
+"
+PKG_HIS_GY	PACKAGE BODY	391	"           where jzxh = prm_jzxh;
+"
+PKG_HIS_GY	PACKAGE BODY	392	"        exception
+"
+PKG_HIS_GY	PACKAGE BODY	393	"          when others then
+"
+PKG_HIS_GY	PACKAGE BODY	394	"            arg_brtz := '';
+"
+PKG_HIS_GY	PACKAGE BODY	395	"        end;
+"
+PKG_HIS_GY	PACKAGE BODY	396	"      Else
+"
+PKG_HIS_GY	PACKAGE BODY	397	"        arg_brtz := '';
+"
+PKG_HIS_GY	PACKAGE BODY	398	"      End If;
+"
+PKG_HIS_GY	PACKAGE BODY	399	"    else
+"
+PKG_HIS_GY	PACKAGE BODY	400	"      arg_brtz := '';
+"
+PKG_HIS_GY	PACKAGE BODY	401	"    end if;
+"
+PKG_HIS_GY	PACKAGE BODY	402	"
+"
+PKG_HIS_GY	PACKAGE BODY	403	"    return arg_brtz;
+"
+PKG_HIS_GY	PACKAGE BODY	404	"
+"
+PKG_HIS_GY	PACKAGE BODY	405	"  end;
+"
+PKG_HIS_GY	PACKAGE BODY	406	"  --取注射费
+"
+PKG_HIS_GY	PACKAGE BODY	407	"  function f_get_zsf(prm_cfsb in mz_cfk1.cfsb%type) return number is
+"
+PKG_HIS_GY	PACKAGE BODY	408	"    arg_je number(10, 2);
+"
+PKG_HIS_GY	PACKAGE BODY	409	"  begin
+"
+PKG_HIS_GY	PACKAGE BODY	410	"    begin
+"
+PKG_HIS_GY	PACKAGE BODY	411	"      select round(sum(round(a.sl * dj, 2)), 2)
+"
+PKG_HIS_GY	PACKAGE BODY	412	"        Into arg_je
+"
+PKG_HIS_GY	PACKAGE BODY	413	"        From yj_yjk2 a, yj_yjk1 b
+"
+PKG_HIS_GY	PACKAGE BODY	414	"       Where a.yjsb = b.yjsb
+"
+PKG_HIS_GY	PACKAGE BODY	415	"         And b.cfsb = prm_cfsb;
+"
+PKG_HIS_GY	PACKAGE BODY	416	"    exception
+"
+PKG_HIS_GY	PACKAGE BODY	417	"      when others then
+"
+PKG_HIS_GY	PACKAGE BODY	418	"        arg_je := 0;
+"
+PKG_HIS_GY	PACKAGE BODY	419	"    end;
+"
+PKG_HIS_GY	PACKAGE BODY	420	"
+"
+PKG_HIS_GY	PACKAGE BODY	421	"    return arg_je;
+"
+PKG_HIS_GY	PACKAGE BODY	422	"  end;
+"
+PKG_HIS_GY	PACKAGE BODY	423	"
+"
+PKG_HIS_GY	PACKAGE BODY	424	"  --取药品摆放位置
+"
+PKG_HIS_GY	PACKAGE BODY	425	"  function f_get_ypwz(prm_xtxh   in number,
+"
+PKG_HIS_GY	PACKAGE BODY	426	"                      prm_ypxh   in number,
+"
+PKG_HIS_GY	PACKAGE BODY	427	"                      prm_ypcddm in number) return varchar is
+"
+PKG_HIS_GY	PACKAGE BODY	428	"    arg_ypwz varchar2(50);
+"
+PKG_HIS_GY	PACKAGE BODY	429	"  begin
+"
+PKG_HIS_GY	PACKAGE BODY	430	"    begin
+"
+PKG_HIS_GY	PACKAGE BODY	431	"      if prm_ypcddm > 0 then
+"
+PKG_HIS_GY	PACKAGE BODY	432	"        select wz
+"
+PKG_HIS_GY	PACKAGE BODY	433	"          into arg_ypwz
+"
+PKG_HIS_GY	PACKAGE BODY	434	"          from my_ypkcz
+"
+PKG_HIS_GY	PACKAGE BODY	435	"         where (ypxh = prm_ypxh or fzfl = prm_ypxh)
+"
+PKG_HIS_GY	PACKAGE BODY	436	"           and ypcddm = prm_ypcddm
+"
+PKG_HIS_GY	PACKAGE BODY	437	"           and xtxh = prm_xtxh;
+"
+PKG_HIS_GY	PACKAGE BODY	438	"      else
+"
+PKG_HIS_GY	PACKAGE BODY	439	"        select wz
+"
+PKG_HIS_GY	PACKAGE BODY	440	"          into arg_ypwz
+"
+PKG_HIS_GY	PACKAGE BODY	441	"          from my_ypkcz
+"
+PKG_HIS_GY	PACKAGE BODY	442	"         where (ypxh = prm_ypxh or fzfl = prm_ypxh)
+"
+PKG_HIS_GY	PACKAGE BODY	443	"           and xtxh = prm_xtxh;
+"
+PKG_HIS_GY	PACKAGE BODY	444	"      end if;
+"
+PKG_HIS_GY	PACKAGE BODY	445	"    exception
+"
+PKG_HIS_GY	PACKAGE BODY	446	"      when others then
+"
+PKG_HIS_GY	PACKAGE BODY	447	"        arg_ypwz := '';
+"
+PKG_HIS_GY	PACKAGE BODY	448	"    end;
+"
+PKG_HIS_GY	PACKAGE BODY	449	"
+"
+PKG_HIS_GY	PACKAGE BODY	450	"    return arg_ypwz;
+"
+PKG_HIS_GY	PACKAGE BODY	451	"  end;
+"
+PKG_HIS_GY	PACKAGE BODY	452	"  Function f_get_brxzmc(prm_xzdm In Varchar2) Return Varchar2 Is
+"
+PKG_HIS_GY	PACKAGE BODY	453	"    arg_xzmc gy_brxz.xzmc%type;
+"
+PKG_HIS_GY	PACKAGE BODY	454	"  Begin
+"
+PKG_HIS_GY	PACKAGE BODY	455	"    Select xzmc Into arg_xzmc From gy_brxz Where xzdm = prm_xzdm;
+"
+PKG_HIS_GY	PACKAGE BODY	456	"
+"
+PKG_HIS_GY	PACKAGE BODY	457	"    Return arg_xzmc;
+"
+PKG_HIS_GY	PACKAGE BODY	458	"  End;
+"
+PKG_HIS_GY	PACKAGE BODY	459	"  Function f_get_gydmmc(prm_dmlb In number, prm_dm in number) Return Varchar2 Is
+"
+PKG_HIS_GY	PACKAGE BODY	460	"    arg_mc gy_gydm.mc%type;
+"
+PKG_HIS_GY	PACKAGE BODY	461	"  Begin
+"
+PKG_HIS_GY	PACKAGE BODY	462	"    Select mc
+"
+PKG_HIS_GY	PACKAGE BODY	463	"      Into arg_mc
+"
+PKG_HIS_GY	PACKAGE BODY	464	"      From gy_gydm
+"
+PKG_HIS_GY	PACKAGE BODY	465	"     Where dmlb = prm_dmlb
+"
+PKG_HIS_GY	PACKAGE BODY	466	"       and dm = prm_dm;
+"
+PKG_HIS_GY	PACKAGE BODY	467	"
+"
+PKG_HIS_GY	PACKAGE BODY	468	"    Return arg_mc;
+"
+PKG_HIS_GY	PACKAGE BODY	469	"  End;
+"
+PKG_HIS_GY	PACKAGE BODY	470	"End Pkg_His_Gy;
+"

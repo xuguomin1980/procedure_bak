@@ -1,0 +1,278 @@
+PKG_GY_YINYIJK	PACKAGE BODY	1	"Package Body PKG_GY_YINYIJK Is
+"
+PKG_GY_YINYIJK	PACKAGE BODY	2	"  /*  移动支付挂号数据保存*/
+"
+PKG_GY_YINYIJK	PACKAGE BODY	3	"  Procedure PRC_GUAHAOYDZF(Prm_Guahaoid  In Varchar2, ---- gh_ghk.jlxh
+"
+PKG_GY_YINYIJK	PACKAGE BODY	4	"                         Prm_Yibaomsg  In Varchar2, ----医保出参
+"
+PKG_GY_YINYIJK	PACKAGE BODY	5	"                         Prm_Appcode   Out Number,
+"
+PKG_GY_YINYIJK	PACKAGE BODY	6	"                         Prm_Outbuffer Out Varchar2) Is
+"
+PKG_GY_YINYIJK	PACKAGE BODY	7	"   --参数定义
+"
+PKG_GY_YINYIJK	PACKAGE BODY	8	"    s_Msg        Varchar2(4000);
+"
+PKG_GY_YINYIJK	PACKAGE BODY	9	"    s_Zhifuxx    Varchar2(500); ---支付信息
+"
+PKG_GY_YINYIJK	PACKAGE BODY	10	"    s_Ybjsbz     Varchar2(2);    ---医保成功标志
+"
+PKG_GY_YINYIJK	PACKAGE BODY	11	"    n_Count      Number;
+"
+PKG_GY_YINYIJK	PACKAGE BODY	12	"    n_Jlxh       Gh_Ghk.Jlxh%Type; ---挂号ID
+"
+PKG_GY_YINYIJK	PACKAGE BODY	13	"    s_qtsffs    varchar2(2);
+"
+PKG_GY_YINYIJK	PACKAGE BODY	14	"    n_Jyje  Gy_Jrjymx.Jyje%Type;
+"
+PKG_GY_YINYIJK	PACKAGE BODY	15	"     -----GH_ybjsxx---------
+"
+PKG_GY_YINYIJK	PACKAGE BODY	16	"    s_jzkh Gh_ybjsxx.Jzkh%Type;
+"
+PKG_GY_YINYIJK	PACKAGE BODY	17	"    s_grbh     Gh_ybjsxx.mzh%Type;
+"
+PKG_GY_YINYIJK	PACKAGE BODY	18	"    s_ybkxx    Gh_ybjsxx.Bright%Type;
+"
+PKG_GY_YINYIJK	PACKAGE BODY	19	"    s_ywzqh    Gh_ybjsxx.Ywzqh%Type;
+"
+PKG_GY_YINYIJK	PACKAGE BODY	20	"    s_ybjyh    Gh_ybjsxx.jylsh%Type;
+"
+PKG_GY_YINYIJK	PACKAGE BODY	21	"  Begin
+"
+PKG_GY_YINYIJK	PACKAGE BODY	22	"    Prm_Appcode   := 1;
+"
+PKG_GY_YINYIJK	PACKAGE BODY	23	"    s_Ybjsbz      := '-1';
+"
+PKG_GY_YINYIJK	PACKAGE BODY	24	"    Prm_Outbuffer := 'OK|成功';
+"
+PKG_GY_YINYIJK	PACKAGE BODY	25	"    s_Msg         := Prm_Yibaomsg;
+"
+PKG_GY_YINYIJK	PACKAGE BODY	26	"    n_Jlxh        := To_Number(Prm_Guahaoid);
+"
+PKG_GY_YINYIJK	PACKAGE BODY	27	"    ------Gy_Jrjymx-------
+"
+PKG_GY_YINYIJK	PACKAGE BODY	28	"
+"
+PKG_GY_YINYIJK	PACKAGE BODY	29	"    Begin
+"
+PKG_GY_YINYIJK	PACKAGE BODY	30	"      /*解析参数*/
+"
+PKG_GY_YINYIJK	PACKAGE BODY	31	"      s_Ybjsbz  := fun_get_parm(s_Msg,1, '~'); ---医保返回状态
+"
+PKG_GY_YINYIJK	PACKAGE BODY	32	"
+"
+PKG_GY_YINYIJK	PACKAGE BODY	33	"         s_Zhifuxx := fun_get_parm(s_Msg,4,'~') ;
+"
+PKG_GY_YINYIJK	PACKAGE BODY	34	"         n_Jyje     := To_Number(fun_get_parm(s_Zhifuxx,27,'|'));
+"
+PKG_GY_YINYIJK	PACKAGE BODY	35	"         s_ybjyh := fun_get_parm(s_Zhifuxx,2,'|');
+"
+PKG_GY_YINYIJK	PACKAGE BODY	36	"    End;
+"
+PKG_GY_YINYIJK	PACKAGE BODY	37	"
+"
+PKG_GY_YINYIJK	PACKAGE BODY	38	"    Begin
+"
+PKG_GY_YINYIJK	PACKAGE BODY	39	"      If s_Ybjsbz <> '0' Then
+"
+PKG_GY_YINYIJK	PACKAGE BODY	40	"        Prm_Appcode   := -1;
+"
+PKG_GY_YINYIJK	PACKAGE BODY	41	"        Prm_Outbuffer := 'ERR|' || '医保结算失败的记录！！';
+"
+PKG_GY_YINYIJK	PACKAGE BODY	42	"        Return;
+"
+PKG_GY_YINYIJK	PACKAGE BODY	43	"      End If;
+"
+PKG_GY_YINYIJK	PACKAGE BODY	44	"      Select Count(*) Into n_Count From Gh_Ghk Where Jlxh = n_Jlxh;
+"
+PKG_GY_YINYIJK	PACKAGE BODY	45	"      If n_Count < 1 Then
+"
+PKG_GY_YINYIJK	PACKAGE BODY	46	"        Prm_Appcode   := -1;
+"
+PKG_GY_YINYIJK	PACKAGE BODY	47	"        Prm_Outbuffer := 'ERR|' || '未找到挂号信息，无法更新！！';
+"
+PKG_GY_YINYIJK	PACKAGE BODY	48	"        Return;
+"
+PKG_GY_YINYIJK	PACKAGE BODY	49	"      End If;
+"
+PKG_GY_YINYIJK	PACKAGE BODY	50	"
+"
+PKG_GY_YINYIJK	PACKAGE BODY	51	"
+"
+PKG_GY_YINYIJK	PACKAGE BODY	52	"      s_qtsffs :=35;   --移动支付
+"
+PKG_GY_YINYIJK	PACKAGE BODY	53	"
+"
+PKG_GY_YINYIJK	PACKAGE BODY	54	"      -------------------------------------处理gh_ghk-------------------------------------------------
+"
+PKG_GY_YINYIJK	PACKAGE BODY	55	"        ----本地医保40-----
+"
+PKG_GY_YINYIJK	PACKAGE BODY	56	"          UPDATE gh_ghk SET
+"
+PKG_GY_YINYIJK	PACKAGE BODY	57	"            ybzje = To_Number(fun_get_parm(s_Zhifuxx,5,'|')),        --总金额
+"
+PKG_GY_YINYIJK	PACKAGE BODY	58	"            zfje = To_Number(fun_get_parm(s_Zhifuxx,6,'|')),         --自费
+"
+PKG_GY_YINYIJK	PACKAGE BODY	59	"            ybbxje=To_Number(fun_get_parm(s_Zhifuxx,5,'|'))-To_Number(fun_get_parm(s_Zhifuxx,26,'|')),        --医保报销金额20200730
+"
+PKG_GY_YINYIJK	PACKAGE BODY	60	"            zbbzje =  To_Number(fun_get_parm(s_Zhifuxx,7,'|')),         -- 其中大病特药费用
+"
+PKG_GY_YINYIJK	PACKAGE BODY	61	"            zlje = To_Number(fun_get_parm(s_Zhifuxx,8,'|')),         --自理
+"
+PKG_GY_YINYIJK	PACKAGE BODY	62	"            --yblzfy =   To_Number(fun_get_parm(s_Zhifuxx,9,'|')),         --医保列支费用
+"
+PKG_GY_YINYIJK	PACKAGE BODY	63	"            qfx =   To_Number(fun_get_parm(s_Zhifuxx,10,'|')),         --起付线
+"
+PKG_GY_YINYIJK	PACKAGE BODY	64	"            --qfdzf =  To_Number(fun_get_parm(s_Zhifuxx,11,'|')),         --起付段自付
+"
+PKG_GY_YINYIJK	PACKAGE BODY	65	"            tcjjje = To_Number(fun_get_parm(s_Zhifuxx,12,'|')),   --统筹基金支付
+"
+PKG_GY_YINYIJK	PACKAGE BODY	66	"            --tcjjgrzf = To_Number(fun_get_parm(s_Zhifuxx,13,'|')),   --统筹基金支付个人自付
+"
+PKG_GY_YINYIJK	PACKAGE BODY	67	"            --dbhgfy =  To_Number(fun_get_parm(s_Zhifuxx,14,'|')),   --大病保险合规费用
+"
+PKG_GY_YINYIJK	PACKAGE BODY	68	"            --dbcxfy =  To_Number(fun_get_parm(s_Zhifuxx,15,'|')),   --大病保险超封顶线费用
+"
+PKG_GY_YINYIJK	PACKAGE BODY	69	"            --dbbxjjzf =  To_Number(fun_get_parm(s_Zhifuxx,16,'|')),   --大病保险基金支付
+"
+PKG_GY_YINYIJK	PACKAGE BODY	70	"            --dbbxgrzf =   To_Number(fun_get_parm(s_Zhifuxx,17,'|')),   --大病保险个人支付
+"
+PKG_GY_YINYIJK	PACKAGE BODY	71	"            --gwybhgfy =   To_Number(fun_get_parm(s_Zhifuxx,18,'|')),   --公务员补合规费用
+"
+PKG_GY_YINYIJK	PACKAGE BODY	72	"            jzje =  To_Number(fun_get_parm(s_Zhifuxx,19,'|')),   --公务员补助支付
+"
+PKG_GY_YINYIJK	PACKAGE BODY	73	"            lxjj =  To_Number(fun_get_parm(s_Zhifuxx,20,'|')),   --离休基金支付
+"
+PKG_GY_YINYIJK	PACKAGE BODY	74	"            ickje =  To_Number(fun_get_parm(s_Zhifuxx,21,'|')),   --个账当年支付
+"
+PKG_GY_YINYIJK	PACKAGE BODY	75	"            lnzhje =  To_Number(fun_get_parm(s_Zhifuxx,22,'|')),   --个账历年支付
+"
+PKG_GY_YINYIJK	PACKAGE BODY	76	"            --qsgzlnzf =   To_Number(fun_get_parm(s_Zhifuxx,23,'|')),   --亲属个账历年支付
+"
+PKG_GY_YINYIJK	PACKAGE BODY	77	"            tcjjj =  To_Number(fun_get_parm(s_Zhifuxx,24,'|')),   --其他基金支付
+"
+PKG_GY_YINYIJK	PACKAGE BODY	78	"            xj2 =  To_Number(fun_get_parm(s_Zhifuxx,25,'|')),   --个人自付
+"
+PKG_GY_YINYIJK	PACKAGE BODY	79	"            xj1 =  To_Number(fun_get_parm(s_Zhifuxx,26,'|')),   --个人现鑫
+"
+PKG_GY_YINYIJK	PACKAGE BODY	80	"            ybxjzf =  To_Number(fun_get_parm(s_Zhifuxx,26,'|')),   --个人现鑫20200730
+"
+PKG_GY_YINYIJK	PACKAGE BODY	81	"            --gwybzzf1 =   To_Number(fun_get_parm(s_Zhifuxx,27,'|')), --公务员补助支付1
+"
+PKG_GY_YINYIJK	PACKAGE BODY	82	"            --Gwybzzf2 =  To_Number(fun_get_parm(s_Zhifuxx,28,'|')), --公务员补助支付2
+"
+PKG_GY_YINYIJK	PACKAGE BODY	83	"            --Gwybzzf3 =  To_Number(fun_get_parm(s_Zhifuxx,29,'|')), --公务员补助支付3
+"
+PKG_GY_YINYIJK	PACKAGE BODY	84	"            Jshzhje =  To_Number(fun_get_parm(s_Zhifuxx,30,'|')), --个帐当年余额
+"
+PKG_GY_YINYIJK	PACKAGE BODY	85	"            jshlnzhje =  To_Number(fun_get_parm(s_Zhifuxx,30,'|')), --个帐历年余额
+"
+PKG_GY_YINYIJK	PACKAGE BODY	86	"            qtsffs = s_qtsffs,
+"
+PKG_GY_YINYIJK	PACKAGE BODY	87	"            qtsfje = n_Jyje
+"
+PKG_GY_YINYIJK	PACKAGE BODY	88	"            
+"
+PKG_GY_YINYIJK	PACKAGE BODY	89	"            Where Jlxh = n_Jlxh;
+"
+PKG_GY_YINYIJK	PACKAGE BODY	90	"
+"
+PKG_GY_YINYIJK	PACKAGE BODY	91	"
+"
+PKG_GY_YINYIJK	PACKAGE BODY	92	"     -------------------------处理gh_ybjsxx----------------------------
+"
+PKG_GY_YINYIJK	PACKAGE BODY	93	"     Begin
+"
+PKG_GY_YINYIJK	PACKAGE BODY	94	"          insert into gh_ybjsxx
+"
+PKG_GY_YINYIJK	PACKAGE BODY	95	"            (jylsh,
+"
+PKG_GY_YINYIJK	PACKAGE BODY	96	"             jlxh,
+"
+PKG_GY_YINYIJK	PACKAGE BODY	97	"             ybkh,
+"
+PKG_GY_YINYIJK	PACKAGE BODY	98	"             jzkh,
+"
+PKG_GY_YINYIJK	PACKAGE BODY	99	"             databuffer,
+"
+PKG_GY_YINYIJK	PACKAGE BODY	100	"             jylx,
+"
+PKG_GY_YINYIJK	PACKAGE BODY	101	"             mzh,
+"
+PKG_GY_YINYIJK	PACKAGE BODY	102	"             fyxlh,
+"
+PKG_GY_YINYIJK	PACKAGE BODY	103	"             black,
+"
+PKG_GY_YINYIJK	PACKAGE BODY	104	"             bright,
+"
+PKG_GY_YINYIJK	PACKAGE BODY	105	"             yylsh,
+"
+PKG_GY_YINYIJK	PACKAGE BODY	106	"             ywzqh,
+"
+PKG_GY_YINYIJK	PACKAGE BODY	107	"             icxx,
+"
+PKG_GY_YINYIJK	PACKAGE BODY	108	"             jyrq,qrbz)
+"
+PKG_GY_YINYIJK	PACKAGE BODY	109	"          values
+"
+PKG_GY_YINYIJK	PACKAGE BODY	110	"            (s_ybjyh,
+"
+PKG_GY_YINYIJK	PACKAGE BODY	111	"             n_Jlxh ,
+"
+PKG_GY_YINYIJK	PACKAGE BODY	112	"             s_jzkh,
+"
+PKG_GY_YINYIJK	PACKAGE BODY	113	"             s_jzkh,
+"
+PKG_GY_YINYIJK	PACKAGE BODY	114	"             Prm_Yibaomsg,
+"
+PKG_GY_YINYIJK	PACKAGE BODY	115	"             1,
+"
+PKG_GY_YINYIJK	PACKAGE BODY	116	"             s_grbh,
+"
+PKG_GY_YINYIJK	PACKAGE BODY	117	"             0,
+"
+PKG_GY_YINYIJK	PACKAGE BODY	118	"             s_Zhifuxx,
+"
+PKG_GY_YINYIJK	PACKAGE BODY	119	"             s_ybkxx,
+"
+PKG_GY_YINYIJK	PACKAGE BODY	120	"             '',
+"
+PKG_GY_YINYIJK	PACKAGE BODY	121	"             s_ywzqh,
+"
+PKG_GY_YINYIJK	PACKAGE BODY	122	"             '',
+"
+PKG_GY_YINYIJK	PACKAGE BODY	123	"             sysdate,1);
+"
+PKG_GY_YINYIJK	PACKAGE BODY	124	"      Exception
+"
+PKG_GY_YINYIJK	PACKAGE BODY	125	"        When Others Then
+"
+PKG_GY_YINYIJK	PACKAGE BODY	126	"          Prm_Appcode   := -1;
+"
+PKG_GY_YINYIJK	PACKAGE BODY	127	"          Prm_Outbuffer := 'ERR|插入gh_ybjsxx 异常:' || Sqlerrm;
+"
+PKG_GY_YINYIJK	PACKAGE BODY	128	"          Return;
+"
+PKG_GY_YINYIJK	PACKAGE BODY	129	"      End;
+"
+PKG_GY_YINYIJK	PACKAGE BODY	130	"
+"
+PKG_GY_YINYIJK	PACKAGE BODY	131	"
+"
+PKG_GY_YINYIJK	PACKAGE BODY	132	"    Exception
+"
+PKG_GY_YINYIJK	PACKAGE BODY	133	"      When Others Then
+"
+PKG_GY_YINYIJK	PACKAGE BODY	134	"        Prm_Appcode   := -1;
+"
+PKG_GY_YINYIJK	PACKAGE BODY	135	"        Prm_Outbuffer := 'ERR|数据处理异常:' || Sqlerrm;
+"
+PKG_GY_YINYIJK	PACKAGE BODY	136	"        Return;
+"
+PKG_GY_YINYIJK	PACKAGE BODY	137	"    End;
+"
+PKG_GY_YINYIJK	PACKAGE BODY	138	"  End PRC_GUAHAOYDZF;
+"
+PKG_GY_YINYIJK	PACKAGE BODY	139	"End PKG_GY_YINYIJK;
+"

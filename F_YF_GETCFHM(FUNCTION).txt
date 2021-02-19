@@ -1,0 +1,27 @@
+F_YF_GETCFHM	FUNCTION	1	"FUNCTION         ""F_YF_GETCFHM"" 
+"
+F_YF_GETCFHM	FUNCTION	2	"  (arg_crkdm in number,arg_cfsb in varchar2)
+"
+F_YF_GETCFHM	FUNCTION	3	"     return varchar2
+"
+F_YF_GETCFHM	FUNCTION	4	"     is
+"
+F_YF_GETCFHM	FUNCTION	5	"       ls_cfhm   varchar2(10);
+"
+F_YF_GETCFHM	FUNCTION	6	"     begin
+"
+F_YF_GETCFHM	FUNCTION	7	"       if arg_crkdm=59 or arg_crkdm=61 then
+"
+F_YF_GETCFHM	FUNCTION	8	"  	select cfhm into ls_cfhm from mz_cfk1 where cfsb=to_number(arg_cfsb);
+"
+F_YF_GETCFHM	FUNCTION	9	"       elsif arg_crkdm=60 then
+"
+F_YF_GETCFHM	FUNCTION	10	"         ls_cfhm := arg_cfsb;
+"
+F_YF_GETCFHM	FUNCTION	11	"       end if;
+"
+F_YF_GETCFHM	FUNCTION	12	"      return(ls_cfhm);
+"
+F_YF_GETCFHM	FUNCTION	13	"  end;
+"
+F_YF_GETCFHM	FUNCTION	14	 

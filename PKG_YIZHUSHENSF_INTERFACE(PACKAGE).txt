@@ -1,0 +1,56 @@
+PKG_YIZHUSHENSF_INTERFACE	PACKAGE	1	"Package Pkg_Yizhushensf_Interface Is
+"
+PKG_YIZHUSHENSF_INTERFACE	PACKAGE	2	"  ---Create daq
+"
+PKG_YIZHUSHENSF_INTERFACE	PACKAGE	3	"
+"
+PKG_YIZHUSHENSF_INTERFACE	PACKAGE	4	"  ---Modi daq  2019/02/15 医嘱全审方接口
+"
+PKG_YIZHUSHENSF_INTERFACE	PACKAGE	5	"  ---Modi daq 2019/04/02  增加审方复核  shbz为-3
+"
+PKG_YIZHUSHENSF_INTERFACE	PACKAGE	6	"  -- Modi  daq  2019/04/29 增加门诊审核
+"
+PKG_YIZHUSHENSF_INTERFACE	PACKAGE	7	"
+"
+PKG_YIZHUSHENSF_INTERFACE	PACKAGE	8	"  --药品审方信息
+"
+PKG_YIZHUSHENSF_INTERFACE	PACKAGE	9	"  Procedure Prc_Yz_Yaopinsfxx(Prm_Bingrenzyid Varchar2,
+"
+PKG_YIZHUSHENSF_INTERFACE	PACKAGE	10	"                              Prm_Yizhuid     Varchar2,
+"
+PKG_YIZHUSHENSF_INTERFACE	PACKAGE	11	"                              Prm_Shenfangzt  Varchar2,
+"
+PKG_YIZHUSHENSF_INTERFACE	PACKAGE	12	"                              Prm_Shenfangjg  Varchar2,
+"
+PKG_YIZHUSHENSF_INTERFACE	PACKAGE	13	"                              Prm_Shenfangren Varchar2,
+"
+PKG_YIZHUSHENSF_INTERFACE	PACKAGE	14	"                              Prm_Shenfangsj  Varchar2,
+"
+PKG_YIZHUSHENSF_INTERFACE	PACKAGE	15	"                              Prm_Appcode     Out Number,
+"
+PKG_YIZHUSHENSF_INTERFACE	PACKAGE	16	"                              Prm_Databuffer  Out Varchar2);
+"
+PKG_YIZHUSHENSF_INTERFACE	PACKAGE	17	"
+"
+PKG_YIZHUSHENSF_INTERFACE	PACKAGE	18	"  --门诊审方信息
+"
+PKG_YIZHUSHENSF_INTERFACE	PACKAGE	19	"  Procedure Prc_Mz_Yaopinsfxx(Prm_Bingrenzyid Varchar2,
+"
+PKG_YIZHUSHENSF_INTERFACE	PACKAGE	20	"                              Prm_Yizhuid     Varchar2,
+"
+PKG_YIZHUSHENSF_INTERFACE	PACKAGE	21	"                              Prm_Shenfangzt  Varchar2,
+"
+PKG_YIZHUSHENSF_INTERFACE	PACKAGE	22	"                              Prm_Shenfangjg  Varchar2,
+"
+PKG_YIZHUSHENSF_INTERFACE	PACKAGE	23	"                              Prm_Shenfangren Varchar2,
+"
+PKG_YIZHUSHENSF_INTERFACE	PACKAGE	24	"                              Prm_Shenfangsj  Varchar2,
+"
+PKG_YIZHUSHENSF_INTERFACE	PACKAGE	25	"                              Prm_Appcode     Out Number,
+"
+PKG_YIZHUSHENSF_INTERFACE	PACKAGE	26	"                              Prm_Databuffer  Out Varchar2);
+"
+PKG_YIZHUSHENSF_INTERFACE	PACKAGE	27	"
+"
+PKG_YIZHUSHENSF_INTERFACE	PACKAGE	28	"End Pkg_Yizhushensf_Interface;
+"

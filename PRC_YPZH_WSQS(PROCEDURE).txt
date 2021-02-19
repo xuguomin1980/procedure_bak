@@ -1,0 +1,111 @@
+PRC_YPZH_WSQS	PROCEDURE	1	"PROCEDURE         ""PRC_YPZH_WSQS"" (
+"
+PRC_YPZH_WSQS	PROCEDURE	2	"       p_je      IN        NUMBER,
+"
+PRC_YPZH_WSQS	PROCEDURE	3	"       p_rtn     OUT       NUMBER) IS
+"
+PRC_YPZH_WSQS	PROCEDURE	4	"BEGIN
+"
+PRC_YPZH_WSQS	PROCEDURE	5	"/*=============================================================================
+"
+PRC_YPZH_WSQS	PROCEDURE	6	"||	过程名称 ：药品转换-尾数取舍 prc_ypzh_wsqs
+"
+PRC_YPZH_WSQS	PROCEDURE	7	"||-----------------------------------------------------------------------------
+"
+PRC_YPZH_WSQS	PROCEDURE	8	"|| 功能说明 ： 药品转换-尾数取舍 5元以下 按""三七作五、二舍八入""原则保留到5分
+"
+PRC_YPZH_WSQS	PROCEDURE	9	"||                               5元以上 按""四舍五入""原则保留到角
+"
+PRC_YPZH_WSQS	PROCEDURE	10	"||                               1.22  =>   1.20
+"
+PRC_YPZH_WSQS	PROCEDURE	11	"||                               1.23  =>   1.25
+"
+PRC_YPZH_WSQS	PROCEDURE	12	"||                               1.27  =>   1.25
+"
+PRC_YPZH_WSQS	PROCEDURE	13	"||                               1.28  =>   1.30
+"
+PRC_YPZH_WSQS	PROCEDURE	14	"||                               5.24  =>   5.20
+"
+PRC_YPZH_WSQS	PROCEDURE	15	"||                               5.25  =>   5.30
+"
+PRC_YPZH_WSQS	PROCEDURE	16	"||-----------------------------------------------------------------------------
+"
+PRC_YPZH_WSQS	PROCEDURE	17	"||	参数描述 ：参数标识       输入/输出  类型     名称
+"
+PRC_YPZH_WSQS	PROCEDURE	18	"||            -----------------------------------------------------------------
+"
+PRC_YPZH_WSQS	PROCEDURE	19	"||            p_ypsx           IN        char     药品属性
+"
+PRC_YPZH_WSQS	PROCEDURE	20	"||				    p_yplx           OUT       number	  药品类型
+"
+PRC_YPZH_WSQS	PROCEDURE	21	"||-----------------------------------------------------------------------------
+"
+PRC_YPZH_WSQS	PROCEDURE	22	"||	作    者 ：王晨       完成日期 ：2003-12-25
+"
+PRC_YPZH_WSQS	PROCEDURE	23	"||-----------------------------------------------------------------------------
+"
+PRC_YPZH_WSQS	PROCEDURE	24	"|| 修改记录 ：
+"
+PRC_YPZH_WSQS	PROCEDURE	25	"=============================================================================*/
+"
+PRC_YPZH_WSQS	PROCEDURE	26	"DECLARE
+"
+PRC_YPZH_WSQS	PROCEDURE	27	"
+"
+PRC_YPZH_WSQS	PROCEDURE	28	"  v_zz    NUMBER;   --整值(保留到小数一位)
+"
+PRC_YPZH_WSQS	PROCEDURE	29	"  v_wc    NUMBER;   --尾差
+"
+PRC_YPZH_WSQS	PROCEDURE	30	"  
+"
+PRC_YPZH_WSQS	PROCEDURE	31	"BEGIN
+"
+PRC_YPZH_WSQS	PROCEDURE	32	"----start
+"
+PRC_YPZH_WSQS	PROCEDURE	33	"  IF p_je >= 5 THEN --5元以上 按""四舍五入""原则保留到角
+"
+PRC_YPZH_WSQS	PROCEDURE	34	"     p_rtn := round(p_je,1);
+"
+PRC_YPZH_WSQS	PROCEDURE	35	"  ELSE              --5元以下 按""三七作五、二舍八入""原则保留到5分
+"
+PRC_YPZH_WSQS	PROCEDURE	36	"     v_zz := trunc(p_je,1); --整值(保留到小数一位)
+"
+PRC_YPZH_WSQS	PROCEDURE	37	"     v_wc := p_je - v_zz;   --尾差
+"
+PRC_YPZH_WSQS	PROCEDURE	38	"     IF round(v_wc,2) <=0.02 THEN                        --二舍
+"
+PRC_YPZH_WSQS	PROCEDURE	39	"        v_wc := 0;
+"
+PRC_YPZH_WSQS	PROCEDURE	40	"     ELSIF (round(v_wc,2) >= 0.03 and round(v_wc,2) <= 0.07) THEN --三七作五
+"
+PRC_YPZH_WSQS	PROCEDURE	41	"        v_wc := 0.05;
+"
+PRC_YPZH_WSQS	PROCEDURE	42	"     ELSE                                       --八入
+"
+PRC_YPZH_WSQS	PROCEDURE	43	"        v_wc := 0.10;
+"
+PRC_YPZH_WSQS	PROCEDURE	44	"     END IF;
+"
+PRC_YPZH_WSQS	PROCEDURE	45	"     p_rtn := v_zz + v_wc;
+"
+PRC_YPZH_WSQS	PROCEDURE	46	"  END IF;
+"
+PRC_YPZH_WSQS	PROCEDURE	47	"
+"
+PRC_YPZH_WSQS	PROCEDURE	48	"EXCEPTION  -- exception handlers begin
+"
+PRC_YPZH_WSQS	PROCEDURE	49	"   WHEN OTHERS THEN  -- handles all other errors
+"
+PRC_YPZH_WSQS	PROCEDURE	50	"        ROLLBACK;
+"
+PRC_YPZH_WSQS	PROCEDURE	51	"	RAISE_APPLICATION_ERROR(-20101,'药品转换-尾数取舍 prc_ypzh_wsqs 失败!'||sqlerrm(sqlcode));
+"
+PRC_YPZH_WSQS	PROCEDURE	52	"END;
+"
+PRC_YPZH_WSQS	PROCEDURE	53	"END prc_ypzh_wsqs;
+"
+PRC_YPZH_WSQS	PROCEDURE	54	"
+"
+PRC_YPZH_WSQS	PROCEDURE	55	"
+"
+PRC_YPZH_WSQS	PROCEDURE	56	 

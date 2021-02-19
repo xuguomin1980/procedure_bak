@@ -1,0 +1,248 @@
+F_BF_GETYPXX	FUNCTION	1	"FUNCTION ""F_BF_GETYPXX""
+"
+F_BF_GETYPXX	FUNCTION	2	"(arg_ypxh in number,arg_ypcddm in number,arg_flag in varchar2) 
+"
+F_BF_GETYPXX	FUNCTION	3	"  return varchar2
+"
+F_BF_GETYPXX	FUNCTION	4	"  is
+"
+F_BF_GETYPXX	FUNCTION	5	"    ls_return varchar2(60);
+"
+F_BF_GETYPXX	FUNCTION	6	"    ls_ypsx   varchar2(11);
+"
+F_BF_GETYPXX	FUNCTION	7	"    ls_ypsx2  varchar2(11);
+"
+F_BF_GETYPXX	FUNCTION	8	"    ll_ypbzl  number(4);
+"
+F_BF_GETYPXX	FUNCTION	9	"    ll_fzfl   number(6);
+"
+F_BF_GETYPXX	FUNCTION	10	"    ll_zdxl   number(6);
+"
+F_BF_GETYPXX	FUNCTION	11	"    ls_ypsx4  varchar2(11);
+"
+F_BF_GETYPXX	FUNCTION	12	"  begin
+"
+F_BF_GETYPXX	FUNCTION	13	"  if arg_flag = 'pmgg' then
+"
+F_BF_GETYPXX	FUNCTION	14	"      select ypmc||ypgg into ls_return from gy_ypmcggzd where ypxh=arg_ypxh;
+"
+F_BF_GETYPXX	FUNCTION	15	"  elsif arg_flag = 'dw' then
+"
+F_BF_GETYPXX	FUNCTION	16	"      select ypbzdw into ls_return from gy_ypmcggzd where ypxh=arg_ypxh;
+"
+F_BF_GETYPXX	FUNCTION	17	"  elsif arg_flag = 'cd' then
+"
+F_BF_GETYPXX	FUNCTION	18	"      select cdmc into ls_return from gy_ypcdk where ypcddm=arg_ypcddm;
+"
+F_BF_GETYPXX	FUNCTION	19	"   elsif arg_flag = 'cdmc' then
+"
+F_BF_GETYPXX	FUNCTION	20	"      select cdmc into ls_return from gy_ypcdk where ypcddm=arg_ypcddm;
+"
+F_BF_GETYPXX	FUNCTION	21	"  elsif arg_flag = 'ypsx' then
+"
+F_BF_GETYPXX	FUNCTION	22	"      select ypsx into ls_return from gy_ypmcggzd where ypxh=arg_ypxh;
+"
+F_BF_GETYPXX	FUNCTION	23	"  elsif arg_flag='ypbzl' then
+"
+F_BF_GETYPXX	FUNCTION	24	"      select to_char(ypbzl) into ls_return from gy_ypmcggzd where ypxh=arg_ypxh;
+"
+F_BF_GETYPXX	FUNCTION	25	"  elsif arg_flag='lsj' then 
+"
+F_BF_GETYPXX	FUNCTION	26	"      select to_char(lsj) into ls_return from gy_ypcdjg where ypxh=arg_ypxh and ypcddm=arg_ypcddm        and bmxh is null;
+"
+F_BF_GETYPXX	FUNCTION	27	"  elsif arg_flag='yplx' then
+"
+F_BF_GETYPXX	FUNCTION	28	"      select ypsx into ls_ypsx from gy_ypmcggzd where ypxh=arg_ypxh;
+"
+F_BF_GETYPXX	FUNCTION	29	"       if instr(substr(ls_ypsx,2,3),'1')>0 then 
+"
+F_BF_GETYPXX	FUNCTION	30	"           ls_return:='1';
+"
+F_BF_GETYPXX	FUNCTION	31	"       elsif  instr(substr(ls_ypsx,5,3),'1')>0 then
+"
+F_BF_GETYPXX	FUNCTION	32	"           ls_return:='2' ;
+"
+F_BF_GETYPXX	FUNCTION	33	"       elsif  instr(substr(ls_ypsx,8,2),'1')>0  then
+"
+F_BF_GETYPXX	FUNCTION	34	"           ls_return:='4' ;
+"
+F_BF_GETYPXX	FUNCTION	35	"       end if ;
+"
+F_BF_GETYPXX	FUNCTION	36	"  elsif arg_flag='zblb' then 
+"
+F_BF_GETYPXX	FUNCTION	37	"     select to_char(zblb) into ls_return from gy_ypmcggzd where ypxh=arg_ypxh;
+"
+F_BF_GETYPXX	FUNCTION	38	"  elsif arg_flag='ypmc'  then 
+"
+F_BF_GETYPXX	FUNCTION	39	"    select ypmc into ls_return from gy_ypmcggzd where ypxh=arg_ypxh;
+"
+F_BF_GETYPXX	FUNCTION	40	"  elsif arg_flag='ypgg' then 
+"
+F_BF_GETYPXX	FUNCTION	41	"     select ypgg into ls_return from gy_ypmcggzd where ypxh=arg_ypxh;
+"
+F_BF_GETYPXX	FUNCTION	42	"  elsif arg_flag='tsypyb' then 
+"
+F_BF_GETYPXX	FUNCTION	43	"     select to_char(mod(tsypyb,10)) into ls_return from gy_ypmcggzd where ypxh=arg_ypxh; 
+"
+F_BF_GETYPXX	FUNCTION	44	"  elsif arg_flag='by_kcxh' then 
+"
+F_BF_GETYPXX	FUNCTION	45	"    select substr(ypsx,2,1)||substr(ypsx,4,1),substr(ypsx,5,1)||substr(ypsx,7,1),ypbzl 
+"
+F_BF_GETYPXX	FUNCTION	46	"    into   ls_ypsx,ls_ypsx2,ll_ypbzl
+"
+F_BF_GETYPXX	FUNCTION	47	"    from gy_ypmcggzd
+"
+F_BF_GETYPXX	FUNCTION	48	"     where  ypxh=arg_ypxh;
+"
+F_BF_GETYPXX	FUNCTION	49	"      if  ls_ypsx='11' or ls_ypsx2='11' then 
+"
+F_BF_GETYPXX	FUNCTION	50	"           ls_return:=to_char(arg_ypxh);
+"
+F_BF_GETYPXX	FUNCTION	51	"      elsif ls_ypsx='01' or ls_ypsx2='01' then 
+"
+F_BF_GETYPXX	FUNCTION	52	"           if ll_ypbzl=1  then 
+"
+F_BF_GETYPXX	FUNCTION	53	"              ls_return:=to_char(arg_ypxh);
+"
+F_BF_GETYPXX	FUNCTION	54	"            elsif ll_ypbzl>1 then 
+"
+F_BF_GETYPXX	FUNCTION	55	"                select to_char(fzfl) into ls_return from gy_ypmcggzd where ypxh=arg_ypxh;
+"
+F_BF_GETYPXX	FUNCTION	56	"            end if; 
+"
+F_BF_GETYPXX	FUNCTION	57	"       elsif ls_ypsx='10' or ls_ypsx2='10' then 
+"
+F_BF_GETYPXX	FUNCTION	58	"           select  to_char(ypxh) into ls_return from gy_ypmcggzd  where fzfl=arg_ypxh and
+"
+F_BF_GETYPXX	FUNCTION	59	"                      (substr(ypsx,4,1)='1' or substr(ypsx,7,1)='1') 
+"
+F_BF_GETYPXX	FUNCTION	60	"                     and  substr(ypsx,10,1)='0';
+"
+F_BF_GETYPXX	FUNCTION	61	"     end if;     
+"
+F_BF_GETYPXX	FUNCTION	62	"  ElsIf  arg_flag='my_kcxh' then  
+"
+F_BF_GETYPXX	FUNCTION	63	"      select substr(ypsx,2,1)||substr(ypsx,3,1),substr(ypsx,5,1)||substr(ypsx,6,1),substr(ypsx,8,1)||substr(ypsx,9,1),ypbzl 
+"
+F_BF_GETYPXX	FUNCTION	64	"    into   ls_ypsx,ls_ypsx2,ls_ypsx4,ll_ypbzl
+"
+F_BF_GETYPXX	FUNCTION	65	"    from gy_ypmcggzd
+"
+F_BF_GETYPXX	FUNCTION	66	"     where  ypxh=arg_ypxh;
+"
+F_BF_GETYPXX	FUNCTION	67	"      if  ls_ypsx='11' or ls_ypsx2='11'  or ls_ypsx4='11' then 
+"
+F_BF_GETYPXX	FUNCTION	68	"           ls_return:=to_char(arg_ypxh);
+"
+F_BF_GETYPXX	FUNCTION	69	"      elsif ls_ypsx='01' or ls_ypsx2='01' or ls_ypsx4='01' then 
+"
+F_BF_GETYPXX	FUNCTION	70	"           if ll_ypbzl=1  then 
+"
+F_BF_GETYPXX	FUNCTION	71	"              ls_return:=to_char(arg_ypxh);
+"
+F_BF_GETYPXX	FUNCTION	72	"            elsif ll_ypbzl>1 then 
+"
+F_BF_GETYPXX	FUNCTION	73	"                select to_char(fzfl) into ls_return from gy_ypmcggzd where ypxh=arg_ypxh;
+"
+F_BF_GETYPXX	FUNCTION	74	"            end if; 
+"
+F_BF_GETYPXX	FUNCTION	75	"       elsif ls_ypsx='10' or ls_ypsx2='10' or ls_ypsx4='10' then 
+"
+F_BF_GETYPXX	FUNCTION	76	"           select  to_char(ypxh) into ls_return from gy_ypmcggzd  where fzfl=arg_ypxh and
+"
+F_BF_GETYPXX	FUNCTION	77	"                      (substr(ypsx,3,1)='1' or substr(ypsx,6,1)='1'  or substr(ypsx,9,1)='1'   ) 
+"
+F_BF_GETYPXX	FUNCTION	78	"                     and  substr(ypsx,10,1)='0';
+"
+F_BF_GETYPXX	FUNCTION	79	"     end if;       
+"
+F_BF_GETYPXX	FUNCTION	80	"  elsif arg_flag='ykxh' then   
+"
+F_BF_GETYPXX	FUNCTION	81	"     select  fzfl,ypbzl into ll_fzfl,ll_ypbzl from gy_ypmcggzd   where ypxh=arg_ypxh;
+"
+F_BF_GETYPXX	FUNCTION	82	"     if  ll_fzfl>0 then --已撤过
+"
+F_BF_GETYPXX	FUNCTION	83	"        if ll_ypbzl=1 then --已撤过是取小规格
+"
+F_BF_GETYPXX	FUNCTION	84	"           ls_return:=to_char(ll_fzfl);
+"
+F_BF_GETYPXX	FUNCTION	85	"        elsif ll_ypbzl>1 then --已撤过是中间规格
+"
+F_BF_GETYPXX	FUNCTION	86	"           select  fzfl into ll_fzfl from gy_ypmcggzd  where ypxh=ll_fzfl;
+"
+F_BF_GETYPXX	FUNCTION	87	"           ls_return:=to_char(ll_fzfl);
+"
+F_BF_GETYPXX	FUNCTION	88	"        end if;
+"
+F_BF_GETYPXX	FUNCTION	89	"    elsif ll_fzfl is null then  --没撤过
+"
+F_BF_GETYPXX	FUNCTION	90	"           ls_return:=to_char(arg_ypxh);
+"
+F_BF_GETYPXX	FUNCTION	91	"    end if; 
+"
+F_BF_GETYPXX	FUNCTION	92	"  elsif arg_flag='bzbm' then
+"
+F_BF_GETYPXX	FUNCTION	93	"     select bzbm into ls_return from gy_ypmcggzd where ypxh=arg_ypxh;
+"
+F_BF_GETYPXX	FUNCTION	94	"  elsif arg_flag='pfj' then
+"
+F_BF_GETYPXX	FUNCTION	95	"     select to_char(pfj) into ls_return from gy_ypcdjg where ypxh=arg_ypxh and ypcddm=arg_ypcddm  and bmxh is null;
+"
+F_BF_GETYPXX	FUNCTION	96	"  elsif arg_flag='bmmc' then  --取最近一次别名 
+"
+F_BF_GETYPXX	FUNCTION	97	"   select  nvl(ypmc,'') into  ls_return 
+"
+F_BF_GETYPXX	FUNCTION	98	"    from gy_ypcdjg where ypxh=arg_ypxh  and ypcddm=arg_ypcddm  and bmxh =
+"
+F_BF_GETYPXX	FUNCTION	99	"     (select  max(bmxh) from gy_ypcdjg  where ypxh=arg_ypxh  and ypcddm=arg_ypcddm and bmxh>0);
+"
+F_BF_GETYPXX	FUNCTION	100	"  elsif arg_flag='zdxl'  then --2004/05/21 取最大限量
+"
+F_BF_GETYPXX	FUNCTION	101	"      Select  ypbzl,nvl(zdxl,0) into ll_ypbzl,ll_zdxl from gy_ypmcggzd where ypxh= arg_ypxh;
+"
+F_BF_GETYPXX	FUNCTION	102	"       If ll_ypbzl=0 Or ll_ypbzl is null Then 
+"
+F_BF_GETYPXX	FUNCTION	103	"          ll_ypbzl:=1;
+"
+F_BF_GETYPXX	FUNCTION	104	"       End If;  
+"
+F_BF_GETYPXX	FUNCTION	105	"       ls_return:=to_char(ll_zdxl/ll_ypbzl);
+"
+F_BF_GETYPXX	FUNCTION	106	"  elsif arg_flag='zjlx' then 
+"
+F_BF_GETYPXX	FUNCTION	107	"      Select  to_char(zjlx) 
+"
+F_BF_GETYPXX	FUNCTION	108	"        Into   ls_return 
+"
+F_BF_GETYPXX	FUNCTION	109	"        From   gy_ypmcggzd
+"
+F_BF_GETYPXX	FUNCTION	110	"        Where  ypxh=arg_ypxh;
+"
+F_BF_GETYPXX	FUNCTION	111	"   elsif   arg_flag='fjpb' then
+"
+F_BF_GETYPXX	FUNCTION	112	"            Select  fjpb
+"
+F_BF_GETYPXX	FUNCTION	113	"        Into   ls_return 
+"
+F_BF_GETYPXX	FUNCTION	114	"        From   gy_ypmcggzd
+"
+F_BF_GETYPXX	FUNCTION	115	"        Where  ypxh=arg_ypxh;
+"
+F_BF_GETYPXX	FUNCTION	116	"   elsif arg_flag='jx'  then --2017/05/08 取药品剂型
+"
+F_BF_GETYPXX	FUNCTION	117	"      Select  nvl(cname,'') into ls_return from gy_jx a,gy_ypcdjg b where ypxh=arg_ypxh and ypcddm=arg_ypcddm 
+"
+F_BF_GETYPXX	FUNCTION	118	"      and a.bh=nvl(b.zjlx,'0') and rownum=1;
+"
+F_BF_GETYPXX	FUNCTION	119	"
+"
+F_BF_GETYPXX	FUNCTION	120	"  end if;
+"
+F_BF_GETYPXX	FUNCTION	121	"  return(ls_return);
+"
+F_BF_GETYPXX	FUNCTION	122	"  end;
+"
+F_BF_GETYPXX	FUNCTION	123	"
+"
+F_BF_GETYPXX	FUNCTION	124	" 
+"

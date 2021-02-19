@@ -1,0 +1,22 @@
+ISNULL	FUNCTION	1	"FUNCTION ISNULL
+"
+ISNULL	FUNCTION	2	"(field_name in varchar2,val in varchar2)
+"
+ISNULL	FUNCTION	3	"return varchar2
+"
+ISNULL	FUNCTION	4	"as
+"
+ISNULL	FUNCTION	5	"begin
+"
+ISNULL	FUNCTION	6	"   if field_name is null then
+"
+ISNULL	FUNCTION	7	" return (val);
+"
+ISNULL	FUNCTION	8	"   else
+"
+ISNULL	FUNCTION	9	" return (field_name);
+"
+ISNULL	FUNCTION	10	"   end if;
+"
+ISNULL	FUNCTION	11	"end;--ЕНет
+"

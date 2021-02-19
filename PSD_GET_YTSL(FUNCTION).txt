@@ -1,0 +1,41 @@
+PSD_GET_YTSL	FUNCTION	1	"FUNCTION         ""PSD_GET_YTSL"" (indjid varchar2, wzxh1 varchar2,xtxh1 varchar2)
+"
+PSD_GET_YTSL	FUNCTION	2	"  return number as
+"
+PSD_GET_YTSL	FUNCTION	3	"  psdmx_sl   number;
+"
+PSD_GET_YTSL	FUNCTION	4	"begin
+"
+PSD_GET_YTSL	FUNCTION	5	"
+"
+PSD_GET_YTSL	FUNCTION	6	"  select sum(pssl)
+"
+PSD_GET_YTSL	FUNCTION	7	"    into psdmx_sl
+"
+PSD_GET_YTSL	FUNCTION	8	"    from wz_sc_psdmx
+"
+PSD_GET_YTSL	FUNCTION	9	"   where wzxh = wzxh1
+"
+PSD_GET_YTSL	FUNCTION	10	"     and psdid = indjid
+"
+PSD_GET_YTSL	FUNCTION	11	"     and xtxh = xtxh1;
+"
+PSD_GET_YTSL	FUNCTION	12	"
+"
+PSD_GET_YTSL	FUNCTION	13	"  if psdmx_sl is null then
+"
+PSD_GET_YTSL	FUNCTION	14	"
+"
+PSD_GET_YTSL	FUNCTION	15	"    psdmx_sl := 0;
+"
+PSD_GET_YTSL	FUNCTION	16	"  end if;
+"
+PSD_GET_YTSL	FUNCTION	17	"  return psdmx_sl;
+"
+PSD_GET_YTSL	FUNCTION	18	"
+"
+PSD_GET_YTSL	FUNCTION	19	"end;
+"
+PSD_GET_YTSL	FUNCTION	20	"
+"
+PSD_GET_YTSL	FUNCTION	21	 

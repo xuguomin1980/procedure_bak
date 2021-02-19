@@ -1,0 +1,3 @@
+F_YF_ZD	FUNCTION	1	"FUNCTION         ""F_YF_ZD"" (arg_jzxh in number,arg_flag varchar2)  return varchar2   is      ls_return varchar2(100);    begin     if arg_flag = 'zd' then      IF arg_jzxh=null or arg_jzxh=0 Then           ls_return :='';         Else           select nvl(zd,'')  into ls_return from zj_jzxx where jzxh=arg_jzxh;         End IF;  end if;    return(ls_return);    end;  
+"
+F_YF_ZD	FUNCTION	2	 

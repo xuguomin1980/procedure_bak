@@ -1,0 +1,127 @@
+FUN_GET_SYKZH_NEW	FUNCTION	1	"FUNCTION         ""FUN_GET_SYKZH_NEW"" (Arg_Djxh       In Number,
+"
+FUN_GET_SYKZH_NEW	FUNCTION	2	"                                             Arg_Tiaomaid   In Number,
+"
+FUN_GET_SYKZH_NEW	FUNCTION	3	"                                             Arg_Bingqudm   In Varchar2,
+"
+FUN_GET_SYKZH_NEW	FUNCTION	4	"                                             Arg_Znxh       In Number,
+"
+FUN_GET_SYKZH_NEW	FUNCTION	5	"                                             Arg_Returntype In Number)
+"
+FUN_GET_SYKZH_NEW	FUNCTION	6	"  Return Varchar2 Is
+"
+FUN_GET_SYKZH_NEW	FUNCTION	7	"  Result Varchar2(10);
+"
+FUN_GET_SYKZH_NEW	FUNCTION	8	"/*
+"
+FUN_GET_SYKZH_NEW	FUNCTION	9	"函数调用方法，出入YZ_TEMP表的djxh,tiaomaid,ksdm,xh,其中arg_returntype为1时，返回格式为m-n/x-y
+"
+FUN_GET_SYKZH_NEW	FUNCTION	10	"其中m是病人本地总的输液卡张数，n为当前病人的第几张输液卡，x、y用于一组输液里面药品多条，如果一张打不下，则
+"
+FUN_GET_SYKZH_NEW	FUNCTION	11	"分多张打印，其中X为一组药品分为几张输液卡,Y为组内第几张，如果传入的arg_returntype为0，则不区分组内号码，只返回M-N
+"
+FUN_GET_SYKZH_NEW	FUNCTION	12	"M、N的意义和上面相同
+"
+FUN_GET_SYKZH_NEW	FUNCTION	13	"*/
+"
+FUN_GET_SYKZH_NEW	FUNCTION	14	"  n_Count    Number;
+"
+FUN_GET_SYKZH_NEW	FUNCTION	15	"  i          Number;
+"
+FUN_GET_SYKZH_NEW	FUNCTION	16	"  n_Sykznxh  Number;
+"
+FUN_GET_SYKZH_NEW	FUNCTION	17	"  n_Tiaomaid Number;
+"
+FUN_GET_SYKZH_NEW	FUNCTION	18	"  n_Zncount  Number;
+"
+FUN_GET_SYKZH_NEW	FUNCTION	19	"
+"
+FUN_GET_SYKZH_NEW	FUNCTION	20	"  Cursor c_Zh Is
+"
+FUN_GET_SYKZH_NEW	FUNCTION	21	"    Select Xh, Tiaomaid, Rownum
+"
+FUN_GET_SYKZH_NEW	FUNCTION	22	"      From Yz_Temp
+"
+FUN_GET_SYKZH_NEW	FUNCTION	23	"     Where Ksdm = Arg_Bingqudm
+"
+FUN_GET_SYKZH_NEW	FUNCTION	24	"       And Djxh = Arg_Djxh
+"
+FUN_GET_SYKZH_NEW	FUNCTION	25	"     Order By Bz;
+"
+FUN_GET_SYKZH_NEW	FUNCTION	26	"Begin
+"
+FUN_GET_SYKZH_NEW	FUNCTION	27	"  Result := 'aaa';
+"
+FUN_GET_SYKZH_NEW	FUNCTION	28	"  Select Count(*)
+"
+FUN_GET_SYKZH_NEW	FUNCTION	29	"    Into n_Count
+"
+FUN_GET_SYKZH_NEW	FUNCTION	30	"    From Yz_Temp
+"
+FUN_GET_SYKZH_NEW	FUNCTION	31	"   Where Ksdm = Arg_Bingqudm
+"
+FUN_GET_SYKZH_NEW	FUNCTION	32	"     And Djxh = Arg_Djxh;
+"
+FUN_GET_SYKZH_NEW	FUNCTION	33	"  If n_Count = 1 Then
+"
+FUN_GET_SYKZH_NEW	FUNCTION	34	"    Result := '1-1';
+"
+FUN_GET_SYKZH_NEW	FUNCTION	35	"  End If;
+"
+FUN_GET_SYKZH_NEW	FUNCTION	36	"  --如果有多条
+"
+FUN_GET_SYKZH_NEW	FUNCTION	37	"  Open c_Zh;
+"
+FUN_GET_SYKZH_NEW	FUNCTION	38	"  Loop
+"
+FUN_GET_SYKZH_NEW	FUNCTION	39	"    Fetch c_Zh
+"
+FUN_GET_SYKZH_NEW	FUNCTION	40	"      Into n_Sykznxh, n_Tiaomaid, i;
+"
+FUN_GET_SYKZH_NEW	FUNCTION	41	"    Exit When c_Zh%Notfound;
+"
+FUN_GET_SYKZH_NEW	FUNCTION	42	"    If n_Sykznxh = Arg_Znxh And n_Tiaomaid = Arg_Tiaomaid Then
+"
+FUN_GET_SYKZH_NEW	FUNCTION	43	"      If Arg_Returntype = 1 Then
+"
+FUN_GET_SYKZH_NEW	FUNCTION	44	"        --返回类型为1，则如果组内有多条，返回组内序号
+"
+FUN_GET_SYKZH_NEW	FUNCTION	45	"        Select Count(*)
+"
+FUN_GET_SYKZH_NEW	FUNCTION	46	"          Into n_Zncount
+"
+FUN_GET_SYKZH_NEW	FUNCTION	47	"          From Yz_Temp
+"
+FUN_GET_SYKZH_NEW	FUNCTION	48	"         Where Tiaomaid = Arg_Tiaomaid;
+"
+FUN_GET_SYKZH_NEW	FUNCTION	49	"        If n_Zncount > 1 Then
+"
+FUN_GET_SYKZH_NEW	FUNCTION	50	"          Result := To_Char(n_Count) || '-' || To_Char(i) || '/' ||
+"
+FUN_GET_SYKZH_NEW	FUNCTION	51	"                    To_Char(n_Zncount) || '-' || To_Char(Arg_Znxh);
+"
+FUN_GET_SYKZH_NEW	FUNCTION	52	"        Else
+"
+FUN_GET_SYKZH_NEW	FUNCTION	53	"          Result := To_Char(n_Count) || '-' || To_Char(i);
+"
+FUN_GET_SYKZH_NEW	FUNCTION	54	"        End If;
+"
+FUN_GET_SYKZH_NEW	FUNCTION	55	"      Else
+"
+FUN_GET_SYKZH_NEW	FUNCTION	56	"        Result := To_Char(n_Count) || '-' || To_Char(i);
+"
+FUN_GET_SYKZH_NEW	FUNCTION	57	"      End If;
+"
+FUN_GET_SYKZH_NEW	FUNCTION	58	"    End If;
+"
+FUN_GET_SYKZH_NEW	FUNCTION	59	"  End Loop;
+"
+FUN_GET_SYKZH_NEW	FUNCTION	60	"  Close c_Zh;
+"
+FUN_GET_SYKZH_NEW	FUNCTION	61	"  Return(Result);
+"
+FUN_GET_SYKZH_NEW	FUNCTION	62	"End Fun_Get_Sykzh_New;
+"
+FUN_GET_SYKZH_NEW	FUNCTION	63	"
+"
+FUN_GET_SYKZH_NEW	FUNCTION	64	 

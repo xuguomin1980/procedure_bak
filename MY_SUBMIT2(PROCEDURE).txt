@@ -1,0 +1,127 @@
+MY_SUBMIT2	PROCEDURE	1	"PROCEDURE         ""MY_SUBMIT2"" 
+"
+MY_SUBMIT2	PROCEDURE	2	" (arg_xtxh      in  number, 
+"
+MY_SUBMIT2	PROCEDURE	3	"  arg_job_name  in  varchar2, 
+"
+MY_SUBMIT2	PROCEDURE	4	"  arg_what      IN  VARCHAR2,  
+"
+MY_SUBMIT2	PROCEDURE	5	"  arg_date      IN  VARCHAR2 , 
+"
+MY_SUBMIT2	PROCEDURE	6	"  arg_interval  IN  VARCHAR2 DEFAULT 'null', 
+"
+MY_SUBMIT2	PROCEDURE	7	"  arg_dlxh      in  number, 
+"
+MY_SUBMIT2	PROCEDURE	8	"  arg_czgh      in  varchar2, 
+"
+MY_SUBMIT2	PROCEDURE	9	"  arg_ygxm      in  varchar2, 
+"
+MY_SUBMIT2	PROCEDURE	10	"  arg_jqm       in  varchar2)  
+"
+MY_SUBMIT2	PROCEDURE	11	"  as begin  
+"
+MY_SUBMIT2	PROCEDURE	12	"  declare  
+"
+MY_SUBMIT2	PROCEDURE	13	"   ll_job          binary_integer ;  
+"
+MY_SUBMIT2	PROCEDURE	14	"   ld_next_date    date ; 
+"
+MY_SUBMIT2	PROCEDURE	15	"   ld_start_date   date ; 
+"
+MY_SUBMIT2	PROCEDURE	16	"  begin  
+"
+MY_SUBMIT2	PROCEDURE	17	"    if arg_date='sysdate' then  
+"
+MY_SUBMIT2	PROCEDURE	18	"      ld_next_date := sysdate;  
+"
+MY_SUBMIT2	PROCEDURE	19	"    else  
+"
+MY_SUBMIT2	PROCEDURE	20	"      ld_next_date := to_date(arg_date,'yyyy/mm/dd hh24:mi:ss'); 
+"
+MY_SUBMIT2	PROCEDURE	21	"    end if;  
+"
+MY_SUBMIT2	PROCEDURE	22	"    dbms_job.submit(ll_job,arg_what,ld_next_date,arg_interval);  
+"
+MY_SUBMIT2	PROCEDURE	23	" 	 
+"
+MY_SUBMIT2	PROCEDURE	24	" 	if ll_job>0 then 
+"
+MY_SUBMIT2	PROCEDURE	25	"     begin 
+"
+MY_SUBMIT2	PROCEDURE	26	" 		   delete from my_jobs where job=-ll_job; 
+"
+MY_SUBMIT2	PROCEDURE	27	" 	   end; 
+"
+MY_SUBMIT2	PROCEDURE	28	" 	   begin 
+"
+MY_SUBMIT2	PROCEDURE	29	" 			update my_jobs set job=-job,xtxh=-xtxh where job=ll_job; 
+"
+MY_SUBMIT2	PROCEDURE	30	" 		end; 
+"
+MY_SUBMIT2	PROCEDURE	31	" 		--drop table my_jobs; 
+"
+MY_SUBMIT2	PROCEDURE	32	" 		--create table my_jobs 
+"
+MY_SUBMIT2	PROCEDURE	33	" 		-- (xtxh       number(2) not null, 
+"
+MY_SUBMIT2	PROCEDURE	34	" 		--  job        number not null, 
+"
+MY_SUBMIT2	PROCEDURE	35	" 		--  job_name   varchar2(200), 
+"
+MY_SUBMIT2	PROCEDURE	36	" 		--  proc       varchar2(4000), 
+"
+MY_SUBMIT2	PROCEDURE	37	" 		--  INTERVAL   VARCHAR2(200), 
+"
+MY_SUBMIT2	PROCEDURE	38	" 		--  czrq       date, 
+"
+MY_SUBMIT2	PROCEDURE	39	" 		--  czgh       varchar2(5), 
+"
+MY_SUBMIT2	PROCEDURE	40	" 		--  ygxm       varchar2(8), 
+"
+MY_SUBMIT2	PROCEDURE	41	" 		--  jqm        varchar2(200), 
+"
+MY_SUBMIT2	PROCEDURE	42	" 		--  del_date   date, 
+"
+MY_SUBMIT2	PROCEDURE	43	" 		--  start_DATE DATE, 
+"
+MY_SUBMIT2	PROCEDURE	44	" 		--  end_DATE   DATE, 
+"
+MY_SUBMIT2	PROCEDURE	45	" 		--  username   varchar2(30)) 
+"
+MY_SUBMIT2	PROCEDURE	46	" 				  
+"
+MY_SUBMIT2	PROCEDURE	47	" 		 select nvl(last_date,next_date) 
+"
+MY_SUBMIT2	PROCEDURE	48	" 		   into ld_start_date 
+"
+MY_SUBMIT2	PROCEDURE	49	" 		   from user_jobs where job=ll_job; 
+"
+MY_SUBMIT2	PROCEDURE	50	" 		  
+"
+MY_SUBMIT2	PROCEDURE	51	" 		 insert into my_jobs(xtxh,job,job_name, 
+"
+MY_SUBMIT2	PROCEDURE	52	" 					proc,interval, 
+"
+MY_SUBMIT2	PROCEDURE	53	" 					dlxh,czrq,czgh,ygxm,jqm, 
+"
+MY_SUBMIT2	PROCEDURE	54	" 					start_date,username) 
+"
+MY_SUBMIT2	PROCEDURE	55	" 			values(arg_xtxh,ll_job,arg_job_name, 
+"
+MY_SUBMIT2	PROCEDURE	56	" 					 arg_what,arg_interval, 
+"
+MY_SUBMIT2	PROCEDURE	57	" 					arg_dlxh,sysdate,arg_czgh,arg_ygxm,arg_jqm, 
+"
+MY_SUBMIT2	PROCEDURE	58	" 					ld_start_date,user); 
+"
+MY_SUBMIT2	PROCEDURE	59	" 	 end if; 
+"
+MY_SUBMIT2	PROCEDURE	60	"  
+"
+MY_SUBMIT2	PROCEDURE	61	"    commit; 
+"
+MY_SUBMIT2	PROCEDURE	62	"  end; 
+"
+MY_SUBMIT2	PROCEDURE	63	"  end; 
+"
+MY_SUBMIT2	PROCEDURE	64	 

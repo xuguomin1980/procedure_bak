@@ -1,0 +1,65 @@
+CWCX_FYJC	PROCEDURE	1	"PROCEDURE         ""CWCX_FYJC"" as
+"
+CWCX_FYJC	PROCEDURE	2	"in_rq1   date;
+"
+CWCX_FYJC	PROCEDURE	3	"out_code number;
+"
+CWCX_FYJC	PROCEDURE	4	"out_char varchar2(500);
+"
+CWCX_FYJC	PROCEDURE	5	"v_date1 Varchar2(10);
+"
+CWCX_FYJC	PROCEDURE	6	"d_begin date;
+"
+CWCX_FYJC	PROCEDURE	7	"d_end date;
+"
+CWCX_FYJC	PROCEDURE	8	"
+"
+CWCX_FYJC	PROCEDURE	9	"begin
+"
+CWCX_FYJC	PROCEDURE	10	"   select trunc(sysdate) - 1 into in_rq1 from dual; 
+"
+CWCX_FYJC	PROCEDURE	11	"Loop 
+"
+CWCX_FYJC	PROCEDURE	12	"	  pkg_cwcx.prc_zy_fyjc_sqs(in_rq1,out_code,out_char);
+"
+CWCX_FYJC	PROCEDURE	13	"   	pkg_cwcx.prc_zy_fyjc_add(in_rq1,out_code,out_char);
+"
+CWCX_FYJC	PROCEDURE	14	"	  pkg_cwcx.prc_zy_fyjc_add1(in_rq1,out_code,out_char);
+"
+CWCX_FYJC	PROCEDURE	15	"   	pkg_cwcx.prc_zy_fyjc_red(in_rq1,out_code,out_char);
+"
+CWCX_FYJC	PROCEDURE	16	"	  pkg_cwcx.prc_zy_fyjc_red1(in_rq1,out_code,out_char);
+"
+CWCX_FYJC	PROCEDURE	17	"   	pkg_cwcx.prc_zy_zhxx(in_rq1,out_code,out_char);
+"
+CWCX_FYJC	PROCEDURE	18	"	  pkg_cwcx.prc_zy_zhxx1(in_rq1,out_code,out_char);
+"
+CWCX_FYJC	PROCEDURE	19	"	  pkg_cwcx.prc_zy_fyjc_jcs(in_rq1,out_code,out_char);
+"
+CWCX_FYJC	PROCEDURE	20	"  	pkg_cwcx.prc_zy_yjfy_zxks(in_rq1,out_code,out_char);
+"
+CWCX_FYJC	PROCEDURE	21	"	  pkg_cwcx.prc_zy_yjfy_zxks1(in_rq1,out_code,out_char);
+"
+CWCX_FYJC	PROCEDURE	22	"       Select in_rq1+1 into in_rq1 from dual;
+"
+CWCX_FYJC	PROCEDURE	23	"      If in_rq1>=trunc(sysdate) Then 
+"
+CWCX_FYJC	PROCEDURE	24	"         Exit; 
+"
+CWCX_FYJC	PROCEDURE	25	"      End If;
+"
+CWCX_FYJC	PROCEDURE	26	"  End Loop;
+"
+CWCX_FYJC	PROCEDURE	27	"  select to_char(sysdate - 1,'yyyy-mm-dd') into v_date1 from dual;
+"
+CWCX_FYJC	PROCEDURE	28	"  d_begin := to_date(v_date1||' 00:00:00','yyyy-mm-dd hh24:mi:ss');
+"
+CWCX_FYJC	PROCEDURE	29	"  d_end   := to_date(v_date1||' 23:59:59','yyyy-mm-dd hh24:mi:ss');
+"
+CWCX_FYJC	PROCEDURE	30	"
+"
+CWCX_FYJC	PROCEDURE	31	"End;
+"
+CWCX_FYJC	PROCEDURE	32	"
+"
+CWCX_FYJC	PROCEDURE	33	 

@@ -1,0 +1,39 @@
+F_BF_GETYZFY_KC	FUNCTION	1	"FUNCTION         ""F_BF_GETYZFY_KC"" 
+"
+F_BF_GETYZFY_KC	FUNCTION	2	"(p_ypxh in number,p_ypcddm in number,p_xtxh in number)
+"
+F_BF_GETYZFY_KC	FUNCTION	3	"return number
+"
+F_BF_GETYZFY_KC	FUNCTION	4	"is
+"
+F_BF_GETYZFY_KC	FUNCTION	5	"lf_sl  number(10,2);
+"
+F_BF_GETYZFY_KC	FUNCTION	6	"begin
+"
+F_BF_GETYZFY_KC	FUNCTION	7	"select   decode(crkdm,11, - nvl(sum(sl),0),nvl(sum(sl),0))
+"
+F_BF_GETYZFY_KC	FUNCTION	8	"into lf_sl
+"
+F_BF_GETYZFY_KC	FUNCTION	9	"from yf_yzfy_kc
+"
+F_BF_GETYZFY_KC	FUNCTION	10	"where ypxh=p_ypxh
+"
+F_BF_GETYZFY_KC	FUNCTION	11	"  and ypcddm=p_ypcddm
+"
+F_BF_GETYZFY_KC	FUNCTION	12	"  and xtxh=p_xtxh
+"
+F_BF_GETYZFY_KC	FUNCTION	13	"group by crkdm;
+"
+F_BF_GETYZFY_KC	FUNCTION	14	"if ( lf_sl is null)  then
+"
+F_BF_GETYZFY_KC	FUNCTION	15	" lf_sl:=0;
+"
+F_BF_GETYZFY_KC	FUNCTION	16	"end if;
+"
+F_BF_GETYZFY_KC	FUNCTION	17	"return(lf_sl);
+"
+F_BF_GETYZFY_KC	FUNCTION	18	"end ;
+"
+F_BF_GETYZFY_KC	FUNCTION	19	"
+"
+F_BF_GETYZFY_KC	FUNCTION	20	 

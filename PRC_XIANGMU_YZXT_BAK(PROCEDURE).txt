@@ -1,0 +1,2190 @@
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	1	"procedure prc_xiangmu_yzxt_bak(in_jiaoyilx   in varchar2, --交易类型
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	2	"                                                 in_patient_no in number,
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	3	"                                                 in_caozuogh   in varchar2, --操作工号
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	4	"                                                 in_jylsh      in varchar2, --其它参数
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	5	"                                                 out_code      out INTEGER, -- 返回结果 0为执行成功
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	6	"                                                 out_msg       out varchar2) Is
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	7	"
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	8	"  --2021-02-05
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	9	"  ll_count  number;
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	10	"  ll_count2 number;
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	11	"  ll_brlb   number;
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	12	"  ls_show   varchar2(1500);
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	13	"  ls_time   varchar2(20);
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	14	"  v_jzkh    varchar2(50);
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	15	"  v_jzxh    number;
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	16	"
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	17	"  ls_jbdm       varchar2(100);
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	18	"  v_length1     number;
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	19	"  v_length2     number;
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	20	"  v_temp        varchar2(800);
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	21	"  v_data        varchar2(800);
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	22	"  ll_patient_no number;
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	23	"  v_sqlcode_sum number;
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	24	"  v_sl_use      number;
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	25	"  v_count       number;
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	26	"  v_je          number;
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	27	"  v_je1         number;
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	28	"  v_je2         number;
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	29	"  v_ylxh_ct_sum number;
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	30	"
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	31	"  v_ylxh_ct_sum_tcylxh number;
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	32	"  v_ylxh_ct_sum_dj     number;
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	33	"  v_ylmc_ct            varchar2(100);
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	34	"
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	35	"  v_temp2   varchar2(50);
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	36	"  v_temp3   varchar2(50);
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	37	"  v_temp4   varchar2(50);
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	38	"  v_temp5   varchar2(50);
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	39	"  v_curr_ks varchar2(50);
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	40	"begin
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	41	"
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	42	"  --不启用存储过程控制 1=1
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	43	"  --不启用存储过程 1=1
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	44	"  if 1 = 0 then
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	45	"    out_code := 1;
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	46	"    out_msg  := '';
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	47	"    return;
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	48	"  end if;
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	49	"
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	50	"  insert into zy_jiaoyi_v1
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	51	"    (jiaoyilx, caozuogh, jylsh, bz, patient_no)
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	52	"  values
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	53	"    (in_jiaoyilx, in_caozuogh, in_jylsh, 'prc_xiangmu_yzxt', in_patient_no);
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	54	"  if sqlcode = 0 then
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	55	"    commit;
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	56	"  else
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	57	"    rollback;
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	58	"  end if;
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	59	"
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	60	"  --获取 patient_no
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	61	"  if in_jiaoyilx = 'YJ住院' or in_jiaoyilx = '医嘱执行' then
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	62	"  
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	63	"    v_temp := F_GET_VALUE_SPLI(in_jylsh, 'patient_no', '|');
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	64	"    if length(v_temp) > 1 then
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	65	"      select to_number(REGEXP_SUBSTR(v_temp, '[0-9.]+'))
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	66	"        into ll_patient_no
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	67	"        from dual;
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	68	"    end if;
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	69	"  
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	70	"    if ll_patient_no > 0 then
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	71	"      null;
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	72	"    else
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	73	"      if in_patient_no > 0 then
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	74	"        null;
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	75	"      else
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	76	"        out_code := -1;
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	77	"        out_msg  := 'jzxh 传入为空  [prc_xiangmu_yzxt]';
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	78	"        return;
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	79	"      end if;
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	80	"    
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	81	"      select nvl(max(patient_no), 0)
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	82	"        into ll_patient_no
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	83	"        From zy_detail_charge
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	84	"       where jzxh = in_patient_no
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	85	"         and jcfx_date > sysdate - 0.1;
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	86	"      if ll_patient_no = 0 then
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	87	"        out_code := -1;
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	88	"        out_msg  := 'patient_no 传入为空  [prc_xiangmu_yzxt]';
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	89	"        return;
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	90	"      
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	91	"      end if;
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	92	"    
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	93	"    end if;
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	94	"  
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	95	"  end if;
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	96	"
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	97	"  if ll_patient_no > 0 then
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	98	"    null;
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	99	"  else
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	100	"    ll_patient_no := in_patient_no;
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	101	"  end if;
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	102	"
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	103	"  -- t_pass_zy  病案号 放行
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	104	"  if 1 = 1 then
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	105	"    v_count := 0;
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	106	"    select count(bah)
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	107	"      into v_count
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	108	"      From t_pass_zy
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	109	"     where bah in (select bah
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	110	"                     from zy_patient_information
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	111	"                    where patient_no = ll_patient_no)
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	112	"       and czrq > sysdate - 0.1;
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	113	"  
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	114	"    if v_count >= 1 then
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	115	"      out_code := 1;
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	116	"      out_msg  := '';
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	117	"      return;
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	118	"    end if;
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	119	"  
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	120	"  end if;
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	121	"
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	122	"  if 1 = 1 and in_jiaoyilx = '分配床位' then
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	123	"  
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	124	"    select count(distinct(name))
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	125	"      into v_count
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	126	"      From zy_patient_information
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	127	"     where bah in (select bah
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	128	"                     from zy_patient_information
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	129	"                    where patient_No = ll_patient_no)
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	130	"       and admiss_date > sysdate - 14;
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	131	"    if v_count > 1 then
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	132	"      out_code := -1;
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	133	"      out_msg  := '该住院号有不同病人共用,最近14天[prc_xiangmu_yzxt]';
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	134	"      return;
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	135	"    end if;
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	136	"  
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	137	"    select nvl(max(bililx), '0')
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	138	"      into v_temp
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	139	"      from zy_patient_information
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	140	"     where patient_no = ll_patient_no;
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	141	"    if v_temp >= '1' then
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	142	"      null;
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	143	"    else
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	144	"    
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	145	"      select to_char(max(nvl(preout_date, sysdate - 365)), 'yyyy-mm-dd')
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	146	"        into v_temp
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	147	"        From zy_patient_information
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	148	"       where bah in (select bah
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	149	"                       from zy_patient_information
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	150	"                      where patient_no = ll_patient_no);
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	151	"    
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	152	"      select to_char(nvl(admiss_date, sysdate), 'yyyy-mm-dd')
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	153	"        into v_temp2
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	154	"        from zy_patient_information
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	155	"       where patient_no = ll_patient_no;
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	156	"      if v_temp = v_temp2 then
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	157	"      
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	158	"        update zy_patient_information
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	159	"           set bililx = 2
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	160	"         where patient_no = ll_patient_no;
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	161	"        commit;
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	162	"      end if;
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	163	"    
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	164	"      ----
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	165	"    
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	166	"      select nvl(max(bililx), '0')
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	167	"        into v_temp
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	168	"        from zy_patient_information
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	169	"       where patient_no = ll_patient_no;
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	170	"      if v_temp = '0' then
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	171	"      
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	172	"        select count(yjsb)
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	173	"          into v_count
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	174	"          from yj_Yjk1
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	175	"         where jchm IN ('住院尽检', '应检尽检')
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	176	"           and sfsb is not null
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	177	"           and jzxh in (select jiuzhenxh
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	178	"                          from zj_zysqd
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	179	"                         where patient_no = ll_patient_no);
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	180	"      
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	181	"        if v_count > 0 then
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	182	"          /*      select nvl(max(jzkh), '0')
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	183	"           into v_jzkh
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	184	"           from zj_zysqd
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	185	"          where patient_no = ll_patient_no;*/
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	186	"        
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	187	"          if 1 = 1 then
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	188	"            /* select count(yjsb)
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	189	"             into v_count
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	190	"             from yj_Yjk1
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	191	"            where jchm = '应检尽检'
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	192	"              and sfsb is not null
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	193	"              and jzxh = v_jzxh;*/
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	194	"          
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	195	"            if v_count > 0 then
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	196	"              null;
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	197	"            else
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	198	"              out_code := -1;
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	199	"              out_msg  := '未找到该住院记录对应的 应检尽检门诊发票0,请去病人首页修改, 应检尽检操作[prc_xiangmu_yzxt]';
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	200	"              return;
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	201	"            end if;
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	202	"          
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	203	"          else
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	204	"            out_code := -1;
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	205	"            out_msg  := '未找到该住院记录对应的 就诊卡号[prc_xiangmu_yzxt]';
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	206	"            return;
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	207	"          end if;
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	208	"        else
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	209	"          out_code := -1;
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	210	"          out_msg  := '未找到对应的 应检尽检的门诊收费发票,请去病人首页修改, 应检尽检操作[prc_xiangmu_yzxt]';
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	211	"          return;
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	212	"        end if;
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	213	"      
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	214	"      end if;
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	215	"    
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	216	"      -----
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	217	"      /* select nvl(max(jiuzhenxh), 0)
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	218	"       into v_jzxh
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	219	"       from zj_zysqd
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	220	"      where patient_no = ll_patient_no;*/
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	221	"    
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	222	"    end if;
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	223	"  end if;
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	224	"  if in_jiaoyilx = 'YJ住院' or in_jiaoyilx = '医嘱执行' then
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	225	"  
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	226	"    -- ct项目合并  begin  
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	227	"    if 1 = 1 and in_jiaoyilx = 'YJ住院' then
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	228	"    
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	229	"      select count(bah)
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	230	"        into v_count
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	231	"        From zy_patient_information
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	232	"       where patient_no = ll_patient_no
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	233	"         and preout_date is not null;
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	234	"      --预出院计费控制 指定科室
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	235	"      if v_count >= 1 then
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	236	"        select count(patient_no)
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	237	"          into v_count
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	238	"          from zy_detail_charge
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	239	"         where zx_ks in ('3080000', '3080001', '3080002', '2010041',
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	240	"                '2010038', '4010014', '2010086')
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	241	"           and jzxh = in_patient_no
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	242	"           and patient_No = ll_patient_no;
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	243	"        if v_count > 0 then
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	244	"          delete zy_detail_charge
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	245	"           where zx_ks in ('3080000', '3080001', '3080002', '2010041',
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	246	"                  '2010038', '4010014', '2010086')
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	247	"             and jcfx_date > sysdate - 0.1
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	248	"             and jzxh = in_patient_no
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	249	"             and patient_No = ll_patient_no;
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	250	"          if sqlcode = 0 then
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	251	"            commit;
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	252	"          else
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	253	"            rollback;
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	254	"          end if;
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	255	"          out_code := -1;
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	256	"          out_msg  := '病人已经预出院';
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	257	"          return;
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	258	"        end if;
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	259	"      end if;
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	260	"    
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	261	"      select nvl(sum(b.sl * c.xs), 0)
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	262	"        into v_sl_use
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	263	"        From zy_detail_charge b, v_gy_ylsf_ct_0506 c
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	264	"       where b.patient_no = ll_patient_no
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	265	"         and b.jzxh = in_patient_no
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	266	"         and b.charge_code = c.ylxh;
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	267	"    
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	268	"      select count(b.jlxh)
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	269	"        into v_count
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	270	"        From zy_detail_charge b, v_gy_ylsf_ct_0506 c
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	271	"       where b.patient_no = ll_patient_no
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	272	"         and b.jzxh = in_patient_no
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	273	"         and b.charge_code = c.ylxh
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	274	"         and b.fygl > 3;
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	275	"      if v_sl_use >= 2 and v_count > 1 then
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	276	"      
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	277	"        if v_sl_use >= 2 then
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	278	"          v_ylxh_ct_sum        := 15464;
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	279	"          v_ylxh_ct_sum_tcylxh := 31540;
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	280	"          v_ylxh_ct_sum_dj     := 153.00;
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	281	"          v_ylmc_ct            := '螺旋CT平扫（二个部位）';
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	282	"        end if;
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	283	"        if v_sl_use >= 3 then
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	284	"          v_ylxh_ct_sum        := 15465;
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	285	"          v_ylxh_ct_sum_tcylxh := 31539;
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	286	"          v_ylxh_ct_sum_dj     := 189.00;
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	287	"          v_ylmc_ct            := '螺旋CT平扫（≥三个部位）';
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	288	"        end if;
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	289	"        v_sqlcode_sum := 0;
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	290	"      
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	291	"        -- ct_tc
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	292	"      
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	293	"        --ct_add
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	294	"      
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	295	"        update zy_detail_charge
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	296	"           set sl = 0
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	297	"         where patient_no = ll_patient_no
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	298	"           and jzxh = in_patient_no
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	299	"           and charge_code in (select ylxh from v_gy_ylsf_ct_add_0506);
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	300	"        v_sqlcode_sum := v_sqlcode_sum + sqlcode;
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	301	"      
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	302	"        update zy_detail_charge
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	303	"           set sl = 1
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	304	"         where patient_no = ll_patient_no
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	305	"           and jzxh = in_patient_no
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	306	"           and charge_code in (select ylxh from v_gy_ylsf_ct_add_0506)
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	307	"           and rownum = 1;
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	308	"        v_sqlcode_sum := v_sqlcode_sum + sqlcode;
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	309	"      
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	310	"        -- ct_bgd 
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	311	"      
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	312	"        update zy_detail_charge
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	313	"           set sl = 0
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	314	"         where patient_no = ll_patient_no
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	315	"           and jzxh = in_patient_no
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	316	"           and charge_code in (select ylxh from v_gy_ylsf_ctbgd_0506);
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	317	"        v_sqlcode_sum := v_sqlcode_sum + sqlcode;
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	318	"      
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	319	"        update zy_detail_charge
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	320	"           set sl = 1
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	321	"         where patient_no = ll_patient_no
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	322	"           and jzxh = in_patient_no
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	323	"           and charge_code in (select ylxh from v_gy_ylsf_ctbgd_0506)
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	324	"              
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	325	"           and rownum = 1;
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	326	"        v_sqlcode_sum := v_sqlcode_sum + sqlcode;
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	327	"      
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	328	"        --ct 
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	329	"      
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	330	"        update zy_detail_charge
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	331	"           set sl = 0
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	332	"         where patient_no = ll_patient_no
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	333	"           and jzxh = in_patient_no
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	334	"           and charge_code in (select ylxh from v_gy_ylsf_ct_0506);
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	335	"        v_sqlcode_sum := v_sqlcode_sum + sqlcode;
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	336	"      
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	337	"        update zy_detail_charge
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	338	"           set sl          = 1,
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	339	"               charge_code = v_ylxh_ct_sum,
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	340	"               dj          = v_ylxh_ct_sum_dj,
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	341	"               charge_name = v_ylmc_ct
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	342	"         where patient_no = ll_patient_no
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	343	"           and jzxh = in_patient_no
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	344	"           and charge_code in (select ylxh from v_gy_ylsf_ct_0506)
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	345	"              
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	346	"           and rownum = 1;
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	347	"        v_sqlcode_sum := v_sqlcode_sum + sqlcode;
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	348	"      
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	349	"        update zy_detail_charge
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	350	"           set patient_no = ll_patient_no * -1
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	351	"         where patient_no = ll_patient_no
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	352	"           and jzxh = in_patient_no
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	353	"              
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	354	"           and sl = 0;
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	355	"        v_sqlcode_sum := v_sqlcode_sum + sqlcode;
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	356	"      
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	357	"        if v_sqlcode_sum = 0 then
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	358	"          commit;
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	359	"        else
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	360	"          rollback;
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	361	"        
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	362	"          select '合并处理ct项目失败 [prc_xiangmu_yzxt]'
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	363	"            into out_msg
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	364	"            from dual;
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	365	"          out_code := -1;
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	366	"        
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	367	"          return;
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	368	"        
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	369	"        end if;
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	370	"      
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	371	"      end if;
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	372	"    
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	373	"    end if;
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	374	"    -- ct项目合并  end 
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	375	"  
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	376	"    --限儿童 spbh=-10 begin
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	377	"    if 1 = 1 then
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	378	"      out_msg := '';
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	379	"      PRC_YB_CHECK_4('9999', ll_patient_no, out_msg);
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	380	"    
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	381	"      if length(out_msg) > 1 then
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	382	"        out_code := 0;
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	383	"        return;
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	384	"      end if;
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	385	"      PRC_YB_CHECK_4_28('9999', ll_patient_no, out_msg);
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	386	"    
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	387	"      if length(out_msg) > 1 then
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	388	"        out_code := 0;
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	389	"        return;
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	390	"      end if;
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	391	"      PRC_YB_CHECK_4_2190('9999', ll_patient_no, out_msg);
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	392	"    
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	393	"      if length(out_msg) > 1 then
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	394	"        out_code := 0;
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	395	"        return;
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	396	"      end if;
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	397	"    end if;
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	398	"  
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	399	"    --限儿童 spbh=-10 end
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	400	"  
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	401	"  end if;
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	402	"  --  end in_jiaoyilx = 'YJ住院'
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	403	"
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	404	"  if in_jiaoyilx = '预出院' then
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	405	"    if in_patient_no > 0 then
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	406	"      null;
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	407	"    else
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	408	"      ls_show  := 'patient<=0!,[prc_xiangmu_yzxt]';
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	409	"      out_code := -1;
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	410	"      out_msg  := ls_show;
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	411	"      return;
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	412	"    end if;
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	413	"  
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	414	"    -- bah一致,patient_No不一致  gy_charge_interface
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	415	"    if 1 = 1 then
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	416	"      select count(*)
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	417	"        into v_count
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	418	"        From gy_charge_interface
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	419	"       where patientNo <> in_patient_no
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	420	"         and bingrenzyid =
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	421	"             (select bah
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	422	"                from zy_patient_information
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	423	"               where patient_no = in_patient_no)
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	424	"         and chargeDATE > (select admiss_date
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	425	"                             from zy_patient_information
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	426	"                            where patient_no = in_patient_no)
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	427	"         and scrq is null
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	428	"         and chargeDATE > sysdate - 100;
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	429	"      if v_count > 0 then
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	430	"        update gy_charge_interface
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	431	"           set patientNo = in_patient_no
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	432	"         where patientNo <> in_patient_no
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	433	"           and bingrenzyid =
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	434	"               (select bah
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	435	"                  from zy_patient_information
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	436	"                 where patient_no = in_patient_no)
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	437	"           and chargeDATE >
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	438	"               (select admiss_date
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	439	"                  from zy_patient_information
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	440	"                 where patient_no = in_patient_no)
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	441	"           and scrq is null
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	442	"           and chargeDATE > sysdate - 100;
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	443	"        if sqlcode = 0 then
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	444	"          commit;
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	445	"        else
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	446	"          rollback;
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	447	"          ls_show  := '更新失败,费用中间表gy_charge_interface patientno=Patient_no!,[prc_xiangmu_yzxt]';
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	448	"          out_code := -1;
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	449	"          out_msg  := ls_show;
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	450	"          return;
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	451	"        
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	452	"        end if;
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	453	"      end if;
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	454	"    end if;
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	455	"  
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	456	"    --高值耗材核查 begin
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	457	"    IF 1 = 1 THEN
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	458	"    
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	459	"      select nvl(max(ts), ' ')
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	460	"        INTO ls_show
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	461	"        from (select YLXH1 || (select ylmc from gy_ylsf where ylxh = ylxh1) ||
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	462	"                     ' ,  少收了(' || (sl_sb - sl_his) || '), 金额少了' ||
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	463	"                     (je_sb - je_his) || '  ,[prc_xiangmu_yzxt]' ts
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	464	"                From (select patient_No patient_No1,
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	465	"                             ylxh ylxh1,
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	466	"                             sum(sl_his) sl_his,
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	467	"                             sum(sl_sb) sl_sb,
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	468	"                             sum(je_his) je_his,
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	469	"                             sum(je_sb) je_sb
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	470	"                        from (
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	471	"                              
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	472	"                              select to_char(patient_No) patient_No,
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	473	"                                      
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	474	"                                      to_char(charge_code) ylxh,
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	475	"                                      sum(sl) sl_his,
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	476	"                                      sum(dj * sl) je_his,
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	477	"                                      0 sl_sb,
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	478	"                                      0 je_sb
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	479	"                                From zy_detail_charge
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	480	"                               where FYGL in (5, 25)
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	481	"                                 and twice_detail_code in
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	482	"                                     ('SB', 'SC', 'SS', 'bf', 'BF', 'AU')
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	483	"                                 and patient_no = in_patient_no
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	484	"                               group by to_char(patient_No), charge_code
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	485	"                              
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	486	"                              union all
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	487	"                              select patientno patient_No,
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	488	"                                     chargecode ylxh,
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	489	"                                     0 sl_his,
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	490	"                                     0 je_his,
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	491	"                                     sum(amount) sl_sb,
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	492	"                                     sum(amount * price) je_Sb
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	493	"                                From ylsbgl2.gy_charge_equipment
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	494	"                               where price <> 0
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	495	"                                 and patientno = to_char(in_patient_no)
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	496	"                               group by patientno, chargecode)
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	497	"                       group by patient_No, ylxh)
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	498	"               where (sl_his < sl_sb or je_his < je_sb)
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	499	"                 and sl_his >= 0
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	500	"              union all
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	501	"              select ' ' from dual);
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	502	"    
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	503	"      IF ls_show > '0' THEN
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	504	"        out_code := -1;
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	505	"        out_msg  := ls_show;
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	506	"        return;
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	507	"      END IF;
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	508	"    END IF;
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	509	"  
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	510	"    if 2 = 2 then
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	511	"      null;
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	512	"      select nvl(sum(amount * price), 0)
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	513	"        into v_je1
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	514	"        from ylsbgl2.gy_charge_equipment
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	515	"       where patientno = to_char(in_patient_no)
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	516	"         and systemtype = 'SC';
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	517	"      select nvl(SUM(dj * sl), 0)
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	518	"        into v_je2
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	519	"        From zy_detail_charge
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	520	"       where patient_No = in_patient_no
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	521	"         and twice_detail_code = 'SC';
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	522	"      if v_je1 = v_je2 then
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	523	"        null;
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	524	"      else
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	525	"        select '[prc_xiangmu_yzxt]高值耗材计费不一致,gy_charge_equipmen:' || v_je1 ||
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	526	"               ' ,zy_detail_charge:' || v_je2
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	527	"          into ls_show
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	528	"          from dual;
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	529	"        out_code := -1;
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	530	"        out_msg  := ls_show;
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	531	"        return;
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	532	"      
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	533	"      end if;
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	534	"    
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	535	"    end if;
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	536	"  
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	537	"    --高值耗材核查 end
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	538	"  
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	539	"    --有费用未记账上传
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	540	"    if 1 = 1 then
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	541	"      select count(*)
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	542	"        into ll_count
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	543	"        From gy_charge_interface
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	544	"       where bingrenzyid = (select bah
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	545	"                              from zy_patient_information
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	546	"                             where patient_no = in_patient_no
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	547	"                               and nvl(sendflag, 0) = 0);
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	548	"    
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	549	"      if ll_count > 0 then
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	550	"        ls_show := '有费用未记账上传,gy_charge_interface!,[prc_xiangmu_yzxt]';
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	551	"      
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	552	"        out_code := -1;
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	553	"        out_msg  := ls_show;
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	554	"        return;
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	555	"      
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	556	"      end if;
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	557	"    end if;
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	558	"    --有费用未记账上传 end 
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	559	"  
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	560	"    --有未做检查
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	561	"    if 1 = 1 then
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	562	"      select count(*)
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	563	"        INTO ll_count
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	564	"        from yz_jcsqd a, radinfo.eisstudies@radinfo t
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	565	"       where a.brxh = 922579
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	566	"         and to_char(jcdxh) = t.requestelectronic
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	567	"         and (t.studiesstatus = 50 or t.studiesstatus = 80)
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	568	"         and t.studiesdate > '20201101'
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	569	"         and t.admissionsource = 10
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	570	"         and a.status = 4
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	571	"         and rownum = 1;
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	572	"    
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	573	"      if ll_count > 0 then
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	574	"        ls_show := '有检查未做,yz_jcsqd!,[prc_xiangmu_yzxt]，请撤销该检查医嘱,';
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	575	"      
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	576	"        out_code := -1;
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	577	"        out_msg  := ls_show;
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	578	"        return;
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	579	"      
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	580	"      end if;
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	581	"    end if;
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	582	"    --end 有未做检查
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	583	"    ---新冠 核酸检测收费
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	584	"    if 1 = 1 then
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	585	"    
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	586	"      Select nvl(Sum(dj * sl), 0)
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	587	"        into v_je
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	588	"        From zy_detail_charge
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	589	"       Where charge_code in (select ylxh From v_yslf_xingguan)
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	590	"         and twice_detail_code = 'ZY'
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	591	"         and js_no = 0
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	592	"         and patient_no = in_patient_no;
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	593	"    
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	594	"      if v_je <> 0 then
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	595	"      
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	596	"        /*     update zy_detail_charge
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	597	"           set patient_no = patient_no * -1
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	598	"         where
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	599	"        --charge_code in (31509, 31510, 31511)  and 
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	600	"         charge_code in (select ylxh From v_yslf_xingguan)
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	601	"         and twice_detail_code = 'ZY'
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	602	"         and js_no = 0
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	603	"         and jcfx_date >= to_date('20200730', 'yyyymmdd')
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	604	"         and patient_No = in_patient_no;
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	605	"        commit;
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	606	"        Select nvl(Sum(dj * sl), 0)
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	607	"          into v_je
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	608	"          From zy_detail_charge
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	609	"         Where charge_code in (select ylxh From v_yslf_xingguan)
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	610	"           and js_no = 0
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	611	"           and twice_detail_code = 'ZY'
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	612	"           and patient_no = in_patient_no;*/
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	613	"        if v_je <> 0 then
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	614	"        
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	615	"          select '存在 新冠检测收费:' ||
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	616	"                 '请处理,[prc_xiangmu_yzxt] twice_detail_code =ZY'
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	617	"            into out_msg
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	618	"            from dual;
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	619	"          out_code := -1;
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	620	"          return;
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	621	"        end if;
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	622	"      end if;
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	623	"    
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	624	"    end if;
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	625	"    ---end 核酸检测收费
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	626	"  
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	627	"    --预出院当天不能收气垫床加收  不能收高危压疮防范护理
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	628	"    if 1 = 1 then
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	629	"      /*  Select Sum(sl)
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	630	"       Into ll_count
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	631	"       From zy_detail_charge
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	632	"      Where charge_code in (14433)
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	633	"        and charge_date >= trunc(sysdate)
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	634	"        and patient_no = in_patient_no;*/
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	635	"    
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	636	"      select count(*)
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	637	"        into ll_count
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	638	"        From zy_patient_information
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	639	"       where patient_No = in_patient_no
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	640	"         and nvl(cwfp_date, sysdate) > sysdate - 1;
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	641	"    
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	642	"      if ll_count = 0 then
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	643	"        select nvl(to_char(wm_concat(charge_name || ',当天计费:' || sl)),
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	644	"                   '')
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	645	"          into ls_show
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	646	"          from (Select patient_No, charge_name, Sum(sl) sl
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	647	"                  From zy_detail_charge
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	648	"                 Where charge_code in
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	649	"                       (select ylxh
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	650	"                          from gy_ylsf
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	651	"                         where nvl(substr(ypsx, 1, 1), '0') = '1')
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	652	"                   and charge_date >= trunc(sysdate)
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	653	"                   and patient_no = in_patient_no
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	654	"                 group by patient_No, charge_name
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	655	"                having(Sum(sl) >= 1));
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	656	"      
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	657	"        if length(ls_show) > 1 then
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	658	"          select '请退费,' || ls_show || '[prc_xiangmu_yzxt]'
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	659	"            into out_msg
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	660	"            from dual;
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	661	"          out_code := -1;
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	662	"          return;
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	663	"        end if;
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	664	"      
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	665	"      end if;
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	666	"    
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	667	"      /* Select Sum(sl)
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	668	"        Into ll_count
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	669	"        From zy_detail_charge
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	670	"       Where charge_code in (22479)
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	671	"         and charge_date >= trunc(sysdate)
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	672	"         and patient_no = in_patient_no;
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	673	"      
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	674	"      if ll_count > 0 then
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	675	"      
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	676	"        ls_show  := '[prc_xiangmu_yzxt]预出院当天不能收高危压疮防范护理,已收:' ||
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	677	"                    to_char(ll_count);
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	678	"        out_code := -1;
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	679	"        out_msg  := ls_show;
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	680	"        return;
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	681	"      end if;*/
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	682	"    
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	683	"    end if;
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	684	"    ----end  预出院当天不能收气垫床加收  不能收高危压疮防范护理
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	685	"  
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	686	"    -- 拆线 13012,15423,15424,15422
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	687	"    --换药 11310,11311,13470,13825,11309,18442,20188,22522,22523,22524
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	688	"    --当天不能同时收
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	689	"    if 1 = 1 then
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	690	"      Select Sum(sl)
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	691	"        Into ll_count
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	692	"        From zy_detail_charge
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	693	"       Where charge_code in (15423, 15424, 15422)
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	694	"         and charge_date >= trunc(sysdate)
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	695	"         and patient_no = in_patient_no;
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	696	"    
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	697	"      if ll_count > 0 then
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	698	"        Select Sum(sl)
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	699	"          Into ll_count2
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	700	"          From zy_detail_charge
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	701	"         Where charge_code in (11310, 11311, 11309)
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	702	"           and charge_date >= trunc(sysdate)
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	703	"           and patient_no = in_patient_no;
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	704	"      
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	705	"        if ll_count2 > 0 then
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	706	"          ls_show  := '[prc_xiangmu_yzxt]预出院当天不能同时收,已收拆线:' ||
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	707	"                      to_char(ll_count) || ',换药:' || to_char(ll_count2);
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	708	"          out_code := -1;
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	709	"          out_msg  := ls_show;
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	710	"          return;
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	711	"        end if;
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	712	"      
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	713	"      end if;
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	714	"    end if;
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	715	"    --end 当天不能同时收
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	716	"  
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	717	"    --几个科室不能收 高危压疮防范护理
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	718	"    if 0 = 1 then
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	719	"      Select Sum(sl)
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	720	"        Into ll_count
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	721	"        From zy_detail_charge
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	722	"       Where zx_ks in ('2250012', '2250011')
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	723	"         and charge_code in (22479)
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	724	"         and patient_no = in_patient_no;
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	725	"    
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	726	"      if ll_count > 0 then
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	727	"      
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	728	"        Select WM_CONCAT(to_char(charge_date, 'yyyy-mm-dd') || charge_name ||
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	729	"                         ' 收费数量:' || sum(sl) || ' ;')
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	730	"          into ls_show
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	731	"          From zy_detail_charge
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	732	"         Where zx_ks in ('2250012', '2250011')
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	733	"           and charge_code in (22479)
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	734	"           and patient_no = in_patient_no
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	735	"         group by to_char(charge_date, 'yyyy-mm-dd');
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	736	"      
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	737	"        --return '心内一,心内二,眼科,耳鼻喉科 不能收高危压疮防范护理,已收:'||to_char(ll_count)||' 请退费';
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	738	"        -- return ls_show;
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	739	"        out_code := -1;
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	740	"        select ls_show || ',[prc_xiangmu_yzxt]' into out_msg from dual;
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	741	"        return;
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	742	"      
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	743	"      end if;
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	744	"    end if;
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	745	"    --end 几个科室不能收 高危压疮防范护理
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	746	"  
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	747	"    --物价规则审核
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	748	"    if 1 = 1 then
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	749	"    
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	750	"      select nvl(max(bz), ' ')
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	751	"        into ls_show
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	752	"        from temp_lock
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	753	"       where patient_no = in_patient_no;
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	754	"    
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	755	"      if ls_show > ' ' then
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	756	"        select ls_show || '[prc_xiangmu_yzxt]' into ls_show from dual;
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	757	"        out_code := -1;
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	758	"        out_msg  := ls_show;
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	759	"        return;
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	760	"      end if;
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	761	"    
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	762	"    end if;
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	763	"  
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	764	"    --'08' - '17' 上班时间进行控制
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	765	"    --select to_char(sysdate, 'hh24') into ls_time from dual;
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	766	"    if 1 = 1 then
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	767	"      null;
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	768	"      select brlb
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	769	"        into ll_brlb
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	770	"        from zy_patient_information
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	771	"       where patient_no = in_patient_no;
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	772	"    
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	773	"      /*    -- 异地医保 gfbz调整
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	774	"      if ll_brlb = 99 then
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	775	"        update zy_detail_charge
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	776	"           set gfbz = 0
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	777	"         where scrq < sysdate - 30
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	778	"           and gfbz = 1
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	779	"           and patient_No = in_patient_no;
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	780	"        commit;
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	781	"      end if;*/
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	782	"    
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	783	"      -- 病人icd10诊断必须录入
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	784	"      if 1 = 0 then
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	785	"      
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	786	"        SELECT count(*)
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	787	"          into ll_count
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	788	"          From v_yb_jbml_9997
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	789	"         Where substr(icd10, 1, 4) in
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	790	"               (SELECT substr(icd10, 1, 4)
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	791	"                  From v_bl_bingrenzdqk
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	792	"                 Where bingrenid = in_patient_no
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	793	"                   And zhenduanlx In (2, 3, 4)
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	794	"                   And icd10 Is Not Null);
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	795	"        if ll_count > 0 then
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	796	"          /*      SELECT jbmc || '<' || jbdm || '>'
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	797	"            into ls_jbdm
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	798	"            From v_yb_jbml_9997
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	799	"           Where substr(icd10, 1, 4) in
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	800	"                 (SELECT substr(icd10, 1, 4)
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	801	"                    From v_bl_bingrenzdqk
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	802	"                   Where bingrenid = in_patient_no
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	803	"                     And zhenduanlx In (2)
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	804	"                     And icd10 Is Not Null)
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	805	"             and rownum = 1;
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	806	"          update zy_patient_information
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	807	"             set out_diag_name = ls_jbdm
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	808	"           where patient_no = in_patient_no
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	809	"             and js_No = 0;
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	810	"          commit;
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	811	"          ll_count := 0;*/
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	812	"          null;
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	813	"        else
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	814	"          ls_show  := '医保病人  出院诊断(icd10) 不能为空，请联系出院科室，填写完整诊断!';
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	815	"          out_code := -1;
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	816	"          out_msg  := ls_show;
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	817	"          return;
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	818	"        end if;
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	819	"      end if;
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	820	"      -- end 病人icd10诊断必须录入
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	821	"    
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	822	"      -- 医保病人上传明细必须全部上传
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	823	"      if 1 = 1 then
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	824	"        Select nvl(count(b.patient_No), 0)
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	825	"          Into ll_count
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	826	"          From zy_detail_charge a, zy_patient_information b
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	827	"         Where a.patient_No = b.patient_No
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	828	"           and a.js_No = b.js_No
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	829	"           and (to_char(a.scrq, 'yyyy-mm-dd') = '1900-01-01' or
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	830	"               a.scrq is null)
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	831	"           and instr(nvl(a.ybdm, '0'), '生活费') = 0
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	832	"           and b.brlb = 97
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	833	"           and a.patient_no = in_patient_no
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	834	"           AND a.infant_flag = 0;
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	835	"      
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	836	"        if ll_count > 0 then
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	837	"          -- Return '';
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	838	"          ls_show  := '该医保病人费用明细还未全部上传,[prc_xiangmu_yzxt]';
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	839	"          out_code := -1;
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	840	"          out_msg  := ls_show;
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	841	"          return;
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	842	"        end if;
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	843	"      end if;
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	844	"    
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	845	"      -- end 医保病人上传明细必须全部上传
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	846	"      --判断数量小于0
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	847	"      if 1 = 1 then
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	848	"        select count(charge_name || '   数量为  ' || sum(sl))
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	849	"          into ll_count
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	850	"          From zy_detail_charge
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	851	"         where patient_No = in_patient_no
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	852	"           and fygl > 3
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	853	"         group by charge_name
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	854	"        having sum(sl) < 0;
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	855	"        if ll_count > 0 then
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	856	"          select min(charge_name || '   数量为  ' || sum(sl) ||
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	857	"                     '[prc_xiangmu_yzxt]')
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	858	"            into ls_show
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	859	"            From zy_detail_charge
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	860	"           where patient_No = in_patient_no
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	861	"             and fygl > 3
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	862	"           group by charge_name
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	863	"          having sum(sl) < 0;
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	864	"        
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	865	"          out_code := -1;
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	866	"          out_msg  := ls_show;
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	867	"          return;
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	868	"        
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	869	"        end if;
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	870	"      end if;
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	871	"      --end 判断数量小于0
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	872	"    
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	873	"      --未收床位费 护理费 核查  
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	874	"      if 1 = 1 then
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	875	"      
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	876	"        select to_char(nvl(cwfp_date, sysdate), 'yyyy-mm-dd'),
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	877	"               to_char(nvl(preout_date, sysdate), 'yyyy-mm-dd'),
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	878	"               to_char(sysdate, 'yyyy-mm-dd'),
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	879	"               to_char(sysdate - 1, 'yyyy-mm-dd'),
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	880	"               nvl(curr_ks, '')
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	881	"          into v_temp2, v_temp3, v_temp4, v_temp5, v_curr_ks
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	882	"          From zy_patient_information
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	883	"         where patient_no = in_patient_no;
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	884	"        --当天住院出院
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	885	"        if v_temp2 = v_temp3 or v_temp2 = v_temp4 or v_temp2 = v_temp5 then
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	886	"          null;
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	887	"        else
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	888	"          ----2110001   新生儿科 不收护理费
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	889	"          --2020018 ,2050001  ICU 不收护理费 床位费
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	890	"          if v_curr_ks <> '2020018' and v_curr_ks <> '2050001' then
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	891	"            select count(*)
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	892	"              into v_count
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	893	"              from zy_detail_charge
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	894	"             where fygl = 18
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	895	"               and js_no = 0
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	896	"               and twice_detail_code = 'AU'
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	897	"               and patient_no = in_patient_no;
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	898	"            if v_count = 0 then
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	899	"              select count(*)
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	900	"                into v_count
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	901	"                from zy_detail_charge
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	902	"               where sl <> 0
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	903	"                 and fygl = 18
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	904	"                 and js_no = 0
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	905	"                 and jcfx_date > sysdate - 1
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	906	"                 and patient_no = in_patient_no;
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	907	"              if v_count = 0 then
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	908	"              
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	909	"                ls_show  := '没有自动滚收的床位费记录,[prc_xiangmu_yzxt]bed';
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	910	"                out_code := -1;
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	911	"                out_msg  := ls_show;
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	912	"                return;
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	913	"              end if;
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	914	"            end if;
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	915	"          end if;
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	916	"        
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	917	"          if v_curr_ks <> '2020018' and v_curr_ks <> '2050001' and
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	918	"             v_curr_ks <> '2110001' then
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	919	"            select count(*)
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	920	"              into v_count
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	921	"              from zy_detail_charge
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	922	"             where fygl = 26
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	923	"               and js_no = 0
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	924	"               and twice_detail_code = 'AU'
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	925	"               and patient_no = in_patient_no;
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	926	"            if v_count = 0 then
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	927	"              select count(*)
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	928	"                into v_count
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	929	"                from zy_detail_charge
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	930	"               where sl <> 0
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	931	"                 and fygl = 26
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	932	"                 and js_no = 0
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	933	"                 and jcfx_date > sysdate - 5
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	934	"                 and patient_no = in_patient_no;
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	935	"              if v_count = 0 then
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	936	"                ls_show  := '没有自动滚收的护理费记录,[prc_xiangmu_yzxt]bed';
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	937	"                out_code := -1;
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	938	"                out_msg  := ls_show;
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	939	"                return;
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	940	"              end if;
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	941	"            end if;
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	942	"          end if;
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	943	"        end if;
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	944	"      end if;
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	945	"      --end 未收床位费 护理费 核查 
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	946	"    
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	947	"      --判断物价违规
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	948	"      if 2 = 2 then
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	949	"      
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	950	"        PRC_YB_CHECK_ZY('0', in_patient_no, v_temp2);
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	951	"      
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	952	"        select count(*)
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	953	"          into ll_count
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	954	"          From yb_znshgz_zybr
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	955	"         where bz like '%*%'
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	956	"           and patient_No = in_patient_no;
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	957	"      
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	958	"        if ll_count > 0 then
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	959	"        
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	960	"          /*   select count(*)
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	961	"           into ll_count
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	962	"           From yb_znshgz_zybr
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	963	"          where bz like '%*%'
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	964	"            and patient_No = in_patient_no;*/
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	965	"          if ll_count > 0 then
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	966	"            select min(substr('[prc_xiangmu_yzxt]请点击 物价核查 按钮 ，查看处理带*的项目，' || bz,
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	967	"                              1,
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	968	"                              1200))
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	969	"              into ls_show
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	970	"              From yb_znshgz_zybr
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	971	"             where bz like '%*%'
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	972	"               and patient_No = in_patient_no;
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	973	"            out_code := -1;
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	974	"            out_msg  := ls_show;
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	975	"            return;
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	976	"          end if;
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	977	"        end if;
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	978	"      
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	979	"      end if;
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	980	"      --end 判断物价违规
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	981	"    
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	982	"      --预出院当天对部分项目进行退费v_ylsf_curr_cut
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	983	"      if 1 = 0 then
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	984	"        insert into zy_detail_charge
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	985	"          (jlxh,
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	986	"           patient_no,
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	987	"           js_no,
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	988	"           infant_flag,
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	989	"           charge_code,
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	990	"           charge_name,
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	991	"           fygl,
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	992	"           twice_detail_code,
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	993	"           twice_detail_id,
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	994	"           charge_date,
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	995	"           sl,
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	996	"           dj,
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	997	"           self_percent,
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	998	"           ys_code,
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	999	"           zx_ks,
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	1000	"           curr_ks,
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	1001	"           curr_bed,
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	1002	"           borrow_flag,
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	1003	"           borrow_ks,
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	1004	"           borrow_percent,
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	1005	"           op_id,
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	1006	"           fhr,
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	1007	"           ypkz,
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	1008	"           gfbz,
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	1009	"           curr_bq,
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	1010	"           group_code,
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	1011	"           start_date,
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	1012	"           jtbf_flag,
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	1013	"           bqdm,
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	1014	"           jzxh,
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	1015	"           jcfx_date,
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	1016	"           jcfx_id,
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	1017	"           scrq,
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	1018	"           zzys,
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	1019	"           zlyppb,
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	1020	"           tcdm,
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	1021	"           je,
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	1022	"           zlje,
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	1023	"           zfje,
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	1024	"           csbz,
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	1025	"           jiagelb,
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	1026	"           yibaoysxmxh
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	1027	"           
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	1028	"           )
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	1029	"          select zy_detail_charge_jlxh.nextval,
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	1030	"                 patient_no,
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	1031	"                 js_no,
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	1032	"                 infant_flag,
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	1033	"                 charge_code,
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	1034	"                 charge_name,
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	1035	"                 fygl,
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	1036	"                 twice_detail_code,
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	1037	"                 twice_detail_id,
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	1038	"                 sysdate,
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	1039	"                 sl * -1,
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	1040	"                 dj * -1,
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	1041	"                 self_percent,
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	1042	"                 ys_code,
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	1043	"                 zx_ks,
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	1044	"                 curr_ks,
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	1045	"                 curr_bed,
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	1046	"                 borrow_flag,
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	1047	"                 borrow_ks,
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	1048	"                 borrow_percent,
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	1049	"                 'DBA',
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	1050	"                 'DBA',
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	1051	"                 ypkz,
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	1052	"                 gfbz,
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	1053	"                 curr_bq,
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	1054	"                 group_code,
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	1055	"                 start_date,
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	1056	"                 jtbf_flag,
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	1057	"                 bqdm,
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	1058	"                 jzxh,
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	1059	"                 jcfx_date,
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	1060	"                 jcfx_id,
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	1061	"                 scrq,
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	1062	"                 zzys,
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	1063	"                 zlyppb,
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	1064	"                 tcdm,
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	1065	"                 je * -1,
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	1066	"                 zlje * -1,
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	1067	"                 zfje * -1,
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	1068	"                 csbz,
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	1069	"                 jiagelb,
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	1070	"                 yibaoysxmxh
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	1071	"            from zy_detail_charge
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	1072	"           where charge_code in (select ylxh from v_ylsf_curr_cut)
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	1073	"             and charge_date >= trunc(sysdate)
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	1074	"             and js_no = 0
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	1075	"             and patient_no = in_patient_no;
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	1076	"        if sqlcode = 0 then
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	1077	"          COMMIT;
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	1078	"        else
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	1079	"          rollback;
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	1080	"        end if;
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	1081	"      
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	1082	"      end if;
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	1083	"    
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	1084	"      -- end 预出院当天对部分项目进行退费v_ylsf_curr_cut
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	1085	"    
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	1086	"    end if;
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	1087	"  
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	1088	"  end if;
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	1089	"  --  end in_jiaoyilx ='预出院' 
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	1090	"
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	1091	"  out_code := 1;
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	1092	"  out_msg  := '';
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	1093	"  return;
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	1094	"
+"
+PRC_XIANGMU_YZXT_BAK	PROCEDURE	1095	"End;
+"

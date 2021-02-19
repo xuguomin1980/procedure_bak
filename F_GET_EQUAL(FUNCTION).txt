@@ -1,0 +1,44 @@
+F_GET_EQUAL	FUNCTION	1	"function f_get_equal(str1 in varchar2,
+"
+F_GET_EQUAL	FUNCTION	2	"                                       str2 in varchar2,
+"
+F_GET_EQUAL	FUNCTION	3	"                                       str3 in varchar2) return varchar2 is
+"
+F_GET_EQUAL	FUNCTION	4	"  Result varchar2(500);
+"
+F_GET_EQUAL	FUNCTION	5	"  ls1 varchar2(4000);
+"
+F_GET_EQUAL	FUNCTION	6	"  ls2 varchar2(200);
+"
+F_GET_EQUAL	FUNCTION	7	"  ls3 varchar2(50);
+"
+F_GET_EQUAL	FUNCTION	8	"begin
+"
+F_GET_EQUAL	FUNCTION	9	"  ls1:=Upper(str1);
+"
+F_GET_EQUAL	FUNCTION	10	"  ls2:=Upper(str2);
+"
+F_GET_EQUAL	FUNCTION	11	"  ls3:=Upper(str3);
+"
+F_GET_EQUAL	FUNCTION	12	"  select decode(instr(ls1, ls2),
+"
+F_GET_EQUAL	FUNCTION	13	"                0,
+"
+F_GET_EQUAL	FUNCTION	14	"                '',
+"
+F_GET_EQUAL	FUNCTION	15	"                substr(ls1,
+"
+F_GET_EQUAL	FUNCTION	16	"                       instr(ls1, ls2) + length(ls2),
+"
+F_GET_EQUAL	FUNCTION	17	"                       instr(ls1, ls3, instr(ls1, ls2)) -
+"
+F_GET_EQUAL	FUNCTION	18	"                       (instr(ls1, ls2) + length(ls2))))
+"
+F_GET_EQUAL	FUNCTION	19	"    Into Result
+"
+F_GET_EQUAL	FUNCTION	20	"    From Dual;
+"
+F_GET_EQUAL	FUNCTION	21	"  return(Result);
+"
+F_GET_EQUAL	FUNCTION	22	"end f_get_equal;
+"

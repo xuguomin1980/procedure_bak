@@ -1,0 +1,167 @@
+F_YK_GETYPSX	FUNCTION	1	"FUNCTION         ""F_YK_GETYPSX"" 
+"
+F_YK_GETYPSX	FUNCTION	2	"(arg_ypxh in number,arg_ypcddm in number,arg_parm in varchar2)
+"
+F_YK_GETYPSX	FUNCTION	3	"return number
+"
+F_YK_GETYPSX	FUNCTION	4	"is
+"
+F_YK_GETYPSX	FUNCTION	5	"l_tmp number(10,0);
+"
+F_YK_GETYPSX	FUNCTION	6	"ret number(1,0);
+"
+F_YK_GETYPSX	FUNCTION	7	"--得到药品是否满足特殊属性
+"
+F_YK_GETYPSX	FUNCTION	8	"--返回：1 是 0 否
+"
+F_YK_GETYPSX	FUNCTION	9	"begin
+"
+F_YK_GETYPSX	FUNCTION	10	"ret := 0 ;
+"
+F_YK_GETYPSX	FUNCTION	11	"if arg_parm = '普通' then
+"
+F_YK_GETYPSX	FUNCTION	12	" select tsypyb into l_tmp from gy_ypmcggzd where ypxh = arg_ypxh ;
+"
+F_YK_GETYPSX	FUNCTION	13	" if l_tmp = 0 then
+"
+F_YK_GETYPSX	FUNCTION	14	"  ret := 1;
+"
+F_YK_GETYPSX	FUNCTION	15	" end if ;
+"
+F_YK_GETYPSX	FUNCTION	16	"elsif arg_parm = '毒性药品' then
+"
+F_YK_GETYPSX	FUNCTION	17	" select tsypyb into l_tmp from gy_ypmcggzd where ypxh = arg_ypxh ;
+"
+F_YK_GETYPSX	FUNCTION	18	" if l_tmp = 1 then
+"
+F_YK_GETYPSX	FUNCTION	19	"  ret := 1;
+"
+F_YK_GETYPSX	FUNCTION	20	" end if ;
+"
+F_YK_GETYPSX	FUNCTION	21	"elsif arg_parm = '麻醉品' then
+"
+F_YK_GETYPSX	FUNCTION	22	" select tsypyb into l_tmp from gy_ypmcggzd where ypxh = arg_ypxh ;
+"
+F_YK_GETYPSX	FUNCTION	23	" if l_tmp = 2 then
+"
+F_YK_GETYPSX	FUNCTION	24	"  ret := 1;
+"
+F_YK_GETYPSX	FUNCTION	25	" end if ;
+"
+F_YK_GETYPSX	FUNCTION	26	"elsif arg_parm = '精神制剂1' then
+"
+F_YK_GETYPSX	FUNCTION	27	" select tsypyb into l_tmp from gy_ypmcggzd where ypxh = arg_ypxh ;
+"
+F_YK_GETYPSX	FUNCTION	28	" if l_tmp = 3 then
+"
+F_YK_GETYPSX	FUNCTION	29	"  ret := 1;
+"
+F_YK_GETYPSX	FUNCTION	30	" end if ;
+"
+F_YK_GETYPSX	FUNCTION	31	"elsif arg_parm = '精神制剂2' then
+"
+F_YK_GETYPSX	FUNCTION	32	" select tsypyb into l_tmp from gy_ypmcggzd where ypxh = arg_ypxh ;
+"
+F_YK_GETYPSX	FUNCTION	33	" if l_tmp = 5 then
+"
+F_YK_GETYPSX	FUNCTION	34	"  ret := 1;
+"
+F_YK_GETYPSX	FUNCTION	35	" end if ;
+"
+F_YK_GETYPSX	FUNCTION	36	"elsif arg_parm = '贵重药品' then
+"
+F_YK_GETYPSX	FUNCTION	37	" select tsypyb into l_tmp from gy_ypmcggzd where ypxh = arg_ypxh ;
+"
+F_YK_GETYPSX	FUNCTION	38	" if l_tmp = 4 then
+"
+F_YK_GETYPSX	FUNCTION	39	"  ret := 1;
+"
+F_YK_GETYPSX	FUNCTION	40	" end if ;
+"
+F_YK_GETYPSX	FUNCTION	41	"elsif arg_parm = '贵重常用' then
+"
+F_YK_GETYPSX	FUNCTION	42	" select tsypyb into l_tmp from gy_ypmcggzd where ypxh = arg_ypxh ;
+"
+F_YK_GETYPSX	FUNCTION	43	" if l_tmp = 6 then
+"
+F_YK_GETYPSX	FUNCTION	44	"  ret := 1;
+"
+F_YK_GETYPSX	FUNCTION	45	" end if ;
+"
+F_YK_GETYPSX	FUNCTION	46	"elsif arg_parm = '保健品' then
+"
+F_YK_GETYPSX	FUNCTION	47	" select tsypyb into l_tmp from gy_ypmcggzd where ypxh = arg_ypxh ;
+"
+F_YK_GETYPSX	FUNCTION	48	" if l_tmp = 7 then
+"
+F_YK_GETYPSX	FUNCTION	49	"  ret := 1;
+"
+F_YK_GETYPSX	FUNCTION	50	" end if ;
+"
+F_YK_GETYPSX	FUNCTION	51	"elsif arg_parm = '预备制剂' then
+"
+F_YK_GETYPSX	FUNCTION	52	" select tsypyb into l_tmp from gy_ypmcggzd where ypxh = arg_ypxh ;
+"
+F_YK_GETYPSX	FUNCTION	53	" if l_tmp = 8 then
+"
+F_YK_GETYPSX	FUNCTION	54	"  ret := 1;
+"
+F_YK_GETYPSX	FUNCTION	55	" end if ;
+"
+F_YK_GETYPSX	FUNCTION	56	"elsif arg_parm = '自制药品' then
+"
+F_YK_GETYPSX	FUNCTION	57	" select instr('24',substr(bzbm,1,2)) into ret from gy_ypmcggzd where ypxh = arg_ypxh;
+"
+F_YK_GETYPSX	FUNCTION	58	"elsif arg_parm = '停用' then
+"
+F_YK_GETYPSX	FUNCTION	59	" select decode(substr(""GY_YPCDJG"".""BZ"",1,1),'1',1,0) into ret from gy_ypcdjg where ypxh = arg_ypxh and ypcddm = arg_ypcddm and rownum
+"
+F_YK_GETYPSX	FUNCTION	60	"
+"
+F_YK_GETYPSX	FUNCTION	61	"= 1;
+"
+F_YK_GETYPSX	FUNCTION	62	"elsif arg_parm = '拆包装' then
+"
+F_YK_GETYPSX	FUNCTION	63	" select decode(nvl(fzfl,0),0,0,1) into ret from gy_ypcdjg where ypxh = arg_ypxh and ypcddm = arg_ypcddm and rownum = 1;
+"
+F_YK_GETYPSX	FUNCTION	64	"elsif arg_parm = '基本用药' then
+"
+F_YK_GETYPSX	FUNCTION	65	"  select to_number(SUBSTR(DY1,1,1)) into ret from GY_ZDYYP where ypxh = arg_ypxh and ypcddm = arg_ypcddm and xtxh = 6;
+"
+F_YK_GETYPSX	FUNCTION	66	"elsif arg_parm = '抗菌药' then
+"
+F_YK_GETYPSX	FUNCTION	67	"  select decode(substr(bzbm,1,2),'01',1,'02',1,0) into ret from gy_ypmcggzd where ypxh = arg_ypxh ;
+"
+F_YK_GETYPSX	FUNCTION	68	"elsif arg_parm = '针剂' then
+"
+F_YK_GETYPSX	FUNCTION	69	"  select decode(zjlx , 25,1,0) into ret from gy_ypmcggzd where ypxh = arg_ypxh ;
+"
+F_YK_GETYPSX	FUNCTION	70	"elsif arg_parm = '大输液' then
+"
+F_YK_GETYPSX	FUNCTION	71	"  select to_number(SUBSTR(DY1,8,1)) into ret from GY_ZDYYP where ypxh = arg_ypxh and ypcddm = arg_ypcddm and xtxh = 6;
+"
+F_YK_GETYPSX	FUNCTION	72	"elsif arg_parm = '廉价药' then
+"
+F_YK_GETYPSX	FUNCTION	73	"  select to_number(SUBSTR(DY1,9,1)) into ret from GY_ZDYYP where ypxh = arg_ypxh and ypcddm = arg_ypcddm and xtxh = 6;
+"
+F_YK_GETYPSX	FUNCTION	74	"elsif arg_parm = '冷藏' then
+"
+F_YK_GETYPSX	FUNCTION	75	"   select to_number(SUBSTR(DY1,5,1)) into ret from GY_ZDYYP where ypxh = arg_ypxh and ypcddm = arg_ypcddm and xtxh = 6;
+"
+F_YK_GETYPSX	FUNCTION	76	"elsif arg_parm = '阴凉' then
+"
+F_YK_GETYPSX	FUNCTION	77	"   select to_number(SUBSTR(DY1,6,1)) into ret from GY_ZDYYP where ypxh = arg_ypxh and ypcddm = arg_ypcddm and xtxh = 6;
+"
+F_YK_GETYPSX	FUNCTION	78	"elsif arg_parm = '避光' then
+"
+F_YK_GETYPSX	FUNCTION	79	"   select to_number(SUBSTR(DY1,7,1)) into ret from GY_ZDYYP where ypxh = arg_ypxh and ypcddm = arg_ypcddm and xtxh = 6;
+"
+F_YK_GETYPSX	FUNCTION	80	"end if ;
+"
+F_YK_GETYPSX	FUNCTION	81	"return(ret);
+"
+F_YK_GETYPSX	FUNCTION	82	"end;
+"
+F_YK_GETYPSX	FUNCTION	83	"
+"
+F_YK_GETYPSX	FUNCTION	84	 

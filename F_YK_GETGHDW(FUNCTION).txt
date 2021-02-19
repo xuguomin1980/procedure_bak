@@ -1,0 +1,55 @@
+F_YK_GETGHDW	FUNCTION	1	"FUNCTION         ""F_YK_GETGHDW"" (arg_ypxh in number,arg_ypcddm in number,arg_jj in number,arg_ypph in varchar2,arg_ypyxq in date)
+"
+F_YK_GETGHDW	FUNCTION	2	"  return number
+"
+F_YK_GETGHDW	FUNCTION	3	"  is
+"
+F_YK_GETGHDW	FUNCTION	4	"    ln_return number;
+"
+F_YK_GETGHDW	FUNCTION	5	"    ls_rkdh varchar2(10);
+"
+F_YK_GETGHDW	FUNCTION	6	" begin
+"
+F_YK_GETGHDW	FUNCTION	7	"    begin
+"
+F_YK_GETGHDW	FUNCTION	8	"      select rkdh 
+"
+F_YK_GETGHDW	FUNCTION	9	"      into ls_rkdh
+"
+F_YK_GETGHDW	FUNCTION	10	"      from yk_yprkdmx
+"
+F_YK_GETGHDW	FUNCTION	11	"      where ypxh = arg_ypxh
+"
+F_YK_GETGHDW	FUNCTION	12	"      and ypcddm = arg_ypcddm
+"
+F_YK_GETGHDW	FUNCTION	13	"      and jj= arg_jj
+"
+F_YK_GETGHDW	FUNCTION	14	"      and (ypph = arg_ypph or arg_ypph is null)
+"
+F_YK_GETGHDW	FUNCTION	15	"      and (ypyxq = arg_ypyxq or arg_ypyxq is null)
+"
+F_YK_GETGHDW	FUNCTION	16	"      and rownum <2;
+"
+F_YK_GETGHDW	FUNCTION	17	"      select ghdwbh
+"
+F_YK_GETGHDW	FUNCTION	18	"      into ln_return
+"
+F_YK_GETGHDW	FUNCTION	19	"      from yk_yprkd
+"
+F_YK_GETGHDW	FUNCTION	20	"      where rkdh = ls_rkdh
+"
+F_YK_GETGHDW	FUNCTION	21	"        and rownum < 2;
+"
+F_YK_GETGHDW	FUNCTION	22	"    exception  
+"
+F_YK_GETGHDW	FUNCTION	23	"       when  no_data_found then 
+"
+F_YK_GETGHDW	FUNCTION	24	"          ln_return:=null;
+"
+F_YK_GETGHDW	FUNCTION	25	"    end;
+"
+F_YK_GETGHDW	FUNCTION	26	"    return(ln_return);   
+"
+F_YK_GETGHDW	FUNCTION	27	"  end;
+"
+F_YK_GETGHDW	FUNCTION	28	 

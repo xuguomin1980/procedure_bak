@@ -1,0 +1,104 @@
+PRC_UPDATE_JZBRXX	PROCEDURE	1	"procedure prc_update_jzbrxx(
+"
+PRC_UPDATE_JZBRXX	PROCEDURE	2	"as_jzkh   in  gy_brjbxxk.jzkh%type,--   修改的卡号
+"
+PRC_UPDATE_JZBRXX	PROCEDURE	3	"as_name in gy_brjbxxk.xm%type,--修改后的病人姓名
+"
+PRC_UPDATE_JZBRXX	PROCEDURE	4	"al_code out number,
+"
+PRC_UPDATE_JZBRXX	PROCEDURE	5	"as_error out  varchar2
+"
+PRC_UPDATE_JZBRXX	PROCEDURE	6	")
+"
+PRC_UPDATE_JZBRXX	PROCEDURE	7	"as
+"
+PRC_UPDATE_JZBRXX	PROCEDURE	8	"ad_csrq gy_brjbxxk.csrq%type;--出生日期
+"
+PRC_UPDATE_JZBRXX	PROCEDURE	9	"al_xb gy_brjbxxk.xb%type;
+"
+PRC_UPDATE_JZBRXX	PROCEDURE	10	"as_xm gy_brjbxxk.xm%type;
+"
+PRC_UPDATE_JZBRXX	PROCEDURE	11	"ll_count number;
+"
+PRC_UPDATE_JZBRXX	PROCEDURE	12	"begin
+"
+PRC_UPDATE_JZBRXX	PROCEDURE	13	"  if as_name <> null then
+"
+PRC_UPDATE_JZBRXX	PROCEDURE	14	"       al_code:=1;
+"
+PRC_UPDATE_JZBRXX	PROCEDURE	15	"       as_error:='';
+"
+PRC_UPDATE_JZBRXX	PROCEDURE	16	"  else
+"
+PRC_UPDATE_JZBRXX	PROCEDURE	17	"    al_code:=-1;
+"
+PRC_UPDATE_JZBRXX	PROCEDURE	18	"    as_error:='传入的病人姓名为空';
+"
+PRC_UPDATE_JZBRXX	PROCEDURE	19	"    return;
+"
+PRC_UPDATE_JZBRXX	PROCEDURE	20	" end if;
+"
+PRC_UPDATE_JZBRXX	PROCEDURE	21	"    select count(*) into ll_count from  jz_fenzhenxx where jiuzhenkh=as_jzkh;
+"
+PRC_UPDATE_JZBRXX	PROCEDURE	22	"    if ll_count=0 then
+"
+PRC_UPDATE_JZBRXX	PROCEDURE	23	"        al_code:=1;
+"
+PRC_UPDATE_JZBRXX	PROCEDURE	24	"        as_error:='';
+"
+PRC_UPDATE_JZBRXX	PROCEDURE	25	"        return;
+"
+PRC_UPDATE_JZBRXX	PROCEDURE	26	"    end if;
+"
+PRC_UPDATE_JZBRXX	PROCEDURE	27	"    select xm,csrq,xb into as_xm,ad_csrq,al_xb from gy_brjbxxk where jzkh=as_jzkh;
+"
+PRC_UPDATE_JZBRXX	PROCEDURE	28	"    update jz_fenzhenxx set bingrenxm=as_name where jiuzhenkh=as_jzkh;
+"
+PRC_UPDATE_JZBRXX	PROCEDURE	29	"    IF sql%rowcount<1 THEN
+"
+PRC_UPDATE_JZBRXX	PROCEDURE	30	"        al_code:=-1;
+"
+PRC_UPDATE_JZBRXX	PROCEDURE	31	"        as_error:='更新 jz_fenzhenxx 失败';
+"
+PRC_UPDATE_JZBRXX	PROCEDURE	32	"        return;
+"
+PRC_UPDATE_JZBRXX	PROCEDURE	33	"    END IF; 
+"
+PRC_UPDATE_JZBRXX	PROCEDURE	34	"    update jz_chuangweixx set bingrenxm=as_name where jiuzhenkh=as_jzkh;
+"
+PRC_UPDATE_JZBRXX	PROCEDURE	35	"     IF sql%rowcount<1 THEN
+"
+PRC_UPDATE_JZBRXX	PROCEDURE	36	"        al_code:=-1;
+"
+PRC_UPDATE_JZBRXX	PROCEDURE	37	"        as_error:='更新jz_chuangweixx失败';
+"
+PRC_UPDATE_JZBRXX	PROCEDURE	38	"        return;
+"
+PRC_UPDATE_JZBRXX	PROCEDURE	39	"    END IF; 
+"
+PRC_UPDATE_JZBRXX	PROCEDURE	40	"    update yz_jysqd set brxm=as_name,birthday=ad_csrq,brxb=al_xb where bah=as_jzkh;
+"
+PRC_UPDATE_JZBRXX	PROCEDURE	41	"     IF sql%rowcount<1 THEN
+"
+PRC_UPDATE_JZBRXX	PROCEDURE	42	"        al_code:=-1;
+"
+PRC_UPDATE_JZBRXX	PROCEDURE	43	"        as_error:='更新yz_jysqd失败';
+"
+PRC_UPDATE_JZBRXX	PROCEDURE	44	"        return;
+"
+PRC_UPDATE_JZBRXX	PROCEDURE	45	"    END IF; 
+"
+PRC_UPDATE_JZBRXX	PROCEDURE	46	"    update yz_jcsqd set brxm=as_name,xb=al_xb,chushengrq=ad_csrq where zhuyuanh=as_jzkh;
+"
+PRC_UPDATE_JZBRXX	PROCEDURE	47	"     IF sql%rowcount<1 THEN
+"
+PRC_UPDATE_JZBRXX	PROCEDURE	48	"        al_code:=-1;
+"
+PRC_UPDATE_JZBRXX	PROCEDURE	49	"        as_error:='更新yz_jcsqd失败';
+"
+PRC_UPDATE_JZBRXX	PROCEDURE	50	"        return;
+"
+PRC_UPDATE_JZBRXX	PROCEDURE	51	"    END IF; 
+"
+PRC_UPDATE_JZBRXX	PROCEDURE	52	"end;
+"

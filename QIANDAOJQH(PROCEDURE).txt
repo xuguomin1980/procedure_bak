@@ -1,0 +1,196 @@
+QIANDAOJQH	PROCEDURE	1	"PROCEDURE ""QIANDAOJQH"" (--签到机预约取号
+"
+QIANDAOJQH	PROCEDURE	2	"       dept_code in VARCHAR,
+"
+QIANDAOJQH	PROCEDURE	3	"       card_no in VARCHAR,
+"
+QIANDAOJQH	PROCEDURE	4	"       ret_code out INTEGER,
+"
+QIANDAOJQH	PROCEDURE	5	"       ret_info out VARCHAR,
+"
+QIANDAOJQH	PROCEDURE	6	"       reg_id  out VARCHAR
+"
+QIANDAOJQH	PROCEDURE	7	") AS
+"
+QIANDAOJQH	PROCEDURE	8	"  v_count number(5);
+"
+QIANDAOJQH	PROCEDURE	9	"  v_rq     date;
+"
+QIANDAOJQH	PROCEDURE	10	"  v_sfzh varchar(18);
+"
+QIANDAOJQH	PROCEDURE	11	"  v_xm varchar(30);
+"
+QIANDAOJQH	PROCEDURE	12	"  v_ksdm varchar(10);
+"
+QIANDAOJQH	PROCEDURE	13	"  v_ysgh varchar(10);
+"
+QIANDAOJQH	PROCEDURE	14	"  v_yyrq date;
+"
+QIANDAOJQH	PROCEDURE	15	"  v_czgh varchar(10);
+"
+QIANDAOJQH	PROCEDURE	16	"  v_jzkh varchar(30);
+"
+QIANDAOJQH	PROCEDURE	17	"  v_jlxh number(10);
+"
+QIANDAOJQH	PROCEDURE	18	"  v_sjlb number(1);
+"
+QIANDAOJQH	PROCEDURE	19	"  v_ghxh number(4);
+"
+QIANDAOJQH	PROCEDURE	20	"  v_yyxh number(10);
+"
+QIANDAOJQH	PROCEDURE	21	"  V_YJSB number(10);
+"
+QIANDAOJQH	PROCEDURE	22	"  v_mzlbxh number(2);
+"
+QIANDAOJQH	PROCEDURE	23	"  v_pbxh  number(10);
+"
+QIANDAOJQH	PROCEDURE	24	"  v_jiagelb  number(1);
+"
+QIANDAOJQH	PROCEDURE	25	"  v_ylxh number(6);
+"
+QIANDAOJQH	PROCEDURE	26	"  v_fee  number(8,2);
+"
+QIANDAOJQH	PROCEDURE	27	"  v_sjlb1 number(1);
+"
+QIANDAOJQH	PROCEDURE	28	"  v_count1 number(5);
+"
+QIANDAOJQH	PROCEDURE	29	"BEGIN
+"
+QIANDAOJQH	PROCEDURE	30	" 
+"
+QIANDAOJQH	PROCEDURE	31	"
+"
+QIANDAOJQH	PROCEDURE	32	"
+"
+QIANDAOJQH	PROCEDURE	33	"  select count(*)    into v_count    from gh_mzyyk   where       trunc(yyrq1)=trunc(sysdate)     and nvl(zt,0)=0 and jzkh=card_no;
+"
+QIANDAOJQH	PROCEDURE	34	"  select sysdate into v_rq from dual;
+"
+QIANDAOJQH	PROCEDURE	35	"  --BEGIN
+"
+QIANDAOJQH	PROCEDURE	36	"  if v_count>0 then
+"
+QIANDAOJQH	PROCEDURE	37	"  select  yyxh,xm,ksdm,ysgh,yyrq1,czgh,jzkh,ghxh,yysj,pbxh,mzlbxh into v_yyxh,v_xm,v_ksdm,v_ysgh,v_yyrq,v_czgh,v_jzkh,v_ghxh,v_sjlb,v_pbxh,v_mzlbxh    
+"
+QIANDAOJQH	PROCEDURE	38	"  from gh_mzyyk   where       trunc(yyrq1)=trunc(sysdate)     and nvl(zt,0)=0 and  INSTR(','||DEPT_CODE, ','||KSDM)>0  and jzkh=card_no and rownum=1;
+"
+QIANDAOJQH	PROCEDURE	39	"  select nvl(jiagelb,0) into v_jiagelb from gy_ksdm where ksdm= v_ksdm;
+"
+QIANDAOJQH	PROCEDURE	40	"  if v_jiagelb=3 then
+"
+QIANDAOJQH	PROCEDURE	41	"  select zlf_ylxh_et,ghf+zlf_et into v_ylxh,v_fee  from gh_mzlbk where mzlbxh = v_mzlbxh;
+"
+QIANDAOJQH	PROCEDURE	42	"  else
+"
+QIANDAOJQH	PROCEDURE	43	"  select zlf_ylxh,ghf+zlf into v_ylxh,v_fee  from gh_mzlbk where mzlbxh = v_mzlbxh;
+"
+QIANDAOJQH	PROCEDURE	44	"  end if;
+"
+QIANDAOJQH	PROCEDURE	45	"  update gy_xhb set dqz=dqz+zz where bm='GH_GHK';
+"
+QIANDAOJQH	PROCEDURE	46	"  select dqz into v_jlxh from gy_xhb where bm='GH_GHK';
+"
+QIANDAOJQH	PROCEDURE	47	"  update gy_xhb set dqz=dqz+zz where bm='YJ_YJK1';
+"
+QIANDAOJQH	PROCEDURE	48	"  select dqz into V_YJSB from gy_xhb where bm='YJ_YJK1';
+"
+QIANDAOJQH	PROCEDURE	49	"  insert into yj_yjk1(yjsb,sfsb,jchm,jzkh,brxm,sjysgh,sjksdm,ghxh,kdsj,czgh,ghjlxh) values (V_YJSB,'','',v_jzkh,v_xm,v_ysgh,v_ksdm,v_jlxh,v_rq,'QDJ',v_jlxh) ;
+"
+QIANDAOJQH	PROCEDURE	50	"  insert into yj_yjk2(yjsb,ylxh,dj,sl,fygb,zfbl,zjpb,zxksdm) values (V_YJSB,v_ylxh,v_fee,1,13,1,8,v_ksdm) ;
+"
+QIANDAOJQH	PROCEDURE	51	"  insert into gh_ghk (jlxh,jzkh,jzcs,brxm,brlb,brxz,mzlbxh,pbxh,ksdm,ghrq,ghxh,ysgh,sjlb,ghf,zlf,zlfds,czgh,thbz,czrq)
+"
+QIANDAOJQH	PROCEDURE	52	"              values (v_jlxh,v_jzkh,0,v_xm,1,'1',v_mzlbxh,v_pbxh,v_ksdm,v_rq,v_ghxh,v_ysgh,v_sjlb,0,0,1,'QDJ',0,v_rq);
+"
+QIANDAOJQH	PROCEDURE	53	"  update gh_mzyyk set jlxh=v_jlxh,zt=1 where yyxh=v_yyxh;
+"
+QIANDAOJQH	PROCEDURE	54	"  end if;
+"
+QIANDAOJQH	PROCEDURE	55	"   if v_count<=0 then    
+"
+QIANDAOJQH	PROCEDURE	56	"  select sfzh into v_sfzh from gy_brjbxxk where jzkh =card_no;
+"
+QIANDAOJQH	PROCEDURE	57	"   if v_sfzh>0 then
+"
+QIANDAOJQH	PROCEDURE	58	"   select count(*)    into v_count1    from gh_mzyyk   where       trunc(yyrq1)=trunc(sysdate)     and nvl(zt,0)=0 and sfzh=v_sfzh;
+"
+QIANDAOJQH	PROCEDURE	59	"   end if;
+"
+QIANDAOJQH	PROCEDURE	60	"   if v_count1>0 then
+"
+QIANDAOJQH	PROCEDURE	61	"    select  yyxh,xm,ksdm,ysgh,yyrq1,czgh,jzkh,ghxh,yysj,pbxh,mzlbxh into v_yyxh,v_xm,v_ksdm,v_ysgh,v_yyrq,v_czgh,v_jzkh,v_ghxh,v_sjlb,v_pbxh,v_mzlbxh    
+"
+QIANDAOJQH	PROCEDURE	62	"  from gh_mzyyk   where     INSTR(','||DEPT_CODE, ','||KSDM)>0   and  trunc(yyrq1)=trunc(sysdate)     and nvl(zt,0)=0 and sfzh=v_sfzh  and rownum=1;
+"
+QIANDAOJQH	PROCEDURE	63	"    select nvl(jiagelb,0) into v_jiagelb from gy_ksdm where ksdm= v_ksdm;
+"
+QIANDAOJQH	PROCEDURE	64	"  if v_jiagelb=3 then
+"
+QIANDAOJQH	PROCEDURE	65	"  select zlf_ylxh_et,ghf+zlf_et into v_ylxh,v_fee  from gh_mzlbk where mzlbxh = v_mzlbxh;
+"
+QIANDAOJQH	PROCEDURE	66	"  else
+"
+QIANDAOJQH	PROCEDURE	67	"  select zlf_ylxh,ghf+zlf into v_ylxh,v_fee  from gh_mzlbk where mzlbxh = v_mzlbxh;
+"
+QIANDAOJQH	PROCEDURE	68	"  end if;
+"
+QIANDAOJQH	PROCEDURE	69	"  v_jzkh:=card_no;
+"
+QIANDAOJQH	PROCEDURE	70	"  update gy_xhb set dqz=dqz+zz where bm='GH_GHK';
+"
+QIANDAOJQH	PROCEDURE	71	"  select dqz into v_jlxh from gy_xhb where bm='GH_GHK';
+"
+QIANDAOJQH	PROCEDURE	72	"  update gy_xhb set dqz=dqz+zz where bm='YJ_YJK1';
+"
+QIANDAOJQH	PROCEDURE	73	"  select dqz into V_YJSB from gy_xhb where bm='YJ_YJK1';
+"
+QIANDAOJQH	PROCEDURE	74	"  insert into yj_yjk1(yjsb,sfsb,jchm,jzkh,brxm,sjysgh,sjksdm,ghxh,kdsj,czgh,ghjlxh) values (V_YJSB,'','',card_no,v_xm,v_ysgh,v_ksdm,v_jlxh,v_rq,'QDJ',v_jlxh) ;
+"
+QIANDAOJQH	PROCEDURE	75	"  insert into yj_yjk2(yjsb,ylxh,dj,sl,fygb,zfbl,zjpb,zxksdm) values (V_YJSB,v_ylxh,v_fee,1,13,1,8,v_ksdm) ;
+"
+QIANDAOJQH	PROCEDURE	76	"  insert into gh_ghk (jlxh,jzkh,jzcs,brxm,brlb,brxz,mzlbxh,pbxh,ksdm,ghrq,ghxh,ysgh,sjlb,ghf,zlf,zlfds,czgh,thbz,czrq)
+"
+QIANDAOJQH	PROCEDURE	77	"              values (v_jlxh,card_no,0,v_xm,1,'1',v_mzlbxh,v_pbxh,v_ksdm,v_rq,v_ghxh,v_ysgh,v_sjlb,0,0,1,'QDJ',0,v_rq);
+"
+QIANDAOJQH	PROCEDURE	78	"  update gh_mzyyk set jlxh=v_jlxh,zt=1 where yyxh=v_yyxh;
+"
+QIANDAOJQH	PROCEDURE	79	" end if;
+"
+QIANDAOJQH	PROCEDURE	80	" end if;
+"
+QIANDAOJQH	PROCEDURE	81	"
+"
+QIANDAOJQH	PROCEDURE	82	" if v_sjlb=2  then
+"
+QIANDAOJQH	PROCEDURE	83	" v_sjlb1:=3;
+"
+QIANDAOJQH	PROCEDURE	84	" else
+"
+QIANDAOJQH	PROCEDURE	85	" v_sjlb1:=v_sjlb;
+"
+QIANDAOJQH	PROCEDURE	86	" end if;
+"
+QIANDAOJQH	PROCEDURE	87	"  ret_code:=0;
+"
+QIANDAOJQH	PROCEDURE	88	"  ret_info:='取号成功';
+"
+QIANDAOJQH	PROCEDURE	89	"  reg_id:=v_jlxh||','||v_jzkh||','||v_ghxh||','||v_xm||','||v_ksdm||','||v_sjlb1||','||v_ysgh||','||to_char(v_rq,'yyyy-mm-dd hh24:mi:ss');
+"
+QIANDAOJQH	PROCEDURE	90	"  commit;
+"
+QIANDAOJQH	PROCEDURE	91	"EXCEPTION
+"
+QIANDAOJQH	PROCEDURE	92	"  when others then
+"
+QIANDAOJQH	PROCEDURE	93	"    ret_code:=-4;
+"
+QIANDAOJQH	PROCEDURE	94	"    ret_info:='取号失败'||sqlerrm;
+"
+QIANDAOJQH	PROCEDURE	95	"    rollback;
+"
+QIANDAOJQH	PROCEDURE	96	"    return;
+"
+QIANDAOJQH	PROCEDURE	97	"END;
+"
+QIANDAOJQH	PROCEDURE	98	"
+"

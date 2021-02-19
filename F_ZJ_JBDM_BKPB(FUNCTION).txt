@@ -1,0 +1,33 @@
+F_ZJ_JBDM_BKPB	FUNCTION	1	"FUNCTION         ""F_ZJ_JBDM_BKPB"" (Arg_code In Number) 
+"
+F_ZJ_JBDM_BKPB	FUNCTION	2	"  Return Number
+"
+F_ZJ_JBDM_BKPB	FUNCTION	3	"Is 
+"
+F_ZJ_JBDM_BKPB	FUNCTION	4	"Li_ret Number;
+"
+F_ZJ_JBDM_BKPB	FUNCTION	5	"Begin 
+"
+F_ZJ_JBDM_BKPB	FUNCTION	6	"	Li_ret:= - 1;
+"
+F_ZJ_JBDM_BKPB	FUNCTION	7	"	Select NVL(Bklx,0) 
+"
+F_ZJ_JBDM_BKPB	FUNCTION	8	"	  Into Li_ret
+"
+F_ZJ_JBDM_BKPB	FUNCTION	9	"	  From Gy_Jbdm 
+"
+F_ZJ_JBDM_BKPB	FUNCTION	10	"	 Where Code=Arg_code;
+"
+F_ZJ_JBDM_BKPB	FUNCTION	11	"	If Li_ret= - 1 Or Li_ret Is null Then 
+"
+F_ZJ_JBDM_BKPB	FUNCTION	12	"      Li_ret:=0; 
+"
+F_ZJ_JBDM_BKPB	FUNCTION	13	"   End If;
+"
+F_ZJ_JBDM_BKPB	FUNCTION	14	"	Return Li_ret;
+"
+F_ZJ_JBDM_BKPB	FUNCTION	15	"End;
+"
+F_ZJ_JBDM_BKPB	FUNCTION	16	"
+"
+F_ZJ_JBDM_BKPB	FUNCTION	17	 

@@ -1,0 +1,79 @@
+PKG_MA_JMPZ2	PACKAGE	1	"PACKAGE         ""PKG_MA_JMPZ2"" is
+"
+PKG_MA_JMPZ2	PACKAGE	2	"/*
+"
+PKG_MA_JMPZ2	PACKAGE	3	"项目：PDA
+"
+PKG_MA_JMPZ2	PACKAGE	4	"系统：PDA静脉配置系统
+"
+PKG_MA_JMPZ2	PACKAGE	5	"创建：2008-05-28
+"
+PKG_MA_JMPZ2	PACKAGE	6	"*/
+"
+PKG_MA_JMPZ2	PACKAGE	7	"
+"
+PKG_MA_JMPZ2	PACKAGE	8	"Type t_DataResult is ref cursor;
+"
+PKG_MA_JMPZ2	PACKAGE	9	"-- return pda_br%rowtype;
+"
+PKG_MA_JMPZ2	PACKAGE	10	"
+"
+PKG_MA_JMPZ2	PACKAGE	11	"
+"
+PKG_MA_JMPZ2	PACKAGE	12	"-- 获取输液单
+"
+PKG_MA_JMPZ2	PACKAGE	13	"   Procedure Prc_GetSYD  (prm_FuncID  in  Varchar2 ,               --输液单序号|配药人
+"
+PKG_MA_JMPZ2	PACKAGE	14	"                           prm_InBuffer  in  Varchar2 ,               --配药人
+"
+PKG_MA_JMPZ2	PACKAGE	15	"                           prm_AppCode    out Number,                --执行结果
+"
+PKG_MA_JMPZ2	PACKAGE	16	"                           prm_SessionID  out Varchar2,              --进程ID
+"
+PKG_MA_JMPZ2	PACKAGE	17	"                           prm_OutBuffer  out Varchar2,              --执行文本输出
+"
+PKG_MA_JMPZ2	PACKAGE	18	"                           prm_DataResult out t_DataResult           --执行结果集输出
+"
+PKG_MA_JMPZ2	PACKAGE	19	"                         );
+"
+PKG_MA_JMPZ2	PACKAGE	20	"    -- 设置输液单异常
+"
+PKG_MA_JMPZ2	PACKAGE	21	"Procedure Prc_SetSYDYC (prm_FuncID  in  Varchar2 ,               --输液单序号
+"
+PKG_MA_JMPZ2	PACKAGE	22	"                           prm_Inbuffer  in  Varchar2 ,             --输液单序号
+"
+PKG_MA_JMPZ2	PACKAGE	23	"                           prm_AppCode    out Number,                --执行结果
+"
+PKG_MA_JMPZ2	PACKAGE	24	"                           prm_SessionID  out Varchar2,              --进程ID
+"
+PKG_MA_JMPZ2	PACKAGE	25	"                           prm_OutBuffer  out Varchar2,              --执行文本输出
+"
+PKG_MA_JMPZ2	PACKAGE	26	"                           prm_DataResult out t_DataResult           --执行结果集输出
+"
+PKG_MA_JMPZ2	PACKAGE	27	"                         );
+"
+PKG_MA_JMPZ2	PACKAGE	28	" -----------------------------------------------------------------------------
+"
+PKG_MA_JMPZ2	PACKAGE	29	"   -- 获取系统参数
+"
+PKG_MA_JMPZ2	PACKAGE	30	"   Procedure Prc_GetXtcs  (prm_FuncID     in  Varchar2,              --功能ID（1：指定参数，2：指定应用）
+"
+PKG_MA_JMPZ2	PACKAGE	31	"                           prm_InBuffer   in  Varchar2,              --病人住院ID
+"
+PKG_MA_JMPZ2	PACKAGE	32	"                           prm_AppCode    out Number,                --执行结果
+"
+PKG_MA_JMPZ2	PACKAGE	33	"                           prm_SessionID  out Varchar2,              --进程ID
+"
+PKG_MA_JMPZ2	PACKAGE	34	"                           prm_OutBuffer  out Varchar2,              --执行文本输出
+"
+PKG_MA_JMPZ2	PACKAGE	35	"                           prm_DataResult out t_DataResult           --执行结果集输出
+"
+PKG_MA_JMPZ2	PACKAGE	36	"                           ) ;
+"
+PKG_MA_JMPZ2	PACKAGE	37	"   -----------------------------------------------------------------------------
+"
+PKG_MA_JMPZ2	PACKAGE	38	"end PKG_MA_JMPZ2;
+"
+PKG_MA_JMPZ2	PACKAGE	39	"
+"
+PKG_MA_JMPZ2	PACKAGE	40	 

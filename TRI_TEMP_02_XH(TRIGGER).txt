@@ -1,0 +1,26 @@
+TRI_TEMP_02_XH	TRIGGER	1	"TRIGGER ""ZJHIS"".tri_temp_02_xh
+"
+TRI_TEMP_02_XH	TRIGGER	2	"  before insert on temp_02
+"
+TRI_TEMP_02_XH	TRIGGER	3	"  for each row
+"
+TRI_TEMP_02_XH	TRIGGER	4	"declare
+"
+TRI_TEMP_02_XH	TRIGGER	5	"  nextid number;
+"
+TRI_TEMP_02_XH	TRIGGER	6	"begin
+"
+TRI_TEMP_02_XH	TRIGGER	7	"  IF :new.xh IS NULL or :new.xh=0 THEN
+"
+TRI_TEMP_02_XH	TRIGGER	8	"  select SEQ_yb_dzmx_import_id.nextval --S_S_DEPART正是刚才创建的
+"
+TRI_TEMP_02_XH	TRIGGER	9	"    into nextid
+"
+TRI_TEMP_02_XH	TRIGGER	10	"    from sys.dual;
+"
+TRI_TEMP_02_XH	TRIGGER	11	"    :new.xh:=nextid;
+"
+TRI_TEMP_02_XH	TRIGGER	12	"  end if;
+"
+TRI_TEMP_02_XH	TRIGGER	13	"end tri_temp_02_xh;
+"

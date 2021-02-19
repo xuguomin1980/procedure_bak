@@ -1,0 +1,610 @@
+FUN_CHECK_PROCESS_CS	FUNCTION	1	"function fun_check_process_cs(in_jiaoyilx in varchar2, --交易类型
+"
+FUN_CHECK_PROCESS_CS	FUNCTION	2	"                                                in_jylsh    in varchar2 --其它参数
+"
+FUN_CHECK_PROCESS_CS	FUNCTION	3	"                                                ) RETURN VARCHAR2 is
+"
+FUN_CHECK_PROCESS_CS	FUNCTION	4	"  -- prc_check_process  (in_jiaoyilx业务节点名称，in_caozuogh操作人员工号，in_jzkh就诊卡号，in_other其它参数，out_code返回值interger值，out_msg返回文本内容)
+"
+FUN_CHECK_PROCESS_CS	FUNCTION	5	"  --out_code <0 说明没有通过业务检查
+"
+FUN_CHECK_PROCESS_CS	FUNCTION	6	"  --out_msg 提示消息，如果为空，不显示给医生看
+"
+FUN_CHECK_PROCESS_CS	FUNCTION	7	"  --入参说明：
+"
+FUN_CHECK_PROCESS_CS	FUNCTION	8	"
+"
+FUN_CHECK_PROCESS_CS	FUNCTION	9	"  --病人类别
+"
+FUN_CHECK_PROCESS_CS	FUNCTION	10	"  v_brlb number;
+"
+FUN_CHECK_PROCESS_CS	FUNCTION	11	"  --结算标志
+"
+FUN_CHECK_PROCESS_CS	FUNCTION	12	"  v_js_no     number;
+"
+FUN_CHECK_PROCESS_CS	FUNCTION	13	"  v_total_fee number;
+"
+FUN_CHECK_PROCESS_CS	FUNCTION	14	"  --预出院日期
+"
+FUN_CHECK_PROCESS_CS	FUNCTION	15	"  v_preout_date varchar2(20);
+"
+FUN_CHECK_PROCESS_CS	FUNCTION	16	"  --病人性质
+"
+FUN_CHECK_PROCESS_CS	FUNCTION	17	"  v_brxz       varchar2(20);
+"
+FUN_CHECK_PROCESS_CS	FUNCTION	18	"  v_icd10      varchar2(30);
+"
+FUN_CHECK_PROCESS_CS	FUNCTION	19	"  v_icd10_from varchar2(30);
+"
+FUN_CHECK_PROCESS_CS	FUNCTION	20	"  v_data       varchar2(300);
+"
+FUN_CHECK_PROCESS_CS	FUNCTION	21	"  v_jylsh      varchar2(2000);
+"
+FUN_CHECK_PROCESS_CS	FUNCTION	22	"  v_data_temp  varchar2(200);
+"
+FUN_CHECK_PROCESS_CS	FUNCTION	23	"  v_sfzh       varchar2(50);
+"
+FUN_CHECK_PROCESS_CS	FUNCTION	24	"  v_str1       varchar2(20);
+"
+FUN_CHECK_PROCESS_CS	FUNCTION	25	"  v_str2       varchar2(20);
+"
+FUN_CHECK_PROCESS_CS	FUNCTION	26	"  v_str3       varchar2(20);
+"
+FUN_CHECK_PROCESS_CS	FUNCTION	27	"  v_str4       varchar2(20);
+"
+FUN_CHECK_PROCESS_CS	FUNCTION	28	"  v_str5       varchar2(20);
+"
+FUN_CHECK_PROCESS_CS	FUNCTION	29	"  v_temp       varchar2(50);
+"
+FUN_CHECK_PROCESS_CS	FUNCTION	30	"  ls_color     varchar2(20);
+"
+FUN_CHECK_PROCESS_CS	FUNCTION	31	"  v_czgh       varchar2(20);
+"
+FUN_CHECK_PROCESS_CS	FUNCTION	32	"  out_msg      varchar2(300);
+"
+FUN_CHECK_PROCESS_CS	FUNCTION	33	"  --临时的统计的数量
+"
+FUN_CHECK_PROCESS_CS	FUNCTION	34	"  v_count      number;
+"
+FUN_CHECK_PROCESS_CS	FUNCTION	35	"  v_count2     number;
+"
+FUN_CHECK_PROCESS_CS	FUNCTION	36	"  v_count_temp number;
+"
+FUN_CHECK_PROCESS_CS	FUNCTION	37	"  --操作工号
+"
+FUN_CHECK_PROCESS_CS	FUNCTION	38	"  --v_caozuogh varchar2(20);
+"
+FUN_CHECK_PROCESS_CS	FUNCTION	39	"
+"
+FUN_CHECK_PROCESS_CS	FUNCTION	40	"begin
+"
+FUN_CHECK_PROCESS_CS	FUNCTION	41	"
+"
+FUN_CHECK_PROCESS_CS	FUNCTION	42	"  if in_jiaoyilx = '新冠防控分类' then
+"
+FUN_CHECK_PROCESS_CS	FUNCTION	43	"    v_czgh := 'JDZZ';
+"
+FUN_CHECK_PROCESS_CS	FUNCTION	44	"    v_czgh := F_GET_VALUE_SPLI(in_jylsh, 'czgh=', '|');
+"
+FUN_CHECK_PROCESS_CS	FUNCTION	45	"  
+"
+FUN_CHECK_PROCESS_CS	FUNCTION	46	"    out_msg := '0,0,255';
+"
+FUN_CHECK_PROCESS_CS	FUNCTION	47	"    if v_czgh = 'JDZZ' then
+"
+FUN_CHECK_PROCESS_CS	FUNCTION	48	"      out_msg := '红色';
+"
+FUN_CHECK_PROCESS_CS	FUNCTION	49	"    end if;
+"
+FUN_CHECK_PROCESS_CS	FUNCTION	50	"  
+"
+FUN_CHECK_PROCESS_CS	FUNCTION	51	"    v_data := F_GET_VALUE_SPLI(in_jylsh, 'lxdh=', '|');
+"
+FUN_CHECK_PROCESS_CS	FUNCTION	52	"    if length(v_data) = 11 or length(v_data) = 8 then
+"
+FUN_CHECK_PROCESS_CS	FUNCTION	53	"      null;
+"
+FUN_CHECK_PROCESS_CS	FUNCTION	54	"    else
+"
+FUN_CHECK_PROCESS_CS	FUNCTION	55	"    
+"
+FUN_CHECK_PROCESS_CS	FUNCTION	56	"      out_msg := '联系电话，不是11位或8位';
+"
+FUN_CHECK_PROCESS_CS	FUNCTION	57	"      return out_msg;
+"
+FUN_CHECK_PROCESS_CS	FUNCTION	58	"    end if;
+"
+FUN_CHECK_PROCESS_CS	FUNCTION	59	"  
+"
+FUN_CHECK_PROCESS_CS	FUNCTION	60	"    v_data := F_GET_VALUE_SPLI(in_jylsh, 'sfzh=', '|');
+"
+FUN_CHECK_PROCESS_CS	FUNCTION	61	"    if length(v_data) > 1 then
+"
+FUN_CHECK_PROCESS_CS	FUNCTION	62	"      null;
+"
+FUN_CHECK_PROCESS_CS	FUNCTION	63	"    else
+"
+FUN_CHECK_PROCESS_CS	FUNCTION	64	"    
+"
+FUN_CHECK_PROCESS_CS	FUNCTION	65	"      out_msg := '身份证号错误';
+"
+FUN_CHECK_PROCESS_CS	FUNCTION	66	"      return out_msg;
+"
+FUN_CHECK_PROCESS_CS	FUNCTION	67	"    end if;
+"
+FUN_CHECK_PROCESS_CS	FUNCTION	68	"  
+"
+FUN_CHECK_PROCESS_CS	FUNCTION	69	"    --  xm=姓名|sfzh=身份证号|jzkh=病案号|sheng=省|shi=市|qu=区|jiedao=街道|shequ=社区|lxdh=联系电话1|lxdh2=联系电话2|
+"
+FUN_CHECK_PROCESS_CS	FUNCTION	70	"    --lk=离开过金华|hbwz=来自湖北省或浙江省温州市|qg=去过有新型冠状病毒感染确诊患者的社区|qzjc=是否与确诊患者密切接触
+"
+FUN_CHECK_PROCESS_CS	FUNCTION	71	"    --|mjjc=是否与接触过确诊患者的人接触|qzeb=是否为确诊治愈留观满28天内患者|jjx=聚集性发病
+"
+FUN_CHECK_PROCESS_CS	FUNCTION	72	"  
+"
+FUN_CHECK_PROCESS_CS	FUNCTION	73	"    --|fr=是否出现发热|twfr=当前体温是否有发热|tsy=是否服用过退热药或感冒药
+"
+FUN_CHECK_PROCESS_CS	FUNCTION	74	"    --症状 |ks=是否咳嗽|hlt=是否咽痛|lt=是否流涕|fl=是否乏力|jrst=是否肌肉酸痛|fx=是否腹泻|   
+"
+FUN_CHECK_PROCESS_CS	FUNCTION	75	"    --|qiduan=是否气短|jiemocx=是否结膜充血|
+"
+FUN_CHECK_PROCESS_CS	FUNCTION	76	"  
+"
+FUN_CHECK_PROCESS_CS	FUNCTION	77	"    --|hy=如为女性，是否怀孕备孕|
+"
+FUN_CHECK_PROCESS_CS	FUNCTION	78	"  
+"
+FUN_CHECK_PROCESS_CS	FUNCTION	79	"    --|jiankanma=健康码|jiankanma2=健康码说明
+"
+FUN_CHECK_PROCESS_CS	FUNCTION	80	"  
+"
+FUN_CHECK_PROCESS_CS	FUNCTION	81	"    --有流行病学史 v_str1
+"
+FUN_CHECK_PROCESS_CS	FUNCTION	82	"  
+"
+FUN_CHECK_PROCESS_CS	FUNCTION	83	"    ---sflz add 2-18
+"
+FUN_CHECK_PROCESS_CS	FUNCTION	84	"  
+"
+FUN_CHECK_PROCESS_CS	FUNCTION	85	"    --lk 离开 ,bs 鼻塞,ex 恶心,ot 呕吐  去掉不用的选择项目
+"
+FUN_CHECK_PROCESS_CS	FUNCTION	86	"    if 1 = 1 then
+"
+FUN_CHECK_PROCESS_CS	FUNCTION	87	"      v_str1 := '0';
+"
+FUN_CHECK_PROCESS_CS	FUNCTION	88	"    
+"
+FUN_CHECK_PROCESS_CS	FUNCTION	89	"      /*    if F_GET_VALUE_SPLI(in_jylsh, 'lk=', '|') = '1' then
+"
+FUN_CHECK_PROCESS_CS	FUNCTION	90	"        v_str1 := '1';
+"
+FUN_CHECK_PROCESS_CS	FUNCTION	91	"      end if;*/
+"
+FUN_CHECK_PROCESS_CS	FUNCTION	92	"      if F_GET_VALUE_SPLI(in_jylsh, 'hbwz=', '|') = '1' then
+"
+FUN_CHECK_PROCESS_CS	FUNCTION	93	"        v_str1 := '1';
+"
+FUN_CHECK_PROCESS_CS	FUNCTION	94	"      end if;
+"
+FUN_CHECK_PROCESS_CS	FUNCTION	95	"    
+"
+FUN_CHECK_PROCESS_CS	FUNCTION	96	"      if F_GET_VALUE_SPLI(in_jylsh, 'qg=', '|') = '1' then
+"
+FUN_CHECK_PROCESS_CS	FUNCTION	97	"        v_str1 := '1';
+"
+FUN_CHECK_PROCESS_CS	FUNCTION	98	"      end if;
+"
+FUN_CHECK_PROCESS_CS	FUNCTION	99	"      if F_GET_VALUE_SPLI(in_jylsh, 'qzjc=', '|') = '1' then
+"
+FUN_CHECK_PROCESS_CS	FUNCTION	100	"        v_str1 := '1';
+"
+FUN_CHECK_PROCESS_CS	FUNCTION	101	"      end if;
+"
+FUN_CHECK_PROCESS_CS	FUNCTION	102	"      if F_GET_VALUE_SPLI(in_jylsh, 'mjjc=', '|') = '1' then
+"
+FUN_CHECK_PROCESS_CS	FUNCTION	103	"        v_str1 := '1';
+"
+FUN_CHECK_PROCESS_CS	FUNCTION	104	"      end if;
+"
+FUN_CHECK_PROCESS_CS	FUNCTION	105	"      if F_GET_VALUE_SPLI(in_jylsh, 'qzeb=', '|') = '1' then
+"
+FUN_CHECK_PROCESS_CS	FUNCTION	106	"        v_str1 := '1';
+"
+FUN_CHECK_PROCESS_CS	FUNCTION	107	"      end if;
+"
+FUN_CHECK_PROCESS_CS	FUNCTION	108	"      if F_GET_VALUE_SPLI(in_jylsh, 'jjx=', '|') = '1' then
+"
+FUN_CHECK_PROCESS_CS	FUNCTION	109	"        v_str1 := '1';
+"
+FUN_CHECK_PROCESS_CS	FUNCTION	110	"      end if;
+"
+FUN_CHECK_PROCESS_CS	FUNCTION	111	"    
+"
+FUN_CHECK_PROCESS_CS	FUNCTION	112	"      if F_GET_VALUE_SPLI(in_jylsh, 'sflz=', '|') = '1' then
+"
+FUN_CHECK_PROCESS_CS	FUNCTION	113	"        v_str1 := '1';
+"
+FUN_CHECK_PROCESS_CS	FUNCTION	114	"      end if;
+"
+FUN_CHECK_PROCESS_CS	FUNCTION	115	"    
+"
+FUN_CHECK_PROCESS_CS	FUNCTION	116	"    end if;
+"
+FUN_CHECK_PROCESS_CS	FUNCTION	117	"  
+"
+FUN_CHECK_PROCESS_CS	FUNCTION	118	"    --发热 v_str2
+"
+FUN_CHECK_PROCESS_CS	FUNCTION	119	"    if 1 = 1 then
+"
+FUN_CHECK_PROCESS_CS	FUNCTION	120	"      v_str2 := '0';
+"
+FUN_CHECK_PROCESS_CS	FUNCTION	121	"    
+"
+FUN_CHECK_PROCESS_CS	FUNCTION	122	"      if F_GET_VALUE_SPLI(in_jylsh, 'fr=', '|') = '1' then
+"
+FUN_CHECK_PROCESS_CS	FUNCTION	123	"        v_str2 := '1';
+"
+FUN_CHECK_PROCESS_CS	FUNCTION	124	"      end if;
+"
+FUN_CHECK_PROCESS_CS	FUNCTION	125	"      if F_GET_VALUE_SPLI(in_jylsh, 'twfr=', '|') = '1' then
+"
+FUN_CHECK_PROCESS_CS	FUNCTION	126	"        v_str2 := '1';
+"
+FUN_CHECK_PROCESS_CS	FUNCTION	127	"      end if;
+"
+FUN_CHECK_PROCESS_CS	FUNCTION	128	"      if F_GET_VALUE_SPLI(in_jylsh, 'tsy=', '|') = '1' then
+"
+FUN_CHECK_PROCESS_CS	FUNCTION	129	"        v_str2 := '1';
+"
+FUN_CHECK_PROCESS_CS	FUNCTION	130	"      end if;
+"
+FUN_CHECK_PROCESS_CS	FUNCTION	131	"    
+"
+FUN_CHECK_PROCESS_CS	FUNCTION	132	"    end if;
+"
+FUN_CHECK_PROCESS_CS	FUNCTION	133	"  
+"
+FUN_CHECK_PROCESS_CS	FUNCTION	134	"    --有可疑症状 v_str3   
+"
+FUN_CHECK_PROCESS_CS	FUNCTION	135	"    if 1 = 1 then
+"
+FUN_CHECK_PROCESS_CS	FUNCTION	136	"      v_str3 := '0';
+"
+FUN_CHECK_PROCESS_CS	FUNCTION	137	"      --症状 ks=0|hlt=0|lt=0|bs=0|fl=0|jrst=0|fx=0|ex=1|ot=0
+"
+FUN_CHECK_PROCESS_CS	FUNCTION	138	"      if F_GET_VALUE_SPLI(in_jylsh, 'ks=', '|') = '1' then
+"
+FUN_CHECK_PROCESS_CS	FUNCTION	139	"        v_str3 := '1';
+"
+FUN_CHECK_PROCESS_CS	FUNCTION	140	"      end if;
+"
+FUN_CHECK_PROCESS_CS	FUNCTION	141	"      if F_GET_VALUE_SPLI(in_jylsh, 'hlt=', '|') = '1' then
+"
+FUN_CHECK_PROCESS_CS	FUNCTION	142	"        v_str3 := '1';
+"
+FUN_CHECK_PROCESS_CS	FUNCTION	143	"      end if;
+"
+FUN_CHECK_PROCESS_CS	FUNCTION	144	"      if F_GET_VALUE_SPLI(in_jylsh, 'lt=', '|') = '1' then
+"
+FUN_CHECK_PROCESS_CS	FUNCTION	145	"        v_str3 := '1';
+"
+FUN_CHECK_PROCESS_CS	FUNCTION	146	"      end if;
+"
+FUN_CHECK_PROCESS_CS	FUNCTION	147	"      /*    if F_GET_VALUE_SPLI(in_jylsh, 'bs=', '|') = '1' then
+"
+FUN_CHECK_PROCESS_CS	FUNCTION	148	"        v_str3 := '1';
+"
+FUN_CHECK_PROCESS_CS	FUNCTION	149	"      end if;*/
+"
+FUN_CHECK_PROCESS_CS	FUNCTION	150	"      if F_GET_VALUE_SPLI(in_jylsh, 'fl=', '|') = '1' then
+"
+FUN_CHECK_PROCESS_CS	FUNCTION	151	"        v_str3 := '1';
+"
+FUN_CHECK_PROCESS_CS	FUNCTION	152	"      end if;
+"
+FUN_CHECK_PROCESS_CS	FUNCTION	153	"      if F_GET_VALUE_SPLI(in_jylsh, 'jrst=', '|') = '1' then
+"
+FUN_CHECK_PROCESS_CS	FUNCTION	154	"        v_str3 := '1';
+"
+FUN_CHECK_PROCESS_CS	FUNCTION	155	"      end if;
+"
+FUN_CHECK_PROCESS_CS	FUNCTION	156	"      if F_GET_VALUE_SPLI(in_jylsh, 'fx=', '|') = '1' then
+"
+FUN_CHECK_PROCESS_CS	FUNCTION	157	"        v_str3 := '1';
+"
+FUN_CHECK_PROCESS_CS	FUNCTION	158	"      end if;
+"
+FUN_CHECK_PROCESS_CS	FUNCTION	159	"      /*  if F_GET_VALUE_SPLI(in_jylsh, 'ex=', '|') = '1' then
+"
+FUN_CHECK_PROCESS_CS	FUNCTION	160	"        v_str3 := '1';
+"
+FUN_CHECK_PROCESS_CS	FUNCTION	161	"      end if;
+"
+FUN_CHECK_PROCESS_CS	FUNCTION	162	"      if F_GET_VALUE_SPLI(in_jylsh, 'ot=', '|') = '1' then
+"
+FUN_CHECK_PROCESS_CS	FUNCTION	163	"        v_str3 := '1';
+"
+FUN_CHECK_PROCESS_CS	FUNCTION	164	"      end if;*/
+"
+FUN_CHECK_PROCESS_CS	FUNCTION	165	"    
+"
+FUN_CHECK_PROCESS_CS	FUNCTION	166	"      if F_GET_VALUE_SPLI(in_jylsh, 'qiduan=', '|') = '1' then
+"
+FUN_CHECK_PROCESS_CS	FUNCTION	167	"        v_str3 := '1';
+"
+FUN_CHECK_PROCESS_CS	FUNCTION	168	"      end if;
+"
+FUN_CHECK_PROCESS_CS	FUNCTION	169	"      if F_GET_VALUE_SPLI(in_jylsh, 'jiemocx=', '|') = '1' then
+"
+FUN_CHECK_PROCESS_CS	FUNCTION	170	"        v_str3 := '1';
+"
+FUN_CHECK_PROCESS_CS	FUNCTION	171	"      end if;
+"
+FUN_CHECK_PROCESS_CS	FUNCTION	172	"    
+"
+FUN_CHECK_PROCESS_CS	FUNCTION	173	"    end if;
+"
+FUN_CHECK_PROCESS_CS	FUNCTION	174	"  
+"
+FUN_CHECK_PROCESS_CS	FUNCTION	175	"    --怀孕 v_str4    
+"
+FUN_CHECK_PROCESS_CS	FUNCTION	176	"    if 1 = 1 then
+"
+FUN_CHECK_PROCESS_CS	FUNCTION	177	"      v_str4 := '0';
+"
+FUN_CHECK_PROCESS_CS	FUNCTION	178	"      if F_GET_VALUE_SPLI(in_jylsh, 'hy=', '|') = '1' then
+"
+FUN_CHECK_PROCESS_CS	FUNCTION	179	"        v_str4 := '1';
+"
+FUN_CHECK_PROCESS_CS	FUNCTION	180	"      end if;
+"
+FUN_CHECK_PROCESS_CS	FUNCTION	181	"    
+"
+FUN_CHECK_PROCESS_CS	FUNCTION	182	"    end if;
+"
+FUN_CHECK_PROCESS_CS	FUNCTION	183	"  
+"
+FUN_CHECK_PROCESS_CS	FUNCTION	184	"    --红色  '255,0,0';  绿色  0,255,0   紫色 128,0,128 黄色   255,255,0 蓝色 0,0,255 橙色  255,165,0  返回
+"
+FUN_CHECK_PROCESS_CS	FUNCTION	185	"  
+"
+FUN_CHECK_PROCESS_CS	FUNCTION	186	"    --孕妇或备孕状态，当出现可疑症状但无流行病学史及发热，由橙色直接升为蓝色 0,0,255
+"
+FUN_CHECK_PROCESS_CS	FUNCTION	187	"    if 1 = 1 then
+"
+FUN_CHECK_PROCESS_CS	FUNCTION	188	"      if v_str1 = '0' and v_str2 = '0' and v_str3 = '1' and v_str4 = '1' then
+"
+FUN_CHECK_PROCESS_CS	FUNCTION	189	"      
+"
+FUN_CHECK_PROCESS_CS	FUNCTION	190	"        out_msg := '0,0,255';
+"
+FUN_CHECK_PROCESS_CS	FUNCTION	191	"        if v_czgh = 'JDZZ' then
+"
+FUN_CHECK_PROCESS_CS	FUNCTION	192	"          out_msg := '蓝色';
+"
+FUN_CHECK_PROCESS_CS	FUNCTION	193	"        end if;
+"
+FUN_CHECK_PROCESS_CS	FUNCTION	194	"        return out_msg;
+"
+FUN_CHECK_PROCESS_CS	FUNCTION	195	"      end if;
+"
+FUN_CHECK_PROCESS_CS	FUNCTION	196	"    
+"
+FUN_CHECK_PROCESS_CS	FUNCTION	197	"    end if;
+"
+FUN_CHECK_PROCESS_CS	FUNCTION	198	"  
+"
+FUN_CHECK_PROCESS_CS	FUNCTION	199	"    --绿色 0,255,0 无流行病学史，无发热，无可疑症状
+"
+FUN_CHECK_PROCESS_CS	FUNCTION	200	"    if 1 = 1 then
+"
+FUN_CHECK_PROCESS_CS	FUNCTION	201	"      if v_str1 = '0' and v_str2 = '0' and v_str3 = '0' then
+"
+FUN_CHECK_PROCESS_CS	FUNCTION	202	"      
+"
+FUN_CHECK_PROCESS_CS	FUNCTION	203	"        out_msg := '0,255,0';
+"
+FUN_CHECK_PROCESS_CS	FUNCTION	204	"        if v_czgh = 'JDZZ' then
+"
+FUN_CHECK_PROCESS_CS	FUNCTION	205	"          out_msg := '绿色';
+"
+FUN_CHECK_PROCESS_CS	FUNCTION	206	"        end if;
+"
+FUN_CHECK_PROCESS_CS	FUNCTION	207	"      
+"
+FUN_CHECK_PROCESS_CS	FUNCTION	208	"        return out_msg;
+"
+FUN_CHECK_PROCESS_CS	FUNCTION	209	"      end if;
+"
+FUN_CHECK_PROCESS_CS	FUNCTION	210	"    
+"
+FUN_CHECK_PROCESS_CS	FUNCTION	211	"    end if;
+"
+FUN_CHECK_PROCESS_CS	FUNCTION	212	"  
+"
+FUN_CHECK_PROCESS_CS	FUNCTION	213	"    --紫色   128,0,128 有流行病学史，有发热或可疑症状者
+"
+FUN_CHECK_PROCESS_CS	FUNCTION	214	"    if 1 = 1 then
+"
+FUN_CHECK_PROCESS_CS	FUNCTION	215	"      if v_str1 = '1' and (v_str2 = '1' or v_str3 = '1') then
+"
+FUN_CHECK_PROCESS_CS	FUNCTION	216	"      
+"
+FUN_CHECK_PROCESS_CS	FUNCTION	217	"        out_msg := '128,0,128';
+"
+FUN_CHECK_PROCESS_CS	FUNCTION	218	"        if v_czgh = 'JDZZ' then
+"
+FUN_CHECK_PROCESS_CS	FUNCTION	219	"          out_msg := '紫色';
+"
+FUN_CHECK_PROCESS_CS	FUNCTION	220	"        end if;
+"
+FUN_CHECK_PROCESS_CS	FUNCTION	221	"        return out_msg;
+"
+FUN_CHECK_PROCESS_CS	FUNCTION	222	"      end if;
+"
+FUN_CHECK_PROCESS_CS	FUNCTION	223	"    
+"
+FUN_CHECK_PROCESS_CS	FUNCTION	224	"    end if;
+"
+FUN_CHECK_PROCESS_CS	FUNCTION	225	"  
+"
+FUN_CHECK_PROCESS_CS	FUNCTION	226	"    -- 黄色  255,255,0 无流行病学史的发热患者
+"
+FUN_CHECK_PROCESS_CS	FUNCTION	227	"    if 1 = 1 then
+"
+FUN_CHECK_PROCESS_CS	FUNCTION	228	"      if v_str1 = '0' and v_str2 = '1' then
+"
+FUN_CHECK_PROCESS_CS	FUNCTION	229	"      
+"
+FUN_CHECK_PROCESS_CS	FUNCTION	230	"        out_msg := '255,255,0';
+"
+FUN_CHECK_PROCESS_CS	FUNCTION	231	"        if v_czgh = 'JDZZ' then
+"
+FUN_CHECK_PROCESS_CS	FUNCTION	232	"          out_msg := '黄色';
+"
+FUN_CHECK_PROCESS_CS	FUNCTION	233	"        end if;
+"
+FUN_CHECK_PROCESS_CS	FUNCTION	234	"        return out_msg;
+"
+FUN_CHECK_PROCESS_CS	FUNCTION	235	"      end if;
+"
+FUN_CHECK_PROCESS_CS	FUNCTION	236	"    
+"
+FUN_CHECK_PROCESS_CS	FUNCTION	237	"    end if;
+"
+FUN_CHECK_PROCESS_CS	FUNCTION	238	"  
+"
+FUN_CHECK_PROCESS_CS	FUNCTION	239	"    --蓝色  0,0,255 有流病学史，无发热且无可疑症状，因其他原因就诊
+"
+FUN_CHECK_PROCESS_CS	FUNCTION	240	"    if 1 = 1 then
+"
+FUN_CHECK_PROCESS_CS	FUNCTION	241	"      if v_str1 = '1' and v_str2 = '0' and v_str3 = '0' then
+"
+FUN_CHECK_PROCESS_CS	FUNCTION	242	"      
+"
+FUN_CHECK_PROCESS_CS	FUNCTION	243	"        out_msg := '0,0,255';
+"
+FUN_CHECK_PROCESS_CS	FUNCTION	244	"        if v_czgh = 'JDZZ' then
+"
+FUN_CHECK_PROCESS_CS	FUNCTION	245	"          out_msg := '蓝色';
+"
+FUN_CHECK_PROCESS_CS	FUNCTION	246	"        end if;
+"
+FUN_CHECK_PROCESS_CS	FUNCTION	247	"        return out_msg;
+"
+FUN_CHECK_PROCESS_CS	FUNCTION	248	"      end if;
+"
+FUN_CHECK_PROCESS_CS	FUNCTION	249	"    
+"
+FUN_CHECK_PROCESS_CS	FUNCTION	250	"    end if;
+"
+FUN_CHECK_PROCESS_CS	FUNCTION	251	"  
+"
+FUN_CHECK_PROCESS_CS	FUNCTION	252	"    --橙色  255,165,0 有可疑症状，无流行病学史，无发热
+"
+FUN_CHECK_PROCESS_CS	FUNCTION	253	"    if 1 = 1 then
+"
+FUN_CHECK_PROCESS_CS	FUNCTION	254	"      if v_str1 = '0' and v_str2 = '0' and v_str3 = '1' then
+"
+FUN_CHECK_PROCESS_CS	FUNCTION	255	"      
+"
+FUN_CHECK_PROCESS_CS	FUNCTION	256	"        out_msg := '255,165,0';
+"
+FUN_CHECK_PROCESS_CS	FUNCTION	257	"        if v_czgh = 'JDZZ' then
+"
+FUN_CHECK_PROCESS_CS	FUNCTION	258	"          out_msg := '橙色';
+"
+FUN_CHECK_PROCESS_CS	FUNCTION	259	"        end if;
+"
+FUN_CHECK_PROCESS_CS	FUNCTION	260	"        return out_msg;
+"
+FUN_CHECK_PROCESS_CS	FUNCTION	261	"      end if;
+"
+FUN_CHECK_PROCESS_CS	FUNCTION	262	"    
+"
+FUN_CHECK_PROCESS_CS	FUNCTION	263	"    end if;
+"
+FUN_CHECK_PROCESS_CS	FUNCTION	264	"  
+"
+FUN_CHECK_PROCESS_CS	FUNCTION	265	"    --默认红色放行 '255,0,0'
+"
+FUN_CHECK_PROCESS_CS	FUNCTION	266	"  
+"
+FUN_CHECK_PROCESS_CS	FUNCTION	267	"    out_msg := '255,0,0';
+"
+FUN_CHECK_PROCESS_CS	FUNCTION	268	"    if v_czgh = 'JDZZ' then
+"
+FUN_CHECK_PROCESS_CS	FUNCTION	269	"      out_msg := '红色';
+"
+FUN_CHECK_PROCESS_CS	FUNCTION	270	"    end if;
+"
+FUN_CHECK_PROCESS_CS	FUNCTION	271	"    return out_msg;
+"
+FUN_CHECK_PROCESS_CS	FUNCTION	272	"  
+"
+FUN_CHECK_PROCESS_CS	FUNCTION	273	"  end if;
+"
+FUN_CHECK_PROCESS_CS	FUNCTION	274	"
+"
+FUN_CHECK_PROCESS_CS	FUNCTION	275	"  if in_jiaoyilx = '病区生成条码核查' then
+"
+FUN_CHECK_PROCESS_CS	FUNCTION	276	"  
+"
+FUN_CHECK_PROCESS_CS	FUNCTION	277	"    select NVL(MAX(brxm || ',' || decode(brxb, 1, '男', '女') || ',不能开立 ' || ylmc),
+"
+FUN_CHECK_PROCESS_CS	FUNCTION	278	"               '')
+"
+FUN_CHECK_PROCESS_CS	FUNCTION	279	"      into out_msg
+"
+FUN_CHECK_PROCESS_CS	FUNCTION	280	"      from yz_jysqd t
+"
+FUN_CHECK_PROCESS_CS	FUNCTION	281	"     where ylxh in (5441, 14341, 21704, 23874)
+"
+FUN_CHECK_PROCESS_CS	FUNCTION	282	"       and brxb = 2
+"
+FUN_CHECK_PROCESS_CS	FUNCTION	283	"       and xh = in_jylsh;
+"
+FUN_CHECK_PROCESS_CS	FUNCTION	284	"  
+"
+FUN_CHECK_PROCESS_CS	FUNCTION	285	"    if length(out_msg) > 1 then
+"
+FUN_CHECK_PROCESS_CS	FUNCTION	286	"      return out_msg;
+"
+FUN_CHECK_PROCESS_CS	FUNCTION	287	"    end if;
+"
+FUN_CHECK_PROCESS_CS	FUNCTION	288	"  
+"
+FUN_CHECK_PROCESS_CS	FUNCTION	289	"    select NVL(MAX(brxm || ',' || decode(brxb, 1, '男', '女') || ',不能开立 ' || ylmc),
+"
+FUN_CHECK_PROCESS_CS	FUNCTION	290	"               '')
+"
+FUN_CHECK_PROCESS_CS	FUNCTION	291	"      into out_msg
+"
+FUN_CHECK_PROCESS_CS	FUNCTION	292	"      from yz_jysqd t
+"
+FUN_CHECK_PROCESS_CS	FUNCTION	293	"     where ylxh in (5443, 23875, 14726, 21708, 20694)
+"
+FUN_CHECK_PROCESS_CS	FUNCTION	294	"       and brxb = 1
+"
+FUN_CHECK_PROCESS_CS	FUNCTION	295	"       and xh = in_jylsh;
+"
+FUN_CHECK_PROCESS_CS	FUNCTION	296	"  
+"
+FUN_CHECK_PROCESS_CS	FUNCTION	297	"    if length(out_msg) > 1 then
+"
+FUN_CHECK_PROCESS_CS	FUNCTION	298	"      return out_msg;
+"
+FUN_CHECK_PROCESS_CS	FUNCTION	299	"    end if;
+"
+FUN_CHECK_PROCESS_CS	FUNCTION	300	"  
+"
+FUN_CHECK_PROCESS_CS	FUNCTION	301	"    return '';
+"
+FUN_CHECK_PROCESS_CS	FUNCTION	302	"  end if;
+"
+FUN_CHECK_PROCESS_CS	FUNCTION	303	"  return out_msg;
+"
+FUN_CHECK_PROCESS_CS	FUNCTION	304	"
+"
+FUN_CHECK_PROCESS_CS	FUNCTION	305	"end;
+"

@@ -1,0 +1,62 @@
+F_GET_MPI	FUNCTION	1	"function F_GET_MPI(arg_patient in varchar2,
+"
+F_GET_MPI	FUNCTION	2	"                                     arg_ywlx    in varchar2)
+"
+F_GET_MPI	FUNCTION	3	"  return varchar2 is
+"
+F_GET_MPI	FUNCTION	4	"  ld_return varchar2(50);
+"
+F_GET_MPI	FUNCTION	5	"begin
+"
+F_GET_MPI	FUNCTION	6	"  begin
+"
+F_GET_MPI	FUNCTION	7	"    IF Upper(arg_ywlx) = 'ZY' then
+"
+F_GET_MPI	FUNCTION	8	"      SELECT a.EMPI
+"
+F_GET_MPI	FUNCTION	9	"        into ld_return
+"
+F_GET_MPI	FUNCTION	10	"        FROM zjhis.zy_patient_information a
+"
+F_GET_MPI	FUNCTION	11	"       WHERE a.patient_no = to_number(arg_patient);
+"
+F_GET_MPI	FUNCTION	12	"      return ld_return;
+"
+F_GET_MPI	FUNCTION	13	"    ELSIF Upper(arg_ywlx) = 'MZ' then
+"
+F_GET_MPI	FUNCTION	14	"      SELECT B.EMPI
+"
+F_GET_MPI	FUNCTION	15	"        into ld_return
+"
+F_GET_MPI	FUNCTION	16	"        FROM zjhis.GY_BRJBXXK B
+"
+F_GET_MPI	FUNCTION	17	"       WHERE b.jzkh = arg_patient;
+"
+F_GET_MPI	FUNCTION	18	"    ELSIF Upper(arg_ywlx) = 'ZY1' then
+"
+F_GET_MPI	FUNCTION	19	"      SELECT c.EMPI
+"
+F_GET_MPI	FUNCTION	20	"        into ld_return
+"
+F_GET_MPI	FUNCTION	21	"        FROM zjhis.zy_patient_information c
+"
+F_GET_MPI	FUNCTION	22	"       WHERE c.bah = arg_patient
+"
+F_GET_MPI	FUNCTION	23	"         and rownum = 1;
+"
+F_GET_MPI	FUNCTION	24	"      return ld_return;
+"
+F_GET_MPI	FUNCTION	25	"    end if;
+"
+F_GET_MPI	FUNCTION	26	"  exception
+"
+F_GET_MPI	FUNCTION	27	"    when no_data_found then
+"
+F_GET_MPI	FUNCTION	28	"      ld_return := '';
+"
+F_GET_MPI	FUNCTION	29	"  end;
+"
+F_GET_MPI	FUNCTION	30	"  return(ld_return);
+"
+F_GET_MPI	FUNCTION	31	"end;
+"

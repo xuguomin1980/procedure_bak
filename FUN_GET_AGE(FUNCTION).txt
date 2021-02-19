@@ -1,0 +1,944 @@
+FUN_GET_AGE	FUNCTION	1	"FUNCTION FUN_GET_AGE(ad_csrq IN date,
+"
+FUN_GET_AGE	FUNCTION	2	"                                             ad_dqrq IN date,
+"
+FUN_GET_AGE	FUNCTION	3	"                                             ai_cs   IN VARCHAR2)
+"
+FUN_GET_AGE	FUNCTION	4	"  RETURN VARCHAR2 IS
+"
+FUN_GET_AGE	FUNCTION	5	"  RESULT   VARCHAR2(50);
+"
+FUN_GET_AGE	FUNCTION	6	"  n_months number;
+"
+FUN_GET_AGE	FUNCTION	7	"  n_days   number;
+"
+FUN_GET_AGE	FUNCTION	8	"  n_year   number;
+"
+FUN_GET_AGE	FUNCTION	9	"  n_cs     number;
+"
+FUN_GET_AGE	FUNCTION	10	"  d_dqrq   date;
+"
+FUN_GET_AGE	FUNCTION	11	"  s_nl     VARCHAR2(50);
+"
+FUN_GET_AGE	FUNCTION	12	"  s_ts     VARCHAR2(50);
+"
+FUN_GET_AGE	FUNCTION	13	"  /*Modi daq  2011/08/03 对 9,10 bug处理  */
+"
+FUN_GET_AGE	FUNCTION	14	"  /*Modi  daq   2017/04/25 配合20170510 儿童实6周岁以下（含）年龄显示 （月）
+"
+FUN_GET_AGE	FUNCTION	15	"   增加了参数11
+"
+FUN_GET_AGE	FUNCTION	16	"  /*Modi daq  2017/05/04  配合20170510 儿童实6周岁以下（含）年龄显示 （日）
+"
+FUN_GET_AGE	FUNCTION	17	"   增加了参数12 */
+"
+FUN_GET_AGE	FUNCTION	18	"BEGIN
+"
+FUN_GET_AGE	FUNCTION	19	"  Begin
+"
+FUN_GET_AGE	FUNCTION	20	"    IF ad_csrq is null OR ad_csrq <= TO_DATE('1900-1-1', 'YYYY-MM-DD') THEN
+"
+FUN_GET_AGE	FUNCTION	21	"      RESULT := '不详';
+"
+FUN_GET_AGE	FUNCTION	22	"      RETURN(RESULT);
+"
+FUN_GET_AGE	FUNCTION	23	"    END IF;
+"
+FUN_GET_AGE	FUNCTION	24	"    IF ad_dqrq is null OR ad_dqrq <= TO_DATE('1900-1-1', 'YYYY-MM-DD') THEN
+"
+FUN_GET_AGE	FUNCTION	25	"      d_dqrq := SYSDATE;
+"
+FUN_GET_AGE	FUNCTION	26	"    ELSE
+"
+FUN_GET_AGE	FUNCTION	27	"      d_dqrq := ad_dqrq;
+"
+FUN_GET_AGE	FUNCTION	28	"    END IF;
+"
+FUN_GET_AGE	FUNCTION	29	"
+"
+FUN_GET_AGE	FUNCTION	30	"    Begin
+"
+FUN_GET_AGE	FUNCTION	31	"      --取gy_xtcs中的csmc='YYNL_JSMS',如果为0,则取传入的ai_cs,否则统一取gy_xtcs中的csz2
+"
+FUN_GET_AGE	FUNCTION	32	"      Select Nvl(csz2, 1)
+"
+FUN_GET_AGE	FUNCTION	33	"        Into n_cs
+"
+FUN_GET_AGE	FUNCTION	34	"        From gy_xtcs
+"
+FUN_GET_AGE	FUNCTION	35	"       Where xtxh = 0
+"
+FUN_GET_AGE	FUNCTION	36	"         And csmc = 'YYNL_JSMS';
+"
+FUN_GET_AGE	FUNCTION	37	"    EXCEPTION
+"
+FUN_GET_AGE	FUNCTION	38	"      ---当没有数据时
+"
+FUN_GET_AGE	FUNCTION	39	"      when NO_DATA_FOUND THEN
+"
+FUN_GET_AGE	FUNCTION	40	"        n_cs := 0;
+"
+FUN_GET_AGE	FUNCTION	41	"    End;
+"
+FUN_GET_AGE	FUNCTION	42	"    --如果为<=0 取传入的ai_cs
+"
+FUN_GET_AGE	FUNCTION	43	"    If n_Cs <= 0 Then
+"
+FUN_GET_AGE	FUNCTION	44	"      n_cs := ai_cs;
+"
+FUN_GET_AGE	FUNCTION	45	"    Else
+"
+FUN_GET_AGE	FUNCTION	46	"      n_cs := n_Cs;
+"
+FUN_GET_AGE	FUNCTION	47	"    End If;
+"
+FUN_GET_AGE	FUNCTION	48	"
+"
+FUN_GET_AGE	FUNCTION	49	"    If n_cs is Null Or n_cs <= 0 Then
+"
+FUN_GET_AGE	FUNCTION	50	"      n_cs := 1;
+"
+FUN_GET_AGE	FUNCTION	51	"    End If;
+"
+FUN_GET_AGE	FUNCTION	52	"
+"
+FUN_GET_AGE	FUNCTION	53	"    --计算日数
+"
+FUN_GET_AGE	FUNCTION	54	"    select d_dqrq - ad_csrq into n_days from dual;
+"
+FUN_GET_AGE	FUNCTION	55	"    IF n_days < 1 THEN
+"
+FUN_GET_AGE	FUNCTION	56	"      n_days := 1;
+"
+FUN_GET_AGE	FUNCTION	57	"    Else
+"
+FUN_GET_AGE	FUNCTION	58	"      n_days := n_days + 1;
+"
+FUN_GET_AGE	FUNCTION	59	"    END IF;
+"
+FUN_GET_AGE	FUNCTION	60	"
+"
+FUN_GET_AGE	FUNCTION	61	"    --计算年数
+"
+FUN_GET_AGE	FUNCTION	62	"    select to_number(to_char(ad_dqrq, 'yyyy')) -
+"
+FUN_GET_AGE	FUNCTION	63	"           to_number(to_char(ad_csrq, 'yyyy'))
+"
+FUN_GET_AGE	FUNCTION	64	"      into n_year
+"
+FUN_GET_AGE	FUNCTION	65	"      from dual;
+"
+FUN_GET_AGE	FUNCTION	66	"    if n_year < 0 then
+"
+FUN_GET_AGE	FUNCTION	67	"      n_year := 0;
+"
+FUN_GET_AGE	FUNCTION	68	"    end if;
+"
+FUN_GET_AGE	FUNCTION	69	"
+"
+FUN_GET_AGE	FUNCTION	70	"    --根据不同计算方法来取相应年龄
+"
+FUN_GET_AGE	FUNCTION	71	"    IF n_cs = 1 THEN
+"
+FUN_GET_AGE	FUNCTION	72	"      select to_number(to_char(d_dqrq, 'YYYY')) * 12 +
+"
+FUN_GET_AGE	FUNCTION	73	"             to_number(to_char(d_dqrq, 'MM')) -
+"
+FUN_GET_AGE	FUNCTION	74	"             (to_number(to_char(ad_csrq, 'YYYY')) * 12 +
+"
+FUN_GET_AGE	FUNCTION	75	"              to_number(to_char(ad_csrq, 'MM')))
+"
+FUN_GET_AGE	FUNCTION	76	"        into n_months
+"
+FUN_GET_AGE	FUNCTION	77	"        from dual;
+"
+FUN_GET_AGE	FUNCTION	78	"      IF n_months > 12 THEN
+"
+FUN_GET_AGE	FUNCTION	79	"        s_nl := to_char(trunc(n_months / 12)) || '岁';
+"
+FUN_GET_AGE	FUNCTION	80	"      ELSIF n_months > 1 THEN
+"
+FUN_GET_AGE	FUNCTION	81	"        IF n_days < 32 THEN
+"
+FUN_GET_AGE	FUNCTION	82	"          s_nl := to_char(trunc(n_days)) || '天';
+"
+FUN_GET_AGE	FUNCTION	83	"        ELSE
+"
+FUN_GET_AGE	FUNCTION	84	"          s_nl := to_char(trunc(n_months)) || '月';
+"
+FUN_GET_AGE	FUNCTION	85	"        END IF;
+"
+FUN_GET_AGE	FUNCTION	86	"      ELSE
+"
+FUN_GET_AGE	FUNCTION	87	"        s_nl := to_char(trunc(n_days)) || '天';
+"
+FUN_GET_AGE	FUNCTION	88	"      END IF;
+"
+FUN_GET_AGE	FUNCTION	89	"    ELSIF n_cs = 2 THEN
+"
+FUN_GET_AGE	FUNCTION	90	"      If n_days < 100 Then
+"
+FUN_GET_AGE	FUNCTION	91	"        s_nl := to_char(trunc(n_days)) || '天';
+"
+FUN_GET_AGE	FUNCTION	92	"      ElsIf n_days < 735 Then
+"
+FUN_GET_AGE	FUNCTION	93	"        s_nl := to_char(trunc(n_days / 30.5, 0)) || '月';
+"
+FUN_GET_AGE	FUNCTION	94	"      Else
+"
+FUN_GET_AGE	FUNCTION	95	"        s_nl := to_char(n_year + 1) || '岁';
+"
+FUN_GET_AGE	FUNCTION	96	"      End If;
+"
+FUN_GET_AGE	FUNCTION	97	"    ELSIF n_cs = 3 THEN
+"
+FUN_GET_AGE	FUNCTION	98	"      If n_days < 100 Then
+"
+FUN_GET_AGE	FUNCTION	99	"        s_nl := to_char(trunc(n_days)) || '天';
+"
+FUN_GET_AGE	FUNCTION	100	"      ElsIf n_days < 735 Then
+"
+FUN_GET_AGE	FUNCTION	101	"        s_nl := to_char(trunc(n_days / 30.5, 0)) || '月';
+"
+FUN_GET_AGE	FUNCTION	102	"      Else
+"
+FUN_GET_AGE	FUNCTION	103	"        if to_char(ad_csrq, 'mmdd') >= to_char(ad_dqrq, 'mmdd') then
+"
+FUN_GET_AGE	FUNCTION	104	"          s_nl := to_char(n_year + 2) || '岁';
+"
+FUN_GET_AGE	FUNCTION	105	"        else
+"
+FUN_GET_AGE	FUNCTION	106	"          s_nl := to_char(n_year + 1) || '岁';
+"
+FUN_GET_AGE	FUNCTION	107	"        end if;
+"
+FUN_GET_AGE	FUNCTION	108	"      End If;
+"
+FUN_GET_AGE	FUNCTION	109	"    ELSIF n_cs = 4 THEN
+"
+FUN_GET_AGE	FUNCTION	110	"      If n_days < 100 Then
+"
+FUN_GET_AGE	FUNCTION	111	"        s_nl := to_char(trunc(n_days)) || '天';
+"
+FUN_GET_AGE	FUNCTION	112	"      ElsIf n_days < 735 Then
+"
+FUN_GET_AGE	FUNCTION	113	"        n_months := trunc(n_days / 30.5);
+"
+FUN_GET_AGE	FUNCTION	114	"        n_days   := round((n_days - n_months * 30.5), 0);
+"
+FUN_GET_AGE	FUNCTION	115	"        If n_days > 0 Then
+"
+FUN_GET_AGE	FUNCTION	116	"          s_nl := to_char(n_months) || '月' || to_char(n_days) || '天';
+"
+FUN_GET_AGE	FUNCTION	117	"        Else
+"
+FUN_GET_AGE	FUNCTION	118	"          s_nl := to_char(n_months) || '月';
+"
+FUN_GET_AGE	FUNCTION	119	"        End If;
+"
+FUN_GET_AGE	FUNCTION	120	"      Else
+"
+FUN_GET_AGE	FUNCTION	121	"        select round(months_between(d_dqrq, ad_csrq))
+"
+FUN_GET_AGE	FUNCTION	122	"          into n_months
+"
+FUN_GET_AGE	FUNCTION	123	"          from dual;
+"
+FUN_GET_AGE	FUNCTION	124	"        If mod(n_months, 12) = 0 Then
+"
+FUN_GET_AGE	FUNCTION	125	"          s_nl := to_char(trunc(n_months / 12)) || '岁';
+"
+FUN_GET_AGE	FUNCTION	126	"        Else
+"
+FUN_GET_AGE	FUNCTION	127	"          IF trunc(n_months / 12) < 14 THEN
+"
+FUN_GET_AGE	FUNCTION	128	"            s_nl := to_char(trunc(n_months / 12)) || '岁' ||
+"
+FUN_GET_AGE	FUNCTION	129	"                    to_char(n_months - trunc(n_months / 12) * 12) || '月';
+"
+FUN_GET_AGE	FUNCTION	130	"          ELSE
+"
+FUN_GET_AGE	FUNCTION	131	"            s_nl := to_char(trunc(n_months / 12)) || '岁';
+"
+FUN_GET_AGE	FUNCTION	132	"          END IF;
+"
+FUN_GET_AGE	FUNCTION	133	"        End If;
+"
+FUN_GET_AGE	FUNCTION	134	"      End If;
+"
+FUN_GET_AGE	FUNCTION	135	"    ELSIF n_cs = 5 THEN
+"
+FUN_GET_AGE	FUNCTION	136	"      n_months := trunc(n_days / 30.5);
+"
+FUN_GET_AGE	FUNCTION	137	"      If n_months < 1 Then
+"
+FUN_GET_AGE	FUNCTION	138	"        s_nl := to_char(trunc(n_days)) || '天';
+"
+FUN_GET_AGE	FUNCTION	139	"      ElsIf n_months < 12 Then
+"
+FUN_GET_AGE	FUNCTION	140	"        n_days := round((n_days - n_months * 30.5), 0);
+"
+FUN_GET_AGE	FUNCTION	141	"        If n_days > 0 Then
+"
+FUN_GET_AGE	FUNCTION	142	"          s_nl := to_char(n_months) || '月' || to_char(n_days) || '天';
+"
+FUN_GET_AGE	FUNCTION	143	"        Else
+"
+FUN_GET_AGE	FUNCTION	144	"          s_nl := to_char(n_months) || '月';
+"
+FUN_GET_AGE	FUNCTION	145	"        End If;
+"
+FUN_GET_AGE	FUNCTION	146	"      Else
+"
+FUN_GET_AGE	FUNCTION	147	"        If mod(n_months, 12) = 0 Then
+"
+FUN_GET_AGE	FUNCTION	148	"          s_nl := to_char(trunc(n_months / 12)) || '岁';
+"
+FUN_GET_AGE	FUNCTION	149	"        Else
+"
+FUN_GET_AGE	FUNCTION	150	"          IF trunc(n_months / 12) < 14 THEN
+"
+FUN_GET_AGE	FUNCTION	151	"            s_nl := to_char(trunc(n_months / 12)) || '岁' ||
+"
+FUN_GET_AGE	FUNCTION	152	"                    to_char(n_months - trunc(n_months / 12) * 12) || '月';
+"
+FUN_GET_AGE	FUNCTION	153	"          ELSE
+"
+FUN_GET_AGE	FUNCTION	154	"            s_nl := to_char(trunc(n_months / 12)) || '岁';
+"
+FUN_GET_AGE	FUNCTION	155	"          END IF;
+"
+FUN_GET_AGE	FUNCTION	156	"        End If;
+"
+FUN_GET_AGE	FUNCTION	157	"      End If;
+"
+FUN_GET_AGE	FUNCTION	158	"    ELSIF n_cs = 6 THEN
+"
+FUN_GET_AGE	FUNCTION	159	"      If n_days < 100 Then
+"
+FUN_GET_AGE	FUNCTION	160	"        s_nl := to_char(trunc(n_days)) || '天';
+"
+FUN_GET_AGE	FUNCTION	161	"      ElsIf n_days < 735 Then
+"
+FUN_GET_AGE	FUNCTION	162	"        n_months := trunc(n_days / 30.5);
+"
+FUN_GET_AGE	FUNCTION	163	"        n_days   := round((n_days - n_months * 30.5), 0);
+"
+FUN_GET_AGE	FUNCTION	164	"        If n_days > 0 Then
+"
+FUN_GET_AGE	FUNCTION	165	"          s_nl := to_char(n_months) || '月' || to_char(n_days) || '天';
+"
+FUN_GET_AGE	FUNCTION	166	"        Else
+"
+FUN_GET_AGE	FUNCTION	167	"          s_nl := to_char(n_months) || '月';
+"
+FUN_GET_AGE	FUNCTION	168	"        End If;
+"
+FUN_GET_AGE	FUNCTION	169	"      Else
+"
+FUN_GET_AGE	FUNCTION	170	"        select round(months_between(d_dqrq, ad_csrq))
+"
+FUN_GET_AGE	FUNCTION	171	"          into n_months
+"
+FUN_GET_AGE	FUNCTION	172	"          from dual;
+"
+FUN_GET_AGE	FUNCTION	173	"        If mod(n_months, 12) = 0 Then
+"
+FUN_GET_AGE	FUNCTION	174	"          s_nl := to_char(trunc(n_months / 12)) || '岁';
+"
+FUN_GET_AGE	FUNCTION	175	"        Else
+"
+FUN_GET_AGE	FUNCTION	176	"          s_nl := to_char(trunc(n_months / 12)) || '岁' ||
+"
+FUN_GET_AGE	FUNCTION	177	"                  to_char(n_months - trunc(n_months / 12) * 12) || '月';
+"
+FUN_GET_AGE	FUNCTION	178	"        End If;
+"
+FUN_GET_AGE	FUNCTION	179	"
+"
+FUN_GET_AGE	FUNCTION	180	"      End If;
+"
+FUN_GET_AGE	FUNCTION	181	"    ELSIF n_cs = 7 THEN
+"
+FUN_GET_AGE	FUNCTION	182	"      IF to_char(d_dqrq, 'yyyy') > to_char(ad_csrq, 'yyyy') THEN
+"
+FUN_GET_AGE	FUNCTION	183	"        s_nl := (to_char(d_dqrq, 'yyyy') - to_char(ad_csrq, 'yyyy')) || '岁';
+"
+FUN_GET_AGE	FUNCTION	184	"      ELSE
+"
+FUN_GET_AGE	FUNCTION	185	"        s_nl := '1岁';
+"
+FUN_GET_AGE	FUNCTION	186	"      END IF;
+"
+FUN_GET_AGE	FUNCTION	187	"    ELSIF n_cs = 8 THEN
+"
+FUN_GET_AGE	FUNCTION	188	"      select to_number(to_char(d_dqrq, 'YYYY')) * 12 +
+"
+FUN_GET_AGE	FUNCTION	189	"             to_number(to_char(d_dqrq, 'MM')) -
+"
+FUN_GET_AGE	FUNCTION	190	"             (to_number(to_char(ad_csrq, 'YYYY')) * 12 +
+"
+FUN_GET_AGE	FUNCTION	191	"              to_number(to_char(ad_csrq, 'MM')))
+"
+FUN_GET_AGE	FUNCTION	192	"        into n_months
+"
+FUN_GET_AGE	FUNCTION	193	"        from dual;
+"
+FUN_GET_AGE	FUNCTION	194	"      IF n_months > 12 THEN
+"
+FUN_GET_AGE	FUNCTION	195	"        s_nl := to_char(to_char(d_dqrq, 'YYYY') - to_char(ad_csrq, 'YYYY')) || '岁';
+"
+FUN_GET_AGE	FUNCTION	196	"      ELSIF n_months > 1 THEN
+"
+FUN_GET_AGE	FUNCTION	197	"        IF n_days < 32 THEN
+"
+FUN_GET_AGE	FUNCTION	198	"          s_nl := to_char(trunc(n_days)) || '天';
+"
+FUN_GET_AGE	FUNCTION	199	"        ELSE
+"
+FUN_GET_AGE	FUNCTION	200	"          s_nl := to_char(trunc(n_months)) || '月';
+"
+FUN_GET_AGE	FUNCTION	201	"        END IF;
+"
+FUN_GET_AGE	FUNCTION	202	"      ELSE
+"
+FUN_GET_AGE	FUNCTION	203	"        s_nl := to_char(trunc(n_days)) || '天';
+"
+FUN_GET_AGE	FUNCTION	204	"      END IF;
+"
+FUN_GET_AGE	FUNCTION	205	"    ELSIF n_cs = 9 Then
+"
+FUN_GET_AGE	FUNCTION	206	"      -- 以实(周)岁 算*/
+"
+FUN_GET_AGE	FUNCTION	207	"      select to_number(to_char(d_dqrq, 'YYYY')) * 12 +
+"
+FUN_GET_AGE	FUNCTION	208	"             to_number(to_char(d_dqrq, 'MM')) -
+"
+FUN_GET_AGE	FUNCTION	209	"             (to_number(to_char(ad_csrq, 'YYYY')) * 12 +
+"
+FUN_GET_AGE	FUNCTION	210	"              to_number(to_char(ad_csrq, 'MM')))
+"
+FUN_GET_AGE	FUNCTION	211	"        into n_months
+"
+FUN_GET_AGE	FUNCTION	212	"        from dual; ---// (当前年份*12+当前月份) – (出生年份*12+出生月份)
+"
+FUN_GET_AGE	FUNCTION	213	"      IF n_months > 36 THEN
+"
+FUN_GET_AGE	FUNCTION	214	"        --//如果大于36个月
+"
+FUN_GET_AGE	FUNCTION	215	"        ---  //周岁的算法
+"
+FUN_GET_AGE	FUNCTION	216	"        If to_char(ad_csrq, 'MM') = to_char(d_dqrq, 'MM') Then
+"
+FUN_GET_AGE	FUNCTION	217	"          --  //同月的时候
+"
+FUN_GET_AGE	FUNCTION	218	"          If to_char(ad_csrq, 'DD') > to_char(d_dqrq, 'DD') then
+"
+FUN_GET_AGE	FUNCTION	219	"            s_nl := to_char(Trunc(n_months / 12, 0) - 1) || '岁';
+"
+FUN_GET_AGE	FUNCTION	220	"          else
+"
+FUN_GET_AGE	FUNCTION	221	"            s_nl := Trunc(n_months / 12, 0) || '岁';
+"
+FUN_GET_AGE	FUNCTION	222	"          End If;
+"
+FUN_GET_AGE	FUNCTION	223	"        Else
+"
+FUN_GET_AGE	FUNCTION	224	"          s_nl := Trunc(n_months / 12, 0) || '岁';
+"
+FUN_GET_AGE	FUNCTION	225	"        End If;
+"
+FUN_GET_AGE	FUNCTION	226	"      ELSIF n_months > 12 and n_months < 36 then
+"
+FUN_GET_AGE	FUNCTION	227	"        If to_char(ad_csrq, 'MM') = to_char(d_dqrq, 'MM') Then
+"
+FUN_GET_AGE	FUNCTION	228	"          --  //同月的时候
+"
+FUN_GET_AGE	FUNCTION	229	"          If to_char(ad_csrq, 'DD') > to_char(d_dqrq, 'DD') then
+"
+FUN_GET_AGE	FUNCTION	230	"            s_nl := to_char(Trunc(n_months / 12, 0) - 1) || '岁' ||
+"
+FUN_GET_AGE	FUNCTION	231	"                    to_char(mod(n_months - 1, 12)) || '月';
+"
+FUN_GET_AGE	FUNCTION	232	"          else
+"
+FUN_GET_AGE	FUNCTION	233	"            s_nl := Trunc(n_months / 12, 0) || '岁';
+"
+FUN_GET_AGE	FUNCTION	234	"          End If;
+"
+FUN_GET_AGE	FUNCTION	235	"        Else
+"
+FUN_GET_AGE	FUNCTION	236	"          If to_char(ad_csrq, 'DD') > to_char(d_dqrq, 'DD') then
+"
+FUN_GET_AGE	FUNCTION	237	"            if mod(n_months - 1, 12) = 0 then
+"
+FUN_GET_AGE	FUNCTION	238	"              s_nl := Trunc(n_months / 12, 0) || '岁';
+"
+FUN_GET_AGE	FUNCTION	239	"            else
+"
+FUN_GET_AGE	FUNCTION	240	"              s_nl := Trunc(n_months / 12, 0) || '岁' ||
+"
+FUN_GET_AGE	FUNCTION	241	"                      to_char(mod(n_months - 1, 12)) || '月';
+"
+FUN_GET_AGE	FUNCTION	242	"            end if;
+"
+FUN_GET_AGE	FUNCTION	243	"          else
+"
+FUN_GET_AGE	FUNCTION	244	"            if mod(n_months, 12) = 0 then
+"
+FUN_GET_AGE	FUNCTION	245	"              s_nl := Trunc(n_months / 12, 0) || '岁';
+"
+FUN_GET_AGE	FUNCTION	246	"            else
+"
+FUN_GET_AGE	FUNCTION	247	"              s_nl := Trunc(n_months / 12, 0) || '岁' ||
+"
+FUN_GET_AGE	FUNCTION	248	"                      to_char(mod(n_months, 12)) || '月';
+"
+FUN_GET_AGE	FUNCTION	249	"            end if;
+"
+FUN_GET_AGE	FUNCTION	250	"          end if;
+"
+FUN_GET_AGE	FUNCTION	251	"        End If;
+"
+FUN_GET_AGE	FUNCTION	252	"      ELSIF n_months >= 1 and n_months < 12 THEN
+"
+FUN_GET_AGE	FUNCTION	253	"        --//如果大于等于1个月小于12个月
+"
+FUN_GET_AGE	FUNCTION	254	"        /*        n_days := floor(ad_dqrq - ad_csrq); ---//增加天数判断
+"
+FUN_GET_AGE	FUNCTION	255	"        IF n_days < 31 THEN
+"
+FUN_GET_AGE	FUNCTION	256	"          ---// 如果天数小于31天，单位取“天“
+"
+FUN_GET_AGE	FUNCTION	257	"          s_nl := to_char(n_days) || '天';
+"
+FUN_GET_AGE	FUNCTION	258	"        ELSE  20140714改动*/
+"
+FUN_GET_AGE	FUNCTION	259	"        if to_char(ad_csrq, 'DD') > to_char(d_dqrq, 'DD') then
+"
+FUN_GET_AGE	FUNCTION	260	"          s_ts := floor(to_char(last_day(ad_csrq), 'DD') -
+"
+FUN_GET_AGE	FUNCTION	261	"                        to_char(ad_csrq, 'DD') + to_char(d_dqrq, 'DD'));
+"
+FUN_GET_AGE	FUNCTION	262	"          if n_months = 1 then
+"
+FUN_GET_AGE	FUNCTION	263	"            s_nl := s_ts || '天';
+"
+FUN_GET_AGE	FUNCTION	264	"          else
+"
+FUN_GET_AGE	FUNCTION	265	"            s_nl := to_char(n_months - 1) || '月' || s_ts || '天';
+"
+FUN_GET_AGE	FUNCTION	266	"          end if;
+"
+FUN_GET_AGE	FUNCTION	267	"        else
+"
+FUN_GET_AGE	FUNCTION	268	"          s_ts := floor(to_char(d_dqrq, 'DD') - to_char(ad_csrq, 'DD'));
+"
+FUN_GET_AGE	FUNCTION	269	"          if s_ts = 0 then
+"
+FUN_GET_AGE	FUNCTION	270	"            s_nl := to_char(n_months) || '月';
+"
+FUN_GET_AGE	FUNCTION	271	"          else
+"
+FUN_GET_AGE	FUNCTION	272	"            s_nl := to_char(n_months) || '月' || s_ts || '天';
+"
+FUN_GET_AGE	FUNCTION	273	"          end if;
+"
+FUN_GET_AGE	FUNCTION	274	"        end if;
+"
+FUN_GET_AGE	FUNCTION	275	"        /*        END IF; 20140714改动*/
+"
+FUN_GET_AGE	FUNCTION	276	"      ELSIF n_months = 12 THEN
+"
+FUN_GET_AGE	FUNCTION	277	"        if to_char(ad_csrq, 'DD') > to_char(d_dqrq, 'DD') then
+"
+FUN_GET_AGE	FUNCTION	278	"          s_ts := floor(to_char(last_day(ad_csrq), 'DD') -
+"
+FUN_GET_AGE	FUNCTION	279	"                        to_char(ad_csrq, 'DD') + to_char(d_dqrq, 'DD'));
+"
+FUN_GET_AGE	FUNCTION	280	"          s_nl := '11月' || s_ts || '天';
+"
+FUN_GET_AGE	FUNCTION	281	"        else
+"
+FUN_GET_AGE	FUNCTION	282	"          s_nl := '1岁';
+"
+FUN_GET_AGE	FUNCTION	283	"        end if;
+"
+FUN_GET_AGE	FUNCTION	284	"      ELSIF n_months = 36 THEN
+"
+FUN_GET_AGE	FUNCTION	285	"        if to_char(ad_csrq, 'DD') > to_char(d_dqrq, 'DD') then
+"
+FUN_GET_AGE	FUNCTION	286	"          s_nl := '2岁11月';
+"
+FUN_GET_AGE	FUNCTION	287	"        else
+"
+FUN_GET_AGE	FUNCTION	288	"          s_nl := '3岁';
+"
+FUN_GET_AGE	FUNCTION	289	"        end if;
+"
+FUN_GET_AGE	FUNCTION	290	"      ELSE
+"
+FUN_GET_AGE	FUNCTION	291	"        ---//单位取“天”
+"
+FUN_GET_AGE	FUNCTION	292	"        n_days := floor(ad_dqrq - ad_csrq);
+"
+FUN_GET_AGE	FUNCTION	293	"        if n_days = 0 then
+"
+FUN_GET_AGE	FUNCTION	294	"          s_nl := '1天';
+"
+FUN_GET_AGE	FUNCTION	295	"        else
+"
+FUN_GET_AGE	FUNCTION	296	"          s_nl := to_char(n_days) || '天';
+"
+FUN_GET_AGE	FUNCTION	297	"        end if;
+"
+FUN_GET_AGE	FUNCTION	298	"      END IF;
+"
+FUN_GET_AGE	FUNCTION	299	"    ELSIF n_cs = 10 Then
+"
+FUN_GET_AGE	FUNCTION	300	"      ---- 以虚岁算
+"
+FUN_GET_AGE	FUNCTION	301	"      select to_number(to_char(d_dqrq, 'YYYY')) * 12 +
+"
+FUN_GET_AGE	FUNCTION	302	"             to_number(to_char(d_dqrq, 'MM')) -
+"
+FUN_GET_AGE	FUNCTION	303	"             (to_number(to_char(ad_csrq, 'YYYY')) * 12 +
+"
+FUN_GET_AGE	FUNCTION	304	"              to_number(to_char(ad_csrq, 'MM')))
+"
+FUN_GET_AGE	FUNCTION	305	"        into n_months
+"
+FUN_GET_AGE	FUNCTION	306	"        from dual; ---// (当前年份*12+当前月份) – (出生年份*12+出生月份)
+"
+FUN_GET_AGE	FUNCTION	307	"      IF n_months >= 12 THEN
+"
+FUN_GET_AGE	FUNCTION	308	"        --//如果大于等于12个月
+"
+FUN_GET_AGE	FUNCTION	309	"        --  //虚岁的算法
+"
+FUN_GET_AGE	FUNCTION	310	"        s_nl := To_char(Trunc(n_months / 12, 0) + 1) || '岁'; --//单位取“岁”
+"
+FUN_GET_AGE	FUNCTION	311	"
+"
+FUN_GET_AGE	FUNCTION	312	"      ELSIF n_months >= 1 and n_months < 12 THEN
+"
+FUN_GET_AGE	FUNCTION	313	"        --//如果大于等于1个月小于12个月
+"
+FUN_GET_AGE	FUNCTION	314	"        n_days := floor(ad_dqrq - ad_csrq); ---//增加天数判断
+"
+FUN_GET_AGE	FUNCTION	315	"        IF n_days < 32 THEN
+"
+FUN_GET_AGE	FUNCTION	316	"          ---// 如果天数小于32天，单位取“天“
+"
+FUN_GET_AGE	FUNCTION	317	"          IF n_days = 0 THEN
+"
+FUN_GET_AGE	FUNCTION	318	"            n_days := 1; --//当天出生年龄算1天
+"
+FUN_GET_AGE	FUNCTION	319	"          End If;
+"
+FUN_GET_AGE	FUNCTION	320	"          s_nl := to_char(n_days) || '天';
+"
+FUN_GET_AGE	FUNCTION	321	"
+"
+FUN_GET_AGE	FUNCTION	322	"        ELSE
+"
+FUN_GET_AGE	FUNCTION	323	"          s_nl := to_char(n_months) || '个月';
+"
+FUN_GET_AGE	FUNCTION	324	"        END IF;
+"
+FUN_GET_AGE	FUNCTION	325	"      ELSE
+"
+FUN_GET_AGE	FUNCTION	326	"        ---//单位取“天”
+"
+FUN_GET_AGE	FUNCTION	327	"        n_days := floor(ad_dqrq - ad_csrq);
+"
+FUN_GET_AGE	FUNCTION	328	"        IF n_days = 0 THEN
+"
+FUN_GET_AGE	FUNCTION	329	"          n_days := 1; --//当天出生年龄算1天
+"
+FUN_GET_AGE	FUNCTION	330	"        End If;
+"
+FUN_GET_AGE	FUNCTION	331	"        s_nl := to_char(n_days) || '天';
+"
+FUN_GET_AGE	FUNCTION	332	"      END IF;
+"
+FUN_GET_AGE	FUNCTION	333	"     ElSIF n_cs=11  Then  --以实周岁（月）
+"
+FUN_GET_AGE	FUNCTION	334	"            select to_number(to_char(d_dqrq, 'YYYY')) * 12 +
+"
+FUN_GET_AGE	FUNCTION	335	"                 to_number(to_char(d_dqrq, 'MM')) -
+"
+FUN_GET_AGE	FUNCTION	336	"                 (to_number(to_char(ad_csrq, 'YYYY')) * 12 +
+"
+FUN_GET_AGE	FUNCTION	337	"                  to_number(to_char(ad_csrq, 'MM')))
+"
+FUN_GET_AGE	FUNCTION	338	"            into n_months
+"
+FUN_GET_AGE	FUNCTION	339	"            from dual;
+"
+FUN_GET_AGE	FUNCTION	340	"          IF n_months > 12 THEN
+"
+FUN_GET_AGE	FUNCTION	341	"               If mod(n_months, 12) = 0 Then
+"
+FUN_GET_AGE	FUNCTION	342	"                  s_nl := to_char(trunc(n_months / 12)) || '岁';
+"
+FUN_GET_AGE	FUNCTION	343	"               Else
+"
+FUN_GET_AGE	FUNCTION	344	"                  IF trunc(n_months / 12) < 7 THEN
+"
+FUN_GET_AGE	FUNCTION	345	"                    s_nl := to_char(trunc(n_months / 12)) || '岁' ||
+"
+FUN_GET_AGE	FUNCTION	346	"                    to_char(n_months - trunc(n_months / 12) * 12) || 'M'; --考虑到长度问题，月用M
+"
+FUN_GET_AGE	FUNCTION	347	"                 ELSE
+"
+FUN_GET_AGE	FUNCTION	348	"                     s_nl := to_char(trunc(n_months / 12)) || '岁';
+"
+FUN_GET_AGE	FUNCTION	349	"                  END IF;
+"
+FUN_GET_AGE	FUNCTION	350	"               End If;
+"
+FUN_GET_AGE	FUNCTION	351	"          ELSIF n_months > 1 THEN
+"
+FUN_GET_AGE	FUNCTION	352	"            IF n_days < 32 THEN
+"
+FUN_GET_AGE	FUNCTION	353	"              s_nl := to_char(trunc(n_days)) || '天';
+"
+FUN_GET_AGE	FUNCTION	354	"            ELSE
+"
+FUN_GET_AGE	FUNCTION	355	"              s_nl := to_char(trunc(n_months)) || '个月';
+"
+FUN_GET_AGE	FUNCTION	356	"            END IF;
+"
+FUN_GET_AGE	FUNCTION	357	"          ELSE
+"
+FUN_GET_AGE	FUNCTION	358	"            s_nl := to_char(trunc(n_days)) || '天';
+"
+FUN_GET_AGE	FUNCTION	359	"          END IF;
+"
+FUN_GET_AGE	FUNCTION	360	"       ELSIF n_cs = 12  Then --以实周岁(天）来算
+"
+FUN_GET_AGE	FUNCTION	361	"      -- 以实(周)岁 算*/
+"
+FUN_GET_AGE	FUNCTION	362	"      select to_number(to_char(d_dqrq, 'YYYY')) * 12 +
+"
+FUN_GET_AGE	FUNCTION	363	"             to_number(to_char(d_dqrq, 'MM')) -
+"
+FUN_GET_AGE	FUNCTION	364	"             (to_number(to_char(ad_csrq, 'YYYY')) * 12 +
+"
+FUN_GET_AGE	FUNCTION	365	"              to_number(to_char(ad_csrq, 'MM')))
+"
+FUN_GET_AGE	FUNCTION	366	"        into n_months
+"
+FUN_GET_AGE	FUNCTION	367	"        from dual; ---// (当前年份*12+当前月份) – (出生年份*12+出生月份)
+"
+FUN_GET_AGE	FUNCTION	368	"      IF n_months > 36 THEN
+"
+FUN_GET_AGE	FUNCTION	369	"        --//如果大于36个月
+"
+FUN_GET_AGE	FUNCTION	370	"        ---  //周岁的算法
+"
+FUN_GET_AGE	FUNCTION	371	"        If to_char(ad_csrq, 'MM') = to_char(d_dqrq, 'MM') Then
+"
+FUN_GET_AGE	FUNCTION	372	"            N_days:= to_number(to_char(ad_dqrq,'DD')) - to_number(to_char(ad_csrq,'DD'));
+"
+FUN_GET_AGE	FUNCTION	373	"          --  //同月的时候
+"
+FUN_GET_AGE	FUNCTION	374	"          If to_char(ad_csrq, 'DD') > to_char(d_dqrq, 'DD') then
+"
+FUN_GET_AGE	FUNCTION	375	"            s_nl:= to_char(ceil(Trunc(n_months / 12, 0) + n_Days/365))|| '岁';
+"
+FUN_GET_AGE	FUNCTION	376	"          ElsIf to_char(ad_csrq, 'DD') <to_char(d_dqrq, 'DD') then  --几岁几天
+"
+FUN_GET_AGE	FUNCTION	377	"            s_nl := to_char(Trunc(n_months / 12, 0)) ||'岁'||to_char(n_Days)||'天' ;
+"
+FUN_GET_AGE	FUNCTION	378	"          else  --同一天
+"
+FUN_GET_AGE	FUNCTION	379	"            s_nl := Trunc(n_months / 12, 0) || '岁';
+"
+FUN_GET_AGE	FUNCTION	380	"          End If;
+"
+FUN_GET_AGE	FUNCTION	381	"        Else
+"
+FUN_GET_AGE	FUNCTION	382	"            --s_nl := Trunc(n_months / 12, 0) || '岁';
+"
+FUN_GET_AGE	FUNCTION	383	"             n_days:= TRUNC(d_dqrq) - TRUNC(ad_csrq);
+"
+FUN_GET_AGE	FUNCTION	384	"             s_nl:=To_char(ceil(n_days/365))||'岁';
+"
+FUN_GET_AGE	FUNCTION	385	"        End If;
+"
+FUN_GET_AGE	FUNCTION	386	"      ELSIF n_months > 12 and n_months < 36 then
+"
+FUN_GET_AGE	FUNCTION	387	"        If to_char(ad_csrq, 'MM') = to_char(d_dqrq, 'MM') Then
+"
+FUN_GET_AGE	FUNCTION	388	"          --  //同月的时候
+"
+FUN_GET_AGE	FUNCTION	389	"          If to_char(ad_csrq, 'DD') > to_char(d_dqrq, 'DD') then
+"
+FUN_GET_AGE	FUNCTION	390	"            s_nl := to_char(Trunc(n_months / 12, 0) - 1) || '岁' ||
+"
+FUN_GET_AGE	FUNCTION	391	"                    to_char(mod(n_months - 1, 12)) || '月';
+"
+FUN_GET_AGE	FUNCTION	392	"          else
+"
+FUN_GET_AGE	FUNCTION	393	"            s_nl := Trunc(n_months / 12, 0) || '岁';
+"
+FUN_GET_AGE	FUNCTION	394	"          End If;
+"
+FUN_GET_AGE	FUNCTION	395	"        Else
+"
+FUN_GET_AGE	FUNCTION	396	"          If to_char(ad_csrq, 'DD') > to_char(d_dqrq, 'DD') then
+"
+FUN_GET_AGE	FUNCTION	397	"            if mod(n_months - 1, 12) = 0 then
+"
+FUN_GET_AGE	FUNCTION	398	"              s_nl := Trunc(n_months / 12, 0) || '岁';
+"
+FUN_GET_AGE	FUNCTION	399	"            else
+"
+FUN_GET_AGE	FUNCTION	400	"              s_nl := Trunc(n_months / 12, 0) || '岁' ||
+"
+FUN_GET_AGE	FUNCTION	401	"                      to_char(mod(n_months - 1, 12)) || '月';
+"
+FUN_GET_AGE	FUNCTION	402	"            end if;
+"
+FUN_GET_AGE	FUNCTION	403	"          else
+"
+FUN_GET_AGE	FUNCTION	404	"            if mod(n_months, 12) = 0 then
+"
+FUN_GET_AGE	FUNCTION	405	"              s_nl := Trunc(n_months / 12, 0) || '岁';
+"
+FUN_GET_AGE	FUNCTION	406	"            else
+"
+FUN_GET_AGE	FUNCTION	407	"              s_nl := Trunc(n_months / 12, 0) || '岁' ||
+"
+FUN_GET_AGE	FUNCTION	408	"                      to_char(mod(n_months, 12)) || '月';
+"
+FUN_GET_AGE	FUNCTION	409	"            end if;
+"
+FUN_GET_AGE	FUNCTION	410	"          end if;
+"
+FUN_GET_AGE	FUNCTION	411	"        End If;
+"
+FUN_GET_AGE	FUNCTION	412	"      ELSIF n_months >= 1 and n_months < 12 THEN
+"
+FUN_GET_AGE	FUNCTION	413	"        --//如果大于等于1个月小于12个月
+"
+FUN_GET_AGE	FUNCTION	414	"        /*        n_days := floor(ad_dqrq - ad_csrq); ---//增加天数判断
+"
+FUN_GET_AGE	FUNCTION	415	"        IF n_days < 31 THEN
+"
+FUN_GET_AGE	FUNCTION	416	"          ---// 如果天数小于31天，单位取“天“
+"
+FUN_GET_AGE	FUNCTION	417	"          s_nl := to_char(n_days) || '天';
+"
+FUN_GET_AGE	FUNCTION	418	"        ELSE  20140714改动*/
+"
+FUN_GET_AGE	FUNCTION	419	"        if to_char(ad_csrq, 'DD') > to_char(d_dqrq, 'DD') then
+"
+FUN_GET_AGE	FUNCTION	420	"          s_ts := floor(to_char(last_day(ad_csrq), 'DD') -
+"
+FUN_GET_AGE	FUNCTION	421	"                        to_char(ad_csrq, 'DD') + to_char(d_dqrq, 'DD'));
+"
+FUN_GET_AGE	FUNCTION	422	"          if n_months = 1 then
+"
+FUN_GET_AGE	FUNCTION	423	"            s_nl := s_ts || '天';
+"
+FUN_GET_AGE	FUNCTION	424	"          else
+"
+FUN_GET_AGE	FUNCTION	425	"            s_nl := to_char(n_months - 1) || '月' || s_ts || '天';
+"
+FUN_GET_AGE	FUNCTION	426	"          end if;
+"
+FUN_GET_AGE	FUNCTION	427	"        else
+"
+FUN_GET_AGE	FUNCTION	428	"          s_ts := floor(to_char(d_dqrq, 'DD') - to_char(ad_csrq, 'DD'));
+"
+FUN_GET_AGE	FUNCTION	429	"          if s_ts = 0 then
+"
+FUN_GET_AGE	FUNCTION	430	"            s_nl := to_char(n_months) || '月';
+"
+FUN_GET_AGE	FUNCTION	431	"          else
+"
+FUN_GET_AGE	FUNCTION	432	"            s_nl := to_char(n_months) || '月' || s_ts || '天';
+"
+FUN_GET_AGE	FUNCTION	433	"          end if;
+"
+FUN_GET_AGE	FUNCTION	434	"        end if;
+"
+FUN_GET_AGE	FUNCTION	435	"        /*        END IF; 20140714改动*/
+"
+FUN_GET_AGE	FUNCTION	436	"      ELSIF n_months = 12 THEN  ---以实周岁（天）
+"
+FUN_GET_AGE	FUNCTION	437	"        if to_char(ad_csrq, 'DD') > to_char(d_dqrq, 'DD') then
+"
+FUN_GET_AGE	FUNCTION	438	"          s_ts := floor(to_char(last_day(ad_csrq), 'DD') -
+"
+FUN_GET_AGE	FUNCTION	439	"                        to_char(ad_csrq, 'DD') + to_char(d_dqrq, 'DD'));
+"
+FUN_GET_AGE	FUNCTION	440	"          s_nl := '11月' || s_ts || '天';
+"
+FUN_GET_AGE	FUNCTION	441	"        else
+"
+FUN_GET_AGE	FUNCTION	442	"          s_nl := '1岁';
+"
+FUN_GET_AGE	FUNCTION	443	"        end if;
+"
+FUN_GET_AGE	FUNCTION	444	"      ELSIF n_months = 36 THEN
+"
+FUN_GET_AGE	FUNCTION	445	"        if to_char(ad_csrq, 'DD') > to_char(d_dqrq, 'DD') then
+"
+FUN_GET_AGE	FUNCTION	446	"          s_nl := '2岁11月';
+"
+FUN_GET_AGE	FUNCTION	447	"        else
+"
+FUN_GET_AGE	FUNCTION	448	"          s_nl := '3岁';
+"
+FUN_GET_AGE	FUNCTION	449	"        end if;
+"
+FUN_GET_AGE	FUNCTION	450	"      ELSE
+"
+FUN_GET_AGE	FUNCTION	451	"        ---//单位取“天”
+"
+FUN_GET_AGE	FUNCTION	452	"        n_days := floor(ad_dqrq - ad_csrq);
+"
+FUN_GET_AGE	FUNCTION	453	"        if n_days = 0 then
+"
+FUN_GET_AGE	FUNCTION	454	"          s_nl := '1天';
+"
+FUN_GET_AGE	FUNCTION	455	"        else
+"
+FUN_GET_AGE	FUNCTION	456	"          s_nl := to_char(n_days) || '天';
+"
+FUN_GET_AGE	FUNCTION	457	"        end if;
+"
+FUN_GET_AGE	FUNCTION	458	"      END IF;
+"
+FUN_GET_AGE	FUNCTION	459	"
+"
+FUN_GET_AGE	FUNCTION	460	"
+"
+FUN_GET_AGE	FUNCTION	461	"    END IF;
+"
+FUN_GET_AGE	FUNCTION	462	"    IF s_nl is null THEN
+"
+FUN_GET_AGE	FUNCTION	463	"      s_nl := '';
+"
+FUN_GET_AGE	FUNCTION	464	"    END IF;
+"
+FUN_GET_AGE	FUNCTION	465	"    RESULT := s_nl;
+"
+FUN_GET_AGE	FUNCTION	466	"  EXCEPTION
+"
+FUN_GET_AGE	FUNCTION	467	"    WHEN OTHERS THEN
+"
+FUN_GET_AGE	FUNCTION	468	"      RESULT := '';
+"
+FUN_GET_AGE	FUNCTION	469	"  End;
+"
+FUN_GET_AGE	FUNCTION	470	"
+"
+FUN_GET_AGE	FUNCTION	471	"  RETURN(RESULT);
+"
+FUN_GET_AGE	FUNCTION	472	"END;
+"

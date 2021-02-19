@@ -1,0 +1,50 @@
+PRC_CHANGEFEE	PROCEDURE	1	"procedure prc_changefee(patient in number) is
+"
+PRC_CHANGEFEE	PROCEDURE	2	"ll_count number;
+"
+PRC_CHANGEFEE	PROCEDURE	3	"ll_Num number;
+"
+PRC_CHANGEFEE	PROCEDURE	4	"begin
+"
+PRC_CHANGEFEE	PROCEDURE	5	"     --为解决医保飞检中发现的问题，规范梅毒螺旋抗体测定医保支付范围，对住院病人进行该项目限制，除住院过程中有输血、手术、侵入性检查的费用的病人外，其余病人该项项目按spbh-10（xzsybz1）自费上传 .
+"
+PRC_CHANGEFEE	PROCEDURE	6	"     --R-115191(658182) 20201215 jkm
+"
+PRC_CHANGEFEE	PROCEDURE	7	"     select count(*) into ll_count from zy_detail_charge
+"
+PRC_CHANGEFEE	PROCEDURE	8	"     where patient_no=patient and charge_code in(select xiangmuxh from yb_duizhaoml a where yibaodm='f25040305300' and yibaolx='9997');
+"
+PRC_CHANGEFEE	PROCEDURE	9	"     if ll_count>0 then
+"
+PRC_CHANGEFEE	PROCEDURE	10	"         select count(*) into ll_Num from zy_detail_charge
+"
+PRC_CHANGEFEE	PROCEDURE	11	"         where patient_no=patient and charge_code in(select xiangmuxh from yb_duizhaoml a where (yibaodm in('cx120400020x','cx12040002ax','cx12040002bx','cx12040002cx',
+"
+PRC_CHANGEFEE	PROCEDURE	12	"         'cx12040002dh','cx12040002ex','cx12040002fh','cx12040002gx','cx12040002ix','cx12040002jx','cx12040002kx','cx12040002xx','cx12040002yx','cx12040002zx','cx120400089x','cx310800089x',
+"
+PRC_CHANGEFEE	PROCEDURE	13	"         'cx310905089x','cx311000089x','cx311202020x','cx31120202gx','cx31120202xx','cx31120202zx','cx311202089x','f26000001100','f26000001200','f26000001300')
+"
+PRC_CHANGEFEE	PROCEDURE	14	"         or yibaodm like 'f3201%' or yibaodm like 'f3202%' or yibaodm like 'f3203%' or yibaodm like 'f3204%' or yibaodm like 'f3205%' or yibaodm like 'f3206%'
+"
+PRC_CHANGEFEE	PROCEDURE	15	"         or yibaodm like 'f3302%' or yibaodm like 'f3303%' or yibaodm like 'f3304%' or yibaodm like 'f3305%' or yibaodm like 'f3306%' or yibaodm like 'f3307%' or yibaodm like 'f3308%'
+"
+PRC_CHANGEFEE	PROCEDURE	16	"         or yibaodm like 'f3309%' or yibaodm like 'f3310%' or yibaodm like 'f3311%' or yibaodm like 'f3312%'or yibaodm like 'f3313%' or yibaodm like 'f3314%' or yibaodm like 'f3315%' or yibaodm like 'f3316%') and yibaolx='9997');
+"
+PRC_CHANGEFEE	PROCEDURE	17	"
+"
+PRC_CHANGEFEE	PROCEDURE	18	"         if ll_num=0 then
+"
+PRC_CHANGEFEE	PROCEDURE	19	"            update zy_detail_charge set spbh=-10
+"
+PRC_CHANGEFEE	PROCEDURE	20	"             where patient_no=patient and charge_code in(select xiangmuxh from yb_duizhaoml a where yibaodm='f25040305300' and yibaolx='9997');              commit;
+"
+PRC_CHANGEFEE	PROCEDURE	21	"         end if;
+"
+PRC_CHANGEFEE	PROCEDURE	22	"
+"
+PRC_CHANGEFEE	PROCEDURE	23	"     end if;
+"
+PRC_CHANGEFEE	PROCEDURE	24	"
+"
+PRC_CHANGEFEE	PROCEDURE	25	"end prc_changefee;
+"

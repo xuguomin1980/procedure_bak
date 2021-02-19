@@ -1,0 +1,138 @@
+TRI_GH_MZYYK	TRIGGER	1	"trigger ""TRI_GH_MZYYK""
+"
+TRI_GH_MZYYK	TRIGGER	2	"before insert or  update on GH_MZYYK
+"
+TRI_GH_MZYYK	TRIGGER	3	"referencing
+"
+TRI_GH_MZYYK	TRIGGER	4	"old as old
+"
+TRI_GH_MZYYK	TRIGGER	5	"new as new
+"
+TRI_GH_MZYYK	TRIGGER	6	"for each row
+"
+TRI_GH_MZYYK	TRIGGER	7	"
+"
+TRI_GH_MZYYK	TRIGGER	8	"declare
+"
+TRI_GH_MZYYK	TRIGGER	9	"  row_nums number;
+"
+TRI_GH_MZYYK	TRIGGER	10	"  nums     number;
+"
+TRI_GH_MZYYK	TRIGGER	11	"  v_msg    nvarchar2(200);
+"
+TRI_GH_MZYYK	TRIGGER	12	"  v_rq_str nvarchar2(50);
+"
+TRI_GH_MZYYK	TRIGGER	13	"begin
+"
+TRI_GH_MZYYK	TRIGGER	14	"
+"
+TRI_GH_MZYYK	TRIGGER	15	"  If :new.ZT = -1 Then
+"
+TRI_GH_MZYYK	TRIGGER	16	"    :new.yycxrq := SYSDATE;
+"
+TRI_GH_MZYYK	TRIGGER	17	"  
+"
+TRI_GH_MZYYK	TRIGGER	18	"    IF :new.cxgh = 'SPT' THEN
+"
+TRI_GH_MZYYK	TRIGGER	19	"    
+"
+TRI_GH_MZYYK	TRIGGER	20	"      select '省平台停诊,请联系门诊办TRI_GH_MZYYK!!!' into v_msg from dual;
+"
+TRI_GH_MZYYK	TRIGGER	21	"      raise_application_error(-20300, v_msg);
+"
+TRI_GH_MZYYK	TRIGGER	22	"    
+"
+TRI_GH_MZYYK	TRIGGER	23	"    END IF;
+"
+TRI_GH_MZYYK	TRIGGER	24	"  
+"
+TRI_GH_MZYYK	TRIGGER	25	"  End If;
+"
+TRI_GH_MZYYK	TRIGGER	26	"
+"
+TRI_GH_MZYYK	TRIGGER	27	"  If 1 = 0 and :new.ZT = 0 Then
+"
+TRI_GH_MZYYK	TRIGGER	28	"  
+"
+TRI_GH_MZYYK	TRIGGER	29	"    --to_char(yyrq1,'yyyymmdd') 
+"
+TRI_GH_MZYYK	TRIGGER	30	"    --  :new.yycxrq := SYSDATE;
+"
+TRI_GH_MZYYK	TRIGGER	31	"    select to_char(:new.yyrq1, 'yyyymmdd') into v_rq_str from dual;
+"
+TRI_GH_MZYYK	TRIGGER	32	"  
+"
+TRI_GH_MZYYK	TRIGGER	33	"    if v_rq_str = '20210211' or v_rq_str = '20210212' or
+"
+TRI_GH_MZYYK	TRIGGER	34	"       v_rq_str = '20210213' or v_rq_str = '20210214' then
+"
+TRI_GH_MZYYK	TRIGGER	35	"    
+"
+TRI_GH_MZYYK	TRIGGER	36	"      if :new.mzlbxh = 2 or
+"
+TRI_GH_MZYYK	TRIGGER	37	"         (:new.mzlbxh = 1 and
+"
+TRI_GH_MZYYK	TRIGGER	38	"         (:new.ksdm = '2130002' or :new.ksdm = '2120005' or
+"
+TRI_GH_MZYYK	TRIGGER	39	"         :new.ksdm = '2100002' or :new.ksdm = '2220004' or
+"
+TRI_GH_MZYYK	TRIGGER	40	"         :new.ksdm = '2230003' or :new.ksdm = '2010109' or
+"
+TRI_GH_MZYYK	TRIGGER	41	"         :new.ksdm = '2010009' or :new.ksdm = '2010008')) then
+"
+TRI_GH_MZYYK	TRIGGER	42	"      
+"
+TRI_GH_MZYYK	TRIGGER	43	"        null;
+"
+TRI_GH_MZYYK	TRIGGER	44	"      else
+"
+TRI_GH_MZYYK	TRIGGER	45	"      
+"
+TRI_GH_MZYYK	TRIGGER	46	"        select '该排班当天停诊TRI_GH_MZYYK!!!' into v_msg from dual;
+"
+TRI_GH_MZYYK	TRIGGER	47	"        raise_application_error(-20300, v_msg);
+"
+TRI_GH_MZYYK	TRIGGER	48	"      
+"
+TRI_GH_MZYYK	TRIGGER	49	"      end if;
+"
+TRI_GH_MZYYK	TRIGGER	50	"    
+"
+TRI_GH_MZYYK	TRIGGER	51	"    end if;
+"
+TRI_GH_MZYYK	TRIGGER	52	"  
+"
+TRI_GH_MZYYK	TRIGGER	53	"    if v_rq_str = '20210215' or v_rq_str = '20210216' or
+"
+TRI_GH_MZYYK	TRIGGER	54	"       v_rq_str = '20210217' then
+"
+TRI_GH_MZYYK	TRIGGER	55	"    
+"
+TRI_GH_MZYYK	TRIGGER	56	"      if :new.mzlbxh = 1 then
+"
+TRI_GH_MZYYK	TRIGGER	57	"      
+"
+TRI_GH_MZYYK	TRIGGER	58	"        null;
+"
+TRI_GH_MZYYK	TRIGGER	59	"      else
+"
+TRI_GH_MZYYK	TRIGGER	60	"      
+"
+TRI_GH_MZYYK	TRIGGER	61	"        select '该排班当天停诊TRI_GH_MZYYK!!!' into v_msg from dual;
+"
+TRI_GH_MZYYK	TRIGGER	62	"        raise_application_error(-20300, v_msg);
+"
+TRI_GH_MZYYK	TRIGGER	63	"      end if;
+"
+TRI_GH_MZYYK	TRIGGER	64	"    
+"
+TRI_GH_MZYYK	TRIGGER	65	"    end if;
+"
+TRI_GH_MZYYK	TRIGGER	66	"  
+"
+TRI_GH_MZYYK	TRIGGER	67	"  End If;
+"
+TRI_GH_MZYYK	TRIGGER	68	"
+"
+TRI_GH_MZYYK	TRIGGER	69	"End;
+"

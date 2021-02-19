@@ -1,0 +1,31 @@
+F_YZ_GETYSZH	FUNCTION	1	"FUNCTION         ""F_YZ_GETYSZH"" 
+"
+F_YZ_GETYSZH	FUNCTION	2	"(arg_ysgh in varchar2)
+"
+F_YZ_GETYSZH	FUNCTION	3	"  return varchar2
+"
+F_YZ_GETYSZH	FUNCTION	4	"  is
+"
+F_YZ_GETYSZH	FUNCTION	5	"
+"
+F_YZ_GETYSZH	FUNCTION	6	"    ls_return varchar2(10);
+"
+F_YZ_GETYSZH	FUNCTION	7	"  begin
+"
+F_YZ_GETYSZH	FUNCTION	8	"	  select yszh into ls_return from gy_zgxx where zgid=arg_ysgh;
+"
+F_YZ_GETYSZH	FUNCTION	9	"	  return(ls_return) ;
+"
+F_YZ_GETYSZH	FUNCTION	10	"  exception
+"
+F_YZ_GETYSZH	FUNCTION	11	"     when others then
+"
+F_YZ_GETYSZH	FUNCTION	12	"     return('*');
+"
+F_YZ_GETYSZH	FUNCTION	13	" end ;
+"
+F_YZ_GETYSZH	FUNCTION	14	"
+"
+F_YZ_GETYSZH	FUNCTION	15	"
+"
+F_YZ_GETYSZH	FUNCTION	16	 

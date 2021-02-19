@@ -1,0 +1,170 @@
+P_YJQR	PROCEDURE	1	"PROCEDURE p_YJQR(
+"
+P_YJQR	PROCEDURE	2	"        p_sqdh   IN varchar2,  --申请单号
+"
+P_YJQR	PROCEDURE	3	"        p_czrq   IN date,      --操作日期
+"
+P_YJQR	PROCEDURE	4	"        p_czgh in varchar2,    --操作工号
+"
+P_YJQR	PROCEDURE	5	"        p_bz number--,         --1
+"
+P_YJQR	PROCEDURE	6	"      --  p_out Out number
+"
+P_YJQR	PROCEDURE	7	"        ) IS
+"
+P_YJQR	PROCEDURE	8	"BEGIN
+"
+P_YJQR	PROCEDURE	9	"DECLARE
+"
+P_YJQR	PROCEDURE	10	"    v_jclx varchar2(10);
+"
+P_YJQR	PROCEDURE	11	"    v_flbm number(5);
+"
+P_YJQR	PROCEDURE	12	"    v_len number(5);
+"
+P_YJQR	PROCEDURE	13	"    v_len1 number(5);
+"
+P_YJQR	PROCEDURE	14	"    v_sqdh number(10);
+"
+P_YJQR	PROCEDURE	15	"    V_ZY VARCHAR2(5);
+"
+P_YJQR	PROCEDURE	16	"begin
+"
+P_YJQR	PROCEDURE	17	"    v_len  := length(p_sqdh);
+"
+P_YJQR	PROCEDURE	18	"   -- v_jclx :=f_right(p_sqdh,2);
+"
+P_YJQR	PROCEDURE	19	"   v_jclx :=substr(P_sqdh,instr(P_sqdh,'_')+1);
+"
+P_YJQR	PROCEDURE	20	"    v_len1 := length(v_jclx);
+"
+P_YJQR	PROCEDURE	21	"    v_sqdh :=substr(p_sqdh,1,v_len - v_len1 - 1);
+"
+P_YJQR	PROCEDURE	22	"    V_ZY :=SUBSTR(P_SQDH,1,1);
+"
+P_YJQR	PROCEDURE	23	"    v_sqdh := to_number(p_sqdh);
+"
+P_YJQR	PROCEDURE	24	"    If v_zy = 'Z' Then
+"
+P_YJQR	PROCEDURE	25	"       v_sqdh :=substr(p_sqdh,2);
+"
+P_YJQR	PROCEDURE	26	"       BEGIN
+"
+P_YJQR	PROCEDURE	27	"         update yz_jcsqd set djbz = p_bz where jcdxh = v_sqdh;
+"
+P_YJQR	PROCEDURE	28	"          EXCEPTION
+"
+P_YJQR	PROCEDURE	29	"         WHEN NO_DATA_FOUND THEN
+"
+P_YJQR	PROCEDURE	30	"         --  p_out := -1;
+"
+P_YJQR	PROCEDURE	31	"           Return;
+"
+P_YJQR	PROCEDURE	32	"        End
+"
+P_YJQR	PROCEDURE	33	"         commit;
+"
+P_YJQR	PROCEDURE	34	"         --p_out := 1;
+"
+P_YJQR	PROCEDURE	35	"         Return;
+"
+P_YJQR	PROCEDURE	36	"    Else
+"
+P_YJQR	PROCEDURE	37	"      If v_jclx = 'DR' then
+"
+P_YJQR	PROCEDURE	38	"         v_flbm:=9;
+"
+P_YJQR	PROCEDURE	39	"      ELSIF V_JCLX = 'CT' then
+"
+P_YJQR	PROCEDURE	40	"         v_flbm:=10;
+"
+P_YJQR	PROCEDURE	41	"      ELSIF V_JCLX = 'MR' then
+"
+P_YJQR	PROCEDURE	42	"         v_flbm:=11;
+"
+P_YJQR	PROCEDURE	43	"      ELSIF V_JCLX = 'PS' then
+"
+P_YJQR	PROCEDURE	44	"         v_flbm:=13;
+"
+P_YJQR	PROCEDURE	45	"      ELSIF V_JCLX = 'ECG' then
+"
+P_YJQR	PROCEDURE	46	"         v_flbm:=14;
+"
+P_YJQR	PROCEDURE	47	"      ELSIF V_JCLX = 'ND' then
+"
+P_YJQR	PROCEDURE	48	"         v_flbm:=15;
+"
+P_YJQR	PROCEDURE	49	"      ELSIF V_JCLX = 'JD' then
+"
+P_YJQR	PROCEDURE	50	"         v_flbm:=16;
+"
+P_YJQR	PROCEDURE	51	"      ELSIF V_JCLX = 'TCD' then
+"
+P_YJQR	PROCEDURE	52	"         v_flbm:=17;
+"
+P_YJQR	PROCEDURE	53	"      ELSIF V_JCLX = 'FGN' then
+"
+P_YJQR	PROCEDURE	54	"         v_flbm:=18;
+"
+P_YJQR	PROCEDURE	55	"      ELSIF V_JCLX = 'GMD' then
+"
+P_YJQR	PROCEDURE	56	"         v_flbm:=19;
+"
+P_YJQR	PROCEDURE	57	"      ELSIF V_JCLX = 'ES' then
+"
+P_YJQR	PROCEDURE	58	"         v_flbm:=20;
+"
+P_YJQR	PROCEDURE	59	"      ELSIF V_JCLX = 'US' then
+"
+P_YJQR	PROCEDURE	60	"         v_flbm:=12;
+"
+P_YJQR	PROCEDURE	61	"      else
+"
+P_YJQR	PROCEDURE	62	"        --p_out := 0;
+"
+P_YJQR	PROCEDURE	63	"       -- Return;
+"
+P_YJQR	PROCEDURE	64	"         v_flbm :=0;
+"
+P_YJQR	PROCEDURE	65	"      END IF;
+"
+P_YJQR	PROCEDURE	66	"      BEGIN
+"
+P_YJQR	PROCEDURE	67	"          update jc_shenqingd set wanchengbz = p_bz where shenqingdh=v_sqdh;
+"
+P_YJQR	PROCEDURE	68	"           EXCEPTION
+"
+P_YJQR	PROCEDURE	69	"         WHEN NO_DATA_FOUND THEN
+"
+P_YJQR	PROCEDURE	70	"           --p_out := -1;
+"
+P_YJQR	PROCEDURE	71	"           Return;
+"
+P_YJQR	PROCEDURE	72	"      End;
+"
+P_YJQR	PROCEDURE	73	"      Begin
+"
+P_YJQR	PROCEDURE	74	"          update jc_shenqingdmx set jianchawcsj = p_czrq,jianchawcr = p_czgh,jianchawcbz = p_bz where shenqingdh = v_sqdh ;--and fenleidm = V_FLBM;
+"
+P_YJQR	PROCEDURE	75	"          EXCEPTION
+"
+P_YJQR	PROCEDURE	76	"         WHEN NO_DATA_FOUND THEN
+"
+P_YJQR	PROCEDURE	77	"          --p_out :=-1;
+"
+P_YJQR	PROCEDURE	78	"          Return;
+"
+P_YJQR	PROCEDURE	79	"      End;
+"
+P_YJQR	PROCEDURE	80	"      commit;
+"
+P_YJQR	PROCEDURE	81	"      --p_out :=1;
+"
+P_YJQR	PROCEDURE	82	"      Return;
+"
+P_YJQR	PROCEDURE	83	"    End if;
+"
+P_YJQR	PROCEDURE	84	"  End;
+"
+P_YJQR	PROCEDURE	85	"END;
+"

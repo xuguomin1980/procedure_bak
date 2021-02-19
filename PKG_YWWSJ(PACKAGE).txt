@@ -1,0 +1,39 @@
+PKG_YWWSJ	PACKAGE	1	"PACKAGE         ""PKG_YWWSJ"" is
+"
+PKG_YWWSJ	PACKAGE	2	"
+"
+PKG_YWWSJ	PACKAGE	3	"  -- Author  : ZHANGWEI
+"
+PKG_YWWSJ	PACKAGE	4	"  -- Created : 2006-3-16 18:20:38
+"
+PKG_YWWSJ	PACKAGE	5	"  -- Purpose :
+"
+PKG_YWWSJ	PACKAGE	6	"
+"
+PKG_YWWSJ	PACKAGE	7	"Procedure prc_mz_sfxx ( in_jcfx_id   In    NUMBER,
+"
+PKG_YWWSJ	PACKAGE	8	"                           on_code      Out   NUMBER,
+"
+PKG_YWWSJ	PACKAGE	9	"                           os_mess      Out   VARCHAR2);
+"
+PKG_YWWSJ	PACKAGE	10	"
+"
+PKG_YWWSJ	PACKAGE	11	"Procedure prc_zy_sfxx ( in_jcfx_id   In    NUMBER,
+"
+PKG_YWWSJ	PACKAGE	12	"                           on_code      Out   NUMBER,
+"
+PKG_YWWSJ	PACKAGE	13	"                           os_mess      Out   VARCHAR2);
+"
+PKG_YWWSJ	PACKAGE	14	"Procedure prc_sb_sbxx ( in_jcfx_id   In    NUMBER,
+"
+PKG_YWWSJ	PACKAGE	15	"                           on_code      Out   NUMBER,
+"
+PKG_YWWSJ	PACKAGE	16	"                           os_mess      Out   VARCHAR2);
+"
+PKG_YWWSJ	PACKAGE	17	"
+"
+PKG_YWWSJ	PACKAGE	18	"end PKG_YWWSJ;
+"
+PKG_YWWSJ	PACKAGE	19	"
+"
+PKG_YWWSJ	PACKAGE	20	 

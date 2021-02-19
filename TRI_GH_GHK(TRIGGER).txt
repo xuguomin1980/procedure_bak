@@ -1,0 +1,128 @@
+TRI_GH_GHK	TRIGGER	1	"trigger ""TRI_GH_GHK""
+"
+TRI_GH_GHK	TRIGGER	2	"before insert   on GH_GHK
+"
+TRI_GH_GHK	TRIGGER	3	"referencing
+"
+TRI_GH_GHK	TRIGGER	4	"old as old
+"
+TRI_GH_GHK	TRIGGER	5	"new as new
+"
+TRI_GH_GHK	TRIGGER	6	"for each row
+"
+TRI_GH_GHK	TRIGGER	7	"
+"
+TRI_GH_GHK	TRIGGER	8	"declare
+"
+TRI_GH_GHK	TRIGGER	9	"  row_nums number;
+"
+TRI_GH_GHK	TRIGGER	10	"  nums     number;
+"
+TRI_GH_GHK	TRIGGER	11	"  v_msg    nvarchar2(200);
+"
+TRI_GH_GHK	TRIGGER	12	"  v_rq_str nvarchar2(50);
+"
+TRI_GH_GHK	TRIGGER	13	"begin
+"
+TRI_GH_GHK	TRIGGER	14	"
+"
+TRI_GH_GHK	TRIGGER	15	"  If 1 = 0 AND instr(:new.czgh, 'AU') > 0 Then
+"
+TRI_GH_GHK	TRIGGER	16	"  
+"
+TRI_GH_GHK	TRIGGER	17	"    if :new.JZKH = '88' then
+"
+TRI_GH_GHK	TRIGGER	18	"    
+"
+TRI_GH_GHK	TRIGGER	19	"      select '该排班当天停诊TRI_GH_GHK!!!' into v_msg from dual;
+"
+TRI_GH_GHK	TRIGGER	20	"      raise_application_error(-20300, v_msg);
+"
+TRI_GH_GHK	TRIGGER	21	"    end if;
+"
+TRI_GH_GHK	TRIGGER	22	"  
+"
+TRI_GH_GHK	TRIGGER	23	"    --to_char(yyrq1,'yyyymmdd')
+"
+TRI_GH_GHK	TRIGGER	24	"    --  :new.yycxrq := SYSDATE;
+"
+TRI_GH_GHK	TRIGGER	25	"    select to_char(:new.ghrq, 'yyyymmdd') into v_rq_str from dual;
+"
+TRI_GH_GHK	TRIGGER	26	"  
+"
+TRI_GH_GHK	TRIGGER	27	"    if v_rq_str = '20210212' or v_rq_str = '20210213' or
+"
+TRI_GH_GHK	TRIGGER	28	"       v_rq_str = '20210214' then
+"
+TRI_GH_GHK	TRIGGER	29	"    
+"
+TRI_GH_GHK	TRIGGER	30	"      if :new.ghxh = 999 or :new.ghxh = 9999 or
+"
+TRI_GH_GHK	TRIGGER	31	"         (:new.mzlbxh = 1 and
+"
+TRI_GH_GHK	TRIGGER	32	"         (:new.ksdm = '2130002' or :new.ksdm = '2120005' or
+"
+TRI_GH_GHK	TRIGGER	33	"         :new.ksdm = '2100002' or :new.ksdm = '2220004' or
+"
+TRI_GH_GHK	TRIGGER	34	"         :new.ksdm = '2230003' or :new.ksdm = '2010109' or
+"
+TRI_GH_GHK	TRIGGER	35	"         :new.ksdm = '2010009' or :new.ksdm = '2010008')) then
+"
+TRI_GH_GHK	TRIGGER	36	"      
+"
+TRI_GH_GHK	TRIGGER	37	"        null;
+"
+TRI_GH_GHK	TRIGGER	38	"      else
+"
+TRI_GH_GHK	TRIGGER	39	"      
+"
+TRI_GH_GHK	TRIGGER	40	"        select '该排班当天停诊TRI_GH_GHK!!!' into v_msg from dual;
+"
+TRI_GH_GHK	TRIGGER	41	"        raise_application_error(-20300, v_msg);
+"
+TRI_GH_GHK	TRIGGER	42	"      
+"
+TRI_GH_GHK	TRIGGER	43	"      end if;
+"
+TRI_GH_GHK	TRIGGER	44	"    
+"
+TRI_GH_GHK	TRIGGER	45	"    end if;
+"
+TRI_GH_GHK	TRIGGER	46	"  
+"
+TRI_GH_GHK	TRIGGER	47	"    if v_rq_str = '20210211' or v_rq_str = '20210215' or
+"
+TRI_GH_GHK	TRIGGER	48	"       v_rq_str = '20210216' or v_rq_str = '20210217' then
+"
+TRI_GH_GHK	TRIGGER	49	"    
+"
+TRI_GH_GHK	TRIGGER	50	"      if :new.ghxh = 999 or :new.ghxh = 9999 or :new.mzlbxh = 2 or
+"
+TRI_GH_GHK	TRIGGER	51	"         :new.mzlbxh = 1 then
+"
+TRI_GH_GHK	TRIGGER	52	"      
+"
+TRI_GH_GHK	TRIGGER	53	"        null;
+"
+TRI_GH_GHK	TRIGGER	54	"      else
+"
+TRI_GH_GHK	TRIGGER	55	"      
+"
+TRI_GH_GHK	TRIGGER	56	"        select '该排班当天停诊TRI_GH_GHK!!!' into v_msg from dual;
+"
+TRI_GH_GHK	TRIGGER	57	"        raise_application_error(-20300, v_msg);
+"
+TRI_GH_GHK	TRIGGER	58	"      end if;
+"
+TRI_GH_GHK	TRIGGER	59	"    
+"
+TRI_GH_GHK	TRIGGER	60	"    end if;
+"
+TRI_GH_GHK	TRIGGER	61	"  
+"
+TRI_GH_GHK	TRIGGER	62	"  End If;
+"
+TRI_GH_GHK	TRIGGER	63	"
+"
+TRI_GH_GHK	TRIGGER	64	"End;
+"

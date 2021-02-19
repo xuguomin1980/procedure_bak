@@ -1,0 +1,183 @@
+PRC_WZ_TPKCSLANDTJCKSL_JOB	PROCEDURE	1	"PROCEDURE         ""PRC_WZ_TPKCSLANDTJCKSL_JOB"" is 
+"
+PRC_WZ_TPKCSLANDTJCKSL_JOB	PROCEDURE	2	"--用于更新库存数量与推荐出库数量不一致的处理方法 凌建生  2008-12-01 
+"
+PRC_WZ_TPKCSLANDTJCKSL_JOB	PROCEDURE	3	"ls_zdsql1 varchar(1000);
+"
+PRC_WZ_TPKCSLANDTJCKSL_JOB	PROCEDURE	4	"ls_zdsql2 varchar(1000);
+"
+PRC_WZ_TPKCSLANDTJCKSL_JOB	PROCEDURE	5	"ls_sbsql1 varchar(1000);
+"
+PRC_WZ_TPKCSLANDTJCKSL_JOB	PROCEDURE	6	"ls_jbsql1 varchar(1000);
+"
+PRC_WZ_TPKCSLANDTJCKSL_JOB	PROCEDURE	7	"ls_sbsql2 varchar(1000);
+"
+PRC_WZ_TPKCSLANDTJCKSL_JOB	PROCEDURE	8	"ls_jbsql2 varchar(1000);
+"
+PRC_WZ_TPKCSLANDTJCKSL_JOB	PROCEDURE	9	"ls_zdsql3 varchar(1000);
+"
+PRC_WZ_TPKCSLANDTJCKSL_JOB	PROCEDURE	10	"ls_zdsql4 varchar(1000);
+"
+PRC_WZ_TPKCSLANDTJCKSL_JOB	PROCEDURE	11	"ls_sqsql1 varchar(1000);
+"
+PRC_WZ_TPKCSLANDTJCKSL_JOB	PROCEDURE	12	"ls_gxsql1 varchar(1000);
+"
+PRC_WZ_TPKCSLANDTJCKSL_JOB	PROCEDURE	13	"ls_gxsql2 varchar(1000);
+"
+PRC_WZ_TPKCSLANDTJCKSL_JOB	PROCEDURE	14	"ls_gxsql3 varchar(1000);
+"
+PRC_WZ_TPKCSLANDTJCKSL_JOB	PROCEDURE	15	"ls_gxsql4 varchar(1000);
+"
+PRC_WZ_TPKCSLANDTJCKSL_JOB	PROCEDURE	16	"ll_zdcnt1 number;
+"
+PRC_WZ_TPKCSLANDTJCKSL_JOB	PROCEDURE	17	"ll_zdcnt2 number;
+"
+PRC_WZ_TPKCSLANDTJCKSL_JOB	PROCEDURE	18	"ll_jbcnt1 number;
+"
+PRC_WZ_TPKCSLANDTJCKSL_JOB	PROCEDURE	19	"ll_jbcnt2 number;
+"
+PRC_WZ_TPKCSLANDTJCKSL_JOB	PROCEDURE	20	" begin 
+"
+PRC_WZ_TPKCSLANDTJCKSL_JOB	PROCEDURE	21	"   --赋于该用户创建表的权限 
+"
+PRC_WZ_TPKCSLANDTJCKSL_JOB	PROCEDURE	22	"   ls_sqsql1 := Concat('GRANT CREATE ANY TABLE TO ' , user);
+"
+PRC_WZ_TPKCSLANDTJCKSL_JOB	PROCEDURE	23	"   Execute Immediate ls_sqsql1;
+"
+PRC_WZ_TPKCSLANDTJCKSL_JOB	PROCEDURE	24	"  
+"
+PRC_WZ_TPKCSLANDTJCKSL_JOB	PROCEDURE	25	"   --1、更新推荐数与库存数不一致的数据（包含有记帐和未记帐的数据） 
+"
+PRC_WZ_TPKCSLANDTJCKSL_JOB	PROCEDURE	26	"   select count(1) into ll_zdcnt1 from user_tab_columns where   upper(table_name)='WZ_KCZZ'   and   upper(column_name)='JZTJCKSL';
+"
+PRC_WZ_TPKCSLANDTJCKSL_JOB	PROCEDURE	27	"   if ll_zdcnt1 <> 0 then --列存在先删除 
+"
+PRC_WZ_TPKCSLANDTJCKSL_JOB	PROCEDURE	28	"     ls_zdsql1 := 'alter table WZ_KCZZ drop column JZTJCKSL';
+"
+PRC_WZ_TPKCSLANDTJCKSL_JOB	PROCEDURE	29	"     Execute Immediate ls_zdsql1;
+"
+PRC_WZ_TPKCSLANDTJCKSL_JOB	PROCEDURE	30	"   end if;
+"
+PRC_WZ_TPKCSLANDTJCKSL_JOB	PROCEDURE	31	"  
+"
+PRC_WZ_TPKCSLANDTJCKSL_JOB	PROCEDURE	32	"   ls_zdsql2 := 'alter table WZ_KCZZ add JZTJCKSL NUMBER(14,4)';
+"
+PRC_WZ_TPKCSLANDTJCKSL_JOB	PROCEDURE	33	"   Execute Immediate ls_zdsql2;
+"
+PRC_WZ_TPKCSLANDTJCKSL_JOB	PROCEDURE	34	"  
+"
+PRC_WZ_TPKCSLANDTJCKSL_JOB	PROCEDURE	35	"   ls_gxsql1 := 'update wz_kczz set JZTJCKSL=KCSL where KCSL<>TJCKSL AND KFJB=1';
+"
+PRC_WZ_TPKCSLANDTJCKSL_JOB	PROCEDURE	36	"   Execute Immediate ls_gxsql1;
+"
+PRC_WZ_TPKCSLANDTJCKSL_JOB	PROCEDURE	37	"   ls_gxsql2 := 'update wz_kczz set tjcksl=JZTJCKSL where JZTJCKSL IS NOT NULL';
+"
+PRC_WZ_TPKCSLANDTJCKSL_JOB	PROCEDURE	38	"   Execute Immediate ls_gxsql2;
+"
+PRC_WZ_TPKCSLANDTJCKSL_JOB	PROCEDURE	39	"   commit;
+"
+PRC_WZ_TPKCSLANDTJCKSL_JOB	PROCEDURE	40	"  
+"
+PRC_WZ_TPKCSLANDTJCKSL_JOB	PROCEDURE	41	"   --2、统计未记账信息，只计算减少库存的业务，其他的业务不作考虑 
+"
+PRC_WZ_TPKCSLANDTJCKSL_JOB	PROCEDURE	42	"   select count(1) into ll_jbcnt1 from USER_TABLES where upper(table_name) = 'WZ_CKDMX_TEMP';
+"
+PRC_WZ_TPKCSLANDTJCKSL_JOB	PROCEDURE	43	"   if ll_jbcnt1 <> 0 then --表存在先删除 
+"
+PRC_WZ_TPKCSLANDTJCKSL_JOB	PROCEDURE	44	"     ls_sbsql1 :='drop table wz_ckdmx_temp';
+"
+PRC_WZ_TPKCSLANDTJCKSL_JOB	PROCEDURE	45	"     execute immediate ls_sbsql1;
+"
+PRC_WZ_TPKCSLANDTJCKSL_JOB	PROCEDURE	46	"   end if;
+"
+PRC_WZ_TPKCSLANDTJCKSL_JOB	PROCEDURE	47	"  
+"
+PRC_WZ_TPKCSLANDTJCKSL_JOB	PROCEDURE	48	"   ls_jbsql1 :='create table wz_ckdmx_temp as 
+"
+PRC_WZ_TPKCSLANDTJCKSL_JOB	PROCEDURE	49	"   select b.xtxh,b.kcxh,b.wzxh,sum(b.sl) sl from wz_ckd a,wz_ckdmx b,wz_crkfs c 
+"
+PRC_WZ_TPKCSLANDTJCKSL_JOB	PROCEDURE	50	"   where a.xtxh=b.xtxh and a.xtxh=c.xtxh and a.xh=b.ckdxh and a.zblx=c.zblx and a.fsdm=c.fsdm 
+"
+PRC_WZ_TPKCSLANDTJCKSL_JOB	PROCEDURE	51	"  and a.jzbz=0 and a.zfbz=0 and a.hdbz =1 and c.zjbz=-1 
+"
+PRC_WZ_TPKCSLANDTJCKSL_JOB	PROCEDURE	52	"   group by b.xtxh,b.kcxh,b.wzxh';
+"
+PRC_WZ_TPKCSLANDTJCKSL_JOB	PROCEDURE	53	"   execute immediate ls_jbsql1;
+"
+PRC_WZ_TPKCSLANDTJCKSL_JOB	PROCEDURE	54	"  
+"
+PRC_WZ_TPKCSLANDTJCKSL_JOB	PROCEDURE	55	"   --3、提取不一致的数据 
+"
+PRC_WZ_TPKCSLANDTJCKSL_JOB	PROCEDURE	56	"   select count(1) into ll_jbcnt2 from USER_TABLES where upper(table_name) = 'WZ_KCZZ_ERROR';
+"
+PRC_WZ_TPKCSLANDTJCKSL_JOB	PROCEDURE	57	"   if ll_jbcnt2 <> 0 then --表存在先删除 
+"
+PRC_WZ_TPKCSLANDTJCKSL_JOB	PROCEDURE	58	"     ls_sbsql2 :='drop table wz_kczz_error';
+"
+PRC_WZ_TPKCSLANDTJCKSL_JOB	PROCEDURE	59	"     execute immediate ls_sbsql2;
+"
+PRC_WZ_TPKCSLANDTJCKSL_JOB	PROCEDURE	60	"   end if;
+"
+PRC_WZ_TPKCSLANDTJCKSL_JOB	PROCEDURE	61	"  
+"
+PRC_WZ_TPKCSLANDTJCKSL_JOB	PROCEDURE	62	"   ls_jbsql2 :='create table wz_kczz_error as 
+"
+PRC_WZ_TPKCSLANDTJCKSL_JOB	PROCEDURE	63	"   select a.xtxh,a.xh ,b.kcxh,b.wzxh,a.kcsl,b.sl,a.tjcksl from wz_kczz a,wz_ckdmx_temp b 
+"
+PRC_WZ_TPKCSLANDTJCKSL_JOB	PROCEDURE	64	"   where a.xtxh=b.xtxh and a.xh=b.kcxh and a.kfjb=1  and a.kcsl<>(b.sl+a.tjcksl)';
+"
+PRC_WZ_TPKCSLANDTJCKSL_JOB	PROCEDURE	65	"   execute immediate ls_jbsql2;
+"
+PRC_WZ_TPKCSLANDTJCKSL_JOB	PROCEDURE	66	"  
+"
+PRC_WZ_TPKCSLANDTJCKSL_JOB	PROCEDURE	67	"   --4、更新中间字段数据 
+"
+PRC_WZ_TPKCSLANDTJCKSL_JOB	PROCEDURE	68	"   select count(1) into ll_zdcnt2 from user_tab_columns where   upper(table_name)='WZ_KCZZ'   and   upper(column_name)='TESTTJCKSL';
+"
+PRC_WZ_TPKCSLANDTJCKSL_JOB	PROCEDURE	69	"   if ll_zdcnt2 <> 0 then --列存在先删除 
+"
+PRC_WZ_TPKCSLANDTJCKSL_JOB	PROCEDURE	70	"     ls_zdsql3 :='alter table wz_kczz drop column testtjcksl';
+"
+PRC_WZ_TPKCSLANDTJCKSL_JOB	PROCEDURE	71	"     execute immediate ls_zdsql3;
+"
+PRC_WZ_TPKCSLANDTJCKSL_JOB	PROCEDURE	72	"   end if;
+"
+PRC_WZ_TPKCSLANDTJCKSL_JOB	PROCEDURE	73	"  
+"
+PRC_WZ_TPKCSLANDTJCKSL_JOB	PROCEDURE	74	"   ls_zdsql4 :='alter table wz_kczz add testtjcksl number(14,4)';
+"
+PRC_WZ_TPKCSLANDTJCKSL_JOB	PROCEDURE	75	"   execute immediate ls_zdsql4;
+"
+PRC_WZ_TPKCSLANDTJCKSL_JOB	PROCEDURE	76	"  
+"
+PRC_WZ_TPKCSLANDTJCKSL_JOB	PROCEDURE	77	"   ls_gxsql3 :='update wz_kczz a set a.testtjcksl  = 
+"
+PRC_WZ_TPKCSLANDTJCKSL_JOB	PROCEDURE	78	"   (select a.kcsl - b.sl from wz_kczz_error b 
+"
+PRC_WZ_TPKCSLANDTJCKSL_JOB	PROCEDURE	79	"   where a.xtxh=b.xtxh  and a.xh=b.kcxh and a.wzxh=b.wzxh ) 
+"
+PRC_WZ_TPKCSLANDTJCKSL_JOB	PROCEDURE	80	"  where a.kfjb=1 and  exists (select 1 from wz_kczz_error b 
+"
+PRC_WZ_TPKCSLANDTJCKSL_JOB	PROCEDURE	81	"   where a.xtxh=b.xtxh  and a.xh=b.kcxh and a.wzxh=b.wzxh 
+"
+PRC_WZ_TPKCSLANDTJCKSL_JOB	PROCEDURE	82	"   )';
+"
+PRC_WZ_TPKCSLANDTJCKSL_JOB	PROCEDURE	83	"   execute immediate ls_gxsql3;
+"
+PRC_WZ_TPKCSLANDTJCKSL_JOB	PROCEDURE	84	"   commit;
+"
+PRC_WZ_TPKCSLANDTJCKSL_JOB	PROCEDURE	85	"  
+"
+PRC_WZ_TPKCSLANDTJCKSL_JOB	PROCEDURE	86	"   --5、更新库房数据（对未记帐的数据扣减库存重新生成推荐出库数量） 
+"
+PRC_WZ_TPKCSLANDTJCKSL_JOB	PROCEDURE	87	"   ls_gxsql4 :='update wz_kczz set tjcksl=testtjcksl where testtjcksl>=0';
+"
+PRC_WZ_TPKCSLANDTJCKSL_JOB	PROCEDURE	88	"   execute immediate ls_gxsql4;
+"
+PRC_WZ_TPKCSLANDTJCKSL_JOB	PROCEDURE	89	"   commit;
+"
+PRC_WZ_TPKCSLANDTJCKSL_JOB	PROCEDURE	90	"  
+"
+PRC_WZ_TPKCSLANDTJCKSL_JOB	PROCEDURE	91	" end prc_wz_tpkcslandtjcksl_job ;
+"
+PRC_WZ_TPKCSLANDTJCKSL_JOB	PROCEDURE	92	 

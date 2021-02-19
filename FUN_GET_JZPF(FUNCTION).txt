@@ -1,0 +1,58 @@
+FUN_GET_JZPF	FUNCTION	1	"FUNCTION FUN_GET_JZPF  (prm_String   In     Varchar2,
+"
+FUN_GET_JZPF	FUNCTION	2	"                       prm_FENZHENLSH      In     Number,
+"
+FUN_GET_JZPF	FUNCTION	3	"                       prm_jzkh in varchar2
+"
+FUN_GET_JZPF	FUNCTION	4	"                       ) Return Varchar2
+"
+FUN_GET_JZPF	FUNCTION	5	"
+"
+FUN_GET_JZPF	FUNCTION	6	"  Is
+"
+FUN_GET_JZPF	FUNCTION	7	"  ll_fenzhenlsh number;
+"
+FUN_GET_JZPF	FUNCTION	8	"  jzxh number;
+"
+FUN_GET_JZPF	FUNCTION	9	"  csrq date;
+"
+FUN_GET_JZPF	FUNCTION	10	"  ls_jzkh varchar2(50);
+"
+FUN_GET_JZPF	FUNCTION	11	"  str_Return Varchar2(200);
+"
+FUN_GET_JZPF	FUNCTION	12	"
+"
+FUN_GET_JZPF	FUNCTION	13	"
+"
+FUN_GET_JZPF	FUNCTION	14	"  Begin
+"
+FUN_GET_JZPF	FUNCTION	15	"    ll_fenzhenlsh :=prm_fenzhenlsh;
+"
+FUN_GET_JZPF	FUNCTION	16	"    ls_jzkh :=prm_jzkh;
+"
+FUN_GET_JZPF	FUNCTION	17	"    If prm_String = '’Ô∂œ' Then
+"
+FUN_GET_JZPF	FUNCTION	18	"
+"
+FUN_GET_JZPF	FUNCTION	19	"       select zd into str_Return from zj_jzxx where jzxh = (select max(jzxh) from zj_jzxx where jzkh = ls_jzkh and jzrq > sysdate -1);
+"
+FUN_GET_JZPF	FUNCTION	20	"
+"
+FUN_GET_JZPF	FUNCTION	21	"    ELSIF prm_String = 'ƒÍ¡‰' Then
+"
+FUN_GET_JZPF	FUNCTION	22	"      select csrq into csrq from gy_brjbxxk where jzkh = ls_jzkh;
+"
+FUN_GET_JZPF	FUNCTION	23	"      select FUN_GET_AGE(csrq, sysdate, '') into str_Return from dual;
+"
+FUN_GET_JZPF	FUNCTION	24	"
+"
+FUN_GET_JZPF	FUNCTION	25	"    Else
+"
+FUN_GET_JZPF	FUNCTION	26	"      SELECT jizhenpfsm into str_Return FROM jz_jizhenpfxx where jizhenpflsh = (SELECT max(a.jizhenpflsh) FROM jz_jizhenpfxx a where a.jiuzhenkh=ls_jzkh) and  fenzhenlsh = ll_fenzhenlsh and jizhenpflb =prm_String and zuixinpfbz = 1;
+"
+FUN_GET_JZPF	FUNCTION	27	"     End If;
+"
+FUN_GET_JZPF	FUNCTION	28	"     return str_Return;
+"
+FUN_GET_JZPF	FUNCTION	29	"  End;
+"

@@ -1,0 +1,350 @@
+ZZKXGFY_ZLB	PROCEDURE	1	"PROCEDURE ZZKXGFY_ZLB(card_no  in VARCHAR,
+"
+ZZKXGFY_ZLB	PROCEDURE	2	"                                        brxm     in VARCHAR,
+"
+ZZKXGFY_ZLB	PROCEDURE	3	"                                        tcylxh   in VARCHAR,
+"
+ZZKXGFY_ZLB	PROCEDURE	4	"                                        ret_code out INTEGER,
+"
+ZZKXGFY_ZLB	PROCEDURE	5	"                                        ret_info out VARCHAR) AS
+"
+ZZKXGFY_ZLB	PROCEDURE	6	"  ----自助机开立新冠
+"
+ZZKXGFY_ZLB	PROCEDURE	7	"  v_yjsb number(10);
+"
+ZZKXGFY_ZLB	PROCEDURE	8	"
+"
+ZZKXGFY_ZLB	PROCEDURE	9	"BEGIN
+"
+ZZKXGFY_ZLB	PROCEDURE	10	"  update gy_xhb set dqz = dqz + zz where bm = 'YJ_YJK1';
+"
+ZZKXGFY_ZLB	PROCEDURE	11	"  select dqz into v_yjsb from gy_xhb where bm = 'YJ_YJK1';
+"
+ZZKXGFY_ZLB	PROCEDURE	12	"  INSERT INTO yj_yjk1
+"
+ZZKXGFY_ZLB	PROCEDURE	13	"    (yjsb,
+"
+ZZKXGFY_ZLB	PROCEDURE	14	"     jchm,
+"
+ZZKXGFY_ZLB	PROCEDURE	15	"     jzkh,
+"
+ZZKXGFY_ZLB	PROCEDURE	16	"     brxm,
+"
+ZZKXGFY_ZLB	PROCEDURE	17	"     sjysgh,
+"
+ZZKXGFY_ZLB	PROCEDURE	18	"     sjksdm,
+"
+ZZKXGFY_ZLB	PROCEDURE	19	"     kdsj,
+"
+ZZKXGFY_ZLB	PROCEDURE	20	"     czgh,
+"
+ZZKXGFY_ZLB	PROCEDURE	21	"     jzxh,
+"
+ZZKXGFY_ZLB	PROCEDURE	22	"     zjpb,
+"
+ZZKXGFY_ZLB	PROCEDURE	23	"     lczd,
+"
+ZZKXGFY_ZLB	PROCEDURE	24	"     yshsks,
+"
+ZZKXGFY_ZLB	PROCEDURE	25	"     kaidandxxx,
+"
+ZZKXGFY_ZLB	PROCEDURE	26	"     fybh,
+"
+ZZKXGFY_ZLB	PROCEDURE	27	"     tsjblx,
+"
+ZZKXGFY_ZLB	PROCEDURE	28	"     hj,
+"
+ZZKXGFY_ZLB	PROCEDURE	29	"     xgbz)
+"
+ZZKXGFY_ZLB	PROCEDURE	30	"  VALUES
+"
+ZZKXGFY_ZLB	PROCEDURE	31	"    (v_yjsb,
+"
+ZZKXGFY_ZLB	PROCEDURE	32	"     v_yjsb,
+"
+ZZKXGFY_ZLB	PROCEDURE	33	"     card_no,
+"
+ZZKXGFY_ZLB	PROCEDURE	34	"     brxm,
+"
+ZZKXGFY_ZLB	PROCEDURE	35	"     'DBA',
+"
+ZZKXGFY_ZLB	PROCEDURE	36	"     '3020004',
+"
+ZZKXGFY_ZLB	PROCEDURE	37	"     sysdate,
+"
+ZZKXGFY_ZLB	PROCEDURE	38	"     'AU001',
+"
+ZZKXGFY_ZLB	PROCEDURE	39	"     '',
+"
+ZZKXGFY_ZLB	PROCEDURE	40	"     5,
+"
+ZZKXGFY_ZLB	PROCEDURE	41	"     '',
+"
+ZZKXGFY_ZLB	PROCEDURE	42	"     '',
+"
+ZZKXGFY_ZLB	PROCEDURE	43	"     '自助机自助开立新冠',
+"
+ZZKXGFY_ZLB	PROCEDURE	44	"     0,
+"
+ZZKXGFY_ZLB	PROCEDURE	45	"     '',
+"
+ZZKXGFY_ZLB	PROCEDURE	46	"     '',
+"
+ZZKXGFY_ZLB	PROCEDURE	47	"     0);
+"
+ZZKXGFY_ZLB	PROCEDURE	48	"  if instr(tcylxh, '21897') > 0 then
+"
+ZZKXGFY_ZLB	PROCEDURE	49	"    INSERT INTO yj_yjk2
+"
+ZZKXGFY_ZLB	PROCEDURE	50	"      (yjsb,
+"
+ZZKXGFY_ZLB	PROCEDURE	51	"       yjxh,
+"
+ZZKXGFY_ZLB	PROCEDURE	52	"       ylxh,
+"
+ZZKXGFY_ZLB	PROCEDURE	53	"       xmmc,
+"
+ZZKXGFY_ZLB	PROCEDURE	54	"       dj,
+"
+ZZKXGFY_ZLB	PROCEDURE	55	"       sl,
+"
+ZZKXGFY_ZLB	PROCEDURE	56	"       fygb,
+"
+ZZKXGFY_ZLB	PROCEDURE	57	"       zfbl,
+"
+ZZKXGFY_ZLB	PROCEDURE	58	"       zxksdm,
+"
+ZZKXGFY_ZLB	PROCEDURE	59	"       jyyblx,
+"
+ZZKXGFY_ZLB	PROCEDURE	60	"       tcylxh,
+"
+ZZKXGFY_ZLB	PROCEDURE	61	"       ybzfbl,
+"
+ZZKXGFY_ZLB	PROCEDURE	62	"       tcsl,
+"
+ZZKXGFY_ZLB	PROCEDURE	63	"       JYDYMC,
+"
+ZZKXGFY_ZLB	PROCEDURE	64	"       zfbz,
+"
+ZZKXGFY_ZLB	PROCEDURE	65	"       qzzfbz,
+"
+ZZKXGFY_ZLB	PROCEDURE	66	"       yblx,
+"
+ZZKXGFY_ZLB	PROCEDURE	67	"       hyjg)
+"
+ZZKXGFY_ZLB	PROCEDURE	68	"    Values
+"
+ZZKXGFY_ZLB	PROCEDURE	69	"      (v_yjsb,
+"
+ZZKXGFY_ZLB	PROCEDURE	70	"       1,
+"
+ZZKXGFY_ZLB	PROCEDURE	71	"       31509,
+"
+ZZKXGFY_ZLB	PROCEDURE	72	"       '新型冠状病毒IgG抗体(包括总抗体)检测(自费)',
+"
+ZZKXGFY_ZLB	PROCEDURE	73	"       '40.00',
+"
+ZZKXGFY_ZLB	PROCEDURE	74	"       1,
+"
+ZZKXGFY_ZLB	PROCEDURE	75	"       9,
+"
+ZZKXGFY_ZLB	PROCEDURE	76	"       1,
+"
+ZZKXGFY_ZLB	PROCEDURE	77	"       '3020016',
+"
+ZZKXGFY_ZLB	PROCEDURE	78	"       '',
+"
+ZZKXGFY_ZLB	PROCEDURE	79	"       '21897',
+"
+ZZKXGFY_ZLB	PROCEDURE	80	"       '',
+"
+ZZKXGFY_ZLB	PROCEDURE	81	"       1,
+"
+ZZKXGFY_ZLB	PROCEDURE	82	"       '严重急性呼吸综合症冠状病毒抗体检测',
+"
+ZZKXGFY_ZLB	PROCEDURE	83	"       0,
+"
+ZZKXGFY_ZLB	PROCEDURE	84	"       0,
+"
+ZZKXGFY_ZLB	PROCEDURE	85	"       'Q',
+"
+ZZKXGFY_ZLB	PROCEDURE	86	"       '');
+"
+ZZKXGFY_ZLB	PROCEDURE	87	"    INSERT INTO yj_yjk2
+"
+ZZKXGFY_ZLB	PROCEDURE	88	"      (yjsb,
+"
+ZZKXGFY_ZLB	PROCEDURE	89	"       yjxh,
+"
+ZZKXGFY_ZLB	PROCEDURE	90	"       ylxh,
+"
+ZZKXGFY_ZLB	PROCEDURE	91	"       xmmc,
+"
+ZZKXGFY_ZLB	PROCEDURE	92	"       dj,
+"
+ZZKXGFY_ZLB	PROCEDURE	93	"       sl,
+"
+ZZKXGFY_ZLB	PROCEDURE	94	"       fygb,
+"
+ZZKXGFY_ZLB	PROCEDURE	95	"       zfbl,
+"
+ZZKXGFY_ZLB	PROCEDURE	96	"       zxksdm,
+"
+ZZKXGFY_ZLB	PROCEDURE	97	"       jyyblx,
+"
+ZZKXGFY_ZLB	PROCEDURE	98	"       tcylxh,
+"
+ZZKXGFY_ZLB	PROCEDURE	99	"       ybzfbl,
+"
+ZZKXGFY_ZLB	PROCEDURE	100	"       tcsl,
+"
+ZZKXGFY_ZLB	PROCEDURE	101	"       JYDYMC,
+"
+ZZKXGFY_ZLB	PROCEDURE	102	"       zfbz,
+"
+ZZKXGFY_ZLB	PROCEDURE	103	"       qzzfbz,
+"
+ZZKXGFY_ZLB	PROCEDURE	104	"       yblx,
+"
+ZZKXGFY_ZLB	PROCEDURE	105	"       hyjg)
+"
+ZZKXGFY_ZLB	PROCEDURE	106	"    Values
+"
+ZZKXGFY_ZLB	PROCEDURE	107	"      (v_yjsb,
+"
+ZZKXGFY_ZLB	PROCEDURE	108	"       2,
+"
+ZZKXGFY_ZLB	PROCEDURE	109	"       31510,
+"
+ZZKXGFY_ZLB	PROCEDURE	110	"       '新型冠状病毒IgM抗体检测（自费）',
+"
+ZZKXGFY_ZLB	PROCEDURE	111	"       '40.00',
+"
+ZZKXGFY_ZLB	PROCEDURE	112	"       1,
+"
+ZZKXGFY_ZLB	PROCEDURE	113	"       9,
+"
+ZZKXGFY_ZLB	PROCEDURE	114	"       1,
+"
+ZZKXGFY_ZLB	PROCEDURE	115	"       '3020016',
+"
+ZZKXGFY_ZLB	PROCEDURE	116	"       '',
+"
+ZZKXGFY_ZLB	PROCEDURE	117	"       '21897',
+"
+ZZKXGFY_ZLB	PROCEDURE	118	"       '',
+"
+ZZKXGFY_ZLB	PROCEDURE	119	"       1,
+"
+ZZKXGFY_ZLB	PROCEDURE	120	"       '严重急性呼吸综合症冠状病毒抗体检测',
+"
+ZZKXGFY_ZLB	PROCEDURE	121	"       0,
+"
+ZZKXGFY_ZLB	PROCEDURE	122	"       0,
+"
+ZZKXGFY_ZLB	PROCEDURE	123	"       'Q',
+"
+ZZKXGFY_ZLB	PROCEDURE	124	"       '');
+"
+ZZKXGFY_ZLB	PROCEDURE	125	"  end if;
+"
+ZZKXGFY_ZLB	PROCEDURE	126	"  if instr(tcylxh, '31944') > 0 then
+"
+ZZKXGFY_ZLB	PROCEDURE	127	"    INSERT INTO yj_yjk2
+"
+ZZKXGFY_ZLB	PROCEDURE	128	"      (yjsb,
+"
+ZZKXGFY_ZLB	PROCEDURE	129	"       yjxh,
+"
+ZZKXGFY_ZLB	PROCEDURE	130	"       ylxh,
+"
+ZZKXGFY_ZLB	PROCEDURE	131	"       xmmc,
+"
+ZZKXGFY_ZLB	PROCEDURE	132	"       dj,
+"
+ZZKXGFY_ZLB	PROCEDURE	133	"       sl,
+"
+ZZKXGFY_ZLB	PROCEDURE	134	"       fygb,
+"
+ZZKXGFY_ZLB	PROCEDURE	135	"       zfbl,
+"
+ZZKXGFY_ZLB	PROCEDURE	136	"       zxksdm,
+"
+ZZKXGFY_ZLB	PROCEDURE	137	"       jyyblx,
+"
+ZZKXGFY_ZLB	PROCEDURE	138	"       tcylxh,
+"
+ZZKXGFY_ZLB	PROCEDURE	139	"       ybzfbl,
+"
+ZZKXGFY_ZLB	PROCEDURE	140	"       tcsl,
+"
+ZZKXGFY_ZLB	PROCEDURE	141	"       JYDYMC,
+"
+ZZKXGFY_ZLB	PROCEDURE	142	"       zfbz,
+"
+ZZKXGFY_ZLB	PROCEDURE	143	"       qzzfbz,
+"
+ZZKXGFY_ZLB	PROCEDURE	144	"       yblx,
+"
+ZZKXGFY_ZLB	PROCEDURE	145	"       hyjg)
+"
+ZZKXGFY_ZLB	PROCEDURE	146	"    Values
+"
+ZZKXGFY_ZLB	PROCEDURE	147	"      (v_yjsb,
+"
+ZZKXGFY_ZLB	PROCEDURE	148	"       3,
+"
+ZZKXGFY_ZLB	PROCEDURE	149	"       31948,
+"
+ZZKXGFY_ZLB	PROCEDURE	150	"       '新型冠状病毒核酸检测（鼻拭子）（自费）',
+"
+ZZKXGFY_ZLB	PROCEDURE	151	"       (select dj from gy_ylsf where ylxh = 31948),
+"
+ZZKXGFY_ZLB	PROCEDURE	152	"       1,
+"
+ZZKXGFY_ZLB	PROCEDURE	153	"       9,
+"
+ZZKXGFY_ZLB	PROCEDURE	154	"       1,
+"
+ZZKXGFY_ZLB	PROCEDURE	155	"       '3020005',
+"
+ZZKXGFY_ZLB	PROCEDURE	156	"       '',
+"
+ZZKXGFY_ZLB	PROCEDURE	157	"       '31944',
+"
+ZZKXGFY_ZLB	PROCEDURE	158	"       '',
+"
+ZZKXGFY_ZLB	PROCEDURE	159	"       1,
+"
+ZZKXGFY_ZLB	PROCEDURE	160	"       '新型冠状病毒核酸检测（鼻拭子自费）',
+"
+ZZKXGFY_ZLB	PROCEDURE	161	"       0,
+"
+ZZKXGFY_ZLB	PROCEDURE	162	"       0,
+"
+ZZKXGFY_ZLB	PROCEDURE	163	"       'R',
+"
+ZZKXGFY_ZLB	PROCEDURE	164	"       '');
+"
+ZZKXGFY_ZLB	PROCEDURE	165	"  end if;
+"
+ZZKXGFY_ZLB	PROCEDURE	166	"  ret_code := 0;
+"
+ZZKXGFY_ZLB	PROCEDURE	167	"  ret_info := '开单成功';
+"
+ZZKXGFY_ZLB	PROCEDURE	168	"  commit;
+"
+ZZKXGFY_ZLB	PROCEDURE	169	"EXCEPTION
+"
+ZZKXGFY_ZLB	PROCEDURE	170	"  when others then
+"
+ZZKXGFY_ZLB	PROCEDURE	171	"    ret_code := 4;
+"
+ZZKXGFY_ZLB	PROCEDURE	172	"    ret_info := '开单失败';
+"
+ZZKXGFY_ZLB	PROCEDURE	173	"    rollback;
+"
+ZZKXGFY_ZLB	PROCEDURE	174	"    return;
+"
+ZZKXGFY_ZLB	PROCEDURE	175	"END;
+"

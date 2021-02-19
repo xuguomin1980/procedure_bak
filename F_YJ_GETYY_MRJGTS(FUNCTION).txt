@@ -1,0 +1,29 @@
+F_YJ_GETYY_MRJGTS	FUNCTION	1	"FUNCTION         ""F_YJ_GETYY_MRJGTS"" 
+"
+F_YJ_GETYY_MRJGTS	FUNCTION	2	"(arg_ksdm varchar2,arg_ylxh in number)
+"
+F_YJ_GETYY_MRJGTS	FUNCTION	3	"  return number
+"
+F_YJ_GETYY_MRJGTS	FUNCTION	4	"  is
+"
+F_YJ_GETYY_MRJGTS	FUNCTION	5	"    ls_return number(2);
+"
+F_YJ_GETYY_MRJGTS	FUNCTION	6	"  begin
+"
+F_YJ_GETYY_MRJGTS	FUNCTION	7	"	  select jgts into ls_return from yj_yyxm where
+"
+F_YJ_GETYY_MRJGTS	FUNCTION	8	"       ksdm=arg_ksdm and ylxh=arg_ylxh;
+"
+F_YJ_GETYY_MRJGTS	FUNCTION	9	"       if ls_return=null then
+"
+F_YJ_GETYY_MRJGTS	FUNCTION	10	"          ls_return:=0;
+"
+F_YJ_GETYY_MRJGTS	FUNCTION	11	"       end if;
+"
+F_YJ_GETYY_MRJGTS	FUNCTION	12	"	  return(ls_return);
+"
+F_YJ_GETYY_MRJGTS	FUNCTION	13	"  end;
+"
+F_YJ_GETYY_MRJGTS	FUNCTION	14	"
+"
+F_YJ_GETYY_MRJGTS	FUNCTION	15	 

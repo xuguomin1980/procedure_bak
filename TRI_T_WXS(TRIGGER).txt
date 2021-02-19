@@ -1,0 +1,14 @@
+TRI_T_WXS	TRIGGER	1	"TRIGGER ""ZJHIS"".tri_T_WXs
+"
+TRI_T_WXS	TRIGGER	2	" before insert on T_WXs
+"
+TRI_T_WXS	TRIGGER	3	" for each row
+"
+TRI_T_WXS	TRIGGER	4	"
+"
+TRI_T_WXS	TRIGGER	5	"begin
+"
+TRI_T_WXS	TRIGGER	6	"     select seq_T_WXs.nextval,sysdate into :new.id  ,:new.createdatetime  from dual;
+"
+TRI_T_WXS	TRIGGER	7	"   end tri_T_WXs;
+"

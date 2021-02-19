@@ -1,0 +1,82 @@
+F_GET_AGE2020	FUNCTION	1	"FUNCTION ""F_GET_AGE2020"" (arg_csrq in date)
+"
+F_GET_AGE2020	FUNCTION	2	"       return varchar2
+"
+F_GET_AGE2020	FUNCTION	3	"  is
+"
+F_GET_AGE2020	FUNCTION	4	"       ls_return varchar2(50);
+"
+F_GET_AGE2020	FUNCTION	5	"       li_month  number(6);
+"
+F_GET_AGE2020	FUNCTION	6	"       li_year   number(6);
+"
+F_GET_AGE2020	FUNCTION	7	"       li_day    number;
+"
+F_GET_AGE2020	FUNCTION	8	"       ls_age    varchar2(10);
+"
+F_GET_AGE2020	FUNCTION	9	"       ls_dw     varchar2(10);
+"
+F_GET_AGE2020	FUNCTION	10	"       ldt_csrq2 date;
+"
+F_GET_AGE2020	FUNCTION	11	"  begin
+"
+F_GET_AGE2020	FUNCTION	12	"
+"
+F_GET_AGE2020	FUNCTION	13	"      Select  trunc(months_between(sysdate,arg_csrq)/12) ,
+"
+F_GET_AGE2020	FUNCTION	14	"              trunc(months_between(sysdate,arg_csrq)) ,
+"
+F_GET_AGE2020	FUNCTION	15	"              trunc(sysdate - arg_csrq)
+"
+F_GET_AGE2020	FUNCTION	16	"          Into li_year,li_month,li_day
+"
+F_GET_AGE2020	FUNCTION	17	"          From dual;
+"
+F_GET_AGE2020	FUNCTION	18	"      if li_year >= 15 then
+"
+F_GET_AGE2020	FUNCTION	19	"         ls_return :=to_char(li_year)||'岁';
+"
+F_GET_AGE2020	FUNCTION	20	"      elsif li_month =0 then
+"
+F_GET_AGE2020	FUNCTION	21	"         ls_return :=to_char(li_day)||'天';
+"
+F_GET_AGE2020	FUNCTION	22	"      elsif li_year >= 1 then
+"
+F_GET_AGE2020	FUNCTION	23	"         li_month:=mod(li_month,12);
+"
+F_GET_AGE2020	FUNCTION	24	"         if  li_month=0 then
+"
+F_GET_AGE2020	FUNCTION	25	"             ls_return :=to_char(li_year)||'岁';
+"
+F_GET_AGE2020	FUNCTION	26	"         else
+"
+F_GET_AGE2020	FUNCTION	27	"             ls_return :=to_char(li_year)||'岁'||to_char(li_Month)||'月';
+"
+F_GET_AGE2020	FUNCTION	28	"         end if;
+"
+F_GET_AGE2020	FUNCTION	29	"      else
+"
+F_GET_AGE2020	FUNCTION	30	"         Select add_months(arg_csrq,li_month) Into ldt_csrq2 From dual;
+"
+F_GET_AGE2020	FUNCTION	31	"	       Select trunc(trunc(sysdate) - ldt_csrq2) Into li_day From dual;
+"
+F_GET_AGE2020	FUNCTION	32	"         If li_day = 0 Then
+"
+F_GET_AGE2020	FUNCTION	33	"            ls_return := to_char(li_month)||'月';
+"
+F_GET_AGE2020	FUNCTION	34	"          Else
+"
+F_GET_AGE2020	FUNCTION	35	"            ls_return := to_char(li_month)||'月'||to_char(li_day)||'天';
+"
+F_GET_AGE2020	FUNCTION	36	"          End If;
+"
+F_GET_AGE2020	FUNCTION	37	"      end if;
+"
+F_GET_AGE2020	FUNCTION	38	"
+"
+F_GET_AGE2020	FUNCTION	39	"
+"
+F_GET_AGE2020	FUNCTION	40	"    Return(ls_return);
+"
+F_GET_AGE2020	FUNCTION	41	"  end;
+"

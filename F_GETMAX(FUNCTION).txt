@@ -1,0 +1,38 @@
+F_GETMAX	FUNCTION	1	"FUNCTION f_getmax(as_bm in varchar2) return number Is
+"
+F_GETMAX	FUNCTION	2	"  ll_return number;
+"
+F_GETMAX	FUNCTION	3	"   PRAGMA AUTONOMOUS_TRANSACTION;
+"
+F_GETMAX	FUNCTION	4	"begin
+"
+F_GETMAX	FUNCTION	5	"
+"
+F_GETMAX	FUNCTION	6	"  UPDATE GY_xhb SET dqz = dqz + zz WHERE bm = as_bm;
+"
+F_GETMAX	FUNCTION	7	"   COMMIT;
+"
+F_GETMAX	FUNCTION	8	"  /*If sqlca.SQLNRows=0 Then  -- Òª²åÈë¼ÇÂ¼
+"
+F_GETMAX	FUNCTION	9	"    INSERT INTO gy_xhb(bm,dqz,zz) VALUES(as_bm,1,1) ;
+"
+F_GETMAX	FUNCTION	10	"    COMMIT ;
+"
+F_GETMAX	FUNCTION	11	"    Return 1;
+"
+F_GETMAX	FUNCTION	12	"  End If;*/
+"
+F_GETMAX	FUNCTION	13	"
+"
+F_GETMAX	FUNCTION	14	"  SELECT dqz INTO ll_return FROM GY_xhb WHERE bm = as_bm;
+"
+F_GETMAX	FUNCTION	15	"
+"
+F_GETMAX	FUNCTION	16	" 
+"
+F_GETMAX	FUNCTION	17	"  Return ll_return;
+"
+F_GETMAX	FUNCTION	18	"
+"
+F_GETMAX	FUNCTION	19	"end;
+"

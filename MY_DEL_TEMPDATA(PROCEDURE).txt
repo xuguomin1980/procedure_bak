@@ -1,0 +1,91 @@
+MY_DEL_TEMPDATA	PROCEDURE	1	"PROCEDURE         ""MY_DEL_TEMPDATA"" 
+"
+MY_DEL_TEMPDATA	PROCEDURE	2	" is   
+"
+MY_DEL_TEMPDATA	PROCEDURE	3	"    ld_date date; 
+"
+MY_DEL_TEMPDATA	PROCEDURE	4	"    ld_now  date;  
+"
+MY_DEL_TEMPDATA	PROCEDURE	5	" begin       
+"
+MY_DEL_TEMPDATA	PROCEDURE	6	"    --save one month  
+"
+MY_DEL_TEMPDATA	PROCEDURE	7	"    --my_kc_day        
+"
+MY_DEL_TEMPDATA	PROCEDURE	8	"    select sysdate - 33 into ld_now from dual; 
+"
+MY_DEL_TEMPDATA	PROCEDURE	9	"                                                  
+"
+MY_DEL_TEMPDATA	PROCEDURE	10	"    select min(xtrq) into ld_date from my_kc_day ;  
+"
+MY_DEL_TEMPDATA	PROCEDURE	11	"    if ld_now>ld_date  then                           
+"
+MY_DEL_TEMPDATA	PROCEDURE	12	"       delete from my_kc_day where xtrq<ld_date + 2;    
+"
+MY_DEL_TEMPDATA	PROCEDURE	13	"       commit;                                            
+"
+MY_DEL_TEMPDATA	PROCEDURE	14	"    end if; 
+"
+MY_DEL_TEMPDATA	PROCEDURE	15	"     
+"
+MY_DEL_TEMPDATA	PROCEDURE	16	"    --save six month 
+"
+MY_DEL_TEMPDATA	PROCEDURE	17	"    --my_kc_ymlsk_his , gy_ypcdjg_ymlsk_his 
+"
+MY_DEL_TEMPDATA	PROCEDURE	18	"    --yf_xtrz , yf_err 
+"
+MY_DEL_TEMPDATA	PROCEDURE	19	"    select sysdate - 185 into ld_now from dual; 
+"
+MY_DEL_TEMPDATA	PROCEDURE	20	"  
+"
+MY_DEL_TEMPDATA	PROCEDURE	21	"    select min(xtrq) into ld_date from my_kc_ymlsk_his; 
+"
+MY_DEL_TEMPDATA	PROCEDURE	22	"    if ld_now>ld_date then 
+"
+MY_DEL_TEMPDATA	PROCEDURE	23	"       delete from my_kc_ymlsk_his where xtrq<ld_date + 2;      
+"
+MY_DEL_TEMPDATA	PROCEDURE	24	"       commit;                             
+"
+MY_DEL_TEMPDATA	PROCEDURE	25	"    end if;       
+"
+MY_DEL_TEMPDATA	PROCEDURE	26	"  
+"
+MY_DEL_TEMPDATA	PROCEDURE	27	"    select min(xtrq) into ld_date from gy_ypcdjg_ymlsk_his; 
+"
+MY_DEL_TEMPDATA	PROCEDURE	28	"    if ld_now>ld_date then 
+"
+MY_DEL_TEMPDATA	PROCEDURE	29	"       delete from gy_ypcdjg_ymlsk_his where xtrq<ld_date + 2;     
+"
+MY_DEL_TEMPDATA	PROCEDURE	30	"       commit;      
+"
+MY_DEL_TEMPDATA	PROCEDURE	31	"    end if; 
+"
+MY_DEL_TEMPDATA	PROCEDURE	32	"     
+"
+MY_DEL_TEMPDATA	PROCEDURE	33	"    select min(dlsj) into ld_date from yf_xtrz; 
+"
+MY_DEL_TEMPDATA	PROCEDURE	34	"    if ld_now>ld_date then 
+"
+MY_DEL_TEMPDATA	PROCEDURE	35	"       delete from yf_xtrz where dlsj<ld_date + 2; 
+"
+MY_DEL_TEMPDATA	PROCEDURE	36	"       commit;      
+"
+MY_DEL_TEMPDATA	PROCEDURE	37	"    end if; 
+"
+MY_DEL_TEMPDATA	PROCEDURE	38	"                
+"
+MY_DEL_TEMPDATA	PROCEDURE	39	"    select min(err_date) into ld_date from yf_err; 
+"
+MY_DEL_TEMPDATA	PROCEDURE	40	"    if ld_now>ld_date then 
+"
+MY_DEL_TEMPDATA	PROCEDURE	41	"       delete from yf_err where err_date<ld_date + 2;  
+"
+MY_DEL_TEMPDATA	PROCEDURE	42	"       commit;      
+"
+MY_DEL_TEMPDATA	PROCEDURE	43	"    end if; 
+"
+MY_DEL_TEMPDATA	PROCEDURE	44	"       
+"
+MY_DEL_TEMPDATA	PROCEDURE	45	" end; 
+"
+MY_DEL_TEMPDATA	PROCEDURE	46	 

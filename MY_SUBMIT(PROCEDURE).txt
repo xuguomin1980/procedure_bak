@@ -1,0 +1,41 @@
+MY_SUBMIT	PROCEDURE	1	"PROCEDURE         ""MY_SUBMIT"" 
+"
+MY_SUBMIT	PROCEDURE	2	" ( 
+"
+MY_SUBMIT	PROCEDURE	3	" what      IN  VARCHAR2, 
+"
+MY_SUBMIT	PROCEDURE	4	" ls_date IN  VARCHAR2 , 
+"
+MY_SUBMIT	PROCEDURE	5	" interval  IN  VARCHAR2 DEFAULT 'null') 
+"
+MY_SUBMIT	PROCEDURE	6	" as begin 
+"
+MY_SUBMIT	PROCEDURE	7	" declare 
+"
+MY_SUBMIT	PROCEDURE	8	"  job binary_integer ; 
+"
+MY_SUBMIT	PROCEDURE	9	"  next_date date; 
+"
+MY_SUBMIT	PROCEDURE	10	" begin 
+"
+MY_SUBMIT	PROCEDURE	11	"   if ls_date='sysdate' then 
+"
+MY_SUBMIT	PROCEDURE	12	"     next_date := sysdate; 
+"
+MY_SUBMIT	PROCEDURE	13	"   else 
+"
+MY_SUBMIT	PROCEDURE	14	"     next_date := to_date(ls_date,'yyyy/mm/dd hh24:mi:ss'); 
+"
+MY_SUBMIT	PROCEDURE	15	"   end if; 
+"
+MY_SUBMIT	PROCEDURE	16	"   dbms_job.submit(job,what,next_date,interval); 
+"
+MY_SUBMIT	PROCEDURE	17	"   
+"
+MY_SUBMIT	PROCEDURE	18	"   commit;
+"
+MY_SUBMIT	PROCEDURE	19	" end;
+"
+MY_SUBMIT	PROCEDURE	20	" end;
+"
+MY_SUBMIT	PROCEDURE	21	 

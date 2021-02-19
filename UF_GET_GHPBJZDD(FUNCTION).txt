@@ -1,0 +1,51 @@
+UF_GET_GHPBJZDD	FUNCTION	1	"FUNCTION         ""UF_GET_GHPBJZDD"" 
+"
+UF_GET_GHPBJZDD	FUNCTION	2	"--取挂号排班就诊地点
+"
+UF_GET_GHPBJZDD	FUNCTION	3	"(vpbxh in number)
+"
+UF_GET_GHPBJZDD	FUNCTION	4	"return varchar2
+"
+UF_GET_GHPBJZDD	FUNCTION	5	"is
+"
+UF_GET_GHPBJZDD	FUNCTION	6	"  vResult varchar2(100);
+"
+UF_GET_GHPBJZDD	FUNCTION	7	"  vysgh varchar2(10);
+"
+UF_GET_GHPBJZDD	FUNCTION	8	"  vysksdm varchar2(20);
+"
+UF_GET_GHPBJZDD	FUNCTION	9	"  vjzdd varchar2(100);
+"
+UF_GET_GHPBJZDD	FUNCTION	10	"  vmzlbxh number(4);
+"
+UF_GET_GHPBJZDD	FUNCTION	11	"  vxq number(2);
+"
+UF_GET_GHPBJZDD	FUNCTION	12	"begin
+"
+UF_GET_GHPBJZDD	FUNCTION	13	"  --取最高限号
+"
+UF_GET_GHPBJZDD	FUNCTION	14	"  select a.ysgh,a.ksdm,b.wz1,a.mzlbxh,
+"
+UF_GET_GHPBJZDD	FUNCTION	15	"         to_number(to_char(a.rq,'D'))
+"
+UF_GET_GHPBJZDD	FUNCTION	16	"    into vysgh,vysksdm,vjzdd,vmzlbxh,vxq
+"
+UF_GET_GHPBJZDD	FUNCTION	17	"    from gh_mzpbk a,gy_ksdm b
+"
+UF_GET_GHPBJZDD	FUNCTION	18	"   where a.ksdm = b.ksdm
+"
+UF_GET_GHPBJZDD	FUNCTION	19	"     and a.jlxh = vpbxh;
+"
+UF_GET_GHPBJZDD	FUNCTION	20	"
+"
+UF_GET_GHPBJZDD	FUNCTION	21	"
+"
+UF_GET_GHPBJZDD	FUNCTION	22	"  vResult := vjzdd;
+"
+UF_GET_GHPBJZDD	FUNCTION	23	"  return(vResult);
+"
+UF_GET_GHPBJZDD	FUNCTION	24	"end;
+"
+UF_GET_GHPBJZDD	FUNCTION	25	"
+"
+UF_GET_GHPBJZDD	FUNCTION	26	 

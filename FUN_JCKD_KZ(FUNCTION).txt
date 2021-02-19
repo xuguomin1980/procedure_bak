@@ -1,0 +1,12 @@
+FUN_JCKD_KZ	FUNCTION	1	"FUNCTION fun_jckd_kz(as_jzkh IN VARCHAR2,as_xmbh in varchar2)
+"
+FUN_JCKD_KZ	FUNCTION	2	"RETURN VARCHAR2 IS as_message VARCHAR2(20);
+"
+FUN_JCKD_KZ	FUNCTION	3	"    BEGIN
+"
+FUN_JCKD_KZ	FUNCTION	4	"
+"
+FUN_JCKD_KZ	FUNCTION	5	"     RETURN as_message;
+"
+FUN_JCKD_KZ	FUNCTION	6	" end fun_jckd_kz;
+"

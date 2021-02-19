@@ -1,0 +1,16 @@
+F_GETDLKSMC	FUNCTION	1	"function f_getdlksmc(p_ksdm  in varchar2)
+"
+F_GETDLKSMC	FUNCTION	2	"return varchar
+"
+F_GETDLKSMC	FUNCTION	3	"is
+"
+F_GETDLKSMC	FUNCTION	4	"ls_return varchar2(20);
+"
+F_GETDLKSMC	FUNCTION	5	"  begin
+"
+F_GETDLKSMC	FUNCTION	6	"         select mc into ls_return from gy_gydm where dm=p_ksdm and  dmlb='67' and dm<>'0';
+"
+F_GETDLKSMC	FUNCTION	7	"      return ls_return;
+"
+F_GETDLKSMC	FUNCTION	8	"  end;
+"

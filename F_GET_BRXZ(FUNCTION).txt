@@ -1,0 +1,19 @@
+F_GET_BRXZ	FUNCTION	1	"FUNCTION         ""F_GET_BRXZ"" (arg_xzdm in varchar2)
+"
+F_GET_BRXZ	FUNCTION	2	"  return varchar2
+"
+F_GET_BRXZ	FUNCTION	3	"  is
+"
+F_GET_BRXZ	FUNCTION	4	"    ls_return varchar2(160);
+"
+F_GET_BRXZ	FUNCTION	5	"  begin
+"
+F_GET_BRXZ	FUNCTION	6	"    select xzmc into ls_return from gy_brxz where xzdm=arg_xzdm;
+"
+F_GET_BRXZ	FUNCTION	7	"    return(ls_return);
+"
+F_GET_BRXZ	FUNCTION	8	"  end;
+"
+F_GET_BRXZ	FUNCTION	9	"
+"
+F_GET_BRXZ	FUNCTION	10	 

@@ -1,0 +1,16 @@
+F_GETDLKSDM	FUNCTION	1	"function f_getdlksdm(p_ksdm  in varchar2)
+"
+F_GETDLKSDM	FUNCTION	2	"return varchar
+"
+F_GETDLKSDM	FUNCTION	3	"is
+"
+F_GETDLKSDM	FUNCTION	4	"ls_return varchar2(20);
+"
+F_GETDLKSDM	FUNCTION	5	"  begin
+"
+F_GETDLKSDM	FUNCTION	6	"         select glksdm into ls_return from gy_ksdm where ksdm=p_ksdm;
+"
+F_GETDLKSDM	FUNCTION	7	"      return ls_return;
+"
+F_GETDLKSDM	FUNCTION	8	"  end;
+"

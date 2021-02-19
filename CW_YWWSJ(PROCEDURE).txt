@@ -1,0 +1,25 @@
+CW_YWWSJ	PROCEDURE	1	"PROCEDURE         ""CW_YWWSJ"" As
+"
+CW_YWWSJ	PROCEDURE	2	"in_rq1   number;
+"
+CW_YWWSJ	PROCEDURE	3	"out_code number;
+"
+CW_YWWSJ	PROCEDURE	4	"out_char varchar2(500);
+"
+CW_YWWSJ	PROCEDURE	5	"begin
+"
+CW_YWWSJ	PROCEDURE	6	"   in_rq1 := To_Number( To_Char( Sysdate - 1, 'YYYYMMDD' ));
+"
+CW_YWWSJ	PROCEDURE	7	"   pkg_ywwsj.prc_mz_sfxx(in_rq1,out_code,out_char);
+"
+CW_YWWSJ	PROCEDURE	8	"   pkg_ywwsj.prc_zy_sfxx(in_rq1,out_code,out_char);
+"
+CW_YWWSJ	PROCEDURE	9	"   pkg_ywwsj.prc_sb_sbxx(in_rq1,out_code,out_char);
+"
+CW_YWWSJ	PROCEDURE	10	"   pkg_jcfx.prc_zy_zhxx(in_rq1,out_code,out_char);
+"
+CW_YWWSJ	PROCEDURE	11	"end cw_ywwsj;
+"
+CW_YWWSJ	PROCEDURE	12	"
+"
+CW_YWWSJ	PROCEDURE	13	 

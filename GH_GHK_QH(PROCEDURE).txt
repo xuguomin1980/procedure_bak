@@ -1,0 +1,20 @@
+GH_GHK_QH	PROCEDURE	1	"PROCEDURE GH_GHK_QH as
+"
+GH_GHK_QH	PROCEDURE	2	"begin
+"
+GH_GHK_QH	PROCEDURE	3	" insert into gh_ghk (jlxh,jzkh,jzcs,brxm,brlb,brxz,mzlbxh,pbxh,ksdm,ghrq,ghxh,ysgh,sjlb,ghf,zlf,zlfds,czgh,thbz,czrq)
+"
+GH_GHK_QH	PROCEDURE	4	"   SELECT seq_gh_ghk_jlxh.nextval,b.jzkh,0,b.xm,a.brlb,a.brxzdm,b.mzlbxh,
+"
+GH_GHK_QH	PROCEDURE	5	"   (select jlxh from gh_mzpbk where pbjlxh= b.pbxh and trunc(rq)= trunc(sysdate)),
+"
+GH_GHK_QH	PROCEDURE	6	"   b.ksdm,b.yyrq1,b.ghxh,b.ysgh,b.yysj,0,0.01,1,'MFQH',0,B.djRQ
+"
+GH_GHK_QH	PROCEDURE	7	"  FROM GY_BRJBXXK A,GH_MZYYK B WHERE B.ZT=0 AND trunc(yyrq1) =trunc(sysdate) and B.XXLYID='qianghao'   AND A.JZKH =B.JZKH AND A.XM=B.XM ;
+"
+GH_GHK_QH	PROCEDURE	8	"  UPDATE GH_MZYYK SET ZT=1 WHERE ZT=0 AND  XXLYID='qianghao'  AND JZKH IN(SELECT JZKH FROM GY_BRJBXXK ) AND XM IN(SELECT XM FROM GY_BRJBXXK );
+"
+GH_GHK_QH	PROCEDURE	9	"  COMMIT;
+"
+GH_GHK_QH	PROCEDURE	10	"end;
+"

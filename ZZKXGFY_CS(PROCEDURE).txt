@@ -1,0 +1,544 @@
+ZZKXGFY_CS	PROCEDURE	1	"PROCEDURE ""ZZKXGFY_CS""(card_no  in VARCHAR,
+"
+ZZKXGFY_CS	PROCEDURE	2	"                                         brxm     in VARCHAR,
+"
+ZZKXGFY_CS	PROCEDURE	3	"                                         ret_code out INTEGER,
+"
+ZZKXGFY_CS	PROCEDURE	4	"                                         ret_info out VARCHAR) AS
+"
+ZZKXGFY_CS	PROCEDURE	5	"  ----自助机开立新冠
+"
+ZZKXGFY_CS	PROCEDURE	6	"  v_yjsb   number(10);
+"
+ZZKXGFY_CS	PROCEDURE	7	"  v_jlxh   number(10);
+"
+ZZKXGFY_CS	PROCEDURE	8	"  v_pbjlxh number(10);
+"
+ZZKXGFY_CS	PROCEDURE	9	"  v_count  number(10);
+"
+ZZKXGFY_CS	PROCEDURE	10	"  v_sjlb   number(2);
+"
+ZZKXGFY_CS	PROCEDURE	11	"  v_rq_sj  varchar2(10);
+"
+ZZKXGFY_CS	PROCEDURE	12	"BEGIN
+"
+ZZKXGFY_CS	PROCEDURE	13	"
+"
+ZZKXGFY_CS	PROCEDURE	14	"  select count(*) into v_count from gy_brjbxxk where jzkh = card_no;
+"
+ZZKXGFY_CS	PROCEDURE	15	"  if v_count = 1 then
+"
+ZZKXGFY_CS	PROCEDURE	16	"    select jlxh, to_char(sysdate, 'hh24')
+"
+ZZKXGFY_CS	PROCEDURE	17	"      into v_pbjlxh, v_rq_sj
+"
+ZZKXGFY_CS	PROCEDURE	18	"      From gh_mzpbk
+"
+ZZKXGFY_CS	PROCEDURE	19	"     where ksdm = '2900011'
+"
+ZZKXGFY_CS	PROCEDURE	20	"       and trunc(rq) = trunc(sysdate);
+"
+ZZKXGFY_CS	PROCEDURE	21	"    v_sjlb := 1;
+"
+ZZKXGFY_CS	PROCEDURE	22	"    if v_rq_sj >= '12' then
+"
+ZZKXGFY_CS	PROCEDURE	23	"      v_sjlb := 2;
+"
+ZZKXGFY_CS	PROCEDURE	24	"    end if;
+"
+ZZKXGFY_CS	PROCEDURE	25	"  
+"
+ZZKXGFY_CS	PROCEDURE	26	"    null;
+"
+ZZKXGFY_CS	PROCEDURE	27	"  else
+"
+ZZKXGFY_CS	PROCEDURE	28	"    ret_code := 4;
+"
+ZZKXGFY_CS	PROCEDURE	29	"    ret_info := 'ZZKXGFY开单失败,该卡号未建档';
+"
+ZZKXGFY_CS	PROCEDURE	30	"    rollback;
+"
+ZZKXGFY_CS	PROCEDURE	31	"    return;
+"
+ZZKXGFY_CS	PROCEDURE	32	"  end if;
+"
+ZZKXGFY_CS	PROCEDURE	33	"
+"
+ZZKXGFY_CS	PROCEDURE	34	"  select count(a.yjsb)
+"
+ZZKXGFY_CS	PROCEDURE	35	"    into v_yjsb
+"
+ZZKXGFY_CS	PROCEDURE	36	"    from yj_Yjk1 a, yj_Yjk2 b
+"
+ZZKXGFY_CS	PROCEDURE	37	"   where a.yjsb = b.yjsb
+"
+ZZKXGFY_CS	PROCEDURE	38	"     and b.ylxh = 31948
+"
+ZZKXGFY_CS	PROCEDURE	39	"     and a.sfsb is null
+"
+ZZKXGFY_CS	PROCEDURE	40	"     and b.sl > 0
+"
+ZZKXGFY_CS	PROCEDURE	41	"     and a.jzkh = card_no
+"
+ZZKXGFY_CS	PROCEDURE	42	"     and a.kdsj > sysdate - 0.5;
+"
+ZZKXGFY_CS	PROCEDURE	43	"  if v_yjsb > 0 then
+"
+ZZKXGFY_CS	PROCEDURE	44	"    ret_code := 0;
+"
+ZZKXGFY_CS	PROCEDURE	45	"    ret_info := '开单成功';
+"
+ZZKXGFY_CS	PROCEDURE	46	"    return;
+"
+ZZKXGFY_CS	PROCEDURE	47	"  end if;
+"
+ZZKXGFY_CS	PROCEDURE	48	"
+"
+ZZKXGFY_CS	PROCEDURE	49	"  update gy_xhb set dqz = dqz + zz where bm = 'YJ_YJK1';
+"
+ZZKXGFY_CS	PROCEDURE	50	"  select dqz into v_yjsb from gy_xhb where bm = 'YJ_YJK1';
+"
+ZZKXGFY_CS	PROCEDURE	51	"  INSERT INTO yj_yjk1
+"
+ZZKXGFY_CS	PROCEDURE	52	"    (yjsb,
+"
+ZZKXGFY_CS	PROCEDURE	53	"     jchm,
+"
+ZZKXGFY_CS	PROCEDURE	54	"     jzkh,
+"
+ZZKXGFY_CS	PROCEDURE	55	"     brxm,
+"
+ZZKXGFY_CS	PROCEDURE	56	"     sjysgh,
+"
+ZZKXGFY_CS	PROCEDURE	57	"     sjksdm,
+"
+ZZKXGFY_CS	PROCEDURE	58	"     kdsj,
+"
+ZZKXGFY_CS	PROCEDURE	59	"     czgh,
+"
+ZZKXGFY_CS	PROCEDURE	60	"     jzxh,
+"
+ZZKXGFY_CS	PROCEDURE	61	"     zjpb,
+"
+ZZKXGFY_CS	PROCEDURE	62	"     lczd,
+"
+ZZKXGFY_CS	PROCEDURE	63	"     yshsks,
+"
+ZZKXGFY_CS	PROCEDURE	64	"     kaidandxxx,
+"
+ZZKXGFY_CS	PROCEDURE	65	"     fybh,
+"
+ZZKXGFY_CS	PROCEDURE	66	"     tsjblx,
+"
+ZZKXGFY_CS	PROCEDURE	67	"     hj,
+"
+ZZKXGFY_CS	PROCEDURE	68	"     xgbz)
+"
+ZZKXGFY_CS	PROCEDURE	69	"  VALUES
+"
+ZZKXGFY_CS	PROCEDURE	70	"    (v_yjsb,
+"
+ZZKXGFY_CS	PROCEDURE	71	"     v_yjsb,
+"
+ZZKXGFY_CS	PROCEDURE	72	"     card_no,
+"
+ZZKXGFY_CS	PROCEDURE	73	"     brxm,
+"
+ZZKXGFY_CS	PROCEDURE	74	"     '10261',
+"
+ZZKXGFY_CS	PROCEDURE	75	"     '3020004',
+"
+ZZKXGFY_CS	PROCEDURE	76	"     sysdate,
+"
+ZZKXGFY_CS	PROCEDURE	77	"     'ZZJGH',
+"
+ZZKXGFY_CS	PROCEDURE	78	"     '',
+"
+ZZKXGFY_CS	PROCEDURE	79	"     5,
+"
+ZZKXGFY_CS	PROCEDURE	80	"     '',
+"
+ZZKXGFY_CS	PROCEDURE	81	"     '',
+"
+ZZKXGFY_CS	PROCEDURE	82	"     '自助机自助开立新冠',
+"
+ZZKXGFY_CS	PROCEDURE	83	"     0,
+"
+ZZKXGFY_CS	PROCEDURE	84	"     '',
+"
+ZZKXGFY_CS	PROCEDURE	85	"     '',
+"
+ZZKXGFY_CS	PROCEDURE	86	"     0);
+"
+ZZKXGFY_CS	PROCEDURE	87	"
+"
+ZZKXGFY_CS	PROCEDURE	88	"  if 1 = 0 then
+"
+ZZKXGFY_CS	PROCEDURE	89	"    INSERT INTO yj_yjk2
+"
+ZZKXGFY_CS	PROCEDURE	90	"      (yjsb,
+"
+ZZKXGFY_CS	PROCEDURE	91	"       yjxh,
+"
+ZZKXGFY_CS	PROCEDURE	92	"       ylxh,
+"
+ZZKXGFY_CS	PROCEDURE	93	"       xmmc,
+"
+ZZKXGFY_CS	PROCEDURE	94	"       dj,
+"
+ZZKXGFY_CS	PROCEDURE	95	"       sl,
+"
+ZZKXGFY_CS	PROCEDURE	96	"       fygb,
+"
+ZZKXGFY_CS	PROCEDURE	97	"       zfbl,
+"
+ZZKXGFY_CS	PROCEDURE	98	"       zxksdm,
+"
+ZZKXGFY_CS	PROCEDURE	99	"       jyyblx,
+"
+ZZKXGFY_CS	PROCEDURE	100	"       tcylxh,
+"
+ZZKXGFY_CS	PROCEDURE	101	"       ybzfbl,
+"
+ZZKXGFY_CS	PROCEDURE	102	"       tcsl,
+"
+ZZKXGFY_CS	PROCEDURE	103	"       JYDYMC,
+"
+ZZKXGFY_CS	PROCEDURE	104	"       zfbz,
+"
+ZZKXGFY_CS	PROCEDURE	105	"       qzzfbz,
+"
+ZZKXGFY_CS	PROCEDURE	106	"       yblx,
+"
+ZZKXGFY_CS	PROCEDURE	107	"       hyjg)
+"
+ZZKXGFY_CS	PROCEDURE	108	"    Values
+"
+ZZKXGFY_CS	PROCEDURE	109	"      (v_yjsb,
+"
+ZZKXGFY_CS	PROCEDURE	110	"       1,
+"
+ZZKXGFY_CS	PROCEDURE	111	"       31509,
+"
+ZZKXGFY_CS	PROCEDURE	112	"       '新型冠状病毒IgG抗体(包括总抗体)检测(自费)',
+"
+ZZKXGFY_CS	PROCEDURE	113	"       (select dj from gy_ylsf where ylxh = 31509),
+"
+ZZKXGFY_CS	PROCEDURE	114	"       1,
+"
+ZZKXGFY_CS	PROCEDURE	115	"       9,
+"
+ZZKXGFY_CS	PROCEDURE	116	"       1,
+"
+ZZKXGFY_CS	PROCEDURE	117	"       '3020016',
+"
+ZZKXGFY_CS	PROCEDURE	118	"       '',
+"
+ZZKXGFY_CS	PROCEDURE	119	"       '21897',
+"
+ZZKXGFY_CS	PROCEDURE	120	"       '',
+"
+ZZKXGFY_CS	PROCEDURE	121	"       1,
+"
+ZZKXGFY_CS	PROCEDURE	122	"       '严重急性呼吸综合症冠状病毒抗体检测',
+"
+ZZKXGFY_CS	PROCEDURE	123	"       0,
+"
+ZZKXGFY_CS	PROCEDURE	124	"       0,
+"
+ZZKXGFY_CS	PROCEDURE	125	"       'Q',
+"
+ZZKXGFY_CS	PROCEDURE	126	"       '');
+"
+ZZKXGFY_CS	PROCEDURE	127	"    INSERT INTO yj_yjk2
+"
+ZZKXGFY_CS	PROCEDURE	128	"      (yjsb,
+"
+ZZKXGFY_CS	PROCEDURE	129	"       yjxh,
+"
+ZZKXGFY_CS	PROCEDURE	130	"       ylxh,
+"
+ZZKXGFY_CS	PROCEDURE	131	"       xmmc,
+"
+ZZKXGFY_CS	PROCEDURE	132	"       dj,
+"
+ZZKXGFY_CS	PROCEDURE	133	"       sl,
+"
+ZZKXGFY_CS	PROCEDURE	134	"       fygb,
+"
+ZZKXGFY_CS	PROCEDURE	135	"       zfbl,
+"
+ZZKXGFY_CS	PROCEDURE	136	"       zxksdm,
+"
+ZZKXGFY_CS	PROCEDURE	137	"       jyyblx,
+"
+ZZKXGFY_CS	PROCEDURE	138	"       tcylxh,
+"
+ZZKXGFY_CS	PROCEDURE	139	"       ybzfbl,
+"
+ZZKXGFY_CS	PROCEDURE	140	"       tcsl,
+"
+ZZKXGFY_CS	PROCEDURE	141	"       JYDYMC,
+"
+ZZKXGFY_CS	PROCEDURE	142	"       zfbz,
+"
+ZZKXGFY_CS	PROCEDURE	143	"       qzzfbz,
+"
+ZZKXGFY_CS	PROCEDURE	144	"       yblx,
+"
+ZZKXGFY_CS	PROCEDURE	145	"       hyjg)
+"
+ZZKXGFY_CS	PROCEDURE	146	"    Values
+"
+ZZKXGFY_CS	PROCEDURE	147	"      (v_yjsb,
+"
+ZZKXGFY_CS	PROCEDURE	148	"       2,
+"
+ZZKXGFY_CS	PROCEDURE	149	"       31510,
+"
+ZZKXGFY_CS	PROCEDURE	150	"       '新型冠状病毒IgM抗体检测（自费）',
+"
+ZZKXGFY_CS	PROCEDURE	151	"       (select dj from gy_ylsf where ylxh = 31510),
+"
+ZZKXGFY_CS	PROCEDURE	152	"       1,
+"
+ZZKXGFY_CS	PROCEDURE	153	"       9,
+"
+ZZKXGFY_CS	PROCEDURE	154	"       1,
+"
+ZZKXGFY_CS	PROCEDURE	155	"       '3020016',
+"
+ZZKXGFY_CS	PROCEDURE	156	"       '',
+"
+ZZKXGFY_CS	PROCEDURE	157	"       '21897',
+"
+ZZKXGFY_CS	PROCEDURE	158	"       '',
+"
+ZZKXGFY_CS	PROCEDURE	159	"       1,
+"
+ZZKXGFY_CS	PROCEDURE	160	"       '严重急性呼吸综合症冠状病毒抗体检测',
+"
+ZZKXGFY_CS	PROCEDURE	161	"       0,
+"
+ZZKXGFY_CS	PROCEDURE	162	"       0,
+"
+ZZKXGFY_CS	PROCEDURE	163	"       'Q',
+"
+ZZKXGFY_CS	PROCEDURE	164	"       '');
+"
+ZZKXGFY_CS	PROCEDURE	165	"  end if;
+"
+ZZKXGFY_CS	PROCEDURE	166	"  INSERT INTO yj_yjk2
+"
+ZZKXGFY_CS	PROCEDURE	167	"    (yjsb,
+"
+ZZKXGFY_CS	PROCEDURE	168	"     yjxh,
+"
+ZZKXGFY_CS	PROCEDURE	169	"     ylxh,
+"
+ZZKXGFY_CS	PROCEDURE	170	"     xmmc,
+"
+ZZKXGFY_CS	PROCEDURE	171	"     dj,
+"
+ZZKXGFY_CS	PROCEDURE	172	"     sl,
+"
+ZZKXGFY_CS	PROCEDURE	173	"     fygb,
+"
+ZZKXGFY_CS	PROCEDURE	174	"     zfbl,
+"
+ZZKXGFY_CS	PROCEDURE	175	"     zxksdm,
+"
+ZZKXGFY_CS	PROCEDURE	176	"     jyyblx,
+"
+ZZKXGFY_CS	PROCEDURE	177	"     tcylxh,
+"
+ZZKXGFY_CS	PROCEDURE	178	"     ybzfbl,
+"
+ZZKXGFY_CS	PROCEDURE	179	"     tcsl,
+"
+ZZKXGFY_CS	PROCEDURE	180	"     JYDYMC,
+"
+ZZKXGFY_CS	PROCEDURE	181	"     zfbz,
+"
+ZZKXGFY_CS	PROCEDURE	182	"     qzzfbz,
+"
+ZZKXGFY_CS	PROCEDURE	183	"     yblx,
+"
+ZZKXGFY_CS	PROCEDURE	184	"     hyjg)
+"
+ZZKXGFY_CS	PROCEDURE	185	"  Values
+"
+ZZKXGFY_CS	PROCEDURE	186	"    (v_yjsb,
+"
+ZZKXGFY_CS	PROCEDURE	187	"     3,
+"
+ZZKXGFY_CS	PROCEDURE	188	"     31948,
+"
+ZZKXGFY_CS	PROCEDURE	189	"     (select ylmc from gy_ylsf where ylxh = 31948),
+"
+ZZKXGFY_CS	PROCEDURE	190	"     (select dj from gy_ylsf where ylxh = 31948),
+"
+ZZKXGFY_CS	PROCEDURE	191	"     1,
+"
+ZZKXGFY_CS	PROCEDURE	192	"     9,
+"
+ZZKXGFY_CS	PROCEDURE	193	"     1,
+"
+ZZKXGFY_CS	PROCEDURE	194	"     '3020005',
+"
+ZZKXGFY_CS	PROCEDURE	195	"     '',
+"
+ZZKXGFY_CS	PROCEDURE	196	"     '31944',
+"
+ZZKXGFY_CS	PROCEDURE	197	"     '',
+"
+ZZKXGFY_CS	PROCEDURE	198	"     1,
+"
+ZZKXGFY_CS	PROCEDURE	199	"     (select ylmc from gy_ylsf where ylxh = 31944),
+"
+ZZKXGFY_CS	PROCEDURE	200	"     0,
+"
+ZZKXGFY_CS	PROCEDURE	201	"     0,
+"
+ZZKXGFY_CS	PROCEDURE	202	"     (select yblx from gy_ylsf where ylxh = 31944),
+"
+ZZKXGFY_CS	PROCEDURE	203	"     '');
+"
+ZZKXGFY_CS	PROCEDURE	204	"  ret_code := 0;
+"
+ZZKXGFY_CS	PROCEDURE	205	"  ret_info := '开单成功';
+"
+ZZKXGFY_CS	PROCEDURE	206	"  commit;
+"
+ZZKXGFY_CS	PROCEDURE	207	"
+"
+ZZKXGFY_CS	PROCEDURE	208	"  select count(*)
+"
+ZZKXGFY_CS	PROCEDURE	209	"    into v_count
+"
+ZZKXGFY_CS	PROCEDURE	210	"    from gh_ghk
+"
+ZZKXGFY_CS	PROCEDURE	211	"   where ghrq >= trunc(sysdate)
+"
+ZZKXGFY_CS	PROCEDURE	212	"     and ghxh = 999
+"
+ZZKXGFY_CS	PROCEDURE	213	"     and pbxh = v_pbjlxh
+"
+ZZKXGFY_CS	PROCEDURE	214	"     and jzkh = card_no;
+"
+ZZKXGFY_CS	PROCEDURE	215	"  if v_count = 0 then
+"
+ZZKXGFY_CS	PROCEDURE	216	"  
+"
+ZZKXGFY_CS	PROCEDURE	217	"    update gy_xhb set dqz = dqz + zz where bm = 'GH_GHK';
+"
+ZZKXGFY_CS	PROCEDURE	218	"    select dqz into v_jlxh from gy_xhb where bm = 'GH_GHK';
+"
+ZZKXGFY_CS	PROCEDURE	219	"  
+"
+ZZKXGFY_CS	PROCEDURE	220	"    insert into gh_ghk
+"
+ZZKXGFY_CS	PROCEDURE	221	"      (jlxh,
+"
+ZZKXGFY_CS	PROCEDURE	222	"       jzkh,
+"
+ZZKXGFY_CS	PROCEDURE	223	"       jzcs,
+"
+ZZKXGFY_CS	PROCEDURE	224	"       brxm,
+"
+ZZKXGFY_CS	PROCEDURE	225	"       brlb,
+"
+ZZKXGFY_CS	PROCEDURE	226	"       brxz,
+"
+ZZKXGFY_CS	PROCEDURE	227	"       mzlbxh,
+"
+ZZKXGFY_CS	PROCEDURE	228	"       pbxh,
+"
+ZZKXGFY_CS	PROCEDURE	229	"       ksdm,
+"
+ZZKXGFY_CS	PROCEDURE	230	"       ghrq,
+"
+ZZKXGFY_CS	PROCEDURE	231	"       ghxh,
+"
+ZZKXGFY_CS	PROCEDURE	232	"       ysgh,
+"
+ZZKXGFY_CS	PROCEDURE	233	"       sjlb,
+"
+ZZKXGFY_CS	PROCEDURE	234	"       ghf,
+"
+ZZKXGFY_CS	PROCEDURE	235	"       zlf,
+"
+ZZKXGFY_CS	PROCEDURE	236	"       zlfds,
+"
+ZZKXGFY_CS	PROCEDURE	237	"       czgh,
+"
+ZZKXGFY_CS	PROCEDURE	238	"       thbz,
+"
+ZZKXGFY_CS	PROCEDURE	239	"       czrq)
+"
+ZZKXGFY_CS	PROCEDURE	240	"      select v_jlxh,
+"
+ZZKXGFY_CS	PROCEDURE	241	"             jzkh,
+"
+ZZKXGFY_CS	PROCEDURE	242	"             0,
+"
+ZZKXGFY_CS	PROCEDURE	243	"             xm,
+"
+ZZKXGFY_CS	PROCEDURE	244	"             brlb,
+"
+ZZKXGFY_CS	PROCEDURE	245	"             brxzdm,
+"
+ZZKXGFY_CS	PROCEDURE	246	"             1,
+"
+ZZKXGFY_CS	PROCEDURE	247	"             v_pbjlxh,
+"
+ZZKXGFY_CS	PROCEDURE	248	"             '2900011',
+"
+ZZKXGFY_CS	PROCEDURE	249	"             sysdate,
+"
+ZZKXGFY_CS	PROCEDURE	250	"             999,
+"
+ZZKXGFY_CS	PROCEDURE	251	"             null,
+"
+ZZKXGFY_CS	PROCEDURE	252	"             v_sjlb,
+"
+ZZKXGFY_CS	PROCEDURE	253	"             0.00,
+"
+ZZKXGFY_CS	PROCEDURE	254	"             0.01,
+"
+ZZKXGFY_CS	PROCEDURE	255	"             0,
+"
+ZZKXGFY_CS	PROCEDURE	256	"             'DBA',
+"
+ZZKXGFY_CS	PROCEDURE	257	"             0,
+"
+ZZKXGFY_CS	PROCEDURE	258	"             SYSDATE
+"
+ZZKXGFY_CS	PROCEDURE	259	"        from gy_brjbxxk
+"
+ZZKXGFY_CS	PROCEDURE	260	"       where jzkh = card_no;
+"
+ZZKXGFY_CS	PROCEDURE	261	"  
+"
+ZZKXGFY_CS	PROCEDURE	262	"    COMMIT;
+"
+ZZKXGFY_CS	PROCEDURE	263	"  
+"
+ZZKXGFY_CS	PROCEDURE	264	"  end if;
+"
+ZZKXGFY_CS	PROCEDURE	265	"
+"
+ZZKXGFY_CS	PROCEDURE	266	"EXCEPTION
+"
+ZZKXGFY_CS	PROCEDURE	267	"  when others then
+"
+ZZKXGFY_CS	PROCEDURE	268	"    ret_code := 4;
+"
+ZZKXGFY_CS	PROCEDURE	269	"    ret_info := '开单失败';
+"
+ZZKXGFY_CS	PROCEDURE	270	"    rollback;
+"
+ZZKXGFY_CS	PROCEDURE	271	"    return;
+"
+ZZKXGFY_CS	PROCEDURE	272	"END;
+"

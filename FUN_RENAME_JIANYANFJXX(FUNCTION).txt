@@ -1,0 +1,47 @@
+FUN_RENAME_JIANYANFJXX	FUNCTION	1	"FUNCTION         ""FUN_RENAME_JIANYANFJXX"" (as_fjxx varchar2) return  varchar2 is
+"
+FUN_RENAME_JIANYANFJXX	FUNCTION	2	"
+"
+FUN_RENAME_JIANYANFJXX	FUNCTION	3	"  s_return varchar2(200);
+"
+FUN_RENAME_JIANYANFJXX	FUNCTION	4	"begin
+"
+FUN_RENAME_JIANYANFJXX	FUNCTION	5	"  --as_fjxx  = sg[];tz[];nl[];tw[];xhdb[];cfz[];xynd[];yjzq[];
+"
+FUN_RENAME_JIANYANFJXX	FUNCTION	6	"  --s_return = 身高[];体重[];尿量[];体温[];血红蛋白[];初/复诊[];吸氧浓度[]; 月经周期[];
+"
+FUN_RENAME_JIANYANFJXX	FUNCTION	7	"   s_return := as_fjxx;
+"
+FUN_RENAME_JIANYANFJXX	FUNCTION	8	"   select replace(s_return,'sg[','身高[') into s_return from dual;
+"
+FUN_RENAME_JIANYANFJXX	FUNCTION	9	"   select replace(s_return,'tz[','体重[') into s_return from dual;
+"
+FUN_RENAME_JIANYANFJXX	FUNCTION	10	"   select replace(s_return,'nl[','尿量[') into s_return from dual;
+"
+FUN_RENAME_JIANYANFJXX	FUNCTION	11	"   select replace(s_return,'tw[','体温[') into s_return from dual;
+"
+FUN_RENAME_JIANYANFJXX	FUNCTION	12	"   select replace(s_return,'xhdb[','血红蛋白[') into s_return from dual;
+"
+FUN_RENAME_JIANYANFJXX	FUNCTION	13	"   select replace(s_return,'cfz[','初/复诊[') into s_return from dual;
+"
+FUN_RENAME_JIANYANFJXX	FUNCTION	14	"   select replace(s_return,'xynd[','吸氧浓度[') into s_return from dual;
+"
+FUN_RENAME_JIANYANFJXX	FUNCTION	15	"   select replace(s_return,'yjzq[','月经周期[') into s_return from dual;
+"
+FUN_RENAME_JIANYANFJXX	FUNCTION	16	"   return  s_return;
+"
+FUN_RENAME_JIANYANFJXX	FUNCTION	17	"exception
+"
+FUN_RENAME_JIANYANFJXX	FUNCTION	18	"   when others then
+"
+FUN_RENAME_JIANYANFJXX	FUNCTION	19	"   s_return := as_fjxx;
+"
+FUN_RENAME_JIANYANFJXX	FUNCTION	20	"   return s_return;
+"
+FUN_RENAME_JIANYANFJXX	FUNCTION	21	"end FUN_RENAME_JIANYANFJXX;
+"
+FUN_RENAME_JIANYANFJXX	FUNCTION	22	"
+"
+FUN_RENAME_JIANYANFJXX	FUNCTION	23	"
+"
+FUN_RENAME_JIANYANFJXX	FUNCTION	24	 

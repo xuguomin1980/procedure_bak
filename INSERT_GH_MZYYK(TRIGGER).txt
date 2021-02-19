@@ -1,0 +1,48 @@
+INSERT_GH_MZYYK	TRIGGER	1	"Trigger ""INSERT_GH_MZYYK""
+"
+INSERT_GH_MZYYK	TRIGGER	2	"  Before Insert    on GH_MZYYK   for each row
+"
+INSERT_GH_MZYYK	TRIGGER	3	"declare
+"
+INSERT_GH_MZYYK	TRIGGER	4	"  row_nums number;
+"
+INSERT_GH_MZYYK	TRIGGER	5	"  nums     number;
+"
+INSERT_GH_MZYYK	TRIGGER	6	"  v_msg    nvarchar2(200);
+"
+INSERT_GH_MZYYK	TRIGGER	7	"begin
+"
+INSERT_GH_MZYYK	TRIGGER	8	"
+"
+INSERT_GH_MZYYK	TRIGGER	9	"
+"
+INSERT_GH_MZYYK	TRIGGER	10	"
+"
+INSERT_GH_MZYYK	TRIGGER	11	"  select count(yyxh)
+"
+INSERT_GH_MZYYK	TRIGGER	12	"    into row_nums
+"
+INSERT_GH_MZYYK	TRIGGER	13	"    from GH_MZYYK
+"
+INSERT_GH_MZYYK	TRIGGER	14	"   where ghxh = :new.ghxh and pbxh = :new.pbxh and trunc(yyrq1)=trunc(:new.yyrq1) and yysj= :new.yysj and zt>=0     ;
+"
+INSERT_GH_MZYYK	TRIGGER	15	"
+"
+INSERT_GH_MZYYK	TRIGGER	16	"  If row_nums > 0 Then
+"
+INSERT_GH_MZYYK	TRIGGER	17	"    select :new.ghxh || ',该号已经被预约，不能重复预约!!!'
+"
+INSERT_GH_MZYYK	TRIGGER	18	"      into v_msg
+"
+INSERT_GH_MZYYK	TRIGGER	19	"      from dual;
+"
+INSERT_GH_MZYYK	TRIGGER	20	"    raise_application_error(-20300, v_msg);
+"
+INSERT_GH_MZYYK	TRIGGER	21	"    rollback;
+"
+INSERT_GH_MZYYK	TRIGGER	22	"  End If;
+"
+INSERT_GH_MZYYK	TRIGGER	23	"
+"
+INSERT_GH_MZYYK	TRIGGER	24	"end INSERT_GH_MZYYK;
+"

@@ -1,0 +1,19 @@
+SUBSTR	FUNCTION	1	"FUNCTION         ""SUBSTR"" (field_name in varchar2,n_start in number,n_length in number)
+"
+SUBSTR	FUNCTION	2	"return number
+"
+SUBSTR	FUNCTION	3	"as
+"
+SUBSTR	FUNCTION	4	"begin
+"
+SUBSTR	FUNCTION	5	"   return to_number(substr(field_name,n_start,n_length));
+"
+SUBSTR	FUNCTION	6	"end;
+"
+SUBSTR	FUNCTION	7	"
+"
+SUBSTR	FUNCTION	8	"
+"
+SUBSTR	FUNCTION	9	"
+"
+SUBSTR	FUNCTION	10	 

@@ -1,0 +1,29 @@
+F_ZY_FY	FUNCTION	1	"FUNCTION         ""F_ZY_FY"" 
+"
+F_ZY_FY	FUNCTION	2	"(arg_patient_no number,arg_js_no in number)
+"
+F_ZY_FY	FUNCTION	3	"  return number
+"
+F_ZY_FY	FUNCTION	4	"  is
+"
+F_ZY_FY	FUNCTION	5	" ln_return number;
+"
+F_ZY_FY	FUNCTION	6	"begin
+"
+F_ZY_FY	FUNCTION	7	"  Select sum(nvl(round(dj*sl,2),0))
+"
+F_ZY_FY	FUNCTION	8	"    Into ln_return
+"
+F_ZY_FY	FUNCTION	9	"    From Zy_detail_charge
+"
+F_ZY_FY	FUNCTION	10	"   Where patient_no=arg_patient_no
+"
+F_ZY_FY	FUNCTION	11	"     and js_no     =arg_js_no;
+"
+F_ZY_FY	FUNCTION	12	"  return(ln_return);
+"
+F_ZY_FY	FUNCTION	13	"end;
+"
+F_ZY_FY	FUNCTION	14	"
+"
+F_ZY_FY	FUNCTION	15	 

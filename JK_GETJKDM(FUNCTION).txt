@@ -1,0 +1,27 @@
+JK_GETJKDM	FUNCTION	1	"FUNCTION         ""JK_GETJKDM"" (p_dmlx in varchar2, p_hisdm in varchar2) return varchar2
+"
+JK_GETJKDM	FUNCTION	2	"as
+"
+JK_GETJKDM	FUNCTION	3	"  ls_return varchar2(20);
+"
+JK_GETJKDM	FUNCTION	4	"begin
+"
+JK_GETJKDM	FUNCTION	5	"  begin
+"
+JK_GETJKDM	FUNCTION	6	"    select zddm into ls_return from jk_qyjk_dz where dmlx = p_dmlx and hisdm = p_hisdm;
+"
+JK_GETJKDM	FUNCTION	7	"  exception when others then
+"
+JK_GETJKDM	FUNCTION	8	"    ls_return := '';
+"
+JK_GETJKDM	FUNCTION	9	"  end;
+"
+JK_GETJKDM	FUNCTION	10	"
+"
+JK_GETJKDM	FUNCTION	11	"  return ls_return;
+"
+JK_GETJKDM	FUNCTION	12	"end;
+"
+JK_GETJKDM	FUNCTION	13	"
+"
+JK_GETJKDM	FUNCTION	14	 

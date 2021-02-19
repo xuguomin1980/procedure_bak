@@ -1,0 +1,26 @@
+TRI_YB_DZMX_IMPORT_ID	TRIGGER	1	"TRIGGER ""ZJHIS"".tri_yb_dzmx_import_id
+"
+TRI_YB_DZMX_IMPORT_ID	TRIGGER	2	"  before insert on yb_dzmx_import
+"
+TRI_YB_DZMX_IMPORT_ID	TRIGGER	3	"  for each row
+"
+TRI_YB_DZMX_IMPORT_ID	TRIGGER	4	"declare
+"
+TRI_YB_DZMX_IMPORT_ID	TRIGGER	5	"  nextid number;
+"
+TRI_YB_DZMX_IMPORT_ID	TRIGGER	6	"begin
+"
+TRI_YB_DZMX_IMPORT_ID	TRIGGER	7	"  IF :new.Id IS NULL or :new.Id=0 THEN
+"
+TRI_YB_DZMX_IMPORT_ID	TRIGGER	8	"  select SEQ_yb_dzmx_import_id.nextval --S_S_DEPART正是刚才创建的
+"
+TRI_YB_DZMX_IMPORT_ID	TRIGGER	9	"    into nextid
+"
+TRI_YB_DZMX_IMPORT_ID	TRIGGER	10	"    from sys.dual;
+"
+TRI_YB_DZMX_IMPORT_ID	TRIGGER	11	"    :new.Id:=nextid;
+"
+TRI_YB_DZMX_IMPORT_ID	TRIGGER	12	"  end if;
+"
+TRI_YB_DZMX_IMPORT_ID	TRIGGER	13	"end tri_yb_dzmx_import_id;
+"

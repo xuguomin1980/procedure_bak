@@ -1,0 +1,23 @@
+F_YF_GETLSJ	FUNCTION	1	"FUNCTION         ""F_YF_GETLSJ"" (arg_ypxh in number,arg_ypcddm in number,arg_flag in varchar2) 
+"
+F_YF_GETLSJ	FUNCTION	2	"   return number
+"
+F_YF_GETLSJ	FUNCTION	3	"   is
+"
+F_YF_GETLSJ	FUNCTION	4	"     ls_return number(11,3);
+"
+F_YF_GETLSJ	FUNCTION	5	"   begin
+"
+F_YF_GETLSJ	FUNCTION	6	"   if arg_flag = 'lsj' then
+"
+F_YF_GETLSJ	FUNCTION	7	"       select lsj into ls_return from gy_ypcdjg
+"
+F_YF_GETLSJ	FUNCTION	8	"        where ypxh=arg_ypxh and ypcddm=arg_ypcddm and bmxh is null;
+"
+F_YF_GETLSJ	FUNCTION	9	"   end if;
+"
+F_YF_GETLSJ	FUNCTION	10	"   return(ls_return);
+"
+F_YF_GETLSJ	FUNCTION	11	"   end;
+"
+F_YF_GETLSJ	FUNCTION	12	 

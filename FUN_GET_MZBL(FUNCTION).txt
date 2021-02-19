@@ -1,0 +1,206 @@
+FUN_GET_MZBL	FUNCTION	1	"FUNCTION fun_get_mzbl(arg_jzxh in number)
+"
+FUN_GET_MZBL	FUNCTION	2	"return varchar2
+"
+FUN_GET_MZBL	FUNCTION	3	"   is
+"
+FUN_GET_MZBL	FUNCTION	4	"     ls_return varchar2(4000);
+"
+FUN_GET_MZBL	FUNCTION	5	"     ls_temp   varchar2(2000);
+"
+FUN_GET_MZBL	FUNCTION	6	"     ls_sex    varchar2(10) ;
+"
+FUN_GET_MZBL	FUNCTION	7	"begin
+"
+FUN_GET_MZBL	FUNCTION	8	"    select decode(brxb,1,'男',2,'女') into ls_sex from zj_jzxx where jzxh =arg_jzxh ;--and jzrq > sysdate -1
+"
+FUN_GET_MZBL	FUNCTION	9	"    select zhushu into ls_temp from zj_menzhenblxx where jiuzhenxh = arg_jzxh ;  --主诉
+"
+FUN_GET_MZBL	FUNCTION	10	"    ls_return := '主  诉：'|| ls_temp||chr(13)||chr(10)||chr(13);
+"
+FUN_GET_MZBL	FUNCTION	11	"    ls_temp := '';
+"
+FUN_GET_MZBL	FUNCTION	12	"    select xianbings into ls_temp from zj_menzhenblxx where jiuzhenxh = arg_jzxh ;  --现病史
+"
+FUN_GET_MZBL	FUNCTION	13	"    ls_return := ls_return  ||'现病史：' || ls_temp||chr(13)||chr(10)||chr(13);
+"
+FUN_GET_MZBL	FUNCTION	14	"    ls_temp := '';
+"
+FUN_GET_MZBL	FUNCTION	15	"     select jiwangs into ls_temp from zj_menzhenblxx where jiuzhenxh = arg_jzxh ;  --既往史
+"
+FUN_GET_MZBL	FUNCTION	16	"--if ls_temp <>'' then
+"
+FUN_GET_MZBL	FUNCTION	17	"       ls_return := ls_return || '既往史：' || ls_temp||chr(13)||chr(10)||chr(13);
+"
+FUN_GET_MZBL	FUNCTION	18	"--else
+"
+FUN_GET_MZBL	FUNCTION	19	"    ls_temp := '';
+"
+FUN_GET_MZBL	FUNCTION	20	"    --end if;
+"
+FUN_GET_MZBL	FUNCTION	21	"     select guomins into ls_temp from zj_menzhenblxx where jiuzhenxh = arg_jzxh ;  --过敏史
+"
+FUN_GET_MZBL	FUNCTION	22	"    if ls_temp is not null  then
+"
+FUN_GET_MZBL	FUNCTION	23	"       ls_return := ls_return  ||'过敏史：' || ls_temp||chr(13)||chr(10)||chr(13);
+"
+FUN_GET_MZBL	FUNCTION	24	"     else
+"
+FUN_GET_MZBL	FUNCTION	25	"      --ls_return := ls_return  ||'过敏史：' || '未发现'||chr(13)||chr(10)||chr(13);
+"
+FUN_GET_MZBL	FUNCTION	26	"        ls_return := ls_return  ||'过敏史：' || '否认'||chr(13)||chr(10)||chr(13);
+"
+FUN_GET_MZBL	FUNCTION	27	"    end if ;
+"
+FUN_GET_MZBL	FUNCTION	28	"    --ls_temp := '';
+"
+FUN_GET_MZBL	FUNCTION	29	"
+"
+FUN_GET_MZBL	FUNCTION	30	"    select gerens into ls_temp from zj_menzhenblxx where jiuzhenxh = arg_jzxh ; --个人史
+"
+FUN_GET_MZBL	FUNCTION	31	"if ls_temp <>'无殊' then
+"
+FUN_GET_MZBL	FUNCTION	32	"       ls_return := ls_return || '个人史：'|| ls_temp||chr(13)||chr(10)||chr(13);
+"
+FUN_GET_MZBL	FUNCTION	33	"else
+"
+FUN_GET_MZBL	FUNCTION	34	"    ls_temp := '';
+"
+FUN_GET_MZBL	FUNCTION	35	"    end if;
+"
+FUN_GET_MZBL	FUNCTION	36	"   /* select waishangs into ls_temp from zj_menzhenblxx where jiuzhenxh = arg_jzxh ; --外伤史
+"
+FUN_GET_MZBL	FUNCTION	37	"    if ls_temp is not null  then
+"
+FUN_GET_MZBL	FUNCTION	38	"       ls_return := ls_return || '外伤史：' || ls_temp||chr(13);
+"
+FUN_GET_MZBL	FUNCTION	39	"              else
+"
+FUN_GET_MZBL	FUNCTION	40	"      --ls_return := ls_return  ||'过敏史：' || '未发现'||chr(13)||chr(10)||chr(13);
+"
+FUN_GET_MZBL	FUNCTION	41	"        ls_return := ls_return  ||'外伤史：' || '无殊'||chr(13);
+"
+FUN_GET_MZBL	FUNCTION	42	"    end if;*/
+"
+FUN_GET_MZBL	FUNCTION	43	"    --ls_temp := '';
+"
+FUN_GET_MZBL	FUNCTION	44	"    select shengyus into ls_temp from zj_menzhenblxx where jiuzhenxh = arg_jzxh ; --生育史
+"
+FUN_GET_MZBL	FUNCTION	45	"    if ls_sex = '女' then
+"
+FUN_GET_MZBL	FUNCTION	46	"if ls_temp <>'无殊'  or ls_temp is null then
+"
+FUN_GET_MZBL	FUNCTION	47	"       ls_return := ls_return || '生育史：' || ls_temp||chr(13)||chr(10)||chr(13);
+"
+FUN_GET_MZBL	FUNCTION	48	"else
+"
+FUN_GET_MZBL	FUNCTION	49	"ls_temp := '';
+"
+FUN_GET_MZBL	FUNCTION	50	"end if;
+"
+FUN_GET_MZBL	FUNCTION	51	"    end if;
+"
+FUN_GET_MZBL	FUNCTION	52	"
+"
+FUN_GET_MZBL	FUNCTION	53	"    select hunyus into ls_temp from zj_menzhenblxx where jiuzhenxh = arg_jzxh ; --婚姻史
+"
+FUN_GET_MZBL	FUNCTION	54	"if ls_temp <>'无殊' then
+"
+FUN_GET_MZBL	FUNCTION	55	"       ls_return := ls_return || '婚姻史：' || ls_temp||chr(13)||chr(10)||chr(13);
+"
+FUN_GET_MZBL	FUNCTION	56	"else
+"
+FUN_GET_MZBL	FUNCTION	57	"    ls_temp := '';
+"
+FUN_GET_MZBL	FUNCTION	58	"end if;
+"
+FUN_GET_MZBL	FUNCTION	59	"    select yuejings,bingrenxb into ls_temp,ls_sex from zj_menzhenblxx where jiuzhenxh = arg_jzxh ; --月经史
+"
+FUN_GET_MZBL	FUNCTION	60	"    if ls_sex = '女' then
+"
+FUN_GET_MZBL	FUNCTION	61	"if ls_temp <>'无殊' or ls_temp is null then
+"
+FUN_GET_MZBL	FUNCTION	62	"          ls_return := ls_return || '月经史：' || ls_temp||chr(13)||chr(10)||chr(13);
+"
+FUN_GET_MZBL	FUNCTION	63	"else
+"
+FUN_GET_MZBL	FUNCTION	64	" ls_temp := '';
+"
+FUN_GET_MZBL	FUNCTION	65	" end if;
+"
+FUN_GET_MZBL	FUNCTION	66	"       end if;
+"
+FUN_GET_MZBL	FUNCTION	67	"
+"
+FUN_GET_MZBL	FUNCTION	68	"
+"
+FUN_GET_MZBL	FUNCTION	69	"    select jiazus into ls_temp from zj_menzhenblxx where jiuzhenxh = arg_jzxh ; --家族史
+"
+FUN_GET_MZBL	FUNCTION	70	"--if ls_temp <>'' then
+"
+FUN_GET_MZBL	FUNCTION	71	"       ls_return := ls_return || '家族史：' || ls_temp||chr(13)||chr(10)||chr(13);
+"
+FUN_GET_MZBL	FUNCTION	72	"--else
+"
+FUN_GET_MZBL	FUNCTION	73	"    ls_temp := '';
+"
+FUN_GET_MZBL	FUNCTION	74	"    --end if;
+"
+FUN_GET_MZBL	FUNCTION	75	"     select tizheng||tigejc into ls_temp from zj_menzhenblxx where jiuzhenxh = arg_jzxh ;  --体  征
+"
+FUN_GET_MZBL	FUNCTION	76	"if ls_temp <>'无殊' then
+"
+FUN_GET_MZBL	FUNCTION	77	"    ls_return := ls_return  ||'体格检查：' || ls_temp||chr(13)||chr(10)||chr(13);
+"
+FUN_GET_MZBL	FUNCTION	78	"    else
+"
+FUN_GET_MZBL	FUNCTION	79	"        ls_temp := '';
+"
+FUN_GET_MZBL	FUNCTION	80	"        end if ;
+"
+FUN_GET_MZBL	FUNCTION	81	"       select chuliyj into ls_temp from zj_menzhenblxx where jiuzhenxh = arg_jzxh ;  --特殊嘱托
+"
+FUN_GET_MZBL	FUNCTION	82	"    if ls_temp is not null  then
+"
+FUN_GET_MZBL	FUNCTION	83	"    ls_return := ls_return  ||'处理意见：' || ls_temp||chr(13)||chr(10)||chr(13);
+"
+FUN_GET_MZBL	FUNCTION	84	"    end if;
+"
+FUN_GET_MZBL	FUNCTION	85	"     ls_temp := '';
+"
+FUN_GET_MZBL	FUNCTION	86	"    select buchongyj into ls_temp from zj_menzhenblxx where jiuzhenxh = arg_jzxh  ; --补充意见
+"
+FUN_GET_MZBL	FUNCTION	87	"    ls_return := ls_return || ls_temp||chr(13)||chr(10)||chr(13);
+"
+FUN_GET_MZBL	FUNCTION	88	"    ls_temp := '';
+"
+FUN_GET_MZBL	FUNCTION	89	"    
+"
+FUN_GET_MZBL	FUNCTION	90	"    select qitaxx into ls_temp from zj_menzhenblxx where jiuzhenxh = arg_jzxh ; --婚姻史
+"
+FUN_GET_MZBL	FUNCTION	91	"    if ls_temp is not null  then
+"
+FUN_GET_MZBL	FUNCTION	92	"       ls_return := ls_return || '注意事项：' || ls_temp||chr(13)||chr(10)||chr(13);
+"
+FUN_GET_MZBL	FUNCTION	93	"       else
+"
+FUN_GET_MZBL	FUNCTION	94	"        ls_return := ls_return  ||'注意事项：' || '  '||chr(13)||chr(10)||chr(13);
+"
+FUN_GET_MZBL	FUNCTION	95	"    end if;
+"
+FUN_GET_MZBL	FUNCTION	96	"    ls_temp := '';
+"
+FUN_GET_MZBL	FUNCTION	97	"     --select to_char(wm_concat(zdmc)) into ls_temp from zj_zdxx where jzxh = arg_jzxh  ; --临床诊断
+"
+FUN_GET_MZBL	FUNCTION	98	"    select to_char(wm_concat(zdmc||' '||decode(zdsm,'','','('||zdsm||')')||decode(zdpb,2,'','('||decode(zdpb,1,'待查',3,'疑似')||')'))) into ls_temp from zj_zdxx where jzxh = arg_jzxh  ; --临床诊断
+"
+FUN_GET_MZBL	FUNCTION	99	"    ls_return := ls_return ||'临床诊断：' || ls_temp;
+"
+FUN_GET_MZBL	FUNCTION	100	"    ls_temp := '';
+"
+FUN_GET_MZBL	FUNCTION	101	"    
+"
+FUN_GET_MZBL	FUNCTION	102	"   return(ls_return);
+"
+FUN_GET_MZBL	FUNCTION	103	"end;
+"

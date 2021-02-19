@@ -1,0 +1,1028 @@
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	1	"FUNCTION f_yb_znshcl_zy_jzxh_bak(in_patient_no number,
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	2	"                                                   in_jzxh       number)
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	3	"  return varchar2 Is
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	4	"
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	5	"  v_data varchar2(200);
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	6	"  v_temp varchar2(500);
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	7	"  v_str2 varchar2(100);
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	8	"
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	9	"  v_pos      number;
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	10	"  v_flag     varchar2(50);
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	11	"  v_flag_len number;
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	12	"  v_sl       number;
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	13	"  v_je       number;
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	14	"  ll_count   number;
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	15	"  v_count    number;
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	16	"
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	17	"  v_cfsb     number;
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	18	"  v_cfk1_new number;
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	19	"  v_jzkh     varchar(20);
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	20	"  v_brxm     varchar(50);
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	21	"
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	22	"  v_fypb number;
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	23	"
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	24	"  arg_systime           varchar2(50);
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	25	"  arg_patient_no        varchar2(20);
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	26	"  arg_fygl              varchar2(20);
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	27	"  arg_charge_code       varchar2(20);
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	28	"  arg_sl                number;
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	29	"  arg_dj                number;
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	30	"  v_patient_no          number;
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	31	"  arg_spbh              varchar2(20);
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	32	"  arg_zx_ks             varchar2(20);
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	33	"  arg_curr_ks           varchar2(20);
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	34	"  arg_czgh              varchar2(20);
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	35	"  arg_twice_detail_code varchar2(50);
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	36	"  arg_charge_name       varchar2(50);
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	37	"  arg_twice_detail_id   varchar2(50);
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	38	"  arg_ysgh              varchar2(50);
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	39	"
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	40	"begin
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	41	"  --2021-02-18
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	42	"  --out_msg:='';
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	43	"  --insert into zy_jiaoyi_v1(jiaoyilx,jylsh) values (in_item,in_source);
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	44	"  --commit;
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	45	"
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	46	"  --out_msg:='没有处理的内容';
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	47	"  -- v_temp:='123123';
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	48	"  /* if in_jcfx_date = '0' then
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	49	"    v_temp := '123123';
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	50	"  
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	51	"    insert into zy_jiaoyi_v1 (jiaoyilx, jylsh) values ('cs', 'cs');
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	52	"    commit;
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	53	"    v_temp := '12341234';
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	54	"    return v_temp;
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	55	"  end if;*/
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	56	"
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	57	"  --跳过存储过程控制
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	58	"  if 1 = 0 then
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	59	"    return '';
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	60	"  end if;
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	61	"  v_patient_no := in_patient_no;
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	62	"  if v_patient_no > 0 then
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	63	"    null;
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	64	"  else
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	65	"    select 'patient_no<0,[f_yb_znshcl_zy_jzxh]' into v_temp from dual;
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	66	"    Return v_temp;
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	67	"  end if;
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	68	"
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	69	"  -- t_pass_zy  病案号 放行
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	70	"  if 1 = 1 then
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	71	"    v_count := 0;
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	72	"    select count(bah)
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	73	"      into v_count
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	74	"      From t_pass_zy
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	75	"     where bah in (select bah
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	76	"                     from zy_patient_information
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	77	"                    where patient_no = in_patient_no)
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	78	"       and czrq > sysdate - 0.1;
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	79	"  
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	80	"    if v_count >= 1 then
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	81	"    
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	82	"      return '';
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	83	"    end if;
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	84	"  
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	85	"  end if;
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	86	"
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	87	"  --指定项目限频次 begin
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	88	"  if 1 = 1 then
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	89	"    select nvl(min(to_char(trunc(sysdate), 'yyyy-mm-dd ') || ylmc || '(' || ylxh ||
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	90	"                   ')单日总次数为 ' || zsl || '超过物价规定:' || kzsl_zy ||
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	91	"                   '[f_yb_znshcl_zy_jzxh]'),
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	92	"               '')
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	93	"      into v_temp
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	94	"      from (select trunc(sysdate), ylxh, ylmc, kzsl_zy, bz, sum(sl) zsl
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	95	"              from (select trunc(sysdate),
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	96	"                           b.ylxh,
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	97	"                           b.ylmc,
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	98	"                           b.kzsl_zy,
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	99	"                           b.bz,
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	100	"                           sum(a.sl) sl
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	101	"                      from zy_detail_charge a, v_yb_znshgz_zy b
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	102	"                     where a.charge_code = b.ylxh
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	103	"                       and nvl(a.jzxh, 0) = in_jzxh
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	104	"                       and trunc(charge_date) = trunc(sysdate)
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	105	"                       and nvl(a.twice_detail_code, '0') <> 'ZY'
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	106	"                       and a.jzxh = in_jzxh
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	107	"                       and a.patient_No = in_patient_no
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	108	"                     group by trunc(sysdate), b.ylxh, b.ylmc, b.kzsl_zy, b.bz
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	109	"                    union all
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	110	"                    
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	111	"                    select trunc(sysdate),
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	112	"                           b.ylxh,
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	113	"                           b.ylmc,
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	114	"                           b.kzsl_zy,
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	115	"                           b.bz,
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	116	"                           sum(a.sl) sl
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	117	"                      from zy_detail_charge a, v_yb_znshgz_zy b
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	118	"                     where a.charge_code = b.ylxh
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	119	"                       and trunc(charge_date) = trunc(sysdate)
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	120	"                       and nvl(a.jzxh, 0) <> in_jzxh
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	121	"                       and nvl(a.twice_detail_code, '0') <> 'ZY'
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	122	"                       and a.patient_No = in_patient_no
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	123	"                     group by trunc(sysdate), b.ylxh, b.ylmc, b.kzsl_zy, b.bz
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	124	"                    
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	125	"                    )
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	126	"             group by trunc(sysdate), ylxh, ylmc, kzsl_zy, bz
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	127	"            having kzsl_zy < sum(sl)
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	128	"            union all
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	129	"            select trunc(sysdate), 0, '', 0, '', 0 sl from dual)
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	130	"     where ylxh > 0
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	131	"       and kzsl_zy > 0;
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	132	"    if v_temp = null then
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	133	"      v_temp := '';
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	134	"    end if;
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	135	"  
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	136	"    if length(v_temp) > 1 then
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	137	"    
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	138	"      select curr_bed || '床,' || bah || v_temp
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	139	"        into v_temp
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	140	"        from zy_patient_information
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	141	"       where patient_no = in_patient_no;
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	142	"    
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	143	"      Return v_temp;
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	144	"    end if;
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	145	"  
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	146	"  end if;
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	147	"  --指定项目限频次 end 
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	148	"
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	149	"  --项目限频次 begin
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	150	"  if 1 = 1 then
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	151	"    select nvl(min(x1.xmmc || '[' || x1.xmbh || '],使用数量' || x1.sl_sum ||
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	152	"                   ',超过限定数量' || x1.kzsl_zy || '[f_yb_znshcl_zy_jzxh]'),
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	153	"               '')
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	154	"      INTO v_temp
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	155	"      from (select patient_no,
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	156	"                   y.xmmc,
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	157	"                   y.xmbh,
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	158	"                   nvl(y.kzsl_zy, 0) kzsl_zy,
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	159	"                   to_char(charge_date, 'yyyy-mm-dd') rq,
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	160	"                   sum(sl) sl_sum
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	161	"              From zy_detail_charge x, yb_znshgz y, yb_duizhaoml z
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	162	"             where y.xmbh = z.yibaodm
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	163	"               and z.xiangmuxh = x.charge_code
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	164	"               and z.xiangmucd = 0
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	165	"               and z.tingyongrq is null
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	166	"               and z.yibaolx = '9997'
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	167	"               and nvl(x.twice_detail_code, '0') <> 'ZY'
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	168	"               and y.gzbh = 7
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	169	"               and y.kzsl_zy > 0
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	170	"               and x.fygl > 3
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	171	"               and trunc(charge_date) = trunc(sysdate)
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	172	"               and x.patient_no = in_patient_no
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	173	"             group by patient_no,
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	174	"                      y.xmmc,
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	175	"                      y.xmbh,
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	176	"                      y.kzsl_zy,
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	177	"                      to_char(charge_date, 'yyyy-mm-dd')
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	178	"            
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	179	"            having kzsl_zy < sum(sl)) x1,
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	180	"           zy_detail_charge x2,
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	181	"           yb_duizhaoml x3
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	182	"     where x1.xmbh = x3.yibaodm
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	183	"       and x3.xiangmuxh = x2.charge_code
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	184	"       and x3.xiangmucd = 0
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	185	"       and x3.tingyongrq is null
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	186	"       and x3.yibaolx = '9997'
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	187	"       and nvl(x2.twice_detail_code, '0') <> 'ZY'
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	188	"       and x2.fygl > 3
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	189	"       and nvl(x2.jzxh, 0) = in_jzxh
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	190	"       and x1.kzsl_zy > 0
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	191	"       and x2.patient_no = in_patient_no;
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	192	"  
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	193	"    if length(v_temp) > 1 then
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	194	"      select curr_bed || '床,' || bah || v_temp
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	195	"        into v_temp
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	196	"        from zy_patient_information
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	197	"       where patient_no = in_patient_no;
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	198	"    
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	199	"      Return v_temp;
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	200	"    end if;
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	201	"  
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	202	"  end if;
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	203	"  --项目限频次 end
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	204	"
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	205	"  -- 重复收费   begin
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	206	"  if 3 = 3 and v_patient_no > 0 then
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	207	"  
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	208	"    select nvl(min(bz0 || '[' || sl0 || '];' || '[f_yb_znshcl_zy_jzxh]'),
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	209	"               '')
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	210	"      INTO v_temp
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	211	"      from (
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	212	"            -----
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	213	"            select aa.patient_no patient_no0,
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	214	"                    aa.rq || ':' || aa.charge_name || '[' || sl_sum ||
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	215	"                    '],重复收费 ,与  ' || to_char(x1.charge_name) bz0,
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	216	"                    sum(x1.sl) sl0
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	217	"              from (select x.ZX_KS,
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	218	"                            x.patient_no,
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	219	"                            x.charge_name,
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	220	"                            y.xmbh,
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	221	"                            to_char(x.charge_date, 'yyyy-mm-dd') rq,
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	222	"                            sum(x.sl) sl_sum
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	223	"                       From zy_detail_charge x, yb_znshgz y, yb_duizhaoml z
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	224	"                      where y.xmbh = z.yibaodm
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	225	"                        and z.xiangmuxh = x.charge_code
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	226	"                        and x.fygl > 3
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	227	"                        and z.xiangmucd = 0
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	228	"                        and z.yibaolx = '9997'
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	229	"                           --  and x.ybdm = y.xmbh
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	230	"                        and y.gzbh = 8
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	231	"                        and x.patient_no in (v_patient_no)
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	232	"                      group by x.ZX_KS,
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	233	"                               x.patient_no,
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	234	"                               x.charge_name,
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	235	"                               y.xmbh,
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	236	"                               to_char(x.charge_date, 'yyyy-mm-dd')) aa,
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	237	"                    zy_detail_charge x1,
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	238	"                    yb_znshgz y1,
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	239	"                    yb_duizhaoml z1
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	240	"             where aa.patient_no = x1.patient_no
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	241	"                  -- and aa.charge_name = x1.charge_name
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	242	"                  -- and aa.xmbh <> z1.yibaodm
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	243	"               and aa.ZX_KS = x1.ZX_KS
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	244	"               and aa.rq = to_char(x1.charge_date, 'yyyy-mm-dd')
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	245	"               and aa.sl_sum > 0
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	246	"               and nvl(x1.jzxh, 0) = in_jzxh
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	247	"               and z1.xiangmuxh = x1.charge_code
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	248	"               and x1.fygl > 3
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	249	"               and z1.xiangmucd = 0
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	250	"               and z1.yibaolx = '9997'
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	251	"               and y1.gzbh = 8
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	252	"               and aa.xmbh = y1.xmbh
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	253	"               and instr(y1.shbz, z1.yibaodm) > 0
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	254	"               and aa.sl_sum > 0
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	255	"             group by aa.patient_no,
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	256	"                       aa.rq || ':' || aa.charge_name || '[' || sl_sum ||
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	257	"                       '],重复收费 ,与  ' || to_char(x1.charge_name)
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	258	"            ---           
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	259	"            )
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	260	"     where sl0 > 0;
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	261	"    if length(v_temp) > 1 then
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	262	"      select curr_bed || '床,' || bah || v_temp
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	263	"        into v_temp
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	264	"        from zy_patient_information
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	265	"       where patient_no = in_patient_no;
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	266	"    
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	267	"      Return v_temp;
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	268	"    end if;
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	269	"  
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	270	"    if 1 = 1 then
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	271	"      select nvl(min(bz0 || '[' || sl0 || '];' || '[f_yb_znshcl_zy_jzxh]'),
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	272	"                 '')
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	273	"        INTO v_temp
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	274	"        from (
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	275	"              -----
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	276	"              select aa.patient_no patient_no0,
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	277	"                      aa.rq || ':' || aa.charge_name || '[' || sl_sum ||
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	278	"                      '],重复收费 ,与  ' || to_char(x1.charge_name) bz0,
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	279	"                      sum(x1.sl) sl0
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	280	"                from (select x.ZX_KS,
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	281	"                              x.patient_no,
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	282	"                              x.charge_name,
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	283	"                              y.xmbh,
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	284	"                              to_char(x.charge_date, 'yyyy-mm-dd') rq,
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	285	"                              sum(x.sl) sl_sum
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	286	"                         From zy_detail_charge x, yb_znshgz y, yb_duizhaoml z
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	287	"                        where y.xmbh = z.yibaodm
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	288	"                          and z.xiangmuxh = x.charge_code
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	289	"                          and nvl(x.jzxh, 0) = in_jzxh
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	290	"                          and x.fygl > 3
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	291	"                          and z.xiangmucd = 0
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	292	"                          and z.yibaolx = '9997'
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	293	"                             --  and x.ybdm = y.xmbh
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	294	"                          and y.gzbh = 8
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	295	"                          and x.js_no = 0
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	296	"                          and x.INFANT_FLAG = 0
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	297	"                          and x.patient_no in (v_patient_no)
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	298	"                        group by x.ZX_KS,
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	299	"                                 x.patient_no,
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	300	"                                 x.charge_name,
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	301	"                                 y.xmbh,
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	302	"                                 to_char(x.charge_date, 'yyyy-mm-dd')) aa,
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	303	"                      zy_detail_charge x1,
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	304	"                      yb_znshgz y1,
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	305	"                      yb_duizhaoml z1
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	306	"               where aa.patient_no = x1.patient_no
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	307	"                    -- and aa.charge_name = x1.charge_name
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	308	"                    -- and aa.xmbh <> z1.yibaodm
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	309	"                 and aa.ZX_KS = x1.ZX_KS
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	310	"                 and aa.rq = to_char(x1.charge_date, 'yyyy-mm-dd')
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	311	"                 and aa.sl_sum > 0
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	312	"                    
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	313	"                 and z1.xiangmuxh = x1.charge_code
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	314	"                 and x1.fygl > 3
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	315	"                 and z1.xiangmucd = 0
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	316	"                 and z1.yibaolx = '9997'
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	317	"                 and y1.gzbh = 8
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	318	"                 and aa.xmbh = y1.xmbh
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	319	"                 and instr(y1.shbz, z1.yibaodm) > 0
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	320	"                 and aa.sl_sum > 0
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	321	"                 and x1.js_no = 0
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	322	"                 and x1.INFANT_FLAG = 0
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	323	"                 and x1.patient_no in (v_patient_no)
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	324	"               group by aa.patient_no,
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	325	"                         aa.rq || ':' || aa.charge_name || '[' || sl_sum ||
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	326	"                         '],重复收费 ,与  ' || to_char(x1.charge_name)
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	327	"              ---           
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	328	"              )
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	329	"       where sl0 > 0;
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	330	"      if length(v_temp) > 1 then
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	331	"        select curr_bed || '床,' || bah || v_temp
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	332	"          into v_temp
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	333	"          from zy_patient_information
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	334	"         where patient_no = in_patient_no;
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	335	"      
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	336	"        Return v_temp;
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	337	"      end if;
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	338	"    end if;
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	339	"  end if;
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	340	"  -- 重复收费   end 
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	341	"
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	342	"  --项目限性别 begin
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	343	"  if 1 = 1 then
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	344	"    select nvl(min(e.xmmc || '不符合规定性别使用 [f_yb_znshcl_zy_jzxh]'),
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	345	"               '')
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	346	"      into v_temp
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	347	"      from zy_detail_charge       a,
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	348	"           yb_znshgz              e,
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	349	"           yb_duizhaoml           d,
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	350	"           zy_patient_information c
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	351	"     where d.yibaodm = e.xmbh
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	352	"       and substr(d.yibaodm, 1, 12) = substr(e.xmbh, 1, 12)
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	353	"       and nvl(a.jzxh, 0) = in_jzxh
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	354	"       and e.gzbh = 6
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	355	"       and e.ypzlpb = 0
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	356	"       and a.patient_no = c.patient_no
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	357	"       and a.js_no = c.js_no
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	358	"       and a.infant_flag = 0
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	359	"       and a.charge_code = d.xiangmuxh
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	360	"       and d.yaopinpb = 0
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	361	"       and a.fygl > 3
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	362	"       and substr(d.yibaodm, 1, 12) in
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	363	"           (select substr(xmbh, 1, 12)
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	364	"              From yb_znshgz t1, zy_patient_information t2
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	365	"             where ((t1.shbz = '女' and nvl(t2.sex, 1) = 1) or
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	366	"                   (t1.shbz = '男' and nvl(t2.sex, 1) = 2))
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	367	"                  
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	368	"               and t1.gzbh = 6
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	369	"               and nvl(t1.ypzlpb, 0) = 0
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	370	"               and t2.patient_no = in_patient_no)
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	371	"       and d.yibaolx = '9997'
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	372	"       and d.tingyongrq is null
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	373	"       and a.js_no = 0
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	374	"       and a.patient_No = in_patient_no;
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	375	"  
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	376	"    if length(v_temp) > 1 then
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	377	"      select curr_bed || '床,' || bah || v_temp
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	378	"        into v_temp
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	379	"        from zy_patient_information
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	380	"       where patient_no = in_patient_no;
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	381	"    
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	382	"      Return v_temp;
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	383	"    end if;
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	384	"  
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	385	"  end if;
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	386	"  --项目限性别 end
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	387	"
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	388	"  --放行，仅仅提示
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	389	"
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	390	"  --项目限14周岁begin
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	391	"  if 1 = 0 then
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	392	"    select nvl(min(e.xmmc || '限儿童14周岁使用 [f_yb_znshcl_zy_jzxh][不控制]'),
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	393	"               '')
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	394	"      into v_temp
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	395	"      from zy_detail_charge       a,
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	396	"           yb_znshgz              e,
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	397	"           yb_duizhaoml           d,
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	398	"           zy_patient_information c
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	399	"     where d.yibaodm = e.xmbh
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	400	"       and substr(d.yibaodm, 1, 12) = substr(e.xmbh, 1, 12)
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	401	"       and nvl(a.jzxh, 0) = in_jzxh
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	402	"       and e.gzbh = 4
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	403	"       and (instr(e.shbz, '14周岁') > 0)
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	404	"       and e.ypzlpb = 0
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	405	"       and nvl(a.spbh, 0) <> -10
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	406	"       and a.patient_no = c.patient_no
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	407	"       and a.js_no = c.js_no
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	408	"       and a.infant_flag = 0
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	409	"       and a.charge_code = d.xiangmuxh
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	410	"       and d.yaopinpb = 0
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	411	"       and a.fygl > 3
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	412	"       and d.yibaolx = '9997'
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	413	"       and d.tingyongrq is null
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	414	"       and a.js_no = 0
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	415	"       and (sysdate - nvl(c.birthday, sysdate)) > 5110
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	416	"       and a.patient_No = in_patient_no;
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	417	"  
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	418	"    if length(v_temp) > 1 then
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	419	"      select curr_bed || '床,' || bah || v_temp
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	420	"        into v_temp
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	421	"        from zy_patient_information
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	422	"       where patient_no = in_patient_no;
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	423	"    
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	424	"      Return v_temp;
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	425	"    end if;
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	426	"  
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	427	"  end if;
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	428	"  --限14周岁 end
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	429	"
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	430	"  --项目限6周岁begin
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	431	"  if 1 = 0 then
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	432	"    select nvl(min(e.xmmc || '限儿童6周岁使用 [F_YB_ZNSHCL_ZY_JZXH][不控制]'),
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	433	"               '')
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	434	"      into v_temp
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	435	"      from zy_detail_charge       a,
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	436	"           yb_znshgz              e,
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	437	"           yb_duizhaoml           d,
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	438	"           zy_patient_information c
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	439	"     where d.yibaodm = e.xmbh
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	440	"       and substr(d.yibaodm, 1, 12) = substr(e.xmbh, 1, 12)
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	441	"       and nvl(a.jzxh, 0) = in_jzxh
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	442	"       and e.gzbh = 4
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	443	"       and (instr(e.shbz, '6周岁') > 0)
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	444	"       and e.ypzlpb = 0
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	445	"       and nvl(a.spbh, 0) <> -10
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	446	"       and a.patient_no = c.patient_no
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	447	"       and a.js_no = c.js_no
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	448	"       and a.infant_flag = 0
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	449	"       and a.charge_code = d.xiangmuxh
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	450	"       and d.yaopinpb = 0
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	451	"       and a.fygl > 3
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	452	"       and (sysdate - nvl(c.birthday, sysdate)) > 2190
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	453	"       and d.yibaolx = '9997'
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	454	"       and d.tingyongrq is null
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	455	"       and a.js_no = 0
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	456	"       and a.patient_No = in_patient_no;
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	457	"  
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	458	"    if length(v_temp) > 1 then
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	459	"      select curr_bed || '床,' || bah || v_temp
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	460	"        into v_temp
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	461	"        from zy_patient_information
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	462	"       where patient_no = in_patient_no;
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	463	"    
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	464	"      Return v_temp;
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	465	"    end if;
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	466	"  
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	467	"  end if;
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	468	"  --限6周岁 end
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	469	"
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	470	"  --项目限28天 begin
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	471	"  if 1 = 0 then
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	472	"    select nvl(min(e.xmmc || '限儿童28天使用 [F_YB_ZNSHCL_ZY_JZXH][不控制]'),
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	473	"               '')
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	474	"      into v_temp
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	475	"      from zy_detail_charge       a,
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	476	"           yb_znshgz              e,
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	477	"           yb_duizhaoml           d,
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	478	"           zy_patient_information c
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	479	"     where d.yibaodm = e.xmbh
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	480	"       and substr(d.yibaodm, 1, 12) = substr(e.xmbh, 1, 12)
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	481	"       and nvl(a.jzxh, 0) = in_jzxh
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	482	"       and e.gzbh = 4
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	483	"       and (instr(e.shbz, '28天') > 0)
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	484	"       and e.ypzlpb = 0
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	485	"       and a.patient_no = c.patient_no
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	486	"       and a.js_no = c.js_no
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	487	"       and a.infant_flag = 0
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	488	"       and nvl(a.spbh, 0) <> -10
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	489	"       and a.charge_code = d.xiangmuxh
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	490	"       and d.yaopinpb = 0
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	491	"       and a.fygl > 3
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	492	"       and (sysdate - nvl(c.birthday, sysdate)) > 28
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	493	"       and d.yibaolx = '9997'
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	494	"       and d.tingyongrq is null
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	495	"       and a.js_no = 0
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	496	"       and a.patient_No = in_patient_no;
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	497	"  
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	498	"    if length(v_temp) > 1 then
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	499	"      select curr_bed || '床,' || bah || v_temp
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	500	"        into v_temp
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	501	"        from zy_patient_information
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	502	"       where patient_no = in_patient_no;
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	503	"    
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	504	"      Return v_temp;
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	505	"    end if;
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	506	"  
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	507	"  end if;
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	508	"  --限28天 end
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	509	"
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	510	"  --end end end 
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	511	"
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	512	"  Return '';
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	513	"
+"
+F_YB_ZNSHCL_ZY_JZXH_BAK	FUNCTION	514	"End;
+"

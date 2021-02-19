@@ -1,0 +1,40 @@
+BLOB_TO_VARCHAR	FUNCTION	1	"Function Blob_To_Varchar (Blob_In In Blob) Return varchar2
+"
+BLOB_TO_VARCHAR	FUNCTION	2	"Is
+"
+BLOB_TO_VARCHAR	FUNCTION	3	"    V_Varchar Varchar2(4000);
+"
+BLOB_TO_VARCHAR	FUNCTION	4	"    V_Start Pls_Integer := 1;
+"
+BLOB_TO_VARCHAR	FUNCTION	5	"    V_Buffer Pls_Integer := 2000;
+"
+BLOB_TO_VARCHAR	FUNCTION	6	"    text_c1 varchar2(32767);
+"
+BLOB_TO_VARCHAR	FUNCTION	7	"Begin
+"
+BLOB_TO_VARCHAR	FUNCTION	8	"    If Dbms_Lob.Getlength(Blob_In) Is Null Then
+"
+BLOB_TO_VARCHAR	FUNCTION	9	"        Return '';
+"
+BLOB_TO_VARCHAR	FUNCTION	10	"    End If;
+"
+BLOB_TO_VARCHAR	FUNCTION	11	"    For I In 1..Ceil(Dbms_Lob.Getlength(Blob_In) / V_Buffer) Loop
+"
+BLOB_TO_VARCHAR	FUNCTION	12	"        --当转换出来的字符串乱码时，可尝试用注释掉的函数
+"
+BLOB_TO_VARCHAR	FUNCTION	13	"        --V_Varchar := Utl_Raw.Cast_To_Varchar2(Utl_Raw.Convert(Dbms_Lob.Substr(Blob_In, V_Buffer, V_Start),'SIMPLIFIED CHINESE_CHINA.ZHS16GBK', 'AMERICAN_THE NETHERLANDS.UTF8'));
+"
+BLOB_TO_VARCHAR	FUNCTION	14	"        --V_Varchar := Utl_Raw.Cast_To_Varchar2(Dbms_Lob.Substr(Blob_In, V_Buffer, V_Start));
+"
+BLOB_TO_VARCHAR	FUNCTION	15	"        V_Varchar := utl_encode.base64_decode(utl_encode.base64_encode(Dbms_Lob.Substr(Blob_In, V_Buffer, V_Start)));
+"
+BLOB_TO_VARCHAR	FUNCTION	16	"        V_Start := V_Start + V_Buffer;
+"
+BLOB_TO_VARCHAR	FUNCTION	17	"        --text_c1:=text_c1||V_Varchar;
+"
+BLOB_TO_VARCHAR	FUNCTION	18	"    End Loop;
+"
+BLOB_TO_VARCHAR	FUNCTION	19	"    Return V_Varchar;
+"
+BLOB_TO_VARCHAR	FUNCTION	20	"End Blob_To_Varchar;
+"

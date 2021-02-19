@@ -1,0 +1,52 @@
+FUN_FENSHUZXS	FUNCTION	1	"FUNCTION fun_fenshuzxs( prm_str   In  VARCHAR2)
+"
+FUN_FENSHUZXS	FUNCTION	2	"  RETURN number
+"
+FUN_FENSHUZXS	FUNCTION	3	"  IS
+"
+FUN_FENSHUZXS	FUNCTION	4	"   out_num number:=0;
+"
+FUN_FENSHUZXS	FUNCTION	5	"   out_fenzi number:=0;
+"
+FUN_FENSHUZXS	FUNCTION	6	"   out_fenmu number:=1;
+"
+FUN_FENSHUZXS	FUNCTION	7	"  BEGIN
+"
+FUN_FENSHUZXS	FUNCTION	8	"       IF  instr(prm_str,'/') > 0  then
+"
+FUN_FENSHUZXS	FUNCTION	9	"          out_fenzi:=to_number(substr(prm_str,1,instr(prm_str,'/')-1));
+"
+FUN_FENSHUZXS	FUNCTION	10	"          out_fenmu:=to_number(substr(prm_str,instr(prm_str,'/')+1));
+"
+FUN_FENSHUZXS	FUNCTION	11	"          out_num:=round(out_fenzi/out_fenmu,2);
+"
+FUN_FENSHUZXS	FUNCTION	12	"       else
+"
+FUN_FENSHUZXS	FUNCTION	13	"           begin
+"
+FUN_FENSHUZXS	FUNCTION	14	"           out_num :=to_number(prm_str);
+"
+FUN_FENSHUZXS	FUNCTION	15	"           exception
+"
+FUN_FENSHUZXS	FUNCTION	16	"               when others then
+"
+FUN_FENSHUZXS	FUNCTION	17	"                 out_num := 0;
+"
+FUN_FENSHUZXS	FUNCTION	18	"           end;
+"
+FUN_FENSHUZXS	FUNCTION	19	"       END IF;
+"
+FUN_FENSHUZXS	FUNCTION	20	"      return out_num ;
+"
+FUN_FENSHUZXS	FUNCTION	21	"   exception
+"
+FUN_FENSHUZXS	FUNCTION	22	"               when others then
+"
+FUN_FENSHUZXS	FUNCTION	23	"                 out_num := 0;
+"
+FUN_FENSHUZXS	FUNCTION	24	"                 return out_num ;
+"
+FUN_FENSHUZXS	FUNCTION	25	"
+"
+FUN_FENSHUZXS	FUNCTION	26	"  END;
+"

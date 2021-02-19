@@ -1,0 +1,2230 @@
+PRC_XIANGMU_GHSF_CS	PROCEDURE	1	"procedure prc_xiangmu_ghsf_cs(in_jiaoyilx in varchar2, --交易类型
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	2	"                                                in_caozuogh in varchar2, --操作工号
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	3	"                                                in_jylsh    in varchar2, --其它参数
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	4	"                                                out_code    out INTEGER, -- 返回结果 0为执行成功
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	5	"                                                out_msg     out varchar2) is
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	6	"  --在interface 用户下面
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	7	"  -- in_jiaoyilx varchar2业务节点名称
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	8	"  --in_caozuogh  varchar2操作人员工号，
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	9	"  --in_other  varchar2其它参数，
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	10	"  --out_code out INTEGER返回值interger值，>=1 说明通过
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	11	"  --out_msg  out varchar2  返回  内容)
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	12	"
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	13	"  --入参说明：
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	14	"  --  皮试结果更新, 操作工号,处方识别=13564074|处方序号cfxh＝1|药品序号＝5666|药品产地代码＝2108|皮试状态=阴性|执行结果=通过|
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	15	"
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	16	"  v_icd10      varchar2(30);
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	17	"  v_icd10_from varchar2(30);
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	18	"  v_data       varchar2(300);
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	19	"  v_data_temp  varchar2(200);
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	20	"  v_sfzh       varchar2(50);
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	21	"  v_str1       varchar2(20);
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	22	"  v_str2       varchar2(20);
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	23	"  v_str3       varchar2(20);
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	24	"  v_str4       varchar2(20);
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	25	"  v_str5       varchar2(20);
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	26	"  v_str6       varchar2(20);
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	27	"  v_str7       varchar2(20);
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	28	"  v_str8       varchar2(20);
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	29	"  v_str9       varchar2(20);
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	30	"  v_rq_s       varchar2(20);
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	31	"  v_temp       varchar2(50);
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	32	"  v_flag1      varchar2(10);
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	33	"  v_flag2      varchar2(10);
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	34	"  v_jzkh       varchar2(50);
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	35	"  v_flag       varchar2(10);
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	36	"  v_czgh       varchar2(10);
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	37	"  --临时的统计的数量
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	38	"  v_brlb       number;
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	39	"  v_je1        number;
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	40	"  v_je2        number;
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	41	"  v_count      number;
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	42	"  v_count2     number;
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	43	"  v_count_temp number;
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	44	"  v_sfsb       number;
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	45	"  v_flag_len   number;
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	46	"  v_pos        number;
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	47	"  v_lb         varchar2(10);
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	48	"  v_qtsfje     number;
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	49	"
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	50	"  v_je_differ number;
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	51	"  v_jlxh      number;
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	52	"  v_sfrq      date;
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	53	"
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	54	"  v_zxlsh   varchar2(50);
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	55	"  v_zfb_ddh varchar2(50);
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	56	"
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	57	"  --操作工号
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	58	"  --v_caozuogh varchar2(20);
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	59	"
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	60	"begin
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	61	"  --2020-08-22
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	62	"  /* select to_date(to_char(sysdate), 'yyyy-mm-dd hh24:mi:ss')
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	63	"  into v_sfrq
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	64	"  from dual;*/
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	65	"  out_code := 1;
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	66	"  out_msg  := ' ';
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	67	"  if 1 = 1 then
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	68	"    insert into zy_jiaoyi_v1
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	69	"      (jiaoyilx, caozuogh, jylsh, bz)
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	70	"    values
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	71	"      (in_jiaoyilx, in_caozuogh, in_jylsh, 'prc_xiangmu_ghsf');
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	72	"    commit;
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	73	"  end if;
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	74	"  if 1 = 1 and in_jiaoyilx = '自助机结算前' then
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	75	"    null;
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	76	"    -- 888#GH#36#000000181#17.00#2######330780620009#1157#YWCH010#*********#
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	77	"    --C0A28ED10#GH#17#2021012522001447281422794316#4.50#2#####0|0###ZZJ06###|版本号=117|
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	78	"    v_flag     := '#';
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	79	"    v_flag_len := 1;
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	80	"    select in_jylsh || '#' into v_data_temp from dual;
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	81	"  
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	82	"    --jzkh
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	83	"    v_pos       := to_number(instr(v_data_temp, v_flag));
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	84	"    v_data      := ltrim(rtrim(substr(v_data_temp, 1, v_pos - 1)));
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	85	"    v_data_temp := substr(v_data_temp, v_pos + v_flag_len);
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	86	"    v_jzkh      := v_data;
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	87	"  
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	88	"    --版本控制
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	89	"    if 1 = 0 then
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	90	"      select instr(in_jylsh, '版本号=117') + instr(in_jylsh, '版本号=1172') +
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	91	"             instr(in_jylsh, '版本号=117') + instr(in_jylsh, '版本号=117')
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	92	"        into v_pos
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	93	"        from dual;
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	94	"      if in_caozuogh = '192.168.1.165' then
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	95	"        null;
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	96	"      end if;
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	97	"      if v_pos = 0 then
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	98	"        select v_jzkh || '自助结算前 版本控制[prc_xiangmu_ghsf]'
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	99	"          into out_msg
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	100	"          from dual;
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	101	"        out_code := -1;
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	102	"        return;
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	103	"      end if;
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	104	"    end if;
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	105	"  
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	106	"    --如果是其它业务交易则放行
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	107	"    if v_jzkh = '其它业务' or v_jzkh = 'YWQY_YWYB' or v_jzkh = 'APP_YWYB' then
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	108	"      return;
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	109	"    end if;
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	110	"  
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	111	"    v_pos       := to_number(instr(v_data_temp, v_flag));
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	112	"    v_data      := ltrim(rtrim(substr(v_data_temp, 1, v_pos - 1)));
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	113	"    v_data_temp := substr(v_data_temp, v_pos + v_flag_len);
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	114	"  
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	115	"    --如果是挂号交易则放行
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	116	"    if v_data = 'GH' then
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	117	"      return;
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	118	"    end if;
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	119	"  
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	120	"    -- t_pass_mz  就诊卡号 放行
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	121	"    if 1 = 1 then
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	122	"      v_count := 0;
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	123	"      select count(jzkh)
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	124	"        into v_count
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	125	"        From t_pass_mz
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	126	"       where jzkh = v_jzkh
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	127	"         and czrq > sysdate - 0.1;
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	128	"      if v_count >= 1 then
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	129	"        out_code := 1;
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	130	"        out_msg  := '';
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	131	"        return;
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	132	"      end if;
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	133	"    
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	134	"    end if;
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	135	"  
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	136	"    --发热门诊 新冠检测，非义乌医保 现金部分免费，请去人工窗口收费
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	137	"    if 1 = 0 then
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	138	"    
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	139	"      v_count := 0;
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	140	"      select count(*)
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	141	"        into v_count
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	142	"        from yj_Yjk1 a, yj_yjk2 b, gy_brjbxxk c
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	143	"       where a.yjsb = b.yjsb
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	144	"         and a.jzkh = c.jzkh
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	145	"         and ((c.brlb = 97 and nvl(c.jgbm, '0') <> '330782') or c.brlb = 99)
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	146	"         AND (trunc(sysdate) - trunc(a.kdsj)) BETWEEN 0 AND 2
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	147	"         and a.sjksdm in ('2010040', '2100005', '2270006')
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	148	"         and b.ylxh in
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	149	"             (31512, 31511, 31525, 31029, 31509, 31030, 26334, 31526, 31510)
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	150	"         and a.sfsb is null
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	151	"         and a.jzkh = v_jzkh;
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	152	"      if v_count > 0 then
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	153	"        select v_jzkh ||
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	154	"               '非义乌医保，发热门诊新冠检测应检尽检项目， 现金部分减免，请去人工收费窗口收费[prc_xiangmu_ghsf]'
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	155	"          into out_msg
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	156	"          from dual;
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	157	"        out_code := -1;
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	158	"      
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	159	"        return;
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	160	"      end if;
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	161	"    
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	162	"    end if;
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	163	"    -- end 发热门诊 新冠检测，非义乌医保 现金部分免费，请去人工窗口收费
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	164	"  end if;
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	165	"
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	166	"  if 1 = 1 and in_jiaoyilx = '结算后' and in_caozuogh <> 'AUTO1' then
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	167	"    out_code := 1;
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	168	"    out_msg  := '';
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	169	"    if 1 = 1 then
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	170	"      select to_number(nvl(REGEXP_substr(in_jylsh, '[0-9]+'), '0'))
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	171	"        into v_sfsb
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	172	"        from dual;
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	173	"    
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	174	"      if v_sfsb > 0 then
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	175	"        null;
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	176	"        /* select nvl(max(jzkh), '0')
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	177	"         into v_jzkh
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	178	"         from mz_mzsfk1
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	179	"        where sfrq > sysdate - 0.01
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	180	"          and sfsb = v_sfsb;*/
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	181	"      
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	182	"        --未收费提示
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	183	"        select jzkh into v_jzkh from mz_mzsfk1 where sfsb = v_sfsb;
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	184	"        if 1 = 1 and v_jzkh = '8' then
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	185	"        
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	186	"          v_count := 0;
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	187	"          select sum(sl)
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	188	"            into v_count
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	189	"            from (select count(b.yjsb) sl
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	190	"                  
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	191	"                    from yj_Yjk1 a, yj_yjk2 b, gy_brjbxxk c
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	192	"                   where a.yjsb = b.yjsb
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	193	"                     and a.jzkh = c.jzkh
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	194	"                     and a.kdsj between trunc(sysdate - 1) and sysdate
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	195	"                     and a.sfsb is null
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	196	"                     and a.jzkh = v_jzkh
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	197	"                  union all
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	198	"                  select count(b.cfsb) sl
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	199	"                  
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	200	"                    from mz_cfk1 a, mz_cfk2 b, gy_brjbxxk c
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	201	"                   where a.cfsb = b.cfsb
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	202	"                     and a.jzkh = c.jzkh
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	203	"                     and a.cfrq between trunc(sysdate - 1) and sysdate
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	204	"                     and a.sfsb is null
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	205	"                     and a.jzkh = v_jzkh)
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	206	"          
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	207	"          ;
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	208	"        
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	209	"          if v_count > 0 then
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	210	"            select v_jzkh || '还有其它项目需要付费[prc_xiangmu_ghsf]'
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	211	"              into out_msg
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	212	"              from dual;
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	213	"            out_code := 1;
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	214	"          
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	215	"          end if;
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	216	"        
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	217	"        end if;
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	218	"        -- end 发热门诊 新冠检测，非义乌医保 现金部分免费，请联系收费处贾巍
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	219	"      
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	220	"        --发热门诊 新冠检测，非义乌医保 现金部分免费，请联系收费处贾巍
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	221	"        if 1 = 0 then
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	222	"        
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	223	"          v_count := 0;
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	224	"          select count(*)
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	225	"            into v_count
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	226	"            from yj_Yjk1 a, yj_yjk2 b, gy_brjbxxk c
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	227	"           where a.yjsb = b.yjsb
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	228	"             and a.jzkh = c.jzkh
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	229	"             and ((c.brlb = 97 and nvl(c.jgbm, '0') <> '330782') or
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	230	"                 c.brlb = 99)
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	231	"             and a.kdsj >= trunc(sysdate - 1)
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	232	"             AND a.sjksdm in ('2010040', '2100005')
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	233	"             and b.ylxh in (31512, 31511, 31525, 31029, 31509, 31030, 26334,
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	234	"                  31526, 31510)
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	235	"             and a.sfsb = v_sfsb;
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	236	"          if v_count > 0 then
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	237	"            select v_jzkh ||
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	238	"                   '非义乌医保，发热门诊新冠检测应检尽检项目， 现金部分减免，请单独发票结算，联系贾巍[prc_xiangmu_ghsf]'
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	239	"              into out_msg
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	240	"              from dual;
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	241	"            out_code := 1;
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	242	"          
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	243	"          end if;
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	244	"        
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	245	"        end if;
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	246	"        -- end  未收费提示
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	247	"      
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	248	"      end if;
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	249	"    end if;
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	250	"  
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	251	"  end if;
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	252	"
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	253	"  if 1 = 1 and in_jiaoyilx = '结算后' then
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	254	"  
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	255	"    update mz_mzsfk1 t
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	256	"       set jgbm = (select substr(black,
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	257	"                                 instr(black, '""yytcq"":""') +
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	258	"                                 length('""yytcq"":""'),
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	259	"                                 6)
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	260	"                     from mz_ybjsxx
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	261	"                    where sfsb = t.sfsb
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	262	"                      and rownum = 1)
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	263	"     where brlb = 97
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	264	"       and jgbm is null
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	265	"       and sfsb = in_jylsh;
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	266	"    if sqlcode = 0 then
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	267	"      commit;
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	268	"    else
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	269	"      rollback;
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	270	"    end if;
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	271	"  
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	272	"    --  jzyf fybh=5
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	273	"    select count(cfsb)
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	274	"      into v_count
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	275	"      From mz_cfk1
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	276	"     where nvl(jzyf, 0) <> 5
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	277	"       and fybh = 5
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	278	"       and sfsb = in_jylsh;
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	279	"    if v_count > 0 then
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	280	"    
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	281	"      update mz_cfk1
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	282	"         set jzyf = 5
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	283	"       where nvl(jzyf, 0) <> 5
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	284	"         and fybh = 5
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	285	"         and sfsb = in_jylsh;
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	286	"      if sqlcode = 0 then
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	287	"        commit;
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	288	"      else
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	289	"        rollback;
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	290	"      end if;
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	291	"    end if;
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	292	"    -- end jzyf fybh=5
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	293	"  
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	294	"    select count(yjsb)
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	295	"      into v_count
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	296	"      From yj_Yjk1
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	297	"     where jchm = '应检尽检'
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	298	"       and sfsb = in_jylsh;
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	299	"    if v_count > 0 then
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	300	"    
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	301	"      update l_laborder set receiveflag = -1 where laborderorg = in_jylsh;
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	302	"      if sqlcode = 0 then
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	303	"        commit;
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	304	"      else
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	305	"        rollback;
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	306	"      end if;
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	307	"    end if;
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	308	"  
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	309	"    select count(sfsb)
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	310	"      into v_count
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	311	"      From mz_mzsfk1
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	312	"     where xj = yhje1
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	313	"       and yhje1 > 0
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	314	"       and sfsb = in_jylsh;
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	315	"    if v_count > 0 then
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	316	"    
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	317	"      update mz_mzsfk1
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	318	"         set xj = 0
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	319	"       where xj = yhje1
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	320	"         and yhje1 > 0
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	321	"         and sfsb = in_jylsh;
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	322	"      if sqlcode = 0 then
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	323	"        commit;
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	324	"      else
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	325	"        rollback;
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	326	"      end if;
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	327	"    end if;
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	328	"  
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	329	"    --体检费 调整 发药科室
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	330	"    select count(*)
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	331	"      into v_count
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	332	"      from mz_cfk1
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	333	"     where ysgh = 'D8000'
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	334	"       and sfsb = in_jylsh;
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	335	"  
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	336	"    if v_count > 0 then
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	337	"    
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	338	"      update mz_cfk1
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	339	"         set ksdm = '10900001', fyks = '10900001'
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	340	"       where ysgh = 'D8000'
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	341	"         and sfsb = in_jylsh;
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	342	"      commit;
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	343	"    end if;
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	344	"    --yhje1=xj
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	345	"  
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	346	"    select count(*)
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	347	"      into v_count
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	348	"      from mz_mzsfk1
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	349	"     where yhje1 = nvl(xj, 0) + nvl(qtsfje, 0)
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	350	"       and sfsb = in_jylsh;
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	351	"  
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	352	"    if v_count > 0 then
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	353	"      update mz_mzsfk1 set xj = 0, qtsfje = 0 where sfsb = in_jylsh;
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	354	"      commit;
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	355	"    end if;
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	356	"  
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	357	"    --  end  yhje1=xj
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	358	"  
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	359	"    return;
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	360	"  end if;
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	361	"
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	362	"  if 1 = 1 and in_jiaoyilx = '收费读卡' then
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	363	"  
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	364	"    /*ls_jylsh=ls_jylsh+'|'+'就诊卡号='+ls_jzkh+'|'
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	365	"    ls_jylsh=ls_jylsh+'|'+'分院编号='+string(mzsfcs.Fybh)+'|'
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	366	"    ls_jylsh=ls_jylsh+'|'+'处方有效天数='+string(mzsfcs.cfyxts)+'|'*/
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	367	"    /*    BEGIN         prc_xiangmu_ghsf( :0,:1,:2,:3,:4); END;
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	368	"    :0 = '收费读卡'
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	369	"    :1 = '|就诊卡号=888||分院编号=0||处方有效天数=2|'
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	370	"    :2 = 'DBA'
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	371	"    :3 = 1
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	372	"    :4 = ' '*/
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	373	"  
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	374	"    /*    if 1 = 1 then
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	375	"    
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	376	"      out_code := -1;
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	377	"      out_msg  := in_jylsh;
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	378	"      return;
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	379	"    end if;*/
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	380	"  
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	381	"    v_str1 := to_char(F_GET_VALUE_SPLI(in_jylsh, '就诊卡号=', '|'));
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	382	"    v_jzkh := v_str1;
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	383	"    if v_str1 > '0' then
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	384	"      null;
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	385	"    else
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	386	"      out_code := -1;
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	387	"      out_msg  := '就诊卡号为空, [prc_xiangmu_ghsf]';
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	388	"      return;
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	389	"    end if;
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	390	"  
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	391	"    --发热门诊 新冠检测，非义乌医保 现金部分免费，请去分开发票，单独结算，联系贾巍
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	392	"    if 1 = 0 then
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	393	"    
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	394	"      v_count := 0;
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	395	"      select count(*)
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	396	"        into v_count
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	397	"        from yj_Yjk1 a, yj_yjk2 b, gy_brjbxxk c
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	398	"       where a.yjsb = b.yjsb
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	399	"         and a.jzkh = c.jzkh
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	400	"         and ((c.brlb = 97 and nvl(c.jgbm, '0') <> '330782') or c.brlb = 99)
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	401	"         AND (trunc(sysdate) - trunc(a.kdsj)) BETWEEN 0 AND 2
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	402	"         and a.sjksdm in ('2010040', '2100005', '2270006')
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	403	"         and b.ylxh in
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	404	"             (31512, 31511, 31525, 31029, 31509, 31030, 26334, 31526, 31510)
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	405	"         and a.sfsb is null
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	406	"         and a.jzkh = v_jzkh;
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	407	"      if v_count > 0 then
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	408	"        select v_jzkh ||
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	409	"               '非义乌医保，发热门诊新冠检测应检尽检项目， 现金部分减免，请单独发票结算，联系贾巍[prc_xiangmu_ghsf]'
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	410	"          into out_msg
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	411	"          from dual;
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	412	"        out_code := 1;
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	413	"        return;
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	414	"      end if;
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	415	"    
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	416	"    end if;
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	417	"    --end 发热门诊 新冠检测，非义乌医保 现金部分免费，请去分开发票，单独结算，联系贾巍
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	418	"    v_str2 := F_GET_VALUE_SPLI(in_jylsh, '分院编号=', '|');
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	419	"  
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	420	"    if v_str2 > '0' then
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	421	"      v_count2 := to_number(v_str2);
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	422	"    else
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	423	"      v_count2 := 0;
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	424	"    end if;
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	425	"  
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	426	"    v_str3 := F_GET_VALUE_SPLI(in_jylsh, '处方有效天数=', '|');
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	427	"    if v_str3 > '0' then
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	428	"      v_count_temp := to_number(v_str3);
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	429	"    else
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	430	"      v_count_temp := 0;
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	431	"    end if;
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	432	"  
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	433	"    --其它药房处方提示 begin 
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	434	"    if 1 = 1 then
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	435	"      v_count := 0;
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	436	"      SELECT count(*)
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	437	"        INTO v_count
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	438	"        FROM mz_cfk1
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	439	"       WHERE jzkh = v_str1
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	440	"         and nvl(fybh, 0) <> v_count2
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	441	"         AND sfsb is NULL
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	442	"         AND (trunc(sysdate) - trunc(cfrq)) BETWEEN 0 AND v_count_temp;
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	443	"    
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	444	"      /*    SELECT count(*)
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	445	"       INTO v_count
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	446	"       FROM mz_cfk1
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	447	"      WHERE jzkh = '888'
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	448	"        and nvl(fybh, 0) <> 0
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	449	"        AND sfsb is NULL
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	450	"        AND (trunc(sysdate) - trunc(cfrq)) BETWEEN 0 AND 2;*/
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	451	"    
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	452	"      if sqlcode = 0 then
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	453	"        null;
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	454	"      else
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	455	"        out_code := -1;
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	456	"        out_msg  := 'sqlcode<>0 [prc_xiangmu_ghsf]';
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	457	"      end if;
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	458	"      if v_count > 0 then
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	459	"        out_code := 1;
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	460	"        out_msg  := '有其它药房的处方 [prc_xiangmu_ghsf]';
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	461	"      end if;
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	462	"    end if;
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	463	"    -- 其它药房处方提示 end 
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	464	"  
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	465	"    if 1 = 1 then
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	466	"    
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	467	"      v_count := 0;
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	468	"      /*    select count(*)
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	469	"       into v_count
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	470	"       from yj_Yjk1 a, yj_yjk2 b, gy_brjbxxk c
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	471	"      where a.yjsb = b.yjsb
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	472	"        and a.jzkh = c.jzkh
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	473	"        and ((c.brlb = 97 and nvl(c.jgbm, '0') <> '330782') or c.brlb = 99)
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	474	"        and a.sjksdm in ('2010040', '2100005')
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	475	"        and b.ylxh in (31607, 31608)
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	476	"        and a.sfsb is null
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	477	"        and a.jzxh = in_patient_no;*/
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	478	"      if v_count > 0 then
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	479	"      
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	480	"        out_code := -1;
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	481	"        out_msg  := '免费新冠检测项目 仅限 自费病人和义乌医保 开单[prc_xiangmu_ghsf]';
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	482	"        return;
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	483	"      end if;
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	484	"    end if;
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	485	"  
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	486	"    v_count := 0;
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	487	"    SELECT count(*)
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	488	"      INTO v_count
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	489	"      from yj_yjk2
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	490	"     where sl <> round(sl, 0)
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	491	"       and yjsb in
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	492	"           (select yjsb
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	493	"              FROM yj_Yjk1
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	494	"             WHERE jzkh = v_str1
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	495	"               AND sfsb is NULL
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	496	"               AND (trunc(sysdate) - trunc(kdsj)) BETWEEN 0 AND v_count_temp);
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	497	"    if v_count > 0 then
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	498	"      select 'yjk2有小数数量的记录[prc_xiangmu_ghsf],' || out_msg
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	499	"        into out_msg
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	500	"        from dual;
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	501	"    end if;
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	502	"    return;
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	503	"  end if;
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	504	"
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	505	"  --gf_prc_xiangmu_ghsf('日报不平',login.userid,ls_sfsb
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	506	"
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	507	"  if 1 = 1 and in_jiaoyilx = '日报不平' then
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	508	"    null;
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	509	"  
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	510	"    --挂号库 收费库，其它收费方式不对
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	511	"    if 1 = 1 then
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	512	"      select count(*)
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	513	"        into v_count
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	514	"        From gh_ghk t
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	515	"       where sfrbxh is null
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	516	"         and czgh = in_caozuogh
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	517	"         and ghrq > sysdate - 7
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	518	"         and qtsfje <> 0
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	519	"         and qtsffs not in (16, 17, 18, 19, 24);
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	520	"    
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	521	"      if v_count > 0 then
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	522	"      
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	523	"        out_code := -1;
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	524	"        out_msg  := 'gh_ghk，其它收费方式不对(16,17,18,19,24 )[prc_xiangmu_ghsf]';
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	525	"        return;
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	526	"      end if;
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	527	"    
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	528	"      select count(*)
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	529	"        into v_count
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	530	"        From mz_mzsfk1 t
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	531	"       where rbxh is null
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	532	"         and czgh = in_caozuogh
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	533	"         and sfrq > sysdate - 7
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	534	"         and qtsfje <> 0
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	535	"         and qtsffs not in (16, 17, 18, 19, 24, 26);
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	536	"    
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	537	"      if v_count > 0 then
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	538	"      
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	539	"        out_code := -1;
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	540	"        out_msg  := 'mz_mzsfk1，其它收费方式不对(16,17,18,19,24,26 )[prc_xiangmu_ghsf]';
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	541	"        return;
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	542	"      end if;
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	543	"    
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	544	"    end if;
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	545	"    -- end 挂号库，其它收费方式不对
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	546	"    --end if;
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	547	"  
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	548	"    v_sfsb := in_jylsh;
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	549	"    select count(*) into v_count from V_MZSFK1_RB where sfsb = v_sfsb;
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	550	"    if v_count = 0 then
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	551	"      select v_sfsb || '为找到记录,V_MZSFK1_RB[prc_xiangmu_ghsf]'
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	552	"        into out_msg
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	553	"        from dual;
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	554	"      out_code := -1;
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	555	"      return;
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	556	"    end if;
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	557	"    select LB,
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	558	"           je_differ,
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	559	"           jzkh,
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	560	"           sfrq,
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	561	"           NVL(qtsfje, 0),
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	562	"           zfb_ddh,
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	563	"           czgh,
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	564	"           to_char(sfrq, 'yyyy-mm-dd hh24:mi:ss')
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	565	"      into v_lb,
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	566	"           v_je_differ,
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	567	"           v_jzkh,
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	568	"           v_sfrq,
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	569	"           v_qtsfje,
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	570	"           v_zfb_ddh,
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	571	"           v_czgh,
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	572	"           v_rq_s
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	573	"      from V_MZSFK1_RB
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	574	"     where sfsb = v_sfsb;
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	575	"    if v_lb = 'sf' then
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	576	"    
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	577	"      --yhje1 =  xj
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	578	"      select count(sfsb)
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	579	"        into v_count
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	580	"        from mz_mzsfk1
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	581	"       where sfsb = v_sfsb
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	582	"         and nvl(yhje1, 0) = nvl(xj, 0) + nvl(qtsfje, 0)
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	583	"         and yhje1 > -0.1
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	584	"         and yhje1 < 0.1;
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	585	"      if v_count = 1 then
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	586	"        update mz_mzsfk1 set xj = 0, qtsfje = 0 where sfsb = v_sfsb;
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	587	"        if sqlcode = 0 then
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	588	"        
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	589	"          commit;
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	590	"          out_code := 1;
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	591	"          out_msg  := '';
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	592	"          return;
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	593	"        else
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	594	"          rollback;
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	595	"          out_code := -1;
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	596	"          out_msg  := '更新失败 qtsfje,sqlcode<>0 [prc_xiangmu_ghsf]';
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	597	"          return;
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	598	"        end if;
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	599	"      
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	600	"      end if;
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	601	"    
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	602	"      -- 点点就医支付，未回写 mz_mzsfk1
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	603	"    
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	604	"      if 1 = 1 and v_qtsfje = 0 and v_zfb_ddh = '0' and v_je_differ < 0 then
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	605	"      
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	606	"        select NVL(max(JLXH), 0), nvl(max(zxlsh), '0'), nvl(max(shbh), '0')
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	607	"          into v_jlxh, v_zxlsh, v_zfb_ddh
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	608	"          From gy_jrjymx t
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	609	"         where jysj > to_date(v_rq_s, 'yyyy-mm-dd hh24:mi:ss') - 0.02
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	610	"           and jysj < to_date(v_rq_s, 'yyyy-mm-dd hh24:mi:ss') + 0.02
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	611	"           and jyckh = v_jzkh
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	612	"           and jyje = v_je_differ * -1
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	613	"           and t.zxlsh not in
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	614	"               (select nvl(zfb_ddh, '0')
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	615	"                  from mz_mzsfk1
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	616	"                 where sfrq >
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	617	"                       to_date(v_rq_s, 'yyyy-mm-dd hh24:mi:ss') - 0.03
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	618	"                   and sfrq <
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	619	"                       to_date(v_rq_s, 'yyyy-mm-dd hh24:mi:ss') + 0.03
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	620	"                   and jzkh = v_jzkh);
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	621	"      
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	622	"        if v_zxlsh > '0' then
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	623	"          if substr(v_zxlsh, 1, 2) = '42' then
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	624	"            update mz_mzsfk1
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	625	"               set qtsffs   = 18,
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	626	"                   qtsfje   = v_je_differ * -1,
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	627	"                   zfb_ddh  = v_zxlsh,
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	628	"                   zfb_shdh = v_zfb_ddh,
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	629	"                   jrjylsh  = v_jlxh
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	630	"             where sfsb = v_sfsb;
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	631	"          else
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	632	"            update mz_mzsfk1
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	633	"               set qtsffs   = 19,
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	634	"                   qtsfje   = v_je_differ * -1,
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	635	"                   zfb_ddh  = v_zxlsh,
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	636	"                   zfb_shdh = v_zfb_ddh,
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	637	"                   jrjylsh  = v_jlxh
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	638	"             where sfsb = v_sfsb;
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	639	"          
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	640	"          end if;
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	641	"          if sqlcode = 0 then
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	642	"            commit;
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	643	"            out_code := 1;
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	644	"            out_msg  := '';
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	645	"            return;
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	646	"          else
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	647	"            rollback;
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	648	"            out_code := -1;
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	649	"            out_msg  := '更新失败2,sqlcode<>0 [prc_xiangmu_ghsf]';
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	650	"            return;
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	651	"          end if;
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	652	"        
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	653	"        end if;
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	654	"      
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	655	"      end if;
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	656	"      --end 点点就医支付，未回写 mz_mzsfk1
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	657	"    
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	658	"      --   减免金额相差0.05 
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	659	"      if 1 = 1 and v_qtsfje = 0 and v_zfb_ddh = '0' and v_je_differ < 0 and
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	660	"         v_je_differ >= -0.05 then
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	661	"      
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	662	"        update mz_mzsfk1
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	663	"           set yhje1 = v_je_differ * -1
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	664	"         where sfsb = v_sfsb
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	665	"           and nvl(yhje1, 0) = 0;
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	666	"      
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	667	"        if sqlcode = 0 then
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	668	"          commit;
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	669	"          out_code := 1;
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	670	"          out_msg  := '';
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	671	"          return;
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	672	"        else
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	673	"          rollback;
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	674	"          out_code := -1;
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	675	"          out_msg  := '更新失败3,sqlcode<>0 [prc_xiangmu_ghsf]';
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	676	"          return;
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	677	"        end if;
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	678	"      
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	679	"      end if;
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	680	"      --end   --   减免金额相差0.05 
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	681	"    end if;
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	682	"    --end 点点就医支付，未回写 mz_mzsfk1
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	683	"  
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	684	"    -- zbje 重复
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	685	"    if 2 = 2 and v_je_differ > 0 then
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	686	"      select count(*)
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	687	"        into v_count
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	688	"        from mz_Mzsfk1
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	689	"       where zbbzje <> 0
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	690	"         and zbbzje = v_je_differ
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	691	"         and sfsb = v_sfsb;
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	692	"      if v_count > 0 then
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	693	"        update mz_mzsfk1 set zbbzje = 0 where sfsb = v_sfsb;
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	694	"        if sqlcode = 0 then
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	695	"          commit;
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	696	"          out_code := 1;
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	697	"          out_msg  := '';
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	698	"          return;
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	699	"        else
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	700	"          rollback;
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	701	"          out_code := -1;
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	702	"          out_msg  := '更新失败,sqlcode<>0 [prc_xiangmu_ghsf]';
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	703	"          return;
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	704	"        end if;
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	705	"      
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	706	"      end if;
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	707	"    end if;
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	708	"    -- end zbje 重复 
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	709	"    -- 收费库2与明细金额不符
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	710	"    if 3 = 3 then
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	711	"      select sum(je)
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	712	"        into v_je1
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	713	"        from (select a.cflx fygb, sum(round(b.dj * sl, 2)) je
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	714	"                from mz_cfk1 a, mz_cfk2 b
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	715	"               where a.cfsb = b.cfsb
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	716	"                 and a.sfsb = v_sfsb
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	717	"               group by a.cflx
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	718	"              union all
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	719	"              select b.fygb, sum(round(b.dj * sl, 2))
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	720	"                from yj_Yjk1 a, yj_Yjk2 b
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	721	"               where a.yjsb = b.yjsb
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	722	"                 and a.sfsb = v_sfsb
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	723	"               group by b.fygb);
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	724	"    
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	725	"      select sum(nvl(fyhj, 0))
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	726	"        into v_je2
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	727	"        From mz_mzsfk2
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	728	"       where sfsb = v_sfsb;
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	729	"    
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	730	"      if v_je1 - v_je2 = v_je_differ then
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	731	"        null;
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	732	"        --
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	733	"        if 0 = 0 then
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	734	"          update mz_mzsfk2 s
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	735	"             set fyhj = (select sum(je)
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	736	"                           from (select a.cflx fygb,
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	737	"                                        sum(round(b.dj * sl, 2)) je
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	738	"                                   from mz_cfk1 a, mz_cfk2 b
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	739	"                                  where a.cfsb = b.cfsb
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	740	"                                    and a.sfsb = v_sfsb
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	741	"                                  group by a.cflx
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	742	"                                 union all
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	743	"                                 select b.fygb, sum(round(b.dj * sl, 2))
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	744	"                                   from yj_Yjk1 a, yj_Yjk2 b
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	745	"                                  where a.yjsb = b.yjsb
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	746	"                                    and a.sfsb = v_sfsb
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	747	"                                  group by b.fygb)
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	748	"                          where fygb = s.sfxm)
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	749	"           where sfsb = v_sfsb;
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	750	"          if sqlcode = 0 then
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	751	"            commit;
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	752	"          else
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	753	"            rollback;
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	754	"          end if;
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	755	"        end if;
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	756	"      
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	757	"        select brlb into v_brlb from mz_mzsfk1 where sfsb = v_sfsb;
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	758	"        if 0 = 0 and v_brlb = 1 then
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	759	"          update mz_mzsfk2 s
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	760	"             set zfje = (select sum(je)
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	761	"                           from (select a.cflx fygb,
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	762	"                                        sum(round(b.dj * sl, 2)) je
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	763	"                                   from mz_cfk1 a, mz_cfk2 b
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	764	"                                  where a.cfsb = b.cfsb
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	765	"                                    and a.sfsb = v_sfsb
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	766	"                                  group by a.cflx
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	767	"                                 union all
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	768	"                                 select b.fygb, sum(round(b.dj * sl, 2))
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	769	"                                   from yj_Yjk1 a, yj_Yjk2 b
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	770	"                                  where a.yjsb = b.yjsb
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	771	"                                    and a.sfsb = v_sfsb
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	772	"                                  group by b.fygb)
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	773	"                          where fygb = s.sfxm)
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	774	"           where sfsb = v_sfsb;
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	775	"          if sqlcode = 0 then
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	776	"            commit;
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	777	"          else
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	778	"            rollback;
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	779	"          end if;
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	780	"        end if;
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	781	"      
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	782	"        -- 
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	783	"      end if;
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	784	"    end if;
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	785	"    -- end 收费库2与明细金额不符
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	786	"  
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	787	"    -- qtsfje=yhje1
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	788	"    if 4 = 4 then
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	789	"      null;
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	790	"      select count(sfsb)
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	791	"        into v_count_temp
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	792	"        from mz_mzsfk1
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	793	"       where qtsfje = yhje1
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	794	"         and yhje1 < 0.1
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	795	"         and yhje1 > 0
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	796	"         and sfsb = v_sfsb;
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	797	"      if v_count_temp = 1 then
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	798	"        update mz_mzsfk1 set qtsfje = 0 where sfsb = v_sfsb;
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	799	"        if sqlcode = 0 then
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	800	"          commit;
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	801	"        else
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	802	"          rollback;
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	803	"        end if;
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	804	"      end if;
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	805	"    end if;
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	806	"  
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	807	"    -- end  qtsfje=yhje1 
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	808	"  
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	809	"    --  sfk1 - yhje=sfk2
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	810	"    if 5 = 5 then
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	811	"      null;
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	812	"    
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	813	"      select count(sfsb)
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	814	"        into v_count_temp
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	815	"        from mz_mzsfk1
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	816	"       where yhje1 = v_je_differ
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	817	"         and yhje1 < 0.1
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	818	"         and yhje1 > 0
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	819	"         and sfsb = v_sfsb;
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	820	"      if v_count_temp = 1 then
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	821	"        update mz_mzsfk1 set yhje1 = 0 where sfsb = v_sfsb;
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	822	"        if sqlcode = 0 then
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	823	"          commit;
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	824	"        else
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	825	"          rollback;
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	826	"        end if;
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	827	"      end if;
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	828	"    end if;
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	829	"  
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	830	"    -- end  sfk1 - yhje=sfk2
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	831	"    return;
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	832	"  end if;
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	833	"
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	834	"  if 1 = 1 and in_jiaoyilx = '报错提示' then
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	835	"    null;
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	836	"  
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	837	"    if instr(in_jylsh, '#ZZJ') > 0 then
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	838	"      --新自助机报错忽略
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	839	"      out_msg  := '';
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	840	"      out_code := 1;
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	841	"      return;
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	842	"    end if;
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	843	"    if instr(in_caozuogh, '172.18.23') > 0 and instr(in_jylsh, '#ZZJ') > 0 then
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	844	"      --新自助机报错忽略
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	845	"      out_msg  := '';
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	846	"      out_code := 1;
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	847	"      return;
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	848	"    end if;
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	849	"  
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	850	"    if instr(in_caozuogh, '192.168.25.176') > 0 and
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	851	"       instr(in_jylsh, '#ZZJ') > 0 then
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	852	"      --新自助机报错忽略
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	853	"      out_msg  := '';
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	854	"      out_code := 1;
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	855	"      return;
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	856	"    end if;
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	857	"  
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	858	"    if instr(in_caozuogh, '192.168.25.210') > 0 and
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	859	"       instr(in_jylsh, '#ZZJ') > 0 then
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	860	"      --新自助机报错忽略
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	861	"      out_msg  := '';
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	862	"      out_code := 1;
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	863	"      return;
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	864	"    end if;
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	865	"  
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	866	"    if instr(in_caozuogh, '192.168.1.27') > 0 and
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	867	"       instr(in_jylsh, '#ZZJ') > 0 then
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	868	"      --新自助机报错忽略
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	869	"      out_msg  := '';
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	870	"      out_code := 1;
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	871	"      return;
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	872	"    end if;
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	873	"  
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	874	"    if instr(in_jylsh, ',无卡,') > 0 then
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	875	"    
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	876	"      out_msg  := ' error ,无卡,[prc_xiangmu_ghsf]';
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	877	"      out_code := -1;
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	878	"      return;
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	879	"    end if;
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	880	"    if instr(in_jylsh, '医保卡号病人不能按自费结算') > 0 then
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	881	"    
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	882	"      out_msg  := ' error ,医保卡号病人不能按自费结算,请按医保卡未带结算,[prc_xiangmu_ghsf]';
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	883	"      out_code := -1;
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	884	"      return;
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	885	"    end if;
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	886	"  
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	887	"    if instr(in_jylsh, '人员无待遇') > 0 then
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	888	"    
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	889	"      out_msg  := ' error ,人员无待遇,[prc_xiangmu_ghsf]';
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	890	"      out_code := -1;
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	891	"      return;
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	892	"    end if;
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	893	"    if instr(in_jylsh, '账户信息不存在') > 0 then
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	894	"    
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	895	"      out_msg  := '账户信息不存在,[prc_xiangmu_ghsf]';
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	896	"      out_code := -1;
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	897	"      return;
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	898	"    end if;
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	899	"    if instr(in_jylsh, '获取日对账流水号失败') > 0 then
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	900	"    
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	901	"      out_msg  := ' 获取日对账流水号失败,[prc_xiangmu_ghsf]';
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	902	"      out_code := -1;
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	903	"      return;
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	904	"    end if;
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	905	"    if instr(in_jylsh, '读卡器连接错') > 0 then
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	906	"    
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	907	"      out_msg  := '读卡器连接错,[prc_xiangmu_ghsf]';
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	908	"      out_code := -1;
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	909	"      return;
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	910	"    end if;
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	911	"    if instr(in_jylsh, '卡片类型不对') > 0 then
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	912	"    
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	913	"      out_msg  := '卡片类型不对,[prc_xiangmu_ghsf]';
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	914	"      out_code := -1;
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	915	"      return;
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	916	"    end if;
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	917	"    if instr(in_jylsh, '人员已经住院,不允许门诊就医') > 0 then
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	918	"    
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	919	"      out_msg  := '人员已经住院,不允许门诊就医,[prc_xiangmu_ghsf]';
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	920	"      out_code := -1;
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	921	"      return;
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	922	"    end if;
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	923	"  
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	924	"    if instr(in_jylsh, '获取日对账流水号失败') > 0 then
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	925	"    
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	926	"      out_msg  := '获取日对账流水号失败,[prc_xiangmu_ghsf]';
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	927	"      out_code := -1;
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	928	"      return;
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	929	"    end if;
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	930	"  
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	931	"    if instr(in_jylsh, '应检尽检陪护人员 已经存在记录') > 0 then
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	932	"    
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	933	"      out_msg  := '应检尽检陪护人员 已经存在记录,[prc_xiangmu_ghsf]';
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	934	"      out_code := -1;
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	935	"      return;
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	936	"    end if;
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	937	"  
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	938	"    if instr(in_jylsh, '卡无应答') > 0 then
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	939	"    
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	940	"      out_msg  := '卡无应答,[prc_xiangmu_ghsf]';
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	941	"      out_code := -1;
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	942	"      return;
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	943	"    end if;
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	944	"  
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	945	"    if instr(in_jylsh, '欠费冻结') > 0 then
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	946	"    
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	947	"      out_msg  := '欠费冻结,[prc_xiangmu_ghsf]';
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	948	"      out_code := -1;
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	949	"      return;
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	950	"    end if;
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	951	"  
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	952	"    if instr(in_jylsh, '通讯失败') > 0 then
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	953	"    
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	954	"      out_msg  := '通讯失败,[prc_xiangmu_ghsf]';
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	955	"      out_code := -1;
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	956	"      return;
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	957	"    end if;
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	958	"  
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	959	"    if instr(in_jylsh, '诊断肺结核需要单独结算') > 0 then
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	960	"    
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	961	"      out_msg  := '诊断肺结核需要单独结算,[prc_xiangmu_ghsf]';
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	962	"      out_code := -1;
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	963	"      return;
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	964	"    end if;
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	965	"  
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	966	"    if instr(in_jylsh, '转换列溢出整数数据类型') > 0 then
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	967	"    
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	968	"      out_msg  := '转换列溢出整数数据类型,[prc_xiangmu_ghsf]';
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	969	"      out_code := -1;
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	970	"      return;
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	971	"    end if;
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	972	"  
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	973	"    if instr(in_jylsh, '卡信息不存在') > 0 then
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	974	"    
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	975	"      out_msg  := '卡信息不存在,[prc_xiangmu_ghsf]';
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	976	"      out_code := -1;
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	977	"      return;
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	978	"    end if;
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	979	"  
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	980	"    if instr(in_jylsh, '用户卡不合法') > 0 then
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	981	"    
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	982	"      out_msg  := '用户卡不合法,[prc_xiangmu_ghsf]';
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	983	"      out_code := -1;
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	984	"      return;
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	985	"    end if;
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	986	"    if instr(in_jylsh, '发生未知错误，请稍后再试') > 0 then
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	987	"    
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	988	"      out_msg  := '发生未知错误，请稍后再试,[prc_xiangmu_ghsf]';
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	989	"      out_code := -1;
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	990	"      return;
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	991	"    end if;
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	992	"  
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	993	"    /* out_code := -1;
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	994	"    out_msg  := ' error [prc_xiangmu_ghsf]';
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	995	"    return;*/
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	996	"  
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	997	"    if 0 = 0 then
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	998	"      null;
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	999	"      /*select  jylsh From zy_jiaoyi_v1 where jiaoyilx like  '%报错提示%' and jyrq>sysdate  - 3.3 
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	1000	"      and instr(jylsh,'药品未做皮试')=0 
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	1001	"       and instr(jylsh,',无卡,')=0 
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	1002	"        and instr(jylsh,'明细记录不能为空')=0 
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	1003	"         and instr(jylsh,'人员无待遇')=0 
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	1004	"         
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	1005	"           and instr(jylsh,'账户信息不存在')=0 
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	1006	"        and instr(jylsh,'获取日对账流水号失败')=0 
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	1007	"         and instr(jylsh,'欠费冻结')=0 
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	1008	"         
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	1009	"             and instr(jylsh,'读卡器连接错,错误码:9999')=0 
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	1010	"        and instr(jylsh,'卡片类型不对,错误码:9999')=0 
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	1011	"         and instr(jylsh,'ORA-01455: 转换列溢出整数数据类型')=0 
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	1012	"         
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	1013	"              and instr(jylsh,'发生未知错误，请稍后再试!$$SOAP 1.1 fault SOAP-ENV:Client')=0 
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	1014	"        and instr(jylsh,'|支付失败')=0 
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	1015	"         and instr(jylsh,'人员已经住院,不允许门诊就医')=0 
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	1016	"         
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	1017	"         
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	1018	"                  and instr(jylsh,'|通讯失败')=0 
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	1019	"        and instr(jylsh,'信息校验和出错,错误码:9999')=0 
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	1020	"         and instr(jylsh,'JiaXingSYB2.RENYUANXX.SIIM:调用医保接口失败！错误信息:-1~【省移动支付平台】8201号交易发生异常')=0  
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	1021	"        
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	1022	"                     and instr(jylsh,'诊断肺结核需要单独结算!')=0 
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	1023	"        and instr(jylsh,'人员无参保信息!,错误码:SEV1')=0 
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	1024	"         and instr(jylsh,',获取医保人员信息失败:TA2不符合规')=0  
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	1025	"          
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	1026	"         
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	1027	"                         and instr(jylsh,'该药品无库存')=0 
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	1028	"                         and instr(jylsh,'库存不足')=0 
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	1029	"                         
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	1030	"        and instr(jylsh,'卡信息不存在147！,错误码:SEV1')=0 
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	1031	"         and instr(jylsh,'医师代码(不能为空),错误码:FMT1')=0  
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	1032	"         
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	1033	"                             and instr(jylsh,'取消结算操作')=0 
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	1034	"        and instr(jylsh,'内部认证失败（用户卡不合法）,错误码:9999')=0 
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	1035	"         and instr(jylsh,'医师代码(不能为空),错误码:FMT1')=0  
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	1036	"                               and instr(jylsh,'医保交易失败,执行失败,错误码:9999')=0 
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	1037	"        and instr(jylsh,'应检尽检陪护人员 已经存在记录')=0 
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	1038	"         and instr(jylsh,'卡无应答,错误码:9999')=0
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	1039	"         
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	1040	"         and instr(jylsh,'预结算成功!|')=0    
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	1041	"          */
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	1042	"      -- select khbz From gy_brjbxxk where jzkh='C09BBABF4'
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	1043	"      --6有皮试药品未做皮试或皮试呈阳性
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	1044	"      -- A33538408##99###2#####0|0##A0763##*********#-1|用户姓名:周晓玲|医保交易失败，原因为:医保交易失败,无卡,错误码:9999
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	1045	"      --C09AAFB68#####1#####0|0##A0413###-1|用户姓名:周明湖|明细记录不能为空
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	1046	"      --C09C30597#GH####1##05480259####330780620009#0923#ZX054#*********#-1|用户姓名:冯小斌|医保交易失败，原因为:医保交易失败,人员无待遇!,错误码:SEV1
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	1047	"      --C09BBABF4#GH#4###2##05480273####330780620009#1118#ZX074#*********#-1|用户姓名:冯雨萍|您的账户状态不正常,账户信息不存在
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	1048	"      --W39725747#####1##05480484###0|0#330780620009#0999#ZX056#*********#-1|用户姓名:方炳法|医保交易失败，原因为:
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	1049	"      --医保交易失败,获取日对账流水号失败,【浙江省平台】：就医地传入的报文:接口规范错误，接口要求结构体对帐信息不能为空
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	1050	"      --C0A33D916#GH####1##05480512####330780620009#0999#ZX056#*********#-1|用户姓名:陈忠德|医保交易失败，原因为:
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	1051	"      --医保交易失败,欠费冻结:20200201开始,错误码:SEV1
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	1052	"    
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	1053	"      --C09EBEAA0#GH#6###2##05480515####330780620009#4096#ZX096#*********#-1|用户姓名:袁凤华|医保交易失败，原因为:
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	1054	"      --医保交易失败,读卡器连接错,错误码:9999
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	1055	"    
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	1056	"      --C0A36B650#GH#6###2##05480595####330780620009#3368#ZX036#*********#-1|用户姓名:董桥|医保交易失败，原因为:
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	1057	"      --医保交易失败,卡片类型不对,错误码:9999
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	1058	"    
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	1059	"      --C0A665200#####1#####1|0##A0577###-1|用户姓名:马惠良|取得处方库2数据出错，错误提示：
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	1060	"      --ORA-01455: 转换列溢出整数数据类型
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	1061	"    
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	1062	"      --A20161867#####1#####0|0##A0407###-1|用户姓名:李竹琴|医保交易失败，原因为:
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	1063	"      --医保交易失败,发生未知错误，请稍后再试!$$SOAP 1.1 fault SOAP-ENV:Client [no subcode]
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	1064	"      --""End of file or no input: Ч""Detail: [no detail]$$
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	1065	"    
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	1066	"      --C09E4E9A6#####1#####1#####-1|用户姓名:卢秋芳|支付失败
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	1067	"    
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	1068	"      --C0A8DC6D1#####1#####0|0##A1307###-1|用户姓名:钱小银|医保交易失败，原因为:
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	1069	"      --医保交易失败,人员已经住院,不允许门诊就医!,错误码:SEV1
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	1070	"    
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	1071	"      --C22834519##6#6222031208005010125#B39D54049BB753176E13B369B27A01BDBCEB6DA4047BC75C3BCEC3B1063D69E24F6CB6E9CE3A3B979E15A477FD34223D#2##05481101###0|0#330780620009#3371#ZX039#2*001*102*9F26086BBADD07FF2A1EAE9F2701809F101307010103A02000010A01000000000060D5790F9F3704F0420AAE9F3602000D950500000060009A032008219C01009F02060000000000005F2A02015682027C009F1A0201569F03060000000000009F3303200000*00000500030000000000000002*051**00**#-1|用户姓名:吴炜斌|通讯失败!
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	1072	"    
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	1073	"      --C0A0EC670##99###2#####0|0##A0776##*********#-1|用户姓名:王杭俊|医保交易失败，原因为:
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	1074	"      --医保交易失败,信息校验和出错,错误码:9999
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	1075	"    
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	1076	"      --9110300001793031369636#DZSBK#16#9110300001793031369636##1|READCARD#####0|0##YWCH015###-1|用户姓名:|医保交易失败，原因为:
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	1077	"      --医保交易失败,JiaXingSYB2.RENYUANXX.SIIM:调用医保接口失败！错误信息:-1~【省移动支付平台】8201号交易发生异常:message=找不到渠道号为9110300001的渠道信息！
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	1078	"    
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	1079	"      --H2042222X#####1#####0|0##A0761###-1|用户姓名:陈春炉|医保交易失败，原因为:
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	1080	"      --医保交易失败,诊断肺结核需要单独结算!,错误码:SEV1
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	1081	"    
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	1082	"      --C0A0905B7#GH####1##05478368####330780620009#0962#ZX055#*********#-1|用户姓名:楼诗璇|医保交易失败，原因为:
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	1083	"      --医保交易失败,人员无参保信息!,错误码:SEV1
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	1084	"    
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	1085	"      --330782015000048847#GH####1##05477002####330780620009#0919#ZX062#*********#-1|用户姓名:荣本芳|医保交易失败，原因为:
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	1086	"      --医保交易失败,获取医保人员信息失败:TA2不符合规
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	1087	"    
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	1088	"      --C0A3DAFA4#####1#####0|0##2041###-1|用户姓名:楼彦明|维A酸乳膏【基】，该药品无库存！
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	1089	"    
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	1090	"      --C0021EE10#GH####1##05477332####330780620009#0999#ZX056#*********#-1|用户姓名:楼翠芳|医保交易失败，原因为:
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	1091	"      --医保交易失败,卡信息不存在147！,错误码:SEV1
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	1092	"    
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	1093	"      --C21540498#####1#####0|0##1723###-1|用户姓名:许庆添|医保交易失败，原因为:
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	1094	"      --医保交易失败,医师代码(不能为空),错误码:FMT1
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	1095	"    
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	1096	"      --C0A0EFA66#####1#####0#####-1|用户姓名:金勋甫|取消结算操作
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	1097	"    
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	1098	"      --C09DB4FA4##99###2#####0|0##A0761##*********#-1|用户姓名:朱玉淋|医保交易失败，原因为:
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	1099	"      --医保交易失败,内部认证失败（用户卡不合法）,错误码:9999
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	1100	"    
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	1101	"      --C09A9C363##99###2#####0|0##A0826##*********#-1|用户姓名:陈新|医保交易失败，原因为:
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	1102	"      --医保交易失败,执行失败,错误码:9999
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	1103	"    
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	1104	"      --330782003000542787#应检尽检陪护人员#99#900433#0#1#1#自费###0|0##2033###-1| 应检尽检陪护人员 已经存在记录,zy_patient_information
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	1105	"    
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	1106	"      --C0A8F1D00#GH#6###2##05478077####330780620009#4093#ZX099#*********#-1|用户姓名:李顺花|医保交易失败，原因为:
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	1107	"      --医保交易失败,卡无应答,错误码:9999
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	1108	"    end if;
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	1109	"  
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	1110	"    return;
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	1111	"  
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	1112	"  end if;
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	1113	"  return;
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	1114	"
+"
+PRC_XIANGMU_GHSF_CS	PROCEDURE	1115	"end;
+"

@@ -1,0 +1,34 @@
+LONG_TO_CHAR_NOROWID	FUNCTION	1	"FUNCTION LONG_TO_CHAR_norowid( in_owner
+"
+LONG_TO_CHAR_NOROWID	FUNCTION	2	"varchar,in_table_name varchar,in_column varchar2)
+"
+LONG_TO_CHAR_NOROWID	FUNCTION	3	"RETURN varchar AS
+"
+LONG_TO_CHAR_NOROWID	FUNCTION	4	"text_c1 varchar2(32767);
+"
+LONG_TO_CHAR_NOROWID	FUNCTION	5	"sql_cur varchar2(2000);
+"
+LONG_TO_CHAR_NOROWID	FUNCTION	6	"--set serveroutput on size 10000000000;
+"
+LONG_TO_CHAR_NOROWID	FUNCTION	7	"--
+"
+LONG_TO_CHAR_NOROWID	FUNCTION	8	"begin
+"
+LONG_TO_CHAR_NOROWID	FUNCTION	9	"DBMS_OUTPUT.ENABLE (buffer_size=>null);
+"
+LONG_TO_CHAR_NOROWID	FUNCTION	10	"sql_cur := 'select '||in_column||' from
+"
+LONG_TO_CHAR_NOROWID	FUNCTION	11	"'||in_owner||'.'||in_table_name;
+"
+LONG_TO_CHAR_NOROWID	FUNCTION	12	"dbms_output.put_line (sql_cur);
+"
+LONG_TO_CHAR_NOROWID	FUNCTION	13	"execute immediate sql_cur into text_c1;
+"
+LONG_TO_CHAR_NOROWID	FUNCTION	14	"
+"
+LONG_TO_CHAR_NOROWID	FUNCTION	15	"text_c1 := substr(text_c1, 1, 4000);
+"
+LONG_TO_CHAR_NOROWID	FUNCTION	16	"RETURN TEXT_C1;
+"
+LONG_TO_CHAR_NOROWID	FUNCTION	17	"END;
+"

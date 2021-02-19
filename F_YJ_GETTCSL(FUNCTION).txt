@@ -1,0 +1,37 @@
+F_YJ_GETTCSL	FUNCTION	1	"FUNCTION         ""F_YJ_GETTCSL"" 
+"
+F_YJ_GETTCSL	FUNCTION	2	"(arg_tcxh in number)
+"
+F_YJ_GETTCSL	FUNCTION	3	"  return number
+"
+F_YJ_GETTCSL	FUNCTION	4	"  is
+"
+F_YJ_GETTCSL	FUNCTION	5	"    ls_return number(6);
+"
+F_YJ_GETTCSL	FUNCTION	6	"    ls_count number(6);
+"
+F_YJ_GETTCSL	FUNCTION	7	"  begin
+"
+F_YJ_GETTCSL	FUNCTION	8	"      select count(*) into  ls_count from  gy_ylsftc where glxh=arg_tcxh;
+"
+F_YJ_GETTCSL	FUNCTION	9	"     
+"
+F_YJ_GETTCSL	FUNCTION	10	"     If  ls_count=0 then 
+"
+F_YJ_GETTCSL	FUNCTION	11	"          ls_return:=1;
+"
+F_YJ_GETTCSL	FUNCTION	12	"	    Else
+"
+F_YJ_GETTCSL	FUNCTION	13	"        select sum(sl)  into ls_return from gy_ylsftc where glxh=arg_tcxh;
+"
+F_YJ_GETTCSL	FUNCTION	14	"      End IF; 
+"
+F_YJ_GETTCSL	FUNCTION	15	"      
+"
+F_YJ_GETTCSL	FUNCTION	16	"	  return(ls_return);
+"
+F_YJ_GETTCSL	FUNCTION	17	"  end;
+"
+F_YJ_GETTCSL	FUNCTION	18	"
+"
+F_YJ_GETTCSL	FUNCTION	19	 

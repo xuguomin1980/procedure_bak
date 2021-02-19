@@ -1,0 +1,58 @@
+F_ERR_YIBAOSANCAN	FUNCTION	1	"FUNCTION ""F_ERR_YIBAOSANCAN""(arg_ERR in varchar2)
+"
+F_ERR_YIBAOSANCAN	FUNCTION	2	"  return varchar2 is
+"
+F_ERR_YIBAOSANCAN	FUNCTION	3	"  ls_return varchar2(160);
+"
+F_ERR_YIBAOSANCAN	FUNCTION	4	"  ll_pos    number;
+"
+F_ERR_YIBAOSANCAN	FUNCTION	5	"begin
+"
+F_ERR_YIBAOSANCAN	FUNCTION	6	"  select instr(arg_ERR, '重复上传') into ll_pos from dual;
+"
+F_ERR_YIBAOSANCAN	FUNCTION	7	"
+"
+F_ERR_YIBAOSANCAN	FUNCTION	8	"  if ll_pos > 0 then
+"
+F_ERR_YIBAOSANCAN	FUNCTION	9	"    return '1';
+"
+F_ERR_YIBAOSANCAN	FUNCTION	10	"  end if;
+"
+F_ERR_YIBAOSANCAN	FUNCTION	11	"
+"
+F_ERR_YIBAOSANCAN	FUNCTION	12	"  select instr(arg_ERR, '总条数不一致') into ll_pos from dual;
+"
+F_ERR_YIBAOSANCAN	FUNCTION	13	"
+"
+F_ERR_YIBAOSANCAN	FUNCTION	14	"  if ll_pos > 0 then
+"
+F_ERR_YIBAOSANCAN	FUNCTION	15	"    return '1';
+"
+F_ERR_YIBAOSANCAN	FUNCTION	16	"  end if;
+"
+F_ERR_YIBAOSANCAN	FUNCTION	17	"
+"
+F_ERR_YIBAOSANCAN	FUNCTION	18	"  select instr(arg_ERR, '明细账单号') into ll_pos from dual;
+"
+F_ERR_YIBAOSANCAN	FUNCTION	19	"
+"
+F_ERR_YIBAOSANCAN	FUNCTION	20	"  if ll_pos > 0 then
+"
+F_ERR_YIBAOSANCAN	FUNCTION	21	"  
+"
+F_ERR_YIBAOSANCAN	FUNCTION	22	"    select instr(arg_ERR, '不存在') into ll_pos from dual;
+"
+F_ERR_YIBAOSANCAN	FUNCTION	23	"    if ll_pos > 0 then
+"
+F_ERR_YIBAOSANCAN	FUNCTION	24	"      return '1';
+"
+F_ERR_YIBAOSANCAN	FUNCTION	25	"    end if;
+"
+F_ERR_YIBAOSANCAN	FUNCTION	26	"  end if;
+"
+F_ERR_YIBAOSANCAN	FUNCTION	27	"
+"
+F_ERR_YIBAOSANCAN	FUNCTION	28	"  return '0';
+"
+F_ERR_YIBAOSANCAN	FUNCTION	29	"end;
+"

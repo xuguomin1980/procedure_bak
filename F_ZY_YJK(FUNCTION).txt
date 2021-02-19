@@ -1,0 +1,29 @@
+F_ZY_YJK	FUNCTION	1	"FUNCTION         ""F_ZY_YJK"" 
+"
+F_ZY_YJK	FUNCTION	2	"(arg_patient_no number,arg_js_no in number)
+"
+F_ZY_YJK	FUNCTION	3	"  return number
+"
+F_ZY_YJK	FUNCTION	4	"  is
+"
+F_ZY_YJK	FUNCTION	5	" ln_return number;
+"
+F_ZY_YJK	FUNCTION	6	"begin
+"
+F_ZY_YJK	FUNCTION	7	"  Select sum(nvl(amount,0))
+"
+F_ZY_YJK	FUNCTION	8	"    Into ln_return
+"
+F_ZY_YJK	FUNCTION	9	"    From Zy_deposit_file 
+"
+F_ZY_YJK	FUNCTION	10	"   Where patient_no=arg_patient_no
+"
+F_ZY_YJK	FUNCTION	11	"     and js_no     =arg_js_no;
+"
+F_ZY_YJK	FUNCTION	12	"  return(ln_return);
+"
+F_ZY_YJK	FUNCTION	13	"end;
+"
+F_ZY_YJK	FUNCTION	14	"
+"
+F_ZY_YJK	FUNCTION	15	 

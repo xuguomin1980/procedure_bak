@@ -1,0 +1,66 @@
+F_GET_XH_DJKF	FUNCTION	1	"function ""F_GET_XH_DJKF""(in_xtxh in number, tabName in VARCHAR2 ) return
+"
+F_GET_XH_DJKF	FUNCTION	2	"
+"
+F_GET_XH_DJKF	FUNCTION	3	"number
+"
+F_GET_XH_DJKF	FUNCTION	4	"  as
+"
+F_GET_XH_DJKF	FUNCTION	5	"   v_dqz   NUMBER := NULL;
+"
+F_GET_XH_DJKF	FUNCTION	6	"begin
+"
+F_GET_XH_DJKF	FUNCTION	7	"  begin
+"
+F_GET_XH_DJKF	FUNCTION	8	"    if(in_xtxh is null) then
+"
+F_GET_XH_DJKF	FUNCTION	9	"      SELECT nvl(dqz,0) INTO v_dqz  FROM ylsb_djkf.wz_xh WHERE bm = tabName and xtxh='92' FOR UPDATE;
+"
+F_GET_XH_DJKF	FUNCTION	10	"
+"
+F_GET_XH_DJKF	FUNCTION	11	"    else
+"
+F_GET_XH_DJKF	FUNCTION	12	"      SELECT nvl(dqz,0) INTO v_dqz  FROM ylsb_djkf.wz_xh WHERE bm = tabName and xtxh=in_xtxh FOR UPDATE;
+"
+F_GET_XH_DJKF	FUNCTION	13	"    end if;
+"
+F_GET_XH_DJKF	FUNCTION	14	"
+"
+F_GET_XH_DJKF	FUNCTION	15	"    Exception
+"
+F_GET_XH_DJKF	FUNCTION	16	"    When Others Then
+"
+F_GET_XH_DJKF	FUNCTION	17	"         v_dqz := null;
+"
+F_GET_XH_DJKF	FUNCTION	18	"  end;
+"
+F_GET_XH_DJKF	FUNCTION	19	"
+"
+F_GET_XH_DJKF	FUNCTION	20	"  IF v_dqz IS NOT NULL THEN
+"
+F_GET_XH_DJKF	FUNCTION	21	"     v_dqz := v_dqz + 1;
+"
+F_GET_XH_DJKF	FUNCTION	22	"
+"
+F_GET_XH_DJKF	FUNCTION	23	"     UPDATE ylsb_djkf.wz_xh SET dqz = v_dqz WHERE bm = tabName  and xtxh=in_xtxh;
+"
+F_GET_XH_DJKF	FUNCTION	24	"  ELSE
+"
+F_GET_XH_DJKF	FUNCTION	25	"     v_dqz := 1;
+"
+F_GET_XH_DJKF	FUNCTION	26	"     insert into ylsb_djkf.wz_xh(xtxh,bm,dqz,dqz_date) values(in_xtxh,tabName,v_dqz,sysdate);
+"
+F_GET_XH_DJKF	FUNCTION	27	"
+"
+F_GET_XH_DJKF	FUNCTION	28	"  END IF;
+"
+F_GET_XH_DJKF	FUNCTION	29	"  COMMIT;
+"
+F_GET_XH_DJKF	FUNCTION	30	"
+"
+F_GET_XH_DJKF	FUNCTION	31	"  Return v_dqz;
+"
+F_GET_XH_DJKF	FUNCTION	32	"
+"
+F_GET_XH_DJKF	FUNCTION	33	"end f_get_xh_djkf;
+"

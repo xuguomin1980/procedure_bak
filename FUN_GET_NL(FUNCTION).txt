@@ -1,0 +1,320 @@
+FUN_GET_NL	FUNCTION	1	"FUNCTION ""FUN_GET_NL"" (ad_csrq IN date,ad_dqrq IN date,as_xz IN VARCHAR2) RETURN VARCHAR2 IS
+"
+FUN_GET_NL	FUNCTION	2	"   RESULT VARCHAR2(50);
+"
+FUN_GET_NL	FUNCTION	3	"   n_months  number;
+"
+FUN_GET_NL	FUNCTION	4	"   n_days    number;
+"
+FUN_GET_NL	FUNCTION	5	"   d_dqrq    date;
+"
+FUN_GET_NL	FUNCTION	6	"   s_xz      VARCHAR2(20);
+"
+FUN_GET_NL	FUNCTION	7	"   s_nl      VARCHAR2(50);
+"
+FUN_GET_NL	FUNCTION	8	"BEGIN
+"
+FUN_GET_NL	FUNCTION	9	"     IF ad_csrq is null  OR ad_csrq <= TO_DATE('1900-1-1','YYYY-MM-DD') THEN
+"
+FUN_GET_NL	FUNCTION	10	"         RESULT := '';
+"
+FUN_GET_NL	FUNCTION	11	"         RETURN(RESULT);
+"
+FUN_GET_NL	FUNCTION	12	"     END IF;
+"
+FUN_GET_NL	FUNCTION	13	"     IF ad_dqrq is null  OR ad_dqrq <= TO_DATE('1900-1-1','YYYY-MM-DD') THEN
+"
+FUN_GET_NL	FUNCTION	14	"        d_dqrq := SYSDATE;
+"
+FUN_GET_NL	FUNCTION	15	"     ELSE
+"
+FUN_GET_NL	FUNCTION	16	"        d_dqrq := ad_dqrq;
+"
+FUN_GET_NL	FUNCTION	17	"     END IF;
+"
+FUN_GET_NL	FUNCTION	18	"     IF nvl(as_xz,'*')='*'  or as_xz = '' THEN
+"
+FUN_GET_NL	FUNCTION	19	"        s_xz := 'BANLSF';
+"
+FUN_GET_NL	FUNCTION	20	"     ELSE
+"
+FUN_GET_NL	FUNCTION	21	"        s_xz := as_xz;
+"
+FUN_GET_NL	FUNCTION	22	"     END IF;
+"
+FUN_GET_NL	FUNCTION	23	"     --计算日数
+"
+FUN_GET_NL	FUNCTION	24	"     select d_dqrq - ad_csrq  into n_days from dual;
+"
+FUN_GET_NL	FUNCTION	25	"     IF n_days < 1 THEN
+"
+FUN_GET_NL	FUNCTION	26	"         n_days := 1;
+"
+FUN_GET_NL	FUNCTION	27	"     END IF;
+"
+FUN_GET_NL	FUNCTION	28	"     If n_days - trunc(n_days) > 0 then
+"
+FUN_GET_NL	FUNCTION	29	"        n_days := n_days + 1;
+"
+FUN_GET_NL	FUNCTION	30	"     end if;
+"
+FUN_GET_NL	FUNCTION	31	"     --联众病案系统年龄算法
+"
+FUN_GET_NL	FUNCTION	32	"     IF s_xz = 'BANLSF' THEN
+"
+FUN_GET_NL	FUNCTION	33	"        select to_number(to_char(d_dqrq,'YYYY'))*12 + to_number(to_char(d_dqrq,'MM')) -
+"
+FUN_GET_NL	FUNCTION	34	"                (to_number(to_char(ad_csrq,'YYYY'))*12 + to_number(to_char(ad_csrq,'MM')))
+"
+FUN_GET_NL	FUNCTION	35	"          into n_months
+"
+FUN_GET_NL	FUNCTION	36	"          from dual;
+"
+FUN_GET_NL	FUNCTION	37	"        IF n_months > 12 THEN
+"
+FUN_GET_NL	FUNCTION	38	"           s_nl := to_char(trunc(n_months/12))||'岁';
+"
+FUN_GET_NL	FUNCTION	39	"        ELSIF n_months > 1 THEN
+"
+FUN_GET_NL	FUNCTION	40	"           IF n_days < 32 THEN
+"
+FUN_GET_NL	FUNCTION	41	"              s_nl := to_char(trunc(n_days))||'天';
+"
+FUN_GET_NL	FUNCTION	42	"           ELSE
+"
+FUN_GET_NL	FUNCTION	43	"              s_nl := to_char(trunc(n_months))||'月';
+"
+FUN_GET_NL	FUNCTION	44	"           END IF;
+"
+FUN_GET_NL	FUNCTION	45	"        ELSE
+"
+FUN_GET_NL	FUNCTION	46	"           s_nl := to_char(trunc(n_days))||'天';
+"
+FUN_GET_NL	FUNCTION	47	"        END IF;
+"
+FUN_GET_NL	FUNCTION	48	"     ELSIF s_xz = 'XS' THEN
+"
+FUN_GET_NL	FUNCTION	49	"          If n_days < 100 Then
+"
+FUN_GET_NL	FUNCTION	50	"              s_nl := to_char(trunc(n_days))||'天';
+"
+FUN_GET_NL	FUNCTION	51	"          ElsIf n_days < 735 Then
+"
+FUN_GET_NL	FUNCTION	52	"              s_nl := to_char(trunc(n_days/30.5,0))||'月';
+"
+FUN_GET_NL	FUNCTION	53	"          Else
+"
+FUN_GET_NL	FUNCTION	54	"              If to_char(ad_csrq,'hhmm') >= to_char(ad_dqrq,'hhmm') Then
+"
+FUN_GET_NL	FUNCTION	55	"                  s_nl := to_char(trunc(n_days/365.25 + 1) + 1)||'岁';
+"
+FUN_GET_NL	FUNCTION	56	"              Else
+"
+FUN_GET_NL	FUNCTION	57	"                  s_nl := to_char(trunc(n_days/365.25 + 1))||'岁';
+"
+FUN_GET_NL	FUNCTION	58	"              End If;
+"
+FUN_GET_NL	FUNCTION	59	"          End If;
+"
+FUN_GET_NL	FUNCTION	60	"     ELSIF s_xz = 'ZS'  THEN
+"
+FUN_GET_NL	FUNCTION	61	"         If  n_days < 100  Then
+"
+FUN_GET_NL	FUNCTION	62	"             s_nl := to_char(trunc(n_days))||'天';
+"
+FUN_GET_NL	FUNCTION	63	"         ElsIf n_days < 735 Then
+"
+FUN_GET_NL	FUNCTION	64	"             n_months := trunc(n_days/30.5) ;
+"
+FUN_GET_NL	FUNCTION	65	"             n_days   := round((n_days - n_months*30.5 ),0);
+"
+FUN_GET_NL	FUNCTION	66	"             If n_days > 0 Then
+"
+FUN_GET_NL	FUNCTION	67	"                s_nl := to_char(n_months)||'月'||to_char(n_days)||'天';
+"
+FUN_GET_NL	FUNCTION	68	"             Else
+"
+FUN_GET_NL	FUNCTION	69	"                s_nl := to_char(n_months)||'月';
+"
+FUN_GET_NL	FUNCTION	70	"             End If;
+"
+FUN_GET_NL	FUNCTION	71	"         Else
+"
+FUN_GET_NL	FUNCTION	72	"             select round(months_between(d_dqrq,ad_csrq)) into n_months from dual;
+"
+FUN_GET_NL	FUNCTION	73	"             If mod(n_months,12) = 0 Then
+"
+FUN_GET_NL	FUNCTION	74	"                s_nl := to_char(trunc(n_months/12))||'岁';
+"
+FUN_GET_NL	FUNCTION	75	"             Else
+"
+FUN_GET_NL	FUNCTION	76	"                IF trunc(n_months/12) < 14 THEN
+"
+FUN_GET_NL	FUNCTION	77	"                   s_nl := to_char(trunc(n_months/12))||'岁'||to_char(n_months - trunc(n_months/12)*12)||'月';
+"
+FUN_GET_NL	FUNCTION	78	"                ELSE
+"
+FUN_GET_NL	FUNCTION	79	"                   s_nl := to_char(trunc(n_months/12))||'岁';
+"
+FUN_GET_NL	FUNCTION	80	"                END IF;
+"
+FUN_GET_NL	FUNCTION	81	"             End If;
+"
+FUN_GET_NL	FUNCTION	82	"         End If;
+"
+FUN_GET_NL	FUNCTION	83	"    ELSIF s_xz = 'ZS2'  THEN
+"
+FUN_GET_NL	FUNCTION	84	"         n_months := trunc(n_days/30.5) ;
+"
+FUN_GET_NL	FUNCTION	85	"         If  n_months < 1  Then
+"
+FUN_GET_NL	FUNCTION	86	"             s_nl := to_char(trunc(n_days))||'天';
+"
+FUN_GET_NL	FUNCTION	87	"         ElsIf n_months  < 12 Then
+"
+FUN_GET_NL	FUNCTION	88	"             n_days  := round((n_days - n_months*30.5 ),0);
+"
+FUN_GET_NL	FUNCTION	89	"             If n_days > 0 Then
+"
+FUN_GET_NL	FUNCTION	90	"                s_nl := to_char(n_months)||'月'||to_char(n_days)||'天';
+"
+FUN_GET_NL	FUNCTION	91	"             Else
+"
+FUN_GET_NL	FUNCTION	92	"                s_nl := to_char(n_months)||'月';
+"
+FUN_GET_NL	FUNCTION	93	"             End If;
+"
+FUN_GET_NL	FUNCTION	94	"         Else
+"
+FUN_GET_NL	FUNCTION	95	"             If mod(n_months,12) = 0 Then
+"
+FUN_GET_NL	FUNCTION	96	"                s_nl := to_char(trunc(n_months/12))||'岁';
+"
+FUN_GET_NL	FUNCTION	97	"             Else
+"
+FUN_GET_NL	FUNCTION	98	"                IF trunc(n_months/12) < 14 THEN
+"
+FUN_GET_NL	FUNCTION	99	"                   s_nl := to_char(trunc(n_months/12))||'岁'||to_char(n_months - trunc(n_months/12)*12)||'月';
+"
+FUN_GET_NL	FUNCTION	100	"                ELSE
+"
+FUN_GET_NL	FUNCTION	101	"                   s_nl := to_char(trunc(n_months/12))||'岁';
+"
+FUN_GET_NL	FUNCTION	102	"                END IF;
+"
+FUN_GET_NL	FUNCTION	103	"             End If;
+"
+FUN_GET_NL	FUNCTION	104	"         End If;
+"
+FUN_GET_NL	FUNCTION	105	"     ELSIF  s_xz = 'XSE' THEN
+"
+FUN_GET_NL	FUNCTION	106	"         If  n_days < 100  Then
+"
+FUN_GET_NL	FUNCTION	107	"             s_nl := to_char(trunc(n_days))||'天';
+"
+FUN_GET_NL	FUNCTION	108	"         ElsIf n_days < 735 Then
+"
+FUN_GET_NL	FUNCTION	109	"             n_months := trunc(n_days/30.5) ;
+"
+FUN_GET_NL	FUNCTION	110	"             n_days   := round((n_days - n_months*30.5 ),0);
+"
+FUN_GET_NL	FUNCTION	111	"             If n_days > 0 Then
+"
+FUN_GET_NL	FUNCTION	112	"                s_nl := to_char(n_months)||'月'||to_char(n_days)||'天';
+"
+FUN_GET_NL	FUNCTION	113	"             Else
+"
+FUN_GET_NL	FUNCTION	114	"                s_nl := to_char(n_months)||'月';
+"
+FUN_GET_NL	FUNCTION	115	"             End If;
+"
+FUN_GET_NL	FUNCTION	116	"         Else
+"
+FUN_GET_NL	FUNCTION	117	"             select round(months_between(d_dqrq,ad_csrq)) into n_months from dual;
+"
+FUN_GET_NL	FUNCTION	118	"             If mod(n_months,12) = 0 Then
+"
+FUN_GET_NL	FUNCTION	119	"                s_nl := to_char(trunc(n_months/12))||'岁';
+"
+FUN_GET_NL	FUNCTION	120	"             Else
+"
+FUN_GET_NL	FUNCTION	121	"                s_nl := to_char(trunc(n_months/12))||'岁'||to_char(n_months - trunc(n_months/12)*12)||'月';
+"
+FUN_GET_NL	FUNCTION	122	"             End If;
+"
+FUN_GET_NL	FUNCTION	123	"
+"
+FUN_GET_NL	FUNCTION	124	"         End If;
+"
+FUN_GET_NL	FUNCTION	125	"     ELSIF s_xz = 'ZS3' THEN
+"
+FUN_GET_NL	FUNCTION	126	"         IF to_char(d_dqrq,'yyyy') > to_char(ad_csrq,'yyyy') THEN
+"
+FUN_GET_NL	FUNCTION	127	"             s_nl :=  (to_char(d_dqrq,'yyyy') - to_char(ad_csrq,'yyyy'))||'岁';
+"
+FUN_GET_NL	FUNCTION	128	"         ELSE
+"
+FUN_GET_NL	FUNCTION	129	"             s_nl :=  '1岁';
+"
+FUN_GET_NL	FUNCTION	130	"         END IF;
+"
+FUN_GET_NL	FUNCTION	131	"     ELSIF s_xz = 'ZS4' THEN
+"
+FUN_GET_NL	FUNCTION	132	"        select to_number(to_char(d_dqrq,'YYYY'))*12 + to_number(to_char(d_dqrq,'MM')) -
+"
+FUN_GET_NL	FUNCTION	133	"                (to_number(to_char(ad_csrq,'YYYY'))*12 + to_number(to_char(ad_csrq,'MM')))
+"
+FUN_GET_NL	FUNCTION	134	"          into n_months
+"
+FUN_GET_NL	FUNCTION	135	"          from dual;
+"
+FUN_GET_NL	FUNCTION	136	"        IF n_months > 12 THEN
+"
+FUN_GET_NL	FUNCTION	137	"           s_nl := to_char(to_char(d_dqrq,'YYYY') - to_char(ad_csrq,'YYYY') )||'岁';
+"
+FUN_GET_NL	FUNCTION	138	"        ELSIF n_months > 1 THEN
+"
+FUN_GET_NL	FUNCTION	139	"           IF n_days < 32 THEN
+"
+FUN_GET_NL	FUNCTION	140	"              s_nl := to_char(trunc(n_days))||'天';
+"
+FUN_GET_NL	FUNCTION	141	"           ELSE
+"
+FUN_GET_NL	FUNCTION	142	"              s_nl := to_char(trunc(n_months))||'月';
+"
+FUN_GET_NL	FUNCTION	143	"           END IF;
+"
+FUN_GET_NL	FUNCTION	144	"        ELSE
+"
+FUN_GET_NL	FUNCTION	145	"           s_nl := to_char(trunc(n_days))||'天';
+"
+FUN_GET_NL	FUNCTION	146	"        END IF;
+"
+FUN_GET_NL	FUNCTION	147	"     END IF;
+"
+FUN_GET_NL	FUNCTION	148	"     IF s_nl is null THEN
+"
+FUN_GET_NL	FUNCTION	149	"         s_nl := '';
+"
+FUN_GET_NL	FUNCTION	150	"     END IF;
+"
+FUN_GET_NL	FUNCTION	151	"     RESULT := s_nl;
+"
+FUN_GET_NL	FUNCTION	152	"     RETURN(RESULT);
+"
+FUN_GET_NL	FUNCTION	153	"EXCEPTION
+"
+FUN_GET_NL	FUNCTION	154	"    WHEN OTHERS THEN
+"
+FUN_GET_NL	FUNCTION	155	"      RESULT := '';
+"
+FUN_GET_NL	FUNCTION	156	"      RETURN(RESULT);
+"
+FUN_GET_NL	FUNCTION	157	"END FUN_GET_NL;
+"
+FUN_GET_NL	FUNCTION	158	"
+"
+FUN_GET_NL	FUNCTION	159	"
+"
+FUN_GET_NL	FUNCTION	160	" 
+"
