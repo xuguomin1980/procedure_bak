@@ -216,7 +216,7 @@ F_YB_ZNSHCL_ZY5	FUNCTION	108	"  --材料与项目不符
 "
 F_YB_ZNSHCL_ZY5	FUNCTION	109	"  select to_char(sysdate, 'hh24') into v_temp from dual;
 "
-F_YB_ZNSHCL_ZY5	FUNCTION	110	"  if 5 = 5 and v_temp >= '08' and v_temp < '17' and in_patient_no = 870546 then
+F_YB_ZNSHCL_ZY5	FUNCTION	110	"  if 5 = 5 and v_temp >= '08' and v_temp < '27' and in_patient_no = 870546 then
 "
 F_YB_ZNSHCL_ZY5	FUNCTION	111	"  
 "
@@ -274,7 +274,7 @@ F_YB_ZNSHCL_ZY5	FUNCTION	137	"        if length(v_ybdm) > 1 then
 "
 F_YB_ZNSHCL_ZY5	FUNCTION	138	"        
 "
-F_YB_ZNSHCL_ZY5	FUNCTION	139	"          select substr('1204', 1, instr('1204', '分类下') - 1)
+F_YB_ZNSHCL_ZY5	FUNCTION	139	"          select substr(v_ybdm, 1, instr(v_ybdm, '分类下') - 1)
 "
 F_YB_ZNSHCL_ZY5	FUNCTION	140	"            into v_ybdm_fl
 "
@@ -314,79 +314,123 @@ F_YB_ZNSHCL_ZY5	FUNCTION	157	"            exit;
 "
 F_YB_ZNSHCL_ZY5	FUNCTION	158	"          end if;
 "
-F_YB_ZNSHCL_ZY5	FUNCTION	159	"        else
+F_YB_ZNSHCL_ZY5	FUNCTION	159	"        
 "
-F_YB_ZNSHCL_ZY5	FUNCTION	160	"        
+F_YB_ZNSHCL_ZY5	FUNCTION	160	"          SELECT count(yibaodm)
 "
-F_YB_ZNSHCL_ZY5	FUNCTION	161	"          exit;
+F_YB_ZNSHCL_ZY5	FUNCTION	161	"            into v_sl
 "
-F_YB_ZNSHCL_ZY5	FUNCTION	162	"        end if;
+F_YB_ZNSHCL_ZY5	FUNCTION	162	"            FROM yb_duizhaoml t
 "
-F_YB_ZNSHCL_ZY5	FUNCTION	163	"      
+F_YB_ZNSHCL_ZY5	FUNCTION	163	"           where instr(t.yibaodm, 'f' || v_ybdm) > 0
 "
-F_YB_ZNSHCL_ZY5	FUNCTION	164	"      end loop;
+F_YB_ZNSHCL_ZY5	FUNCTION	164	"             and nvl(tingyongrq, '20990101') > to_char(sysdate, 'yyyymmdd')
 "
-F_YB_ZNSHCL_ZY5	FUNCTION	165	"      if v_sl > 0 then
+F_YB_ZNSHCL_ZY5	FUNCTION	165	"             and yibaolx = '9997'
 "
-F_YB_ZNSHCL_ZY5	FUNCTION	166	"        null;
+F_YB_ZNSHCL_ZY5	FUNCTION	166	"             and t.yaopinpb = 0
 "
-F_YB_ZNSHCL_ZY5	FUNCTION	167	"      else
+F_YB_ZNSHCL_ZY5	FUNCTION	167	"             and t.xiangmuxh in
 "
-F_YB_ZNSHCL_ZY5	FUNCTION	168	"      
+F_YB_ZNSHCL_ZY5	FUNCTION	168	"                 (select ylxh
 "
-F_YB_ZNSHCL_ZY5	FUNCTION	169	"        select nvl('  ' || v_sfrq || xmmc || '(' || gzmc || ') 需' ||
+F_YB_ZNSHCL_ZY5	FUNCTION	169	"                    From yz_order_ylsf
 "
-F_YB_ZNSHCL_ZY5	FUNCTION	170	"                   v_kz_msg || '下使用' || '[F_YB_ZNSHCL_ZY5]',
+F_YB_ZNSHCL_ZY5	FUNCTION	170	"                   where order_code in
 "
-F_YB_ZNSHCL_ZY5	FUNCTION	171	"                   '')
+F_YB_ZNSHCL_ZY5	FUNCTION	171	"                         (SELECT a.order_code
 "
-F_YB_ZNSHCL_ZY5	FUNCTION	172	"          into v_temp
+F_YB_ZNSHCL_ZY5	FUNCTION	172	"                            FROM YZ_INPATIENT_ORDER A
 "
-F_YB_ZNSHCL_ZY5	FUNCTION	173	"          from yb_znshgz
+F_YB_ZNSHCL_ZY5	FUNCTION	173	"                           WHERE (a.""STATUS_FLAG"" in (2, 3))
 "
-F_YB_ZNSHCL_ZY5	FUNCTION	174	"         where xmbh = v_xmbh
+F_YB_ZNSHCL_ZY5	FUNCTION	174	"                             AND (a.""ORDER_FLAG"" in (1, 8, 9))
 "
-F_YB_ZNSHCL_ZY5	FUNCTION	175	"           and gzbh = 5
+F_YB_ZNSHCL_ZY5	FUNCTION	175	"                             AND (a.""STATUS"" in (2, 3, 4, 10))
 "
-F_YB_ZNSHCL_ZY5	FUNCTION	176	"           and rownum = 1;
+F_YB_ZNSHCL_ZY5	FUNCTION	176	"                             and a.djxh = in_patient_no));
 "
-F_YB_ZNSHCL_ZY5	FUNCTION	177	"      
+F_YB_ZNSHCL_ZY5	FUNCTION	177	"        
 "
-F_YB_ZNSHCL_ZY5	FUNCTION	178	"        if length(v_temp) > 1 then
+F_YB_ZNSHCL_ZY5	FUNCTION	178	"          if v_sl > 0 then
 "
-F_YB_ZNSHCL_ZY5	FUNCTION	179	"          select curr_bed || '床,' || bah || v_temp
+F_YB_ZNSHCL_ZY5	FUNCTION	179	"            exit;
 "
-F_YB_ZNSHCL_ZY5	FUNCTION	180	"            into v_temp
+F_YB_ZNSHCL_ZY5	FUNCTION	180	"          end if;
 "
-F_YB_ZNSHCL_ZY5	FUNCTION	181	"            from zy_patient_information
+F_YB_ZNSHCL_ZY5	FUNCTION	181	"        else
 "
-F_YB_ZNSHCL_ZY5	FUNCTION	182	"           where patient_no = in_patient_no;
+F_YB_ZNSHCL_ZY5	FUNCTION	182	"        
 "
-F_YB_ZNSHCL_ZY5	FUNCTION	183	"        
+F_YB_ZNSHCL_ZY5	FUNCTION	183	"          exit;
 "
-F_YB_ZNSHCL_ZY5	FUNCTION	184	"          Return v_temp;
+F_YB_ZNSHCL_ZY5	FUNCTION	184	"        end if;
 "
-F_YB_ZNSHCL_ZY5	FUNCTION	185	"        end if;
+F_YB_ZNSHCL_ZY5	FUNCTION	185	"      
 "
-F_YB_ZNSHCL_ZY5	FUNCTION	186	"      
+F_YB_ZNSHCL_ZY5	FUNCTION	186	"      end loop;
 "
-F_YB_ZNSHCL_ZY5	FUNCTION	187	"      end if;
+F_YB_ZNSHCL_ZY5	FUNCTION	187	"      if v_sl > 0 then
 "
-F_YB_ZNSHCL_ZY5	FUNCTION	188	"    
+F_YB_ZNSHCL_ZY5	FUNCTION	188	"        null;
 "
-F_YB_ZNSHCL_ZY5	FUNCTION	189	"    END LOOP;
+F_YB_ZNSHCL_ZY5	FUNCTION	189	"      else
 "
-F_YB_ZNSHCL_ZY5	FUNCTION	190	"  
+F_YB_ZNSHCL_ZY5	FUNCTION	190	"      
 "
-F_YB_ZNSHCL_ZY5	FUNCTION	191	"  end if;
+F_YB_ZNSHCL_ZY5	FUNCTION	191	"        select nvl('  ' || v_sfrq || xmmc || '(' || gzmc || ') 需' ||
 "
-F_YB_ZNSHCL_ZY5	FUNCTION	192	"
+F_YB_ZNSHCL_ZY5	FUNCTION	192	"                   v_kz_msg || '下使用' || '[F_YB_ZNSHCL_ZY5]',
 "
-F_YB_ZNSHCL_ZY5	FUNCTION	193	"  -- end 材料与项目不符
+F_YB_ZNSHCL_ZY5	FUNCTION	193	"                   '')
 "
-F_YB_ZNSHCL_ZY5	FUNCTION	194	"  Return '';
+F_YB_ZNSHCL_ZY5	FUNCTION	194	"          into v_temp
 "
-F_YB_ZNSHCL_ZY5	FUNCTION	195	"
+F_YB_ZNSHCL_ZY5	FUNCTION	195	"          from yb_znshgz
 "
-F_YB_ZNSHCL_ZY5	FUNCTION	196	"end;
+F_YB_ZNSHCL_ZY5	FUNCTION	196	"         where xmbh = v_xmbh
+"
+F_YB_ZNSHCL_ZY5	FUNCTION	197	"           and gzbh = 5
+"
+F_YB_ZNSHCL_ZY5	FUNCTION	198	"           and rownum = 1;
+"
+F_YB_ZNSHCL_ZY5	FUNCTION	199	"      
+"
+F_YB_ZNSHCL_ZY5	FUNCTION	200	"        if length(v_temp) > 1 then
+"
+F_YB_ZNSHCL_ZY5	FUNCTION	201	"          select curr_bed || '床,' || bah || v_temp
+"
+F_YB_ZNSHCL_ZY5	FUNCTION	202	"            into v_temp
+"
+F_YB_ZNSHCL_ZY5	FUNCTION	203	"            from zy_patient_information
+"
+F_YB_ZNSHCL_ZY5	FUNCTION	204	"           where patient_no = in_patient_no;
+"
+F_YB_ZNSHCL_ZY5	FUNCTION	205	"        
+"
+F_YB_ZNSHCL_ZY5	FUNCTION	206	"          Return v_temp;
+"
+F_YB_ZNSHCL_ZY5	FUNCTION	207	"        end if;
+"
+F_YB_ZNSHCL_ZY5	FUNCTION	208	"      
+"
+F_YB_ZNSHCL_ZY5	FUNCTION	209	"      end if;
+"
+F_YB_ZNSHCL_ZY5	FUNCTION	210	"    
+"
+F_YB_ZNSHCL_ZY5	FUNCTION	211	"    END LOOP;
+"
+F_YB_ZNSHCL_ZY5	FUNCTION	212	"  
+"
+F_YB_ZNSHCL_ZY5	FUNCTION	213	"  end if;
+"
+F_YB_ZNSHCL_ZY5	FUNCTION	214	"
+"
+F_YB_ZNSHCL_ZY5	FUNCTION	215	"  -- end 材料与项目不符
+"
+F_YB_ZNSHCL_ZY5	FUNCTION	216	"  Return '';
+"
+F_YB_ZNSHCL_ZY5	FUNCTION	217	"
+"
+F_YB_ZNSHCL_ZY5	FUNCTION	218	"end;
 "

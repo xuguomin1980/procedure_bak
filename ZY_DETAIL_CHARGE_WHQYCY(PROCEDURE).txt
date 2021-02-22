@@ -8,7 +8,7 @@ ZY_DETAIL_CHARGE_WHQYCY	PROCEDURE	4	"begin
 "
 ZY_DETAIL_CHARGE_WHQYCY	PROCEDURE	5	"
 "
-ZY_DETAIL_CHARGE_WHQYCY	PROCEDURE	6	"update  zy_detail_charge set spbh=-10 where charge_code in(
+ZY_DETAIL_CHARGE_WHQYCY	PROCEDURE	6	"update  zy_detail_charge set spbh=-10,ypkz='ZF' where charge_code in(
 "
 ZY_DETAIL_CHARGE_WHQYCY	PROCEDURE	7	"
 "

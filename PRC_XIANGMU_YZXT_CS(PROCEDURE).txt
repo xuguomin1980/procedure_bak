@@ -1,14 +1,14 @@
 PRC_XIANGMU_YZXT_CS	PROCEDURE	1	"procedure prc_xiangmu_yzxt_cs(in_jiaoyilx   in varchar2, --交易类型
 "
-PRC_XIANGMU_YZXT_CS	PROCEDURE	2	"                                                in_patient_no in number,
+PRC_XIANGMU_YZXT_CS	PROCEDURE	2	"                                             in_patient_no in number,
 "
-PRC_XIANGMU_YZXT_CS	PROCEDURE	3	"                                                in_caozuogh   in varchar2, --操作工号
+PRC_XIANGMU_YZXT_CS	PROCEDURE	3	"                                             in_caozuogh   in varchar2, --操作工号
 "
-PRC_XIANGMU_YZXT_CS	PROCEDURE	4	"                                                in_jylsh      in varchar2, --其它参数
+PRC_XIANGMU_YZXT_CS	PROCEDURE	4	"                                             in_jylsh      in varchar2, --其它参数
 "
-PRC_XIANGMU_YZXT_CS	PROCEDURE	5	"                                                out_code      out INTEGER, -- 返回结果 0为执行成功
+PRC_XIANGMU_YZXT_CS	PROCEDURE	5	"                                             out_code      out INTEGER, -- 返回结果 0为执行成功
 "
-PRC_XIANGMU_YZXT_CS	PROCEDURE	6	"                                                out_msg       out varchar2) Is
+PRC_XIANGMU_YZXT_CS	PROCEDURE	6	"                                             out_msg       out varchar2) Is
 "
 PRC_XIANGMU_YZXT_CS	PROCEDURE	7	"  --2021-02-07
 "
@@ -244,7 +244,7 @@ PRC_XIANGMU_YZXT_CS	PROCEDURE	122	"
 "
 PRC_XIANGMU_YZXT_CS	PROCEDURE	123	"    --预交款 留义温暖基金
 "
-PRC_XIANGMU_YZXT_CS	PROCEDURE	124	"    IF 1 = 1 THEN
+PRC_XIANGMU_YZXT_CS	PROCEDURE	124	"    IF 1 = 0 THEN
 "
 PRC_XIANGMU_YZXT_CS	PROCEDURE	125	"      select to_char(trunC(sysdate), 'yyyy-mm-dd') into v_temp2 from dual;
 "

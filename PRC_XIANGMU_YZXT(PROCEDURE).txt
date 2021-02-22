@@ -244,7 +244,7 @@ PRC_XIANGMU_YZXT	PROCEDURE	122	"
 "
 PRC_XIANGMU_YZXT	PROCEDURE	123	"    --预交款 留义温暖基金
 "
-PRC_XIANGMU_YZXT	PROCEDURE	124	"    IF 1 = 1 THEN
+PRC_XIANGMU_YZXT	PROCEDURE	124	"    IF 1 = 0 THEN
 "
 PRC_XIANGMU_YZXT	PROCEDURE	125	"      select to_char(trunC(sysdate), 'yyyy-mm-dd') into v_temp2 from dual;
 "

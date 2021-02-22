@@ -528,11 +528,47 @@ PRC_AUTO_TASK_V1_ADD	PROCEDURE	264	"  -- end gh_yjk fyze =null   更新
 "
 PRC_AUTO_TASK_V1_ADD	PROCEDURE	265	"
 "
-PRC_AUTO_TASK_V1_ADD	PROCEDURE	266	"  select '调用成功 prc_auto_task_v1_add  ' into v_nr from dual;
+PRC_AUTO_TASK_V1_ADD	PROCEDURE	266	"  --联系人有特殊符号
 "
-PRC_AUTO_TASK_V1_ADD	PROCEDURE	267	"  prc_sms_send_mark('au', '13777929515', v_nr, v_bz);
+PRC_AUTO_TASK_V1_ADD	PROCEDURE	267	"  if 1 = 1 then
 "
-PRC_AUTO_TASK_V1_ADD	PROCEDURE	268	"
+PRC_AUTO_TASK_V1_ADD	PROCEDURE	268	"    select count(jzkh)
 "
-PRC_AUTO_TASK_V1_ADD	PROCEDURE	269	"end;
+PRC_AUTO_TASK_V1_ADD	PROCEDURE	269	"      into v_count
+"
+PRC_AUTO_TASK_V1_ADD	PROCEDURE	270	"      from gy_brjbxxk t
+"
+PRC_AUTO_TASK_V1_ADD	PROCEDURE	271	"     where lxr <> replace(translate(lxr,
+"
+PRC_AUTO_TASK_V1_ADD	PROCEDURE	272	"                                    '#$/\:*?""<>''|;[]{},.()：；‘’“”【】《》，。（）？、0123456789',
+"
+PRC_AUTO_TASK_V1_ADD	PROCEDURE	273	"                                    ' '),
+"
+PRC_AUTO_TASK_V1_ADD	PROCEDURE	274	"                          ' ',
+"
+PRC_AUTO_TASK_V1_ADD	PROCEDURE	275	"                          '')
+"
+PRC_AUTO_TASK_V1_ADD	PROCEDURE	276	"       and lxr is not null
+"
+PRC_AUTO_TASK_V1_ADD	PROCEDURE	277	"       and ldrq > sysdate - 2;
+"
+PRC_AUTO_TASK_V1_ADD	PROCEDURE	278	"    if v_count > 0 then
+"
+PRC_AUTO_TASK_V1_ADD	PROCEDURE	279	"      select 'gy_brjbxxk,联系人有特殊符号=' || v_count into v_nr from dual;
+"
+PRC_AUTO_TASK_V1_ADD	PROCEDURE	280	"      prc_sms_send_mark('au', '13777929515', v_nr, v_bz);
+"
+PRC_AUTO_TASK_V1_ADD	PROCEDURE	281	"    end if;
+"
+PRC_AUTO_TASK_V1_ADD	PROCEDURE	282	"  end if;
+"
+PRC_AUTO_TASK_V1_ADD	PROCEDURE	283	"
+"
+PRC_AUTO_TASK_V1_ADD	PROCEDURE	284	"  select '调用成功 prc_auto_task_v1_add  ' into v_nr from dual;
+"
+PRC_AUTO_TASK_V1_ADD	PROCEDURE	285	"  prc_sms_send_mark('au', '13777929515', v_nr, v_bz);
+"
+PRC_AUTO_TASK_V1_ADD	PROCEDURE	286	"
+"
+PRC_AUTO_TASK_V1_ADD	PROCEDURE	287	"end;
 "
