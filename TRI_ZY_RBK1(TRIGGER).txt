@@ -1,0 +1,66 @@
+TRI_ZY_RBK1	TRIGGER	1	"trigger ""TRI_ZY_RBK1""
+"
+TRI_ZY_RBK1	TRIGGER	2	"before insert   on ZY_RBK1
+"
+TRI_ZY_RBK1	TRIGGER	3	"referencing
+"
+TRI_ZY_RBK1	TRIGGER	4	"old as old
+"
+TRI_ZY_RBK1	TRIGGER	5	"new as new
+"
+TRI_ZY_RBK1	TRIGGER	6	"for each row
+"
+TRI_ZY_RBK1	TRIGGER	7	"
+"
+TRI_ZY_RBK1	TRIGGER	8	"declare
+"
+TRI_ZY_RBK1	TRIGGER	9	"  row_nums number;
+"
+TRI_ZY_RBK1	TRIGGER	10	"  nums     number;
+"
+TRI_ZY_RBK1	TRIGGER	11	"  v_msg    nvarchar2(200);
+"
+TRI_ZY_RBK1	TRIGGER	12	"  v_rq_str nvarchar2(50);
+"
+TRI_ZY_RBK1	TRIGGER	13	"begin
+"
+TRI_ZY_RBK1	TRIGGER	14	"
+"
+TRI_ZY_RBK1	TRIGGER	15	"  If 1 = 1 Then
+"
+TRI_ZY_RBK1	TRIGGER	16	"  
+"
+TRI_ZY_RBK1	TRIGGER	17	"    SELECT COUNT(*)
+"
+TRI_ZY_RBK1	TRIGGER	18	"      into row_nums
+"
+TRI_ZY_RBK1	TRIGGER	19	"      from zy_rbk1
+"
+TRI_ZY_RBK1	TRIGGER	20	"     where rb_date > sysdate - 0.5
+"
+TRI_ZY_RBK1	TRIGGER	21	"       and rb_date = :new.rb_date
+"
+TRI_ZY_RBK1	TRIGGER	22	"       and czgh <> :new.czgh;
+"
+TRI_ZY_RBK1	TRIGGER	23	"    if row_nums > 0 then
+"
+TRI_ZY_RBK1	TRIGGER	24	"    
+"
+TRI_ZY_RBK1	TRIGGER	25	"      select '该日报日期已经存在，请退出重新保存日报tri_zy_rbk1'
+"
+TRI_ZY_RBK1	TRIGGER	26	"        into v_msg
+"
+TRI_ZY_RBK1	TRIGGER	27	"        from dual;
+"
+TRI_ZY_RBK1	TRIGGER	28	"      raise_application_error(-20300, v_msg);
+"
+TRI_ZY_RBK1	TRIGGER	29	"    
+"
+TRI_ZY_RBK1	TRIGGER	30	"    end if;
+"
+TRI_ZY_RBK1	TRIGGER	31	"  end if;
+"
+TRI_ZY_RBK1	TRIGGER	32	"
+"
+TRI_ZY_RBK1	TRIGGER	33	"End;
+"

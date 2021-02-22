@@ -1,0 +1,138 @@
+ZY_DETAIL_CHARGE_WHQ	PROCEDURE	1	"PROCEDURE ""ZY_DETAIL_CHARGE_WHQ"" as ----ÎÇºÏÆ÷
+"
+ZY_DETAIL_CHARGE_WHQ	PROCEDURE	2	"begin
+"
+ZY_DETAIL_CHARGE_WHQ	PROCEDURE	3	"  UPDATE ZY_DETAIL_CHARGE
+"
+ZY_DETAIL_CHARGE_WHQ	PROCEDURE	4	"     SET SPBH = -10, scrq = to_date('1900-01-01', 'yyyy-mm-dd')
+"
+ZY_DETAIL_CHARGE_WHQ	PROCEDURE	5	"   WHERE PATIENT_NO IN
+"
+ZY_DETAIL_CHARGE_WHQ	PROCEDURE	6	"         (select distinct patient_no
+"
+ZY_DETAIL_CHARGE_WHQ	PROCEDURE	7	"            from zy_detail_charge
+"
+ZY_DETAIL_CHARGE_WHQ	PROCEDURE	8	"           where js_no = 0
+"
+ZY_DETAIL_CHARGE_WHQ	PROCEDURE	9	"             and twice_detail_code = 'SC'
+"
+ZY_DETAIL_CHARGE_WHQ	PROCEDURE	10	"             and charge_code in
+"
+ZY_DETAIL_CHARGE_WHQ	PROCEDURE	11	"                 (select ylxh
+"
+ZY_DETAIL_CHARGE_WHQ	PROCEDURE	12	"                    from gy_ylsf
+"
+ZY_DETAIL_CHARGE_WHQ	PROCEDURE	13	"                   where ylxh in
+"
+ZY_DETAIL_CHARGE_WHQ	PROCEDURE	14	"                         (SELECT xiangmuxh
+"
+ZY_DETAIL_CHARGE_WHQ	PROCEDURE	15	"                            FROM yb_duizhaoml
+"
+ZY_DETAIL_CHARGE_WHQ	PROCEDURE	16	"                           where yibaolx = '9997'
+"
+ZY_DETAIL_CHARGE_WHQ	PROCEDURE	17	"                             and (yibaodm like 'cl331001218%' or
+"
+ZY_DETAIL_CHARGE_WHQ	PROCEDURE	18	"                                 yibaodm like 'cl331002218%' or
+"
+ZY_DETAIL_CHARGE_WHQ	PROCEDURE	19	"                                 yibaodm like 'cl331003218%' or
+"
+ZY_DETAIL_CHARGE_WHQ	PROCEDURE	20	"                                 yibaodm like 'cl331004218%' or
+"
+ZY_DETAIL_CHARGE_WHQ	PROCEDURE	21	"                                 yibaodm like 'cl331008218%' or
+"
+ZY_DETAIL_CHARGE_WHQ	PROCEDURE	22	"                                 yibaodm like 'cq320000112%')))
+"
+ZY_DETAIL_CHARGE_WHQ	PROCEDURE	23	"          minus
+"
+ZY_DETAIL_CHARGE_WHQ	PROCEDURE	24	"          SELECT PATIENT_NO
+"
+ZY_DETAIL_CHARGE_WHQ	PROCEDURE	25	"            FROM (select PATIENT_NO, CHARGE_NAME, SUM(SL) SL
+"
+ZY_DETAIL_CHARGE_WHQ	PROCEDURE	26	"                    from zy_detail_charge
+"
+ZY_DETAIL_CHARGE_WHQ	PROCEDURE	27	"                   where js_no = 0
+"
+ZY_DETAIL_CHARGE_WHQ	PROCEDURE	28	"                     and (twice_detail_code = 'SS' or twice_detail_code = 'YN')
+"
+ZY_DETAIL_CHARGE_WHQ	PROCEDURE	29	"                     AND charge_code in
+"
+ZY_DETAIL_CHARGE_WHQ	PROCEDURE	30	"                         (select ylxh
+"
+ZY_DETAIL_CHARGE_WHQ	PROCEDURE	31	"                            from gy_ylsf
+"
+ZY_DETAIL_CHARGE_WHQ	PROCEDURE	32	"                           where ylxh in
+"
+ZY_DETAIL_CHARGE_WHQ	PROCEDURE	33	"                                 (SELECT xiangmuxh
+"
+ZY_DETAIL_CHARGE_WHQ	PROCEDURE	34	"                                    FROM yb_duizhaoml
+"
+ZY_DETAIL_CHARGE_WHQ	PROCEDURE	35	"                                   where yibaolx = '9997'
+"
+ZY_DETAIL_CHARGE_WHQ	PROCEDURE	36	"                                     and (yibaodm like '%331001016%' or
+"
+ZY_DETAIL_CHARGE_WHQ	PROCEDURE	37	"                                         yibaodm like '%331001019%' or
+"
+ZY_DETAIL_CHARGE_WHQ	PROCEDURE	38	"                                         yibaodm like '%331001020%' or
+"
+ZY_DETAIL_CHARGE_WHQ	PROCEDURE	39	"                                         yibaodm like '%331001022%' or
+"
+ZY_DETAIL_CHARGE_WHQ	PROCEDURE	40	"                                         yibaodm like '%331001023%' or
+"
+ZY_DETAIL_CHARGE_WHQ	PROCEDURE	41	"                                         yibaodm like '%331002003%' or
+"
+ZY_DETAIL_CHARGE_WHQ	PROCEDURE	42	"                                         yibaodm like '%331002008%' or
+"
+ZY_DETAIL_CHARGE_WHQ	PROCEDURE	43	"                                         yibaodm like '%331003018%' or
+"
+ZY_DETAIL_CHARGE_WHQ	PROCEDURE	44	"                                         yibaodm like '%331004012%' or
+"
+ZY_DETAIL_CHARGE_WHQ	PROCEDURE	45	"                                         yibaodm like '%331008026%' or
+"
+ZY_DETAIL_CHARGE_WHQ	PROCEDURE	46	"                                         yibaodm like '%32010000500%' or
+"
+ZY_DETAIL_CHARGE_WHQ	PROCEDURE	47	"                                         yibaodm like '%32010000600%' or
+"
+ZY_DETAIL_CHARGE_WHQ	PROCEDURE	48	"                                         yibaodm like '%3202000010%' or
+"
+ZY_DETAIL_CHARGE_WHQ	PROCEDURE	49	"                                         yibaodm like '%32020001000%' or
+"
+ZY_DETAIL_CHARGE_WHQ	PROCEDURE	50	"                                         yibaodm like '%32050000300%' or
+"
+ZY_DETAIL_CHARGE_WHQ	PROCEDURE	51	"                                         yibaodm like '%32060000400%' or
+"
+ZY_DETAIL_CHARGE_WHQ	PROCEDURE	52	"                                         yibaodm like '%32050000500%')))
+"
+ZY_DETAIL_CHARGE_WHQ	PROCEDURE	53	"                   GROUP BY PATIENT_NO, CHARGE_NAME)
+"
+ZY_DETAIL_CHARGE_WHQ	PROCEDURE	54	"           WHERE SL > 0)
+"
+ZY_DETAIL_CHARGE_WHQ	PROCEDURE	55	"     AND charge_code in
+"
+ZY_DETAIL_CHARGE_WHQ	PROCEDURE	56	"         (select ylxh
+"
+ZY_DETAIL_CHARGE_WHQ	PROCEDURE	57	"            from gy_ylsf
+"
+ZY_DETAIL_CHARGE_WHQ	PROCEDURE	58	"           where ylxh in (SELECT xiangmuxh
+"
+ZY_DETAIL_CHARGE_WHQ	PROCEDURE	59	"                            FROM yb_duizhaoml
+"
+ZY_DETAIL_CHARGE_WHQ	PROCEDURE	60	"                           where yibaolx = '9997'
+"
+ZY_DETAIL_CHARGE_WHQ	PROCEDURE	61	"                             and (yibaodm like 'cl331001218%' or
+"
+ZY_DETAIL_CHARGE_WHQ	PROCEDURE	62	"                                 yibaodm like 'cl331002218%' or
+"
+ZY_DETAIL_CHARGE_WHQ	PROCEDURE	63	"                                 yibaodm like 'cl331003218%' or
+"
+ZY_DETAIL_CHARGE_WHQ	PROCEDURE	64	"                                 yibaodm like 'cl331004218%' or
+"
+ZY_DETAIL_CHARGE_WHQ	PROCEDURE	65	"                                 yibaodm like 'cl331008218%' or
+"
+ZY_DETAIL_CHARGE_WHQ	PROCEDURE	66	"                                 yibaodm like 'cq320000112%')))
+"
+ZY_DETAIL_CHARGE_WHQ	PROCEDURE	67	"     and nvl(spbh, 0) <> -10;
+"
+ZY_DETAIL_CHARGE_WHQ	PROCEDURE	68	"  COMMIT;
+"
+ZY_DETAIL_CHARGE_WHQ	PROCEDURE	69	"end;
+"
