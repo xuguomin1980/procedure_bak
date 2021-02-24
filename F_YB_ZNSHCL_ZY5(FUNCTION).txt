@@ -144,7 +144,7 @@ F_YB_ZNSHCL_ZY5	FUNCTION	72	"    end if;
 "
 F_YB_ZNSHCL_ZY5	FUNCTION	73	"  end if;
 "
-F_YB_ZNSHCL_ZY5	FUNCTION	74	"  if in_jzxh > 0 then
+F_YB_ZNSHCL_ZY5	FUNCTION	74	"  if 1 = 0 and in_jzxh > 0 then
 "
 F_YB_ZNSHCL_ZY5	FUNCTION	75	"    select min(bz)
 "

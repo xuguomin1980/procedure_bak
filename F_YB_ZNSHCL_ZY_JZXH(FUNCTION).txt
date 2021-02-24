@@ -116,9 +116,9 @@ F_YB_ZNSHCL_ZY_JZXH	FUNCTION	58	"       and y.gzbh = 5
 "
 F_YB_ZNSHCL_ZY_JZXH	FUNCTION	59	"       and (nvl(x.spbh, 0) <> -10 and x.fygl > 3 and
 "
-F_YB_ZNSHCL_ZY_JZXH	FUNCTION	60	"           x.twice_detail_code = 'BF' and x.jcfx_date > sysdate - 0.01 and
+F_YB_ZNSHCL_ZY_JZXH	FUNCTION	60	"           x.twice_detail_code = 'BF' and x.jcfx_date > sysdate - 0.02 and
 "
-F_YB_ZNSHCL_ZY_JZXH	FUNCTION	61	"           nvl(x.jzxh, 0) = in_jzxh or x.jlxh = -326502254)
+F_YB_ZNSHCL_ZY_JZXH	FUNCTION	61	"           nvl(x.jzxh, 0) = in_jzxh)
 "
 F_YB_ZNSHCL_ZY_JZXH	FUNCTION	62	"       and x.patient_no = in_patient_no
 "
@@ -622,7 +622,7 @@ F_YB_ZNSHCL_ZY_JZXH	FUNCTION	311	"               and x.fygl > 3
 "
 F_YB_ZNSHCL_ZY_JZXH	FUNCTION	312	"               and trunc(charge_date) = trunc(sysdate)
 "
-F_YB_ZNSHCL_ZY_JZXH	FUNCTION	313	"               and x.jcfx_date > sysdate - 15
+F_YB_ZNSHCL_ZY_JZXH	FUNCTION	313	"               and x.jcfx_date >= trunc(sysdate)
 "
 F_YB_ZNSHCL_ZY_JZXH	FUNCTION	314	"               and x.patient_no = in_patient_no
 "
@@ -662,7 +662,7 @@ F_YB_ZNSHCL_ZY_JZXH	FUNCTION	331	"       and nvl(x2.jzxh, 0) = in_jzxh
 "
 F_YB_ZNSHCL_ZY_JZXH	FUNCTION	332	"       and x1.kzsl_zy > 0
 "
-F_YB_ZNSHCL_ZY_JZXH	FUNCTION	333	"       and x2.jcfx_date > sysdate - 15
+F_YB_ZNSHCL_ZY_JZXH	FUNCTION	333	"       and x2.jcfx_date >= trunc(sysdate)
 "
 F_YB_ZNSHCL_ZY_JZXH	FUNCTION	334	"       and x2.patient_no = in_patient_no;
 "

@@ -1424,7 +1424,7 @@ PRC_XIANGMU_YZXT	PROCEDURE	712	"
 "
 PRC_XIANGMU_YZXT	PROCEDURE	713	"    --温暖基金判断
 "
-PRC_XIANGMU_YZXT	PROCEDURE	714	"    if 1 = 1 then
+PRC_XIANGMU_YZXT	PROCEDURE	714	"    if 1 = 0 then
 "
 PRC_XIANGMU_YZXT	PROCEDURE	715	"    
 "
@@ -2176,329 +2176,327 @@ PRC_XIANGMU_YZXT	PROCEDURE	1088	"                 and fygl = 26
 "
 PRC_XIANGMU_YZXT	PROCEDURE	1089	"                 and js_no = 0
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1090	"                 and jcfx_date > sysdate - 5
+PRC_XIANGMU_YZXT	PROCEDURE	1090	"                 and patient_no = in_patient_no;
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1091	"                 and patient_no = in_patient_no;
+PRC_XIANGMU_YZXT	PROCEDURE	1091	"              if v_count = 0 then
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1092	"              if v_count = 0 then
+PRC_XIANGMU_YZXT	PROCEDURE	1092	"                ls_show  := '没有护理费记录,[prc_xiangmu_yzxt]bed';
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1093	"                ls_show  := '没有自动滚收的护理费记录,[prc_xiangmu_yzxt]bed';
+PRC_XIANGMU_YZXT	PROCEDURE	1093	"                out_code := -1;
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1094	"                out_code := -1;
+PRC_XIANGMU_YZXT	PROCEDURE	1094	"                out_msg  := ls_show;
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1095	"                out_msg  := ls_show;
+PRC_XIANGMU_YZXT	PROCEDURE	1095	"                return;
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1096	"                return;
+PRC_XIANGMU_YZXT	PROCEDURE	1096	"              end if;
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1097	"              end if;
+PRC_XIANGMU_YZXT	PROCEDURE	1097	"            end if;
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1098	"            end if;
+PRC_XIANGMU_YZXT	PROCEDURE	1098	"          end if;
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1099	"          end if;
+PRC_XIANGMU_YZXT	PROCEDURE	1099	"        end if;
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1100	"        end if;
+PRC_XIANGMU_YZXT	PROCEDURE	1100	"      end if;
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1101	"      end if;
+PRC_XIANGMU_YZXT	PROCEDURE	1101	"      --end 未收床位费 护理费 核查 
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1102	"      --end 未收床位费 护理费 核查 
+PRC_XIANGMU_YZXT	PROCEDURE	1102	"    
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1103	"    
+PRC_XIANGMU_YZXT	PROCEDURE	1103	"      --判断物价违规
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1104	"      --判断物价违规
+PRC_XIANGMU_YZXT	PROCEDURE	1104	"      if 2 = 2 then
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1105	"      if 2 = 2 then
+PRC_XIANGMU_YZXT	PROCEDURE	1105	"      
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1106	"      
+PRC_XIANGMU_YZXT	PROCEDURE	1106	"        PRC_YB_CHECK_ZY('0', in_patient_no, v_temp2);
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1107	"        PRC_YB_CHECK_ZY('0', in_patient_no, v_temp2);
+PRC_XIANGMU_YZXT	PROCEDURE	1107	"      
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1108	"      
+PRC_XIANGMU_YZXT	PROCEDURE	1108	"        select count(*)
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1109	"        select count(*)
+PRC_XIANGMU_YZXT	PROCEDURE	1109	"          into ll_count
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1110	"          into ll_count
+PRC_XIANGMU_YZXT	PROCEDURE	1110	"          From yb_znshgz_zybr
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1111	"          From yb_znshgz_zybr
+PRC_XIANGMU_YZXT	PROCEDURE	1111	"         where bz like '%*%'
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1112	"         where bz like '%*%'
+PRC_XIANGMU_YZXT	PROCEDURE	1112	"           and patient_No = in_patient_no;
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1113	"           and patient_No = in_patient_no;
+PRC_XIANGMU_YZXT	PROCEDURE	1113	"      
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1114	"      
+PRC_XIANGMU_YZXT	PROCEDURE	1114	"        if ll_count > 0 then
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1115	"        if ll_count > 0 then
+PRC_XIANGMU_YZXT	PROCEDURE	1115	"        
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1116	"        
+PRC_XIANGMU_YZXT	PROCEDURE	1116	"          /*   select count(*)
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1117	"          /*   select count(*)
+PRC_XIANGMU_YZXT	PROCEDURE	1117	"           into ll_count
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1118	"           into ll_count
+PRC_XIANGMU_YZXT	PROCEDURE	1118	"           From yb_znshgz_zybr
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1119	"           From yb_znshgz_zybr
+PRC_XIANGMU_YZXT	PROCEDURE	1119	"          where bz like '%*%'
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1120	"          where bz like '%*%'
+PRC_XIANGMU_YZXT	PROCEDURE	1120	"            and patient_No = in_patient_no;*/
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1121	"            and patient_No = in_patient_no;*/
+PRC_XIANGMU_YZXT	PROCEDURE	1121	"          if ll_count > 0 then
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1122	"          if ll_count > 0 then
+PRC_XIANGMU_YZXT	PROCEDURE	1122	"            select min(substr('[prc_xiangmu_yzxt]请点击 物价核查 按钮 ，查看处理带*的项目，' || bz,
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1123	"            select min(substr('[prc_xiangmu_yzxt]请点击 物价核查 按钮 ，查看处理带*的项目，' || bz,
+PRC_XIANGMU_YZXT	PROCEDURE	1123	"                              1,
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1124	"                              1,
+PRC_XIANGMU_YZXT	PROCEDURE	1124	"                              1200))
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1125	"                              1200))
+PRC_XIANGMU_YZXT	PROCEDURE	1125	"              into ls_show
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1126	"              into ls_show
+PRC_XIANGMU_YZXT	PROCEDURE	1126	"              From yb_znshgz_zybr
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1127	"              From yb_znshgz_zybr
+PRC_XIANGMU_YZXT	PROCEDURE	1127	"             where bz like '%*%'
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1128	"             where bz like '%*%'
+PRC_XIANGMU_YZXT	PROCEDURE	1128	"               and patient_No = in_patient_no;
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1129	"               and patient_No = in_patient_no;
+PRC_XIANGMU_YZXT	PROCEDURE	1129	"            out_code := -1;
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1130	"            out_code := -1;
+PRC_XIANGMU_YZXT	PROCEDURE	1130	"            out_msg  := ls_show;
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1131	"            out_msg  := ls_show;
+PRC_XIANGMU_YZXT	PROCEDURE	1131	"            return;
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1132	"            return;
+PRC_XIANGMU_YZXT	PROCEDURE	1132	"          end if;
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1133	"          end if;
+PRC_XIANGMU_YZXT	PROCEDURE	1133	"        end if;
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1134	"        end if;
+PRC_XIANGMU_YZXT	PROCEDURE	1134	"      
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1135	"      
+PRC_XIANGMU_YZXT	PROCEDURE	1135	"      end if;
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1136	"      end if;
+PRC_XIANGMU_YZXT	PROCEDURE	1136	"      --end 判断物价违规
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1137	"      --end 判断物价违规
+PRC_XIANGMU_YZXT	PROCEDURE	1137	"    
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1138	"    
+PRC_XIANGMU_YZXT	PROCEDURE	1138	"      --预出院当天对部分项目进行退费v_ylsf_curr_cut
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1139	"      --预出院当天对部分项目进行退费v_ylsf_curr_cut
+PRC_XIANGMU_YZXT	PROCEDURE	1139	"      if 1 = 0 then
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1140	"      if 1 = 0 then
+PRC_XIANGMU_YZXT	PROCEDURE	1140	"        insert into zy_detail_charge
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1141	"        insert into zy_detail_charge
+PRC_XIANGMU_YZXT	PROCEDURE	1141	"          (jlxh,
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1142	"          (jlxh,
+PRC_XIANGMU_YZXT	PROCEDURE	1142	"           patient_no,
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1143	"           patient_no,
+PRC_XIANGMU_YZXT	PROCEDURE	1143	"           js_no,
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1144	"           js_no,
+PRC_XIANGMU_YZXT	PROCEDURE	1144	"           infant_flag,
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1145	"           infant_flag,
+PRC_XIANGMU_YZXT	PROCEDURE	1145	"           charge_code,
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1146	"           charge_code,
+PRC_XIANGMU_YZXT	PROCEDURE	1146	"           charge_name,
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1147	"           charge_name,
+PRC_XIANGMU_YZXT	PROCEDURE	1147	"           fygl,
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1148	"           fygl,
+PRC_XIANGMU_YZXT	PROCEDURE	1148	"           twice_detail_code,
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1149	"           twice_detail_code,
+PRC_XIANGMU_YZXT	PROCEDURE	1149	"           twice_detail_id,
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1150	"           twice_detail_id,
+PRC_XIANGMU_YZXT	PROCEDURE	1150	"           charge_date,
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1151	"           charge_date,
+PRC_XIANGMU_YZXT	PROCEDURE	1151	"           sl,
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1152	"           sl,
+PRC_XIANGMU_YZXT	PROCEDURE	1152	"           dj,
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1153	"           dj,
+PRC_XIANGMU_YZXT	PROCEDURE	1153	"           self_percent,
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1154	"           self_percent,
+PRC_XIANGMU_YZXT	PROCEDURE	1154	"           ys_code,
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1155	"           ys_code,
+PRC_XIANGMU_YZXT	PROCEDURE	1155	"           zx_ks,
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1156	"           zx_ks,
+PRC_XIANGMU_YZXT	PROCEDURE	1156	"           curr_ks,
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1157	"           curr_ks,
+PRC_XIANGMU_YZXT	PROCEDURE	1157	"           curr_bed,
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1158	"           curr_bed,
+PRC_XIANGMU_YZXT	PROCEDURE	1158	"           borrow_flag,
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1159	"           borrow_flag,
+PRC_XIANGMU_YZXT	PROCEDURE	1159	"           borrow_ks,
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1160	"           borrow_ks,
+PRC_XIANGMU_YZXT	PROCEDURE	1160	"           borrow_percent,
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1161	"           borrow_percent,
+PRC_XIANGMU_YZXT	PROCEDURE	1161	"           op_id,
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1162	"           op_id,
+PRC_XIANGMU_YZXT	PROCEDURE	1162	"           fhr,
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1163	"           fhr,
+PRC_XIANGMU_YZXT	PROCEDURE	1163	"           ypkz,
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1164	"           ypkz,
+PRC_XIANGMU_YZXT	PROCEDURE	1164	"           gfbz,
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1165	"           gfbz,
+PRC_XIANGMU_YZXT	PROCEDURE	1165	"           curr_bq,
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1166	"           curr_bq,
+PRC_XIANGMU_YZXT	PROCEDURE	1166	"           group_code,
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1167	"           group_code,
+PRC_XIANGMU_YZXT	PROCEDURE	1167	"           start_date,
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1168	"           start_date,
+PRC_XIANGMU_YZXT	PROCEDURE	1168	"           jtbf_flag,
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1169	"           jtbf_flag,
+PRC_XIANGMU_YZXT	PROCEDURE	1169	"           bqdm,
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1170	"           bqdm,
+PRC_XIANGMU_YZXT	PROCEDURE	1170	"           jzxh,
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1171	"           jzxh,
+PRC_XIANGMU_YZXT	PROCEDURE	1171	"           jcfx_date,
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1172	"           jcfx_date,
+PRC_XIANGMU_YZXT	PROCEDURE	1172	"           jcfx_id,
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1173	"           jcfx_id,
+PRC_XIANGMU_YZXT	PROCEDURE	1173	"           scrq,
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1174	"           scrq,
+PRC_XIANGMU_YZXT	PROCEDURE	1174	"           zzys,
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1175	"           zzys,
+PRC_XIANGMU_YZXT	PROCEDURE	1175	"           zlyppb,
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1176	"           zlyppb,
+PRC_XIANGMU_YZXT	PROCEDURE	1176	"           tcdm,
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1177	"           tcdm,
+PRC_XIANGMU_YZXT	PROCEDURE	1177	"           je,
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1178	"           je,
+PRC_XIANGMU_YZXT	PROCEDURE	1178	"           zlje,
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1179	"           zlje,
+PRC_XIANGMU_YZXT	PROCEDURE	1179	"           zfje,
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1180	"           zfje,
+PRC_XIANGMU_YZXT	PROCEDURE	1180	"           csbz,
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1181	"           csbz,
+PRC_XIANGMU_YZXT	PROCEDURE	1181	"           jiagelb,
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1182	"           jiagelb,
+PRC_XIANGMU_YZXT	PROCEDURE	1182	"           yibaoysxmxh
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1183	"           yibaoysxmxh
+PRC_XIANGMU_YZXT	PROCEDURE	1183	"           
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1184	"           
+PRC_XIANGMU_YZXT	PROCEDURE	1184	"           )
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1185	"           )
+PRC_XIANGMU_YZXT	PROCEDURE	1185	"          select zy_detail_charge_jlxh.nextval,
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1186	"          select zy_detail_charge_jlxh.nextval,
+PRC_XIANGMU_YZXT	PROCEDURE	1186	"                 patient_no,
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1187	"                 patient_no,
+PRC_XIANGMU_YZXT	PROCEDURE	1187	"                 js_no,
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1188	"                 js_no,
+PRC_XIANGMU_YZXT	PROCEDURE	1188	"                 infant_flag,
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1189	"                 infant_flag,
+PRC_XIANGMU_YZXT	PROCEDURE	1189	"                 charge_code,
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1190	"                 charge_code,
+PRC_XIANGMU_YZXT	PROCEDURE	1190	"                 charge_name,
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1191	"                 charge_name,
+PRC_XIANGMU_YZXT	PROCEDURE	1191	"                 fygl,
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1192	"                 fygl,
+PRC_XIANGMU_YZXT	PROCEDURE	1192	"                 twice_detail_code,
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1193	"                 twice_detail_code,
+PRC_XIANGMU_YZXT	PROCEDURE	1193	"                 twice_detail_id,
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1194	"                 twice_detail_id,
+PRC_XIANGMU_YZXT	PROCEDURE	1194	"                 sysdate,
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1195	"                 sysdate,
+PRC_XIANGMU_YZXT	PROCEDURE	1195	"                 sl * -1,
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1196	"                 sl * -1,
+PRC_XIANGMU_YZXT	PROCEDURE	1196	"                 dj * -1,
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1197	"                 dj * -1,
+PRC_XIANGMU_YZXT	PROCEDURE	1197	"                 self_percent,
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1198	"                 self_percent,
+PRC_XIANGMU_YZXT	PROCEDURE	1198	"                 ys_code,
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1199	"                 ys_code,
+PRC_XIANGMU_YZXT	PROCEDURE	1199	"                 zx_ks,
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1200	"                 zx_ks,
+PRC_XIANGMU_YZXT	PROCEDURE	1200	"                 curr_ks,
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1201	"                 curr_ks,
+PRC_XIANGMU_YZXT	PROCEDURE	1201	"                 curr_bed,
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1202	"                 curr_bed,
+PRC_XIANGMU_YZXT	PROCEDURE	1202	"                 borrow_flag,
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1203	"                 borrow_flag,
+PRC_XIANGMU_YZXT	PROCEDURE	1203	"                 borrow_ks,
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1204	"                 borrow_ks,
+PRC_XIANGMU_YZXT	PROCEDURE	1204	"                 borrow_percent,
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1205	"                 borrow_percent,
+PRC_XIANGMU_YZXT	PROCEDURE	1205	"                 'DBA',
 "
 PRC_XIANGMU_YZXT	PROCEDURE	1206	"                 'DBA',
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1207	"                 'DBA',
+PRC_XIANGMU_YZXT	PROCEDURE	1207	"                 ypkz,
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1208	"                 ypkz,
+PRC_XIANGMU_YZXT	PROCEDURE	1208	"                 gfbz,
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1209	"                 gfbz,
+PRC_XIANGMU_YZXT	PROCEDURE	1209	"                 curr_bq,
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1210	"                 curr_bq,
+PRC_XIANGMU_YZXT	PROCEDURE	1210	"                 group_code,
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1211	"                 group_code,
+PRC_XIANGMU_YZXT	PROCEDURE	1211	"                 start_date,
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1212	"                 start_date,
+PRC_XIANGMU_YZXT	PROCEDURE	1212	"                 jtbf_flag,
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1213	"                 jtbf_flag,
+PRC_XIANGMU_YZXT	PROCEDURE	1213	"                 bqdm,
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1214	"                 bqdm,
+PRC_XIANGMU_YZXT	PROCEDURE	1214	"                 jzxh,
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1215	"                 jzxh,
+PRC_XIANGMU_YZXT	PROCEDURE	1215	"                 jcfx_date,
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1216	"                 jcfx_date,
+PRC_XIANGMU_YZXT	PROCEDURE	1216	"                 jcfx_id,
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1217	"                 jcfx_id,
+PRC_XIANGMU_YZXT	PROCEDURE	1217	"                 scrq,
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1218	"                 scrq,
+PRC_XIANGMU_YZXT	PROCEDURE	1218	"                 zzys,
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1219	"                 zzys,
+PRC_XIANGMU_YZXT	PROCEDURE	1219	"                 zlyppb,
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1220	"                 zlyppb,
+PRC_XIANGMU_YZXT	PROCEDURE	1220	"                 tcdm,
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1221	"                 tcdm,
+PRC_XIANGMU_YZXT	PROCEDURE	1221	"                 je * -1,
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1222	"                 je * -1,
+PRC_XIANGMU_YZXT	PROCEDURE	1222	"                 zlje * -1,
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1223	"                 zlje * -1,
+PRC_XIANGMU_YZXT	PROCEDURE	1223	"                 zfje * -1,
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1224	"                 zfje * -1,
+PRC_XIANGMU_YZXT	PROCEDURE	1224	"                 csbz,
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1225	"                 csbz,
+PRC_XIANGMU_YZXT	PROCEDURE	1225	"                 jiagelb,
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1226	"                 jiagelb,
+PRC_XIANGMU_YZXT	PROCEDURE	1226	"                 yibaoysxmxh
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1227	"                 yibaoysxmxh
+PRC_XIANGMU_YZXT	PROCEDURE	1227	"            from zy_detail_charge
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1228	"            from zy_detail_charge
+PRC_XIANGMU_YZXT	PROCEDURE	1228	"           where charge_code in (select ylxh from v_ylsf_curr_cut)
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1229	"           where charge_code in (select ylxh from v_ylsf_curr_cut)
+PRC_XIANGMU_YZXT	PROCEDURE	1229	"             and charge_date >= trunc(sysdate)
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1230	"             and charge_date >= trunc(sysdate)
+PRC_XIANGMU_YZXT	PROCEDURE	1230	"             and js_no = 0
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1231	"             and js_no = 0
+PRC_XIANGMU_YZXT	PROCEDURE	1231	"             and patient_no = in_patient_no;
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1232	"             and patient_no = in_patient_no;
+PRC_XIANGMU_YZXT	PROCEDURE	1232	"        if sqlcode = 0 then
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1233	"        if sqlcode = 0 then
+PRC_XIANGMU_YZXT	PROCEDURE	1233	"          COMMIT;
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1234	"          COMMIT;
+PRC_XIANGMU_YZXT	PROCEDURE	1234	"        else
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1235	"        else
+PRC_XIANGMU_YZXT	PROCEDURE	1235	"          rollback;
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1236	"          rollback;
+PRC_XIANGMU_YZXT	PROCEDURE	1236	"        end if;
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1237	"        end if;
+PRC_XIANGMU_YZXT	PROCEDURE	1237	"      
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1238	"      
+PRC_XIANGMU_YZXT	PROCEDURE	1238	"      end if;
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1239	"      end if;
+PRC_XIANGMU_YZXT	PROCEDURE	1239	"    
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1240	"    
+PRC_XIANGMU_YZXT	PROCEDURE	1240	"      -- end 预出院当天对部分项目进行退费v_ylsf_curr_cut
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1241	"      -- end 预出院当天对部分项目进行退费v_ylsf_curr_cut
+PRC_XIANGMU_YZXT	PROCEDURE	1241	"    
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1242	"    
+PRC_XIANGMU_YZXT	PROCEDURE	1242	"    end if;
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1243	"    end if;
+PRC_XIANGMU_YZXT	PROCEDURE	1243	"  
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1244	"  
+PRC_XIANGMU_YZXT	PROCEDURE	1244	"  end if;
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1245	"  end if;
+PRC_XIANGMU_YZXT	PROCEDURE	1245	"  --  end in_jiaoyilx ='预出院' 
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1246	"  --  end in_jiaoyilx ='预出院' 
+PRC_XIANGMU_YZXT	PROCEDURE	1246	"
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1247	"
+PRC_XIANGMU_YZXT	PROCEDURE	1247	"  out_code := 1;
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1248	"  out_code := 1;
+PRC_XIANGMU_YZXT	PROCEDURE	1248	"  out_msg  := '';
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1249	"  out_msg  := '';
+PRC_XIANGMU_YZXT	PROCEDURE	1249	"  return;
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1250	"  return;
+PRC_XIANGMU_YZXT	PROCEDURE	1250	"
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1251	"
-"
-PRC_XIANGMU_YZXT	PROCEDURE	1252	"End;
+PRC_XIANGMU_YZXT	PROCEDURE	1251	"End;
 "
