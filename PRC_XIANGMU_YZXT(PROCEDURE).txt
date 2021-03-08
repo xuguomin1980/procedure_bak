@@ -242,581 +242,581 @@ PRC_XIANGMU_YZXT	PROCEDURE	121	"  if 1 = 1 and in_jiaoyilx = '分配床位' then
 "
 PRC_XIANGMU_YZXT	PROCEDURE	122	"  
 "
-PRC_XIANGMU_YZXT	PROCEDURE	123	"    --预交款 留义温暖基金
+PRC_XIANGMU_YZXT	PROCEDURE	123	"    --科室医保匹配核对
 "
-PRC_XIANGMU_YZXT	PROCEDURE	124	"    IF 1 = 0 THEN
+PRC_XIANGMU_YZXT	PROCEDURE	124	"    if 1 = 1 then
 "
-PRC_XIANGMU_YZXT	PROCEDURE	125	"      select to_char(trunC(sysdate), 'yyyy-mm-dd') into v_temp2 from dual;
+PRC_XIANGMU_YZXT	PROCEDURE	125	"      select nvl(max(ksdm || ksmc ||
 "
-PRC_XIANGMU_YZXT	PROCEDURE	126	"    
+PRC_XIANGMU_YZXT	PROCEDURE	126	"                     ',医保科室未对照(gy_ksdm.ksdm_qg)  [prc_xiangmu_yzxt]'),
 "
-PRC_XIANGMU_YZXT	PROCEDURE	127	"      -- 日期范围 
+PRC_XIANGMU_YZXT	PROCEDURE	127	"                 '0')
 "
-PRC_XIANGMU_YZXT	PROCEDURE	128	"      if v_temp2 >= '2021-02-10' and v_temp2 <= '2021-02-21' then
+PRC_XIANGMU_YZXT	PROCEDURE	128	"        into out_msg
 "
-PRC_XIANGMU_YZXT	PROCEDURE	129	"      
+PRC_XIANGMU_YZXT	PROCEDURE	129	"        from gy_ksdm
 "
-PRC_XIANGMU_YZXT	PROCEDURE	130	"        select count(*)
+PRC_XIANGMU_YZXT	PROCEDURE	130	"       where ksdm_qg is null
 "
-PRC_XIANGMU_YZXT	PROCEDURE	131	"          into ll_count2
+PRC_XIANGMU_YZXT	PROCEDURE	131	"         and ksdm in (select curr_ks
 "
-PRC_XIANGMU_YZXT	PROCEDURE	132	"          from zy_patient_information t
+PRC_XIANGMU_YZXT	PROCEDURE	132	"                        from zy_patient_information
 "
-PRC_XIANGMU_YZXT	PROCEDURE	133	"         where nvl(t.cwfp_date, sysdate) >= trunc(sysdate)
+PRC_XIANGMU_YZXT	PROCEDURE	133	"                       where patient_no = ll_patient_no);
 "
-PRC_XIANGMU_YZXT	PROCEDURE	134	"           and patient_no = ll_patient_no;
+PRC_XIANGMU_YZXT	PROCEDURE	134	"      if length(out_msg) > 3 then
 "
-PRC_XIANGMU_YZXT	PROCEDURE	135	"        --24小时没有预出院
+PRC_XIANGMU_YZXT	PROCEDURE	135	"        out_code := -1;
 "
-PRC_XIANGMU_YZXT	PROCEDURE	136	"        SELECT count(*)
+PRC_XIANGMU_YZXT	PROCEDURE	136	"        return;
 "
-PRC_XIANGMU_YZXT	PROCEDURE	137	"          into v_count
+PRC_XIANGMU_YZXT	PROCEDURE	137	"      end if;
 "
-PRC_XIANGMU_YZXT	PROCEDURE	138	"          FROM ZY_PATIENT_INFORMATION
+PRC_XIANGMU_YZXT	PROCEDURE	138	"    
 "
-PRC_XIANGMU_YZXT	PROCEDURE	139	"         WHERE bah in (select bah
+PRC_XIANGMU_YZXT	PROCEDURE	139	"    end if;
 "
-PRC_XIANGMU_YZXT	PROCEDURE	140	"                         from zy_patient_information
+PRC_XIANGMU_YZXT	PROCEDURE	140	"  
 "
-PRC_XIANGMU_YZXT	PROCEDURE	141	"                        where patient_no = ll_patient_no)
+PRC_XIANGMU_YZXT	PROCEDURE	141	"    --预交款 留义温暖基金
 "
-PRC_XIANGMU_YZXT	PROCEDURE	142	"           and (sysdate - preout_date) <= 1
+PRC_XIANGMU_YZXT	PROCEDURE	142	"    IF 1 = 0 THEN
 "
-PRC_XIANGMU_YZXT	PROCEDURE	143	"           and preout_date is not null;
+PRC_XIANGMU_YZXT	PROCEDURE	143	"      select to_char(trunC(sysdate), 'yyyy-mm-dd') into v_temp2 from dual;
 "
-PRC_XIANGMU_YZXT	PROCEDURE	144	"      
+PRC_XIANGMU_YZXT	PROCEDURE	144	"    
 "
-PRC_XIANGMU_YZXT	PROCEDURE	145	"        if v_count = 0 and ll_count2 = 1 then
+PRC_XIANGMU_YZXT	PROCEDURE	145	"      -- 日期范围 
 "
-PRC_XIANGMU_YZXT	PROCEDURE	146	"          --判断重复记录
+PRC_XIANGMU_YZXT	PROCEDURE	146	"      if v_temp2 >= '2021-02-10' and v_temp2 <= '2021-02-21' then
 "
-PRC_XIANGMU_YZXT	PROCEDURE	147	"          SELECT count(*)
+PRC_XIANGMU_YZXT	PROCEDURE	147	"      
 "
-PRC_XIANGMU_YZXT	PROCEDURE	148	"            into v_count
+PRC_XIANGMU_YZXT	PROCEDURE	148	"        select count(*)
 "
-PRC_XIANGMU_YZXT	PROCEDURE	149	"            FROM zy_deposit_file t
+PRC_XIANGMU_YZXT	PROCEDURE	149	"          into ll_count2
 "
-PRC_XIANGMU_YZXT	PROCEDURE	150	"           WHERE t.depo_type = 2
+PRC_XIANGMU_YZXT	PROCEDURE	150	"          from zy_patient_information t
 "
-PRC_XIANGMU_YZXT	PROCEDURE	151	"             and op_id = 'AU002'
+PRC_XIANGMU_YZXT	PROCEDURE	151	"         where nvl(t.cwfp_date, sysdate) >= trunc(sysdate)
 "
-PRC_XIANGMU_YZXT	PROCEDURE	152	"             and patient_no = ll_patient_no;
+PRC_XIANGMU_YZXT	PROCEDURE	152	"           and patient_no = ll_patient_no;
 "
-PRC_XIANGMU_YZXT	PROCEDURE	153	"          if v_count = 0 then
+PRC_XIANGMU_YZXT	PROCEDURE	153	"        --24小时没有预出院
 "
-PRC_XIANGMU_YZXT	PROCEDURE	154	"          
+PRC_XIANGMU_YZXT	PROCEDURE	154	"        SELECT count(*)
 "
-PRC_XIANGMU_YZXT	PROCEDURE	155	"            update gy_xhb set dqz = dqz + zz where bm = 'ZY_DEPOSIT_FILE';
+PRC_XIANGMU_YZXT	PROCEDURE	155	"          into v_count
 "
-PRC_XIANGMU_YZXT	PROCEDURE	156	"            select dqz
+PRC_XIANGMU_YZXT	PROCEDURE	156	"          FROM ZY_PATIENT_INFORMATION
 "
-PRC_XIANGMU_YZXT	PROCEDURE	157	"              into v_jzxh
+PRC_XIANGMU_YZXT	PROCEDURE	157	"         WHERE bah in (select bah
 "
-PRC_XIANGMU_YZXT	PROCEDURE	158	"              from gy_xhb
+PRC_XIANGMU_YZXT	PROCEDURE	158	"                         from zy_patient_information
 "
-PRC_XIANGMU_YZXT	PROCEDURE	159	"             where bm = 'ZY_DEPOSIT_FILE';
+PRC_XIANGMU_YZXT	PROCEDURE	159	"                        where patient_no = ll_patient_no)
 "
-PRC_XIANGMU_YZXT	PROCEDURE	160	"            if sqlcode = 0 then
+PRC_XIANGMU_YZXT	PROCEDURE	160	"           and (sysdate - preout_date) <= 1
 "
-PRC_XIANGMU_YZXT	PROCEDURE	161	"              commit;
+PRC_XIANGMU_YZXT	PROCEDURE	161	"           and preout_date is not null;
 "
-PRC_XIANGMU_YZXT	PROCEDURE	162	"            else
+PRC_XIANGMU_YZXT	PROCEDURE	162	"      
 "
-PRC_XIANGMU_YZXT	PROCEDURE	163	"              rollback;
+PRC_XIANGMU_YZXT	PROCEDURE	163	"        if v_count = 0 and ll_count2 = 1 then
 "
-PRC_XIANGMU_YZXT	PROCEDURE	164	"              out_code := -1;
+PRC_XIANGMU_YZXT	PROCEDURE	164	"          --判断重复记录
 "
-PRC_XIANGMU_YZXT	PROCEDURE	165	"              out_msg  := '留义温暖基金保存出错[prc_xiangmu_yzxt]';
+PRC_XIANGMU_YZXT	PROCEDURE	165	"          SELECT count(*)
 "
-PRC_XIANGMU_YZXT	PROCEDURE	166	"              return;
+PRC_XIANGMU_YZXT	PROCEDURE	166	"            into v_count
 "
-PRC_XIANGMU_YZXT	PROCEDURE	167	"            end if;
+PRC_XIANGMU_YZXT	PROCEDURE	167	"            FROM zy_deposit_file t
 "
-PRC_XIANGMU_YZXT	PROCEDURE	168	"          
+PRC_XIANGMU_YZXT	PROCEDURE	168	"           WHERE t.depo_type = 2
 "
-PRC_XIANGMU_YZXT	PROCEDURE	169	"            insert into zy_deposit_file
+PRC_XIANGMU_YZXT	PROCEDURE	169	"             and op_id = 'AU002'
 "
-PRC_XIANGMU_YZXT	PROCEDURE	170	"              (jlxh,
+PRC_XIANGMU_YZXT	PROCEDURE	170	"             and patient_no = ll_patient_no;
 "
-PRC_XIANGMU_YZXT	PROCEDURE	171	"               patient_No,
+PRC_XIANGMU_YZXT	PROCEDURE	171	"          if v_count = 0 then
 "
-PRC_XIANGMU_YZXT	PROCEDURE	172	"               js_no,
+PRC_XIANGMU_YZXT	PROCEDURE	172	"          
 "
-PRC_XIANGMU_YZXT	PROCEDURE	173	"               name,
+PRC_XIANGMU_YZXT	PROCEDURE	173	"            update gy_xhb set dqz = dqz + zz where bm = 'ZY_DEPOSIT_FILE';
 "
-PRC_XIANGMU_YZXT	PROCEDURE	174	"               depo_date,
+PRC_XIANGMU_YZXT	PROCEDURE	174	"            select dqz
 "
-PRC_XIANGMU_YZXT	PROCEDURE	175	"               op_id,
+PRC_XIANGMU_YZXT	PROCEDURE	175	"              into v_jzxh
 "
-PRC_XIANGMU_YZXT	PROCEDURE	176	"               amount,
+PRC_XIANGMU_YZXT	PROCEDURE	176	"              from gy_xhb
 "
-PRC_XIANGMU_YZXT	PROCEDURE	177	"               depo_type,
+PRC_XIANGMU_YZXT	PROCEDURE	177	"             where bm = 'ZY_DEPOSIT_FILE';
 "
-PRC_XIANGMU_YZXT	PROCEDURE	178	"               status)
+PRC_XIANGMU_YZXT	PROCEDURE	178	"            if sqlcode = 0 then
 "
-PRC_XIANGMU_YZXT	PROCEDURE	179	"              select v_jzxh,
+PRC_XIANGMU_YZXT	PROCEDURE	179	"              commit;
 "
-PRC_XIANGMU_YZXT	PROCEDURE	180	"                     patient_no,
+PRC_XIANGMU_YZXT	PROCEDURE	180	"            else
 "
-PRC_XIANGMU_YZXT	PROCEDURE	181	"                     0,
+PRC_XIANGMU_YZXT	PROCEDURE	181	"              rollback;
 "
-PRC_XIANGMU_YZXT	PROCEDURE	182	"                     name,
+PRC_XIANGMU_YZXT	PROCEDURE	182	"              out_code := -1;
 "
-PRC_XIANGMU_YZXT	PROCEDURE	183	"                     sysdate,
+PRC_XIANGMU_YZXT	PROCEDURE	183	"              out_msg  := '留义温暖基金保存出错[prc_xiangmu_yzxt]';
 "
-PRC_XIANGMU_YZXT	PROCEDURE	184	"                     'AU002',
+PRC_XIANGMU_YZXT	PROCEDURE	184	"              return;
 "
-PRC_XIANGMU_YZXT	PROCEDURE	185	"                     1000,
+PRC_XIANGMU_YZXT	PROCEDURE	185	"            end if;
 "
-PRC_XIANGMU_YZXT	PROCEDURE	186	"                     2,
+PRC_XIANGMU_YZXT	PROCEDURE	186	"          
 "
-PRC_XIANGMU_YZXT	PROCEDURE	187	"                     1
+PRC_XIANGMU_YZXT	PROCEDURE	187	"            insert into zy_deposit_file
 "
-PRC_XIANGMU_YZXT	PROCEDURE	188	"                from zy_patient_information
+PRC_XIANGMU_YZXT	PROCEDURE	188	"              (jlxh,
 "
-PRC_XIANGMU_YZXT	PROCEDURE	189	"               where patient_no = ll_patient_no;
+PRC_XIANGMU_YZXT	PROCEDURE	189	"               patient_No,
 "
-PRC_XIANGMU_YZXT	PROCEDURE	190	"            if sqlcode = 0 then
+PRC_XIANGMU_YZXT	PROCEDURE	190	"               js_no,
 "
-PRC_XIANGMU_YZXT	PROCEDURE	191	"              commit;
+PRC_XIANGMU_YZXT	PROCEDURE	191	"               name,
 "
-PRC_XIANGMU_YZXT	PROCEDURE	192	"            else
+PRC_XIANGMU_YZXT	PROCEDURE	192	"               depo_date,
 "
-PRC_XIANGMU_YZXT	PROCEDURE	193	"              rollback;
+PRC_XIANGMU_YZXT	PROCEDURE	193	"               op_id,
 "
-PRC_XIANGMU_YZXT	PROCEDURE	194	"            
+PRC_XIANGMU_YZXT	PROCEDURE	194	"               amount,
 "
-PRC_XIANGMU_YZXT	PROCEDURE	195	"              out_code := -1;
+PRC_XIANGMU_YZXT	PROCEDURE	195	"               depo_type,
 "
-PRC_XIANGMU_YZXT	PROCEDURE	196	"              out_msg  := '留义温暖基金保存出错[prc_xiangmu_yzxt]';
+PRC_XIANGMU_YZXT	PROCEDURE	196	"               status)
 "
-PRC_XIANGMU_YZXT	PROCEDURE	197	"              return;
+PRC_XIANGMU_YZXT	PROCEDURE	197	"              select v_jzxh,
 "
-PRC_XIANGMU_YZXT	PROCEDURE	198	"            end if;
+PRC_XIANGMU_YZXT	PROCEDURE	198	"                     patient_no,
 "
-PRC_XIANGMU_YZXT	PROCEDURE	199	"          
+PRC_XIANGMU_YZXT	PROCEDURE	199	"                     0,
 "
-PRC_XIANGMU_YZXT	PROCEDURE	200	"          end if;
+PRC_XIANGMU_YZXT	PROCEDURE	200	"                     name,
 "
-PRC_XIANGMU_YZXT	PROCEDURE	201	"        
+PRC_XIANGMU_YZXT	PROCEDURE	201	"                     sysdate,
 "
-PRC_XIANGMU_YZXT	PROCEDURE	202	"        end if;
+PRC_XIANGMU_YZXT	PROCEDURE	202	"                     'AU002',
 "
-PRC_XIANGMU_YZXT	PROCEDURE	203	"      
+PRC_XIANGMU_YZXT	PROCEDURE	203	"                     1000,
 "
-PRC_XIANGMU_YZXT	PROCEDURE	204	"      end if;
+PRC_XIANGMU_YZXT	PROCEDURE	204	"                     2,
 "
-PRC_XIANGMU_YZXT	PROCEDURE	205	"    
+PRC_XIANGMU_YZXT	PROCEDURE	205	"                     1
 "
-PRC_XIANGMU_YZXT	PROCEDURE	206	"    end if;
+PRC_XIANGMU_YZXT	PROCEDURE	206	"                from zy_patient_information
 "
-PRC_XIANGMU_YZXT	PROCEDURE	207	"  
+PRC_XIANGMU_YZXT	PROCEDURE	207	"               where patient_no = ll_patient_no;
 "
-PRC_XIANGMU_YZXT	PROCEDURE	208	"    -- end 预交款 留义温暖基金
+PRC_XIANGMU_YZXT	PROCEDURE	208	"            if sqlcode = 0 then
 "
-PRC_XIANGMU_YZXT	PROCEDURE	209	"  
+PRC_XIANGMU_YZXT	PROCEDURE	209	"              commit;
 "
-PRC_XIANGMU_YZXT	PROCEDURE	210	"    select count(distinct(name))
+PRC_XIANGMU_YZXT	PROCEDURE	210	"            else
 "
-PRC_XIANGMU_YZXT	PROCEDURE	211	"      into v_count
+PRC_XIANGMU_YZXT	PROCEDURE	211	"              rollback;
 "
-PRC_XIANGMU_YZXT	PROCEDURE	212	"      From zy_patient_information
+PRC_XIANGMU_YZXT	PROCEDURE	212	"            
 "
-PRC_XIANGMU_YZXT	PROCEDURE	213	"     where bah in (select bah
+PRC_XIANGMU_YZXT	PROCEDURE	213	"              out_code := -1;
 "
-PRC_XIANGMU_YZXT	PROCEDURE	214	"                     from zy_patient_information
+PRC_XIANGMU_YZXT	PROCEDURE	214	"              out_msg  := '留义温暖基金保存出错[prc_xiangmu_yzxt]';
 "
-PRC_XIANGMU_YZXT	PROCEDURE	215	"                    where patient_No = ll_patient_no)
+PRC_XIANGMU_YZXT	PROCEDURE	215	"              return;
 "
-PRC_XIANGMU_YZXT	PROCEDURE	216	"       and admiss_date > sysdate - 30;
+PRC_XIANGMU_YZXT	PROCEDURE	216	"            end if;
 "
-PRC_XIANGMU_YZXT	PROCEDURE	217	"    if v_count > 1 then
+PRC_XIANGMU_YZXT	PROCEDURE	217	"          
 "
-PRC_XIANGMU_YZXT	PROCEDURE	218	"      out_code := -1;
+PRC_XIANGMU_YZXT	PROCEDURE	218	"          end if;
 "
-PRC_XIANGMU_YZXT	PROCEDURE	219	"      out_msg  := '该住院号有不同病人共用,最近30天[prc_xiangmu_yzxt]';
+PRC_XIANGMU_YZXT	PROCEDURE	219	"        
 "
-PRC_XIANGMU_YZXT	PROCEDURE	220	"      return;
+PRC_XIANGMU_YZXT	PROCEDURE	220	"        end if;
 "
-PRC_XIANGMU_YZXT	PROCEDURE	221	"    end if;
+PRC_XIANGMU_YZXT	PROCEDURE	221	"      
 "
-PRC_XIANGMU_YZXT	PROCEDURE	222	"  
+PRC_XIANGMU_YZXT	PROCEDURE	222	"      end if;
 "
-PRC_XIANGMU_YZXT	PROCEDURE	223	"    select nvl(max(bililx), '0')
+PRC_XIANGMU_YZXT	PROCEDURE	223	"    
 "
-PRC_XIANGMU_YZXT	PROCEDURE	224	"      into v_temp
+PRC_XIANGMU_YZXT	PROCEDURE	224	"    end if;
 "
-PRC_XIANGMU_YZXT	PROCEDURE	225	"      from zy_patient_information
+PRC_XIANGMU_YZXT	PROCEDURE	225	"  
 "
-PRC_XIANGMU_YZXT	PROCEDURE	226	"     where patient_no = ll_patient_no;
+PRC_XIANGMU_YZXT	PROCEDURE	226	"    -- end 预交款 留义温暖基金
 "
-PRC_XIANGMU_YZXT	PROCEDURE	227	"    if v_temp >= '1' then
+PRC_XIANGMU_YZXT	PROCEDURE	227	"  
 "
-PRC_XIANGMU_YZXT	PROCEDURE	228	"      null;
+PRC_XIANGMU_YZXT	PROCEDURE	228	"    select count(distinct(name))
 "
-PRC_XIANGMU_YZXT	PROCEDURE	229	"    else
+PRC_XIANGMU_YZXT	PROCEDURE	229	"      into v_count
 "
-PRC_XIANGMU_YZXT	PROCEDURE	230	"    
+PRC_XIANGMU_YZXT	PROCEDURE	230	"      From zy_patient_information
 "
-PRC_XIANGMU_YZXT	PROCEDURE	231	"      select to_char(max(nvl(preout_date, sysdate - 365)), 'yyyy-mm-dd')
+PRC_XIANGMU_YZXT	PROCEDURE	231	"     where bah in (select bah
 "
-PRC_XIANGMU_YZXT	PROCEDURE	232	"        into v_temp
+PRC_XIANGMU_YZXT	PROCEDURE	232	"                     from zy_patient_information
 "
-PRC_XIANGMU_YZXT	PROCEDURE	233	"        From zy_patient_information
+PRC_XIANGMU_YZXT	PROCEDURE	233	"                    where patient_No = ll_patient_no)
 "
-PRC_XIANGMU_YZXT	PROCEDURE	234	"       where bah in (select bah
+PRC_XIANGMU_YZXT	PROCEDURE	234	"       and admiss_date > sysdate - 30;
 "
-PRC_XIANGMU_YZXT	PROCEDURE	235	"                       from zy_patient_information
+PRC_XIANGMU_YZXT	PROCEDURE	235	"    if v_count > 1 then
 "
-PRC_XIANGMU_YZXT	PROCEDURE	236	"                      where patient_no = ll_patient_no);
+PRC_XIANGMU_YZXT	PROCEDURE	236	"      out_code := -1;
 "
-PRC_XIANGMU_YZXT	PROCEDURE	237	"    
+PRC_XIANGMU_YZXT	PROCEDURE	237	"      out_msg  := '该住院号有不同病人共用,最近30天[prc_xiangmu_yzxt]';
 "
-PRC_XIANGMU_YZXT	PROCEDURE	238	"      select to_char(nvl(admiss_date, sysdate), 'yyyy-mm-dd')
+PRC_XIANGMU_YZXT	PROCEDURE	238	"      return;
 "
-PRC_XIANGMU_YZXT	PROCEDURE	239	"        into v_temp2
+PRC_XIANGMU_YZXT	PROCEDURE	239	"    end if;
 "
-PRC_XIANGMU_YZXT	PROCEDURE	240	"        from zy_patient_information
+PRC_XIANGMU_YZXT	PROCEDURE	240	"  
 "
-PRC_XIANGMU_YZXT	PROCEDURE	241	"       where patient_no = ll_patient_no;
+PRC_XIANGMU_YZXT	PROCEDURE	241	"    select nvl(max(bililx), '0')
 "
-PRC_XIANGMU_YZXT	PROCEDURE	242	"      if v_temp = v_temp2 then
+PRC_XIANGMU_YZXT	PROCEDURE	242	"      into v_temp
 "
-PRC_XIANGMU_YZXT	PROCEDURE	243	"      
+PRC_XIANGMU_YZXT	PROCEDURE	243	"      from zy_patient_information
 "
-PRC_XIANGMU_YZXT	PROCEDURE	244	"        update zy_patient_information
+PRC_XIANGMU_YZXT	PROCEDURE	244	"     where patient_no = ll_patient_no;
 "
-PRC_XIANGMU_YZXT	PROCEDURE	245	"           set bililx = 2
+PRC_XIANGMU_YZXT	PROCEDURE	245	"    if v_temp >= '1' then
 "
-PRC_XIANGMU_YZXT	PROCEDURE	246	"         where patient_no = ll_patient_no;
+PRC_XIANGMU_YZXT	PROCEDURE	246	"      null;
 "
-PRC_XIANGMU_YZXT	PROCEDURE	247	"        commit;
+PRC_XIANGMU_YZXT	PROCEDURE	247	"    else
 "
-PRC_XIANGMU_YZXT	PROCEDURE	248	"      end if;
+PRC_XIANGMU_YZXT	PROCEDURE	248	"    
 "
-PRC_XIANGMU_YZXT	PROCEDURE	249	"    
+PRC_XIANGMU_YZXT	PROCEDURE	249	"      select to_char(max(nvl(preout_date, sysdate - 365)), 'yyyy-mm-dd')
 "
-PRC_XIANGMU_YZXT	PROCEDURE	250	"      ----
+PRC_XIANGMU_YZXT	PROCEDURE	250	"        into v_temp
 "
-PRC_XIANGMU_YZXT	PROCEDURE	251	"    
+PRC_XIANGMU_YZXT	PROCEDURE	251	"        From zy_patient_information
 "
-PRC_XIANGMU_YZXT	PROCEDURE	252	"      select nvl(max(bililx), '0')
+PRC_XIANGMU_YZXT	PROCEDURE	252	"       where bah in (select bah
 "
-PRC_XIANGMU_YZXT	PROCEDURE	253	"        into v_temp
+PRC_XIANGMU_YZXT	PROCEDURE	253	"                       from zy_patient_information
 "
-PRC_XIANGMU_YZXT	PROCEDURE	254	"        from zy_patient_information
+PRC_XIANGMU_YZXT	PROCEDURE	254	"                      where patient_no = ll_patient_no);
 "
-PRC_XIANGMU_YZXT	PROCEDURE	255	"       where patient_no = ll_patient_no;
+PRC_XIANGMU_YZXT	PROCEDURE	255	"    
 "
-PRC_XIANGMU_YZXT	PROCEDURE	256	"      if v_temp = '0' then
+PRC_XIANGMU_YZXT	PROCEDURE	256	"      select to_char(nvl(admiss_date, sysdate), 'yyyy-mm-dd')
 "
-PRC_XIANGMU_YZXT	PROCEDURE	257	"      
+PRC_XIANGMU_YZXT	PROCEDURE	257	"        into v_temp2
 "
-PRC_XIANGMU_YZXT	PROCEDURE	258	"        select count(yjsb)
+PRC_XIANGMU_YZXT	PROCEDURE	258	"        from zy_patient_information
 "
-PRC_XIANGMU_YZXT	PROCEDURE	259	"          into v_count
+PRC_XIANGMU_YZXT	PROCEDURE	259	"       where patient_no = ll_patient_no;
 "
-PRC_XIANGMU_YZXT	PROCEDURE	260	"          from yj_Yjk1
+PRC_XIANGMU_YZXT	PROCEDURE	260	"      if v_temp = v_temp2 then
 "
-PRC_XIANGMU_YZXT	PROCEDURE	261	"         where jchm IN ('住院尽检', '应检尽检')
+PRC_XIANGMU_YZXT	PROCEDURE	261	"      
 "
-PRC_XIANGMU_YZXT	PROCEDURE	262	"           and sfsb is not null
+PRC_XIANGMU_YZXT	PROCEDURE	262	"        update zy_patient_information
 "
-PRC_XIANGMU_YZXT	PROCEDURE	263	"           and jzxh in (select jiuzhenxh
+PRC_XIANGMU_YZXT	PROCEDURE	263	"           set bililx = 2
 "
-PRC_XIANGMU_YZXT	PROCEDURE	264	"                          from zj_zysqd
+PRC_XIANGMU_YZXT	PROCEDURE	264	"         where patient_no = ll_patient_no;
 "
-PRC_XIANGMU_YZXT	PROCEDURE	265	"                         where patient_no = ll_patient_no);
+PRC_XIANGMU_YZXT	PROCEDURE	265	"        commit;
 "
-PRC_XIANGMU_YZXT	PROCEDURE	266	"      
+PRC_XIANGMU_YZXT	PROCEDURE	266	"      end if;
 "
-PRC_XIANGMU_YZXT	PROCEDURE	267	"        if v_count > 0 then
+PRC_XIANGMU_YZXT	PROCEDURE	267	"    
 "
-PRC_XIANGMU_YZXT	PROCEDURE	268	"          /*      select nvl(max(jzkh), '0')
+PRC_XIANGMU_YZXT	PROCEDURE	268	"      ----
 "
-PRC_XIANGMU_YZXT	PROCEDURE	269	"           into v_jzkh
+PRC_XIANGMU_YZXT	PROCEDURE	269	"    
 "
-PRC_XIANGMU_YZXT	PROCEDURE	270	"           from zj_zysqd
+PRC_XIANGMU_YZXT	PROCEDURE	270	"      select nvl(max(bililx), '0')
 "
-PRC_XIANGMU_YZXT	PROCEDURE	271	"          where patient_no = ll_patient_no;*/
+PRC_XIANGMU_YZXT	PROCEDURE	271	"        into v_temp
 "
-PRC_XIANGMU_YZXT	PROCEDURE	272	"        
+PRC_XIANGMU_YZXT	PROCEDURE	272	"        from zy_patient_information
 "
-PRC_XIANGMU_YZXT	PROCEDURE	273	"          if 1 = 1 then
+PRC_XIANGMU_YZXT	PROCEDURE	273	"       where patient_no = ll_patient_no;
 "
-PRC_XIANGMU_YZXT	PROCEDURE	274	"            /* select count(yjsb)
+PRC_XIANGMU_YZXT	PROCEDURE	274	"      if v_temp = '0' then
 "
-PRC_XIANGMU_YZXT	PROCEDURE	275	"             into v_count
+PRC_XIANGMU_YZXT	PROCEDURE	275	"      
 "
-PRC_XIANGMU_YZXT	PROCEDURE	276	"             from yj_Yjk1
+PRC_XIANGMU_YZXT	PROCEDURE	276	"        select count(yjsb)
 "
-PRC_XIANGMU_YZXT	PROCEDURE	277	"            where jchm = '应检尽检'
+PRC_XIANGMU_YZXT	PROCEDURE	277	"          into v_count
 "
-PRC_XIANGMU_YZXT	PROCEDURE	278	"              and sfsb is not null
+PRC_XIANGMU_YZXT	PROCEDURE	278	"          from yj_Yjk1
 "
-PRC_XIANGMU_YZXT	PROCEDURE	279	"              and jzxh = v_jzxh;*/
+PRC_XIANGMU_YZXT	PROCEDURE	279	"         where jchm IN ('住院尽检', '应检尽检')
 "
-PRC_XIANGMU_YZXT	PROCEDURE	280	"          
+PRC_XIANGMU_YZXT	PROCEDURE	280	"           and sfsb is not null
 "
-PRC_XIANGMU_YZXT	PROCEDURE	281	"            if v_count > 0 then
+PRC_XIANGMU_YZXT	PROCEDURE	281	"           and jzxh in (select jiuzhenxh
 "
-PRC_XIANGMU_YZXT	PROCEDURE	282	"              null;
+PRC_XIANGMU_YZXT	PROCEDURE	282	"                          from zj_zysqd
 "
-PRC_XIANGMU_YZXT	PROCEDURE	283	"            else
+PRC_XIANGMU_YZXT	PROCEDURE	283	"                         where patient_no = ll_patient_no);
 "
-PRC_XIANGMU_YZXT	PROCEDURE	284	"              out_code := -1;
+PRC_XIANGMU_YZXT	PROCEDURE	284	"      
 "
-PRC_XIANGMU_YZXT	PROCEDURE	285	"              out_msg  := '未找到该住院记录对应的 应检尽检门诊发票0,请去病人首页修改, 应检尽检操作[prc_xiangmu_yzxt]';
+PRC_XIANGMU_YZXT	PROCEDURE	285	"        if v_count > 0 then
 "
-PRC_XIANGMU_YZXT	PROCEDURE	286	"              return;
+PRC_XIANGMU_YZXT	PROCEDURE	286	"          /*      select nvl(max(jzkh), '0')
 "
-PRC_XIANGMU_YZXT	PROCEDURE	287	"            end if;
+PRC_XIANGMU_YZXT	PROCEDURE	287	"           into v_jzkh
 "
-PRC_XIANGMU_YZXT	PROCEDURE	288	"          
+PRC_XIANGMU_YZXT	PROCEDURE	288	"           from zj_zysqd
 "
-PRC_XIANGMU_YZXT	PROCEDURE	289	"          else
+PRC_XIANGMU_YZXT	PROCEDURE	289	"          where patient_no = ll_patient_no;*/
 "
-PRC_XIANGMU_YZXT	PROCEDURE	290	"            out_code := -1;
+PRC_XIANGMU_YZXT	PROCEDURE	290	"        
 "
-PRC_XIANGMU_YZXT	PROCEDURE	291	"            out_msg  := '未找到该住院记录对应的 就诊卡号[prc_xiangmu_yzxt]';
+PRC_XIANGMU_YZXT	PROCEDURE	291	"          if 1 = 1 then
 "
-PRC_XIANGMU_YZXT	PROCEDURE	292	"            return;
+PRC_XIANGMU_YZXT	PROCEDURE	292	"            /* select count(yjsb)
 "
-PRC_XIANGMU_YZXT	PROCEDURE	293	"          end if;
+PRC_XIANGMU_YZXT	PROCEDURE	293	"             into v_count
 "
-PRC_XIANGMU_YZXT	PROCEDURE	294	"        else
+PRC_XIANGMU_YZXT	PROCEDURE	294	"             from yj_Yjk1
 "
-PRC_XIANGMU_YZXT	PROCEDURE	295	"          out_code := -1;
+PRC_XIANGMU_YZXT	PROCEDURE	295	"            where jchm = '应检尽检'
 "
-PRC_XIANGMU_YZXT	PROCEDURE	296	"          out_msg  := '未找到对应的 应检尽检的门诊收费发票,请去病人首页修改, 应检尽检操作[prc_xiangmu_yzxt]';
+PRC_XIANGMU_YZXT	PROCEDURE	296	"              and sfsb is not null
 "
-PRC_XIANGMU_YZXT	PROCEDURE	297	"          return;
+PRC_XIANGMU_YZXT	PROCEDURE	297	"              and jzxh = v_jzxh;*/
 "
-PRC_XIANGMU_YZXT	PROCEDURE	298	"        end if;
+PRC_XIANGMU_YZXT	PROCEDURE	298	"          
 "
-PRC_XIANGMU_YZXT	PROCEDURE	299	"      
+PRC_XIANGMU_YZXT	PROCEDURE	299	"            if v_count > 0 then
 "
-PRC_XIANGMU_YZXT	PROCEDURE	300	"      end if;
+PRC_XIANGMU_YZXT	PROCEDURE	300	"              null;
 "
-PRC_XIANGMU_YZXT	PROCEDURE	301	"    
+PRC_XIANGMU_YZXT	PROCEDURE	301	"            else
 "
-PRC_XIANGMU_YZXT	PROCEDURE	302	"      -----
+PRC_XIANGMU_YZXT	PROCEDURE	302	"              out_code := -1;
 "
-PRC_XIANGMU_YZXT	PROCEDURE	303	"      /* select nvl(max(jiuzhenxh), 0)
+PRC_XIANGMU_YZXT	PROCEDURE	303	"              out_msg  := '未找到该住院记录对应的 应检尽检门诊发票0,请去病人首页修改, 应检尽检操作[prc_xiangmu_yzxt]';
 "
-PRC_XIANGMU_YZXT	PROCEDURE	304	"       into v_jzxh
+PRC_XIANGMU_YZXT	PROCEDURE	304	"              return;
 "
-PRC_XIANGMU_YZXT	PROCEDURE	305	"       from zj_zysqd
+PRC_XIANGMU_YZXT	PROCEDURE	305	"            end if;
 "
-PRC_XIANGMU_YZXT	PROCEDURE	306	"      where patient_no = ll_patient_no;*/
+PRC_XIANGMU_YZXT	PROCEDURE	306	"          
 "
-PRC_XIANGMU_YZXT	PROCEDURE	307	"    
+PRC_XIANGMU_YZXT	PROCEDURE	307	"          else
 "
-PRC_XIANGMU_YZXT	PROCEDURE	308	"    end if;
+PRC_XIANGMU_YZXT	PROCEDURE	308	"            out_code := -1;
 "
-PRC_XIANGMU_YZXT	PROCEDURE	309	"  end if;
+PRC_XIANGMU_YZXT	PROCEDURE	309	"            out_msg  := '未找到该住院记录对应的 就诊卡号[prc_xiangmu_yzxt]';
 "
-PRC_XIANGMU_YZXT	PROCEDURE	310	"  if in_jiaoyilx = 'YJ住院' or in_jiaoyilx = '医嘱执行' then
+PRC_XIANGMU_YZXT	PROCEDURE	310	"            return;
 "
-PRC_XIANGMU_YZXT	PROCEDURE	311	"  
+PRC_XIANGMU_YZXT	PROCEDURE	311	"          end if;
 "
-PRC_XIANGMU_YZXT	PROCEDURE	312	"    -- ct项目合并  begin  
+PRC_XIANGMU_YZXT	PROCEDURE	312	"        else
 "
-PRC_XIANGMU_YZXT	PROCEDURE	313	"    if 1 = 1 and in_jiaoyilx = 'YJ住院' then
+PRC_XIANGMU_YZXT	PROCEDURE	313	"          out_code := -1;
 "
-PRC_XIANGMU_YZXT	PROCEDURE	314	"    
+PRC_XIANGMU_YZXT	PROCEDURE	314	"          out_msg  := '未找到对应的 应检尽检的门诊收费发票,请去病人首页修改, 应检尽检操作[prc_xiangmu_yzxt]';
 "
-PRC_XIANGMU_YZXT	PROCEDURE	315	"      select count(bah)
+PRC_XIANGMU_YZXT	PROCEDURE	315	"          return;
 "
-PRC_XIANGMU_YZXT	PROCEDURE	316	"        into v_count
+PRC_XIANGMU_YZXT	PROCEDURE	316	"        end if;
 "
-PRC_XIANGMU_YZXT	PROCEDURE	317	"        From zy_patient_information
+PRC_XIANGMU_YZXT	PROCEDURE	317	"      
 "
-PRC_XIANGMU_YZXT	PROCEDURE	318	"       where patient_no = ll_patient_no
+PRC_XIANGMU_YZXT	PROCEDURE	318	"      end if;
 "
-PRC_XIANGMU_YZXT	PROCEDURE	319	"         and preout_date is not null;
+PRC_XIANGMU_YZXT	PROCEDURE	319	"    
 "
-PRC_XIANGMU_YZXT	PROCEDURE	320	"      --预出院计费控制 指定科室
+PRC_XIANGMU_YZXT	PROCEDURE	320	"      -----
 "
-PRC_XIANGMU_YZXT	PROCEDURE	321	"      if v_count >= 1 then
+PRC_XIANGMU_YZXT	PROCEDURE	321	"      /* select nvl(max(jiuzhenxh), 0)
 "
-PRC_XIANGMU_YZXT	PROCEDURE	322	"        select count(patient_no)
+PRC_XIANGMU_YZXT	PROCEDURE	322	"       into v_jzxh
 "
-PRC_XIANGMU_YZXT	PROCEDURE	323	"          into v_count
+PRC_XIANGMU_YZXT	PROCEDURE	323	"       from zj_zysqd
 "
-PRC_XIANGMU_YZXT	PROCEDURE	324	"          from zy_detail_charge
+PRC_XIANGMU_YZXT	PROCEDURE	324	"      where patient_no = ll_patient_no;*/
 "
-PRC_XIANGMU_YZXT	PROCEDURE	325	"         where zx_ks in ('3080000', '3080001', '3080002', '2010041',
+PRC_XIANGMU_YZXT	PROCEDURE	325	"    
 "
-PRC_XIANGMU_YZXT	PROCEDURE	326	"                '2010038', '4010014', '2010086')
+PRC_XIANGMU_YZXT	PROCEDURE	326	"    end if;
 "
-PRC_XIANGMU_YZXT	PROCEDURE	327	"           and jzxh = in_patient_no
+PRC_XIANGMU_YZXT	PROCEDURE	327	"  end if;
 "
-PRC_XIANGMU_YZXT	PROCEDURE	328	"           and patient_No = ll_patient_no;
+PRC_XIANGMU_YZXT	PROCEDURE	328	"  if in_jiaoyilx = 'YJ住院' or in_jiaoyilx = '医嘱执行' then
 "
-PRC_XIANGMU_YZXT	PROCEDURE	329	"        if v_count > 0 then
+PRC_XIANGMU_YZXT	PROCEDURE	329	"  
 "
-PRC_XIANGMU_YZXT	PROCEDURE	330	"          delete zy_detail_charge
+PRC_XIANGMU_YZXT	PROCEDURE	330	"    -- ct项目合并  begin  
 "
-PRC_XIANGMU_YZXT	PROCEDURE	331	"           where zx_ks in ('3080000', '3080001', '3080002', '2010041',
+PRC_XIANGMU_YZXT	PROCEDURE	331	"    if 1 = 1 and in_jiaoyilx = 'YJ住院' then
 "
-PRC_XIANGMU_YZXT	PROCEDURE	332	"                  '2010038', '4010014', '2010086')
+PRC_XIANGMU_YZXT	PROCEDURE	332	"    
 "
-PRC_XIANGMU_YZXT	PROCEDURE	333	"             and jcfx_date > sysdate - 0.1
+PRC_XIANGMU_YZXT	PROCEDURE	333	"      select count(bah)
 "
-PRC_XIANGMU_YZXT	PROCEDURE	334	"             and jzxh = in_patient_no
+PRC_XIANGMU_YZXT	PROCEDURE	334	"        into v_count
 "
-PRC_XIANGMU_YZXT	PROCEDURE	335	"             and patient_No = ll_patient_no;
+PRC_XIANGMU_YZXT	PROCEDURE	335	"        From zy_patient_information
 "
-PRC_XIANGMU_YZXT	PROCEDURE	336	"          if sqlcode = 0 then
+PRC_XIANGMU_YZXT	PROCEDURE	336	"       where patient_no = ll_patient_no
 "
-PRC_XIANGMU_YZXT	PROCEDURE	337	"            commit;
+PRC_XIANGMU_YZXT	PROCEDURE	337	"         and preout_date is not null;
 "
-PRC_XIANGMU_YZXT	PROCEDURE	338	"          else
+PRC_XIANGMU_YZXT	PROCEDURE	338	"      --预出院计费控制 指定科室
 "
-PRC_XIANGMU_YZXT	PROCEDURE	339	"            rollback;
+PRC_XIANGMU_YZXT	PROCEDURE	339	"      if v_count >= 1 then
 "
-PRC_XIANGMU_YZXT	PROCEDURE	340	"          end if;
+PRC_XIANGMU_YZXT	PROCEDURE	340	"        select count(patient_no)
 "
-PRC_XIANGMU_YZXT	PROCEDURE	341	"          out_code := -1;
+PRC_XIANGMU_YZXT	PROCEDURE	341	"          into v_count
 "
-PRC_XIANGMU_YZXT	PROCEDURE	342	"          out_msg  := '病人已经预出院';
+PRC_XIANGMU_YZXT	PROCEDURE	342	"          from zy_detail_charge
 "
-PRC_XIANGMU_YZXT	PROCEDURE	343	"          return;
+PRC_XIANGMU_YZXT	PROCEDURE	343	"         where zx_ks in ('3080000', '3080001', '3080002', '2010041',
 "
-PRC_XIANGMU_YZXT	PROCEDURE	344	"        end if;
+PRC_XIANGMU_YZXT	PROCEDURE	344	"                '2010038', '4010014', '2010086')
 "
-PRC_XIANGMU_YZXT	PROCEDURE	345	"      end if;
+PRC_XIANGMU_YZXT	PROCEDURE	345	"           and jzxh = in_patient_no
 "
-PRC_XIANGMU_YZXT	PROCEDURE	346	"    
+PRC_XIANGMU_YZXT	PROCEDURE	346	"           and patient_No = ll_patient_no;
 "
-PRC_XIANGMU_YZXT	PROCEDURE	347	"      select nvl(sum(b.sl * c.xs), 0)
+PRC_XIANGMU_YZXT	PROCEDURE	347	"        if v_count > 0 then
 "
-PRC_XIANGMU_YZXT	PROCEDURE	348	"        into v_sl_use
+PRC_XIANGMU_YZXT	PROCEDURE	348	"          delete zy_detail_charge
 "
-PRC_XIANGMU_YZXT	PROCEDURE	349	"        From zy_detail_charge b, v_gy_ylsf_ct_0506 c
+PRC_XIANGMU_YZXT	PROCEDURE	349	"           where zx_ks in ('3080000', '3080001', '3080002', '2010041',
 "
-PRC_XIANGMU_YZXT	PROCEDURE	350	"       where b.patient_no = ll_patient_no
+PRC_XIANGMU_YZXT	PROCEDURE	350	"                  '2010038', '4010014', '2010086')
 "
-PRC_XIANGMU_YZXT	PROCEDURE	351	"         and b.jzxh = in_patient_no
+PRC_XIANGMU_YZXT	PROCEDURE	351	"             and jcfx_date > sysdate - 0.1
 "
-PRC_XIANGMU_YZXT	PROCEDURE	352	"         and b.charge_code = c.ylxh;
+PRC_XIANGMU_YZXT	PROCEDURE	352	"             and jzxh = in_patient_no
 "
-PRC_XIANGMU_YZXT	PROCEDURE	353	"    
+PRC_XIANGMU_YZXT	PROCEDURE	353	"             and patient_No = ll_patient_no;
 "
-PRC_XIANGMU_YZXT	PROCEDURE	354	"      select count(b.jlxh)
+PRC_XIANGMU_YZXT	PROCEDURE	354	"          if sqlcode = 0 then
 "
-PRC_XIANGMU_YZXT	PROCEDURE	355	"        into v_count
+PRC_XIANGMU_YZXT	PROCEDURE	355	"            commit;
 "
-PRC_XIANGMU_YZXT	PROCEDURE	356	"        From zy_detail_charge b, v_gy_ylsf_ct_0506 c
+PRC_XIANGMU_YZXT	PROCEDURE	356	"          else
 "
-PRC_XIANGMU_YZXT	PROCEDURE	357	"       where b.patient_no = ll_patient_no
+PRC_XIANGMU_YZXT	PROCEDURE	357	"            rollback;
 "
-PRC_XIANGMU_YZXT	PROCEDURE	358	"         and b.jzxh = in_patient_no
+PRC_XIANGMU_YZXT	PROCEDURE	358	"          end if;
 "
-PRC_XIANGMU_YZXT	PROCEDURE	359	"         and b.charge_code = c.ylxh
+PRC_XIANGMU_YZXT	PROCEDURE	359	"          out_code := -1;
 "
-PRC_XIANGMU_YZXT	PROCEDURE	360	"         and b.fygl > 3;
+PRC_XIANGMU_YZXT	PROCEDURE	360	"          out_msg  := '病人已经预出院';
 "
-PRC_XIANGMU_YZXT	PROCEDURE	361	"      if v_sl_use >= 2 and v_count > 1 then
+PRC_XIANGMU_YZXT	PROCEDURE	361	"          return;
 "
-PRC_XIANGMU_YZXT	PROCEDURE	362	"      
+PRC_XIANGMU_YZXT	PROCEDURE	362	"        end if;
 "
-PRC_XIANGMU_YZXT	PROCEDURE	363	"        if v_sl_use >= 2 then
+PRC_XIANGMU_YZXT	PROCEDURE	363	"      end if;
 "
-PRC_XIANGMU_YZXT	PROCEDURE	364	"          v_ylxh_ct_sum        := 15464;
+PRC_XIANGMU_YZXT	PROCEDURE	364	"    
 "
-PRC_XIANGMU_YZXT	PROCEDURE	365	"          v_ylxh_ct_sum_tcylxh := 31540;
+PRC_XIANGMU_YZXT	PROCEDURE	365	"      select nvl(sum(b.sl * c.xs), 0)
 "
-PRC_XIANGMU_YZXT	PROCEDURE	366	"          v_ylxh_ct_sum_dj     := 153.00;
+PRC_XIANGMU_YZXT	PROCEDURE	366	"        into v_sl_use
 "
-PRC_XIANGMU_YZXT	PROCEDURE	367	"          v_ylmc_ct            := '螺旋CT平扫（二个部位）';
+PRC_XIANGMU_YZXT	PROCEDURE	367	"        From zy_detail_charge b, v_gy_ylsf_ct_0506 c
 "
-PRC_XIANGMU_YZXT	PROCEDURE	368	"        end if;
+PRC_XIANGMU_YZXT	PROCEDURE	368	"       where b.patient_no = ll_patient_no
 "
-PRC_XIANGMU_YZXT	PROCEDURE	369	"        if v_sl_use >= 3 then
+PRC_XIANGMU_YZXT	PROCEDURE	369	"         and b.jzxh = in_patient_no
 "
-PRC_XIANGMU_YZXT	PROCEDURE	370	"          v_ylxh_ct_sum        := 15465;
+PRC_XIANGMU_YZXT	PROCEDURE	370	"         and b.charge_code = c.ylxh;
 "
-PRC_XIANGMU_YZXT	PROCEDURE	371	"          v_ylxh_ct_sum_tcylxh := 31539;
+PRC_XIANGMU_YZXT	PROCEDURE	371	"    
 "
-PRC_XIANGMU_YZXT	PROCEDURE	372	"          v_ylxh_ct_sum_dj     := 189.00;
+PRC_XIANGMU_YZXT	PROCEDURE	372	"      select count(b.jlxh)
 "
-PRC_XIANGMU_YZXT	PROCEDURE	373	"          v_ylmc_ct            := '螺旋CT平扫（≥三个部位）';
+PRC_XIANGMU_YZXT	PROCEDURE	373	"        into v_count
 "
-PRC_XIANGMU_YZXT	PROCEDURE	374	"        end if;
+PRC_XIANGMU_YZXT	PROCEDURE	374	"        From zy_detail_charge b, v_gy_ylsf_ct_0506 c
 "
-PRC_XIANGMU_YZXT	PROCEDURE	375	"        v_sqlcode_sum := 0;
+PRC_XIANGMU_YZXT	PROCEDURE	375	"       where b.patient_no = ll_patient_no
 "
-PRC_XIANGMU_YZXT	PROCEDURE	376	"      
+PRC_XIANGMU_YZXT	PROCEDURE	376	"         and b.jzxh = in_patient_no
 "
-PRC_XIANGMU_YZXT	PROCEDURE	377	"        -- ct_tc
+PRC_XIANGMU_YZXT	PROCEDURE	377	"         and b.charge_code = c.ylxh
 "
-PRC_XIANGMU_YZXT	PROCEDURE	378	"      
+PRC_XIANGMU_YZXT	PROCEDURE	378	"         and b.fygl > 3;
 "
-PRC_XIANGMU_YZXT	PROCEDURE	379	"        --ct_add
+PRC_XIANGMU_YZXT	PROCEDURE	379	"      if v_sl_use >= 2 and v_count > 1 then
 "
 PRC_XIANGMU_YZXT	PROCEDURE	380	"      
 "
-PRC_XIANGMU_YZXT	PROCEDURE	381	"        update zy_detail_charge
+PRC_XIANGMU_YZXT	PROCEDURE	381	"        if v_sl_use >= 2 then
 "
-PRC_XIANGMU_YZXT	PROCEDURE	382	"           set sl = 0
+PRC_XIANGMU_YZXT	PROCEDURE	382	"          v_ylxh_ct_sum        := 15464;
 "
-PRC_XIANGMU_YZXT	PROCEDURE	383	"         where patient_no = ll_patient_no
+PRC_XIANGMU_YZXT	PROCEDURE	383	"          v_ylxh_ct_sum_tcylxh := 31540;
 "
-PRC_XIANGMU_YZXT	PROCEDURE	384	"           and jzxh = in_patient_no
+PRC_XIANGMU_YZXT	PROCEDURE	384	"          v_ylxh_ct_sum_dj     := 153.00;
 "
-PRC_XIANGMU_YZXT	PROCEDURE	385	"           and charge_code in (select ylxh from v_gy_ylsf_ct_add_0506);
+PRC_XIANGMU_YZXT	PROCEDURE	385	"          v_ylmc_ct            := '螺旋CT平扫（二个部位）';
 "
-PRC_XIANGMU_YZXT	PROCEDURE	386	"        v_sqlcode_sum := v_sqlcode_sum + sqlcode;
+PRC_XIANGMU_YZXT	PROCEDURE	386	"        end if;
 "
-PRC_XIANGMU_YZXT	PROCEDURE	387	"      
+PRC_XIANGMU_YZXT	PROCEDURE	387	"        if v_sl_use >= 3 then
 "
-PRC_XIANGMU_YZXT	PROCEDURE	388	"        update zy_detail_charge
+PRC_XIANGMU_YZXT	PROCEDURE	388	"          v_ylxh_ct_sum        := 15465;
 "
-PRC_XIANGMU_YZXT	PROCEDURE	389	"           set sl = 1
+PRC_XIANGMU_YZXT	PROCEDURE	389	"          v_ylxh_ct_sum_tcylxh := 31539;
 "
-PRC_XIANGMU_YZXT	PROCEDURE	390	"         where patient_no = ll_patient_no
+PRC_XIANGMU_YZXT	PROCEDURE	390	"          v_ylxh_ct_sum_dj     := 189.00;
 "
-PRC_XIANGMU_YZXT	PROCEDURE	391	"           and jzxh = in_patient_no
+PRC_XIANGMU_YZXT	PROCEDURE	391	"          v_ylmc_ct            := '螺旋CT平扫（≥三个部位）';
 "
-PRC_XIANGMU_YZXT	PROCEDURE	392	"           and charge_code in (select ylxh from v_gy_ylsf_ct_add_0506)
+PRC_XIANGMU_YZXT	PROCEDURE	392	"        end if;
 "
-PRC_XIANGMU_YZXT	PROCEDURE	393	"           and rownum = 1;
+PRC_XIANGMU_YZXT	PROCEDURE	393	"        v_sqlcode_sum := 0;
 "
-PRC_XIANGMU_YZXT	PROCEDURE	394	"        v_sqlcode_sum := v_sqlcode_sum + sqlcode;
+PRC_XIANGMU_YZXT	PROCEDURE	394	"      
 "
-PRC_XIANGMU_YZXT	PROCEDURE	395	"      
+PRC_XIANGMU_YZXT	PROCEDURE	395	"        -- ct_tc
 "
-PRC_XIANGMU_YZXT	PROCEDURE	396	"        -- ct_bgd 
+PRC_XIANGMU_YZXT	PROCEDURE	396	"      
 "
-PRC_XIANGMU_YZXT	PROCEDURE	397	"      
+PRC_XIANGMU_YZXT	PROCEDURE	397	"        --ct_add
 "
-PRC_XIANGMU_YZXT	PROCEDURE	398	"        update zy_detail_charge
+PRC_XIANGMU_YZXT	PROCEDURE	398	"      
 "
-PRC_XIANGMU_YZXT	PROCEDURE	399	"           set sl = 0
+PRC_XIANGMU_YZXT	PROCEDURE	399	"        update zy_detail_charge
 "
-PRC_XIANGMU_YZXT	PROCEDURE	400	"         where patient_no = ll_patient_no
+PRC_XIANGMU_YZXT	PROCEDURE	400	"           set sl = 0
 "
-PRC_XIANGMU_YZXT	PROCEDURE	401	"           and jzxh = in_patient_no
+PRC_XIANGMU_YZXT	PROCEDURE	401	"         where patient_no = ll_patient_no
 "
-PRC_XIANGMU_YZXT	PROCEDURE	402	"           and charge_code in (select ylxh from v_gy_ylsf_ctbgd_0506);
+PRC_XIANGMU_YZXT	PROCEDURE	402	"           and jzxh = in_patient_no
 "
-PRC_XIANGMU_YZXT	PROCEDURE	403	"        v_sqlcode_sum := v_sqlcode_sum + sqlcode;
+PRC_XIANGMU_YZXT	PROCEDURE	403	"           and charge_code in (select ylxh from v_gy_ylsf_ct_add_0506);
 "
-PRC_XIANGMU_YZXT	PROCEDURE	404	"      
+PRC_XIANGMU_YZXT	PROCEDURE	404	"        v_sqlcode_sum := v_sqlcode_sum + sqlcode;
 "
-PRC_XIANGMU_YZXT	PROCEDURE	405	"        update zy_detail_charge
+PRC_XIANGMU_YZXT	PROCEDURE	405	"      
 "
-PRC_XIANGMU_YZXT	PROCEDURE	406	"           set sl = 1
+PRC_XIANGMU_YZXT	PROCEDURE	406	"        update zy_detail_charge
 "
-PRC_XIANGMU_YZXT	PROCEDURE	407	"         where patient_no = ll_patient_no
+PRC_XIANGMU_YZXT	PROCEDURE	407	"           set sl = 1
 "
-PRC_XIANGMU_YZXT	PROCEDURE	408	"           and jzxh = in_patient_no
+PRC_XIANGMU_YZXT	PROCEDURE	408	"         where patient_no = ll_patient_no
 "
-PRC_XIANGMU_YZXT	PROCEDURE	409	"           and charge_code in (select ylxh from v_gy_ylsf_ctbgd_0506)
+PRC_XIANGMU_YZXT	PROCEDURE	409	"           and jzxh = in_patient_no
 "
-PRC_XIANGMU_YZXT	PROCEDURE	410	"              
+PRC_XIANGMU_YZXT	PROCEDURE	410	"           and charge_code in (select ylxh from v_gy_ylsf_ct_add_0506)
 "
 PRC_XIANGMU_YZXT	PROCEDURE	411	"           and rownum = 1;
 "
@@ -824,7 +824,7 @@ PRC_XIANGMU_YZXT	PROCEDURE	412	"        v_sqlcode_sum := v_sqlcode_sum + sqlcode
 "
 PRC_XIANGMU_YZXT	PROCEDURE	413	"      
 "
-PRC_XIANGMU_YZXT	PROCEDURE	414	"        --ct 
+PRC_XIANGMU_YZXT	PROCEDURE	414	"        -- ct_bgd 
 "
 PRC_XIANGMU_YZXT	PROCEDURE	415	"      
 "
@@ -836,7 +836,7 @@ PRC_XIANGMU_YZXT	PROCEDURE	418	"         where patient_no = ll_patient_no
 "
 PRC_XIANGMU_YZXT	PROCEDURE	419	"           and jzxh = in_patient_no
 "
-PRC_XIANGMU_YZXT	PROCEDURE	420	"           and charge_code in (select ylxh from v_gy_ylsf_ct_0506);
+PRC_XIANGMU_YZXT	PROCEDURE	420	"           and charge_code in (select ylxh from v_gy_ylsf_ctbgd_0506);
 "
 PRC_XIANGMU_YZXT	PROCEDURE	421	"        v_sqlcode_sum := v_sqlcode_sum + sqlcode;
 "
@@ -844,1659 +844,1695 @@ PRC_XIANGMU_YZXT	PROCEDURE	422	"
 "
 PRC_XIANGMU_YZXT	PROCEDURE	423	"        update zy_detail_charge
 "
-PRC_XIANGMU_YZXT	PROCEDURE	424	"           set sl          = 1,
+PRC_XIANGMU_YZXT	PROCEDURE	424	"           set sl = 1
 "
-PRC_XIANGMU_YZXT	PROCEDURE	425	"               charge_code = v_ylxh_ct_sum,
+PRC_XIANGMU_YZXT	PROCEDURE	425	"         where patient_no = ll_patient_no
 "
-PRC_XIANGMU_YZXT	PROCEDURE	426	"               dj          = v_ylxh_ct_sum_dj,
+PRC_XIANGMU_YZXT	PROCEDURE	426	"           and jzxh = in_patient_no
 "
-PRC_XIANGMU_YZXT	PROCEDURE	427	"               charge_name = v_ylmc_ct
+PRC_XIANGMU_YZXT	PROCEDURE	427	"           and charge_code in (select ylxh from v_gy_ylsf_ctbgd_0506)
 "
-PRC_XIANGMU_YZXT	PROCEDURE	428	"         where patient_no = ll_patient_no
+PRC_XIANGMU_YZXT	PROCEDURE	428	"              
 "
-PRC_XIANGMU_YZXT	PROCEDURE	429	"           and jzxh = in_patient_no
+PRC_XIANGMU_YZXT	PROCEDURE	429	"           and rownum = 1;
 "
-PRC_XIANGMU_YZXT	PROCEDURE	430	"           and charge_code in (select ylxh from v_gy_ylsf_ct_0506)
+PRC_XIANGMU_YZXT	PROCEDURE	430	"        v_sqlcode_sum := v_sqlcode_sum + sqlcode;
 "
-PRC_XIANGMU_YZXT	PROCEDURE	431	"              
+PRC_XIANGMU_YZXT	PROCEDURE	431	"      
 "
-PRC_XIANGMU_YZXT	PROCEDURE	432	"           and rownum = 1;
+PRC_XIANGMU_YZXT	PROCEDURE	432	"        --ct 
 "
-PRC_XIANGMU_YZXT	PROCEDURE	433	"        v_sqlcode_sum := v_sqlcode_sum + sqlcode;
+PRC_XIANGMU_YZXT	PROCEDURE	433	"      
 "
-PRC_XIANGMU_YZXT	PROCEDURE	434	"      
+PRC_XIANGMU_YZXT	PROCEDURE	434	"        update zy_detail_charge
 "
-PRC_XIANGMU_YZXT	PROCEDURE	435	"        update zy_detail_charge
+PRC_XIANGMU_YZXT	PROCEDURE	435	"           set sl = 0
 "
-PRC_XIANGMU_YZXT	PROCEDURE	436	"           set patient_no = ll_patient_no * -1
+PRC_XIANGMU_YZXT	PROCEDURE	436	"         where patient_no = ll_patient_no
 "
-PRC_XIANGMU_YZXT	PROCEDURE	437	"         where patient_no = ll_patient_no
+PRC_XIANGMU_YZXT	PROCEDURE	437	"           and jzxh = in_patient_no
 "
-PRC_XIANGMU_YZXT	PROCEDURE	438	"           and jzxh = in_patient_no
+PRC_XIANGMU_YZXT	PROCEDURE	438	"           and charge_code in (select ylxh from v_gy_ylsf_ct_0506);
 "
-PRC_XIANGMU_YZXT	PROCEDURE	439	"              
+PRC_XIANGMU_YZXT	PROCEDURE	439	"        v_sqlcode_sum := v_sqlcode_sum + sqlcode;
 "
-PRC_XIANGMU_YZXT	PROCEDURE	440	"           and sl = 0;
+PRC_XIANGMU_YZXT	PROCEDURE	440	"      
 "
-PRC_XIANGMU_YZXT	PROCEDURE	441	"        v_sqlcode_sum := v_sqlcode_sum + sqlcode;
+PRC_XIANGMU_YZXT	PROCEDURE	441	"        update zy_detail_charge
 "
-PRC_XIANGMU_YZXT	PROCEDURE	442	"      
+PRC_XIANGMU_YZXT	PROCEDURE	442	"           set sl          = 1,
 "
-PRC_XIANGMU_YZXT	PROCEDURE	443	"        if v_sqlcode_sum = 0 then
+PRC_XIANGMU_YZXT	PROCEDURE	443	"               charge_code = v_ylxh_ct_sum,
 "
-PRC_XIANGMU_YZXT	PROCEDURE	444	"          commit;
+PRC_XIANGMU_YZXT	PROCEDURE	444	"               dj          = v_ylxh_ct_sum_dj,
 "
-PRC_XIANGMU_YZXT	PROCEDURE	445	"        else
+PRC_XIANGMU_YZXT	PROCEDURE	445	"               charge_name = v_ylmc_ct
 "
-PRC_XIANGMU_YZXT	PROCEDURE	446	"          rollback;
+PRC_XIANGMU_YZXT	PROCEDURE	446	"         where patient_no = ll_patient_no
 "
-PRC_XIANGMU_YZXT	PROCEDURE	447	"        
+PRC_XIANGMU_YZXT	PROCEDURE	447	"           and jzxh = in_patient_no
 "
-PRC_XIANGMU_YZXT	PROCEDURE	448	"          select '合并处理ct项目失败 [prc_xiangmu_yzxt]'
+PRC_XIANGMU_YZXT	PROCEDURE	448	"           and charge_code in (select ylxh from v_gy_ylsf_ct_0506)
 "
-PRC_XIANGMU_YZXT	PROCEDURE	449	"            into out_msg
+PRC_XIANGMU_YZXT	PROCEDURE	449	"              
 "
-PRC_XIANGMU_YZXT	PROCEDURE	450	"            from dual;
+PRC_XIANGMU_YZXT	PROCEDURE	450	"           and rownum = 1;
 "
-PRC_XIANGMU_YZXT	PROCEDURE	451	"          out_code := -1;
+PRC_XIANGMU_YZXT	PROCEDURE	451	"        v_sqlcode_sum := v_sqlcode_sum + sqlcode;
 "
-PRC_XIANGMU_YZXT	PROCEDURE	452	"        
+PRC_XIANGMU_YZXT	PROCEDURE	452	"      
 "
-PRC_XIANGMU_YZXT	PROCEDURE	453	"          return;
+PRC_XIANGMU_YZXT	PROCEDURE	453	"        update zy_detail_charge
 "
-PRC_XIANGMU_YZXT	PROCEDURE	454	"        
+PRC_XIANGMU_YZXT	PROCEDURE	454	"           set patient_no = ll_patient_no * -1
 "
-PRC_XIANGMU_YZXT	PROCEDURE	455	"        end if;
+PRC_XIANGMU_YZXT	PROCEDURE	455	"         where patient_no = ll_patient_no
 "
-PRC_XIANGMU_YZXT	PROCEDURE	456	"      
+PRC_XIANGMU_YZXT	PROCEDURE	456	"           and jzxh = in_patient_no
 "
-PRC_XIANGMU_YZXT	PROCEDURE	457	"      end if;
+PRC_XIANGMU_YZXT	PROCEDURE	457	"              
 "
-PRC_XIANGMU_YZXT	PROCEDURE	458	"    
+PRC_XIANGMU_YZXT	PROCEDURE	458	"           and sl = 0;
 "
-PRC_XIANGMU_YZXT	PROCEDURE	459	"    end if;
+PRC_XIANGMU_YZXT	PROCEDURE	459	"        v_sqlcode_sum := v_sqlcode_sum + sqlcode;
 "
-PRC_XIANGMU_YZXT	PROCEDURE	460	"    -- ct项目合并  end 
+PRC_XIANGMU_YZXT	PROCEDURE	460	"      
 "
-PRC_XIANGMU_YZXT	PROCEDURE	461	"  
+PRC_XIANGMU_YZXT	PROCEDURE	461	"        if v_sqlcode_sum = 0 then
 "
-PRC_XIANGMU_YZXT	PROCEDURE	462	"    --限儿童 spbh=-10 begin
+PRC_XIANGMU_YZXT	PROCEDURE	462	"          commit;
 "
-PRC_XIANGMU_YZXT	PROCEDURE	463	"    if 1 = 1 then
+PRC_XIANGMU_YZXT	PROCEDURE	463	"        else
 "
-PRC_XIANGMU_YZXT	PROCEDURE	464	"      out_msg := '';
+PRC_XIANGMU_YZXT	PROCEDURE	464	"          rollback;
 "
-PRC_XIANGMU_YZXT	PROCEDURE	465	"      PRC_YB_CHECK_4('9999', ll_patient_no, out_msg);
+PRC_XIANGMU_YZXT	PROCEDURE	465	"        
 "
-PRC_XIANGMU_YZXT	PROCEDURE	466	"    
+PRC_XIANGMU_YZXT	PROCEDURE	466	"          select '合并处理ct项目失败 [prc_xiangmu_yzxt]'
 "
-PRC_XIANGMU_YZXT	PROCEDURE	467	"      if length(out_msg) > 1 then
+PRC_XIANGMU_YZXT	PROCEDURE	467	"            into out_msg
 "
-PRC_XIANGMU_YZXT	PROCEDURE	468	"        out_code := 0;
+PRC_XIANGMU_YZXT	PROCEDURE	468	"            from dual;
 "
-PRC_XIANGMU_YZXT	PROCEDURE	469	"        return;
+PRC_XIANGMU_YZXT	PROCEDURE	469	"          out_code := -1;
 "
-PRC_XIANGMU_YZXT	PROCEDURE	470	"      end if;
+PRC_XIANGMU_YZXT	PROCEDURE	470	"        
 "
-PRC_XIANGMU_YZXT	PROCEDURE	471	"      PRC_YB_CHECK_4_28('9999', ll_patient_no, out_msg);
+PRC_XIANGMU_YZXT	PROCEDURE	471	"          return;
 "
-PRC_XIANGMU_YZXT	PROCEDURE	472	"    
+PRC_XIANGMU_YZXT	PROCEDURE	472	"        
 "
-PRC_XIANGMU_YZXT	PROCEDURE	473	"      if length(out_msg) > 1 then
+PRC_XIANGMU_YZXT	PROCEDURE	473	"        end if;
 "
-PRC_XIANGMU_YZXT	PROCEDURE	474	"        out_code := 0;
+PRC_XIANGMU_YZXT	PROCEDURE	474	"      
 "
-PRC_XIANGMU_YZXT	PROCEDURE	475	"        return;
+PRC_XIANGMU_YZXT	PROCEDURE	475	"      end if;
 "
-PRC_XIANGMU_YZXT	PROCEDURE	476	"      end if;
+PRC_XIANGMU_YZXT	PROCEDURE	476	"    
 "
-PRC_XIANGMU_YZXT	PROCEDURE	477	"      PRC_YB_CHECK_4_2190('9999', ll_patient_no, out_msg);
+PRC_XIANGMU_YZXT	PROCEDURE	477	"    end if;
 "
-PRC_XIANGMU_YZXT	PROCEDURE	478	"    
+PRC_XIANGMU_YZXT	PROCEDURE	478	"    -- ct项目合并  end 
 "
-PRC_XIANGMU_YZXT	PROCEDURE	479	"      if length(out_msg) > 1 then
+PRC_XIANGMU_YZXT	PROCEDURE	479	"  
 "
-PRC_XIANGMU_YZXT	PROCEDURE	480	"        out_code := 0;
+PRC_XIANGMU_YZXT	PROCEDURE	480	"    --限儿童 spbh=-10 begin
 "
-PRC_XIANGMU_YZXT	PROCEDURE	481	"        return;
+PRC_XIANGMU_YZXT	PROCEDURE	481	"    if 1 = 1 then
 "
-PRC_XIANGMU_YZXT	PROCEDURE	482	"      end if;
+PRC_XIANGMU_YZXT	PROCEDURE	482	"      out_msg := '';
 "
-PRC_XIANGMU_YZXT	PROCEDURE	483	"    end if;
+PRC_XIANGMU_YZXT	PROCEDURE	483	"      PRC_YB_CHECK_4('9999', ll_patient_no, out_msg);
 "
-PRC_XIANGMU_YZXT	PROCEDURE	484	"  
+PRC_XIANGMU_YZXT	PROCEDURE	484	"    
 "
-PRC_XIANGMU_YZXT	PROCEDURE	485	"    --限儿童 spbh=-10 end
+PRC_XIANGMU_YZXT	PROCEDURE	485	"      if length(out_msg) > 1 then
 "
-PRC_XIANGMU_YZXT	PROCEDURE	486	"  
+PRC_XIANGMU_YZXT	PROCEDURE	486	"        out_code := 0;
 "
-PRC_XIANGMU_YZXT	PROCEDURE	487	"  end if;
+PRC_XIANGMU_YZXT	PROCEDURE	487	"        return;
 "
-PRC_XIANGMU_YZXT	PROCEDURE	488	"  --  end in_jiaoyilx = 'YJ住院'
+PRC_XIANGMU_YZXT	PROCEDURE	488	"      end if;
 "
-PRC_XIANGMU_YZXT	PROCEDURE	489	"
+PRC_XIANGMU_YZXT	PROCEDURE	489	"      PRC_YB_CHECK_4_28('9999', ll_patient_no, out_msg);
 "
-PRC_XIANGMU_YZXT	PROCEDURE	490	"  if in_jiaoyilx = '预出院' then
+PRC_XIANGMU_YZXT	PROCEDURE	490	"    
 "
-PRC_XIANGMU_YZXT	PROCEDURE	491	"    if in_patient_no > 0 then
+PRC_XIANGMU_YZXT	PROCEDURE	491	"      if length(out_msg) > 1 then
 "
-PRC_XIANGMU_YZXT	PROCEDURE	492	"      null;
+PRC_XIANGMU_YZXT	PROCEDURE	492	"        out_code := 0;
 "
-PRC_XIANGMU_YZXT	PROCEDURE	493	"    else
+PRC_XIANGMU_YZXT	PROCEDURE	493	"        return;
 "
-PRC_XIANGMU_YZXT	PROCEDURE	494	"      ls_show  := 'patient<=0!,[prc_xiangmu_yzxt]';
+PRC_XIANGMU_YZXT	PROCEDURE	494	"      end if;
 "
-PRC_XIANGMU_YZXT	PROCEDURE	495	"      out_code := -1;
+PRC_XIANGMU_YZXT	PROCEDURE	495	"      PRC_YB_CHECK_4_2190('9999', ll_patient_no, out_msg);
 "
-PRC_XIANGMU_YZXT	PROCEDURE	496	"      out_msg  := ls_show;
+PRC_XIANGMU_YZXT	PROCEDURE	496	"    
 "
-PRC_XIANGMU_YZXT	PROCEDURE	497	"      return;
+PRC_XIANGMU_YZXT	PROCEDURE	497	"      if length(out_msg) > 1 then
 "
-PRC_XIANGMU_YZXT	PROCEDURE	498	"    end if;
+PRC_XIANGMU_YZXT	PROCEDURE	498	"        out_code := 0;
 "
-PRC_XIANGMU_YZXT	PROCEDURE	499	"  
+PRC_XIANGMU_YZXT	PROCEDURE	499	"        return;
 "
-PRC_XIANGMU_YZXT	PROCEDURE	500	"    -- bah一致,patient_No不一致  gy_charge_interface
+PRC_XIANGMU_YZXT	PROCEDURE	500	"      end if;
 "
-PRC_XIANGMU_YZXT	PROCEDURE	501	"    if 1 = 1 then
+PRC_XIANGMU_YZXT	PROCEDURE	501	"    end if;
 "
-PRC_XIANGMU_YZXT	PROCEDURE	502	"      select count(*)
+PRC_XIANGMU_YZXT	PROCEDURE	502	"  
 "
-PRC_XIANGMU_YZXT	PROCEDURE	503	"        into v_count
+PRC_XIANGMU_YZXT	PROCEDURE	503	"    --限儿童 spbh=-10 end
 "
-PRC_XIANGMU_YZXT	PROCEDURE	504	"        From gy_charge_interface
+PRC_XIANGMU_YZXT	PROCEDURE	504	"  
 "
-PRC_XIANGMU_YZXT	PROCEDURE	505	"       where patientNo <> in_patient_no
+PRC_XIANGMU_YZXT	PROCEDURE	505	"  end if;
 "
-PRC_XIANGMU_YZXT	PROCEDURE	506	"         and bingrenzyid =
+PRC_XIANGMU_YZXT	PROCEDURE	506	"  --  end in_jiaoyilx = 'YJ住院'
 "
-PRC_XIANGMU_YZXT	PROCEDURE	507	"             (select bah
+PRC_XIANGMU_YZXT	PROCEDURE	507	"
 "
-PRC_XIANGMU_YZXT	PROCEDURE	508	"                from zy_patient_information
+PRC_XIANGMU_YZXT	PROCEDURE	508	"  if in_jiaoyilx = '预出院' then
 "
-PRC_XIANGMU_YZXT	PROCEDURE	509	"               where patient_no = in_patient_no)
+PRC_XIANGMU_YZXT	PROCEDURE	509	"    if in_patient_no > 0 then
 "
-PRC_XIANGMU_YZXT	PROCEDURE	510	"         and chargeDATE > (select admiss_date
+PRC_XIANGMU_YZXT	PROCEDURE	510	"      null;
 "
-PRC_XIANGMU_YZXT	PROCEDURE	511	"                             from zy_patient_information
+PRC_XIANGMU_YZXT	PROCEDURE	511	"    else
 "
-PRC_XIANGMU_YZXT	PROCEDURE	512	"                            where patient_no = in_patient_no)
+PRC_XIANGMU_YZXT	PROCEDURE	512	"      ls_show  := 'patient<=0!,[prc_xiangmu_yzxt]';
 "
-PRC_XIANGMU_YZXT	PROCEDURE	513	"         and scrq is null
+PRC_XIANGMU_YZXT	PROCEDURE	513	"      out_code := -1;
 "
-PRC_XIANGMU_YZXT	PROCEDURE	514	"         and chargeDATE > sysdate - 100;
+PRC_XIANGMU_YZXT	PROCEDURE	514	"      out_msg  := ls_show;
 "
-PRC_XIANGMU_YZXT	PROCEDURE	515	"      if v_count > 0 then
+PRC_XIANGMU_YZXT	PROCEDURE	515	"      return;
 "
-PRC_XIANGMU_YZXT	PROCEDURE	516	"        update gy_charge_interface
+PRC_XIANGMU_YZXT	PROCEDURE	516	"    end if;
 "
-PRC_XIANGMU_YZXT	PROCEDURE	517	"           set patientNo = in_patient_no
+PRC_XIANGMU_YZXT	PROCEDURE	517	"  
 "
-PRC_XIANGMU_YZXT	PROCEDURE	518	"         where patientNo <> in_patient_no
+PRC_XIANGMU_YZXT	PROCEDURE	518	"    -- bah一致,patient_No不一致  gy_charge_interface
 "
-PRC_XIANGMU_YZXT	PROCEDURE	519	"           and bingrenzyid =
+PRC_XIANGMU_YZXT	PROCEDURE	519	"    if 1 = 1 then
 "
-PRC_XIANGMU_YZXT	PROCEDURE	520	"               (select bah
+PRC_XIANGMU_YZXT	PROCEDURE	520	"      select count(*)
 "
-PRC_XIANGMU_YZXT	PROCEDURE	521	"                  from zy_patient_information
+PRC_XIANGMU_YZXT	PROCEDURE	521	"        into v_count
 "
-PRC_XIANGMU_YZXT	PROCEDURE	522	"                 where patient_no = in_patient_no)
+PRC_XIANGMU_YZXT	PROCEDURE	522	"        From gy_charge_interface
 "
-PRC_XIANGMU_YZXT	PROCEDURE	523	"           and chargeDATE >
+PRC_XIANGMU_YZXT	PROCEDURE	523	"       where patientNo <> in_patient_no
 "
-PRC_XIANGMU_YZXT	PROCEDURE	524	"               (select admiss_date
+PRC_XIANGMU_YZXT	PROCEDURE	524	"         and bingrenzyid =
 "
-PRC_XIANGMU_YZXT	PROCEDURE	525	"                  from zy_patient_information
+PRC_XIANGMU_YZXT	PROCEDURE	525	"             (select bah
 "
-PRC_XIANGMU_YZXT	PROCEDURE	526	"                 where patient_no = in_patient_no)
+PRC_XIANGMU_YZXT	PROCEDURE	526	"                from zy_patient_information
 "
-PRC_XIANGMU_YZXT	PROCEDURE	527	"           and scrq is null
+PRC_XIANGMU_YZXT	PROCEDURE	527	"               where patient_no = in_patient_no)
 "
-PRC_XIANGMU_YZXT	PROCEDURE	528	"           and chargeDATE > sysdate - 100;
+PRC_XIANGMU_YZXT	PROCEDURE	528	"         and chargeDATE > (select admiss_date
 "
-PRC_XIANGMU_YZXT	PROCEDURE	529	"        if sqlcode = 0 then
+PRC_XIANGMU_YZXT	PROCEDURE	529	"                             from zy_patient_information
 "
-PRC_XIANGMU_YZXT	PROCEDURE	530	"          commit;
+PRC_XIANGMU_YZXT	PROCEDURE	530	"                            where patient_no = in_patient_no)
 "
-PRC_XIANGMU_YZXT	PROCEDURE	531	"        else
+PRC_XIANGMU_YZXT	PROCEDURE	531	"         and scrq is null
 "
-PRC_XIANGMU_YZXT	PROCEDURE	532	"          rollback;
+PRC_XIANGMU_YZXT	PROCEDURE	532	"         and chargeDATE > sysdate - 100;
 "
-PRC_XIANGMU_YZXT	PROCEDURE	533	"          ls_show  := '更新失败,费用中间表gy_charge_interface patientno=Patient_no!,[prc_xiangmu_yzxt]';
+PRC_XIANGMU_YZXT	PROCEDURE	533	"      if v_count > 0 then
 "
-PRC_XIANGMU_YZXT	PROCEDURE	534	"          out_code := -1;
+PRC_XIANGMU_YZXT	PROCEDURE	534	"        update gy_charge_interface
 "
-PRC_XIANGMU_YZXT	PROCEDURE	535	"          out_msg  := ls_show;
+PRC_XIANGMU_YZXT	PROCEDURE	535	"           set patientNo = in_patient_no
 "
-PRC_XIANGMU_YZXT	PROCEDURE	536	"          return;
+PRC_XIANGMU_YZXT	PROCEDURE	536	"         where patientNo <> in_patient_no
 "
-PRC_XIANGMU_YZXT	PROCEDURE	537	"        
+PRC_XIANGMU_YZXT	PROCEDURE	537	"           and bingrenzyid =
 "
-PRC_XIANGMU_YZXT	PROCEDURE	538	"        end if;
+PRC_XIANGMU_YZXT	PROCEDURE	538	"               (select bah
 "
-PRC_XIANGMU_YZXT	PROCEDURE	539	"      end if;
+PRC_XIANGMU_YZXT	PROCEDURE	539	"                  from zy_patient_information
 "
-PRC_XIANGMU_YZXT	PROCEDURE	540	"    end if;
+PRC_XIANGMU_YZXT	PROCEDURE	540	"                 where patient_no = in_patient_no)
 "
-PRC_XIANGMU_YZXT	PROCEDURE	541	"  
+PRC_XIANGMU_YZXT	PROCEDURE	541	"           and chargeDATE >
 "
-PRC_XIANGMU_YZXT	PROCEDURE	542	"    --高值耗材核查 begin
+PRC_XIANGMU_YZXT	PROCEDURE	542	"               (select admiss_date
 "
-PRC_XIANGMU_YZXT	PROCEDURE	543	"    IF 1 = 1 THEN
+PRC_XIANGMU_YZXT	PROCEDURE	543	"                  from zy_patient_information
 "
-PRC_XIANGMU_YZXT	PROCEDURE	544	"    
+PRC_XIANGMU_YZXT	PROCEDURE	544	"                 where patient_no = in_patient_no)
 "
-PRC_XIANGMU_YZXT	PROCEDURE	545	"      select nvl(max(ts), ' ')
+PRC_XIANGMU_YZXT	PROCEDURE	545	"           and scrq is null
 "
-PRC_XIANGMU_YZXT	PROCEDURE	546	"        INTO ls_show
+PRC_XIANGMU_YZXT	PROCEDURE	546	"           and chargeDATE > sysdate - 100;
 "
-PRC_XIANGMU_YZXT	PROCEDURE	547	"        from (select YLXH1 || (select ylmc from gy_ylsf where ylxh = ylxh1) ||
+PRC_XIANGMU_YZXT	PROCEDURE	547	"        if sqlcode = 0 then
 "
-PRC_XIANGMU_YZXT	PROCEDURE	548	"                     ' ,  少收了(' || (sl_sb - sl_his) || '), 金额少了' ||
+PRC_XIANGMU_YZXT	PROCEDURE	548	"          commit;
 "
-PRC_XIANGMU_YZXT	PROCEDURE	549	"                     (je_sb - je_his) || '  ,[prc_xiangmu_yzxt]' ts
+PRC_XIANGMU_YZXT	PROCEDURE	549	"        else
 "
-PRC_XIANGMU_YZXT	PROCEDURE	550	"                From (select patient_No patient_No1,
+PRC_XIANGMU_YZXT	PROCEDURE	550	"          rollback;
 "
-PRC_XIANGMU_YZXT	PROCEDURE	551	"                             ylxh ylxh1,
+PRC_XIANGMU_YZXT	PROCEDURE	551	"          ls_show  := '更新失败,费用中间表gy_charge_interface patientno=Patient_no!,[prc_xiangmu_yzxt]';
 "
-PRC_XIANGMU_YZXT	PROCEDURE	552	"                             sum(sl_his) sl_his,
+PRC_XIANGMU_YZXT	PROCEDURE	552	"          out_code := -1;
 "
-PRC_XIANGMU_YZXT	PROCEDURE	553	"                             sum(sl_sb) sl_sb,
+PRC_XIANGMU_YZXT	PROCEDURE	553	"          out_msg  := ls_show;
 "
-PRC_XIANGMU_YZXT	PROCEDURE	554	"                             sum(je_his) je_his,
+PRC_XIANGMU_YZXT	PROCEDURE	554	"          return;
 "
-PRC_XIANGMU_YZXT	PROCEDURE	555	"                             sum(je_sb) je_sb
+PRC_XIANGMU_YZXT	PROCEDURE	555	"        
 "
-PRC_XIANGMU_YZXT	PROCEDURE	556	"                        from (
+PRC_XIANGMU_YZXT	PROCEDURE	556	"        end if;
 "
-PRC_XIANGMU_YZXT	PROCEDURE	557	"                              
+PRC_XIANGMU_YZXT	PROCEDURE	557	"      end if;
 "
-PRC_XIANGMU_YZXT	PROCEDURE	558	"                              select to_char(patient_No) patient_No,
+PRC_XIANGMU_YZXT	PROCEDURE	558	"    end if;
 "
-PRC_XIANGMU_YZXT	PROCEDURE	559	"                                      
+PRC_XIANGMU_YZXT	PROCEDURE	559	"  
 "
-PRC_XIANGMU_YZXT	PROCEDURE	560	"                                      to_char(charge_code) ylxh,
+PRC_XIANGMU_YZXT	PROCEDURE	560	"    --高值耗材核查 begin
 "
-PRC_XIANGMU_YZXT	PROCEDURE	561	"                                      sum(sl) sl_his,
+PRC_XIANGMU_YZXT	PROCEDURE	561	"    IF 1 = 1 THEN
 "
-PRC_XIANGMU_YZXT	PROCEDURE	562	"                                      sum(dj * sl) je_his,
+PRC_XIANGMU_YZXT	PROCEDURE	562	"    
 "
-PRC_XIANGMU_YZXT	PROCEDURE	563	"                                      0 sl_sb,
+PRC_XIANGMU_YZXT	PROCEDURE	563	"      select nvl(max(ts), ' ')
 "
-PRC_XIANGMU_YZXT	PROCEDURE	564	"                                      0 je_sb
+PRC_XIANGMU_YZXT	PROCEDURE	564	"        INTO ls_show
 "
-PRC_XIANGMU_YZXT	PROCEDURE	565	"                                From zy_detail_charge
+PRC_XIANGMU_YZXT	PROCEDURE	565	"        from (select YLXH1 || (select ylmc from gy_ylsf where ylxh = ylxh1) ||
 "
-PRC_XIANGMU_YZXT	PROCEDURE	566	"                               where FYGL in (5, 25)
+PRC_XIANGMU_YZXT	PROCEDURE	566	"                     ' ,  少收了(' || (sl_sb - sl_his) || '), 金额少了' ||
 "
-PRC_XIANGMU_YZXT	PROCEDURE	567	"                                 and twice_detail_code in
+PRC_XIANGMU_YZXT	PROCEDURE	567	"                     (je_sb - je_his) || '  ,[prc_xiangmu_yzxt]' ts
 "
-PRC_XIANGMU_YZXT	PROCEDURE	568	"                                     ('SB', 'SC', 'SS', 'bf', 'BF', 'AU')
+PRC_XIANGMU_YZXT	PROCEDURE	568	"                From (select patient_No patient_No1,
 "
-PRC_XIANGMU_YZXT	PROCEDURE	569	"                                 and patient_no = in_patient_no
+PRC_XIANGMU_YZXT	PROCEDURE	569	"                             ylxh ylxh1,
 "
-PRC_XIANGMU_YZXT	PROCEDURE	570	"                               group by to_char(patient_No), charge_code
+PRC_XIANGMU_YZXT	PROCEDURE	570	"                             sum(sl_his) sl_his,
 "
-PRC_XIANGMU_YZXT	PROCEDURE	571	"                              
+PRC_XIANGMU_YZXT	PROCEDURE	571	"                             sum(sl_sb) sl_sb,
 "
-PRC_XIANGMU_YZXT	PROCEDURE	572	"                              union all
+PRC_XIANGMU_YZXT	PROCEDURE	572	"                             sum(je_his) je_his,
 "
-PRC_XIANGMU_YZXT	PROCEDURE	573	"                              select patientno patient_No,
+PRC_XIANGMU_YZXT	PROCEDURE	573	"                             sum(je_sb) je_sb
 "
-PRC_XIANGMU_YZXT	PROCEDURE	574	"                                     chargecode ylxh,
+PRC_XIANGMU_YZXT	PROCEDURE	574	"                        from (
 "
-PRC_XIANGMU_YZXT	PROCEDURE	575	"                                     0 sl_his,
+PRC_XIANGMU_YZXT	PROCEDURE	575	"                              
 "
-PRC_XIANGMU_YZXT	PROCEDURE	576	"                                     0 je_his,
+PRC_XIANGMU_YZXT	PROCEDURE	576	"                              select to_char(patient_No) patient_No,
 "
-PRC_XIANGMU_YZXT	PROCEDURE	577	"                                     sum(amount) sl_sb,
+PRC_XIANGMU_YZXT	PROCEDURE	577	"                                      
 "
-PRC_XIANGMU_YZXT	PROCEDURE	578	"                                     sum(amount * price) je_Sb
+PRC_XIANGMU_YZXT	PROCEDURE	578	"                                      to_char(charge_code) ylxh,
 "
-PRC_XIANGMU_YZXT	PROCEDURE	579	"                                From ylsbgl2.gy_charge_equipment
+PRC_XIANGMU_YZXT	PROCEDURE	579	"                                      sum(sl) sl_his,
 "
-PRC_XIANGMU_YZXT	PROCEDURE	580	"                               where price <> 0
+PRC_XIANGMU_YZXT	PROCEDURE	580	"                                      sum(dj * sl) je_his,
 "
-PRC_XIANGMU_YZXT	PROCEDURE	581	"                                 and patientno = to_char(in_patient_no)
+PRC_XIANGMU_YZXT	PROCEDURE	581	"                                      0 sl_sb,
 "
-PRC_XIANGMU_YZXT	PROCEDURE	582	"                               group by patientno, chargecode)
+PRC_XIANGMU_YZXT	PROCEDURE	582	"                                      0 je_sb
 "
-PRC_XIANGMU_YZXT	PROCEDURE	583	"                       group by patient_No, ylxh)
+PRC_XIANGMU_YZXT	PROCEDURE	583	"                                From zy_detail_charge
 "
-PRC_XIANGMU_YZXT	PROCEDURE	584	"               where (sl_his < sl_sb or je_his < je_sb)
+PRC_XIANGMU_YZXT	PROCEDURE	584	"                               where FYGL in (5, 25)
 "
-PRC_XIANGMU_YZXT	PROCEDURE	585	"                 and sl_his >= 0
+PRC_XIANGMU_YZXT	PROCEDURE	585	"                                 and twice_detail_code in
 "
-PRC_XIANGMU_YZXT	PROCEDURE	586	"              union all
+PRC_XIANGMU_YZXT	PROCEDURE	586	"                                     ('SB', 'SC', 'SS', 'bf', 'BF', 'AU')
 "
-PRC_XIANGMU_YZXT	PROCEDURE	587	"              select ' ' from dual);
+PRC_XIANGMU_YZXT	PROCEDURE	587	"                                 and patient_no = in_patient_no
 "
-PRC_XIANGMU_YZXT	PROCEDURE	588	"    
+PRC_XIANGMU_YZXT	PROCEDURE	588	"                               group by to_char(patient_No), charge_code
 "
-PRC_XIANGMU_YZXT	PROCEDURE	589	"      IF ls_show > '0' THEN
+PRC_XIANGMU_YZXT	PROCEDURE	589	"                              
 "
-PRC_XIANGMU_YZXT	PROCEDURE	590	"        out_code := -1;
+PRC_XIANGMU_YZXT	PROCEDURE	590	"                              union all
 "
-PRC_XIANGMU_YZXT	PROCEDURE	591	"        out_msg  := ls_show;
+PRC_XIANGMU_YZXT	PROCEDURE	591	"                              select patientno patient_No,
 "
-PRC_XIANGMU_YZXT	PROCEDURE	592	"        return;
+PRC_XIANGMU_YZXT	PROCEDURE	592	"                                     chargecode ylxh,
 "
-PRC_XIANGMU_YZXT	PROCEDURE	593	"      END IF;
+PRC_XIANGMU_YZXT	PROCEDURE	593	"                                     0 sl_his,
 "
-PRC_XIANGMU_YZXT	PROCEDURE	594	"    END IF;
+PRC_XIANGMU_YZXT	PROCEDURE	594	"                                     0 je_his,
 "
-PRC_XIANGMU_YZXT	PROCEDURE	595	"  
+PRC_XIANGMU_YZXT	PROCEDURE	595	"                                     sum(amount) sl_sb,
 "
-PRC_XIANGMU_YZXT	PROCEDURE	596	"    if 2 = 2 then
+PRC_XIANGMU_YZXT	PROCEDURE	596	"                                     sum(amount * price) je_Sb
 "
-PRC_XIANGMU_YZXT	PROCEDURE	597	"      null;
+PRC_XIANGMU_YZXT	PROCEDURE	597	"                                From ylsbgl2.gy_charge_equipment
 "
-PRC_XIANGMU_YZXT	PROCEDURE	598	"      select nvl(sum(amount * price), 0)
+PRC_XIANGMU_YZXT	PROCEDURE	598	"                               where price <> 0
 "
-PRC_XIANGMU_YZXT	PROCEDURE	599	"        into v_je1
+PRC_XIANGMU_YZXT	PROCEDURE	599	"                                 and patientno = to_char(in_patient_no)
 "
-PRC_XIANGMU_YZXT	PROCEDURE	600	"        from ylsbgl2.gy_charge_equipment
+PRC_XIANGMU_YZXT	PROCEDURE	600	"                               group by patientno, chargecode)
 "
-PRC_XIANGMU_YZXT	PROCEDURE	601	"       where patientno = to_char(in_patient_no)
+PRC_XIANGMU_YZXT	PROCEDURE	601	"                       group by patient_No, ylxh)
 "
-PRC_XIANGMU_YZXT	PROCEDURE	602	"         and systemtype = 'SC';
+PRC_XIANGMU_YZXT	PROCEDURE	602	"               where (sl_his < sl_sb or je_his < je_sb)
 "
-PRC_XIANGMU_YZXT	PROCEDURE	603	"      select nvl(SUM(dj * sl), 0)
+PRC_XIANGMU_YZXT	PROCEDURE	603	"                 and sl_his >= 0
 "
-PRC_XIANGMU_YZXT	PROCEDURE	604	"        into v_je2
+PRC_XIANGMU_YZXT	PROCEDURE	604	"              union all
 "
-PRC_XIANGMU_YZXT	PROCEDURE	605	"        From zy_detail_charge
+PRC_XIANGMU_YZXT	PROCEDURE	605	"              select ' ' from dual);
 "
-PRC_XIANGMU_YZXT	PROCEDURE	606	"       where patient_No = in_patient_no
+PRC_XIANGMU_YZXT	PROCEDURE	606	"    
 "
-PRC_XIANGMU_YZXT	PROCEDURE	607	"         and twice_detail_code = 'SC';
+PRC_XIANGMU_YZXT	PROCEDURE	607	"      IF ls_show > '0' THEN
 "
-PRC_XIANGMU_YZXT	PROCEDURE	608	"      if v_je1 = v_je2 then
+PRC_XIANGMU_YZXT	PROCEDURE	608	"        out_code := -1;
 "
-PRC_XIANGMU_YZXT	PROCEDURE	609	"        null;
+PRC_XIANGMU_YZXT	PROCEDURE	609	"        out_msg  := ls_show;
 "
-PRC_XIANGMU_YZXT	PROCEDURE	610	"      else
+PRC_XIANGMU_YZXT	PROCEDURE	610	"        return;
 "
-PRC_XIANGMU_YZXT	PROCEDURE	611	"        select '[prc_xiangmu_yzxt]高值耗材计费不一致,gy_charge_equipmen:' || v_je1 ||
+PRC_XIANGMU_YZXT	PROCEDURE	611	"      END IF;
 "
-PRC_XIANGMU_YZXT	PROCEDURE	612	"               ' ,zy_detail_charge:' || v_je2
+PRC_XIANGMU_YZXT	PROCEDURE	612	"    END IF;
 "
-PRC_XIANGMU_YZXT	PROCEDURE	613	"          into ls_show
+PRC_XIANGMU_YZXT	PROCEDURE	613	"  
 "
-PRC_XIANGMU_YZXT	PROCEDURE	614	"          from dual;
+PRC_XIANGMU_YZXT	PROCEDURE	614	"    if 2 = 2 then
 "
-PRC_XIANGMU_YZXT	PROCEDURE	615	"        out_code := -1;
+PRC_XIANGMU_YZXT	PROCEDURE	615	"      null;
 "
-PRC_XIANGMU_YZXT	PROCEDURE	616	"        out_msg  := ls_show;
+PRC_XIANGMU_YZXT	PROCEDURE	616	"      select nvl(sum(amount * price), 0)
 "
-PRC_XIANGMU_YZXT	PROCEDURE	617	"        return;
+PRC_XIANGMU_YZXT	PROCEDURE	617	"        into v_je1
 "
-PRC_XIANGMU_YZXT	PROCEDURE	618	"      
+PRC_XIANGMU_YZXT	PROCEDURE	618	"        from ylsbgl2.gy_charge_equipment
 "
-PRC_XIANGMU_YZXT	PROCEDURE	619	"      end if;
+PRC_XIANGMU_YZXT	PROCEDURE	619	"       where patientno = to_char(in_patient_no)
 "
-PRC_XIANGMU_YZXT	PROCEDURE	620	"    
+PRC_XIANGMU_YZXT	PROCEDURE	620	"         and systemtype = 'SC';
 "
-PRC_XIANGMU_YZXT	PROCEDURE	621	"    end if;
+PRC_XIANGMU_YZXT	PROCEDURE	621	"      select nvl(SUM(dj * sl), 0)
 "
-PRC_XIANGMU_YZXT	PROCEDURE	622	"  
+PRC_XIANGMU_YZXT	PROCEDURE	622	"        into v_je2
 "
-PRC_XIANGMU_YZXT	PROCEDURE	623	"    --高值耗材核查 end
+PRC_XIANGMU_YZXT	PROCEDURE	623	"        From zy_detail_charge
 "
-PRC_XIANGMU_YZXT	PROCEDURE	624	"  
+PRC_XIANGMU_YZXT	PROCEDURE	624	"       where patient_No = in_patient_no
 "
-PRC_XIANGMU_YZXT	PROCEDURE	625	"    --有费用未记账上传
+PRC_XIANGMU_YZXT	PROCEDURE	625	"         and twice_detail_code = 'SC';
 "
-PRC_XIANGMU_YZXT	PROCEDURE	626	"    if 1 = 1 then
+PRC_XIANGMU_YZXT	PROCEDURE	626	"      if v_je1 = v_je2 then
 "
-PRC_XIANGMU_YZXT	PROCEDURE	627	"      select count(*)
+PRC_XIANGMU_YZXT	PROCEDURE	627	"        null;
 "
-PRC_XIANGMU_YZXT	PROCEDURE	628	"        into ll_count
+PRC_XIANGMU_YZXT	PROCEDURE	628	"      else
 "
-PRC_XIANGMU_YZXT	PROCEDURE	629	"        From gy_charge_interface
+PRC_XIANGMU_YZXT	PROCEDURE	629	"        select '[prc_xiangmu_yzxt]高值耗材计费不一致,gy_charge_equipmen:' || v_je1 ||
 "
-PRC_XIANGMU_YZXT	PROCEDURE	630	"       where bingrenzyid = (select bah
+PRC_XIANGMU_YZXT	PROCEDURE	630	"               ' ,zy_detail_charge:' || v_je2
 "
-PRC_XIANGMU_YZXT	PROCEDURE	631	"                              from zy_patient_information
+PRC_XIANGMU_YZXT	PROCEDURE	631	"          into ls_show
 "
-PRC_XIANGMU_YZXT	PROCEDURE	632	"                             where patient_no = in_patient_no
+PRC_XIANGMU_YZXT	PROCEDURE	632	"          from dual;
 "
-PRC_XIANGMU_YZXT	PROCEDURE	633	"                               and nvl(sendflag, 0) = 0);
+PRC_XIANGMU_YZXT	PROCEDURE	633	"        out_code := -1;
 "
-PRC_XIANGMU_YZXT	PROCEDURE	634	"    
+PRC_XIANGMU_YZXT	PROCEDURE	634	"        out_msg  := ls_show;
 "
-PRC_XIANGMU_YZXT	PROCEDURE	635	"      if ll_count > 0 then
+PRC_XIANGMU_YZXT	PROCEDURE	635	"        return;
 "
-PRC_XIANGMU_YZXT	PROCEDURE	636	"        ls_show := '有费用未记账上传,gy_charge_interface!,[prc_xiangmu_yzxt]';
+PRC_XIANGMU_YZXT	PROCEDURE	636	"      
 "
-PRC_XIANGMU_YZXT	PROCEDURE	637	"      
+PRC_XIANGMU_YZXT	PROCEDURE	637	"      end if;
 "
-PRC_XIANGMU_YZXT	PROCEDURE	638	"        out_code := -1;
+PRC_XIANGMU_YZXT	PROCEDURE	638	"    
 "
-PRC_XIANGMU_YZXT	PROCEDURE	639	"        out_msg  := ls_show;
+PRC_XIANGMU_YZXT	PROCEDURE	639	"    end if;
 "
-PRC_XIANGMU_YZXT	PROCEDURE	640	"        return;
+PRC_XIANGMU_YZXT	PROCEDURE	640	"  
 "
-PRC_XIANGMU_YZXT	PROCEDURE	641	"      
+PRC_XIANGMU_YZXT	PROCEDURE	641	"    --高值耗材核查 end
 "
-PRC_XIANGMU_YZXT	PROCEDURE	642	"      end if;
+PRC_XIANGMU_YZXT	PROCEDURE	642	"  
 "
-PRC_XIANGMU_YZXT	PROCEDURE	643	"    end if;
+PRC_XIANGMU_YZXT	PROCEDURE	643	"    --有费用未记账上传
 "
-PRC_XIANGMU_YZXT	PROCEDURE	644	"    --有费用未记账上传 end 
+PRC_XIANGMU_YZXT	PROCEDURE	644	"    if 1 = 1 then
 "
-PRC_XIANGMU_YZXT	PROCEDURE	645	"  
+PRC_XIANGMU_YZXT	PROCEDURE	645	"      select count(*)
 "
-PRC_XIANGMU_YZXT	PROCEDURE	646	"    --有未做检查
+PRC_XIANGMU_YZXT	PROCEDURE	646	"        into ll_count
 "
-PRC_XIANGMU_YZXT	PROCEDURE	647	"    if 1 = 0 then
+PRC_XIANGMU_YZXT	PROCEDURE	647	"        From gy_charge_interface
 "
-PRC_XIANGMU_YZXT	PROCEDURE	648	"      select count(*)
+PRC_XIANGMU_YZXT	PROCEDURE	648	"       where bingrenzyid = (select bah
 "
-PRC_XIANGMU_YZXT	PROCEDURE	649	"        INTO ll_count
+PRC_XIANGMU_YZXT	PROCEDURE	649	"                              from zy_patient_information
 "
-PRC_XIANGMU_YZXT	PROCEDURE	650	"        from yz_jcsqd a, radinfo.eisstudies@radinfo t
+PRC_XIANGMU_YZXT	PROCEDURE	650	"                             where patient_no = in_patient_no
 "
-PRC_XIANGMU_YZXT	PROCEDURE	651	"       where a.brxh = 922579
+PRC_XIANGMU_YZXT	PROCEDURE	651	"                               and nvl(sendflag, 0) = 0);
 "
-PRC_XIANGMU_YZXT	PROCEDURE	652	"         and to_char(jcdxh) = t.requestelectronic
+PRC_XIANGMU_YZXT	PROCEDURE	652	"    
 "
-PRC_XIANGMU_YZXT	PROCEDURE	653	"         and (t.studiesstatus = 50 or t.studiesstatus = 80)
+PRC_XIANGMU_YZXT	PROCEDURE	653	"      if ll_count > 0 then
 "
-PRC_XIANGMU_YZXT	PROCEDURE	654	"         and t.studiesdate > '20201101'
+PRC_XIANGMU_YZXT	PROCEDURE	654	"        ls_show := '有费用未记账上传,gy_charge_interface!,[prc_xiangmu_yzxt]';
 "
-PRC_XIANGMU_YZXT	PROCEDURE	655	"         and t.admissionsource = 10
+PRC_XIANGMU_YZXT	PROCEDURE	655	"      
 "
-PRC_XIANGMU_YZXT	PROCEDURE	656	"         and a.status = 4
+PRC_XIANGMU_YZXT	PROCEDURE	656	"        out_code := -1;
 "
-PRC_XIANGMU_YZXT	PROCEDURE	657	"         and rownum = 1;
+PRC_XIANGMU_YZXT	PROCEDURE	657	"        out_msg  := ls_show;
 "
-PRC_XIANGMU_YZXT	PROCEDURE	658	"    
+PRC_XIANGMU_YZXT	PROCEDURE	658	"        return;
 "
-PRC_XIANGMU_YZXT	PROCEDURE	659	"      if ll_count > 0 then
+PRC_XIANGMU_YZXT	PROCEDURE	659	"      
 "
-PRC_XIANGMU_YZXT	PROCEDURE	660	"        ls_show := '有检查未做,yz_jcsqd!,[prc_xiangmu_yzxt]，请撤销该检查医嘱,';
+PRC_XIANGMU_YZXT	PROCEDURE	660	"      end if;
 "
-PRC_XIANGMU_YZXT	PROCEDURE	661	"      
+PRC_XIANGMU_YZXT	PROCEDURE	661	"    end if;
 "
-PRC_XIANGMU_YZXT	PROCEDURE	662	"        out_code := -1;
+PRC_XIANGMU_YZXT	PROCEDURE	662	"    --有费用未记账上传 end 
 "
-PRC_XIANGMU_YZXT	PROCEDURE	663	"        out_msg  := ls_show;
+PRC_XIANGMU_YZXT	PROCEDURE	663	"  
 "
-PRC_XIANGMU_YZXT	PROCEDURE	664	"        return;
+PRC_XIANGMU_YZXT	PROCEDURE	664	"    --有未做检查
 "
-PRC_XIANGMU_YZXT	PROCEDURE	665	"      
+PRC_XIANGMU_YZXT	PROCEDURE	665	"    if 1 = 0 then
 "
-PRC_XIANGMU_YZXT	PROCEDURE	666	"      end if;
+PRC_XIANGMU_YZXT	PROCEDURE	666	"      select count(*)
 "
-PRC_XIANGMU_YZXT	PROCEDURE	667	"    end if;
+PRC_XIANGMU_YZXT	PROCEDURE	667	"        INTO ll_count
 "
-PRC_XIANGMU_YZXT	PROCEDURE	668	"    --end 有未做检查
+PRC_XIANGMU_YZXT	PROCEDURE	668	"        from yz_jcsqd a, radinfo.eisstudies@radinfo t
 "
-PRC_XIANGMU_YZXT	PROCEDURE	669	"    ---新冠 核酸检测收费
+PRC_XIANGMU_YZXT	PROCEDURE	669	"       where a.brxh = 922579
 "
-PRC_XIANGMU_YZXT	PROCEDURE	670	"    if 1 = 1 then
+PRC_XIANGMU_YZXT	PROCEDURE	670	"         and to_char(jcdxh) = t.requestelectronic
 "
-PRC_XIANGMU_YZXT	PROCEDURE	671	"    
+PRC_XIANGMU_YZXT	PROCEDURE	671	"         and (t.studiesstatus = 50 or t.studiesstatus = 80)
 "
-PRC_XIANGMU_YZXT	PROCEDURE	672	"      Select nvl(Sum(dj * sl), 0)
+PRC_XIANGMU_YZXT	PROCEDURE	672	"         and t.studiesdate > '20201101'
 "
-PRC_XIANGMU_YZXT	PROCEDURE	673	"        into v_je
+PRC_XIANGMU_YZXT	PROCEDURE	673	"         and t.admissionsource = 10
 "
-PRC_XIANGMU_YZXT	PROCEDURE	674	"        From zy_detail_charge
+PRC_XIANGMU_YZXT	PROCEDURE	674	"         and a.status = 4
 "
-PRC_XIANGMU_YZXT	PROCEDURE	675	"       Where charge_code in (select ylxh From v_yslf_xingguan)
+PRC_XIANGMU_YZXT	PROCEDURE	675	"         and rownum = 1;
 "
-PRC_XIANGMU_YZXT	PROCEDURE	676	"         and twice_detail_code = 'ZY'
+PRC_XIANGMU_YZXT	PROCEDURE	676	"    
 "
-PRC_XIANGMU_YZXT	PROCEDURE	677	"         and js_no = 0
+PRC_XIANGMU_YZXT	PROCEDURE	677	"      if ll_count > 0 then
 "
-PRC_XIANGMU_YZXT	PROCEDURE	678	"         and patient_no = in_patient_no;
+PRC_XIANGMU_YZXT	PROCEDURE	678	"        ls_show := '有检查未做,yz_jcsqd!,[prc_xiangmu_yzxt]，请撤销该检查医嘱,';
 "
-PRC_XIANGMU_YZXT	PROCEDURE	679	"    
+PRC_XIANGMU_YZXT	PROCEDURE	679	"      
 "
-PRC_XIANGMU_YZXT	PROCEDURE	680	"      if v_je <> 0 then
+PRC_XIANGMU_YZXT	PROCEDURE	680	"        out_code := -1;
 "
-PRC_XIANGMU_YZXT	PROCEDURE	681	"      
+PRC_XIANGMU_YZXT	PROCEDURE	681	"        out_msg  := ls_show;
 "
-PRC_XIANGMU_YZXT	PROCEDURE	682	"        /*     update zy_detail_charge
+PRC_XIANGMU_YZXT	PROCEDURE	682	"        return;
 "
-PRC_XIANGMU_YZXT	PROCEDURE	683	"           set patient_no = patient_no * -1
+PRC_XIANGMU_YZXT	PROCEDURE	683	"      
 "
-PRC_XIANGMU_YZXT	PROCEDURE	684	"         where
+PRC_XIANGMU_YZXT	PROCEDURE	684	"      end if;
 "
-PRC_XIANGMU_YZXT	PROCEDURE	685	"        --charge_code in (31509, 31510, 31511)  and 
+PRC_XIANGMU_YZXT	PROCEDURE	685	"    end if;
 "
-PRC_XIANGMU_YZXT	PROCEDURE	686	"         charge_code in (select ylxh From v_yslf_xingguan)
+PRC_XIANGMU_YZXT	PROCEDURE	686	"    --end 有未做检查
 "
-PRC_XIANGMU_YZXT	PROCEDURE	687	"         and twice_detail_code = 'ZY'
+PRC_XIANGMU_YZXT	PROCEDURE	687	"    ---新冠 核酸检测收费
 "
-PRC_XIANGMU_YZXT	PROCEDURE	688	"         and js_no = 0
+PRC_XIANGMU_YZXT	PROCEDURE	688	"    if 1 = 1 then
 "
-PRC_XIANGMU_YZXT	PROCEDURE	689	"         and jcfx_date >= to_date('20200730', 'yyyymmdd')
+PRC_XIANGMU_YZXT	PROCEDURE	689	"    
 "
-PRC_XIANGMU_YZXT	PROCEDURE	690	"         and patient_No = in_patient_no;
+PRC_XIANGMU_YZXT	PROCEDURE	690	"      Select nvl(Sum(dj * sl), 0)
 "
-PRC_XIANGMU_YZXT	PROCEDURE	691	"        commit;
+PRC_XIANGMU_YZXT	PROCEDURE	691	"        into v_je
 "
-PRC_XIANGMU_YZXT	PROCEDURE	692	"        Select nvl(Sum(dj * sl), 0)
+PRC_XIANGMU_YZXT	PROCEDURE	692	"        From zy_detail_charge
 "
-PRC_XIANGMU_YZXT	PROCEDURE	693	"          into v_je
+PRC_XIANGMU_YZXT	PROCEDURE	693	"       Where charge_code in (select ylxh From v_yslf_xingguan)
 "
-PRC_XIANGMU_YZXT	PROCEDURE	694	"          From zy_detail_charge
+PRC_XIANGMU_YZXT	PROCEDURE	694	"         and twice_detail_code = 'ZY'
 "
-PRC_XIANGMU_YZXT	PROCEDURE	695	"         Where charge_code in (select ylxh From v_yslf_xingguan)
+PRC_XIANGMU_YZXT	PROCEDURE	695	"         and js_no = 0
 "
-PRC_XIANGMU_YZXT	PROCEDURE	696	"           and js_no = 0
+PRC_XIANGMU_YZXT	PROCEDURE	696	"         and patient_no = in_patient_no;
 "
-PRC_XIANGMU_YZXT	PROCEDURE	697	"           and twice_detail_code = 'ZY'
+PRC_XIANGMU_YZXT	PROCEDURE	697	"    
 "
-PRC_XIANGMU_YZXT	PROCEDURE	698	"           and patient_no = in_patient_no;*/
+PRC_XIANGMU_YZXT	PROCEDURE	698	"      if v_je <> 0 then
 "
-PRC_XIANGMU_YZXT	PROCEDURE	699	"        if v_je <> 0 then
+PRC_XIANGMU_YZXT	PROCEDURE	699	"      
 "
-PRC_XIANGMU_YZXT	PROCEDURE	700	"        
+PRC_XIANGMU_YZXT	PROCEDURE	700	"        /*     update zy_detail_charge
 "
-PRC_XIANGMU_YZXT	PROCEDURE	701	"          select '存在 新冠检测收费:' ||
+PRC_XIANGMU_YZXT	PROCEDURE	701	"           set patient_no = patient_no * -1
 "
-PRC_XIANGMU_YZXT	PROCEDURE	702	"                 '请处理,[prc_xiangmu_yzxt] twice_detail_code =ZY'
+PRC_XIANGMU_YZXT	PROCEDURE	702	"         where
 "
-PRC_XIANGMU_YZXT	PROCEDURE	703	"            into out_msg
+PRC_XIANGMU_YZXT	PROCEDURE	703	"        --charge_code in (31509, 31510, 31511)  and 
 "
-PRC_XIANGMU_YZXT	PROCEDURE	704	"            from dual;
+PRC_XIANGMU_YZXT	PROCEDURE	704	"         charge_code in (select ylxh From v_yslf_xingguan)
 "
-PRC_XIANGMU_YZXT	PROCEDURE	705	"          out_code := -1;
+PRC_XIANGMU_YZXT	PROCEDURE	705	"         and twice_detail_code = 'ZY'
 "
-PRC_XIANGMU_YZXT	PROCEDURE	706	"          return;
+PRC_XIANGMU_YZXT	PROCEDURE	706	"         and js_no = 0
 "
-PRC_XIANGMU_YZXT	PROCEDURE	707	"        end if;
+PRC_XIANGMU_YZXT	PROCEDURE	707	"         and jcfx_date >= to_date('20200730', 'yyyymmdd')
 "
-PRC_XIANGMU_YZXT	PROCEDURE	708	"      end if;
+PRC_XIANGMU_YZXT	PROCEDURE	708	"         and patient_No = in_patient_no;
 "
-PRC_XIANGMU_YZXT	PROCEDURE	709	"    
+PRC_XIANGMU_YZXT	PROCEDURE	709	"        commit;
 "
-PRC_XIANGMU_YZXT	PROCEDURE	710	"    end if;
+PRC_XIANGMU_YZXT	PROCEDURE	710	"        Select nvl(Sum(dj * sl), 0)
 "
-PRC_XIANGMU_YZXT	PROCEDURE	711	"    ---end 核酸检测收费
+PRC_XIANGMU_YZXT	PROCEDURE	711	"          into v_je
 "
-PRC_XIANGMU_YZXT	PROCEDURE	712	"  
+PRC_XIANGMU_YZXT	PROCEDURE	712	"          From zy_detail_charge
 "
-PRC_XIANGMU_YZXT	PROCEDURE	713	"    --温暖基金判断
+PRC_XIANGMU_YZXT	PROCEDURE	713	"         Where charge_code in (select ylxh From v_yslf_xingguan)
 "
-PRC_XIANGMU_YZXT	PROCEDURE	714	"    if 1 = 0 then
+PRC_XIANGMU_YZXT	PROCEDURE	714	"           and js_no = 0
 "
-PRC_XIANGMU_YZXT	PROCEDURE	715	"    
+PRC_XIANGMU_YZXT	PROCEDURE	715	"           and twice_detail_code = 'ZY'
 "
-PRC_XIANGMU_YZXT	PROCEDURE	716	"      select to_char(nvl(cwfp_date, sysdate + 20), 'yyyymmdd'),
+PRC_XIANGMU_YZXT	PROCEDURE	716	"           and patient_no = in_patient_no;*/
 "
-PRC_XIANGMU_YZXT	PROCEDURE	717	"             (select sum(amount)
+PRC_XIANGMU_YZXT	PROCEDURE	717	"        if v_je <> 0 then
 "
-PRC_XIANGMU_YZXT	PROCEDURE	718	"                from zy_deposit_file
+PRC_XIANGMU_YZXT	PROCEDURE	718	"        
 "
-PRC_XIANGMU_YZXT	PROCEDURE	719	"               where op_id = 'AU002'
+PRC_XIANGMU_YZXT	PROCEDURE	719	"          select '存在 新冠检测收费:' ||
 "
-PRC_XIANGMU_YZXT	PROCEDURE	720	"                 AND patient_no = in_patient_no),
+PRC_XIANGMU_YZXT	PROCEDURE	720	"                 '请处理,[prc_xiangmu_yzxt] twice_detail_code =ZY'
 "
-PRC_XIANGMU_YZXT	PROCEDURE	721	"             (select count(*)
+PRC_XIANGMU_YZXT	PROCEDURE	721	"            into out_msg
 "
-PRC_XIANGMU_YZXT	PROCEDURE	722	"                from zy_patient_information
+PRC_XIANGMU_YZXT	PROCEDURE	722	"            from dual;
 "
-PRC_XIANGMU_YZXT	PROCEDURE	723	"               where bah = t.bah
+PRC_XIANGMU_YZXT	PROCEDURE	723	"          out_code := -1;
 "
-PRC_XIANGMU_YZXT	PROCEDURE	724	"                 and preout_date >= t.cwfp_date - 1
+PRC_XIANGMU_YZXT	PROCEDURE	724	"          return;
 "
-PRC_XIANGMU_YZXT	PROCEDURE	725	"                 and preout_date <= t.cwfp_date
+PRC_XIANGMU_YZXT	PROCEDURE	725	"        end if;
 "
-PRC_XIANGMU_YZXT	PROCEDURE	726	"                 and patient_No <> in_patient_no
+PRC_XIANGMU_YZXT	PROCEDURE	726	"      end if;
 "
-PRC_XIANGMU_YZXT	PROCEDURE	727	"                 and t.cwfp_date is not null)
+PRC_XIANGMU_YZXT	PROCEDURE	727	"    
 "
-PRC_XIANGMU_YZXT	PROCEDURE	728	"        into v_temp2, v_je1, v_count
+PRC_XIANGMU_YZXT	PROCEDURE	728	"    end if;
 "
-PRC_XIANGMU_YZXT	PROCEDURE	729	"        from zy_patient_information t
+PRC_XIANGMU_YZXT	PROCEDURE	729	"    ---end 核酸检测收费
 "
-PRC_XIANGMU_YZXT	PROCEDURE	730	"       where patient_No = in_patient_no;
+PRC_XIANGMU_YZXT	PROCEDURE	730	"  
 "
-PRC_XIANGMU_YZXT	PROCEDURE	731	"    
+PRC_XIANGMU_YZXT	PROCEDURE	731	"    --温暖基金判断
 "
-PRC_XIANGMU_YZXT	PROCEDURE	732	"      if (v_temp2 < '20210210' or v_temp2 > '20210221' or v_count > 0) and
+PRC_XIANGMU_YZXT	PROCEDURE	732	"    if 1 = 0 then
 "
-PRC_XIANGMU_YZXT	PROCEDURE	733	"         v_je1 > 0 then
+PRC_XIANGMU_YZXT	PROCEDURE	733	"    
 "
-PRC_XIANGMU_YZXT	PROCEDURE	734	"        select '该病人不应享受住院温暖基金,床位分配日期不在2021.02.10-21日之间,或者周转病人,请核实！' ||
+PRC_XIANGMU_YZXT	PROCEDURE	734	"      select to_char(nvl(cwfp_date, sysdate + 20), 'yyyymmdd'),
 "
-PRC_XIANGMU_YZXT	PROCEDURE	735	"               '[prc_xiangmu_yzxt]'
+PRC_XIANGMU_YZXT	PROCEDURE	735	"             (select sum(amount)
 "
-PRC_XIANGMU_YZXT	PROCEDURE	736	"          into out_msg
+PRC_XIANGMU_YZXT	PROCEDURE	736	"                from zy_deposit_file
 "
-PRC_XIANGMU_YZXT	PROCEDURE	737	"          from dual;
+PRC_XIANGMU_YZXT	PROCEDURE	737	"               where op_id = 'AU002'
 "
-PRC_XIANGMU_YZXT	PROCEDURE	738	"        out_code := -1;
+PRC_XIANGMU_YZXT	PROCEDURE	738	"                 AND patient_no = in_patient_no),
 "
-PRC_XIANGMU_YZXT	PROCEDURE	739	"        return;
+PRC_XIANGMU_YZXT	PROCEDURE	739	"             (select count(*)
 "
-PRC_XIANGMU_YZXT	PROCEDURE	740	"      end if;
+PRC_XIANGMU_YZXT	PROCEDURE	740	"                from zy_patient_information
 "
-PRC_XIANGMU_YZXT	PROCEDURE	741	"    
+PRC_XIANGMU_YZXT	PROCEDURE	741	"               where bah = t.bah
 "
-PRC_XIANGMU_YZXT	PROCEDURE	742	"      if (v_temp2 < '20210210' and v_temp2 > '20210221' and v_count = 0) then
+PRC_XIANGMU_YZXT	PROCEDURE	742	"                 and preout_date >= t.cwfp_date - 1
 "
-PRC_XIANGMU_YZXT	PROCEDURE	743	"      
+PRC_XIANGMU_YZXT	PROCEDURE	743	"                 and preout_date <= t.cwfp_date
 "
-PRC_XIANGMU_YZXT	PROCEDURE	744	"        if v_je1 <= 0 then
+PRC_XIANGMU_YZXT	PROCEDURE	744	"                 and patient_No <> in_patient_no
 "
-PRC_XIANGMU_YZXT	PROCEDURE	745	"          select '该病人应享受住院温暖基金,床位分配日期在2021.02.10-21日之间,请核实！' ||
+PRC_XIANGMU_YZXT	PROCEDURE	745	"                 and t.cwfp_date is not null)
 "
-PRC_XIANGMU_YZXT	PROCEDURE	746	"                 '[prc_xiangmu_yzxt]'
+PRC_XIANGMU_YZXT	PROCEDURE	746	"        into v_temp2, v_je1, v_count
 "
-PRC_XIANGMU_YZXT	PROCEDURE	747	"            into out_msg
+PRC_XIANGMU_YZXT	PROCEDURE	747	"        from zy_patient_information t
 "
-PRC_XIANGMU_YZXT	PROCEDURE	748	"            from dual;
+PRC_XIANGMU_YZXT	PROCEDURE	748	"       where patient_No = in_patient_no;
 "
-PRC_XIANGMU_YZXT	PROCEDURE	749	"          out_code := -1;
+PRC_XIANGMU_YZXT	PROCEDURE	749	"    
 "
-PRC_XIANGMU_YZXT	PROCEDURE	750	"          return;
+PRC_XIANGMU_YZXT	PROCEDURE	750	"      if (v_temp2 < '20210210' or v_temp2 > '20210221' or v_count > 0) and
 "
-PRC_XIANGMU_YZXT	PROCEDURE	751	"        end if;
+PRC_XIANGMU_YZXT	PROCEDURE	751	"         v_je1 > 0 then
 "
-PRC_XIANGMU_YZXT	PROCEDURE	752	"      
+PRC_XIANGMU_YZXT	PROCEDURE	752	"        select '该病人不应享受住院温暖基金,床位分配日期不在2021.02.10-21日之间,或者周转病人,请核实！' ||
 "
-PRC_XIANGMU_YZXT	PROCEDURE	753	"        if v_je1 > 1000 then
+PRC_XIANGMU_YZXT	PROCEDURE	753	"               '[prc_xiangmu_yzxt]'
 "
-PRC_XIANGMU_YZXT	PROCEDURE	754	"          select '该病人住院温暖基金大于1000,请核实！' || '[prc_xiangmu_yzxt]'
+PRC_XIANGMU_YZXT	PROCEDURE	754	"          into out_msg
 "
-PRC_XIANGMU_YZXT	PROCEDURE	755	"            into out_msg
+PRC_XIANGMU_YZXT	PROCEDURE	755	"          from dual;
 "
-PRC_XIANGMU_YZXT	PROCEDURE	756	"            from dual;
+PRC_XIANGMU_YZXT	PROCEDURE	756	"        out_code := -1;
 "
-PRC_XIANGMU_YZXT	PROCEDURE	757	"          out_code := -1;
+PRC_XIANGMU_YZXT	PROCEDURE	757	"        return;
 "
-PRC_XIANGMU_YZXT	PROCEDURE	758	"          return;
+PRC_XIANGMU_YZXT	PROCEDURE	758	"      end if;
 "
-PRC_XIANGMU_YZXT	PROCEDURE	759	"        end if;
+PRC_XIANGMU_YZXT	PROCEDURE	759	"    
 "
-PRC_XIANGMU_YZXT	PROCEDURE	760	"      end if;
+PRC_XIANGMU_YZXT	PROCEDURE	760	"      if (v_temp2 < '20210210' and v_temp2 > '20210221' and v_count = 0) then
 "
-PRC_XIANGMU_YZXT	PROCEDURE	761	"    
+PRC_XIANGMU_YZXT	PROCEDURE	761	"      
 "
-PRC_XIANGMU_YZXT	PROCEDURE	762	"      select count(*)
+PRC_XIANGMU_YZXT	PROCEDURE	762	"        if v_je1 <= 0 then
 "
-PRC_XIANGMU_YZXT	PROCEDURE	763	"        into v_count
+PRC_XIANGMU_YZXT	PROCEDURE	763	"          select '该病人应享受住院温暖基金,床位分配日期在2021.02.10-21日之间,请核实！' ||
 "
-PRC_XIANGMU_YZXT	PROCEDURE	764	"        from (select (select nvl(to_char(cwfp_date, 'yyyymmdd'), '20210101')
+PRC_XIANGMU_YZXT	PROCEDURE	764	"                 '[prc_xiangmu_yzxt]'
 "
-PRC_XIANGMU_YZXT	PROCEDURE	765	"                        from zy_patient_information
+PRC_XIANGMU_YZXT	PROCEDURE	765	"            into out_msg
 "
-PRC_XIANGMU_YZXT	PROCEDURE	766	"                       where patient_no = t.patient_no) rq
+PRC_XIANGMU_YZXT	PROCEDURE	766	"            from dual;
 "
-PRC_XIANGMU_YZXT	PROCEDURE	767	"                From zy_deposit_file t
+PRC_XIANGMU_YZXT	PROCEDURE	767	"          out_code := -1;
 "
-PRC_XIANGMU_YZXT	PROCEDURE	768	"               where op_id = 'AU002'
+PRC_XIANGMU_YZXT	PROCEDURE	768	"          return;
 "
-PRC_XIANGMU_YZXT	PROCEDURE	769	"                 and patient_No = in_patient_no)
+PRC_XIANGMU_YZXT	PROCEDURE	769	"        end if;
 "
-PRC_XIANGMU_YZXT	PROCEDURE	770	"       where rq < '20210210'
+PRC_XIANGMU_YZXT	PROCEDURE	770	"      
 "
-PRC_XIANGMU_YZXT	PROCEDURE	771	"          or rq > '20210221';
+PRC_XIANGMU_YZXT	PROCEDURE	771	"        if v_je1 > 1000 then
 "
-PRC_XIANGMU_YZXT	PROCEDURE	772	"    
+PRC_XIANGMU_YZXT	PROCEDURE	772	"          select '该病人住院温暖基金大于1000,请核实！' || '[prc_xiangmu_yzxt]'
 "
-PRC_XIANGMU_YZXT	PROCEDURE	773	"      if v_count > 0 then
+PRC_XIANGMU_YZXT	PROCEDURE	773	"            into out_msg
 "
-PRC_XIANGMU_YZXT	PROCEDURE	774	"        select '该病人不应享受住院温暖基金,床位分配日期不在2021.02.10-21日之间,请核实！' ||
+PRC_XIANGMU_YZXT	PROCEDURE	774	"            from dual;
 "
-PRC_XIANGMU_YZXT	PROCEDURE	775	"               '[prc_xiangmu_yzxt]'
+PRC_XIANGMU_YZXT	PROCEDURE	775	"          out_code := -1;
 "
-PRC_XIANGMU_YZXT	PROCEDURE	776	"          into out_msg
+PRC_XIANGMU_YZXT	PROCEDURE	776	"          return;
 "
-PRC_XIANGMU_YZXT	PROCEDURE	777	"          from dual;
+PRC_XIANGMU_YZXT	PROCEDURE	777	"        end if;
 "
-PRC_XIANGMU_YZXT	PROCEDURE	778	"        out_code := -1;
+PRC_XIANGMU_YZXT	PROCEDURE	778	"      end if;
 "
-PRC_XIANGMU_YZXT	PROCEDURE	779	"        return;
+PRC_XIANGMU_YZXT	PROCEDURE	779	"    
 "
-PRC_XIANGMU_YZXT	PROCEDURE	780	"      end if;
+PRC_XIANGMU_YZXT	PROCEDURE	780	"      select count(*)
 "
-PRC_XIANGMU_YZXT	PROCEDURE	781	"    
+PRC_XIANGMU_YZXT	PROCEDURE	781	"        into v_count
 "
-PRC_XIANGMU_YZXT	PROCEDURE	782	"    end if;
+PRC_XIANGMU_YZXT	PROCEDURE	782	"        from (select (select nvl(to_char(cwfp_date, 'yyyymmdd'), '20210101')
 "
-PRC_XIANGMU_YZXT	PROCEDURE	783	"    --end 温暖基金判断
+PRC_XIANGMU_YZXT	PROCEDURE	783	"                        from zy_patient_information
 "
-PRC_XIANGMU_YZXT	PROCEDURE	784	"    --预出院当天不能收气垫床加收  不能收高危压疮防范护理
+PRC_XIANGMU_YZXT	PROCEDURE	784	"                       where patient_no = t.patient_no) rq
 "
-PRC_XIANGMU_YZXT	PROCEDURE	785	"    if 1 = 1 then
+PRC_XIANGMU_YZXT	PROCEDURE	785	"                From zy_deposit_file t
 "
-PRC_XIANGMU_YZXT	PROCEDURE	786	"      /*  Select Sum(sl)
+PRC_XIANGMU_YZXT	PROCEDURE	786	"               where op_id = 'AU002'
 "
-PRC_XIANGMU_YZXT	PROCEDURE	787	"       Into ll_count
+PRC_XIANGMU_YZXT	PROCEDURE	787	"                 and patient_No = in_patient_no)
 "
-PRC_XIANGMU_YZXT	PROCEDURE	788	"       From zy_detail_charge
+PRC_XIANGMU_YZXT	PROCEDURE	788	"       where rq < '20210210'
 "
-PRC_XIANGMU_YZXT	PROCEDURE	789	"      Where charge_code in (14433)
+PRC_XIANGMU_YZXT	PROCEDURE	789	"          or rq > '20210221';
 "
-PRC_XIANGMU_YZXT	PROCEDURE	790	"        and charge_date >= trunc(sysdate)
+PRC_XIANGMU_YZXT	PROCEDURE	790	"    
 "
-PRC_XIANGMU_YZXT	PROCEDURE	791	"        and patient_no = in_patient_no;*/
+PRC_XIANGMU_YZXT	PROCEDURE	791	"      if v_count > 0 then
 "
-PRC_XIANGMU_YZXT	PROCEDURE	792	"    
+PRC_XIANGMU_YZXT	PROCEDURE	792	"        select '该病人不应享受住院温暖基金,床位分配日期不在2021.02.10-21日之间,请核实！' ||
 "
-PRC_XIANGMU_YZXT	PROCEDURE	793	"      select count(*)
+PRC_XIANGMU_YZXT	PROCEDURE	793	"               '[prc_xiangmu_yzxt]'
 "
-PRC_XIANGMU_YZXT	PROCEDURE	794	"        into ll_count
+PRC_XIANGMU_YZXT	PROCEDURE	794	"          into out_msg
 "
-PRC_XIANGMU_YZXT	PROCEDURE	795	"        From zy_patient_information
+PRC_XIANGMU_YZXT	PROCEDURE	795	"          from dual;
 "
-PRC_XIANGMU_YZXT	PROCEDURE	796	"       where patient_No = in_patient_no
+PRC_XIANGMU_YZXT	PROCEDURE	796	"        out_code := -1;
 "
-PRC_XIANGMU_YZXT	PROCEDURE	797	"         and nvl(cwfp_date, sysdate) > sysdate - 1;
+PRC_XIANGMU_YZXT	PROCEDURE	797	"        return;
 "
-PRC_XIANGMU_YZXT	PROCEDURE	798	"    
+PRC_XIANGMU_YZXT	PROCEDURE	798	"      end if;
 "
-PRC_XIANGMU_YZXT	PROCEDURE	799	"      if ll_count = 0 then
+PRC_XIANGMU_YZXT	PROCEDURE	799	"    
 "
-PRC_XIANGMU_YZXT	PROCEDURE	800	"        select nvl(to_char(wm_concat(charge_name || ',当天计费:' || sl)),
+PRC_XIANGMU_YZXT	PROCEDURE	800	"    end if;
 "
-PRC_XIANGMU_YZXT	PROCEDURE	801	"                   '')
+PRC_XIANGMU_YZXT	PROCEDURE	801	"    --end 温暖基金判断
 "
-PRC_XIANGMU_YZXT	PROCEDURE	802	"          into ls_show
+PRC_XIANGMU_YZXT	PROCEDURE	802	"    --预出院当天不能收气垫床加收  不能收高危压疮防范护理
 "
-PRC_XIANGMU_YZXT	PROCEDURE	803	"          from (Select patient_No, charge_name, Sum(sl) sl
+PRC_XIANGMU_YZXT	PROCEDURE	803	"    if 1 = 1 then
 "
-PRC_XIANGMU_YZXT	PROCEDURE	804	"                  From zy_detail_charge
+PRC_XIANGMU_YZXT	PROCEDURE	804	"      /*  Select Sum(sl)
 "
-PRC_XIANGMU_YZXT	PROCEDURE	805	"                 Where charge_code in
+PRC_XIANGMU_YZXT	PROCEDURE	805	"       Into ll_count
 "
-PRC_XIANGMU_YZXT	PROCEDURE	806	"                       (select ylxh
+PRC_XIANGMU_YZXT	PROCEDURE	806	"       From zy_detail_charge
 "
-PRC_XIANGMU_YZXT	PROCEDURE	807	"                          from gy_ylsf
+PRC_XIANGMU_YZXT	PROCEDURE	807	"      Where charge_code in (14433)
 "
-PRC_XIANGMU_YZXT	PROCEDURE	808	"                         where nvl(substr(ypsx, 1, 1), '0') = '1')
+PRC_XIANGMU_YZXT	PROCEDURE	808	"        and charge_date >= trunc(sysdate)
 "
-PRC_XIANGMU_YZXT	PROCEDURE	809	"                   and charge_date >= trunc(sysdate)
+PRC_XIANGMU_YZXT	PROCEDURE	809	"        and patient_no = in_patient_no;*/
 "
-PRC_XIANGMU_YZXT	PROCEDURE	810	"                   and patient_no = in_patient_no
+PRC_XIANGMU_YZXT	PROCEDURE	810	"    
 "
-PRC_XIANGMU_YZXT	PROCEDURE	811	"                 group by patient_No, charge_name
+PRC_XIANGMU_YZXT	PROCEDURE	811	"      select count(*)
 "
-PRC_XIANGMU_YZXT	PROCEDURE	812	"                having(Sum(sl) >= 1));
+PRC_XIANGMU_YZXT	PROCEDURE	812	"        into ll_count
 "
-PRC_XIANGMU_YZXT	PROCEDURE	813	"      
+PRC_XIANGMU_YZXT	PROCEDURE	813	"        From zy_patient_information
 "
-PRC_XIANGMU_YZXT	PROCEDURE	814	"        if length(ls_show) > 1 then
+PRC_XIANGMU_YZXT	PROCEDURE	814	"       where patient_No = in_patient_no
 "
-PRC_XIANGMU_YZXT	PROCEDURE	815	"          select '请退费,' || ls_show || '[prc_xiangmu_yzxt]'
+PRC_XIANGMU_YZXT	PROCEDURE	815	"         and nvl(cwfp_date, sysdate) > sysdate - 1;
 "
-PRC_XIANGMU_YZXT	PROCEDURE	816	"            into out_msg
+PRC_XIANGMU_YZXT	PROCEDURE	816	"    
 "
-PRC_XIANGMU_YZXT	PROCEDURE	817	"            from dual;
+PRC_XIANGMU_YZXT	PROCEDURE	817	"      if ll_count = 0 then
 "
-PRC_XIANGMU_YZXT	PROCEDURE	818	"          out_code := -1;
+PRC_XIANGMU_YZXT	PROCEDURE	818	"        select nvl(to_char(wm_concat(charge_name || ',当天计费:' || sl)),
 "
-PRC_XIANGMU_YZXT	PROCEDURE	819	"          return;
+PRC_XIANGMU_YZXT	PROCEDURE	819	"                   '')
 "
-PRC_XIANGMU_YZXT	PROCEDURE	820	"        end if;
+PRC_XIANGMU_YZXT	PROCEDURE	820	"          into ls_show
 "
-PRC_XIANGMU_YZXT	PROCEDURE	821	"      
+PRC_XIANGMU_YZXT	PROCEDURE	821	"          from (Select patient_No, charge_name, Sum(sl) sl
 "
-PRC_XIANGMU_YZXT	PROCEDURE	822	"      end if;
+PRC_XIANGMU_YZXT	PROCEDURE	822	"                  From zy_detail_charge
 "
-PRC_XIANGMU_YZXT	PROCEDURE	823	"    
+PRC_XIANGMU_YZXT	PROCEDURE	823	"                 Where charge_code in
 "
-PRC_XIANGMU_YZXT	PROCEDURE	824	"      /* Select Sum(sl)
+PRC_XIANGMU_YZXT	PROCEDURE	824	"                       (select ylxh
 "
-PRC_XIANGMU_YZXT	PROCEDURE	825	"        Into ll_count
+PRC_XIANGMU_YZXT	PROCEDURE	825	"                          from gy_ylsf
 "
-PRC_XIANGMU_YZXT	PROCEDURE	826	"        From zy_detail_charge
+PRC_XIANGMU_YZXT	PROCEDURE	826	"                         where nvl(substr(ypsx, 1, 1), '0') = '1')
 "
-PRC_XIANGMU_YZXT	PROCEDURE	827	"       Where charge_code in (22479)
+PRC_XIANGMU_YZXT	PROCEDURE	827	"                   and charge_date >= trunc(sysdate)
 "
-PRC_XIANGMU_YZXT	PROCEDURE	828	"         and charge_date >= trunc(sysdate)
+PRC_XIANGMU_YZXT	PROCEDURE	828	"                   and patient_no = in_patient_no
 "
-PRC_XIANGMU_YZXT	PROCEDURE	829	"         and patient_no = in_patient_no;
+PRC_XIANGMU_YZXT	PROCEDURE	829	"                 group by patient_No, charge_name
 "
-PRC_XIANGMU_YZXT	PROCEDURE	830	"      
+PRC_XIANGMU_YZXT	PROCEDURE	830	"                having(Sum(sl) >= 1));
 "
-PRC_XIANGMU_YZXT	PROCEDURE	831	"      if ll_count > 0 then
+PRC_XIANGMU_YZXT	PROCEDURE	831	"      
 "
-PRC_XIANGMU_YZXT	PROCEDURE	832	"      
+PRC_XIANGMU_YZXT	PROCEDURE	832	"        if length(ls_show) > 1 then
 "
-PRC_XIANGMU_YZXT	PROCEDURE	833	"        ls_show  := '[prc_xiangmu_yzxt]预出院当天不能收高危压疮防范护理,已收:' ||
+PRC_XIANGMU_YZXT	PROCEDURE	833	"          select '请退费,' || ls_show || '[prc_xiangmu_yzxt]'
 "
-PRC_XIANGMU_YZXT	PROCEDURE	834	"                    to_char(ll_count);
+PRC_XIANGMU_YZXT	PROCEDURE	834	"            into out_msg
 "
-PRC_XIANGMU_YZXT	PROCEDURE	835	"        out_code := -1;
+PRC_XIANGMU_YZXT	PROCEDURE	835	"            from dual;
 "
-PRC_XIANGMU_YZXT	PROCEDURE	836	"        out_msg  := ls_show;
+PRC_XIANGMU_YZXT	PROCEDURE	836	"          out_code := -1;
 "
-PRC_XIANGMU_YZXT	PROCEDURE	837	"        return;
+PRC_XIANGMU_YZXT	PROCEDURE	837	"          return;
 "
-PRC_XIANGMU_YZXT	PROCEDURE	838	"      end if;*/
+PRC_XIANGMU_YZXT	PROCEDURE	838	"        end if;
 "
-PRC_XIANGMU_YZXT	PROCEDURE	839	"    
+PRC_XIANGMU_YZXT	PROCEDURE	839	"      
 "
-PRC_XIANGMU_YZXT	PROCEDURE	840	"    end if;
+PRC_XIANGMU_YZXT	PROCEDURE	840	"      end if;
 "
-PRC_XIANGMU_YZXT	PROCEDURE	841	"    ----end  预出院当天不能收气垫床加收  不能收高危压疮防范护理
+PRC_XIANGMU_YZXT	PROCEDURE	841	"    
 "
-PRC_XIANGMU_YZXT	PROCEDURE	842	"  
+PRC_XIANGMU_YZXT	PROCEDURE	842	"      /* Select Sum(sl)
 "
-PRC_XIANGMU_YZXT	PROCEDURE	843	"    -- 拆线 13012,15423,15424,15422
+PRC_XIANGMU_YZXT	PROCEDURE	843	"        Into ll_count
 "
-PRC_XIANGMU_YZXT	PROCEDURE	844	"    --换药 11310,11311,13470,13825,11309,18442,20188,22522,22523,22524
+PRC_XIANGMU_YZXT	PROCEDURE	844	"        From zy_detail_charge
 "
-PRC_XIANGMU_YZXT	PROCEDURE	845	"    --当天不能同时收
+PRC_XIANGMU_YZXT	PROCEDURE	845	"       Where charge_code in (22479)
 "
-PRC_XIANGMU_YZXT	PROCEDURE	846	"    if 1 = 1 then
+PRC_XIANGMU_YZXT	PROCEDURE	846	"         and charge_date >= trunc(sysdate)
 "
-PRC_XIANGMU_YZXT	PROCEDURE	847	"      Select Sum(sl)
+PRC_XIANGMU_YZXT	PROCEDURE	847	"         and patient_no = in_patient_no;
 "
-PRC_XIANGMU_YZXT	PROCEDURE	848	"        Into ll_count
+PRC_XIANGMU_YZXT	PROCEDURE	848	"      
 "
-PRC_XIANGMU_YZXT	PROCEDURE	849	"        From zy_detail_charge
+PRC_XIANGMU_YZXT	PROCEDURE	849	"      if ll_count > 0 then
 "
-PRC_XIANGMU_YZXT	PROCEDURE	850	"       Where charge_code in (15423, 15424, 15422)
+PRC_XIANGMU_YZXT	PROCEDURE	850	"      
 "
-PRC_XIANGMU_YZXT	PROCEDURE	851	"         and charge_date >= trunc(sysdate)
+PRC_XIANGMU_YZXT	PROCEDURE	851	"        ls_show  := '[prc_xiangmu_yzxt]预出院当天不能收高危压疮防范护理,已收:' ||
 "
-PRC_XIANGMU_YZXT	PROCEDURE	852	"         and patient_no = in_patient_no;
+PRC_XIANGMU_YZXT	PROCEDURE	852	"                    to_char(ll_count);
 "
-PRC_XIANGMU_YZXT	PROCEDURE	853	"    
+PRC_XIANGMU_YZXT	PROCEDURE	853	"        out_code := -1;
 "
-PRC_XIANGMU_YZXT	PROCEDURE	854	"      if ll_count > 0 then
+PRC_XIANGMU_YZXT	PROCEDURE	854	"        out_msg  := ls_show;
 "
-PRC_XIANGMU_YZXT	PROCEDURE	855	"        Select Sum(sl)
+PRC_XIANGMU_YZXT	PROCEDURE	855	"        return;
 "
-PRC_XIANGMU_YZXT	PROCEDURE	856	"          Into ll_count2
+PRC_XIANGMU_YZXT	PROCEDURE	856	"      end if;*/
 "
-PRC_XIANGMU_YZXT	PROCEDURE	857	"          From zy_detail_charge
+PRC_XIANGMU_YZXT	PROCEDURE	857	"    
 "
-PRC_XIANGMU_YZXT	PROCEDURE	858	"         Where charge_code in (11310, 11311, 11309)
+PRC_XIANGMU_YZXT	PROCEDURE	858	"    end if;
 "
-PRC_XIANGMU_YZXT	PROCEDURE	859	"           and charge_date >= trunc(sysdate)
+PRC_XIANGMU_YZXT	PROCEDURE	859	"    ----end  预出院当天不能收气垫床加收  不能收高危压疮防范护理
 "
-PRC_XIANGMU_YZXT	PROCEDURE	860	"           and patient_no = in_patient_no;
+PRC_XIANGMU_YZXT	PROCEDURE	860	"  
 "
-PRC_XIANGMU_YZXT	PROCEDURE	861	"      
+PRC_XIANGMU_YZXT	PROCEDURE	861	"    -- 拆线 13012,15423,15424,15422
 "
-PRC_XIANGMU_YZXT	PROCEDURE	862	"        if ll_count2 > 0 then
+PRC_XIANGMU_YZXT	PROCEDURE	862	"    --换药 11310,11311,13470,13825,11309,18442,20188,22522,22523,22524
 "
-PRC_XIANGMU_YZXT	PROCEDURE	863	"          ls_show  := '[prc_xiangmu_yzxt]预出院当天不能同时收,已收拆线:' ||
+PRC_XIANGMU_YZXT	PROCEDURE	863	"    --当天不能同时收
 "
-PRC_XIANGMU_YZXT	PROCEDURE	864	"                      to_char(ll_count) || ',换药:' || to_char(ll_count2);
+PRC_XIANGMU_YZXT	PROCEDURE	864	"    if 1 = 1 then
 "
-PRC_XIANGMU_YZXT	PROCEDURE	865	"          out_code := -1;
+PRC_XIANGMU_YZXT	PROCEDURE	865	"      Select Sum(sl)
 "
-PRC_XIANGMU_YZXT	PROCEDURE	866	"          out_msg  := ls_show;
+PRC_XIANGMU_YZXT	PROCEDURE	866	"        Into ll_count
 "
-PRC_XIANGMU_YZXT	PROCEDURE	867	"          return;
+PRC_XIANGMU_YZXT	PROCEDURE	867	"        From zy_detail_charge
 "
-PRC_XIANGMU_YZXT	PROCEDURE	868	"        end if;
+PRC_XIANGMU_YZXT	PROCEDURE	868	"       Where charge_code in (15423, 15424, 15422)
 "
-PRC_XIANGMU_YZXT	PROCEDURE	869	"      
+PRC_XIANGMU_YZXT	PROCEDURE	869	"         and charge_date >= trunc(sysdate)
 "
-PRC_XIANGMU_YZXT	PROCEDURE	870	"      end if;
+PRC_XIANGMU_YZXT	PROCEDURE	870	"         and patient_no = in_patient_no;
 "
-PRC_XIANGMU_YZXT	PROCEDURE	871	"    end if;
+PRC_XIANGMU_YZXT	PROCEDURE	871	"    
 "
-PRC_XIANGMU_YZXT	PROCEDURE	872	"    --end 当天不能同时收
+PRC_XIANGMU_YZXT	PROCEDURE	872	"      if ll_count > 0 then
 "
-PRC_XIANGMU_YZXT	PROCEDURE	873	"  
+PRC_XIANGMU_YZXT	PROCEDURE	873	"        Select Sum(sl)
 "
-PRC_XIANGMU_YZXT	PROCEDURE	874	"    --几个科室不能收 高危压疮防范护理
+PRC_XIANGMU_YZXT	PROCEDURE	874	"          Into ll_count2
 "
-PRC_XIANGMU_YZXT	PROCEDURE	875	"    if 0 = 1 then
+PRC_XIANGMU_YZXT	PROCEDURE	875	"          From zy_detail_charge
 "
-PRC_XIANGMU_YZXT	PROCEDURE	876	"      Select Sum(sl)
+PRC_XIANGMU_YZXT	PROCEDURE	876	"         Where charge_code in (11310, 11311, 11309)
 "
-PRC_XIANGMU_YZXT	PROCEDURE	877	"        Into ll_count
+PRC_XIANGMU_YZXT	PROCEDURE	877	"           and charge_date >= trunc(sysdate)
 "
-PRC_XIANGMU_YZXT	PROCEDURE	878	"        From zy_detail_charge
+PRC_XIANGMU_YZXT	PROCEDURE	878	"           and patient_no = in_patient_no;
 "
-PRC_XIANGMU_YZXT	PROCEDURE	879	"       Where zx_ks in ('2250012', '2250011')
+PRC_XIANGMU_YZXT	PROCEDURE	879	"      
 "
-PRC_XIANGMU_YZXT	PROCEDURE	880	"         and charge_code in (22479)
+PRC_XIANGMU_YZXT	PROCEDURE	880	"        if ll_count2 > 0 then
 "
-PRC_XIANGMU_YZXT	PROCEDURE	881	"         and patient_no = in_patient_no;
+PRC_XIANGMU_YZXT	PROCEDURE	881	"          ls_show  := '[prc_xiangmu_yzxt]预出院当天不能同时收,已收拆线:' ||
 "
-PRC_XIANGMU_YZXT	PROCEDURE	882	"    
+PRC_XIANGMU_YZXT	PROCEDURE	882	"                      to_char(ll_count) || ',换药:' || to_char(ll_count2);
 "
-PRC_XIANGMU_YZXT	PROCEDURE	883	"      if ll_count > 0 then
+PRC_XIANGMU_YZXT	PROCEDURE	883	"          out_code := -1;
 "
-PRC_XIANGMU_YZXT	PROCEDURE	884	"      
+PRC_XIANGMU_YZXT	PROCEDURE	884	"          out_msg  := ls_show;
 "
-PRC_XIANGMU_YZXT	PROCEDURE	885	"        Select WM_CONCAT(to_char(charge_date, 'yyyy-mm-dd') || charge_name ||
+PRC_XIANGMU_YZXT	PROCEDURE	885	"          return;
 "
-PRC_XIANGMU_YZXT	PROCEDURE	886	"                         ' 收费数量:' || sum(sl) || ' ;')
+PRC_XIANGMU_YZXT	PROCEDURE	886	"        end if;
 "
-PRC_XIANGMU_YZXT	PROCEDURE	887	"          into ls_show
+PRC_XIANGMU_YZXT	PROCEDURE	887	"      
 "
-PRC_XIANGMU_YZXT	PROCEDURE	888	"          From zy_detail_charge
+PRC_XIANGMU_YZXT	PROCEDURE	888	"      end if;
 "
-PRC_XIANGMU_YZXT	PROCEDURE	889	"         Where zx_ks in ('2250012', '2250011')
+PRC_XIANGMU_YZXT	PROCEDURE	889	"    end if;
 "
-PRC_XIANGMU_YZXT	PROCEDURE	890	"           and charge_code in (22479)
+PRC_XIANGMU_YZXT	PROCEDURE	890	"    --end 当天不能同时收
 "
-PRC_XIANGMU_YZXT	PROCEDURE	891	"           and patient_no = in_patient_no
+PRC_XIANGMU_YZXT	PROCEDURE	891	"  
 "
-PRC_XIANGMU_YZXT	PROCEDURE	892	"         group by to_char(charge_date, 'yyyy-mm-dd');
+PRC_XIANGMU_YZXT	PROCEDURE	892	"    --几个科室不能收 高危压疮防范护理
 "
-PRC_XIANGMU_YZXT	PROCEDURE	893	"      
+PRC_XIANGMU_YZXT	PROCEDURE	893	"    if 0 = 1 then
 "
-PRC_XIANGMU_YZXT	PROCEDURE	894	"        --return '心内一,心内二,眼科,耳鼻喉科 不能收高危压疮防范护理,已收:'||to_char(ll_count)||' 请退费';
+PRC_XIANGMU_YZXT	PROCEDURE	894	"      Select Sum(sl)
 "
-PRC_XIANGMU_YZXT	PROCEDURE	895	"        -- return ls_show;
+PRC_XIANGMU_YZXT	PROCEDURE	895	"        Into ll_count
 "
-PRC_XIANGMU_YZXT	PROCEDURE	896	"        out_code := -1;
+PRC_XIANGMU_YZXT	PROCEDURE	896	"        From zy_detail_charge
 "
-PRC_XIANGMU_YZXT	PROCEDURE	897	"        select ls_show || ',[prc_xiangmu_yzxt]' into out_msg from dual;
+PRC_XIANGMU_YZXT	PROCEDURE	897	"       Where zx_ks in ('2250012', '2250011')
 "
-PRC_XIANGMU_YZXT	PROCEDURE	898	"        return;
+PRC_XIANGMU_YZXT	PROCEDURE	898	"         and charge_code in (22479)
 "
-PRC_XIANGMU_YZXT	PROCEDURE	899	"      
+PRC_XIANGMU_YZXT	PROCEDURE	899	"         and patient_no = in_patient_no;
 "
-PRC_XIANGMU_YZXT	PROCEDURE	900	"      end if;
+PRC_XIANGMU_YZXT	PROCEDURE	900	"    
 "
-PRC_XIANGMU_YZXT	PROCEDURE	901	"    end if;
+PRC_XIANGMU_YZXT	PROCEDURE	901	"      if ll_count > 0 then
 "
-PRC_XIANGMU_YZXT	PROCEDURE	902	"    --end 几个科室不能收 高危压疮防范护理
+PRC_XIANGMU_YZXT	PROCEDURE	902	"      
 "
-PRC_XIANGMU_YZXT	PROCEDURE	903	"  
+PRC_XIANGMU_YZXT	PROCEDURE	903	"        Select WM_CONCAT(to_char(charge_date, 'yyyy-mm-dd') || charge_name ||
 "
-PRC_XIANGMU_YZXT	PROCEDURE	904	"    --物价规则审核
+PRC_XIANGMU_YZXT	PROCEDURE	904	"                         ' 收费数量:' || sum(sl) || ' ;')
 "
-PRC_XIANGMU_YZXT	PROCEDURE	905	"    if 1 = 1 then
+PRC_XIANGMU_YZXT	PROCEDURE	905	"          into ls_show
 "
-PRC_XIANGMU_YZXT	PROCEDURE	906	"    
+PRC_XIANGMU_YZXT	PROCEDURE	906	"          From zy_detail_charge
 "
-PRC_XIANGMU_YZXT	PROCEDURE	907	"      select nvl(max(bz), ' ')
+PRC_XIANGMU_YZXT	PROCEDURE	907	"         Where zx_ks in ('2250012', '2250011')
 "
-PRC_XIANGMU_YZXT	PROCEDURE	908	"        into ls_show
+PRC_XIANGMU_YZXT	PROCEDURE	908	"           and charge_code in (22479)
 "
-PRC_XIANGMU_YZXT	PROCEDURE	909	"        from temp_lock
+PRC_XIANGMU_YZXT	PROCEDURE	909	"           and patient_no = in_patient_no
 "
-PRC_XIANGMU_YZXT	PROCEDURE	910	"       where patient_no = in_patient_no;
+PRC_XIANGMU_YZXT	PROCEDURE	910	"         group by to_char(charge_date, 'yyyy-mm-dd');
 "
-PRC_XIANGMU_YZXT	PROCEDURE	911	"    
+PRC_XIANGMU_YZXT	PROCEDURE	911	"      
 "
-PRC_XIANGMU_YZXT	PROCEDURE	912	"      if ls_show > ' ' then
+PRC_XIANGMU_YZXT	PROCEDURE	912	"        --return '心内一,心内二,眼科,耳鼻喉科 不能收高危压疮防范护理,已收:'||to_char(ll_count)||' 请退费';
 "
-PRC_XIANGMU_YZXT	PROCEDURE	913	"        select ls_show || '[prc_xiangmu_yzxt]' into ls_show from dual;
+PRC_XIANGMU_YZXT	PROCEDURE	913	"        -- return ls_show;
 "
 PRC_XIANGMU_YZXT	PROCEDURE	914	"        out_code := -1;
 "
-PRC_XIANGMU_YZXT	PROCEDURE	915	"        out_msg  := ls_show;
+PRC_XIANGMU_YZXT	PROCEDURE	915	"        select ls_show || ',[prc_xiangmu_yzxt]' into out_msg from dual;
 "
 PRC_XIANGMU_YZXT	PROCEDURE	916	"        return;
 "
-PRC_XIANGMU_YZXT	PROCEDURE	917	"      end if;
+PRC_XIANGMU_YZXT	PROCEDURE	917	"      
 "
-PRC_XIANGMU_YZXT	PROCEDURE	918	"    
+PRC_XIANGMU_YZXT	PROCEDURE	918	"      end if;
 "
 PRC_XIANGMU_YZXT	PROCEDURE	919	"    end if;
 "
-PRC_XIANGMU_YZXT	PROCEDURE	920	"  
+PRC_XIANGMU_YZXT	PROCEDURE	920	"    --end 几个科室不能收 高危压疮防范护理
 "
-PRC_XIANGMU_YZXT	PROCEDURE	921	"    --'08' - '17' 上班时间进行控制
+PRC_XIANGMU_YZXT	PROCEDURE	921	"  
 "
-PRC_XIANGMU_YZXT	PROCEDURE	922	"    --select to_char(sysdate, 'hh24') into ls_time from dual;
+PRC_XIANGMU_YZXT	PROCEDURE	922	"    --物价规则审核
 "
 PRC_XIANGMU_YZXT	PROCEDURE	923	"    if 1 = 1 then
 "
-PRC_XIANGMU_YZXT	PROCEDURE	924	"      null;
+PRC_XIANGMU_YZXT	PROCEDURE	924	"    
 "
-PRC_XIANGMU_YZXT	PROCEDURE	925	"      select brlb
+PRC_XIANGMU_YZXT	PROCEDURE	925	"      select nvl(max(bz), ' ')
 "
-PRC_XIANGMU_YZXT	PROCEDURE	926	"        into ll_brlb
+PRC_XIANGMU_YZXT	PROCEDURE	926	"        into ls_show
 "
-PRC_XIANGMU_YZXT	PROCEDURE	927	"        from zy_patient_information
+PRC_XIANGMU_YZXT	PROCEDURE	927	"        from temp_lock
 "
 PRC_XIANGMU_YZXT	PROCEDURE	928	"       where patient_no = in_patient_no;
 "
 PRC_XIANGMU_YZXT	PROCEDURE	929	"    
 "
-PRC_XIANGMU_YZXT	PROCEDURE	930	"      /*    -- 异地医保 gfbz调整
+PRC_XIANGMU_YZXT	PROCEDURE	930	"      if ls_show > ' ' then
 "
-PRC_XIANGMU_YZXT	PROCEDURE	931	"      if ll_brlb = 99 then
+PRC_XIANGMU_YZXT	PROCEDURE	931	"        select ls_show || '[prc_xiangmu_yzxt]' into ls_show from dual;
 "
-PRC_XIANGMU_YZXT	PROCEDURE	932	"        update zy_detail_charge
+PRC_XIANGMU_YZXT	PROCEDURE	932	"        out_code := -1;
 "
-PRC_XIANGMU_YZXT	PROCEDURE	933	"           set gfbz = 0
+PRC_XIANGMU_YZXT	PROCEDURE	933	"        out_msg  := ls_show;
 "
-PRC_XIANGMU_YZXT	PROCEDURE	934	"         where scrq < sysdate - 30
+PRC_XIANGMU_YZXT	PROCEDURE	934	"        return;
 "
-PRC_XIANGMU_YZXT	PROCEDURE	935	"           and gfbz = 1
+PRC_XIANGMU_YZXT	PROCEDURE	935	"      end if;
 "
-PRC_XIANGMU_YZXT	PROCEDURE	936	"           and patient_No = in_patient_no;
+PRC_XIANGMU_YZXT	PROCEDURE	936	"    
 "
-PRC_XIANGMU_YZXT	PROCEDURE	937	"        commit;
+PRC_XIANGMU_YZXT	PROCEDURE	937	"    end if;
 "
-PRC_XIANGMU_YZXT	PROCEDURE	938	"      end if;*/
+PRC_XIANGMU_YZXT	PROCEDURE	938	"  
 "
-PRC_XIANGMU_YZXT	PROCEDURE	939	"    
+PRC_XIANGMU_YZXT	PROCEDURE	939	"    --'08' - '17' 上班时间进行控制
 "
-PRC_XIANGMU_YZXT	PROCEDURE	940	"      -- 病人icd10诊断必须录入
+PRC_XIANGMU_YZXT	PROCEDURE	940	"    --select to_char(sysdate, 'hh24') into ls_time from dual;
 "
-PRC_XIANGMU_YZXT	PROCEDURE	941	"      if 1 = 0 then
+PRC_XIANGMU_YZXT	PROCEDURE	941	"    if 1 = 1 then
 "
-PRC_XIANGMU_YZXT	PROCEDURE	942	"      
+PRC_XIANGMU_YZXT	PROCEDURE	942	"      null;
 "
-PRC_XIANGMU_YZXT	PROCEDURE	943	"        SELECT count(*)
+PRC_XIANGMU_YZXT	PROCEDURE	943	"      select brlb
 "
-PRC_XIANGMU_YZXT	PROCEDURE	944	"          into ll_count
+PRC_XIANGMU_YZXT	PROCEDURE	944	"        into ll_brlb
 "
-PRC_XIANGMU_YZXT	PROCEDURE	945	"          From v_yb_jbml_9997
+PRC_XIANGMU_YZXT	PROCEDURE	945	"        from zy_patient_information
 "
-PRC_XIANGMU_YZXT	PROCEDURE	946	"         Where substr(icd10, 1, 4) in
+PRC_XIANGMU_YZXT	PROCEDURE	946	"       where patient_no = in_patient_no;
 "
-PRC_XIANGMU_YZXT	PROCEDURE	947	"               (SELECT substr(icd10, 1, 4)
+PRC_XIANGMU_YZXT	PROCEDURE	947	"    
 "
-PRC_XIANGMU_YZXT	PROCEDURE	948	"                  From v_bl_bingrenzdqk
+PRC_XIANGMU_YZXT	PROCEDURE	948	"      /*    -- 异地医保 gfbz调整
 "
-PRC_XIANGMU_YZXT	PROCEDURE	949	"                 Where bingrenid = in_patient_no
+PRC_XIANGMU_YZXT	PROCEDURE	949	"      if ll_brlb = 99 then
 "
-PRC_XIANGMU_YZXT	PROCEDURE	950	"                   And zhenduanlx In (2, 3, 4)
+PRC_XIANGMU_YZXT	PROCEDURE	950	"        update zy_detail_charge
 "
-PRC_XIANGMU_YZXT	PROCEDURE	951	"                   And icd10 Is Not Null);
+PRC_XIANGMU_YZXT	PROCEDURE	951	"           set gfbz = 0
 "
-PRC_XIANGMU_YZXT	PROCEDURE	952	"        if ll_count > 0 then
+PRC_XIANGMU_YZXT	PROCEDURE	952	"         where scrq < sysdate - 30
 "
-PRC_XIANGMU_YZXT	PROCEDURE	953	"          /*      SELECT jbmc || '<' || jbdm || '>'
+PRC_XIANGMU_YZXT	PROCEDURE	953	"           and gfbz = 1
 "
-PRC_XIANGMU_YZXT	PROCEDURE	954	"            into ls_jbdm
+PRC_XIANGMU_YZXT	PROCEDURE	954	"           and patient_No = in_patient_no;
 "
-PRC_XIANGMU_YZXT	PROCEDURE	955	"            From v_yb_jbml_9997
+PRC_XIANGMU_YZXT	PROCEDURE	955	"        commit;
 "
-PRC_XIANGMU_YZXT	PROCEDURE	956	"           Where substr(icd10, 1, 4) in
+PRC_XIANGMU_YZXT	PROCEDURE	956	"      end if;*/
 "
-PRC_XIANGMU_YZXT	PROCEDURE	957	"                 (SELECT substr(icd10, 1, 4)
+PRC_XIANGMU_YZXT	PROCEDURE	957	"    
 "
-PRC_XIANGMU_YZXT	PROCEDURE	958	"                    From v_bl_bingrenzdqk
+PRC_XIANGMU_YZXT	PROCEDURE	958	"      -- 病人icd10诊断必须录入
 "
-PRC_XIANGMU_YZXT	PROCEDURE	959	"                   Where bingrenid = in_patient_no
+PRC_XIANGMU_YZXT	PROCEDURE	959	"      if 1 = 0 then
 "
-PRC_XIANGMU_YZXT	PROCEDURE	960	"                     And zhenduanlx In (2)
+PRC_XIANGMU_YZXT	PROCEDURE	960	"      
 "
-PRC_XIANGMU_YZXT	PROCEDURE	961	"                     And icd10 Is Not Null)
+PRC_XIANGMU_YZXT	PROCEDURE	961	"        SELECT count(*)
 "
-PRC_XIANGMU_YZXT	PROCEDURE	962	"             and rownum = 1;
+PRC_XIANGMU_YZXT	PROCEDURE	962	"          into ll_count
 "
-PRC_XIANGMU_YZXT	PROCEDURE	963	"          update zy_patient_information
+PRC_XIANGMU_YZXT	PROCEDURE	963	"          From v_yb_jbml_9997
 "
-PRC_XIANGMU_YZXT	PROCEDURE	964	"             set out_diag_name = ls_jbdm
+PRC_XIANGMU_YZXT	PROCEDURE	964	"         Where substr(icd10, 1, 4) in
 "
-PRC_XIANGMU_YZXT	PROCEDURE	965	"           where patient_no = in_patient_no
+PRC_XIANGMU_YZXT	PROCEDURE	965	"               (SELECT substr(icd10, 1, 4)
 "
-PRC_XIANGMU_YZXT	PROCEDURE	966	"             and js_No = 0;
+PRC_XIANGMU_YZXT	PROCEDURE	966	"                  From v_bl_bingrenzdqk
 "
-PRC_XIANGMU_YZXT	PROCEDURE	967	"          commit;
+PRC_XIANGMU_YZXT	PROCEDURE	967	"                 Where bingrenid = in_patient_no
 "
-PRC_XIANGMU_YZXT	PROCEDURE	968	"          ll_count := 0;*/
+PRC_XIANGMU_YZXT	PROCEDURE	968	"                   And zhenduanlx In (2, 3, 4)
 "
-PRC_XIANGMU_YZXT	PROCEDURE	969	"          null;
+PRC_XIANGMU_YZXT	PROCEDURE	969	"                   And icd10 Is Not Null);
 "
-PRC_XIANGMU_YZXT	PROCEDURE	970	"        else
+PRC_XIANGMU_YZXT	PROCEDURE	970	"        if ll_count > 0 then
 "
-PRC_XIANGMU_YZXT	PROCEDURE	971	"          ls_show  := '医保病人  出院诊断(icd10) 不能为空，请联系出院科室，填写完整诊断!';
+PRC_XIANGMU_YZXT	PROCEDURE	971	"          /*      SELECT jbmc || '<' || jbdm || '>'
 "
-PRC_XIANGMU_YZXT	PROCEDURE	972	"          out_code := -1;
+PRC_XIANGMU_YZXT	PROCEDURE	972	"            into ls_jbdm
 "
-PRC_XIANGMU_YZXT	PROCEDURE	973	"          out_msg  := ls_show;
+PRC_XIANGMU_YZXT	PROCEDURE	973	"            From v_yb_jbml_9997
 "
-PRC_XIANGMU_YZXT	PROCEDURE	974	"          return;
+PRC_XIANGMU_YZXT	PROCEDURE	974	"           Where substr(icd10, 1, 4) in
 "
-PRC_XIANGMU_YZXT	PROCEDURE	975	"        end if;
+PRC_XIANGMU_YZXT	PROCEDURE	975	"                 (SELECT substr(icd10, 1, 4)
 "
-PRC_XIANGMU_YZXT	PROCEDURE	976	"      end if;
+PRC_XIANGMU_YZXT	PROCEDURE	976	"                    From v_bl_bingrenzdqk
 "
-PRC_XIANGMU_YZXT	PROCEDURE	977	"      -- end 病人icd10诊断必须录入
+PRC_XIANGMU_YZXT	PROCEDURE	977	"                   Where bingrenid = in_patient_no
 "
-PRC_XIANGMU_YZXT	PROCEDURE	978	"    
+PRC_XIANGMU_YZXT	PROCEDURE	978	"                     And zhenduanlx In (2)
 "
-PRC_XIANGMU_YZXT	PROCEDURE	979	"      -- 医保病人上传明细必须全部上传
+PRC_XIANGMU_YZXT	PROCEDURE	979	"                     And icd10 Is Not Null)
 "
-PRC_XIANGMU_YZXT	PROCEDURE	980	"      if 1 = 1 then
+PRC_XIANGMU_YZXT	PROCEDURE	980	"             and rownum = 1;
 "
-PRC_XIANGMU_YZXT	PROCEDURE	981	"        Select nvl(count(b.patient_No), 0)
+PRC_XIANGMU_YZXT	PROCEDURE	981	"          update zy_patient_information
 "
-PRC_XIANGMU_YZXT	PROCEDURE	982	"          Into ll_count
+PRC_XIANGMU_YZXT	PROCEDURE	982	"             set out_diag_name = ls_jbdm
 "
-PRC_XIANGMU_YZXT	PROCEDURE	983	"          From zy_detail_charge a, zy_patient_information b
+PRC_XIANGMU_YZXT	PROCEDURE	983	"           where patient_no = in_patient_no
 "
-PRC_XIANGMU_YZXT	PROCEDURE	984	"         Where a.patient_No = b.patient_No
+PRC_XIANGMU_YZXT	PROCEDURE	984	"             and js_No = 0;
 "
-PRC_XIANGMU_YZXT	PROCEDURE	985	"           and a.js_No = b.js_No
+PRC_XIANGMU_YZXT	PROCEDURE	985	"          commit;
 "
-PRC_XIANGMU_YZXT	PROCEDURE	986	"           and (to_char(a.scrq, 'yyyy-mm-dd') = '1900-01-01' or
+PRC_XIANGMU_YZXT	PROCEDURE	986	"          ll_count := 0;*/
 "
-PRC_XIANGMU_YZXT	PROCEDURE	987	"               a.scrq is null)
+PRC_XIANGMU_YZXT	PROCEDURE	987	"          null;
 "
-PRC_XIANGMU_YZXT	PROCEDURE	988	"           and instr(nvl(a.ybdm, '0'), '生活费') = 0
+PRC_XIANGMU_YZXT	PROCEDURE	988	"        else
 "
-PRC_XIANGMU_YZXT	PROCEDURE	989	"           and b.brlb = 97
+PRC_XIANGMU_YZXT	PROCEDURE	989	"          ls_show  := '医保病人  出院诊断(icd10) 不能为空，请联系出院科室，填写完整诊断!';
 "
-PRC_XIANGMU_YZXT	PROCEDURE	990	"           and a.patient_no = in_patient_no
+PRC_XIANGMU_YZXT	PROCEDURE	990	"          out_code := -1;
 "
-PRC_XIANGMU_YZXT	PROCEDURE	991	"           AND a.infant_flag = 0;
+PRC_XIANGMU_YZXT	PROCEDURE	991	"          out_msg  := ls_show;
 "
-PRC_XIANGMU_YZXT	PROCEDURE	992	"      
+PRC_XIANGMU_YZXT	PROCEDURE	992	"          return;
 "
-PRC_XIANGMU_YZXT	PROCEDURE	993	"        if ll_count > 0 then
+PRC_XIANGMU_YZXT	PROCEDURE	993	"        end if;
 "
-PRC_XIANGMU_YZXT	PROCEDURE	994	"          -- Return '';
+PRC_XIANGMU_YZXT	PROCEDURE	994	"      end if;
 "
-PRC_XIANGMU_YZXT	PROCEDURE	995	"          ls_show  := '该医保病人费用明细还未全部上传,[prc_xiangmu_yzxt]';
+PRC_XIANGMU_YZXT	PROCEDURE	995	"      -- end 病人icd10诊断必须录入
 "
-PRC_XIANGMU_YZXT	PROCEDURE	996	"          out_code := -1;
+PRC_XIANGMU_YZXT	PROCEDURE	996	"    
 "
-PRC_XIANGMU_YZXT	PROCEDURE	997	"          out_msg  := ls_show;
+PRC_XIANGMU_YZXT	PROCEDURE	997	"      -- 医保病人上传明细必须全部上传
 "
-PRC_XIANGMU_YZXT	PROCEDURE	998	"          return;
+PRC_XIANGMU_YZXT	PROCEDURE	998	"      if 1 = 1 then
 "
-PRC_XIANGMU_YZXT	PROCEDURE	999	"        end if;
+PRC_XIANGMU_YZXT	PROCEDURE	999	"        Select nvl(count(b.patient_No), 0)
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1000	"      end if;
+PRC_XIANGMU_YZXT	PROCEDURE	1000	"          Into ll_count
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1001	"    
+PRC_XIANGMU_YZXT	PROCEDURE	1001	"          From zy_detail_charge a, zy_patient_information b
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1002	"      -- end 医保病人上传明细必须全部上传
+PRC_XIANGMU_YZXT	PROCEDURE	1002	"         Where a.patient_No = b.patient_No
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1003	"      --判断数量小于0
+PRC_XIANGMU_YZXT	PROCEDURE	1003	"           and a.js_No = b.js_No
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1004	"      if 1 = 1 then
+PRC_XIANGMU_YZXT	PROCEDURE	1004	"           and (to_char(a.scrq, 'yyyy-mm-dd') = '1900-01-01' or
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1005	"        select count(charge_name || '   数量为  ' || sum(sl))
+PRC_XIANGMU_YZXT	PROCEDURE	1005	"               a.scrq is null)
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1006	"          into ll_count
+PRC_XIANGMU_YZXT	PROCEDURE	1006	"           and instr(nvl(a.ybdm, '0'), '生活费') = 0
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1007	"          From zy_detail_charge
+PRC_XIANGMU_YZXT	PROCEDURE	1007	"           and b.brlb = 97
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1008	"         where patient_No = in_patient_no
+PRC_XIANGMU_YZXT	PROCEDURE	1008	"           and a.patient_no = in_patient_no
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1009	"           and fygl > 3
+PRC_XIANGMU_YZXT	PROCEDURE	1009	"           AND a.infant_flag = 0;
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1010	"         group by charge_name
+PRC_XIANGMU_YZXT	PROCEDURE	1010	"      
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1011	"        having sum(sl) < 0;
+PRC_XIANGMU_YZXT	PROCEDURE	1011	"        if ll_count > 0 then
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1012	"        if ll_count > 0 then
+PRC_XIANGMU_YZXT	PROCEDURE	1012	"          -- Return '';
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1013	"          select min(charge_name || '   数量为  ' || sum(sl) ||
+PRC_XIANGMU_YZXT	PROCEDURE	1013	"          ls_show  := '该医保病人费用明细还未全部上传,[prc_xiangmu_yzxt]';
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1014	"                     '[prc_xiangmu_yzxt]')
+PRC_XIANGMU_YZXT	PROCEDURE	1014	"          out_code := -1;
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1015	"            into ls_show
+PRC_XIANGMU_YZXT	PROCEDURE	1015	"          out_msg  := ls_show;
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1016	"            From zy_detail_charge
+PRC_XIANGMU_YZXT	PROCEDURE	1016	"          return;
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1017	"           where patient_No = in_patient_no
+PRC_XIANGMU_YZXT	PROCEDURE	1017	"        end if;
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1018	"             and fygl > 3
+PRC_XIANGMU_YZXT	PROCEDURE	1018	"      end if;
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1019	"           group by charge_name
+PRC_XIANGMU_YZXT	PROCEDURE	1019	"    
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1020	"          having sum(sl) < 0;
+PRC_XIANGMU_YZXT	PROCEDURE	1020	"      -- end 医保病人上传明细必须全部上传
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1021	"        
+PRC_XIANGMU_YZXT	PROCEDURE	1021	"      --判断数量小于0
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1022	"          out_code := -1;
+PRC_XIANGMU_YZXT	PROCEDURE	1022	"      if 1 = 1 then
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1023	"          out_msg  := ls_show;
+PRC_XIANGMU_YZXT	PROCEDURE	1023	"        select count(charge_name || '   数量为  ' || sum(sl))
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1024	"          return;
+PRC_XIANGMU_YZXT	PROCEDURE	1024	"          into ll_count
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1025	"        
+PRC_XIANGMU_YZXT	PROCEDURE	1025	"          From zy_detail_charge
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1026	"        end if;
+PRC_XIANGMU_YZXT	PROCEDURE	1026	"         where patient_No = in_patient_no
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1027	"      end if;
+PRC_XIANGMU_YZXT	PROCEDURE	1027	"           and fygl > 3
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1028	"      --end 判断数量小于0
+PRC_XIANGMU_YZXT	PROCEDURE	1028	"         group by charge_name
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1029	"    
+PRC_XIANGMU_YZXT	PROCEDURE	1029	"        having sum(sl) < 0;
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1030	"      --未收床位费 护理费 核查  
+PRC_XIANGMU_YZXT	PROCEDURE	1030	"        if ll_count > 0 then
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1031	"      if 1 = 1 then
+PRC_XIANGMU_YZXT	PROCEDURE	1031	"          select min(charge_name || '   数量为  ' || sum(sl) ||
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1032	"      
+PRC_XIANGMU_YZXT	PROCEDURE	1032	"                     '[prc_xiangmu_yzxt]')
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1033	"        select to_char(nvl(cwfp_date, sysdate), 'yyyy-mm-dd'),
+PRC_XIANGMU_YZXT	PROCEDURE	1033	"            into ls_show
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1034	"               to_char(nvl(preout_date, sysdate), 'yyyy-mm-dd'),
+PRC_XIANGMU_YZXT	PROCEDURE	1034	"            From zy_detail_charge
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1035	"               to_char(sysdate, 'yyyy-mm-dd'),
+PRC_XIANGMU_YZXT	PROCEDURE	1035	"           where patient_No = in_patient_no
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1036	"               to_char(sysdate - 1, 'yyyy-mm-dd'),
+PRC_XIANGMU_YZXT	PROCEDURE	1036	"             and fygl > 3
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1037	"               nvl(curr_ks, '')
+PRC_XIANGMU_YZXT	PROCEDURE	1037	"           group by charge_name
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1038	"          into v_temp2, v_temp3, v_temp4, v_temp5, v_curr_ks
+PRC_XIANGMU_YZXT	PROCEDURE	1038	"          having sum(sl) < 0;
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1039	"          From zy_patient_information
+PRC_XIANGMU_YZXT	PROCEDURE	1039	"        
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1040	"         where patient_no = in_patient_no;
+PRC_XIANGMU_YZXT	PROCEDURE	1040	"          out_code := -1;
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1041	"        --当天住院出院
+PRC_XIANGMU_YZXT	PROCEDURE	1041	"          out_msg  := ls_show;
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1042	"        if v_temp2 = v_temp3 or v_temp2 = v_temp4 or v_temp2 = v_temp5 then
+PRC_XIANGMU_YZXT	PROCEDURE	1042	"          return;
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1043	"          null;
+PRC_XIANGMU_YZXT	PROCEDURE	1043	"        
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1044	"        else
+PRC_XIANGMU_YZXT	PROCEDURE	1044	"        end if;
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1045	"          ----2110001   新生儿科 不收护理费
+PRC_XIANGMU_YZXT	PROCEDURE	1045	"      end if;
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1046	"          --2020018 ,2050001  ICU 不收护理费 床位费
+PRC_XIANGMU_YZXT	PROCEDURE	1046	"      --end 判断数量小于0
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1047	"          if v_curr_ks <> '2020018' and v_curr_ks <> '2050001' then
+PRC_XIANGMU_YZXT	PROCEDURE	1047	"    
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1048	"            select count(*)
+PRC_XIANGMU_YZXT	PROCEDURE	1048	"      --未收床位费 护理费 核查  
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1049	"              into v_count
+PRC_XIANGMU_YZXT	PROCEDURE	1049	"      if 1 = 1 then
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1050	"              from zy_detail_charge
+PRC_XIANGMU_YZXT	PROCEDURE	1050	"      
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1051	"             where fygl = 18
+PRC_XIANGMU_YZXT	PROCEDURE	1051	"        select to_char(nvl(cwfp_date, sysdate), 'yyyy-mm-dd'),
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1052	"               and js_no = 0
+PRC_XIANGMU_YZXT	PROCEDURE	1052	"               to_char(nvl(preout_date, sysdate), 'yyyy-mm-dd'),
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1053	"               and twice_detail_code = 'AU'
+PRC_XIANGMU_YZXT	PROCEDURE	1053	"               to_char(sysdate, 'yyyy-mm-dd'),
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1054	"               and patient_no = in_patient_no;
+PRC_XIANGMU_YZXT	PROCEDURE	1054	"               to_char(sysdate - 1, 'yyyy-mm-dd'),
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1055	"            if v_count = 0 then
+PRC_XIANGMU_YZXT	PROCEDURE	1055	"               nvl(curr_ks, '')
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1056	"              select count(*)
+PRC_XIANGMU_YZXT	PROCEDURE	1056	"          into v_temp2, v_temp3, v_temp4, v_temp5, v_curr_ks
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1057	"                into v_count
+PRC_XIANGMU_YZXT	PROCEDURE	1057	"          From zy_patient_information
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1058	"                from zy_detail_charge
+PRC_XIANGMU_YZXT	PROCEDURE	1058	"         where patient_no = in_patient_no;
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1059	"               where sl <> 0
+PRC_XIANGMU_YZXT	PROCEDURE	1059	"        --当天住院出院
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1060	"                 and fygl = 18
+PRC_XIANGMU_YZXT	PROCEDURE	1060	"        if v_temp2 = v_temp3 or v_temp2 = v_temp4 or v_temp2 = v_temp5 then
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1061	"                 and js_no = 0
+PRC_XIANGMU_YZXT	PROCEDURE	1061	"          null;
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1062	"                 and jcfx_date > sysdate - 1
+PRC_XIANGMU_YZXT	PROCEDURE	1062	"        else
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1063	"                 and patient_no = in_patient_no;
+PRC_XIANGMU_YZXT	PROCEDURE	1063	"          ----2110001   新生儿科 不收护理费
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1064	"              if v_count = 0 then
+PRC_XIANGMU_YZXT	PROCEDURE	1064	"          --2020018 ,2050001  ICU 不收护理费 床位费
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1065	"              
+PRC_XIANGMU_YZXT	PROCEDURE	1065	"          if v_curr_ks <> '2020018' and v_curr_ks <> '2050001' then
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1066	"                ls_show  := '没有自动滚收的床位费记录,[prc_xiangmu_yzxt]bed';
+PRC_XIANGMU_YZXT	PROCEDURE	1066	"            select count(*)
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1067	"                out_code := -1;
+PRC_XIANGMU_YZXT	PROCEDURE	1067	"              into v_count
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1068	"                out_msg  := ls_show;
+PRC_XIANGMU_YZXT	PROCEDURE	1068	"              from zy_detail_charge
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1069	"                return;
+PRC_XIANGMU_YZXT	PROCEDURE	1069	"             where fygl = 18
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1070	"              end if;
+PRC_XIANGMU_YZXT	PROCEDURE	1070	"               and js_no = 0
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1071	"            end if;
+PRC_XIANGMU_YZXT	PROCEDURE	1071	"               and twice_detail_code = 'AU'
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1072	"          end if;
+PRC_XIANGMU_YZXT	PROCEDURE	1072	"               and patient_no = in_patient_no;
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1073	"        
+PRC_XIANGMU_YZXT	PROCEDURE	1073	"            if v_count = 0 then
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1074	"          if v_curr_ks <> '2020018' and v_curr_ks <> '2050001' and
+PRC_XIANGMU_YZXT	PROCEDURE	1074	"              select count(*)
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1075	"             v_curr_ks <> '2110001' then
+PRC_XIANGMU_YZXT	PROCEDURE	1075	"                into v_count
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1076	"            select count(*)
+PRC_XIANGMU_YZXT	PROCEDURE	1076	"                from zy_detail_charge
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1077	"              into v_count
+PRC_XIANGMU_YZXT	PROCEDURE	1077	"               where sl <> 0
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1078	"              from zy_detail_charge
+PRC_XIANGMU_YZXT	PROCEDURE	1078	"                 and fygl = 18
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1079	"             where fygl = 26
+PRC_XIANGMU_YZXT	PROCEDURE	1079	"                 and js_no = 0
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1080	"               and js_no = 0
+PRC_XIANGMU_YZXT	PROCEDURE	1080	"                 and jcfx_date > sysdate - 1
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1081	"               and twice_detail_code = 'AU'
+PRC_XIANGMU_YZXT	PROCEDURE	1081	"                 and patient_no = in_patient_no;
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1082	"               and patient_no = in_patient_no;
+PRC_XIANGMU_YZXT	PROCEDURE	1082	"              if v_count = 0 then
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1083	"            if v_count = 0 then
+PRC_XIANGMU_YZXT	PROCEDURE	1083	"              
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1084	"              select count(*)
+PRC_XIANGMU_YZXT	PROCEDURE	1084	"                ls_show  := '没有自动滚收的床位费记录,[prc_xiangmu_yzxt]bed';
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1085	"                into v_count
+PRC_XIANGMU_YZXT	PROCEDURE	1085	"                out_code := -1;
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1086	"                from zy_detail_charge
+PRC_XIANGMU_YZXT	PROCEDURE	1086	"                out_msg  := ls_show;
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1087	"               where sl <> 0
+PRC_XIANGMU_YZXT	PROCEDURE	1087	"                return;
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1088	"                 and fygl = 26
+PRC_XIANGMU_YZXT	PROCEDURE	1088	"              end if;
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1089	"                 and js_no = 0
+PRC_XIANGMU_YZXT	PROCEDURE	1089	"            end if;
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1090	"                 and patient_no = in_patient_no;
+PRC_XIANGMU_YZXT	PROCEDURE	1090	"          end if;
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1091	"              if v_count = 0 then
+PRC_XIANGMU_YZXT	PROCEDURE	1091	"        
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1092	"                ls_show  := '没有护理费记录,[prc_xiangmu_yzxt]bed';
+PRC_XIANGMU_YZXT	PROCEDURE	1092	"          if v_curr_ks <> '2020018' and v_curr_ks <> '2050001' and
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1093	"                out_code := -1;
+PRC_XIANGMU_YZXT	PROCEDURE	1093	"             v_curr_ks <> '2110001' then
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1094	"                out_msg  := ls_show;
+PRC_XIANGMU_YZXT	PROCEDURE	1094	"            select count(*)
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1095	"                return;
+PRC_XIANGMU_YZXT	PROCEDURE	1095	"              into v_count
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1096	"              end if;
+PRC_XIANGMU_YZXT	PROCEDURE	1096	"              from zy_detail_charge
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1097	"            end if;
+PRC_XIANGMU_YZXT	PROCEDURE	1097	"             where fygl = 26
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1098	"          end if;
+PRC_XIANGMU_YZXT	PROCEDURE	1098	"               and js_no = 0
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1099	"        end if;
+PRC_XIANGMU_YZXT	PROCEDURE	1099	"               and twice_detail_code = 'AU'
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1100	"      end if;
+PRC_XIANGMU_YZXT	PROCEDURE	1100	"               and patient_no = in_patient_no;
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1101	"      --end 未收床位费 护理费 核查 
+PRC_XIANGMU_YZXT	PROCEDURE	1101	"            if v_count = 0 then
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1102	"    
+PRC_XIANGMU_YZXT	PROCEDURE	1102	"              select count(*)
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1103	"      --判断物价违规
+PRC_XIANGMU_YZXT	PROCEDURE	1103	"                into v_count
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1104	"      if 2 = 2 then
+PRC_XIANGMU_YZXT	PROCEDURE	1104	"                from zy_detail_charge
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1105	"      
+PRC_XIANGMU_YZXT	PROCEDURE	1105	"               where sl <> 0
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1106	"        PRC_YB_CHECK_ZY('0', in_patient_no, v_temp2);
+PRC_XIANGMU_YZXT	PROCEDURE	1106	"                 and fygl = 26
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1107	"      
+PRC_XIANGMU_YZXT	PROCEDURE	1107	"                 and js_no = 0
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1108	"        select count(*)
+PRC_XIANGMU_YZXT	PROCEDURE	1108	"                 and patient_no = in_patient_no;
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1109	"          into ll_count
+PRC_XIANGMU_YZXT	PROCEDURE	1109	"              if v_count = 0 then
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1110	"          From yb_znshgz_zybr
+PRC_XIANGMU_YZXT	PROCEDURE	1110	"                ls_show  := '没有护理费记录,[prc_xiangmu_yzxt]bed';
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1111	"         where bz like '%*%'
+PRC_XIANGMU_YZXT	PROCEDURE	1111	"                out_code := -1;
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1112	"           and patient_No = in_patient_no;
+PRC_XIANGMU_YZXT	PROCEDURE	1112	"                out_msg  := ls_show;
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1113	"      
+PRC_XIANGMU_YZXT	PROCEDURE	1113	"                return;
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1114	"        if ll_count > 0 then
+PRC_XIANGMU_YZXT	PROCEDURE	1114	"              end if;
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1115	"        
+PRC_XIANGMU_YZXT	PROCEDURE	1115	"            end if;
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1116	"          /*   select count(*)
+PRC_XIANGMU_YZXT	PROCEDURE	1116	"          end if;
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1117	"           into ll_count
+PRC_XIANGMU_YZXT	PROCEDURE	1117	"        end if;
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1118	"           From yb_znshgz_zybr
+PRC_XIANGMU_YZXT	PROCEDURE	1118	"      end if;
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1119	"          where bz like '%*%'
+PRC_XIANGMU_YZXT	PROCEDURE	1119	"      --end 未收床位费 护理费 核查 
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1120	"            and patient_No = in_patient_no;*/
+PRC_XIANGMU_YZXT	PROCEDURE	1120	"    
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1121	"          if ll_count > 0 then
+PRC_XIANGMU_YZXT	PROCEDURE	1121	"      --判断物价违规
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1122	"            select min(substr('[prc_xiangmu_yzxt]请点击 物价核查 按钮 ，查看处理带*的项目，' || bz,
+PRC_XIANGMU_YZXT	PROCEDURE	1122	"      if 2 = 2 then
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1123	"                              1,
+PRC_XIANGMU_YZXT	PROCEDURE	1123	"      
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1124	"                              1200))
+PRC_XIANGMU_YZXT	PROCEDURE	1124	"        PRC_YB_CHECK_ZY('0', in_patient_no, v_temp2);
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1125	"              into ls_show
+PRC_XIANGMU_YZXT	PROCEDURE	1125	"      
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1126	"              From yb_znshgz_zybr
+PRC_XIANGMU_YZXT	PROCEDURE	1126	"        select count(*)
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1127	"             where bz like '%*%'
+PRC_XIANGMU_YZXT	PROCEDURE	1127	"          into ll_count
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1128	"               and patient_No = in_patient_no;
+PRC_XIANGMU_YZXT	PROCEDURE	1128	"          From yb_znshgz_zybr
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1129	"            out_code := -1;
+PRC_XIANGMU_YZXT	PROCEDURE	1129	"         where bz like '%*%'
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1130	"            out_msg  := ls_show;
+PRC_XIANGMU_YZXT	PROCEDURE	1130	"           and patient_No = in_patient_no;
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1131	"            return;
+PRC_XIANGMU_YZXT	PROCEDURE	1131	"      
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1132	"          end if;
+PRC_XIANGMU_YZXT	PROCEDURE	1132	"        if ll_count > 0 then
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1133	"        end if;
+PRC_XIANGMU_YZXT	PROCEDURE	1133	"        
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1134	"      
+PRC_XIANGMU_YZXT	PROCEDURE	1134	"          /*   select count(*)
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1135	"      end if;
+PRC_XIANGMU_YZXT	PROCEDURE	1135	"           into ll_count
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1136	"      --end 判断物价违规
+PRC_XIANGMU_YZXT	PROCEDURE	1136	"           From yb_znshgz_zybr
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1137	"    
+PRC_XIANGMU_YZXT	PROCEDURE	1137	"          where bz like '%*%'
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1138	"      --预出院当天对部分项目进行退费v_ylsf_curr_cut
+PRC_XIANGMU_YZXT	PROCEDURE	1138	"            and patient_No = in_patient_no;*/
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1139	"      if 1 = 0 then
+PRC_XIANGMU_YZXT	PROCEDURE	1139	"          if ll_count > 0 then
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1140	"        insert into zy_detail_charge
+PRC_XIANGMU_YZXT	PROCEDURE	1140	"            select min(substr('[prc_xiangmu_yzxt]请点击 物价核查 按钮 ，查看处理带*的项目，' || bz,
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1141	"          (jlxh,
+PRC_XIANGMU_YZXT	PROCEDURE	1141	"                              1,
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1142	"           patient_no,
+PRC_XIANGMU_YZXT	PROCEDURE	1142	"                              1200))
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1143	"           js_no,
+PRC_XIANGMU_YZXT	PROCEDURE	1143	"              into ls_show
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1144	"           infant_flag,
+PRC_XIANGMU_YZXT	PROCEDURE	1144	"              From yb_znshgz_zybr
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1145	"           charge_code,
+PRC_XIANGMU_YZXT	PROCEDURE	1145	"             where bz like '%*%'
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1146	"           charge_name,
+PRC_XIANGMU_YZXT	PROCEDURE	1146	"               and patient_No = in_patient_no;
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1147	"           fygl,
+PRC_XIANGMU_YZXT	PROCEDURE	1147	"            out_code := -1;
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1148	"           twice_detail_code,
+PRC_XIANGMU_YZXT	PROCEDURE	1148	"            out_msg  := ls_show;
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1149	"           twice_detail_id,
+PRC_XIANGMU_YZXT	PROCEDURE	1149	"            return;
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1150	"           charge_date,
+PRC_XIANGMU_YZXT	PROCEDURE	1150	"          end if;
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1151	"           sl,
+PRC_XIANGMU_YZXT	PROCEDURE	1151	"        end if;
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1152	"           dj,
+PRC_XIANGMU_YZXT	PROCEDURE	1152	"      
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1153	"           self_percent,
+PRC_XIANGMU_YZXT	PROCEDURE	1153	"      end if;
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1154	"           ys_code,
+PRC_XIANGMU_YZXT	PROCEDURE	1154	"      --end 判断物价违规
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1155	"           zx_ks,
+PRC_XIANGMU_YZXT	PROCEDURE	1155	"    
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1156	"           curr_ks,
+PRC_XIANGMU_YZXT	PROCEDURE	1156	"      --预出院当天对部分项目进行退费v_ylsf_curr_cut
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1157	"           curr_bed,
+PRC_XIANGMU_YZXT	PROCEDURE	1157	"      if 1 = 0 then
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1158	"           borrow_flag,
+PRC_XIANGMU_YZXT	PROCEDURE	1158	"        insert into zy_detail_charge
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1159	"           borrow_ks,
+PRC_XIANGMU_YZXT	PROCEDURE	1159	"          (jlxh,
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1160	"           borrow_percent,
+PRC_XIANGMU_YZXT	PROCEDURE	1160	"           patient_no,
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1161	"           op_id,
+PRC_XIANGMU_YZXT	PROCEDURE	1161	"           js_no,
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1162	"           fhr,
+PRC_XIANGMU_YZXT	PROCEDURE	1162	"           infant_flag,
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1163	"           ypkz,
+PRC_XIANGMU_YZXT	PROCEDURE	1163	"           charge_code,
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1164	"           gfbz,
+PRC_XIANGMU_YZXT	PROCEDURE	1164	"           charge_name,
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1165	"           curr_bq,
+PRC_XIANGMU_YZXT	PROCEDURE	1165	"           fygl,
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1166	"           group_code,
+PRC_XIANGMU_YZXT	PROCEDURE	1166	"           twice_detail_code,
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1167	"           start_date,
+PRC_XIANGMU_YZXT	PROCEDURE	1167	"           twice_detail_id,
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1168	"           jtbf_flag,
+PRC_XIANGMU_YZXT	PROCEDURE	1168	"           charge_date,
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1169	"           bqdm,
+PRC_XIANGMU_YZXT	PROCEDURE	1169	"           sl,
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1170	"           jzxh,
+PRC_XIANGMU_YZXT	PROCEDURE	1170	"           dj,
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1171	"           jcfx_date,
+PRC_XIANGMU_YZXT	PROCEDURE	1171	"           self_percent,
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1172	"           jcfx_id,
+PRC_XIANGMU_YZXT	PROCEDURE	1172	"           ys_code,
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1173	"           scrq,
+PRC_XIANGMU_YZXT	PROCEDURE	1173	"           zx_ks,
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1174	"           zzys,
+PRC_XIANGMU_YZXT	PROCEDURE	1174	"           curr_ks,
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1175	"           zlyppb,
+PRC_XIANGMU_YZXT	PROCEDURE	1175	"           curr_bed,
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1176	"           tcdm,
+PRC_XIANGMU_YZXT	PROCEDURE	1176	"           borrow_flag,
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1177	"           je,
+PRC_XIANGMU_YZXT	PROCEDURE	1177	"           borrow_ks,
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1178	"           zlje,
+PRC_XIANGMU_YZXT	PROCEDURE	1178	"           borrow_percent,
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1179	"           zfje,
+PRC_XIANGMU_YZXT	PROCEDURE	1179	"           op_id,
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1180	"           csbz,
+PRC_XIANGMU_YZXT	PROCEDURE	1180	"           fhr,
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1181	"           jiagelb,
+PRC_XIANGMU_YZXT	PROCEDURE	1181	"           ypkz,
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1182	"           yibaoysxmxh
+PRC_XIANGMU_YZXT	PROCEDURE	1182	"           gfbz,
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1183	"           
+PRC_XIANGMU_YZXT	PROCEDURE	1183	"           curr_bq,
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1184	"           )
+PRC_XIANGMU_YZXT	PROCEDURE	1184	"           group_code,
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1185	"          select zy_detail_charge_jlxh.nextval,
+PRC_XIANGMU_YZXT	PROCEDURE	1185	"           start_date,
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1186	"                 patient_no,
+PRC_XIANGMU_YZXT	PROCEDURE	1186	"           jtbf_flag,
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1187	"                 js_no,
+PRC_XIANGMU_YZXT	PROCEDURE	1187	"           bqdm,
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1188	"                 infant_flag,
+PRC_XIANGMU_YZXT	PROCEDURE	1188	"           jzxh,
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1189	"                 charge_code,
+PRC_XIANGMU_YZXT	PROCEDURE	1189	"           jcfx_date,
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1190	"                 charge_name,
+PRC_XIANGMU_YZXT	PROCEDURE	1190	"           jcfx_id,
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1191	"                 fygl,
+PRC_XIANGMU_YZXT	PROCEDURE	1191	"           scrq,
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1192	"                 twice_detail_code,
+PRC_XIANGMU_YZXT	PROCEDURE	1192	"           zzys,
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1193	"                 twice_detail_id,
+PRC_XIANGMU_YZXT	PROCEDURE	1193	"           zlyppb,
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1194	"                 sysdate,
+PRC_XIANGMU_YZXT	PROCEDURE	1194	"           tcdm,
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1195	"                 sl * -1,
+PRC_XIANGMU_YZXT	PROCEDURE	1195	"           je,
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1196	"                 dj * -1,
+PRC_XIANGMU_YZXT	PROCEDURE	1196	"           zlje,
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1197	"                 self_percent,
+PRC_XIANGMU_YZXT	PROCEDURE	1197	"           zfje,
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1198	"                 ys_code,
+PRC_XIANGMU_YZXT	PROCEDURE	1198	"           csbz,
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1199	"                 zx_ks,
+PRC_XIANGMU_YZXT	PROCEDURE	1199	"           jiagelb,
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1200	"                 curr_ks,
+PRC_XIANGMU_YZXT	PROCEDURE	1200	"           yibaoysxmxh
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1201	"                 curr_bed,
+PRC_XIANGMU_YZXT	PROCEDURE	1201	"           
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1202	"                 borrow_flag,
+PRC_XIANGMU_YZXT	PROCEDURE	1202	"           )
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1203	"                 borrow_ks,
+PRC_XIANGMU_YZXT	PROCEDURE	1203	"          select zy_detail_charge_jlxh.nextval,
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1204	"                 borrow_percent,
+PRC_XIANGMU_YZXT	PROCEDURE	1204	"                 patient_no,
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1205	"                 'DBA',
+PRC_XIANGMU_YZXT	PROCEDURE	1205	"                 js_no,
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1206	"                 'DBA',
+PRC_XIANGMU_YZXT	PROCEDURE	1206	"                 infant_flag,
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1207	"                 ypkz,
+PRC_XIANGMU_YZXT	PROCEDURE	1207	"                 charge_code,
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1208	"                 gfbz,
+PRC_XIANGMU_YZXT	PROCEDURE	1208	"                 charge_name,
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1209	"                 curr_bq,
+PRC_XIANGMU_YZXT	PROCEDURE	1209	"                 fygl,
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1210	"                 group_code,
+PRC_XIANGMU_YZXT	PROCEDURE	1210	"                 twice_detail_code,
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1211	"                 start_date,
+PRC_XIANGMU_YZXT	PROCEDURE	1211	"                 twice_detail_id,
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1212	"                 jtbf_flag,
+PRC_XIANGMU_YZXT	PROCEDURE	1212	"                 sysdate,
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1213	"                 bqdm,
+PRC_XIANGMU_YZXT	PROCEDURE	1213	"                 sl * -1,
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1214	"                 jzxh,
+PRC_XIANGMU_YZXT	PROCEDURE	1214	"                 dj * -1,
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1215	"                 jcfx_date,
+PRC_XIANGMU_YZXT	PROCEDURE	1215	"                 self_percent,
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1216	"                 jcfx_id,
+PRC_XIANGMU_YZXT	PROCEDURE	1216	"                 ys_code,
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1217	"                 scrq,
+PRC_XIANGMU_YZXT	PROCEDURE	1217	"                 zx_ks,
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1218	"                 zzys,
+PRC_XIANGMU_YZXT	PROCEDURE	1218	"                 curr_ks,
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1219	"                 zlyppb,
+PRC_XIANGMU_YZXT	PROCEDURE	1219	"                 curr_bed,
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1220	"                 tcdm,
+PRC_XIANGMU_YZXT	PROCEDURE	1220	"                 borrow_flag,
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1221	"                 je * -1,
+PRC_XIANGMU_YZXT	PROCEDURE	1221	"                 borrow_ks,
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1222	"                 zlje * -1,
+PRC_XIANGMU_YZXT	PROCEDURE	1222	"                 borrow_percent,
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1223	"                 zfje * -1,
+PRC_XIANGMU_YZXT	PROCEDURE	1223	"                 'DBA',
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1224	"                 csbz,
+PRC_XIANGMU_YZXT	PROCEDURE	1224	"                 'DBA',
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1225	"                 jiagelb,
+PRC_XIANGMU_YZXT	PROCEDURE	1225	"                 ypkz,
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1226	"                 yibaoysxmxh
+PRC_XIANGMU_YZXT	PROCEDURE	1226	"                 gfbz,
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1227	"            from zy_detail_charge
+PRC_XIANGMU_YZXT	PROCEDURE	1227	"                 curr_bq,
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1228	"           where charge_code in (select ylxh from v_ylsf_curr_cut)
+PRC_XIANGMU_YZXT	PROCEDURE	1228	"                 group_code,
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1229	"             and charge_date >= trunc(sysdate)
+PRC_XIANGMU_YZXT	PROCEDURE	1229	"                 start_date,
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1230	"             and js_no = 0
+PRC_XIANGMU_YZXT	PROCEDURE	1230	"                 jtbf_flag,
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1231	"             and patient_no = in_patient_no;
+PRC_XIANGMU_YZXT	PROCEDURE	1231	"                 bqdm,
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1232	"        if sqlcode = 0 then
+PRC_XIANGMU_YZXT	PROCEDURE	1232	"                 jzxh,
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1233	"          COMMIT;
+PRC_XIANGMU_YZXT	PROCEDURE	1233	"                 jcfx_date,
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1234	"        else
+PRC_XIANGMU_YZXT	PROCEDURE	1234	"                 jcfx_id,
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1235	"          rollback;
+PRC_XIANGMU_YZXT	PROCEDURE	1235	"                 scrq,
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1236	"        end if;
+PRC_XIANGMU_YZXT	PROCEDURE	1236	"                 zzys,
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1237	"      
+PRC_XIANGMU_YZXT	PROCEDURE	1237	"                 zlyppb,
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1238	"      end if;
+PRC_XIANGMU_YZXT	PROCEDURE	1238	"                 tcdm,
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1239	"    
+PRC_XIANGMU_YZXT	PROCEDURE	1239	"                 je * -1,
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1240	"      -- end 预出院当天对部分项目进行退费v_ylsf_curr_cut
+PRC_XIANGMU_YZXT	PROCEDURE	1240	"                 zlje * -1,
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1241	"    
+PRC_XIANGMU_YZXT	PROCEDURE	1241	"                 zfje * -1,
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1242	"    end if;
+PRC_XIANGMU_YZXT	PROCEDURE	1242	"                 csbz,
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1243	"  
+PRC_XIANGMU_YZXT	PROCEDURE	1243	"                 jiagelb,
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1244	"  end if;
+PRC_XIANGMU_YZXT	PROCEDURE	1244	"                 yibaoysxmxh
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1245	"  --  end in_jiaoyilx ='预出院' 
+PRC_XIANGMU_YZXT	PROCEDURE	1245	"            from zy_detail_charge
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1246	"
+PRC_XIANGMU_YZXT	PROCEDURE	1246	"           where charge_code in (select ylxh from v_ylsf_curr_cut)
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1247	"  out_code := 1;
+PRC_XIANGMU_YZXT	PROCEDURE	1247	"             and charge_date >= trunc(sysdate)
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1248	"  out_msg  := '';
+PRC_XIANGMU_YZXT	PROCEDURE	1248	"             and js_no = 0
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1249	"  return;
+PRC_XIANGMU_YZXT	PROCEDURE	1249	"             and patient_no = in_patient_no;
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1250	"
+PRC_XIANGMU_YZXT	PROCEDURE	1250	"        if sqlcode = 0 then
 "
-PRC_XIANGMU_YZXT	PROCEDURE	1251	"End;
+PRC_XIANGMU_YZXT	PROCEDURE	1251	"          COMMIT;
+"
+PRC_XIANGMU_YZXT	PROCEDURE	1252	"        else
+"
+PRC_XIANGMU_YZXT	PROCEDURE	1253	"          rollback;
+"
+PRC_XIANGMU_YZXT	PROCEDURE	1254	"        end if;
+"
+PRC_XIANGMU_YZXT	PROCEDURE	1255	"      
+"
+PRC_XIANGMU_YZXT	PROCEDURE	1256	"      end if;
+"
+PRC_XIANGMU_YZXT	PROCEDURE	1257	"    
+"
+PRC_XIANGMU_YZXT	PROCEDURE	1258	"      -- end 预出院当天对部分项目进行退费v_ylsf_curr_cut
+"
+PRC_XIANGMU_YZXT	PROCEDURE	1259	"    
+"
+PRC_XIANGMU_YZXT	PROCEDURE	1260	"    end if;
+"
+PRC_XIANGMU_YZXT	PROCEDURE	1261	"  
+"
+PRC_XIANGMU_YZXT	PROCEDURE	1262	"  end if;
+"
+PRC_XIANGMU_YZXT	PROCEDURE	1263	"  --  end in_jiaoyilx ='预出院' 
+"
+PRC_XIANGMU_YZXT	PROCEDURE	1264	"
+"
+PRC_XIANGMU_YZXT	PROCEDURE	1265	"  out_code := 1;
+"
+PRC_XIANGMU_YZXT	PROCEDURE	1266	"  out_msg  := '';
+"
+PRC_XIANGMU_YZXT	PROCEDURE	1267	"  return;
+"
+PRC_XIANGMU_YZXT	PROCEDURE	1268	"
+"
+PRC_XIANGMU_YZXT	PROCEDURE	1269	"End;
 "

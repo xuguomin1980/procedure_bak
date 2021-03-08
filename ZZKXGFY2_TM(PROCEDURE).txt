@@ -6,7 +6,7 @@ ZZKXGFY2_TM	PROCEDURE	3	"                                          ret_code out 
 "
 ZZKXGFY2_TM	PROCEDURE	4	"                                          ret_info out VARCHAR) AS
 "
-ZZKXGFY2_TM	PROCEDURE	5	"  ----自助机开立新冠
+ZZKXGFY2_TM	PROCEDURE	5	"  ----自助机开立新冠  挂号收费 预防院内感染时启用
 "
 ZZKXGFY2_TM	PROCEDURE	6	"  v_yjsb number(10);
 "
@@ -350,197 +350,205 @@ ZZKXGFY2_TM	PROCEDURE	175	"  ret_code := 0;
 "
 ZZKXGFY2_TM	PROCEDURE	176	"  ret_info := '开单成功';
 "
-ZZKXGFY2_TM	PROCEDURE	177	"  commit;
+ZZKXGFY2_TM	PROCEDURE	177	"  if sqlcode = 0 then
 "
-ZZKXGFY2_TM	PROCEDURE	178	"
+ZZKXGFY2_TM	PROCEDURE	178	"    commit;
 "
-ZZKXGFY2_TM	PROCEDURE	179	"  insert into l_laborder o
+ZZKXGFY2_TM	PROCEDURE	179	"  else
 "
-ZZKXGFY2_TM	PROCEDURE	180	"    (o.laborder,
+ZZKXGFY2_TM	PROCEDURE	180	"    rollback;
 "
-ZZKXGFY2_TM	PROCEDURE	181	"     o.laborderorg,
+ZZKXGFY2_TM	PROCEDURE	181	"  end if;
 "
-ZZKXGFY2_TM	PROCEDURE	182	"     o.stayhospitalmode,
+ZZKXGFY2_TM	PROCEDURE	182	"
 "
-ZZKXGFY2_TM	PROCEDURE	183	"     o.patientid,
+ZZKXGFY2_TM	PROCEDURE	183	"  insert into l_laborder o
 "
-ZZKXGFY2_TM	PROCEDURE	184	"     o.sex,
+ZZKXGFY2_TM	PROCEDURE	184	"    (o.laborder,
 "
-ZZKXGFY2_TM	PROCEDURE	185	"     o.currentdepartment,
+ZZKXGFY2_TM	PROCEDURE	185	"     o.laborderorg,
 "
-ZZKXGFY2_TM	PROCEDURE	186	"     o.specimen,
+ZZKXGFY2_TM	PROCEDURE	186	"     o.stayhospitalmode,
 "
-ZZKXGFY2_TM	PROCEDURE	187	"     o.examitem,
+ZZKXGFY2_TM	PROCEDURE	187	"     o.patientid,
 "
-ZZKXGFY2_TM	PROCEDURE	188	"     o.testdescribe,
+ZZKXGFY2_TM	PROCEDURE	188	"     o.sex,
 "
-ZZKXGFY2_TM	PROCEDURE	189	"     o.patientname,
+ZZKXGFY2_TM	PROCEDURE	189	"     o.currentdepartment,
 "
-ZZKXGFY2_TM	PROCEDURE	190	"     o.printflag,
+ZZKXGFY2_TM	PROCEDURE	190	"     o.specimen,
 "
-ZZKXGFY2_TM	PROCEDURE	191	"     o.receiveflag,
+ZZKXGFY2_TM	PROCEDURE	191	"     o.examitem,
 "
-ZZKXGFY2_TM	PROCEDURE	192	"     o.typeflag,
+ZZKXGFY2_TM	PROCEDURE	192	"     o.testdescribe,
 "
-ZZKXGFY2_TM	PROCEDURE	193	"     o.requester,
+ZZKXGFY2_TM	PROCEDURE	193	"     o.patientname,
 "
-ZZKXGFY2_TM	PROCEDURE	194	"     o.requestetime,
+ZZKXGFY2_TM	PROCEDURE	194	"     o.printflag,
 "
-ZZKXGFY2_TM	PROCEDURE	195	"     o.labdepartment,
+ZZKXGFY2_TM	PROCEDURE	195	"     o.receiveflag,
 "
-ZZKXGFY2_TM	PROCEDURE	196	"     o.diagnostic,
+ZZKXGFY2_TM	PROCEDURE	196	"     o.typeflag,
 "
-ZZKXGFY2_TM	PROCEDURE	197	"     o.feestatus,
+ZZKXGFY2_TM	PROCEDURE	197	"     o.requester,
 "
-ZZKXGFY2_TM	PROCEDURE	198	"     O.KEZHIXBZ)
+ZZKXGFY2_TM	PROCEDURE	198	"     o.requestetime,
 "
-ZZKXGFY2_TM	PROCEDURE	199	"    select seq_l_tiaomahao.nextval,
+ZZKXGFY2_TM	PROCEDURE	199	"     o.labdepartment,
 "
-ZZKXGFY2_TM	PROCEDURE	200	"           88888888,
+ZZKXGFY2_TM	PROCEDURE	200	"     o.diagnostic,
 "
-ZZKXGFY2_TM	PROCEDURE	201	"           1,
+ZZKXGFY2_TM	PROCEDURE	201	"     o.feestatus,
 "
-ZZKXGFY2_TM	PROCEDURE	202	"           jzkh,
+ZZKXGFY2_TM	PROCEDURE	202	"     O.KEZHIXBZ)
 "
-ZZKXGFY2_TM	PROCEDURE	203	"           xb,
+ZZKXGFY2_TM	PROCEDURE	203	"    select seq_l_tiaomahao.nextval,
 "
-ZZKXGFY2_TM	PROCEDURE	204	"           '', --ksdm
+ZZKXGFY2_TM	PROCEDURE	204	"           88888888,
 "
-ZZKXGFY2_TM	PROCEDURE	205	"           'R',
+ZZKXGFY2_TM	PROCEDURE	205	"           1,
 "
-ZZKXGFY2_TM	PROCEDURE	206	"           '新型冠状病毒核酸检测（咽拭子）',
+ZZKXGFY2_TM	PROCEDURE	206	"           jzkh,
 "
-ZZKXGFY2_TM	PROCEDURE	207	"           '31513',
+ZZKXGFY2_TM	PROCEDURE	207	"           xb,
 "
-ZZKXGFY2_TM	PROCEDURE	208	"           xm,
+ZZKXGFY2_TM	PROCEDURE	208	"           '', --ksdm
 "
-ZZKXGFY2_TM	PROCEDURE	209	"           0,
+ZZKXGFY2_TM	PROCEDURE	209	"           'R',
 "
-ZZKXGFY2_TM	PROCEDURE	210	"           0,
+ZZKXGFY2_TM	PROCEDURE	210	"           '(免费）新型冠状病毒核酸检测（鼻拭子',
 "
-ZZKXGFY2_TM	PROCEDURE	211	"           0,
+ZZKXGFY2_TM	PROCEDURE	211	"           '31946',
 "
-ZZKXGFY2_TM	PROCEDURE	212	"           'A0456',
+ZZKXGFY2_TM	PROCEDURE	212	"           xm,
 "
-ZZKXGFY2_TM	PROCEDURE	213	"           sysdate,
+ZZKXGFY2_TM	PROCEDURE	213	"           0,
 "
-ZZKXGFY2_TM	PROCEDURE	214	"           '3020005',
+ZZKXGFY2_TM	PROCEDURE	214	"           0,
 "
-ZZKXGFY2_TM	PROCEDURE	215	"           '排查',
+ZZKXGFY2_TM	PROCEDURE	215	"           0,
 "
-ZZKXGFY2_TM	PROCEDURE	216	"           1,
+ZZKXGFY2_TM	PROCEDURE	216	"           'A0456',
 "
-ZZKXGFY2_TM	PROCEDURE	217	"           1
+ZZKXGFY2_TM	PROCEDURE	217	"           sysdate,
 "
-ZZKXGFY2_TM	PROCEDURE	218	"      from gy_brjbxxk
+ZZKXGFY2_TM	PROCEDURE	218	"           '3020005',
 "
-ZZKXGFY2_TM	PROCEDURE	219	"     where jzkh = card_no;
+ZZKXGFY2_TM	PROCEDURE	219	"           '排查',
 "
-ZZKXGFY2_TM	PROCEDURE	220	"
+ZZKXGFY2_TM	PROCEDURE	220	"           1,
 "
-ZZKXGFY2_TM	PROCEDURE	221	"  --插入严重急性呼吸综合症冠状病毒抗体检测
+ZZKXGFY2_TM	PROCEDURE	221	"           1
 "
-ZZKXGFY2_TM	PROCEDURE	222	"  if 1 = 0 then
+ZZKXGFY2_TM	PROCEDURE	222	"      from gy_brjbxxk
 "
-ZZKXGFY2_TM	PROCEDURE	223	"    insert into l_laborder o
+ZZKXGFY2_TM	PROCEDURE	223	"     where jzkh = card_no;
 "
-ZZKXGFY2_TM	PROCEDURE	224	"      (o.laborder,
+ZZKXGFY2_TM	PROCEDURE	224	"
 "
-ZZKXGFY2_TM	PROCEDURE	225	"       o.laborderorg,
+ZZKXGFY2_TM	PROCEDURE	225	"  --插入严重急性呼吸综合症冠状病毒抗体检测
 "
-ZZKXGFY2_TM	PROCEDURE	226	"       o.stayhospitalmode,
+ZZKXGFY2_TM	PROCEDURE	226	"  if 1 = 0 then
 "
-ZZKXGFY2_TM	PROCEDURE	227	"       o.patientid,
+ZZKXGFY2_TM	PROCEDURE	227	"    insert into l_laborder o
 "
-ZZKXGFY2_TM	PROCEDURE	228	"       o.sex,
+ZZKXGFY2_TM	PROCEDURE	228	"      (o.laborder,
 "
-ZZKXGFY2_TM	PROCEDURE	229	"       o.currentdepartment,
+ZZKXGFY2_TM	PROCEDURE	229	"       o.laborderorg,
 "
-ZZKXGFY2_TM	PROCEDURE	230	"       o.specimen,
+ZZKXGFY2_TM	PROCEDURE	230	"       o.stayhospitalmode,
 "
-ZZKXGFY2_TM	PROCEDURE	231	"       o.examitem,
+ZZKXGFY2_TM	PROCEDURE	231	"       o.patientid,
 "
-ZZKXGFY2_TM	PROCEDURE	232	"       o.testdescribe,
+ZZKXGFY2_TM	PROCEDURE	232	"       o.sex,
 "
-ZZKXGFY2_TM	PROCEDURE	233	"       o.patientname,
+ZZKXGFY2_TM	PROCEDURE	233	"       o.currentdepartment,
 "
-ZZKXGFY2_TM	PROCEDURE	234	"       o.printflag,
+ZZKXGFY2_TM	PROCEDURE	234	"       o.specimen,
 "
-ZZKXGFY2_TM	PROCEDURE	235	"       o.receiveflag,
+ZZKXGFY2_TM	PROCEDURE	235	"       o.examitem,
 "
-ZZKXGFY2_TM	PROCEDURE	236	"       o.typeflag,
+ZZKXGFY2_TM	PROCEDURE	236	"       o.testdescribe,
 "
-ZZKXGFY2_TM	PROCEDURE	237	"       o.requester,
+ZZKXGFY2_TM	PROCEDURE	237	"       o.patientname,
 "
-ZZKXGFY2_TM	PROCEDURE	238	"       o.requestetime,
+ZZKXGFY2_TM	PROCEDURE	238	"       o.printflag,
 "
-ZZKXGFY2_TM	PROCEDURE	239	"       o.labdepartment,
+ZZKXGFY2_TM	PROCEDURE	239	"       o.receiveflag,
 "
-ZZKXGFY2_TM	PROCEDURE	240	"       o.diagnostic,
+ZZKXGFY2_TM	PROCEDURE	240	"       o.typeflag,
 "
-ZZKXGFY2_TM	PROCEDURE	241	"       o.feestatus)
+ZZKXGFY2_TM	PROCEDURE	241	"       o.requester,
 "
-ZZKXGFY2_TM	PROCEDURE	242	"      select seq_l_tiaomahao.nextval,
+ZZKXGFY2_TM	PROCEDURE	242	"       o.requestetime,
 "
-ZZKXGFY2_TM	PROCEDURE	243	"             88888888,
+ZZKXGFY2_TM	PROCEDURE	243	"       o.labdepartment,
 "
-ZZKXGFY2_TM	PROCEDURE	244	"             1,
+ZZKXGFY2_TM	PROCEDURE	244	"       o.diagnostic,
 "
-ZZKXGFY2_TM	PROCEDURE	245	"             jzkh,
+ZZKXGFY2_TM	PROCEDURE	245	"       o.feestatus)
 "
-ZZKXGFY2_TM	PROCEDURE	246	"             xb,
+ZZKXGFY2_TM	PROCEDURE	246	"      select seq_l_tiaomahao.nextval,
 "
-ZZKXGFY2_TM	PROCEDURE	247	"             '',
+ZZKXGFY2_TM	PROCEDURE	247	"             88888888,
 "
-ZZKXGFY2_TM	PROCEDURE	248	"             'Q',
+ZZKXGFY2_TM	PROCEDURE	248	"             1,
 "
-ZZKXGFY2_TM	PROCEDURE	249	"             '严重急性呼吸综合症冠状病毒抗体检测',
+ZZKXGFY2_TM	PROCEDURE	249	"             jzkh,
 "
-ZZKXGFY2_TM	PROCEDURE	250	"             '21897',
+ZZKXGFY2_TM	PROCEDURE	250	"             xb,
 "
-ZZKXGFY2_TM	PROCEDURE	251	"             xm,
+ZZKXGFY2_TM	PROCEDURE	251	"             '',
 "
-ZZKXGFY2_TM	PROCEDURE	252	"             0,
+ZZKXGFY2_TM	PROCEDURE	252	"             'Q',
 "
-ZZKXGFY2_TM	PROCEDURE	253	"             0,
+ZZKXGFY2_TM	PROCEDURE	253	"             '严重急性呼吸综合症冠状病毒抗体检测',
 "
-ZZKXGFY2_TM	PROCEDURE	254	"             0,
+ZZKXGFY2_TM	PROCEDURE	254	"             '21897',
 "
-ZZKXGFY2_TM	PROCEDURE	255	"             'A0456',
+ZZKXGFY2_TM	PROCEDURE	255	"             xm,
 "
-ZZKXGFY2_TM	PROCEDURE	256	"             sysdate,
+ZZKXGFY2_TM	PROCEDURE	256	"             0,
 "
-ZZKXGFY2_TM	PROCEDURE	257	"             '3020005',
+ZZKXGFY2_TM	PROCEDURE	257	"             0,
 "
-ZZKXGFY2_TM	PROCEDURE	258	"             '排查',
+ZZKXGFY2_TM	PROCEDURE	258	"             0,
 "
-ZZKXGFY2_TM	PROCEDURE	259	"             1
+ZZKXGFY2_TM	PROCEDURE	259	"             'A0456',
 "
-ZZKXGFY2_TM	PROCEDURE	260	"        from gy_brjbxxk
+ZZKXGFY2_TM	PROCEDURE	260	"             sysdate,
 "
-ZZKXGFY2_TM	PROCEDURE	261	"       where jzkh = card_no;
+ZZKXGFY2_TM	PROCEDURE	261	"             '3020005',
 "
-ZZKXGFY2_TM	PROCEDURE	262	"  end if;
+ZZKXGFY2_TM	PROCEDURE	262	"             '排查',
 "
-ZZKXGFY2_TM	PROCEDURE	263	"  ret_code := 0;
+ZZKXGFY2_TM	PROCEDURE	263	"             1
 "
-ZZKXGFY2_TM	PROCEDURE	264	"  ret_info := '生成检验条码成功';
+ZZKXGFY2_TM	PROCEDURE	264	"        from gy_brjbxxk
 "
-ZZKXGFY2_TM	PROCEDURE	265	"  commit;
+ZZKXGFY2_TM	PROCEDURE	265	"       where jzkh = card_no;
 "
-ZZKXGFY2_TM	PROCEDURE	266	"EXCEPTION
+ZZKXGFY2_TM	PROCEDURE	266	"  end if;
 "
-ZZKXGFY2_TM	PROCEDURE	267	"  when others then
+ZZKXGFY2_TM	PROCEDURE	267	"  ret_code := 0;
 "
-ZZKXGFY2_TM	PROCEDURE	268	"    ret_code := 4;
+ZZKXGFY2_TM	PROCEDURE	268	"  ret_info := '生成检验条码成功';
 "
-ZZKXGFY2_TM	PROCEDURE	269	"  
+ZZKXGFY2_TM	PROCEDURE	269	"  commit;
 "
-ZZKXGFY2_TM	PROCEDURE	270	"    ret_info := '开单失败';
+ZZKXGFY2_TM	PROCEDURE	270	"EXCEPTION
 "
-ZZKXGFY2_TM	PROCEDURE	271	"    rollback;
+ZZKXGFY2_TM	PROCEDURE	271	"  when others then
 "
-ZZKXGFY2_TM	PROCEDURE	272	"    return;
+ZZKXGFY2_TM	PROCEDURE	272	"    ret_code := 4;
 "
-ZZKXGFY2_TM	PROCEDURE	273	"END;
+ZZKXGFY2_TM	PROCEDURE	273	"  
+"
+ZZKXGFY2_TM	PROCEDURE	274	"    ret_info := '开单失败';
+"
+ZZKXGFY2_TM	PROCEDURE	275	"    rollback;
+"
+ZZKXGFY2_TM	PROCEDURE	276	"    return;
+"
+ZZKXGFY2_TM	PROCEDURE	277	"END;
 "

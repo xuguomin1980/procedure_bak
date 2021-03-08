@@ -1,0 +1,496 @@
+PRC_XIANGMU_CURSOR_GHSF	PROCEDURE	1	"procedure prc_xiangmu_cursor_ghsf(in_jiaoyilx in varchar2, --交易类型
+"
+PRC_XIANGMU_CURSOR_GHSF	PROCEDURE	2	"                                                    in_caozuogh in varchar2, --操作工号                                            
+"
+PRC_XIANGMU_CURSOR_GHSF	PROCEDURE	3	"                                                    in_jylsh    in varchar2, --其它参数
+"
+PRC_XIANGMU_CURSOR_GHSF	PROCEDURE	4	"                                                    out_code    out INTEGER, -- 返回结果 0为执行成功
+"
+PRC_XIANGMU_CURSOR_GHSF	PROCEDURE	5	"                                                    out_msg     out varchar2) is
+"
+PRC_XIANGMU_CURSOR_GHSF	PROCEDURE	6	"
+"
+PRC_XIANGMU_CURSOR_GHSF	PROCEDURE	7	"  v_icd10      varchar2(30);
+"
+PRC_XIANGMU_CURSOR_GHSF	PROCEDURE	8	"  v_icd10_from varchar2(30);
+"
+PRC_XIANGMU_CURSOR_GHSF	PROCEDURE	9	"  v_data       varchar2(300);
+"
+PRC_XIANGMU_CURSOR_GHSF	PROCEDURE	10	"  v_data_temp  varchar2(200);
+"
+PRC_XIANGMU_CURSOR_GHSF	PROCEDURE	11	"  v_sfzh       varchar2(50);
+"
+PRC_XIANGMU_CURSOR_GHSF	PROCEDURE	12	"  v_str1       varchar2(20);
+"
+PRC_XIANGMU_CURSOR_GHSF	PROCEDURE	13	"  v_str2       varchar2(20);
+"
+PRC_XIANGMU_CURSOR_GHSF	PROCEDURE	14	"  v_str3       varchar2(20);
+"
+PRC_XIANGMU_CURSOR_GHSF	PROCEDURE	15	"  v_str4       varchar2(20);
+"
+PRC_XIANGMU_CURSOR_GHSF	PROCEDURE	16	"  v_str5       varchar2(20);
+"
+PRC_XIANGMU_CURSOR_GHSF	PROCEDURE	17	"  v_str6       varchar2(20);
+"
+PRC_XIANGMU_CURSOR_GHSF	PROCEDURE	18	"  v_str7       varchar2(20);
+"
+PRC_XIANGMU_CURSOR_GHSF	PROCEDURE	19	"  v_str8       varchar2(20);
+"
+PRC_XIANGMU_CURSOR_GHSF	PROCEDURE	20	"  v_str9       varchar2(20);
+"
+PRC_XIANGMU_CURSOR_GHSF	PROCEDURE	21	"  v_temp       varchar2(200);
+"
+PRC_XIANGMU_CURSOR_GHSF	PROCEDURE	22	"  v_temp2      varchar2(200);
+"
+PRC_XIANGMU_CURSOR_GHSF	PROCEDURE	23	"  v_flag1      varchar2(10);
+"
+PRC_XIANGMU_CURSOR_GHSF	PROCEDURE	24	"  v_flag2      varchar2(10);
+"
+PRC_XIANGMU_CURSOR_GHSF	PROCEDURE	25	"  v_ysgh       varchar2(20);
+"
+PRC_XIANGMU_CURSOR_GHSF	PROCEDURE	26	"  v_lxdh       varchar2(20);
+"
+PRC_XIANGMU_CURSOR_GHSF	PROCEDURE	27	"  v_lxdh2      varchar2(20);
+"
+PRC_XIANGMU_CURSOR_GHSF	PROCEDURE	28	"  v_ksdm       varchar2(30);
+"
+PRC_XIANGMU_CURSOR_GHSF	PROCEDURE	29	"  --临时的统计的数量
+"
+PRC_XIANGMU_CURSOR_GHSF	PROCEDURE	30	"  v_count       number;
+"
+PRC_XIANGMU_CURSOR_GHSF	PROCEDURE	31	"  v_count2      number;
+"
+PRC_XIANGMU_CURSOR_GHSF	PROCEDURE	32	"  ll_count2     number;
+"
+PRC_XIANGMU_CURSOR_GHSF	PROCEDURE	33	"  v_order_no    number;
+"
+PRC_XIANGMU_CURSOR_GHSF	PROCEDURE	34	"  v_dqz         number;
+"
+PRC_XIANGMU_CURSOR_GHSF	PROCEDURE	35	"  v_sfsb        number;
+"
+PRC_XIANGMU_CURSOR_GHSF	PROCEDURE	36	"  v_ysfsb       number;
+"
+PRC_XIANGMU_CURSOR_GHSF	PROCEDURE	37	"  ll_patient_no number;
+"
+PRC_XIANGMU_CURSOR_GHSF	PROCEDURE	38	"  v_yjsb        number;
+"
+PRC_XIANGMU_CURSOR_GHSF	PROCEDURE	39	"  v_sl          number;
+"
+PRC_XIANGMU_CURSOR_GHSF	PROCEDURE	40	"  v_sl2         number;
+"
+PRC_XIANGMU_CURSOR_GHSF	PROCEDURE	41	"  v_dj          number;
+"
+PRC_XIANGMU_CURSOR_GHSF	PROCEDURE	42	"  v_ylxh        number;
+"
+PRC_XIANGMU_CURSOR_GHSF	PROCEDURE	43	"  v_ypcddm      number;
+"
+PRC_XIANGMU_CURSOR_GHSF	PROCEDURE	44	"  v_brxh        number;
+"
+PRC_XIANGMU_CURSOR_GHSF	PROCEDURE	45	"
+"
+PRC_XIANGMU_CURSOR_GHSF	PROCEDURE	46	"  v_jzxh  number;
+"
+PRC_XIANGMU_CURSOR_GHSF	PROCEDURE	47	"  v_yjsb2 number;
+"
+PRC_XIANGMU_CURSOR_GHSF	PROCEDURE	48	"
+"
+PRC_XIANGMU_CURSOR_GHSF	PROCEDURE	49	"  --计费
+"
+PRC_XIANGMU_CURSOR_GHSF	PROCEDURE	50	"
+"
+PRC_XIANGMU_CURSOR_GHSF	PROCEDURE	51	"  --定义游标
+"
+PRC_XIANGMU_CURSOR_GHSF	PROCEDURE	52	"
+"
+PRC_XIANGMU_CURSOR_GHSF	PROCEDURE	53	"  v_select varchar2(1000);
+"
+PRC_XIANGMU_CURSOR_GHSF	PROCEDURE	54	"  Type my_cursor is ref cursor; --声明动态游标类型
+"
+PRC_XIANGMU_CURSOR_GHSF	PROCEDURE	55	"  cursor_test my_cursor; --定义动态游标变量
+"
+PRC_XIANGMU_CURSOR_GHSF	PROCEDURE	56	"
+"
+PRC_XIANGMU_CURSOR_GHSF	PROCEDURE	57	"begin
+"
+PRC_XIANGMU_CURSOR_GHSF	PROCEDURE	58	"
+"
+PRC_XIANGMU_CURSOR_GHSF	PROCEDURE	59	"  insert into zy_jiaoyi_v1
+"
+PRC_XIANGMU_CURSOR_GHSF	PROCEDURE	60	"    (jiaoyilx, caozuogh, bz)
+"
+PRC_XIANGMU_CURSOR_GHSF	PROCEDURE	61	"  values
+"
+PRC_XIANGMU_CURSOR_GHSF	PROCEDURE	62	"    (in_jiaoyilx, in_caozuogh, 'prc_xiangmu_cursor_ghsf');
+"
+PRC_XIANGMU_CURSOR_GHSF	PROCEDURE	63	"  if sqlcode = 0 then
+"
+PRC_XIANGMU_CURSOR_GHSF	PROCEDURE	64	"    commit;
+"
+PRC_XIANGMU_CURSOR_GHSF	PROCEDURE	65	"  else
+"
+PRC_XIANGMU_CURSOR_GHSF	PROCEDURE	66	"    rollback;
+"
+PRC_XIANGMU_CURSOR_GHSF	PROCEDURE	67	"  end if;
+"
+PRC_XIANGMU_CURSOR_GHSF	PROCEDURE	68	"
+"
+PRC_XIANGMU_CURSOR_GHSF	PROCEDURE	69	"  out_code := 1;
+"
+PRC_XIANGMU_CURSOR_GHSF	PROCEDURE	70	"  out_msg  := '';
+"
+PRC_XIANGMU_CURSOR_GHSF	PROCEDURE	71	"
+"
+PRC_XIANGMU_CURSOR_GHSF	PROCEDURE	72	"  -- 记账病人 正负数合并 
+"
+PRC_XIANGMU_CURSOR_GHSF	PROCEDURE	73	"  if 1 = 1 and in_jiaoyilx = '记账病人正负数合并' then
+"
+PRC_XIANGMU_CURSOR_GHSF	PROCEDURE	74	"  
+"
+PRC_XIANGMU_CURSOR_GHSF	PROCEDURE	75	"    select count(*)
+"
+PRC_XIANGMU_CURSOR_GHSF	PROCEDURE	76	"      into v_count
+"
+PRC_XIANGMU_CURSOR_GHSF	PROCEDURE	77	"      from mz_jkk
+"
+PRC_XIANGMU_CURSOR_GHSF	PROCEDURE	78	"     where brxh = in_jylsh
+"
+PRC_XIANGMU_CURSOR_GHSF	PROCEDURE	79	"       and sfsb is null;
+"
+PRC_XIANGMU_CURSOR_GHSF	PROCEDURE	80	"    if v_count = 0 then
+"
+PRC_XIANGMU_CURSOR_GHSF	PROCEDURE	81	"      out_code := -1;
+"
+PRC_XIANGMU_CURSOR_GHSF	PROCEDURE	82	"      select in_jylsh || '，该账号状态不对' into out_msg from dual;
+"
+PRC_XIANGMU_CURSOR_GHSF	PROCEDURE	83	"      return;
+"
+PRC_XIANGMU_CURSOR_GHSF	PROCEDURE	84	"    end if;
+"
+PRC_XIANGMU_CURSOR_GHSF	PROCEDURE	85	"    v_select := ' select a.brxh, b.ylxh ypxh, 0 ypcddm, b.dj, sum(b.sl)      From yj_Yjk1 a, yj_Yjk2 b     where a.yjsb = b.yjsb       and a.brxh =' ||
+"
+PRC_XIANGMU_CURSOR_GHSF	PROCEDURE	86	"                in_jylsh || '       and b.sl < 0        and a.sfsb is null      group by a.brxh, b.ylxh, b.dj     union all        select a.brxh, b.ypxh, b.ypcddm, b.dj, sum(b.sl)       From mz_cfk1 a, mz_cfk2 b
+"
+PRC_XIANGMU_CURSOR_GHSF	PROCEDURE	87	"     where a.cfsb = b.cfsb        and a.brxh = ' || in_jylsh ||
+"
+PRC_XIANGMU_CURSOR_GHSF	PROCEDURE	88	"                '       and b.sl < 0        and a.sfsb is null      group by a.brxh, b.ypxh, b.ypcddm, b.dj   ';
+"
+PRC_XIANGMU_CURSOR_GHSF	PROCEDURE	89	"    v_count  := 0;
+"
+PRC_XIANGMU_CURSOR_GHSF	PROCEDURE	90	"    --循环开始    
+"
+PRC_XIANGMU_CURSOR_GHSF	PROCEDURE	91	"    open cursor_test for v_select; --打开自定义REF游标
+"
+PRC_XIANGMU_CURSOR_GHSF	PROCEDURE	92	"  
+"
+PRC_XIANGMU_CURSOR_GHSF	PROCEDURE	93	"    LOOP
+"
+PRC_XIANGMU_CURSOR_GHSF	PROCEDURE	94	"    
+"
+PRC_XIANGMU_CURSOR_GHSF	PROCEDURE	95	"      FETCH cursor_test
+"
+PRC_XIANGMU_CURSOR_GHSF	PROCEDURE	96	"        INTO v_brxh, v_ylxh, v_ypcddm, v_dj, v_sl;
+"
+PRC_XIANGMU_CURSOR_GHSF	PROCEDURE	97	"      --退出循环的条件
+"
+PRC_XIANGMU_CURSOR_GHSF	PROCEDURE	98	"      EXIT WHEN cursor_test%NOTFOUND OR cursor_test%NOTFOUND IS NULL;
+"
+PRC_XIANGMU_CURSOR_GHSF	PROCEDURE	99	"    
+"
+PRC_XIANGMU_CURSOR_GHSF	PROCEDURE	100	"      -- yjk 
+"
+PRC_XIANGMU_CURSOR_GHSF	PROCEDURE	101	"      IF 1 = 1 and v_ypcddm = 0 THEN
+"
+PRC_XIANGMU_CURSOR_GHSF	PROCEDURE	102	"        select sum(b.sl)
+"
+PRC_XIANGMU_CURSOR_GHSF	PROCEDURE	103	"          into v_sl
+"
+PRC_XIANGMU_CURSOR_GHSF	PROCEDURE	104	"          From yj_Yjk1 a, yj_Yjk2 b
+"
+PRC_XIANGMU_CURSOR_GHSF	PROCEDURE	105	"         where a.yjsb = b.yjsb
+"
+PRC_XIANGMU_CURSOR_GHSF	PROCEDURE	106	"           and ylxh = v_ylxh
+"
+PRC_XIANGMU_CURSOR_GHSF	PROCEDURE	107	"           and dj = v_dj
+"
+PRC_XIANGMU_CURSOR_GHSF	PROCEDURE	108	"           and a.sfsb is null
+"
+PRC_XIANGMU_CURSOR_GHSF	PROCEDURE	109	"           and a.brxh = v_brxh;
+"
+PRC_XIANGMU_CURSOR_GHSF	PROCEDURE	110	"      
+"
+PRC_XIANGMU_CURSOR_GHSF	PROCEDURE	111	"        -- yjk 
+"
+PRC_XIANGMU_CURSOR_GHSF	PROCEDURE	112	"        if v_sl = 0 then
+"
+PRC_XIANGMU_CURSOR_GHSF	PROCEDURE	113	"        
+"
+PRC_XIANGMU_CURSOR_GHSF	PROCEDURE	114	"          update yj_Yjk2
+"
+PRC_XIANGMU_CURSOR_GHSF	PROCEDURE	115	"             set yjsb = yjsb * -1
+"
+PRC_XIANGMU_CURSOR_GHSF	PROCEDURE	116	"           where ylxh = v_ylxh
+"
+PRC_XIANGMU_CURSOR_GHSF	PROCEDURE	117	"             and dj = v_dj
+"
+PRC_XIANGMU_CURSOR_GHSF	PROCEDURE	118	"             and yjsb in (select yjsb
+"
+PRC_XIANGMU_CURSOR_GHSF	PROCEDURE	119	"                            from yj_Yjk1
+"
+PRC_XIANGMU_CURSOR_GHSF	PROCEDURE	120	"                           where brxh = v_brxh
+"
+PRC_XIANGMU_CURSOR_GHSF	PROCEDURE	121	"                             and sfsb is null);
+"
+PRC_XIANGMU_CURSOR_GHSF	PROCEDURE	122	"          if sqlcode = 0 then
+"
+PRC_XIANGMU_CURSOR_GHSF	PROCEDURE	123	"            commit;
+"
+PRC_XIANGMU_CURSOR_GHSF	PROCEDURE	124	"          else
+"
+PRC_XIANGMU_CURSOR_GHSF	PROCEDURE	125	"            rollback;
+"
+PRC_XIANGMU_CURSOR_GHSF	PROCEDURE	126	"            out_code := -1;
+"
+PRC_XIANGMU_CURSOR_GHSF	PROCEDURE	127	"            out_msg  := '合并失败';
+"
+PRC_XIANGMU_CURSOR_GHSF	PROCEDURE	128	"            return;
+"
+PRC_XIANGMU_CURSOR_GHSF	PROCEDURE	129	"          end if;
+"
+PRC_XIANGMU_CURSOR_GHSF	PROCEDURE	130	"        
+"
+PRC_XIANGMU_CURSOR_GHSF	PROCEDURE	131	"        end if;
+"
+PRC_XIANGMU_CURSOR_GHSF	PROCEDURE	132	"      
+"
+PRC_XIANGMU_CURSOR_GHSF	PROCEDURE	133	"        if v_sl > 0 then
+"
+PRC_XIANGMU_CURSOR_GHSF	PROCEDURE	134	"        
+"
+PRC_XIANGMU_CURSOR_GHSF	PROCEDURE	135	"          update yj_Yjk2
+"
+PRC_XIANGMU_CURSOR_GHSF	PROCEDURE	136	"             set yjsb = yjsb * -1
+"
+PRC_XIANGMU_CURSOR_GHSF	PROCEDURE	137	"           where ylxh = v_ylxh
+"
+PRC_XIANGMU_CURSOR_GHSF	PROCEDURE	138	"             and dj = v_dj
+"
+PRC_XIANGMU_CURSOR_GHSF	PROCEDURE	139	"             and yjsb in (select yjsb
+"
+PRC_XIANGMU_CURSOR_GHSF	PROCEDURE	140	"                            from yj_Yjk1
+"
+PRC_XIANGMU_CURSOR_GHSF	PROCEDURE	141	"                           where brxh = v_brxh
+"
+PRC_XIANGMU_CURSOR_GHSF	PROCEDURE	142	"                             and sfsb is null);
+"
+PRC_XIANGMU_CURSOR_GHSF	PROCEDURE	143	"        
+"
+PRC_XIANGMU_CURSOR_GHSF	PROCEDURE	144	"          update yj_Yjk2
+"
+PRC_XIANGMU_CURSOR_GHSF	PROCEDURE	145	"             set sl = v_sl, yjsb = yjsb * -1
+"
+PRC_XIANGMU_CURSOR_GHSF	PROCEDURE	146	"           where ylxh = v_ylxh
+"
+PRC_XIANGMU_CURSOR_GHSF	PROCEDURE	147	"             and dj = v_dj
+"
+PRC_XIANGMU_CURSOR_GHSF	PROCEDURE	148	"             and yjsb in (select yjsb * -1
+"
+PRC_XIANGMU_CURSOR_GHSF	PROCEDURE	149	"                            from yj_Yjk1
+"
+PRC_XIANGMU_CURSOR_GHSF	PROCEDURE	150	"                           where brxh = v_brxh
+"
+PRC_XIANGMU_CURSOR_GHSF	PROCEDURE	151	"                             and sfsb is null)
+"
+PRC_XIANGMU_CURSOR_GHSF	PROCEDURE	152	"             and rownum = 1;
+"
+PRC_XIANGMU_CURSOR_GHSF	PROCEDURE	153	"        
+"
+PRC_XIANGMU_CURSOR_GHSF	PROCEDURE	154	"          if sqlcode = 0 then
+"
+PRC_XIANGMU_CURSOR_GHSF	PROCEDURE	155	"            commit;
+"
+PRC_XIANGMU_CURSOR_GHSF	PROCEDURE	156	"          else
+"
+PRC_XIANGMU_CURSOR_GHSF	PROCEDURE	157	"            rollback;
+"
+PRC_XIANGMU_CURSOR_GHSF	PROCEDURE	158	"            out_code := -1;
+"
+PRC_XIANGMU_CURSOR_GHSF	PROCEDURE	159	"            out_msg  := '合并失败';
+"
+PRC_XIANGMU_CURSOR_GHSF	PROCEDURE	160	"            return;
+"
+PRC_XIANGMU_CURSOR_GHSF	PROCEDURE	161	"          end if;
+"
+PRC_XIANGMU_CURSOR_GHSF	PROCEDURE	162	"        
+"
+PRC_XIANGMU_CURSOR_GHSF	PROCEDURE	163	"        end if;
+"
+PRC_XIANGMU_CURSOR_GHSF	PROCEDURE	164	"        --- end yjk
+"
+PRC_XIANGMU_CURSOR_GHSF	PROCEDURE	165	"      
+"
+PRC_XIANGMU_CURSOR_GHSF	PROCEDURE	166	"      end if;
+"
+PRC_XIANGMU_CURSOR_GHSF	PROCEDURE	167	"    
+"
+PRC_XIANGMU_CURSOR_GHSF	PROCEDURE	168	"      -- cfk1 
+"
+PRC_XIANGMU_CURSOR_GHSF	PROCEDURE	169	"      IF 1 = 1 and v_ypcddm > 0 THEN
+"
+PRC_XIANGMU_CURSOR_GHSF	PROCEDURE	170	"        select sum(b.sl)
+"
+PRC_XIANGMU_CURSOR_GHSF	PROCEDURE	171	"          into v_sl
+"
+PRC_XIANGMU_CURSOR_GHSF	PROCEDURE	172	"          From mz_cfk1 a, mz_cfk2 b
+"
+PRC_XIANGMU_CURSOR_GHSF	PROCEDURE	173	"         where a.cfsb = b.cfsb
+"
+PRC_XIANGMU_CURSOR_GHSF	PROCEDURE	174	"           and b.ypxh = v_ylxh
+"
+PRC_XIANGMU_CURSOR_GHSF	PROCEDURE	175	"           and b.ypcddm = v_ypcddm
+"
+PRC_XIANGMU_CURSOR_GHSF	PROCEDURE	176	"           and dj = v_dj
+"
+PRC_XIANGMU_CURSOR_GHSF	PROCEDURE	177	"           and a.sfsb is null
+"
+PRC_XIANGMU_CURSOR_GHSF	PROCEDURE	178	"           and a.brxh = v_brxh;
+"
+PRC_XIANGMU_CURSOR_GHSF	PROCEDURE	179	"      
+"
+PRC_XIANGMU_CURSOR_GHSF	PROCEDURE	180	"        if v_sl = 0 then
+"
+PRC_XIANGMU_CURSOR_GHSF	PROCEDURE	181	"        
+"
+PRC_XIANGMU_CURSOR_GHSF	PROCEDURE	182	"          update mz_cfk2
+"
+PRC_XIANGMU_CURSOR_GHSF	PROCEDURE	183	"             set cfsb = cfsb * -1
+"
+PRC_XIANGMU_CURSOR_GHSF	PROCEDURE	184	"           where ypxh = v_ylxh
+"
+PRC_XIANGMU_CURSOR_GHSF	PROCEDURE	185	"             and ypcddm = v_ypcddm
+"
+PRC_XIANGMU_CURSOR_GHSF	PROCEDURE	186	"             and dj = v_dj
+"
+PRC_XIANGMU_CURSOR_GHSF	PROCEDURE	187	"             and cfsb in (select cfsb
+"
+PRC_XIANGMU_CURSOR_GHSF	PROCEDURE	188	"                            from mz_cfk1
+"
+PRC_XIANGMU_CURSOR_GHSF	PROCEDURE	189	"                           where brxh = v_brxh
+"
+PRC_XIANGMU_CURSOR_GHSF	PROCEDURE	190	"                             and sfsb is null);
+"
+PRC_XIANGMU_CURSOR_GHSF	PROCEDURE	191	"          if sqlcode = 0 then
+"
+PRC_XIANGMU_CURSOR_GHSF	PROCEDURE	192	"            commit;
+"
+PRC_XIANGMU_CURSOR_GHSF	PROCEDURE	193	"          else
+"
+PRC_XIANGMU_CURSOR_GHSF	PROCEDURE	194	"            rollback;
+"
+PRC_XIANGMU_CURSOR_GHSF	PROCEDURE	195	"            out_code := -1;
+"
+PRC_XIANGMU_CURSOR_GHSF	PROCEDURE	196	"            out_msg  := '合并失败';
+"
+PRC_XIANGMU_CURSOR_GHSF	PROCEDURE	197	"            return;
+"
+PRC_XIANGMU_CURSOR_GHSF	PROCEDURE	198	"          end if;
+"
+PRC_XIANGMU_CURSOR_GHSF	PROCEDURE	199	"        
+"
+PRC_XIANGMU_CURSOR_GHSF	PROCEDURE	200	"        end if;
+"
+PRC_XIANGMU_CURSOR_GHSF	PROCEDURE	201	"      
+"
+PRC_XIANGMU_CURSOR_GHSF	PROCEDURE	202	"        if v_sl > 0 then
+"
+PRC_XIANGMU_CURSOR_GHSF	PROCEDURE	203	"        
+"
+PRC_XIANGMU_CURSOR_GHSF	PROCEDURE	204	"          update mz_cfk2
+"
+PRC_XIANGMU_CURSOR_GHSF	PROCEDURE	205	"             set cfsb = cfsb * -1
+"
+PRC_XIANGMU_CURSOR_GHSF	PROCEDURE	206	"           where ypxh = v_ylxh
+"
+PRC_XIANGMU_CURSOR_GHSF	PROCEDURE	207	"             and ypcddm = v_ypcddm
+"
+PRC_XIANGMU_CURSOR_GHSF	PROCEDURE	208	"             and dj = v_dj
+"
+PRC_XIANGMU_CURSOR_GHSF	PROCEDURE	209	"             and cfsb in (select cfsb
+"
+PRC_XIANGMU_CURSOR_GHSF	PROCEDURE	210	"                            from mz_cfk1
+"
+PRC_XIANGMU_CURSOR_GHSF	PROCEDURE	211	"                           where brxh = v_brxh
+"
+PRC_XIANGMU_CURSOR_GHSF	PROCEDURE	212	"                             and sfsb is null);
+"
+PRC_XIANGMU_CURSOR_GHSF	PROCEDURE	213	"        
+"
+PRC_XIANGMU_CURSOR_GHSF	PROCEDURE	214	"          update mz_cfk2
+"
+PRC_XIANGMU_CURSOR_GHSF	PROCEDURE	215	"             set sl = v_sl, cfsb = cfsb * -1
+"
+PRC_XIANGMU_CURSOR_GHSF	PROCEDURE	216	"           where ypxh = v_ylxh
+"
+PRC_XIANGMU_CURSOR_GHSF	PROCEDURE	217	"             and ypcddm = v_ypcddm
+"
+PRC_XIANGMU_CURSOR_GHSF	PROCEDURE	218	"             and dj = v_dj
+"
+PRC_XIANGMU_CURSOR_GHSF	PROCEDURE	219	"             and cfsb in (select cfsb * -1
+"
+PRC_XIANGMU_CURSOR_GHSF	PROCEDURE	220	"                            from mz_cfk1
+"
+PRC_XIANGMU_CURSOR_GHSF	PROCEDURE	221	"                           where brxh = v_brxh
+"
+PRC_XIANGMU_CURSOR_GHSF	PROCEDURE	222	"                             and sfsb is null)
+"
+PRC_XIANGMU_CURSOR_GHSF	PROCEDURE	223	"             and rownum = 1;
+"
+PRC_XIANGMU_CURSOR_GHSF	PROCEDURE	224	"          if sqlcode = 0 then
+"
+PRC_XIANGMU_CURSOR_GHSF	PROCEDURE	225	"            commit;
+"
+PRC_XIANGMU_CURSOR_GHSF	PROCEDURE	226	"          else
+"
+PRC_XIANGMU_CURSOR_GHSF	PROCEDURE	227	"            rollback;
+"
+PRC_XIANGMU_CURSOR_GHSF	PROCEDURE	228	"            out_code := -1;
+"
+PRC_XIANGMU_CURSOR_GHSF	PROCEDURE	229	"            out_msg  := '合并失败';
+"
+PRC_XIANGMU_CURSOR_GHSF	PROCEDURE	230	"            return;
+"
+PRC_XIANGMU_CURSOR_GHSF	PROCEDURE	231	"          end if;
+"
+PRC_XIANGMU_CURSOR_GHSF	PROCEDURE	232	"        
+"
+PRC_XIANGMU_CURSOR_GHSF	PROCEDURE	233	"        end if;
+"
+PRC_XIANGMU_CURSOR_GHSF	PROCEDURE	234	"        --- end yjk
+"
+PRC_XIANGMU_CURSOR_GHSF	PROCEDURE	235	"      
+"
+PRC_XIANGMU_CURSOR_GHSF	PROCEDURE	236	"      end if;
+"
+PRC_XIANGMU_CURSOR_GHSF	PROCEDURE	237	"    
+"
+PRC_XIANGMU_CURSOR_GHSF	PROCEDURE	238	"    END LOOP;
+"
+PRC_XIANGMU_CURSOR_GHSF	PROCEDURE	239	"    close cursor_test;
+"
+PRC_XIANGMU_CURSOR_GHSF	PROCEDURE	240	"  end if;
+"
+PRC_XIANGMU_CURSOR_GHSF	PROCEDURE	241	"
+"
+PRC_XIANGMU_CURSOR_GHSF	PROCEDURE	242	"  -- end  血统记账病人 正负数合并 
+"
+PRC_XIANGMU_CURSOR_GHSF	PROCEDURE	243	"
+"
+PRC_XIANGMU_CURSOR_GHSF	PROCEDURE	244	"  out_code := 1;
+"
+PRC_XIANGMU_CURSOR_GHSF	PROCEDURE	245	"  out_msg  := '合并成功';
+"
+PRC_XIANGMU_CURSOR_GHSF	PROCEDURE	246	"  return;
+"
+PRC_XIANGMU_CURSOR_GHSF	PROCEDURE	247	"
+"
+PRC_XIANGMU_CURSOR_GHSF	PROCEDURE	248	"end;
+"

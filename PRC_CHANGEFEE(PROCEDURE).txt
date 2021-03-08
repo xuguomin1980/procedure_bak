@@ -34,7 +34,7 @@ PRC_CHANGEFEE	PROCEDURE	17	"
 "
 PRC_CHANGEFEE	PROCEDURE	18	"         if ll_num=0 then
 "
-PRC_CHANGEFEE	PROCEDURE	19	"            update zy_detail_charge set spbh=-10
+PRC_CHANGEFEE	PROCEDURE	19	"            update zy_detail_charge set spbh=-10,ypkz='ZF'
 "
 PRC_CHANGEFEE	PROCEDURE	20	"             where patient_no=patient and charge_code in(select xiangmuxh from yb_duizhaoml a where yibaodm='f25040305300' and yibaolx='9997');              commit;
 "

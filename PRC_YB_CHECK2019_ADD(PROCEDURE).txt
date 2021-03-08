@@ -1,4 +1,4 @@
-PRC_YB_CHECK2019_ADD	PROCEDURE	1	"procedure PRC_YB_CHECK2019_ADD(in_jiaoyilx    in varchar2, --交易类型
+PRC_YB_CHECK2019_ADD	PROCEDURE	1	"procedure prc_yb_check2019_add(in_jiaoyilx    in varchar2, --交易类型
 "
 PRC_YB_CHECK2019_ADD	PROCEDURE	2	"                                                 in_caozuogh    in varchar2, --操作工号
 "
@@ -486,357 +486,495 @@ PRC_YB_CHECK2019_ADD	PROCEDURE	243	"
 "
 PRC_YB_CHECK2019_ADD	PROCEDURE	244	"    if v_ylxh > 0 then
 "
-PRC_YB_CHECK2019_ADD	PROCEDURE	245	"      --控制公卫科开立
+PRC_YB_CHECK2019_ADD	PROCEDURE	245	"    
 "
-PRC_YB_CHECK2019_ADD	PROCEDURE	246	"      if 0 = 0 then
+PRC_YB_CHECK2019_ADD	PROCEDURE	246	"      select sum(b.sl)
 "
-PRC_YB_CHECK2019_ADD	PROCEDURE	247	"        select count(a.cfsb)
+PRC_YB_CHECK2019_ADD	PROCEDURE	247	"        into v_count
 "
-PRC_YB_CHECK2019_ADD	PROCEDURE	248	"          into v_count
+PRC_YB_CHECK2019_ADD	PROCEDURE	248	"        From mz_cfk1 a, mz_cfk2 b
 "
-PRC_YB_CHECK2019_ADD	PROCEDURE	249	"          From mz_cfk1 a, mz_cfk2 b
+PRC_YB_CHECK2019_ADD	PROCEDURE	249	"       where a.cfsb = b.cfsb
 "
-PRC_YB_CHECK2019_ADD	PROCEDURE	250	"         where a.cfsb = b.cfsb
+PRC_YB_CHECK2019_ADD	PROCEDURE	250	"         and b.ypxh in
 "
-PRC_YB_CHECK2019_ADD	PROCEDURE	251	"           and b.ypxh = v_ylxh
+PRC_YB_CHECK2019_ADD	PROCEDURE	251	"             (select ypxh From v_zj_yimiaoypml where yimiaolx = 'HPV')
 "
-PRC_YB_CHECK2019_ADD	PROCEDURE	252	"           and nvl(a.ysgh, '0') not in ('A1702', 'DBA')
+PRC_YB_CHECK2019_ADD	PROCEDURE	252	"         and a.sfsb is null
 "
-PRC_YB_CHECK2019_ADD	PROCEDURE	253	"           and a.sfsb is null
+PRC_YB_CHECK2019_ADD	PROCEDURE	253	"         and a.jzxh = in_patient_no;
 "
-PRC_YB_CHECK2019_ADD	PROCEDURE	254	"           and a.jzxh = in_patient_no;
+PRC_YB_CHECK2019_ADD	PROCEDURE	254	"      if v_count > 1 then
 "
-PRC_YB_CHECK2019_ADD	PROCEDURE	255	"      
+PRC_YB_CHECK2019_ADD	PROCEDURE	255	"        out_code := -1;
 "
-PRC_YB_CHECK2019_ADD	PROCEDURE	256	"        if v_count > 0 then
+PRC_YB_CHECK2019_ADD	PROCEDURE	256	"        out_msg  := '该特殊疫苗数量只能开1  [check2019_add]';
 "
-PRC_YB_CHECK2019_ADD	PROCEDURE	257	"          out_code := -1;
+PRC_YB_CHECK2019_ADD	PROCEDURE	257	"        return;
 "
-PRC_YB_CHECK2019_ADD	PROCEDURE	258	"          out_msg  := '该特殊疫苗未开放，不允许开立';
+PRC_YB_CHECK2019_ADD	PROCEDURE	258	"      end if;
 "
-PRC_YB_CHECK2019_ADD	PROCEDURE	259	"          return;
+PRC_YB_CHECK2019_ADD	PROCEDURE	259	"    
 "
-PRC_YB_CHECK2019_ADD	PROCEDURE	260	"        end if;
+PRC_YB_CHECK2019_ADD	PROCEDURE	260	"      --控制公卫科开立
 "
-PRC_YB_CHECK2019_ADD	PROCEDURE	261	"      end if;
+PRC_YB_CHECK2019_ADD	PROCEDURE	261	"      if 0 = 0 then
 "
-PRC_YB_CHECK2019_ADD	PROCEDURE	262	"    
+PRC_YB_CHECK2019_ADD	PROCEDURE	262	"        select count(a.cfsb)
 "
-PRC_YB_CHECK2019_ADD	PROCEDURE	263	"      select nvl(sum(sl), 0)
+PRC_YB_CHECK2019_ADD	PROCEDURE	263	"          into v_count
 "
-PRC_YB_CHECK2019_ADD	PROCEDURE	264	"        into v_count
+PRC_YB_CHECK2019_ADD	PROCEDURE	264	"          From mz_cfk1 a, mz_cfk2 b
 "
-PRC_YB_CHECK2019_ADD	PROCEDURE	265	"        From mz_cfk1 a, mz_cfk2 b
+PRC_YB_CHECK2019_ADD	PROCEDURE	265	"         where a.cfsb = b.cfsb
 "
-PRC_YB_CHECK2019_ADD	PROCEDURE	266	"       where a.cfsb = b.cfsb
+PRC_YB_CHECK2019_ADD	PROCEDURE	266	"           and b.ypxh = v_ylxh
 "
-PRC_YB_CHECK2019_ADD	PROCEDURE	267	"         and b.ypxh = v_ylxh
+PRC_YB_CHECK2019_ADD	PROCEDURE	267	"           and nvl(a.ysgh, '0') not in ('A1702', 'DBA')
 "
-PRC_YB_CHECK2019_ADD	PROCEDURE	268	"         and a.sfsb is null
+PRC_YB_CHECK2019_ADD	PROCEDURE	268	"           and a.sfsb is null
 "
-PRC_YB_CHECK2019_ADD	PROCEDURE	269	"         and a.jzxh = in_patient_no;
+PRC_YB_CHECK2019_ADD	PROCEDURE	269	"           and a.jzxh = in_patient_no;
 "
-PRC_YB_CHECK2019_ADD	PROCEDURE	270	"      --and b.shenhesj is not null
+PRC_YB_CHECK2019_ADD	PROCEDURE	270	"      
 "
-PRC_YB_CHECK2019_ADD	PROCEDURE	271	"      if v_count > 0 then
+PRC_YB_CHECK2019_ADD	PROCEDURE	271	"        if v_count > 0 then
 "
-PRC_YB_CHECK2019_ADD	PROCEDURE	272	"      
+PRC_YB_CHECK2019_ADD	PROCEDURE	272	"          out_code := -1;
 "
-PRC_YB_CHECK2019_ADD	PROCEDURE	273	"        select nvl(sum(sl2), 0)
+PRC_YB_CHECK2019_ADD	PROCEDURE	273	"          out_msg  := '该特殊疫苗未开放，不允许开立[check2019_add]';
 "
-PRC_YB_CHECK2019_ADD	PROCEDURE	274	"          into v_count2
+PRC_YB_CHECK2019_ADD	PROCEDURE	274	"          return;
 "
-PRC_YB_CHECK2019_ADD	PROCEDURE	275	"          from (select jylsh_out,
+PRC_YB_CHECK2019_ADD	PROCEDURE	275	"        end if;
 "
-PRC_YB_CHECK2019_ADD	PROCEDURE	276	"                       count(jylsh_out),
+PRC_YB_CHECK2019_ADD	PROCEDURE	276	"      end if;
 "
-PRC_YB_CHECK2019_ADD	PROCEDURE	277	"                       decode(count(jylsh_out), 3, 0, 2, 1, 1, 2) sl2
+PRC_YB_CHECK2019_ADD	PROCEDURE	277	"    
 "
-PRC_YB_CHECK2019_ADD	PROCEDURE	278	"                  from zy_jiaoyi_v1_bak
+PRC_YB_CHECK2019_ADD	PROCEDURE	278	"      select nvl(sum(sl), 0)
 "
-PRC_YB_CHECK2019_ADD	PROCEDURE	279	"                 where bz = to_char(v_ylxh)
+PRC_YB_CHECK2019_ADD	PROCEDURE	279	"        into v_count
 "
-PRC_YB_CHECK2019_ADD	PROCEDURE	280	"                   and jiaoyilx = '疫苗库存控制'
+PRC_YB_CHECK2019_ADD	PROCEDURE	280	"        From mz_cfk1 a, mz_cfk2 b
 "
-PRC_YB_CHECK2019_ADD	PROCEDURE	281	"                 group by jylsh_out);
+PRC_YB_CHECK2019_ADD	PROCEDURE	281	"       where a.cfsb = b.cfsb
 "
-PRC_YB_CHECK2019_ADD	PROCEDURE	282	"        out_msg := '预约病人需要留用:' || v_count2;
+PRC_YB_CHECK2019_ADD	PROCEDURE	282	"         and b.ypxh = v_ylxh
 "
-PRC_YB_CHECK2019_ADD	PROCEDURE	283	"      
+PRC_YB_CHECK2019_ADD	PROCEDURE	283	"         and a.sfsb is null
 "
-PRC_YB_CHECK2019_ADD	PROCEDURE	284	"        select nvl(sum(skc), 0) - v_count - v_count2
+PRC_YB_CHECK2019_ADD	PROCEDURE	284	"         and a.jzxh = in_patient_no;
 "
-PRC_YB_CHECK2019_ADD	PROCEDURE	285	"          into v_count
+PRC_YB_CHECK2019_ADD	PROCEDURE	285	"      --and b.shenhesj is not null
 "
-PRC_YB_CHECK2019_ADD	PROCEDURE	286	"          From my_ypkcz
+PRC_YB_CHECK2019_ADD	PROCEDURE	286	"      if v_count > 0 then
 "
-PRC_YB_CHECK2019_ADD	PROCEDURE	287	"         where ypxh = v_ylxh
+PRC_YB_CHECK2019_ADD	PROCEDURE	287	"      
 "
-PRC_YB_CHECK2019_ADD	PROCEDURE	288	"           and xtxh = 5;
+PRC_YB_CHECK2019_ADD	PROCEDURE	288	"        select nvl(sum(sl2), 0)
 "
-PRC_YB_CHECK2019_ADD	PROCEDURE	289	"      
+PRC_YB_CHECK2019_ADD	PROCEDURE	289	"          into v_count2
 "
-PRC_YB_CHECK2019_ADD	PROCEDURE	290	"        --库存控制，小于3，没有1人份 ,只允许历史病人开单   
+PRC_YB_CHECK2019_ADD	PROCEDURE	290	"          from (select b.empi,
 "
-PRC_YB_CHECK2019_ADD	PROCEDURE	291	"        if 1 = 1 and v_count < 3 then
+PRC_YB_CHECK2019_ADD	PROCEDURE	291	"                       count(b.empi),
 "
-PRC_YB_CHECK2019_ADD	PROCEDURE	292	"        
+PRC_YB_CHECK2019_ADD	PROCEDURE	292	"                       decode(count(b.empi), 3, 0, 2, 1, 1, 2) sl2
 "
-PRC_YB_CHECK2019_ADD	PROCEDURE	293	"          select count(distinct(jylsh_out))
+PRC_YB_CHECK2019_ADD	PROCEDURE	293	"                  from zy_jiaoyi_v1_bak t, gy_brjbxxk b
 "
-PRC_YB_CHECK2019_ADD	PROCEDURE	294	"            into v_count
+PRC_YB_CHECK2019_ADD	PROCEDURE	294	"                 where b.jzkh = to_char(t.jylsh_out)
 "
-PRC_YB_CHECK2019_ADD	PROCEDURE	295	"            from zy_jiaoyi_v1_bak
+PRC_YB_CHECK2019_ADD	PROCEDURE	295	"                   and bz = to_char(v_ylxh)
 "
-PRC_YB_CHECK2019_ADD	PROCEDURE	296	"           where jylsh_out in
+PRC_YB_CHECK2019_ADD	PROCEDURE	296	"                   and jiaoyilx = '疫苗库存控制'
 "
-PRC_YB_CHECK2019_ADD	PROCEDURE	297	"                 (select jzkh
+PRC_YB_CHECK2019_ADD	PROCEDURE	297	"                 group by b.empi);
 "
-PRC_YB_CHECK2019_ADD	PROCEDURE	298	"                    from gy_brjbxxk
+PRC_YB_CHECK2019_ADD	PROCEDURE	298	"      
 "
-PRC_YB_CHECK2019_ADD	PROCEDURE	299	"                   where empi is not null
+PRC_YB_CHECK2019_ADD	PROCEDURE	299	"        out_msg := '预约病人需要留用:' || v_count2;
 "
-PRC_YB_CHECK2019_ADD	PROCEDURE	300	"                     and empi in (select a.empi
+PRC_YB_CHECK2019_ADD	PROCEDURE	300	"      
 "
-PRC_YB_CHECK2019_ADD	PROCEDURE	301	"                                    from gy_brjbxxk a, zj_jzxx b
+PRC_YB_CHECK2019_ADD	PROCEDURE	301	"        select nvl(sum(skc), 0) - v_count - v_count2
 "
-PRC_YB_CHECK2019_ADD	PROCEDURE	302	"                                   where a.jzkh = b.jzkh
+PRC_YB_CHECK2019_ADD	PROCEDURE	302	"          into v_count
 "
-PRC_YB_CHECK2019_ADD	PROCEDURE	303	"                                     and b.jzxh = in_patient_no))
+PRC_YB_CHECK2019_ADD	PROCEDURE	303	"          From my_ypkcz
 "
-PRC_YB_CHECK2019_ADD	PROCEDURE	304	"             and bz = to_char(v_ylxh)
+PRC_YB_CHECK2019_ADD	PROCEDURE	304	"         where ypxh = v_ylxh
 "
-PRC_YB_CHECK2019_ADD	PROCEDURE	305	"             and jiaoyilx = '疫苗库存控制'
+PRC_YB_CHECK2019_ADD	PROCEDURE	305	"           and xtxh = 5;
 "
-PRC_YB_CHECK2019_ADD	PROCEDURE	306	"             and nvl(flag, 0) >= 0;
+PRC_YB_CHECK2019_ADD	PROCEDURE	306	"      
 "
-PRC_YB_CHECK2019_ADD	PROCEDURE	307	"          if v_count = 0 then
+PRC_YB_CHECK2019_ADD	PROCEDURE	307	"        --库存控制，小于3，没有1人份 ,只允许历史病人开单   
 "
-PRC_YB_CHECK2019_ADD	PROCEDURE	308	"            out_code := -1;
+PRC_YB_CHECK2019_ADD	PROCEDURE	308	"        if 1 = 1 and v_count < 3 then
 "
-PRC_YB_CHECK2019_ADD	PROCEDURE	309	"            select out_msg || ',数量不足,仅仅允许 预约过的病人开立[PRC_YB_CHECK2019_ADD]'
+PRC_YB_CHECK2019_ADD	PROCEDURE	309	"        
 "
-PRC_YB_CHECK2019_ADD	PROCEDURE	310	"              into out_msg
+PRC_YB_CHECK2019_ADD	PROCEDURE	310	"          select count(distinct(jylsh_out))
 "
-PRC_YB_CHECK2019_ADD	PROCEDURE	311	"              from dual;
+PRC_YB_CHECK2019_ADD	PROCEDURE	311	"            into v_count
 "
-PRC_YB_CHECK2019_ADD	PROCEDURE	312	"            return;
+PRC_YB_CHECK2019_ADD	PROCEDURE	312	"            from zy_jiaoyi_v1_bak
 "
-PRC_YB_CHECK2019_ADD	PROCEDURE	313	"          end if;
+PRC_YB_CHECK2019_ADD	PROCEDURE	313	"           where jylsh_out in
 "
-PRC_YB_CHECK2019_ADD	PROCEDURE	314	"        end if;
+PRC_YB_CHECK2019_ADD	PROCEDURE	314	"                 (select jzkh
 "
-PRC_YB_CHECK2019_ADD	PROCEDURE	315	"      
+PRC_YB_CHECK2019_ADD	PROCEDURE	315	"                    from gy_brjbxxk
 "
-PRC_YB_CHECK2019_ADD	PROCEDURE	316	"        if v_count >= 0 then
+PRC_YB_CHECK2019_ADD	PROCEDURE	316	"                   where empi is not null
 "
-PRC_YB_CHECK2019_ADD	PROCEDURE	317	"        
+PRC_YB_CHECK2019_ADD	PROCEDURE	317	"                     and empi in (select a.empi
 "
-PRC_YB_CHECK2019_ADD	PROCEDURE	318	"          select count(*)
+PRC_YB_CHECK2019_ADD	PROCEDURE	318	"                                    from gy_brjbxxk a, zj_jzxx b
 "
-PRC_YB_CHECK2019_ADD	PROCEDURE	319	"            into v_count
+PRC_YB_CHECK2019_ADD	PROCEDURE	319	"                                   where a.jzkh = b.jzkh
 "
-PRC_YB_CHECK2019_ADD	PROCEDURE	320	"            from zy_jiaoyi_v1_bak a
+PRC_YB_CHECK2019_ADD	PROCEDURE	320	"                                     and b.jzxh = in_patient_no))
 "
-PRC_YB_CHECK2019_ADD	PROCEDURE	321	"           where jylsh_out || '#' || bz in
+PRC_YB_CHECK2019_ADD	PROCEDURE	321	"             and bz = to_char(v_ylxh)
 "
-PRC_YB_CHECK2019_ADD	PROCEDURE	322	"                 (select a.jzkh || '#' || b.ypxh
+PRC_YB_CHECK2019_ADD	PROCEDURE	322	"             and jiaoyilx = '疫苗库存控制'
 "
-PRC_YB_CHECK2019_ADD	PROCEDURE	323	"                    From mz_cfk1 a, mz_cfk2 b
+PRC_YB_CHECK2019_ADD	PROCEDURE	323	"             and nvl(flag, 0) >= 0;
 "
-PRC_YB_CHECK2019_ADD	PROCEDURE	324	"                   where a.cfsb = b.cfsb
+PRC_YB_CHECK2019_ADD	PROCEDURE	324	"          if v_count = 0 then
 "
-PRC_YB_CHECK2019_ADD	PROCEDURE	325	"                     and b.shenhesj is not null
+PRC_YB_CHECK2019_ADD	PROCEDURE	325	"            out_code := -1;
 "
-PRC_YB_CHECK2019_ADD	PROCEDURE	326	"                     and b.ypxh = v_ylxh
+PRC_YB_CHECK2019_ADD	PROCEDURE	326	"            select out_msg || ',数量不足,仅仅允许 预约过的病人开立[PRC_YB_CHECK2019_ADD]'
 "
-PRC_YB_CHECK2019_ADD	PROCEDURE	327	"                     and a.sfsb is null
+PRC_YB_CHECK2019_ADD	PROCEDURE	327	"              into out_msg
 "
-PRC_YB_CHECK2019_ADD	PROCEDURE	328	"                     and a.jzxh = in_patient_no)
+PRC_YB_CHECK2019_ADD	PROCEDURE	328	"              from dual;
 "
-PRC_YB_CHECK2019_ADD	PROCEDURE	329	"             and jiaoyilx = '疫苗库存控制'
+PRC_YB_CHECK2019_ADD	PROCEDURE	329	"            return;
 "
-PRC_YB_CHECK2019_ADD	PROCEDURE	330	"             and jyrq > sysdate - 1;
+PRC_YB_CHECK2019_ADD	PROCEDURE	330	"          end if;
 "
-PRC_YB_CHECK2019_ADD	PROCEDURE	331	"          if v_count = 0 then
+PRC_YB_CHECK2019_ADD	PROCEDURE	331	"        end if;
 "
-PRC_YB_CHECK2019_ADD	PROCEDURE	332	"          
+PRC_YB_CHECK2019_ADD	PROCEDURE	332	"      
 "
-PRC_YB_CHECK2019_ADD	PROCEDURE	333	"            insert into zy_jiaoyi_v1
+PRC_YB_CHECK2019_ADD	PROCEDURE	333	"        if v_count >= 0 then
 "
-PRC_YB_CHECK2019_ADD	PROCEDURE	334	"              (jiaoyilx, patient_no, jylsh_out, jylsh, bz)
+PRC_YB_CHECK2019_ADD	PROCEDURE	334	"        
 "
-PRC_YB_CHECK2019_ADD	PROCEDURE	335	"              select '疫苗库存控制',
+PRC_YB_CHECK2019_ADD	PROCEDURE	335	"          select count(*)
 "
-PRC_YB_CHECK2019_ADD	PROCEDURE	336	"                     in_patient_no,
+PRC_YB_CHECK2019_ADD	PROCEDURE	336	"            into v_count
 "
-PRC_YB_CHECK2019_ADD	PROCEDURE	337	"                     jzkh,
+PRC_YB_CHECK2019_ADD	PROCEDURE	337	"            from zy_jiaoyi_v1_bak a
 "
-PRC_YB_CHECK2019_ADD	PROCEDURE	338	"                     jzkh || '#' || brxm || '#' || ypxh || '#' || ypcddm || '#' || ysgh,
+PRC_YB_CHECK2019_ADD	PROCEDURE	338	"           where jylsh_out || '#' || bz in
 "
-PRC_YB_CHECK2019_ADD	PROCEDURE	339	"                     ypxh
+PRC_YB_CHECK2019_ADD	PROCEDURE	339	"                 (select a.jzkh || '#' || b.ypxh
 "
-PRC_YB_CHECK2019_ADD	PROCEDURE	340	"                from mz_cfk1 a, mz_cfk2 b
+PRC_YB_CHECK2019_ADD	PROCEDURE	340	"                    From mz_cfk1 a, mz_cfk2 b
 "
-PRC_YB_CHECK2019_ADD	PROCEDURE	341	"               where a.cfsb = b.cfsb
+PRC_YB_CHECK2019_ADD	PROCEDURE	341	"                   where a.cfsb = b.cfsb
 "
-PRC_YB_CHECK2019_ADD	PROCEDURE	342	"                 and b.shenhesj is not null
+PRC_YB_CHECK2019_ADD	PROCEDURE	342	"                     and b.shenhesj is not null
 "
-PRC_YB_CHECK2019_ADD	PROCEDURE	343	"                 and b.ypxh = v_ylxh
+PRC_YB_CHECK2019_ADD	PROCEDURE	343	"                     and b.ypxh = v_ylxh
 "
-PRC_YB_CHECK2019_ADD	PROCEDURE	344	"                 and a.sfsb is null
+PRC_YB_CHECK2019_ADD	PROCEDURE	344	"                     and a.sfsb is null
 "
-PRC_YB_CHECK2019_ADD	PROCEDURE	345	"                 and a.jzxh = in_patient_no
+PRC_YB_CHECK2019_ADD	PROCEDURE	345	"                     and a.jzxh = in_patient_no)
 "
-PRC_YB_CHECK2019_ADD	PROCEDURE	346	"                 and rownum = 1;
+PRC_YB_CHECK2019_ADD	PROCEDURE	346	"             and jiaoyilx = '疫苗库存控制'
 "
-PRC_YB_CHECK2019_ADD	PROCEDURE	347	"            insert into zy_jiaoyi_v1_bak
+PRC_YB_CHECK2019_ADD	PROCEDURE	347	"             and jyrq > sysdate - 1;
 "
-PRC_YB_CHECK2019_ADD	PROCEDURE	348	"              (jiaoyilx, patient_no, jylsh_out, jylsh, bz)
+PRC_YB_CHECK2019_ADD	PROCEDURE	348	"          if v_count = 0 then
 "
-PRC_YB_CHECK2019_ADD	PROCEDURE	349	"              select '疫苗库存控制',
+PRC_YB_CHECK2019_ADD	PROCEDURE	349	"          
 "
-PRC_YB_CHECK2019_ADD	PROCEDURE	350	"                     in_patient_no,
+PRC_YB_CHECK2019_ADD	PROCEDURE	350	"            insert into zy_jiaoyi_v1
 "
-PRC_YB_CHECK2019_ADD	PROCEDURE	351	"                     jzkh,
+PRC_YB_CHECK2019_ADD	PROCEDURE	351	"              (jiaoyilx, patient_no, jylsh_out, jylsh, bz)
 "
-PRC_YB_CHECK2019_ADD	PROCEDURE	352	"                     jzkh || '#' || brxm || '#' || ypxh || '#' || ypcddm || '#' || ysgh,
+PRC_YB_CHECK2019_ADD	PROCEDURE	352	"              select '疫苗库存控制',
 "
-PRC_YB_CHECK2019_ADD	PROCEDURE	353	"                     ypxh
+PRC_YB_CHECK2019_ADD	PROCEDURE	353	"                     in_patient_no,
 "
-PRC_YB_CHECK2019_ADD	PROCEDURE	354	"                from mz_cfk1 a, mz_cfk2 b
+PRC_YB_CHECK2019_ADD	PROCEDURE	354	"                     jzkh,
 "
-PRC_YB_CHECK2019_ADD	PROCEDURE	355	"               where a.cfsb = b.cfsb
+PRC_YB_CHECK2019_ADD	PROCEDURE	355	"                     jzkh || '#' || brxm || '#' || ypxh || '#' || ypcddm || '#' || ysgh,
 "
-PRC_YB_CHECK2019_ADD	PROCEDURE	356	"                 and b.shenhesj is not null
+PRC_YB_CHECK2019_ADD	PROCEDURE	356	"                     ypxh
 "
-PRC_YB_CHECK2019_ADD	PROCEDURE	357	"                 and b.ypxh = v_ylxh
+PRC_YB_CHECK2019_ADD	PROCEDURE	357	"                from mz_cfk1 a, mz_cfk2 b
 "
-PRC_YB_CHECK2019_ADD	PROCEDURE	358	"                 and a.sfsb is null
+PRC_YB_CHECK2019_ADD	PROCEDURE	358	"               where a.cfsb = b.cfsb
 "
-PRC_YB_CHECK2019_ADD	PROCEDURE	359	"                 and a.jzxh = in_patient_no
+PRC_YB_CHECK2019_ADD	PROCEDURE	359	"                 and b.shenhesj is not null
 "
-PRC_YB_CHECK2019_ADD	PROCEDURE	360	"                 and rownum = 1;
+PRC_YB_CHECK2019_ADD	PROCEDURE	360	"                 and b.ypxh = v_ylxh
 "
-PRC_YB_CHECK2019_ADD	PROCEDURE	361	"            commit;
+PRC_YB_CHECK2019_ADD	PROCEDURE	361	"                 and a.sfsb is null
 "
-PRC_YB_CHECK2019_ADD	PROCEDURE	362	"          
+PRC_YB_CHECK2019_ADD	PROCEDURE	362	"                 and a.jzxh = in_patient_no
 "
-PRC_YB_CHECK2019_ADD	PROCEDURE	363	"            --
+PRC_YB_CHECK2019_ADD	PROCEDURE	363	"                 and rownum = 1;
 "
-PRC_YB_CHECK2019_ADD	PROCEDURE	364	"          end if;
+PRC_YB_CHECK2019_ADD	PROCEDURE	364	"            insert into zy_jiaoyi_v1_bak
 "
-PRC_YB_CHECK2019_ADD	PROCEDURE	365	"        
+PRC_YB_CHECK2019_ADD	PROCEDURE	365	"              (jiaoyilx, patient_no, jylsh_out, jylsh, bz)
 "
-PRC_YB_CHECK2019_ADD	PROCEDURE	366	"        end if;
+PRC_YB_CHECK2019_ADD	PROCEDURE	366	"              select '疫苗库存控制',
 "
-PRC_YB_CHECK2019_ADD	PROCEDURE	367	"      
+PRC_YB_CHECK2019_ADD	PROCEDURE	367	"                     in_patient_no,
 "
-PRC_YB_CHECK2019_ADD	PROCEDURE	368	"      end if;
+PRC_YB_CHECK2019_ADD	PROCEDURE	368	"                     jzkh,
 "
-PRC_YB_CHECK2019_ADD	PROCEDURE	369	"    
+PRC_YB_CHECK2019_ADD	PROCEDURE	369	"                     jzkh || '#' || brxm || '#' || ypxh || '#' || ypcddm || '#' || ysgh,
 "
-PRC_YB_CHECK2019_ADD	PROCEDURE	370	"    end if;
+PRC_YB_CHECK2019_ADD	PROCEDURE	370	"                     ypxh
 "
-PRC_YB_CHECK2019_ADD	PROCEDURE	371	"  
+PRC_YB_CHECK2019_ADD	PROCEDURE	371	"                from mz_cfk1 a, mz_cfk2 b
 "
-PRC_YB_CHECK2019_ADD	PROCEDURE	372	"  end if;
+PRC_YB_CHECK2019_ADD	PROCEDURE	372	"               where a.cfsb = b.cfsb
 "
-PRC_YB_CHECK2019_ADD	PROCEDURE	373	"
+PRC_YB_CHECK2019_ADD	PROCEDURE	373	"                 and b.shenhesj is not null
 "
-PRC_YB_CHECK2019_ADD	PROCEDURE	374	"  -- end 特殊疫苗库存控制
+PRC_YB_CHECK2019_ADD	PROCEDURE	374	"                 and b.ypxh = v_ylxh
 "
-PRC_YB_CHECK2019_ADD	PROCEDURE	375	"
+PRC_YB_CHECK2019_ADD	PROCEDURE	375	"                 and a.sfsb is null
 "
-PRC_YB_CHECK2019_ADD	PROCEDURE	376	"  IF 2 = 2 THEN
+PRC_YB_CHECK2019_ADD	PROCEDURE	376	"                 and a.jzxh = in_patient_no
 "
-PRC_YB_CHECK2019_ADD	PROCEDURE	377	"  
+PRC_YB_CHECK2019_ADD	PROCEDURE	377	"                 and rownum = 1;
 "
-PRC_YB_CHECK2019_ADD	PROCEDURE	378	"    SELECT min(y.ypmc || '限量' || to_char(y.kzsl))
+PRC_YB_CHECK2019_ADD	PROCEDURE	378	"            commit;
 "
-PRC_YB_CHECK2019_ADD	PROCEDURE	379	"      INTO out_msg
+PRC_YB_CHECK2019_ADD	PROCEDURE	379	"          
 "
-PRC_YB_CHECK2019_ADD	PROCEDURE	380	"      FROM (SELECT ypxh, sum(sl) zsl
+PRC_YB_CHECK2019_ADD	PROCEDURE	380	"            --
 "
-PRC_YB_CHECK2019_ADD	PROCEDURE	381	"              FROM (SELECT b.ypxh ypxh, sum(nvl(b.sl, 0)) sl
+PRC_YB_CHECK2019_ADD	PROCEDURE	381	"          end if;
 "
-PRC_YB_CHECK2019_ADD	PROCEDURE	382	"                      FROM mz_cfk1 a, mz_cfk2 b
+PRC_YB_CHECK2019_ADD	PROCEDURE	382	"        
 "
-PRC_YB_CHECK2019_ADD	PROCEDURE	383	"                     WHERE a.cfsb = b.cfsb
+PRC_YB_CHECK2019_ADD	PROCEDURE	383	"        end if;
 "
-PRC_YB_CHECK2019_ADD	PROCEDURE	384	"                       AND trunc(sysdate) - trunc(cfrq) < 2
+PRC_YB_CHECK2019_ADD	PROCEDURE	384	"      
 "
-PRC_YB_CHECK2019_ADD	PROCEDURE	385	"                       AND a.sfsb is NULL
+PRC_YB_CHECK2019_ADD	PROCEDURE	385	"      end if;
 "
-PRC_YB_CHECK2019_ADD	PROCEDURE	386	"                       AND cfrq > sysdate - 2
+PRC_YB_CHECK2019_ADD	PROCEDURE	386	"    
 "
-PRC_YB_CHECK2019_ADD	PROCEDURE	387	"                       AND jzkh = v_jzkh
+PRC_YB_CHECK2019_ADD	PROCEDURE	387	"    end if;
 "
-PRC_YB_CHECK2019_ADD	PROCEDURE	388	"                     GROUP BY b.ypxh
+PRC_YB_CHECK2019_ADD	PROCEDURE	388	"  
 "
-PRC_YB_CHECK2019_ADD	PROCEDURE	389	"                    UNION ALL
+PRC_YB_CHECK2019_ADD	PROCEDURE	389	"  end if;
 "
-PRC_YB_CHECK2019_ADD	PROCEDURE	390	"                    SELECT b.ypxh ypxh, sum(nvl(b.sl, 0)) sl
+PRC_YB_CHECK2019_ADD	PROCEDURE	390	"
 "
-PRC_YB_CHECK2019_ADD	PROCEDURE	391	"                      FROM mz_cfk1 a, mz_cfk2 b
+PRC_YB_CHECK2019_ADD	PROCEDURE	391	"  -- end 特殊疫苗库存控制
 "
-PRC_YB_CHECK2019_ADD	PROCEDURE	392	"                     WHERE a.cfsb = b.cfsb
+PRC_YB_CHECK2019_ADD	PROCEDURE	392	"
 "
-PRC_YB_CHECK2019_ADD	PROCEDURE	393	"                       AND a.sfsb is NOT NULL
+PRC_YB_CHECK2019_ADD	PROCEDURE	393	"  IF 2 = 2 THEN
 "
-PRC_YB_CHECK2019_ADD	PROCEDURE	394	"                       AND cfrq > sysdate - 24
+PRC_YB_CHECK2019_ADD	PROCEDURE	394	"  
 "
-PRC_YB_CHECK2019_ADD	PROCEDURE	395	"                       AND jzkh = v_jzkh
+PRC_YB_CHECK2019_ADD	PROCEDURE	395	"    SELECT min(y.ypmc || '限量' || to_char(y.kzsl))
 "
-PRC_YB_CHECK2019_ADD	PROCEDURE	396	"                     GROUP BY b.ypxh)
+PRC_YB_CHECK2019_ADD	PROCEDURE	396	"      INTO out_msg
 "
-PRC_YB_CHECK2019_ADD	PROCEDURE	397	"             GROUP BY ypxh
+PRC_YB_CHECK2019_ADD	PROCEDURE	397	"      FROM (SELECT ypxh, sum(sl) zsl
 "
-PRC_YB_CHECK2019_ADD	PROCEDURE	398	"            HAVING sum(sl) >= 1) x,
+PRC_YB_CHECK2019_ADD	PROCEDURE	398	"              FROM (SELECT b.ypxh ypxh, sum(nvl(b.sl, 0)) sl
 "
-PRC_YB_CHECK2019_ADD	PROCEDURE	399	"           (SELECT b.ypxh ypxh,
+PRC_YB_CHECK2019_ADD	PROCEDURE	399	"                      FROM mz_cfk1 a, mz_cfk2 b
 "
-PRC_YB_CHECK2019_ADD	PROCEDURE	400	"                   c.ypmc ypmc,
+PRC_YB_CHECK2019_ADD	PROCEDURE	400	"                     WHERE a.cfsb = b.cfsb
 "
-PRC_YB_CHECK2019_ADD	PROCEDURE	401	"                   round(c.ybypdj5 * 1.3 + 0.4, 0) kzsl
+PRC_YB_CHECK2019_ADD	PROCEDURE	401	"                       AND trunc(sysdate) - trunc(cfrq) < 2
 "
-PRC_YB_CHECK2019_ADD	PROCEDURE	402	"              FROM mz_cfk1 a, mz_cfk2 b, gy_ypmcggzd c
+PRC_YB_CHECK2019_ADD	PROCEDURE	402	"                       AND a.sfsb is NULL
 "
-PRC_YB_CHECK2019_ADD	PROCEDURE	403	"             WHERE a.cfsb = b.cfsb
+PRC_YB_CHECK2019_ADD	PROCEDURE	403	"                       AND cfrq > sysdate - 2
 "
-PRC_YB_CHECK2019_ADD	PROCEDURE	404	"               AND c.ypxh = b.ypxh
+PRC_YB_CHECK2019_ADD	PROCEDURE	404	"                       AND jzkh = v_jzkh
 "
-PRC_YB_CHECK2019_ADD	PROCEDURE	405	"               AND nvl(c.ybypdj5, 0) > 0
+PRC_YB_CHECK2019_ADD	PROCEDURE	405	"                     GROUP BY b.ypxh
 "
-PRC_YB_CHECK2019_ADD	PROCEDURE	406	"               AND a.jzxh = in_patient_no) y
+PRC_YB_CHECK2019_ADD	PROCEDURE	406	"                    UNION ALL
 "
-PRC_YB_CHECK2019_ADD	PROCEDURE	407	"     Where X.ypxh = Y.ypxh
+PRC_YB_CHECK2019_ADD	PROCEDURE	407	"                    SELECT b.ypxh ypxh, sum(nvl(b.sl, 0)) sl
 "
-PRC_YB_CHECK2019_ADD	PROCEDURE	408	"       And zsl > (kzsl * 1);
+PRC_YB_CHECK2019_ADD	PROCEDURE	408	"                      FROM mz_cfk1 a, mz_cfk2 b
 "
-PRC_YB_CHECK2019_ADD	PROCEDURE	409	"  
+PRC_YB_CHECK2019_ADD	PROCEDURE	409	"                     WHERE a.cfsb = b.cfsb
 "
-PRC_YB_CHECK2019_ADD	PROCEDURE	410	"    if length(out_msg) > 4 then
+PRC_YB_CHECK2019_ADD	PROCEDURE	410	"                       AND a.sfsb is NOT NULL
 "
-PRC_YB_CHECK2019_ADD	PROCEDURE	411	"      select '月限制:' || out_msg into out_msg from dual;
+PRC_YB_CHECK2019_ADD	PROCEDURE	411	"                       AND cfrq > sysdate - 24
 "
-PRC_YB_CHECK2019_ADD	PROCEDURE	412	"      out_code := -1;
+PRC_YB_CHECK2019_ADD	PROCEDURE	412	"                       AND jzkh = v_jzkh
 "
-PRC_YB_CHECK2019_ADD	PROCEDURE	413	"      return;
+PRC_YB_CHECK2019_ADD	PROCEDURE	413	"                     GROUP BY b.ypxh)
 "
-PRC_YB_CHECK2019_ADD	PROCEDURE	414	"    end if;
+PRC_YB_CHECK2019_ADD	PROCEDURE	414	"             GROUP BY ypxh
 "
-PRC_YB_CHECK2019_ADD	PROCEDURE	415	"  
+PRC_YB_CHECK2019_ADD	PROCEDURE	415	"            HAVING sum(sl) >= 1) x,
 "
-PRC_YB_CHECK2019_ADD	PROCEDURE	416	"  END IF;
+PRC_YB_CHECK2019_ADD	PROCEDURE	416	"           (SELECT b.ypxh ypxh,
 "
-PRC_YB_CHECK2019_ADD	PROCEDURE	417	"  out_code := 0;
+PRC_YB_CHECK2019_ADD	PROCEDURE	417	"                   c.ypmc ypmc,
 "
-PRC_YB_CHECK2019_ADD	PROCEDURE	418	"  out_msg  := '';
+PRC_YB_CHECK2019_ADD	PROCEDURE	418	"                   round(c.ybypdj5 * 1.3 + 0.4, 0) kzsl
 "
-PRC_YB_CHECK2019_ADD	PROCEDURE	419	"  return;
+PRC_YB_CHECK2019_ADD	PROCEDURE	419	"              FROM mz_cfk1 a, mz_cfk2 b, gy_ypmcggzd c
 "
-PRC_YB_CHECK2019_ADD	PROCEDURE	420	"
+PRC_YB_CHECK2019_ADD	PROCEDURE	420	"             WHERE a.cfsb = b.cfsb
 "
-PRC_YB_CHECK2019_ADD	PROCEDURE	421	"end;
+PRC_YB_CHECK2019_ADD	PROCEDURE	421	"               AND c.ypxh = b.ypxh
+"
+PRC_YB_CHECK2019_ADD	PROCEDURE	422	"               AND nvl(c.ybypdj5, 0) > 0
+"
+PRC_YB_CHECK2019_ADD	PROCEDURE	423	"               AND a.jzxh = in_patient_no) y
+"
+PRC_YB_CHECK2019_ADD	PROCEDURE	424	"     Where X.ypxh = Y.ypxh
+"
+PRC_YB_CHECK2019_ADD	PROCEDURE	425	"       And zsl > (kzsl * 1);
+"
+PRC_YB_CHECK2019_ADD	PROCEDURE	426	"  
+"
+PRC_YB_CHECK2019_ADD	PROCEDURE	427	"    if length(out_msg) > 4 then
+"
+PRC_YB_CHECK2019_ADD	PROCEDURE	428	"      select '月限制[check2019_add]:' || out_msg into out_msg from dual;
+"
+PRC_YB_CHECK2019_ADD	PROCEDURE	429	"      out_code := -1;
+"
+PRC_YB_CHECK2019_ADD	PROCEDURE	430	"      return;
+"
+PRC_YB_CHECK2019_ADD	PROCEDURE	431	"    end if;
+"
+PRC_YB_CHECK2019_ADD	PROCEDURE	432	"  
+"
+PRC_YB_CHECK2019_ADD	PROCEDURE	433	"  END IF;
+"
+PRC_YB_CHECK2019_ADD	PROCEDURE	434	"
+"
+PRC_YB_CHECK2019_ADD	PROCEDURE	435	"  --二类精神药品单张处方开7天用量，但是精神科医生可以开到一个月用量
+"
+PRC_YB_CHECK2019_ADD	PROCEDURE	436	"  if 3 = 3 then
+"
+PRC_YB_CHECK2019_ADD	PROCEDURE	437	"  
+"
+PRC_YB_CHECK2019_ADD	PROCEDURE	438	"    select count(cfsb)
+"
+PRC_YB_CHECK2019_ADD	PROCEDURE	439	"      into v_count
+"
+PRC_YB_CHECK2019_ADD	PROCEDURE	440	"      from (select a.cfsb, sum(b.yyts) yyts
+"
+PRC_YB_CHECK2019_ADD	PROCEDURE	441	"              From mz_cfk1 a, mz_cfk2 b
+"
+PRC_YB_CHECK2019_ADD	PROCEDURE	442	"             where a.cfsb = b.cfsb
+"
+PRC_YB_CHECK2019_ADD	PROCEDURE	443	"               and b.ypxh in
+"
+PRC_YB_CHECK2019_ADD	PROCEDURE	444	"                   (SELECT ypxh
+"
+PRC_YB_CHECK2019_ADD	PROCEDURE	445	"                      from gy_ypmcggzd
+"
+PRC_YB_CHECK2019_ADD	PROCEDURE	446	"                     where flxh in
+"
+PRC_YB_CHECK2019_ADD	PROCEDURE	447	"                           (select xh FROM GY_YPFLZD t WHERE tsypyb in (5)))
+"
+PRC_YB_CHECK2019_ADD	PROCEDURE	448	"               and a.ysgh not in ('2171', '2330', '2353')
+"
+PRC_YB_CHECK2019_ADD	PROCEDURE	449	"               and a.jzxh = in_patient_no
+"
+PRC_YB_CHECK2019_ADD	PROCEDURE	450	"             group by a.cfsb)
+"
+PRC_YB_CHECK2019_ADD	PROCEDURE	451	"     where yyts > 7;
+"
+PRC_YB_CHECK2019_ADD	PROCEDURE	452	"  
+"
+PRC_YB_CHECK2019_ADD	PROCEDURE	453	"    if v_count > 0 then
+"
+PRC_YB_CHECK2019_ADD	PROCEDURE	454	"      select '二类精神药品单张处方,限开7天用量[check2019_add]:'
+"
+PRC_YB_CHECK2019_ADD	PROCEDURE	455	"        into out_msg
+"
+PRC_YB_CHECK2019_ADD	PROCEDURE	456	"        from dual;
+"
+PRC_YB_CHECK2019_ADD	PROCEDURE	457	"      out_code := -1;
+"
+PRC_YB_CHECK2019_ADD	PROCEDURE	458	"      return;
+"
+PRC_YB_CHECK2019_ADD	PROCEDURE	459	"    end if;
+"
+PRC_YB_CHECK2019_ADD	PROCEDURE	460	"  
+"
+PRC_YB_CHECK2019_ADD	PROCEDURE	461	"    select count(cfsb)
+"
+PRC_YB_CHECK2019_ADD	PROCEDURE	462	"      into v_count
+"
+PRC_YB_CHECK2019_ADD	PROCEDURE	463	"      from (select a.cfsb, sum(b.yyts) yyts
+"
+PRC_YB_CHECK2019_ADD	PROCEDURE	464	"              From mz_cfk1 a, mz_cfk2 b
+"
+PRC_YB_CHECK2019_ADD	PROCEDURE	465	"             where a.cfsb = b.cfsb
+"
+PRC_YB_CHECK2019_ADD	PROCEDURE	466	"               and b.ypxh in
+"
+PRC_YB_CHECK2019_ADD	PROCEDURE	467	"                   (SELECT ypxh
+"
+PRC_YB_CHECK2019_ADD	PROCEDURE	468	"                      from gy_ypmcggzd
+"
+PRC_YB_CHECK2019_ADD	PROCEDURE	469	"                     where flxh in
+"
+PRC_YB_CHECK2019_ADD	PROCEDURE	470	"                           (select xh FROM GY_YPFLZD t WHERE tsypyb in (5)))
+"
+PRC_YB_CHECK2019_ADD	PROCEDURE	471	"               and a.ysgh in ('2171', '2330', '2353')
+"
+PRC_YB_CHECK2019_ADD	PROCEDURE	472	"               and a.jzxh = in_patient_no
+"
+PRC_YB_CHECK2019_ADD	PROCEDURE	473	"             group by a.cfsb)
+"
+PRC_YB_CHECK2019_ADD	PROCEDURE	474	"     where yyts > 30;
+"
+PRC_YB_CHECK2019_ADD	PROCEDURE	475	"  
+"
+PRC_YB_CHECK2019_ADD	PROCEDURE	476	"    if v_count > 0 then
+"
+PRC_YB_CHECK2019_ADD	PROCEDURE	477	"      select '二类精神药品单张处方,限开30天用量[check2019_add]:'
+"
+PRC_YB_CHECK2019_ADD	PROCEDURE	478	"        into out_msg
+"
+PRC_YB_CHECK2019_ADD	PROCEDURE	479	"        from dual;
+"
+PRC_YB_CHECK2019_ADD	PROCEDURE	480	"      out_code := -1;
+"
+PRC_YB_CHECK2019_ADD	PROCEDURE	481	"      return;
+"
+PRC_YB_CHECK2019_ADD	PROCEDURE	482	"    end if;
+"
+PRC_YB_CHECK2019_ADD	PROCEDURE	483	"  
+"
+PRC_YB_CHECK2019_ADD	PROCEDURE	484	"  end if;
+"
+PRC_YB_CHECK2019_ADD	PROCEDURE	485	"
+"
+PRC_YB_CHECK2019_ADD	PROCEDURE	486	"  out_code := 0;
+"
+PRC_YB_CHECK2019_ADD	PROCEDURE	487	"  out_msg  := '';
+"
+PRC_YB_CHECK2019_ADD	PROCEDURE	488	"  return;
+"
+PRC_YB_CHECK2019_ADD	PROCEDURE	489	"
+"
+PRC_YB_CHECK2019_ADD	PROCEDURE	490	"end;
 "

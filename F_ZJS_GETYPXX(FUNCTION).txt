@@ -1,0 +1,101 @@
+F_ZJS_GETYPXX	FUNCTION	1	"FUNCTION         ""F_ZJS_GETYPXX"" 
+"
+F_ZJS_GETYPXX	FUNCTION	2	"(arg_ypxh in number,arg_ypcddm in number,arg_flag in  varchar2)
+"
+F_ZJS_GETYPXX	FUNCTION	3	"  return varchar2
+"
+F_ZJS_GETYPXX	FUNCTION	4	"  is
+"
+F_ZJS_GETYPXX	FUNCTION	5	"    ls_return varchar2(60);
+"
+F_ZJS_GETYPXX	FUNCTION	6	"    ls_zjypsx varchar2(12);
+"
+F_ZJS_GETYPXX	FUNCTION	7	"    ls_flag   varchar2(20);
+"
+F_ZJS_GETYPXX	FUNCTION	8	"  begin
+"
+F_ZJS_GETYPXX	FUNCTION	9	"   ls_flag:=lower(RTRIM(LTRIM(arg_flag)));
+"
+F_ZJS_GETYPXX	FUNCTION	10	"  if ls_flag = 'pmgg' then
+"
+F_ZJS_GETYPXX	FUNCTION	11	"      select ypmc||ypgg into ls_return from gy_ypmcggzd where ypxh=arg_ypxh;
+"
+F_ZJS_GETYPXX	FUNCTION	12	"
+"
+F_ZJS_GETYPXX	FUNCTION	13	"  elsif ls_flag = 'ypmc' then
+"
+F_ZJS_GETYPXX	FUNCTION	14	"      select ypmc into ls_return from gy_ypmcggzd where ypxh=arg_ypxh;
+"
+F_ZJS_GETYPXX	FUNCTION	15	"
+"
+F_ZJS_GETYPXX	FUNCTION	16	"  elsif ls_flag = 'ypgg' then
+"
+F_ZJS_GETYPXX	FUNCTION	17	"      select ypgg into ls_return from gy_ypmcggzd where ypxh=arg_ypxh;
+"
+F_ZJS_GETYPXX	FUNCTION	18	"
+"
+F_ZJS_GETYPXX	FUNCTION	19	"
+"
+F_ZJS_GETYPXX	FUNCTION	20	"  elsif ls_flag = 'dw' then
+"
+F_ZJS_GETYPXX	FUNCTION	21	"      select ypbzdw into ls_return from gy_ypmcggzd where ypxh=arg_ypxh;
+"
+F_ZJS_GETYPXX	FUNCTION	22	"  elsif ls_flag = 'cd' then
+"
+F_ZJS_GETYPXX	FUNCTION	23	"      select cdmc into ls_return from gy_ypcdk where ypcddm=arg_ypcddm;
+"
+F_ZJS_GETYPXX	FUNCTION	24	"  elsif ls_flag = 'ypsx' then
+"
+F_ZJS_GETYPXX	FUNCTION	25	"      select zjypsx into ls_return from gy_ypmcggzd where ypxh=arg_ypxh;
+"
+F_ZJS_GETYPXX	FUNCTION	26	"  elsif ls_flag='ypbzl' then
+"
+F_ZJS_GETYPXX	FUNCTION	27	"      select to_char(ypbzl) into ls_return from gy_ypmcggzd where ypxh=arg_ypxh;
+"
+F_ZJS_GETYPXX	FUNCTION	28	"  elsif ls_flag='lsj' then
+"
+F_ZJS_GETYPXX	FUNCTION	29	"      select to_char(lsj) into ls_return from gy_ypcdjg where ypxh=arg_ypxh and ypcddm=arg_ypcddm  and bmxh is null;
+"
+F_ZJS_GETYPXX	FUNCTION	30	"  elsif ls_flag='pfj' then
+"
+F_ZJS_GETYPXX	FUNCTION	31	"      select to_char(pfj) into ls_return from gy_ypcdjg where ypxh=arg_ypxh and ypcddm=arg_ypcddm  and bmxh is null;
+"
+F_ZJS_GETYPXX	FUNCTION	32	"  elsif ls_flag='yplx' then
+"
+F_ZJS_GETYPXX	FUNCTION	33	"      select zjypsx into ls_zjypsx from gy_ypmcggzd where ypxh=arg_ypxh;
+"
+F_ZJS_GETYPXX	FUNCTION	34	"       if instr(substr(ls_zjypsx,2,2),'1')>0 then
+"
+F_ZJS_GETYPXX	FUNCTION	35	"           ls_return:='1';
+"
+F_ZJS_GETYPXX	FUNCTION	36	"       elsif  instr(substr(ls_zjypsx,4,2),'1')>0 then
+"
+F_ZJS_GETYPXX	FUNCTION	37	"           ls_return:='2' ;
+"
+F_ZJS_GETYPXX	FUNCTION	38	"       elsif  instr(substr(ls_zjypsx,6,2),'1')>0  then
+"
+F_ZJS_GETYPXX	FUNCTION	39	"           ls_return:='4' ;
+"
+F_ZJS_GETYPXX	FUNCTION	40	"       end if ;
+"
+F_ZJS_GETYPXX	FUNCTION	41	"  elsif ls_flag='txm' then
+"
+F_ZJS_GETYPXX	FUNCTION	42	"      select txm into ls_return from gy_ypmcggzd where ypxh=arg_ypxh;
+"
+F_ZJS_GETYPXX	FUNCTION	43	"  elsif ls_flag='glmc' then
+"
+F_ZJS_GETYPXX	FUNCTION	44	"      select glmc into ls_return from gy_ypmcggzd  where ypxh=arg_ypxh;
+"
+F_ZJS_GETYPXX	FUNCTION	45	"  elsif ls_flag='glxh' then
+"
+F_ZJS_GETYPXX	FUNCTION	46	"     select to_char(glxh) into ls_return from gy_ypmcggzd where ypxh=arg_ypxh;
+"
+F_ZJS_GETYPXX	FUNCTION	47	"  end if;
+"
+F_ZJS_GETYPXX	FUNCTION	48	"  return(ls_return);
+"
+F_ZJS_GETYPXX	FUNCTION	49	"end;
+"
+F_ZJS_GETYPXX	FUNCTION	50	"
+"
+F_ZJS_GETYPXX	FUNCTION	51	 
